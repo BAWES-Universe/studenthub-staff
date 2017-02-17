@@ -1,5 +1,5 @@
 {
-  "name": "payroll-admin",
+  "name": "payroll-staff",
   "author": "BAWES",
   "homepage": "http://bawes.net/",
   "private": true,
@@ -48,5 +48,5 @@
       "locator": "ios"
     }
   ],
-  "description": "payroll-admin: Payroll Administration"
+  "description": "payroll-staff: Payroll Staff"
 }
