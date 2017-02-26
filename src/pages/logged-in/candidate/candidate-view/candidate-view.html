@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle="left">
+      <ion-icon name="menu"></ion-icon>
+    </button>
+
+    <ion-title>{{ candidate.candidate_name }}</ion-title>
+
+    <ion-buttons right>
+      <button ion-button (click)="update()">
+        Update
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <h5>Id</h5>
+  <p>{{ candidate.candidate_id }}</p>
+
+  <h5>Candidate</h5>
+  <p>{{ candidate.candidate_name }}</p>
+
+  <h5>Email</h5>
+  <p>{{ candidate.candidate_email }}</p>
+
+  <h5>Status</h5>
+  <p>{{ candidate.candidate_status }}</p>
+
+  <h5>Created at</h5>
+  <p>{{ candidate.candidate_created_at }}</p>
+
+  <h5>Updated at</h5>
+  <p>{{ candidate.candidate_updated_at }}</p>
+</ion-content>
