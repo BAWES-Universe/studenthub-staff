@@ -13,12 +13,15 @@ import { DefaultPage } from '../pages/logged-in/default/default';
 import { CandidateListPage } from '../pages/logged-in/candidate/candidate-list/candidate-list';
 import { CandidateViewPage } from '../pages/logged-in/candidate/candidate-view/candidate-view';
 import { CandidateFormPage } from '../pages/logged-in/candidate/candidate-form/candidate-form';
+// Company CRUD 
+import { CompanyListPage } from '../pages/logged-in/company/company-list/company-list';
 // Generic Services
 import { AuthService } from '../providers/auth.service';
 import { ConfigService } from '../providers/config.service';
 // Logged-in Services
 import { AuthHttpService } from '../providers/logged-in/authhttp.service';
 import { CandidateService } from '../providers/logged-in/candidate.service';
+import { CompanyService } from '../providers/logged-in/company.service';
 
 @NgModule({
   declarations: [
@@ -31,7 +34,9 @@ import { CandidateService } from '../providers/logged-in/candidate.service';
     // Candidate Crud
     CandidateListPage,
     CandidateViewPage,
-    CandidateFormPage
+    CandidateFormPage,
+    // Company Crud 
+    CompanyListPage
   ],
   entryComponents: [
     MyApp,
@@ -43,7 +48,9 @@ import { CandidateService } from '../providers/logged-in/candidate.service';
     // Candidate Crud
     CandidateListPage,
     CandidateViewPage,
-    CandidateFormPage
+    CandidateFormPage,
+    // Company Crud 
+    CompanyListPage
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -54,7 +61,8 @@ import { CandidateService } from '../providers/logged-in/candidate.service';
       AuthService, // Handles all Authorization
       ConfigService, // Handles Environment-specific Variables
       AuthHttpService,
-      CandidateService
+      CandidateService,
+      CompanyService
   ],
   bootstrap: [IonicApp]
 })
