@@ -15,6 +15,10 @@ import { CandidateViewPage } from '../pages/logged-in/candidate/candidate-view/c
 import { CandidateFormPage } from '../pages/logged-in/candidate/candidate-form/candidate-form';
 // Company CRUD 
 import { CompanyListPage } from '../pages/logged-in/company/company-list/company-list';
+// Store CRUD
+import { StoreListPage } from '../pages/logged-in/store/store-list/store-list';
+import { StoreViewPage } from '../pages/logged-in/store/store-view/store-view';
+import { StoreFormPage } from '../pages/logged-in/store/store-form/store-form';
 // Generic Services
 import { AuthService } from '../providers/auth.service';
 import { ConfigService } from '../providers/config.service';
@@ -37,7 +41,11 @@ import { StoreService } from '../providers/logged-in/store.service';
     CandidateViewPage,
     CandidateFormPage,
     // Company Crud 
-    CompanyListPage
+    CompanyListPage,
+    // Store Crud
+    StoreListPage,
+    StoreViewPage,
+    StoreFormPage
   ],
   entryComponents: [
     MyApp,
@@ -51,7 +59,11 @@ import { StoreService } from '../providers/logged-in/store.service';
     CandidateViewPage,
     CandidateFormPage,
     // Company Crud 
-    CompanyListPage
+    CompanyListPage,
+    // Store Crud
+    StoreListPage,
+    StoreViewPage,
+    StoreFormPage
   ],
   imports: [
     IonicModule.forRoot(MyApp)

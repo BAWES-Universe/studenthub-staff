@@ -2,8 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, NavParams, LoadingController, ModalController } from 'ionic-angular';
 
 // Pages
-// import { CandidateViewPage } from '../candidate-view/candidate-view';
-// import { CandidateFormPage } from '../candidate-form/candidate-form';
+import { StoreListPage } from '../../store/store-list/store-list';
 // Providers
 import { CompanyService } from '../../../../providers/logged-in/company.service';
 // Models
@@ -53,6 +52,11 @@ export class CompanyListPage {
       // Load Subcompany List
       this.navCtrl.push(CompanyListPage, {
         'companies': model.subcompanies
+      });
+    }else{
+      // Load store list for this company 
+      this.navCtrl.push(StoreListPage, {
+        'companyId': model.company_id
       });
     }
     

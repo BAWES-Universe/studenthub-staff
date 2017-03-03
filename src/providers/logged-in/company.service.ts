@@ -2,8 +2,6 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 // Services
 import { AuthHttpService } from './authhttp.service';
-// Models
-import { Company } from '../../models/company';
 
 /**
  * Manages Company Functionality on the server

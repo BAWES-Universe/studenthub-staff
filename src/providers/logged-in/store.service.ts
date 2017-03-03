@@ -19,8 +19,11 @@ export class StoreService {
    * List of all stores
    * @returns {Observable<any>}
    */
-  list(): Observable<any>{
+  list(companyId: number = null): Observable<any>{
     let url = this._storeEndpoint;
+    if(companyId){
+      url = `${url}?companyId=${companyId}`;
+    }
     return this._authhttp.get(url);
   }
 
