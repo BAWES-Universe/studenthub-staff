@@ -4,7 +4,7 @@
       <ion-icon name="menu"></ion-icon>
     </button>
 
-    <ion-title>Companies</ion-title>
+    <ion-title>Select Company</ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -12,12 +12,13 @@
   <ion-list>
     <button ion-item *ngFor="let company of companies" (click)="rowSelected(company)">
       {{ company.company_name }}
+
+      <ion-badge item-right *ngIf="company.subcompanies.length > 0">
+        {{ company.subcompanies.length }} sub-companies
+      </ion-badge>
+      <ion-badge item-right *ngIf="company.stores.length > 0">
+        {{ company.stores.length }} stores
+      </ion-badge>
     </button>
 </ion-list>
 </ion-content>
-
-<ion-footer>
-  <button ion-button full (click)="create()">
-    Create
-  </button>
-</ion-footer>

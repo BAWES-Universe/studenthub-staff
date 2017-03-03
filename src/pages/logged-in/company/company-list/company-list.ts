@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, LoadingController, ModalController } from 'ionic-angular';
+import { NavController, NavParams, LoadingController, ModalController } from 'ionic-angular';
 
 // Pages
 // import { CandidateViewPage } from '../candidate-view/candidate-view';
@@ -18,14 +18,20 @@ export class CompanyListPage {
   public companies: Company[];
 
   constructor(
+    params: NavParams,
     public navCtrl: NavController,
     public companyService: CompanyService,
     private _modalCtrl: ModalController,
     private _loadingCtrl: LoadingController,
-  ) {}
+  ) {
+    this.companies = params.get("companies");
+    if(!this.companies){
+      this.loadCompanyList();
+    }
+  }
 
   ionViewDidLoad() {
-    this.loadCompanyList();
+    
   }
 
   loadCompanyList(){
@@ -41,11 +47,15 @@ export class CompanyListPage {
   /**
    * When its selected
    */
-  rowSelected(model){
-    // Load Detail Page
-    // this.navCtrl.push(CandidateViewPage, {
-    //   'model': model
-    // });
+  rowSelected(model: Company){
+    // Check if has subcompanies
+    if(model.subcompanies.length > 0){
+      // Load Subcompany List
+      this.navCtrl.push(CompanyListPage, {
+        'companies': model.subcompanies
+      });
+    }
+    
   }
 
 }
