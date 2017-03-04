@@ -41,4 +41,5 @@
     <plugin name="cordova-plugin-file" spec="~4.3.1" />
     <plugin name="cordova-plugin-file-transfer" spec="~1.6.1" />
     <plugin name="cordova-plugin-filepath" spec="~1.0.2" />
+    <plugin name="ionic-plugin-deploy" spec="~0.6.5" />
 </widget>
