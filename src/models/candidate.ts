@@ -4,6 +4,7 @@ export class Candidate{
     store_id: number;
     candidate_name: string;
     candidate_name_ar: string;
+    candidate_phone: string;
     candidate_email: string;
     candidate_password_hash: string;
     candidate_birth_date: string;
