@@ -21,20 +21,77 @@
 <ion-content padding>
   <form [formGroup]="form">
     <ion-list>
+        <ion-list-header>
+          Personal Info
+        </ion-list-header>
+
         <ion-item>
-          <ion-label floating>Name</ion-label>
+          <ion-label floating>Name (English)</ion-label>
           <ion-input type="text" formControlName="name"></ion-input>
         </ion-item>
 
         <ion-item>
+          <ion-label floating>Name (Arabic)</ion-label>
+          <ion-input type="text" formControlName="nameArabic"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label floating>Date of Birth</ion-label>
+          <ion-input type="text" formControlName="birthDate"></ion-input>
+        </ion-item>
+
+        <ion-list-header>
+          Civil ID
+        </ion-list-header>
+
+        <ion-item>
+          <ion-label floating>Civil ID Number</ion-label>
+          <ion-input type="number" formControlName="civilIdNumber"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label floating>Civil ID Expiry Date</ion-label>
+          <ion-input type="number" formControlName="civilIdExpiry"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label floating>Civil ID Photo Front</ion-label>
+          <ion-input type="number" formControlName="civilIdFront"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label floating>Civil ID Photo Back</ion-label>
+          <ion-input type="number" formControlName="civilIdBack"></ion-input>
+        </ion-item>
+
+        <ion-list-header>
+          Communication Info
+        </ion-list-header>
+
+        <ion-item>
+          <ion-label floating>Phone</ion-label>
+          <ion-input type="tel" formControlName="phone"></ion-input>
+        </ion-item>
+
+        <ion-item>
           <ion-label floating>Email</ion-label>
-          <ion-input type="text" formControlName="email"></ion-input>
+          <ion-input type="email" formControlName="email"></ion-input>
         </ion-item>
 
         <ion-item>
           <ion-label floating>Password</ion-label>
           <ion-input type="password" *ngIf="!model.candidate_id" formControlName="password"></ion-input>
         </ion-item>
+
+        <ion-list-header>
+          Payment
+        </ion-list-header>
+
+        <ion-item>
+          <ion-label floating>Hourly Rate (KD)</ion-label>
+          <ion-input type="number" formControlName="hourlyRate"></ion-input>
+        </ion-item>
+
     </ion-list>
   </form>
 </ion-content>

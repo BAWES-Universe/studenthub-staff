@@ -36,15 +36,31 @@ export class CandidateFormPage {
       this.operation = "Create";
       this.form = this._fb.group({
         name: ["", Validators.required],
+        nameArabic: ["", Validators.required],
+        birthDate: ["", Validators.required],
+        civilIdNumber: ["", Validators.required],
+        civilIdExpiry: ["", Validators.required],
+        civilIdFront: ["", Validators.required],
+        civilIdBack: ["", Validators.required],
+        phone: ["", Validators.required],
         email: ["", [Validators.required, CustomValidator.emailValidator]],
-        password: ["", Validators.required]
+        password: ["", Validators.required],
+        hourlyRate: ["", Validators.required]
       });
     }else{ // Show Update Form
       this.operation = "Update";
       this.form = this._fb.group({
         name: [this.model.candidate_name, Validators.required],
+        nameArabic: [this.model.candidate_name_ar, Validators.required],
+        birthDate: [this.model.candidate_birth_date, Validators.required],
+        civilIdNumber: [this.model.candidate_civil_id, Validators.required],
+        civilIdExpiry: [this.model.candidate_civil_expiry_date, Validators.required],
+        civilIdFront: [this.model.candidate_civil_photo_front, Validators.required],
+        civilIdBack: [this.model.candidate_civil_photo_back, Validators.required],
+        phone: [this.model.candidate_phone, Validators.required],
         email: [this.model.candidate_email, [Validators.required, CustomValidator.emailValidator]],
-        password: [this.model.candidate_password_hash] //not required
+        password: [this.model.candidate_password_hash], //not required
+        hourlyRate: [this.model.candidate_hourly_rate, Validators.required]
       });
     }
   }
@@ -54,6 +70,7 @@ export class CandidateFormPage {
    */
   updateModelDataFromForm(){
     this.model.candidate_name = this.form.value.name;
+    this.model.candidate_name_ar = this.form.value.nameArabic;
     this.model.candidate_email = this.form.value.email;
     this.model.candidate_password_hash = this.form.value.password;
   }
