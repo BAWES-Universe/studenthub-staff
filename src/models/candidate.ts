@@ -2,6 +2,7 @@
 export class Candidate {
     candidate_id: number;
     store_id: number;
+    store_name: string;
     bank_id: number;
     bank_account_name: string;
     candidate_iban: string;
