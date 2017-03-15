@@ -22,13 +22,13 @@ export class CandidateListPage {
     public candidateService: CandidateService,
     private _modalCtrl: ModalController,
     private _loadingCtrl: LoadingController,
-  ) {}
+  ) { }
 
   ionViewDidLoad() {
     this.loadData();
   }
 
-  loadData(){
+  loadData() {
     // Load list of candidates
     let loader = this._loadingCtrl.create();
     loader.present();
@@ -41,7 +41,7 @@ export class CandidateListPage {
   /**
    * When its selected
    */
-  rowSelected(model){
+  rowSelected(model) {
     // Load Detail Page
     this.navCtrl.push(CandidateViewPage, {
       'model': model
@@ -51,14 +51,14 @@ export class CandidateListPage {
   /**
    * Loads the create page
    */
-  create(){
+  create() {
     let modal = this._modalCtrl.create(CandidateFormPage, {
       model: new Candidate()
     });
     // Refresh List if required
     modal.onDidDismiss(data => {
-      if(data){
-        if(data.refresh){
+      if (data) {
+        if (data.refresh) {
           this.loadData();
         }
       }
@@ -69,7 +69,7 @@ export class CandidateListPage {
   /**
    * Delete the provided model
    */
-  delete(candidate: Candidate){
+  delete(candidate: Candidate) {
     let loader = this._loadingCtrl.create();
     loader.present();
 

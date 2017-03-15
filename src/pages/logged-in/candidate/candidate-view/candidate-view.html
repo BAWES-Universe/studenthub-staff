@@ -33,5 +33,16 @@
   <h5>Updated at</h5>
   <p>{{ candidate.candidate_updated_at }}</p>
 
+  <h5>Candidate Assigned to</h5>
+  <p>{{ candidate.store_name }}</p>
 
- </ion-content>
+  <span *ngIf="!candidate.store_id">
+    <button ion-button full (click)="assignCandidateToStore()">Add Candidate to Store</button>
+  </span>
+
+   <span *ngIf="candidate.store_id">
+    <button ion-button full (click)="assignCandidateToStore()">Edit Candidate to Store</button>
+  </span>
+
+
+</ion-content>

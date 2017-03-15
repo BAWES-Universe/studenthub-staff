@@ -7,7 +7,6 @@ import { CustomValidator } from '../../../../validators/custom.validator';
 import { CandidateService } from '../../../../providers/logged-in/candidate.service';
 import { BankService } from '../../../../providers/logged-in/bank.service';
 
-
 // Models
 import { Candidate } from '../../../../models/candidate';
 
@@ -21,7 +20,7 @@ export class CandidateFormPage {
   public operation: string;
 
   public form: FormGroup;
-  public banklistData: { bank_id: number, bank_name: string };
+  public banklistData;
 
   constructor(
     params: NavParams,
@@ -102,7 +101,7 @@ export class CandidateFormPage {
     this.model.candidate_civil_photo_back = this.form.value.photo_back;
 
     this.model.candidate_hourly_rate = this.form.value.hourly_rate;
-    this.model.bank_id = this.banklistData.bank_id;
+    this.model.bank_id = Number(this.banklistData.bank_id);
 
 
   }
@@ -159,6 +158,12 @@ export class CandidateFormPage {
     loader.present();
     this.bankService.list().subscribe(response => {
       this.banklistData = response;
+      response.forEach((value) => {
+        if (value.bank_id == this.model.bank_id) {
+          this.model.bank_id = value.bank_id;
+          this.banklistData.bank_id = this.model.bank_id;
+        }
+      });
       loader.dismiss();
     });
   }

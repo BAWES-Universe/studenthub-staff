@@ -63,7 +63,7 @@ export class CandidateService {
    */
   update(model: Candidate): Observable<any> {
     let url = `${this._candidateEndpoint}/${model.candidate_id}`;
-   let params = {
+    let params = {
       "candidate_id": model.candidate_id,
       "store_id": model.store_id,
       "bank_id": model.bank_id,
@@ -94,6 +94,31 @@ export class CandidateService {
   delete(model: Candidate): Observable<any> {
     let url = `${this._candidateEndpoint}/${model.candidate_id}`;
     return this._authhttp.delete(url);
+  }
+
+  /**
+   * Delete
+   * @param {any} candidate_id
+   * @returns {Observable<any>}
+   */
+  unAssignCandidate(candidate_id: any): Observable<any> { 
+   let url = `${this._candidateEndpoint}/unassign/${candidate_id}`;
+      return this._authhttp.delete(url);
+  }
+
+
+  /**
+   * PATCH
+   * @param {number} candidate_id
+   * @param {number} store_id
+   * @returns {Observable<any>}
+   */
+  assignCandidate(candidate_id: number,store_id:number): Observable<any> {
+    let params = {
+      "store_id": store_id
+    };
+    let url = `${this._candidateEndpoint}/assign/${candidate_id}`;
+    return this._authhttp.patch(url, params);
   }
 
 
