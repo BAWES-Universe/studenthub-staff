@@ -25,6 +25,7 @@ export class CandidateViewPage {
    * Loads Form in modal to update
    */
   update(){
+    
     let modal = this._modalCtrl.create(CandidateFormPage, {
       model: this.candidate
     });

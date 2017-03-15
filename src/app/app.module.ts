@@ -28,6 +28,7 @@ import { AuthHttpService } from '../providers/logged-in/authhttp.service';
 import { CandidateService } from '../providers/logged-in/candidate.service';
 import { CompanyService } from '../providers/logged-in/company.service';
 import { StoreService } from '../providers/logged-in/store.service';
+import { BankService } from '../providers/logged-in/bank.service';
 
 export const cloudSettings: CloudSettings = {
   'core': {
@@ -84,7 +85,8 @@ export const cloudSettings: CloudSettings = {
       AuthHttpService,
       CandidateService,
       CompanyService,
-      StoreService
+      StoreService,
+      BankService
   ],
   bootstrap: [IonicApp]
 })

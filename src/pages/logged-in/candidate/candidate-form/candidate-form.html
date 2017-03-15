@@ -5,13 +5,9 @@
         <ion-icon name="close"></ion-icon>
       </button>
     </ion-buttons>
-
     <ion-title>{{ operation }}</ion-title>
-
     <ion-buttons right>
-      <button ion-button clear color="primary" 
-        [disabled]="!form.valid"
-        (click)="save()">
+      <button ion-button clear color="primary" [disabled]="!form.valid" (click)="save()">
         Save
       </button>
     </ion-buttons>
@@ -21,20 +17,80 @@
 <ion-content padding>
   <form [formGroup]="form">
     <ion-list>
-        <ion-item>
-          <ion-label floating>Name</ion-label>
-          <ion-input type="text" formControlName="name"></ion-input>
-        </ion-item>
+      <ion-item>
+        <ion-label floating>Name</ion-label>
+        <ion-input type="text" formControlName="name"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Name in Arabic</ion-label>
+        <ion-input type="text" formControlName="name_ar"></ion-input>
+      </ion-item>
 
-        <ion-item>
-          <ion-label floating>Email</ion-label>
-          <ion-input type="text" formControlName="email"></ion-input>
-        </ion-item>
+      <ion-item>
+        <ion-label floating>Phone Number</ion-label>
+        <ion-input type="number" formControlName="phone"></ion-input>
+      </ion-item>
 
-        <ion-item>
-          <ion-label floating>Password</ion-label>
-          <ion-input type="password" *ngIf="!model.candidate_id" formControlName="password"></ion-input>
-        </ion-item>
+      <ion-item>
+        <ion-label floating>DOB</ion-label>
+        <ion-datetime displayFormat="YYYY-MM-DD" formControlName="birth_date"></ion-datetime>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Email</ion-label>
+        <ion-input type="text" formControlName="email"></ion-input>
+      </ion-item>
+
+      <ion-item *ngIf="banklistData">
+        <ion-label>Bank Name</ion-label>
+        <ion-select [(ngModel)]="banklistData.bank_id" [ngModelOptions]="{standalone: true}">
+          <ion-option *ngFor="let bank of banklistData" [value]="bank.bank_id">{{bank.bank_name}}</ion-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Name in Bank Account</ion-label>
+        <ion-input type="text" formControlName="bank_account_name"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Iban</ion-label>
+        <ion-input type="text" formControlName="iban"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Expiry Date</ion-label>
+        <ion-datetime displayFormat="YYYY-MM-DD" formControlName="expiry_date"></ion-datetime>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Photo Front</ion-label>
+        <ion-datetime displayFormat="YYYY-MM-DD" formControlName="photo_front"></ion-datetime>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Photo Back</ion-label>
+        <ion-datetime displayFormat="YYYY-MM-DD" formControlName="photo_back"></ion-datetime>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Hourly Rate</ion-label>
+        <ion-input type="text" formControlName="hourly_rate"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Civil Id</ion-label>
+        <ion-input type="text" formControlName="civil_id"></ion-input>
+      </ion-item>
+
+      <!--<ion-item>
+        <ion-label floating>Password</ion-label>
+        <ion-input type="password" *ngIf="!model.candidate_id" formControlName="password"></ion-input>
+      </ion-item>-->
+
+      <ion-item>
+        <ion-label floating>Password</ion-label>
+        <ion-input type="password" formControlName="password"></ion-input>
+      </ion-item>
+
     </ion-list>
   </form>
 </ion-content>
