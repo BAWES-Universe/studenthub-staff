@@ -49,11 +49,14 @@ export class CandidateViewPage {
     let alert = this.alertCtrl.create();
     alert.setTitle('Assign Candidate to Store');
     //Unassigning Candidate from Store
+    if(  this.candidate.store_id){
     alert.addInput({
       type: 'radio',
-      label: 'unassign',
+      label: 'Unassign Candidate',
       value: '-1'
     });
+    }
+
     //Assigning Candidate from Store
     this.stores.forEach((value) => {
       alert.addInput({
