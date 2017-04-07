@@ -1,7 +1,10 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { Deploy } from '@ionic/cloud-angular';
 import { Platform, Events, ToastController } from 'ionic-angular';
-import { StatusBar, Splashscreen } from 'ionic-native';
+
+// Native Components
+import { StatusBar } from '@ionic-native/status-bar';
+import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { LoginPage } from '../pages/start-pages/login/login';
 import { NavigationPage } from '../pages/logged-in/navigation/navigation';
@@ -21,13 +24,14 @@ export class MyApp implements OnInit {
       private _events: Events,
       private _toastCtrl: ToastController,
       private _auth: AuthService,
-      private _zone: NgZone
+      private _zone: NgZone,
+      statusBar: StatusBar, splashScreen: SplashScreen
   ) {
     this._platform.ready().then(() => {
       // Native functions
       if (this._platform.is('cordova') && this._platform.is('mobile')) {
-        StatusBar.styleDefault();
-        Splashscreen.hide();
+        statusBar.styleDefault();
+        splashScreen.hide();
 
         // Check for App update via Ionic Deploy
         this._checkForUpdate();
