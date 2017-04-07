@@ -1,8 +1,15 @@
 import { NgModule, ErrorHandler } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
+import { HttpModule } from '@angular/http';
 import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
 import { IonicStorageModule } from '@ionic/storage';
 
+// Ionic Native
+import { StatusBar } from '@ionic-native/status-bar';
+import { SplashScreen } from '@ionic-native/splash-screen';
+
+// App Imports
 import { MyApp } from './app.component';
 
 // Start Pages [Logged Out]
@@ -74,12 +81,18 @@ export const cloudSettings: CloudSettings = {
     StoreFormPage
   ],
   imports: [
+    BrowserModule,
+    HttpModule,
     IonicModule.forRoot(MyApp),
     CloudModule.forRoot(cloudSettings),
     IonicStorageModule.forRoot()
   ],
   providers: [
+      // Ionic Native 
+      StatusBar,
+      SplashScreen,
       {provide: ErrorHandler, useClass: IonicErrorHandler},
+      // Custom
       AuthService, // Handles all Authorization
       ConfigService, // Handles Environment-specific Variables
       AuthHttpService,
