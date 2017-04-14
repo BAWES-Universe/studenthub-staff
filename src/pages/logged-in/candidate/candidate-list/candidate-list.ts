@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, LoadingController, ModalController } from 'ionic-angular';
+import { NavController, LoadingController, ModalController, ToastController } from 'ionic-angular';
 
 // Pages
 import { CandidateViewPage } from '../candidate-view/candidate-view';
@@ -24,6 +24,7 @@ export class CandidateListPage {
     public candidateService: CandidateService,
     private _modalCtrl: ModalController,
     private _loadingCtrl: LoadingController,
+    public toastCtrl: ToastController
   ) { }
 
   ionViewDidLoad() {
@@ -94,9 +95,21 @@ export class CandidateListPage {
     let loader = this._loadingCtrl.create();
     loader.present();
 
-    this.candidateService.delete(candidate).subscribe(jsonResp => {
+    this.candidateService.delete(candidate).subscribe(response => {
       loader.dismiss();
-      this.loadData();
+
+      if(response.operation == 'error')
+      {
+        let toast = this.toastCtrl.create({
+          message: response.message,
+          duration: 3000
+        });
+        
+        toast.present();
+      } else {
+        this.loadData();
+      }
+      
     });
   }
 
