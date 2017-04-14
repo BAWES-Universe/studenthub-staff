@@ -15,6 +15,7 @@ import { Candidate } from '../../../../models/candidate';
 })
 export class CandidateListPage {
 
+  public cndSegment: string;
   public candidates: Candidate[];
 
   constructor(
@@ -25,14 +26,34 @@ export class CandidateListPage {
   ) { }
 
   ionViewDidLoad() {
+    this.cndSegment = 'assigned';
     this.loadData();
   }
 
   loadData() {
+
+    if(this.cndSegment == 'not-assigned') {
+      this.loadNotAssigned();
+    } else {
+      this.loadAssigned();
+    }
+  }
+
+  loadNotAssigned() {
     // Load list of candidates
     let loader = this._loadingCtrl.create();
     loader.present();
-    this.candidateService.list().subscribe(response => {
+    this.candidateService.listNotAssigned().subscribe(response => {
+      this.candidates = response;
+      loader.dismiss();
+    });
+  }
+
+  loadAssigned() {
+    // Load list of candidates
+    let loader = this._loadingCtrl.create();
+    loader.present();
+    this.candidateService.listAssigned().subscribe(response => {
       this.candidates = response;
       loader.dismiss();
     });

@@ -9,12 +9,22 @@
 </ion-header>
 
 <ion-content>
+
+  <ion-segment [(ngModel)]="cndSegment" color="primary">
+    <ion-segment-button value="assigned" (ionSelect)="loadAssigned()">
+      Already Assigned
+    </ion-segment-button>
+    <ion-segment-button value="not-assigned" (ionSelect)="loadNotAssigned()">
+      Not Assigned
+    </ion-segment-button>
+  </ion-segment>
+
   <ion-list>
     <ion-item-sliding *ngFor="let candidate of candidates">
       <button ion-item (click)="rowSelected(candidate)">
         {{ candidate.candidate_name }}
       </button>  
-
+      
       <ion-item-options side="right">
         <button ion-button color="danger" (click)="delete(candidate)">
           <ion-icon name="trash"></ion-icon>

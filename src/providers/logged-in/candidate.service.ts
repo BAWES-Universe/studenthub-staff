@@ -25,6 +25,24 @@ export class CandidateService {
   }
 
   /**
+   * List of all candidates asigned to store 
+   * @returns {Observable<any>}
+   */
+  listAssigned(): Observable<any> {
+    let url = this._candidateEndpoint + '/assigned';
+    return this._authhttp.get(url);
+  }
+
+  /**
+   * List of all candidates not asigned to store 
+   * @returns {Observable<any>}
+   */
+  listNotAssigned(): Observable<any> {
+    let url = this._candidateEndpoint + '/not-assigned';
+    return this._authhttp.get(url);
+  }
+
+  /**
    * Create
    * @param {Candidate} model
    * @returns {Observable<any>}
