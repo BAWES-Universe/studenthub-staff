@@ -7,26 +7,26 @@ import { AuthHttpService } from './authhttp.service';
  * Manages Store Functionality on the server
  */
 @Injectable()
-export class BankService {
-    private _bankEndpoint: string = "/banks";
+export class UniversityService {
+    private _universityEndpoint: string = "/universities";
 
     constructor(private _authhttp: AuthHttpService) { }
 
     /**
-     * List of all banks
+     * List of all universities
      * @returns {Observable<any>}
      */
     list(): Observable<any> {
-        let url = this._bankEndpoint;
+        let url = this._universityEndpoint;
         return this._authhttp.getRaw(url);
     }
 
     /**
-     * List of all banks without pagination
+     * List of all universities
      * @returns {Observable<any>}
      */
     listAll(): Observable<any> {
-        let url = this._bankEndpoint + '/all';
+        let url = this._universityEndpoint + '/all';
         return this._authhttp.get(url);
     }
 }

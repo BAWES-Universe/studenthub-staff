@@ -53,6 +53,7 @@ export class CandidateService {
       "candidate_id": model.candidate_id,
       "store_id": model.store_id,
       "bank_id": model.bank_id,
+      "university_id": model.university_id,
       "bank_account_name": model.bank_account_name,
       "iban": model.candidate_iban,
       "name": model.candidate_name,
@@ -69,8 +70,6 @@ export class CandidateService {
       "candidate_status": model.candidate_status
     };
 
-
-
     return this._authhttp.post(postUrl, params);
   }
 
@@ -84,6 +83,7 @@ export class CandidateService {
     let params = {
       "candidate_id": model.candidate_id,
       "store_id": model.store_id,
+      "university_id": model.university_id,
       "bank_id": model.bank_id,
       "bank_account_name": model.bank_account_name,
       "iban": model.candidate_iban,

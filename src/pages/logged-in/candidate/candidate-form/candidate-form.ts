@@ -6,6 +6,7 @@ import { CustomValidator } from '../../../../validators/custom.validator';
 // Providers
 import { CandidateService } from '../../../../providers/logged-in/candidate.service';
 import { BankService } from '../../../../providers/logged-in/bank.service';
+import { UniversityService } from '../../../../providers/logged-in/university.service';
 
 // Models
 import { Candidate } from '../../../../models/candidate';
@@ -21,6 +22,7 @@ export class CandidateFormPage {
 
   public form: FormGroup;
   public banklistData;
+  public universitylistData;
   public myDate;
 
   constructor(
@@ -28,6 +30,7 @@ export class CandidateFormPage {
     public navCtrl: NavController,
     public candidateService: CandidateService,
     public bankService: BankService,
+    public universityService: UniversityService,
     private _fb: FormBuilder,
     private _viewCtrl: ViewController,
     private _loadingCtrl: LoadingController,
@@ -37,8 +40,6 @@ export class CandidateFormPage {
     this.model = params.get('model');
     this.myDate = new Date().toISOString();
 
-    // Load the all available bank list
-    this.loadBanksList();
     // Init Form
     if (!this.model.candidate_id) { // Show Create Form
       this.operation = "Create";
@@ -80,6 +81,14 @@ export class CandidateFormPage {
     }
   }
 
+  ionViewDidLoad() {
+    // Load the all available bank list
+    this.loadBanksList();
+
+    // Load the all available university list
+    this.loadUniversityList();
+  }
+
   /**
    * Update Model Data based on Form Input
    */
@@ -88,7 +97,6 @@ export class CandidateFormPage {
     this.model.candidate_name = this.form.value.name;
     this.model.candidate_email = this.form.value.email;
     this.model.candidate_password_hash = this.form.value.password;
-
 
     this.model.bank_account_name = this.form.value.bank_account_name;
     this.model.candidate_iban = this.form.value.iban;
@@ -104,8 +112,7 @@ export class CandidateFormPage {
 
     this.model.candidate_hourly_rate = this.form.value.hourly_rate;
     this.model.bank_id = Number(this.banklistData.bank_id);
-
-
+    this.model.university_id = Number(this.universitylistData.university_id);
   }
 
   /**
@@ -165,11 +172,27 @@ export class CandidateFormPage {
     });
   }
 
+  loadUniversityList() {
+    // Load list of ALL banks
+    let loader = this._loadingCtrl.create();
+    loader.present();
+    this.universityService.listAll().subscribe(response => {
+      this.universitylistData = response;
+      response.forEach((value) => {
+        if (value.university_id == this.model.university_id) {
+          this.model.university_id = value.university_id;
+          this.universitylistData.university_id = this.model.university_id;
+        }
+      });
+      loader.dismiss();
+    });
+  }
+
   loadBanksList() {
     // Load list of ALL banks
     let loader = this._loadingCtrl.create();
     loader.present();
-    this.bankService.list().subscribe(response => {
+    this.bankService.listAll().subscribe(response => {
       this.banklistData = response;
       response.forEach((value) => {
         if (value.bank_id == this.model.bank_id) {

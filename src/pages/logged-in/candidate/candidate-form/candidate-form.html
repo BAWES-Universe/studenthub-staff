@@ -40,6 +40,13 @@
         <ion-input type="text" formControlName="email"></ion-input>
       </ion-item>
 
+      <ion-item *ngIf="universitylistData">
+        <ion-label floating>University Name</ion-label>
+        <ion-select [(ngModel)]="universitylistData.university_id" [ngModelOptions]="{standalone: true}">
+          <ion-option *ngFor="let university of universitylistData" [value]="university.university_id">{{university.university_name_en}}</ion-option>
+        </ion-select>
+      </ion-item>
+ 
       <ion-item *ngIf="banklistData">
         <ion-label floating>Bank Name</ion-label>
         <ion-select [(ngModel)]="banklistData.bank_id" [ngModelOptions]="{standalone: true}">

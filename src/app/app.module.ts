@@ -36,6 +36,7 @@ import { CandidateService } from '../providers/logged-in/candidate.service';
 import { CompanyService } from '../providers/logged-in/company.service';
 import { StoreService } from '../providers/logged-in/store.service';
 import { BankService } from '../providers/logged-in/bank.service';
+import { UniversityService } from '../providers/logged-in/university.service'; 
 
 export const cloudSettings: CloudSettings = {
   'core': {
@@ -99,7 +100,8 @@ export const cloudSettings: CloudSettings = {
       CandidateService,
       CompanyService,
       StoreService,
-      BankService
+      BankService,
+      UniversityService
   ],
   bootstrap: [IonicApp]
 })
