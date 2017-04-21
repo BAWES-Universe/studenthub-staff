@@ -16,8 +16,8 @@ export class UniversityService {
      * List of all universities
      * @returns {Observable<any>}
      */
-    list(): Observable<any> {
-        let url = this._universityEndpoint;
+    list(page: number): Observable<any> {
+        let url = this._universityEndpoint + '?page=' + page;
         return this._authhttp.getRaw(url);
     }
 

@@ -16,7 +16,7 @@ export class BankService {
      * List of all banks
      * @returns {Observable<any>}
      */
-    list(): Observable<any> {
+    list(page:number): Observable<any> {
         let url = this._bankEndpoint;
         return this._authhttp.getRaw(url);
     }
