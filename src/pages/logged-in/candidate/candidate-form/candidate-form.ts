@@ -7,6 +7,7 @@ import { CustomValidator } from '../../../../validators/custom.validator';
 import { CandidateService } from '../../../../providers/logged-in/candidate.service';
 import { BankService } from '../../../../providers/logged-in/bank.service';
 import { UniversityService } from '../../../../providers/logged-in/university.service';
+import { CountryService } from '../../../../providers/logged-in/country.service';
 
 // Models
 import { Candidate } from '../../../../models/candidate';
@@ -23,6 +24,7 @@ export class CandidateFormPage {
   public form: FormGroup;
   public banklistData;
   public universitylistData;
+  public countrylistData;
   public myDate;
 
   constructor(
@@ -31,6 +33,7 @@ export class CandidateFormPage {
     public candidateService: CandidateService,
     public bankService: BankService,
     public universityService: UniversityService,
+    public countryService: CountryService,
     private _fb: FormBuilder,
     private _viewCtrl: ViewController,
     private _loadingCtrl: LoadingController,
@@ -82,11 +85,20 @@ export class CandidateFormPage {
   }
 
   ionViewDidLoad() {
+
+    //let loader = this._loadingCtrl.create();
+    //loader.present();
+
     // Load the all available bank list
     this.loadBanksList();
 
     // Load the all available university list
     this.loadUniversityList();
+
+    // Load all country 
+    this.loadCountryList();
+
+    //loader.dismiss();
   }
 
   /**
@@ -113,6 +125,7 @@ export class CandidateFormPage {
     this.model.candidate_hourly_rate = this.form.value.hourly_rate;
     this.model.bank_id = Number(this.banklistData.bank_id);
     this.model.university_id = Number(this.universitylistData.university_id);
+    this.model.country_id = Number(this.countrylistData.country_id);
   }
 
   /**
@@ -172,10 +185,19 @@ export class CandidateFormPage {
     });
   }
 
+  loadCountryList() {
+    this.countryService.listAll().subscribe(response => {
+      this.countrylistData = response;
+      response.forEach((value) => {
+        if (value.country_id == this.model.country_id) {
+          this.model.country_id = value.country_id;
+          this.countrylistData.country_id = this.model.country_id;
+        }
+      });
+    });
+  }
+
   loadUniversityList() {
-    // Load list of ALL banks
-    let loader = this._loadingCtrl.create();
-    loader.present();
     this.universityService.listAll().subscribe(response => {
       this.universitylistData = response;
       response.forEach((value) => {
@@ -184,14 +206,11 @@ export class CandidateFormPage {
           this.universitylistData.university_id = this.model.university_id;
         }
       });
-      loader.dismiss();
     });
   }
 
   loadBanksList() {
     // Load list of ALL banks
-    let loader = this._loadingCtrl.create();
-    loader.present();
     this.bankService.listAll().subscribe(response => {
       this.banklistData = response;
       response.forEach((value) => {
@@ -200,7 +219,6 @@ export class CandidateFormPage {
           this.banklistData.bank_id = this.model.bank_id;
         }
       });
-      loader.dismiss();
     });
   }
 
