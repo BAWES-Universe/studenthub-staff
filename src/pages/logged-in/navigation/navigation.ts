@@ -6,6 +6,7 @@ import { DefaultPage } from '../default/default';
 import { CandidateListPage } from '../candidate/candidate-list/candidate-list';
 import { CompanyListPage } from '../company/company-list/company-list';
 import { UniversityListPage } from '../university/university-list/university-list';
+import { CountryListPage } from '../country/country-list/country-list'; 
 
 // Services
 import { AuthService } from '../../../providers/auth.service';
@@ -38,6 +39,9 @@ export class NavigationPage {
         break;
       case "university":
         this.rootPage = UniversityListPage;
+        break;
+      case "country":
+        this.rootPage = CountryListPage;
         break;
     }
 

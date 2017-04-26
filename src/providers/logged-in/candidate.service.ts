@@ -140,4 +140,9 @@ export class CandidateService {
     let url = `${this._candidateEndpoint}/assign/${candidate_id}`;
     return this._authhttp.patch(url, params);
   }
+
+  listByCountry(country_id: number, page: number): Observable<any>{
+    let url = this._candidateEndpoint + '/search?country_id=' + country_id + '&page=' + page;
+    return this._authhttp.getRaw(url);
+  }
 }

@@ -17,6 +17,9 @@ import { LoginPage } from '../pages/start-pages/login/login';
 // Pages when logged in
 import { NavigationPage } from '../pages/logged-in/navigation/navigation';
 import { DefaultPage } from '../pages/logged-in/default/default';
+//Country
+import { CountryListPage } from '../pages/logged-in/country/country-list/country-list';
+import { CountryViewPage } from '../pages/logged-in/country/country-view/country-view';
 //University 
 import { UniversityListPage } from '../pages/logged-in/university/university-list/university-list';
 import { UniversityViewPage } from '../pages/logged-in/university/university-view/university-view';
@@ -68,7 +71,10 @@ export const cloudSettings: CloudSettings = {
     StoreFormPage,
     //university 
     UniversityListPage,
-    UniversityViewPage
+    UniversityViewPage,
+    // Country
+    CountryListPage,
+    CountryViewPage,
   ],
   entryComponents: [
     MyApp,
@@ -89,7 +95,10 @@ export const cloudSettings: CloudSettings = {
     StoreFormPage,
     //university 
     UniversityListPage,
-    UniversityViewPage
+    UniversityViewPage,
+    // Country
+    CountryListPage,
+    CountryViewPage,
   ],
   imports: [
     BrowserModule,
