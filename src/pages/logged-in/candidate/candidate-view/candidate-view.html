@@ -27,17 +27,20 @@
   <h5>Status</h5>
   <p>{{ candidate.candidate_status }}</p>
 
-  <h5>Created at</h5>
-  <p>{{ candidate.candidate_created_at }}</p>
+  <span *ngIf="candidate.university">
+    <h5>University</h5>
+    <p>{{ candidate.university.university_name_en }}</p>
+  </span>
 
-  <h5>Updated at</h5>
-  <p>{{ candidate.candidate_updated_at }}</p>
+  <span *ngIf="candidate.country">
+    <h5>Country</h5>
+    <p>{{ candidate.country.country_name_en }}</p>
+  </span>
 
   <span *ngIf="candidate.store_id">
     <h5>Candidate Assigned to</h5>
-  <p>{{ candidate.store_name }}</p>
-    </span>
-
+    <p>{{ candidate.store_name }}</p>
+  </span>
 
   <span *ngIf="!candidate.store_id">
     <button ion-button full (click)="assignCandidateToStore()">Assign Candidate to Store</button>
