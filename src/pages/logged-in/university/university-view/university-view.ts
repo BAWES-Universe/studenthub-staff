@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, ModalController } from 'ionic-angular';
 // Pages
-import { UniversityFormPage } from '../university-form/university-form';
 // Models
 import { University } from '../../../../models/university';
 
