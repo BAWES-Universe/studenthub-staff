@@ -5,10 +5,10 @@ import { CandidateFormPage } from '../candidate-form/candidate-form';
 // Models
 import { Candidate } from '../../../../models/candidate';
 import { Store } from '../../../../models/store';
-
 // Providers
 import { StoreService } from '../../../../providers/logged-in/store.service';
 import { CandidateService } from '../../../../providers/logged-in/candidate.service';
+
 @Component({
   selector: 'page-candidate-view',
   templateUrl: 'candidate-view.html'
@@ -31,20 +31,38 @@ export class CandidateViewPage {
     this.candidate = params.get('model');
   }
 
+  ionViewDidLoad() {
+    this.loadData();
+  }
+
+  loadData() {
+    // Load list of ALL stores
+    let loader = this._loadingCtrl.create();
+    loader.present();
+    this.storeService.list().subscribe(response => {
+      this.stores = response.json();
+      this.stores.forEach((value) => {
+        if (value.store_id == this.candidate.store_id) {
+          this.candidate.store_name = value.store_name;
+          this.candidate.store_id = value.store_id;
+        }
+      });
+      loader.dismiss();
+    });
+  }
+
   /**
    * Loads Form in modal to update
    */
   update() {
-    let modal = this._modalCtrl.create(CandidateFormPage, {
+    this.navCtrl.push(CandidateFormPage, {
       model: this.candidate
     });
-    modal.present();
   }
 
   /**
   * Assigning Candidates to Store
   */
-
   assignCandidateToStore() {
     let alert = this.alertCtrl.create();
     alert.setTitle('Assign Candidate to Store');
@@ -97,8 +115,8 @@ export class CandidateViewPage {
 
 
   /**
-     * Unassinging Candidate from store
-     */
+   * Unassinging Candidate from store
+   */
   unAssigning(candidate_id: any) {
     let confirm = this.alertCtrl.create({
       title: '',
@@ -132,7 +150,7 @@ export class CandidateViewPage {
 
 
   /**
-   * Assinging Candidate from store
+   * Assign Candidate to store
    */
   assigning(store_id: number, candidate_id: number) {
     let loader = this._loadingCtrl.create();
@@ -141,28 +159,6 @@ export class CandidateViewPage {
     this.candidateService.assignCandidate(store_id, candidate_id).subscribe(jsonResp => {
       loader.dismiss();
       this.loadData();
-    });
-  }
-
-
-
-  ionViewDidLoad() {
-    this.loadData();
-  }
-
-  loadData() {
-    // Load list of ALL stores
-    let loader = this._loadingCtrl.create();
-    loader.present();
-    this.storeService.list().subscribe(response => {
-      this.stores = response.json();
-      this.stores.forEach((value) => {
-        if (value.store_id == this.candidate.store_id) {
-          this.candidate.store_name = value.store_name;
-          this.candidate.store_id = value.store_id;
-        }
-      });
-      loader.dismiss();
     });
   }
 
