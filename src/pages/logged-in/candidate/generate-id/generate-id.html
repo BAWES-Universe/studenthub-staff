@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle="left">
+      <ion-icon name="menu"></ion-icon>
+    </button>
+
+    <ion-title>Generate ID Card</ion-title>
+
+    <ion-buttons right>
+      <button ion-button clear color="primary" [disabled]="!form.valid" (click)="generate()">
+        Generate
+      </button>
+    </ion-buttons>
+
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <form [formGroup]="form">
+    <ion-list>
+      <ion-item *ngFor="let obj of candidatelistData; let i= index">
+        <ion-label>{{ obj.candidate_name }}</ion-label>
+        <ion-checkbox [(ngModel)]="candidates[i]" [ngModelOptions]="{standalone: true}"></ion-checkbox>
+      </ion-item>
+    </ion-list>
+  </form>
+</ion-content>
+ 

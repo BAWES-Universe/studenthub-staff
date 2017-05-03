@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, Response } from '@angular/http';
+import { Http, Headers, Response, ResponseContentType } from '@angular/http';
 import { Platform, Events } from 'ionic-angular';
+
+import { saveAs } from 'file-saver';
 
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/empty';
@@ -25,6 +27,27 @@ export class AuthHttpService {
     private _platform: Platform,
     private _events: Events
     ) {}
+
+  /**
+  * Download card zip containing employer images and QR images 
+  * @param {string} endpointUrl
+  * @param {string} filename
+  * @returns {Observable<any>}
+  */
+  generateCards(endpointUrl: string, params: any, filename: string): Observable<any> {
+    const url = this._config.apiBaseUrl + endpointUrl;
+    const bearerToken = this._auth.getAccessToken();
+
+    return this._http.post(url, JSON.stringify(params), {
+      responseType: ResponseContentType.Blob,
+      headers: new Headers({ 'Content-Type': 'application/x-www-form-urlencoded', 'Authorization': 'Bearer ' + bearerToken })
+    }).map(
+      (response) => { // download file
+        var blob = new Blob([response.blob()], { type: 'application/zip' });
+        //file name to dowanload/generate invoice 
+        saveAs(blob, filename);
+      });
+  }
 
   /**
    * Requests via GET verb

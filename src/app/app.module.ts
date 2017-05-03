@@ -27,6 +27,9 @@ import { UniversityViewPage } from '../pages/logged-in/university/university-vie
 import { CandidateListPage } from '../pages/logged-in/candidate/candidate-list/candidate-list';
 import { CandidateViewPage } from '../pages/logged-in/candidate/candidate-view/candidate-view';
 import { CandidateFormPage } from '../pages/logged-in/candidate/candidate-form/candidate-form';
+
+import { GenerateIdPage } from '../pages/logged-in/candidate/generate-id/generate-id';
+
 // Company CRUD
 import { CompanyListPage } from '../pages/logged-in/company/company-list/company-list';
 // Store CRUD
@@ -44,6 +47,7 @@ import { StoreService } from '../providers/logged-in/store.service';
 import { BankService } from '../providers/logged-in/bank.service';
 import { UniversityService } from '../providers/logged-in/university.service'; 
 import { CountryService } from '../providers/logged-in/country.service';  
+import { CandidateIdCardService } from '../providers/logged-in/candidate-id-card.service';  
 
 export const cloudSettings: CloudSettings = {
   'core': {
@@ -75,6 +79,8 @@ export const cloudSettings: CloudSettings = {
     // Country
     CountryListPage,
     CountryViewPage,
+    //ID 
+    GenerateIdPage
   ],
   entryComponents: [
     MyApp,
@@ -99,6 +105,8 @@ export const cloudSettings: CloudSettings = {
     // Country
     CountryListPage,
     CountryViewPage,
+    //ID 
+    GenerateIdPage
   ],
   imports: [
     BrowserModule,
@@ -121,7 +129,8 @@ export const cloudSettings: CloudSettings = {
       StoreService,
       BankService,
       UniversityService,
-      CountryService
+      CountryService,
+      CandidateIdCardService
   ],
   bootstrap: [IonicApp]
 })
