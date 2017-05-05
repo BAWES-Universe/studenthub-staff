@@ -1,23 +1,22 @@
 import { Component } from '@angular/core';
 import { NavController, ViewController, LoadingController, AlertController, NavParams } from 'ionic-angular';
 // Forms
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 // Providers
 import { CandidateIdCardService } from '../../../../providers/logged-in/candidate-id-card.service';
 
 @Component({
-  selector: 'page-generate-id',
-  templateUrl: 'generate-id.html'
+  selector: 'page-expired-id',
+  templateUrl: 'expired-id.html'
 })
-export class GenerateIdPage {
+export class ExpiredIdPage {
 
   public pageCount: number = 0;
   public currentPage: number = 1;
   public pages: number[] = [];
 
   public searchBar: string = '';
-  public cndSegment: string = 'not-generated';
   public candidates: any = [];
   
   public form: FormGroup;
@@ -38,19 +37,14 @@ export class GenerateIdPage {
       });
   }
 
-  ionViewDidLoad() {
-    this.loadData();
-  }
-
-  segSelected() {
-    this.currentPage = 1;
+  ionViewWillLoad() {
     this.loadData();
   }
 
   /**
-   * Generate id cards
+   * Renew id cards
    */
-  generate() {
+  renew() {
     
     if(this.candidates.length == 0)
     {
@@ -66,17 +60,13 @@ export class GenerateIdPage {
     let loader = this._loadingCtrl.create();
     loader.present();
 
-    this.candidateIdCardService.generate(this.candidates).subscribe(jsonResponse => {
+    this.candidateIdCardService.renew(this.candidates).subscribe(jsonResponse => {
       loader.dismiss();
-    });
-  }
 
-  loadData() {
-    if(this.cndSegment == 'not-generated') {
-      this.loadNotGenerated(this.currentPage);
-    } else {
-      this.loadGenerated(this.currentPage);
-    }
+      //refresh list 
+      this.currentPage = 1;
+      this.loadData();
+    });
   }
 
   pageLinkColor(page: number) {
@@ -88,49 +78,15 @@ export class GenerateIdPage {
   }
 
   /**
-   * Load candidates whose ID not generated 
+   * Load expired ID cards
    */
-  loadNotGenerated(page: number) {
-    // Load list of candidates
-    let loader = this._loadingCtrl.create();
-    loader.present();
-
-    this.candidateIdCardService.listCandidates(this.searchBar, page).subscribe(response => {
-      
-      this.pageCount = response.headers.get('X-Pagination-Page-Count');
-      this.currentPage = response.headers.get('X-Pagination-Current-Page');
-
-      this.pages = [];
-
-      for(var i = 1; i <= this.pageCount; i++){
-         this.pages.push(i);
-      }
-
-      //hide if no page = 1 
-
-      if(this.pageCount == 1)
-        this.pages = [];
-
-      this.candidatelistData = response.json();
-
-      this.candidatelistData.forEach((value, index) => {
-          this.candidates[index] = value.candidate_id;  
-        });
-
-      loader.dismiss();
-    });
-  }
-
-  /**
-   * Load candidates whose ID generated 
-   */
-  loadGenerated(page: number) {
+  loadData() {
 
     // Load list of candidates
     let loader = this._loadingCtrl.create();
     loader.present();
 
-    this.candidateIdCardService.listCandidateIds(this.searchBar, page).subscribe(response => {
+    this.candidateIdCardService.listExpiredIds(this.searchBar, this.currentPage).subscribe(response => {
       this.pageCount = response.headers.get('X-Pagination-Page-Count');
       this.currentPage = response.headers.get('X-Pagination-Current-Page');
 

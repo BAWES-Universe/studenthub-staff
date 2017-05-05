@@ -8,6 +8,7 @@ import { CompanyListPage } from '../company/company-list/company-list';
 import { UniversityListPage } from '../university/university-list/university-list';
 import { CountryListPage } from '../country/country-list/country-list'; 
 import { GenerateIdPage } from '../candidate/generate-id/generate-id';
+import { ExpiredIdPage } from '../candidate/expired-id/expired-id';
 
 // Services
 import { AuthService } from '../../../providers/auth.service';
@@ -35,8 +36,11 @@ export class NavigationPage {
       case "candidates":
         this.rootPage = CandidateListPage;
         break;
+      case "expiredId":
+        this.rootPage = ExpiredIdPage;
+        break;
       case "generateId":
-        this.rootPage = GenerateIdPage
+        this.rootPage = GenerateIdPage;
         break;
       case "companies":
         this.rootPage = CompanyListPage;

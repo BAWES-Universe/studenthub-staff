@@ -31,6 +31,7 @@ import { CandidateViewPage } from '../pages/logged-in/candidate/candidate-view/c
 import { CandidateFormPage } from '../pages/logged-in/candidate/candidate-form/candidate-form';
 
 import { GenerateIdPage } from '../pages/logged-in/candidate/generate-id/generate-id';
+import { ExpiredIdPage } from '../pages/logged-in/candidate/expired-id/expired-id';
 
 // Company CRUD
 import { CompanyListPage } from '../pages/logged-in/company/company-list/company-list';
@@ -84,7 +85,8 @@ export const cloudSettings: CloudSettings = {
     CountryListPage,
     CountryViewPage,
     //ID 
-    GenerateIdPage
+    GenerateIdPage,
+    ExpiredIdPage
   ],
   entryComponents: [
     MyApp,
@@ -110,7 +112,8 @@ export const cloudSettings: CloudSettings = {
     CountryListPage,
     CountryViewPage,
     //ID 
-    GenerateIdPage
+    GenerateIdPage,
+    ExpiredIdPage
   ],
   imports: [
     BrowserModule,

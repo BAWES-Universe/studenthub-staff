@@ -14,6 +14,18 @@ export class CandidateIdCardService {
   private _candidateEndpoint: string = "/candidate-id-cards";
 
   constructor(private _authhttp: AuthHttpService) { }
+  
+  /**
+   * Renew ID cards 
+   * @returns {Observable<any>}
+   */
+  renew(candidates: any): Observable<any> {
+    let url = this._candidateEndpoint + '/renew';
+    let params = {
+      "candidates": candidates
+    };
+    return this._authhttp.post(url, params);
+  }
 
   /**
    * List of all candidates
@@ -25,6 +37,15 @@ export class CandidateIdCardService {
       "candidates": candidates
     };
     return this._authhttp.generateCards(url, params, 'ID-Cards.zip');
+  }
+
+  /**
+   * List of all candidates whose card not generated, to generate card
+   * @returns {Observable<any>}
+   */
+  listExpiredIds(candidate_name: string, page: number): Observable<any> {
+    let url = this._candidateEndpoint + '/list-expired?candidate_name=' + candidate_name + '&page=' + page;
+    return this._authhttp.getRaw(url);
   }
 
   /**
