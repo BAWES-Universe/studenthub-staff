@@ -11,6 +11,7 @@
 
 <ion-content>
   <!-- Grid for Required File Uploads -->
+  <input style='display:none;' type='file' #fileInput (change)="uploadFileViaHtmlFileInput($event)" accept="image/*"/>
   <ion-grid id='uploads'>
     <ion-row>
       <ion-col col-4>
