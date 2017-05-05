@@ -236,4 +236,32 @@ export class CandidateFormPage {
     this.maxDate = new Date((yyyy+20), mm).toISOString();
   }
 
+
+
+  /**
+   * All Upload Functionality Below this Line
+   */
+
+
+  /**
+   * Upload Candidate Personal Photo
+   */
+  photoUpload(){
+    console.log("Uploading personal photo");
+  }
+
+  /**
+   * Upload Civil ID Photo from Front
+   */
+  civilFrontUpload(){
+    console.log("Uploading front civil photo");
+  }
+
+  /**
+   * Upload Civil ID Photo from Back
+   */
+  civilBackUpload(){
+    console.log("Uploading back civil photo");
+  }
+
 }

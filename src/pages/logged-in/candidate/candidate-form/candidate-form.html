@@ -10,6 +10,30 @@
 </ion-header>
 
 <ion-content>
+  <!-- Grid for Required File Uploads -->
+  <ion-grid id='uploads'>
+    <ion-row>
+      <ion-col col-4>
+        <ion-card (click)="photoUpload()" tappable>
+          <ion-icon name="ios-person"></ion-icon>
+          Photo
+        </ion-card>
+      </ion-col>
+      <ion-col col-4>
+        <ion-card (click)="civilFrontUpload()" tappable>
+          <ion-icon name="ios-card-outline"></ion-icon>
+          Civil ID <br/>(Front)
+        </ion-card>
+      </ion-col>
+      <ion-col col-4>
+        <ion-card (click)="civilBackUpload()" tappable>
+          <ion-icon name="ios-card"></ion-icon>
+          Civil ID <br/>(Back)
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
   <form [formGroup]="form">
     <ion-card>
       <ion-card-header>
