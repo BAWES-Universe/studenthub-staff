@@ -1,5 +1,8 @@
-import { Component, Input } from '@angular/core';
-import { Platform, ToastController, AlertController } from 'ionic-angular';
+import { Component, Input, Output, Renderer, ElementRef, ViewChild, EventEmitter } from '@angular/core';
+import { Platform, ToastController, AlertController, ActionSheetController } from 'ionic-angular';
+
+import { AwsService } from '../../providers/aws.service';
+import { CameraService } from '../../providers/camera.service';
 
 /*
   AWS S3 Image Upload Component 
@@ -10,20 +13,167 @@ import { Platform, ToastController, AlertController } from 'ionic-angular';
   templateUrl: 'image-upload.html'
 })
 export class ImageUploadComponent {
+  // File input used for browser fallback when no cordova is available
+  @ViewChild('fileInput') fileInput:ElementRef;
 
   // Default value the component should have 
   // (In case an image has already been uploaded for it)
-  @Input() value = false;
-
+  @Input() value: string;
+  // Icon to use, by default its a regular image icon
+  @Input() label: string = "Photo";
   // Icon to use, by default its a regular image icon
   @Input() icon: string = "image";
 
+  // Ouput event when the upload is complete
+  @Output() uploadComplete: EventEmitter<any> = new EventEmitter();
+
+  // Used for link generation after upload
+  public bucketUrl = "https://bawes-public.s3.eu-west-2.amazonaws.com/";
+
+  // Progress variables
+  public isUploading = false;
 
   constructor(
     private _platform: Platform,
+    private _renderer:Renderer,
+    private _awsService: AwsService,
+    private _cameraService: CameraService,
+    private _actionSheetCtrl: ActionSheetController,
     private _toastCtrl: ToastController,
     private _alertCtrl: AlertController
     ) {
+  }
+
+  /**
+   * Upload Photo button clicked
+   * - On Native device, load native camera/gallery
+   * - On Browser, trigger a click on the html file input
+   */
+  uploadBtnClicked(){
+    // If already uploading, do nothing, just return
+    if(this.isUploading) return;
+
+    if(this._platform.is("cordova")){
+      // Display action sheet giving user option of camera vs local filesystem.
+      let actionSheet = this._actionSheetCtrl.create({
+        title: "Select image source",
+        buttons: [
+          {
+            text: 'Load from Library',
+            handler: () => {
+              this._cameraService.getImageFromLibrary().then((nativeImageFilePath) => {
+
+                  // Upload and process for progress
+                  this._awsService.uploadNativePath("library", nativeImageFilePath)
+                    .then((uploadObservable) => {
+                      this.processFileUpload(uploadObservable);
+                    })
+                    .catch((err) => {
+                      alert(err);
+                    });
+
+              }, (err) => {
+                  // Error getting picture
+                  alert("Error getting picture from Library: " + JSON.stringify(err));
+                  console.log("Error getting picture from Library: " + JSON.stringify(err));
+              });;
+            }
+          },
+          {
+            text: 'Use Camera',
+            handler: () => {
+              this._cameraService.getImageFromCamera().then((nativeImageFilePath) => {
+
+                  // Upload and process for progress
+                  this._awsService.uploadNativePath("camera", nativeImageFilePath)
+                    .then((uploadObservable) => {
+                      this.processFileUpload(uploadObservable);
+                    })
+                    .catch((err) => {
+                      alert(err);
+                    });
+
+              }, (err) => {
+                  // Error getting picture
+                  alert("Error getting picture from Camera: " + JSON.stringify(err));
+                  console.log("Error getting picture from Camera: " + JSON.stringify(err));
+              });;
+            }
+          }
+        ]
+      });
+      actionSheet.present();
+
+    }else{
+      // Trigger click event on regular HTML file input
+      let event = new MouseEvent('click', {bubbles: true});
+      this._renderer.invokeElementMethod(this.fileInput.nativeElement, 'dispatchEvent', [event]);
+    }
+  }
+
+
+  /**
+   * Upload the selected file through regular HTML file input 
+   * This method will only be called if the target is not a cordova app.
+   * @param  {} $event
+   */
+  uploadFileViaHtmlFileInput($event){
+    let fileList: FileList = $event.target.files;
+
+    // Check if files available
+    if(fileList.length > 0){
+      let file = fileList.item(0);
+
+      // Upload The File
+      let uploadObservable = this._awsService.uploadFile("browser", file);
+      this.processFileUpload(uploadObservable);
+    }
+  }
+
+  /**
+   * Process S3 upload by subscribing to progress observable
+   * @param  {} uploadObservable
+   */
+  processFileUpload(uploadObservable){
+    // Create Temporary Transfer Record
+    let newUpload = {
+      name: "Preparing file for upload",
+      status: "uploading",
+      loaded: 0,
+      total: 100,
+      link: ''
+    };
+
+    // Show File Upload Indicator based on which file is being uploaded
+    this.isUploading = true;
+
+    // Process Upload and Display Progress
+    uploadObservable.subscribe((progress) => {
+      if(progress.loaded &&  progress.loaded != progress.total){
+          newUpload.status = "uploading";
+          newUpload.loaded = progress.loaded;
+          newUpload.total = progress.total;
+      }
+
+      // If Multipart upload (big file), Key with capital "K"
+      if(progress.key || progress.Key){
+        newUpload.name = progress.key? progress.key : progress.Key; 
+        newUpload.link = this.bucketUrl + newUpload.name;
+      }
+
+    }, (err) => {
+      console.log("Error", err);
+      newUpload.status = "error";
+      // Hide File Upload Indicator based on which file is being uploaded
+      this.isUploading = false;
+    }, () => {
+      newUpload.status = "complete";
+      // Hide File Upload Indicator based on which file is being uploaded
+      this.isUploading = false;
+      // Store and Emit the new value
+      this.value = newUpload.link;
+      this.uploadComplete.emit(this.value);
+    });
   }
 
     
