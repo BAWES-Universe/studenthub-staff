@@ -63,9 +63,8 @@ export class CandidateFormPage {
         expiry_date: ["", Validators.required],
         photo_front: ["", Validators.required],
         photo_back: ["", Validators.required],
+        personal_photo: ["", Validators.required],
         hourly_rate: ["", Validators.required]
-
-
       });
     } else { // Show Update Form
       this.operation = "Update";
@@ -82,6 +81,7 @@ export class CandidateFormPage {
         expiry_date: [this.model.candidate_civil_expiry_date, Validators.required],
         photo_front: [this.model.candidate_civil_photo_front, Validators.required],
         photo_back: [this.model.candidate_civil_photo_back, Validators.required],
+        personal_photo: [this.model.candidate_personal_photo, Validators.required],
         hourly_rate: [this.model.candidate_hourly_rate, Validators.required]
       });
     }
@@ -119,6 +119,7 @@ export class CandidateFormPage {
     this.model.candidate_civil_expiry_date = this.form.value.expiry_date;
     this.model.candidate_civil_photo_front = this.form.value.photo_front;
     this.model.candidate_civil_photo_back = this.form.value.photo_back;
+    this.model.candidate_personal_photo = this.form.value.personal_photo;
 
     this.model.candidate_hourly_rate = this.form.value.hourly_rate;
     this.model.bank_id = Number(this.banklistData.bank_id);
@@ -155,13 +156,10 @@ export class CandidateFormPage {
 
       // On Failure
       if (jsonResponse.operation == "error") {
-
         var html = '';
 
         for (let i in jsonResponse.message) {
-          
           for (let j of jsonResponse.message[i]) {
-             
              html += j + '<br />';
           }
         }
