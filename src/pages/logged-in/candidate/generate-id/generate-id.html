@@ -18,18 +18,18 @@
 <ion-content padding>
 
   <ion-segment [(ngModel)]="cndSegment" color="primary">
-    <ion-segment-button value="not-generated" (ionSelect)="loadNotGenerated()">
+    <ion-segment-button value="not-generated" (ionSelect)="loadNotGenerated(1)">
       Not Generated
     </ion-segment-button>
-    <ion-segment-button value="generated" (ionSelect)="loadGenerated()">
+    <ion-segment-button value="generated" (ionSelect)="loadGenerated(1)">
       Already Generated
     </ion-segment-button>      
   </ion-segment>
   
   <ion-searchbar
     [(ngModel)]="searchBar"
-    (ionInput)="loadData()">
-  </ion-searchbar>
+    (ionInput)="search()">
+  </ion-searchbar> 
 
   <form [formGroup]="form">
 

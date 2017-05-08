@@ -13,17 +13,17 @@
 <ion-content>
 
   <ion-segment [(ngModel)]="cndSegment" color="primary">
-    <ion-segment-button value="assigned" (ionSelect)="loadAssigned()">
+    <ion-segment-button value="assigned" (ionSelect)="loadAssigned(1)">
       Already Assigned
     </ion-segment-button>
-    <ion-segment-button value="not-assigned" (ionSelect)="loadNotAssigned()">
+    <ion-segment-button value="not-assigned" (ionSelect)="loadNotAssigned(1)">
       Not Assigned
     </ion-segment-button>
   </ion-segment>
   
   <ion-searchbar
     [(ngModel)]="searchBar"
-    (ionInput)="loadData()">
+    (ionInput)="search()">
   </ion-searchbar>
 
   <ion-list>

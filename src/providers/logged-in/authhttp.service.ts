@@ -38,16 +38,17 @@ export class AuthHttpService {
     const url = this._config.apiBaseUrl + endpointUrl;
     const bearerToken = this._auth.getAccessToken();
 
-    return this._http.post(url, JSON.stringify(params), {
+    return this._http.post(url, params, {
       responseType: ResponseContentType.Blob,
-      headers: new Headers({ 'Content-Type': 'application/x-www-form-urlencoded', 'Authorization': 'Bearer ' + bearerToken })
+      headers: new Headers({ 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + bearerToken })
     }).map(
       (response) => { // download file
-        var blob = new Blob([response.blob()], { type: 'application/zip' });
-        //file name to dowanload/generate invoice 
-        saveAs(blob, filename);
+
+          var blob = new Blob([response.blob()], { type: 'application/zip' });
+          //file name to dowanload/generate invoice 
+          saveAs(blob, filename);
       });
-  }
+  } 
 
   /**
    * Requests via GET verb

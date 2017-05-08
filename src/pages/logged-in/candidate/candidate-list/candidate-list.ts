@@ -32,23 +32,26 @@ export class CandidateListPage {
   ) { }
 
   ionViewDidLoad() {
-    this.loadData();
+    this.loadData(this.currentPage);
   }
 
-  segSelected() {
+  search() {
     this.currentPage = 1;
-    this.loadData();
+    this.loadData(this.currentPage);
   }
 
-  loadData() {
+  loadData(page: number) {
     if(this.cndSegment == 'not-assigned') {
-      this.loadNotAssigned(this.currentPage);
+      this.loadNotAssigned(page);
     } else {
-      this.loadAssigned(this.currentPage);
+      this.loadAssigned(page);
     }
   }
 
   loadNotAssigned(page: number) {
+
+    this.currentPage = page;
+
     // Load list of candidates
     let loader = this._loadingCtrl.create();
     loader.present();
@@ -75,6 +78,9 @@ export class CandidateListPage {
   }
 
   loadAssigned(page: number) {
+
+    this.currentPage = page;
+
     // Load list of candidates
     let loader = this._loadingCtrl.create();
     loader.present();
@@ -145,7 +151,7 @@ export class CandidateListPage {
         
         toast.present();
       } else {
-        this.loadData();
+        this.search();
       }
       
     });

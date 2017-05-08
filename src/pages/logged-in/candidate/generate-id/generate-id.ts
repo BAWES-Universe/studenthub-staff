@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, ViewController, LoadingController, AlertController, NavParams } from 'ionic-angular';
 // Forms
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 // Providers
 import { CandidateIdCardService } from '../../../../providers/logged-in/candidate-id-card.service';
@@ -39,12 +39,7 @@ export class GenerateIdPage {
   }
 
   ionViewDidLoad() {
-    this.loadData();
-  }
-
-  segSelected() {
-    this.currentPage = 1;
-    this.loadData();
+    this.loadData(this.currentPage);
   }
 
   /**
@@ -66,16 +61,31 @@ export class GenerateIdPage {
     let loader = this._loadingCtrl.create();
     loader.present();
 
-    this.candidateIdCardService.generate(this.candidates).subscribe(jsonResponse => {
+    this.candidateIdCardService.generate(this.candidates).subscribe(response => {
+
+      /*if(response.operation == 'error')
+      {
+        let prompt = this._alertCtrl.create({
+          message: response.message,
+          buttons: ["Ok"]
+        });
+        prompt.present();
+      }*/
+
       loader.dismiss();
     });
   }
 
-  loadData() {
+  search() {
+    this.currentPage = 1;
+    this.loadData(this.currentPage);
+  }
+
+  loadData(page: number) {
     if(this.cndSegment == 'not-generated') {
-      this.loadNotGenerated(this.currentPage);
+      this.loadNotGenerated(page);
     } else {
-      this.loadGenerated(this.currentPage);
+      this.loadGenerated(page);
     }
   }
 
@@ -91,6 +101,9 @@ export class GenerateIdPage {
    * Load candidates whose ID not generated 
    */
   loadNotGenerated(page: number) {
+
+    this.currentPage = page;
+
     // Load list of candidates
     let loader = this._loadingCtrl.create();
     loader.present();
@@ -113,6 +126,8 @@ export class GenerateIdPage {
 
       this.candidatelistData = response.json();
 
+      this.candidates = [];
+
       this.candidatelistData.forEach((value, index) => {
           this.candidates[index] = value.candidate_id;  
         });
@@ -125,6 +140,8 @@ export class GenerateIdPage {
    * Load candidates whose ID generated 
    */
   loadGenerated(page: number) {
+
+    this.currentPage = page;
 
     // Load list of candidates
     let loader = this._loadingCtrl.create();
@@ -147,6 +164,8 @@ export class GenerateIdPage {
 
       this.candidatelistData = response.json();
 
+      this.candidates = [];
+      
       this.candidatelistData.forEach((value, index) => {
           this.candidates[index] = value.candidate_id;  
         });
