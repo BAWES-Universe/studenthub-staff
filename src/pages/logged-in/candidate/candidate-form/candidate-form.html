@@ -17,6 +17,7 @@
       <ion-col col-4>
         <image-upload 
           label="Photo" icon="ios-person" prefix="photo"
+          [value]="model.candidate_personal_photo"
           (uploadComplete)="onUploadComplete($event)">
         </image-upload>
       </ion-col>
@@ -50,18 +51,6 @@
         <ion-item>
           <ion-label floating>Civil ID Expiry Date</ion-label>
           <ion-datetime displayFormat="YYYY-MM-DD" [min]="minDate" [max]="maxDate" formControlName="expiry_date"></ion-datetime>
-        </ion-item>
-        <ion-item>
-          <ion-label floating>Personal Photo</ion-label>
-          <ion-input type="text" formControlName="personal_photo"></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-label floating>Civil ID Photo [Front]</ion-label>
-          <ion-input type="text" formControlName="photo_front"></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-label floating>Civil ID Photo [Back]</ion-label>
-          <ion-input type="text" formControlName="photo_back"></ion-input>
         </ion-item>
       </ion-card-content>
     </ion-card>

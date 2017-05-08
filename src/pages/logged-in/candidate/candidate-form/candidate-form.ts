@@ -61,9 +61,6 @@ export class CandidateFormPage {
         birth_date: ["", Validators.required],
         civil_id: ["", Validators.required],
         expiry_date: ["", Validators.required],
-        photo_front: ["", Validators.required],
-        photo_back: ["", Validators.required],
-        personal_photo: ["", Validators.required],
         hourly_rate: ["", Validators.required]
       });
     } else { // Show Update Form
@@ -79,9 +76,6 @@ export class CandidateFormPage {
         birth_date: [this.model.candidate_birth_date, Validators.required],
         civil_id: [this.model.candidate_civil_id, Validators.required],
         expiry_date: [this.model.candidate_civil_expiry_date, Validators.required],
-        photo_front: [this.model.candidate_civil_photo_front, Validators.required],
-        photo_back: [this.model.candidate_civil_photo_back, Validators.required],
-        personal_photo: [this.model.candidate_personal_photo, Validators.required],
         hourly_rate: [this.model.candidate_hourly_rate, Validators.required]
       });
     }
@@ -103,7 +97,6 @@ export class CandidateFormPage {
    * Update Model Data based on Form Input
    */
   updateModelDataFromForm() {
-
     this.model.candidate_name = this.form.value.name;
     this.model.candidate_email = this.form.value.email;
     this.model.candidate_password_hash = this.form.value.password;
@@ -115,11 +108,7 @@ export class CandidateFormPage {
     this.model.candidate_phone = this.form.value.phone;
     this.model.candidate_birth_date = this.form.value.birth_date;
     this.model.candidate_civil_id = this.form.value.civil_id;
-
     this.model.candidate_civil_expiry_date = this.form.value.expiry_date;
-    this.model.candidate_civil_photo_front = this.form.value.photo_front;
-    this.model.candidate_civil_photo_back = this.form.value.photo_back;
-    this.model.candidate_personal_photo = this.form.value.personal_photo;
 
     this.model.candidate_hourly_rate = this.form.value.hourly_rate;
     this.model.bank_id = Number(this.banklistData.bank_id);
@@ -232,12 +221,21 @@ export class CandidateFormPage {
   }
 
   /**
-   * Image upload handler
+   * Image upload handler, update form fields based on which file was uploaded
    * @param {{prefix: string, key: string, url: string}} $event
    */
   onUploadComplete($event: {prefix:string, key: string, url: string}){
-    console.log($event);
-  }
-  
+    switch($event.prefix){
+      case "photo":
+        this.model.candidate_personal_photo = $event.url;
+        break;
+      case "civilfront":
+        this.model.candidate_civil_photo_front = $event.url;
+        break;
+      case "civilback":
+        this.model.candidate_civil_photo_back = $event.url;
+        break;
+    }
+  }  
 
 }

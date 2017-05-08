@@ -172,8 +172,7 @@ export class ImageUploadComponent {
       newUpload.status = "complete";
       // Hide File Upload Indicator based on which file is being uploaded
       this.isUploading = false;
-      // Store and Emit the new value
-      this.value = newUpload.link;
+      // Emit the new value
       this.uploadComplete.emit({
         prefix: this.prefix,
         key: newUpload.name,
