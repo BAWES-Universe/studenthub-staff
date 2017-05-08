@@ -31,6 +31,8 @@ export class ImageUploadComponent {
 
   // Used for link generation after upload
   public bucketUrl: string;
+  private _bucketUrlTemporary: string;
+  private _bucketUrlPermanent: string;
 
   // Progress variables
   public isUploading = false;
@@ -44,7 +46,11 @@ export class ImageUploadComponent {
     private _toastCtrl: ToastController,
     private _alertCtrl: AlertController
     ) {
-      this.bucketUrl = this._awsService.bucketUrl;
+      this._bucketUrlPermanent = this._awsService.permanentBucketUrl;
+      this._bucketUrlTemporary = this._awsService.bucketUrl;
+
+      // By Default, use the permanent bucket url
+      this.bucketUrl = this._bucketUrlPermanent;
   }
 
   /**
@@ -161,7 +167,7 @@ export class ImageUploadComponent {
       // If Multipart upload (big file), Key with capital "K"
       if(progress.key || progress.Key){
         newUpload.name = progress.key? progress.key : progress.Key; 
-        newUpload.link = this.bucketUrl + newUpload.name;
+        newUpload.link = this._bucketUrlTemporary + newUpload.name;
       }
     }, (err) => {
       console.log("Error", err);
@@ -172,6 +178,8 @@ export class ImageUploadComponent {
       newUpload.status = "complete";
       // Hide File Upload Indicator based on which file is being uploaded
       this.isUploading = false;
+      // Switch to temporary bucket url
+      this.bucketUrl = this._bucketUrlTemporary;
       // Emit the new value
       this.uploadComplete.emit({
         prefix: this.prefix,

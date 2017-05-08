@@ -8,6 +8,7 @@ declare var AWS;
 @Injectable()
 export class AwsService {
     public bucketUrl = "https://bawes-public.s3.eu-west-2.amazonaws.com/";
+    public permanentBucketUrl = "https://sh-payroll.s3.eu-west-2.amazonaws.com/";
     
     private _region = "eu-west-2"; //London
     private _access_key_id = "AKIAI5ZFAKH7R3WIHWXQ";
