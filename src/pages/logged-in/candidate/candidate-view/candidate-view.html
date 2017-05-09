@@ -15,40 +15,92 @@
 </ion-header>
 
 <ion-content padding>
-  <h5>Id</h5>
-  <p>{{ candidate.candidate_id }}</p>
-
-  <h5>Candidate</h5>
-  <p>{{ candidate.candidate_name }}</p>
-
-  <h5>Email</h5>
-  <p>{{ candidate.candidate_email }}</p>
-
-  <h5>Status</h5>
-  <p>{{ candidate.candidate_status }}</p>
-
-  <span *ngIf="candidate.university">
-    <h5>University</h5>
-    <p>{{ candidate.university.university_name_en }}</p>
-  </span>
-
-  <span *ngIf="candidate.country">
-    <h5>Country</h5>
-    <p>{{ candidate.country.country_name_en }}</p>
-  </span>
-
-  <span *ngIf="candidate.store_id">
-    <h5>Candidate Assigned to</h5>
-    <p>{{ candidate.store_name }}</p>
-  </span>
-
-  <span *ngIf="!candidate.store_id">
-    <button ion-button full (click)="assignCandidateToStore()">Assign Candidate to Store</button>
-  </span>
-
+  <ion-list>
+    <ion-item>
+      <h5>Id</h5>
+      <p>{{ candidate.candidate_id }}</p>
+    </ion-item>
+    <ion-item>
+      <h5>Bank Name</h5>
+      <p>{{ candidate.bank_name }}</p>
+    </ion-item>
+    <ion-item>
+      <h5>Bank Account Name</h5>
+      <p>{{ candidate.bank_account_name }}</p>
+    </ion-item>
+    <ion-item>
+      <h5>IBAN</h5>
+      <p>{{ candidate.candidate_iban }}</p>
+    </ion-item>
+    <ion-item>
+      <h5>Candidate Name</h5>
+      <p>{{ candidate.candidate_name }}</p>
+    </ion-item>
+    <ion-item>
+      <h5>Candidate Name - Arabic</h5>
+      <p>{{ candidate.candidate_name_ar }}</p>
+    </ion-item>
+    <ion-item>
+      <h5>Candidate Email</h5>
+      <p>{{ candidate.candidate_email }}</p>
+    </ion-item>
+    <ion-item>
+      <h5>Candidate Phone No</h5>
+      <p>{{ candidate.candidate_phone }}</p>
+    </ion-item>
+    <ion-item>
+      <h5>Candidate Birthdate</h5>
+      <p>{{ candidate.candidate_birth_date }}</p>
+    </ion-item>
+    <ion-item>
+      <h5>Candidate Civil ID</h5>
+      <p>{{ candidate.candidate_civil_id }}</p>
+    </ion-item>
+    <ion-item>
+      <h5>Candidate Civil Expiry Date</h5>
+      <p>{{ candidate.candidate_civil_expiry_date }}</p>
+    </ion-item>
+    <ion-item>
+      <h5>Candidate Civil Photo Front</h5>
+      <p>{{ candidate.candidate_civil_photo_front }}</p>
+    </ion-item>
+    <ion-item>
+      <h5>Candidate Civil Photo Back</h5>
+      <p>{{ candidate.candidate_civil_photo_back }}</p>
+    </ion-item>
+    <ion-item>
+      <h5>Candidate Hourly Rate</h5>
+      <p>{{ candidate.candidate_hourly_rate }}</p>
+    </ion-item>
+    <ion-item>
+      <h5>Candidate Status</h5>
+      <p>{{ candidate.candidate_status }}</p>
+    </ion-item>
+    <ion-item>
+      <span *ngIf="candidate.university">
+        <h5>University</h5>
+        <p>{{ candidate.university.university_name_en }}</p>
+      </span>
+    </ion-item>
+    <ion-item>
+      <span *ngIf="candidate.country">
+        <h5>Country</h5>
+        <p>{{ candidate.country.country_name_en }}</p>
+      </span>
+    </ion-item>
+    <ion-item>
+      <span *ngIf="candidate.store_id">
+        <h5>Candidate Assigned to</h5>
+        <p>{{ candidate.store_name }}</p>
+      </span>
+    </ion-item>
+    <ion-item>
+      <span *ngIf="!candidate.store_id">
+        <button ion-button full (click)="assignCandidateToStore()">Assign Candidate to Store</button>
+      </span>
+    </ion-item>
+  </ion-list>
   <span *ngIf="candidate.store_id">
     <button ion-button full color="danger" (click)="unAssigning(candidate.candidate_id)">Unassign candidate from {{ candidate.store_name }}</button>
-   
   </span>
-
 </ion-content>
