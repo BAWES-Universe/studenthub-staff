@@ -8,6 +8,7 @@ import { Store } from '../../../../models/store';
 // Providers
 import { StoreService } from '../../../../providers/logged-in/store.service';
 import { CandidateService } from '../../../../providers/logged-in/candidate.service';
+import { AwsService } from '../../../../providers/aws.service';
 
 @Component({
   selector: 'page-candidate-view',
@@ -25,6 +26,7 @@ export class CandidateViewPage {
     public alertCtrl: AlertController,
     public storeService: StoreService,
     public candidateService: CandidateService,
+    public aws: AwsService,
     private _loadingCtrl: LoadingController
   ) {
     this.candidate = params.get('model');
