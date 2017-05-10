@@ -54,7 +54,6 @@ export class CandidateFormPage {
       this.form = this._fb.group({
         name: ["", Validators.required],
         email: ["", [Validators.required, CustomValidator.emailValidator]],
-        password: ["", Validators.required],
         bank_account_name: ["", Validators.required],
         iban: ["", Validators.required],
         name_ar: ["", Validators.required],
@@ -69,7 +68,6 @@ export class CandidateFormPage {
       this.form = this._fb.group({
         name: [this.model.candidate_name, Validators.required],
         email: [this.model.candidate_email, [Validators.required, CustomValidator.emailValidator]],
-        password: [this.model.candidate_password_hash], //not required,
         bank_account_name: [this.model.bank_account_name, Validators.required],
         iban: [this.model.candidate_iban, Validators.required],
         name_ar: [this.model.candidate_name_ar, Validators.required],
@@ -100,7 +98,6 @@ export class CandidateFormPage {
   updateModelDataFromForm() {
     this.model.candidate_name = this.form.value.name;
     this.model.candidate_email = this.form.value.email;
-    this.model.candidate_password_hash = this.form.value.password;
 
     this.model.bank_account_name = this.form.value.bank_account_name;
     this.model.candidate_iban = this.form.value.iban;
