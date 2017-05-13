@@ -6,6 +6,7 @@ export class Candidate {
     bank_id: number;
     university_id: number;
     country_id: number;
+    age: number;
     bank_account_name: string;
     candidate_iban: string;
     candidate_name: string;
