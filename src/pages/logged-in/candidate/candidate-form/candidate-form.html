@@ -2,7 +2,7 @@
   <ion-navbar>
     <ion-title>{{ operation }}</ion-title>
     <ion-buttons right>
-      <button ion-button clear color="primary" [disabled]="!form.valid" (click)="save()">
+      <button ion-button clear color="primary" [disabled]="!form.valid || !form.dirty" (click)="save()">
         Save
       </button>
     </ion-buttons>
@@ -135,7 +135,7 @@
       </ion-card-content>
     </ion-card>
 
-    <button ion-button block color="primary" [disabled]="!form.valid" (click)="save()">
+    <button ion-button block color="primary" [disabled]="!form.valid || !form.dirty" (click)="save()">
       Save
     </button>
     
