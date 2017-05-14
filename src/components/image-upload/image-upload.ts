@@ -1,4 +1,5 @@
-import { Component, Input, Output, Renderer, ElementRef, ViewChild, EventEmitter } from '@angular/core';
+import { Component, Input, Output, forwardRef, Renderer, ElementRef, ViewChild } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Platform, ToastController, AlertController, ActionSheetController } from 'ionic-angular';
 
 import { AwsService } from '../../providers/aws.service';
@@ -10,24 +11,29 @@ import { CameraService } from '../../providers/camera.service';
 */
 @Component({
   selector: 'image-upload',
-  templateUrl: 'image-upload.html'
+  templateUrl: 'image-upload.html',
+  providers: [
+    { 
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => ImageUploadComponent),
+      multi: true
+    }
+  ]
 })
-export class ImageUploadComponent {
+export class ImageUploadComponent implements ControlValueAccessor {
   // File input used for browser fallback when no cordova is available
   @ViewChild('fileInput') fileInput:ElementRef;
 
-  // Default value the component should have 
+  // Default value the form element should have 
   // (In case an image has already been uploaded for it)
-  @Input() value: string;
+  _value: string;
+
   // Icon to use, by default its a regular image icon
   @Input() label: string = "Photo";
   // Icon to use, by default its a regular image icon
   @Input() icon: string = "image";
   // File prefix when uploading to S3
   @Input() prefix: string = "image";
-
-  // Ouput event when the upload is complete
-  @Output() uploadComplete: EventEmitter<any> = new EventEmitter();
 
   // Used for link generation after upload
   public bucketUrl: string;
@@ -36,6 +42,11 @@ export class ImageUploadComponent {
 
   // Progress variables
   public isUploading = false;
+
+  // the method set in registerOnChange, it is just 
+  // a placeholder for a method that takes one parameter, 
+  // we use it to emit changes back to the form
+  private _propagateChange = (_: any) => {};
 
   constructor(
     private _platform: Platform,
@@ -180,14 +191,53 @@ export class ImageUploadComponent {
       this.isUploading = false;
       // Switch to temporary bucket url
       this.bucketUrl = this._bucketUrlTemporary;
-      // Emit the new value
-      this.uploadComplete.emit({
-        prefix: this.prefix,
-        key: newUpload.name,
-        url: newUpload.link        
-      });
+      // Set the new value of this file upload 
+      this.value = newUpload.name;
     });
   }
+
+  /**
+   * Getter for Value
+   */
+  get value() {
+    return this._value;
+  }
+  /**
+   * Setter for Value
+   */
+  set value(val) {
+    this._value = val;
+    // Notify of changes
+    this._propagateChange(this._value);
+  }
+
+  /**
+   * ControlValueAccessor interface methods
+   * - They allow this component to be used as a form element (with validation and ngModel)
+   */
+
+  /**
+   * Called on form Init / Update
+   * @param {*} obj
+   */
+  writeValue(obj: any) {
+    if (obj) {
+      this.value = obj;
+    }
+  }
+
+  /**
+   * Propogate change on change, notify outside world of changes
+   * @param {any} fn
+   */
+  registerOnChange(fn) {
+    this._propagateChange = fn;
+  }
+
+  /**
+   * Called on touch/ element blur
+   */
+  registerOnTouched() {}
 
     
 }

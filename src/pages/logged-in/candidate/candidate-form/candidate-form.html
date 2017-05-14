@@ -10,35 +10,33 @@
 </ion-header>
 
 <ion-content>
-  <!-- Grid for Required File Uploads -->
-  <input style='display:none;' type='file' #fileInput (change)="uploadFileViaHtmlFileInput($event)" accept="image/*"/>
-  <ion-grid id='uploads'>
-    <ion-row>
-      <ion-col col-4>
-        <image-upload 
-          label="Photo" icon="ios-person" prefix="photo"
-          [value]="model.candidate_personal_photo"
-          (uploadComplete)="onUploadComplete($event)">
-        </image-upload>
-      </ion-col>
-      <ion-col col-4>
-        <image-upload 
-          label="Civil ID\n(Front)" icon="ios-card-outline" prefix="civilfront"
-          [value]="model.candidate_civil_photo_front"
-          (uploadComplete)="onUploadComplete($event)">
-        </image-upload>
-      </ion-col>
-      <ion-col col-4>
-        <image-upload 
-          label="Civil ID\n(Back)" icon="ios-card" prefix="civilback"
-          [value]="model.candidate_civil_photo_back"
-          (uploadComplete)="onUploadComplete($event)">
-        </image-upload>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
 
   <form [formGroup]="form">
+    <!-- Grid for Required File Uploads -->
+    <ion-grid id='uploads'>
+      <ion-row>
+        <ion-col col-4>
+          <image-upload 
+            label="Photo" icon="ios-person" prefix="photo"
+            formControlName="photo">
+          </image-upload>
+        </ion-col>
+        <ion-col col-4>
+          <image-upload 
+            label="Civil ID\n(Front)" icon="ios-card-outline" prefix="civilfront"
+            formControlName="civilfront">
+          </image-upload>
+        </ion-col>
+        <ion-col col-4>
+          <image-upload 
+            label="Civil ID\n(Back)" icon="ios-card" prefix="civilback"
+            formControlName="civilback">
+          </image-upload>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <!-- Rest of Form -->
     <ion-card>
       <ion-card-header>
         Civil ID

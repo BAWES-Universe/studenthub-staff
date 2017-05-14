@@ -60,6 +60,9 @@ export class CandidateFormPage {
         phone: ["", Validators.required],
         birth_date: ["", Validators.required],
         civil_id: ["", Validators.required],
+        photo: ["", Validators.required],
+        civilfront: ["", Validators.required],
+        civilback: ["", Validators.required],
         expiry_date: ["", Validators.required],
         hourly_rate: ["", Validators.required]
       });
@@ -74,6 +77,9 @@ export class CandidateFormPage {
         phone: [this.model.candidate_phone, Validators.required],
         birth_date: [this.model.candidate_birth_date, Validators.required],
         civil_id: [this.model.candidate_civil_id, Validators.required],
+        photo: [this.model.candidate_personal_photo, Validators.required],
+        civilfront: [this.model.candidate_civil_photo_front, Validators.required],
+        civilback: [this.model.candidate_civil_photo_back, Validators.required],
         expiry_date: [this.model.candidate_civil_expiry_date, Validators.required],
         hourly_rate: [this.model.candidate_hourly_rate, Validators.required]
       });
@@ -112,6 +118,11 @@ export class CandidateFormPage {
     this.model.bank_id = Number(this.banklistData.bank_id);
     this.model.university_id = Number(this.universitylistData.university_id);
     this.model.country_id = Number(this.countrylistData.country_id);
+
+    this.model.candidate_personal_photo = this.form.value.photo;
+    this.model.candidate_civil_photo_front = this.form.value.civilfront;
+    this.model.candidate_civil_photo_back = this.form.value.civilback;
+    
   }
 
   /**
@@ -229,22 +240,5 @@ export class CandidateFormPage {
     this.maxDate = new Date((yyyy+20), mm).toISOString();
   }
 
-  /**
-   * Image upload handler, update form fields based on which file was uploaded
-   * @param {{prefix: string, key: string, url: string}} $event
-   */
-  onUploadComplete($event: {prefix:string, key: string, url: string}){
-    switch($event.prefix){
-      case "photo":
-        this.model.candidate_personal_photo = $event.key;
-        break;
-      case "civilfront":
-        this.model.candidate_civil_photo_front = $event.key;
-        break;
-      case "civilback":
-        this.model.candidate_civil_photo_back = $event.key;
-        break;
-    }
-  }  
 
 }
