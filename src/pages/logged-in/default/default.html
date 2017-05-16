@@ -9,8 +9,58 @@
 </ion-header>
 
 <ion-content padding>
-  <h2>Summary n stuff here</h2>
-  <p>
-    Maybe show stats and warnings here?
-  </p>
+  
+  <ion-card *ngIf="statistics">
+    <ion-card-header>
+      Statistics
+    </ion-card-header>
+
+    <ion-list>
+      <button ion-item *ngIf="statistics.id_expired > 0">
+        {{ statistics.id_expired }} - ID Expired
+      </button>
+
+      <button ion-item *ngIf="statistics.id_need_generated > 0">
+        {{ statistics.id_need_generated }} - ID Need Generated
+      </button>
+
+      <button ion-item>
+        {{ statistics.total_candidates }} - Total Candidates
+      </button>
+
+      <button ion-item>
+        {{ statistics.total_candidates_assigned }} - Total Candidates Assigned
+      </button>
+
+      <button ion-item>
+        {{ statistics.total_candidates_unassigned }} - Total Candidates Unassigned
+      </button>
+
+    </ion-list>
+  </ion-card>
+
+  <ion-card *ngIf="statistics && statistics.id_expired.length > 0">
+    <ion-card-header>
+      ID Expired
+    </ion-card-header>
+
+    <ion-list>
+      <button ion-item *ngFor="let id of statistics.id_expired">
+        {{ id.candidate_name }} 
+      </button>
+    </ion-list>
+  </ion-card>
+
+  <ion-card *ngIf="statistics && statistics.id_need_generated.length > 0">
+    <ion-card-header>
+      ID Need Generated
+    </ion-card-header>
+
+    <ion-list>
+      <button ion-item *ngFor="let candidate of statistics.id_need_generated">
+        {{ candidate.candidate_name }} 
+      </button>
+    </ion-list>
+  </ion-card>
+
 </ion-content>
