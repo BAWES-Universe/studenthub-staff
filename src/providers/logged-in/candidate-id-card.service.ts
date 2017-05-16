@@ -2,8 +2,6 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 // Services
 import { AuthHttpService } from './authhttp.service';
-// Models
-import { Candidate } from '../../models/candidate';
 
 /**
  * Manages Candidate Functionality on the server

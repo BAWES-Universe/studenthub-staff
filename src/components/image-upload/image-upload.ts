@@ -1,4 +1,4 @@
-import { Component, Input, Output, forwardRef, Renderer, ElementRef, ViewChild } from '@angular/core';
+import { Component, Input, forwardRef, Renderer, ElementRef, ViewChild } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Platform, ToastController, AlertController, ActionSheetController } from 'ionic-angular';
 
