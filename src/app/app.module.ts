@@ -66,6 +66,7 @@ import { BankService } from '../providers/logged-in/bank.service';
 import { UniversityService } from '../providers/logged-in/university.service'; 
 import { CountryService } from '../providers/logged-in/country.service';  
 import { CandidateIdCardService } from '../providers/logged-in/candidate-id-card.service';  
+import { StatisticService } from '../providers/logged-in/statistic.service';
 
 export const cloudSettings: CloudSettings = {
   'core': {
@@ -162,7 +163,8 @@ export const cloudSettings: CloudSettings = {
       BankService,
       UniversityService,
       CountryService,
-      CandidateIdCardService
+      CandidateIdCardService,
+      StatisticService
   ],
   bootstrap: [IonicApp]
 })
