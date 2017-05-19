@@ -70,18 +70,18 @@
           <ion-label floating>Birth Date</ion-label>
           <ion-datetime displayFormat="YYYY-MM-DD" formControlName="birth_date"></ion-datetime>
         </ion-item>
-        <ion-item *ngIf="countrylistData">
-          <ion-label floating>Nationality</ion-label>
-          <ion-select [(ngModel)]="countrylistData.country_id" [ngModelOptions]="{standalone: true}">
-            <ion-option *ngFor="let country of countrylistData" [value]="country.country_id">{{country.country_name_en}}</ion-option>
-          </ion-select>
-        </ion-item>
-        <ion-item *ngIf="universitylistData">
-          <ion-label floating>University</ion-label>
-          <ion-select [(ngModel)]="universitylistData.university_id" [ngModelOptions]="{standalone: true}">
-            <ion-option *ngFor="let university of universitylistData" [value]="university.university_id">{{university.university_name_en}}</ion-option>
-          </ion-select>
-        </ion-item>
+        <select-search-input formControlName="country_id"
+          placeholder="Select Nationality" 
+          [collection]="countrylistData" 
+          valueAttr="country_id" 
+          labelAttr="country_nationality_name_en">
+        </select-search-input>
+        <select-search-input formControlName="university_id"
+          placeholder="Select University" 
+          [collection]="universitylistData" 
+          valueAttr="university_id" 
+          labelAttr="university_name_en">
+        </select-search-input>
         <ion-item>
           <ion-label floating>Phone Number</ion-label>
           <ion-input type="number" formControlName="phone"></ion-input>
