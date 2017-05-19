@@ -48,6 +48,7 @@ import { StoreFormPage } from '../pages/logged-in/store/store-form/store-form';
  * Components
  */
 import { ImageUploadComponent } from '../components/image-upload/image-upload';
+import { SelectSearchComponent } from '../components/select-search/select-search';
 
 /**
  * Services
@@ -80,6 +81,7 @@ export const cloudSettings: CloudSettings = {
      * Components
      */
     ImageUploadComponent,
+    SelectSearchComponent,
 
     /**
      * Pages
