@@ -1,4 +1,7 @@
-<select>
-  <option value='a'>Option a</option>
-  <option value='b'>Option b</option>
-</select>
+<ion-item>
+  <ion-label floating>Gender</ion-label>
+  <ion-select [(ngModel)]="value">
+    <ion-option value="f">Female</ion-option>
+    <ion-option value="m">Male</ion-option>
+  </ion-select>
+</ion-item>
