@@ -1,6 +1,6 @@
 import { Component, Input, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { Platform } from 'ionic-angular';
+//import { Platform } from 'ionic-angular';
 
 /*
   Select search component, renders a select form input with search filter functionality.

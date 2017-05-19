@@ -43,7 +43,32 @@ export class AuthHttpService {
       responseType: ResponseContentType.Blob,
       headers: new Headers({ 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + bearerToken })
     })
-    .catch((err) => this._handleError(err))
+    .catch((error) => {
+      let errMsg = (error.message) ? error.message :
+          error.status ? `${error.status} - ${error.statusText}` : 'Server error';
+
+      if (error.status === 400) {
+          let prompt = this._alertCtrl.create({
+            message: 'Invalid Candidate ID',
+            buttons: ["Ok"]
+          });
+          prompt.present();
+          return Observable.empty<Response>();
+      }
+
+      if (error.status === 500) {
+          let prompt = this._alertCtrl.create({
+            message: 'Cannot create a zip file',
+            buttons: ["Ok"]
+          });
+          prompt.present();
+          return Observable.empty<Response>();
+      }
+
+      alert("Error: "+errMsg);
+
+      return Observable.throw(errMsg);
+    })
     .map(
       (response) => { // download file
 
@@ -154,7 +179,7 @@ export class AuthHttpService {
 
       if (error.status === 400) {
           let prompt = this._alertCtrl.create({
-            message: 'Invalid Candidate ID',
+            message: 'Bad Request Format',
             buttons: ["Ok"]
           });
           prompt.present();
@@ -163,7 +188,7 @@ export class AuthHttpService {
 
       if (error.status === 500) {
           let prompt = this._alertCtrl.create({
-            message: 'Cannot create a zip file',
+            message: 'Internal server error',
             buttons: ["Ok"]
           });
           prompt.present();
