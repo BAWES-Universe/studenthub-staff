@@ -48,7 +48,12 @@ import { StoreFormPage } from '../pages/logged-in/store/store-form/store-form';
  * Components
  */
 import { ImageUploadComponent } from '../components/image-upload/image-upload';
-import { SelectSearchComponent } from '../components/select-search/select-search';
+
+/**
+ * Modules
+ */
+import { SelectSearchModule } from '../components/select-search/select-search.module';
+
 
 /**
  * Services
@@ -81,7 +86,6 @@ export const cloudSettings: CloudSettings = {
      * Components
      */
     ImageUploadComponent,
-    SelectSearchComponent,
 
     /**
      * Pages
@@ -144,7 +148,9 @@ export const cloudSettings: CloudSettings = {
     HttpModule,
     IonicModule.forRoot(MyApp),
     CloudModule.forRoot(cloudSettings),
-    IonicStorageModule.forRoot()
+    IonicStorageModule.forRoot(),
+    // Lazy Loaded Modules 
+    SelectSearchModule
   ],
   providers: [
       // Ionic Native 

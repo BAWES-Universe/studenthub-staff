@@ -1,0 +1,11 @@
+<ion-searchbar
+    [(ngModel)]="searchInput"
+    (ionInput)="searchFilter($event)"
+    debounce=250>
+</ion-searchbar>
+
+<ion-list>
+    <button ion-item *ngFor="let item of displayedCollection" (click)="onSelect(item)">
+      {{ item[labelAttr] }}
+    </button>
+</ion-list>
