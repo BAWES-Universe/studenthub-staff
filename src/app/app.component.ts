@@ -1,6 +1,6 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { Deploy } from '@ionic/cloud-angular';
-import { Platform, Events, ToastController } from 'ionic-angular';
+import { Platform, Events, ToastController, AlertController } from 'ionic-angular';
 
 // Native Components
 import { StatusBar } from '@ionic-native/status-bar';
@@ -22,6 +22,7 @@ export class MyApp implements OnInit {
       private _platform: Platform,
       private _events: Events,
       private _toastCtrl: ToastController,
+      private _alertCtrl: AlertController,
       private _auth: AuthService,
       private _zone: NgZone,
       statusBar: StatusBar, splashScreen: SplashScreen
@@ -33,7 +34,7 @@ export class MyApp implements OnInit {
         splashScreen.hide();
 
         // Check for App update via Ionic Deploy
-        // this._checkForUpdate();
+        this._checkForUpdate();
       }
 
       // Initiate the access token request which determines login status.
@@ -45,6 +46,17 @@ export class MyApp implements OnInit {
    * Using Ng2 Lifecycle hooks because view lifecycle events don't trigger for Bootstrapped MyApp Component
    */
   ngOnInit(){
+
+      // Check for network connection
+      this._events.subscribe('internet:offline', (userEventData) => {
+        let alert = this._alertCtrl.create({
+          title: 'No Internet Connection',
+          subTitle: 'Sorry, no Internet connectivity detected. Please reconnect and try again.',
+          buttons: ['Dismiss']
+        });
+        alert.present();
+      });
+
       // On Login Event, set root to Internal app page
       this._events.subscribe('user:login', (userEventData) => {
         this._zone.run(() => {
