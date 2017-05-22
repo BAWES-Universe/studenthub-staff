@@ -52,6 +52,7 @@ import { ImageUploadComponent } from '../components/image-upload/image-upload';
 /**
  * Modules
  */
+import { EnvironmentsModule } from './environments/environments.module';
 import { SelectSearchModule } from '../components/select-search/select-search.module';
 
 
@@ -149,7 +150,8 @@ export const cloudSettings: CloudSettings = {
     IonicModule.forRoot(MyApp),
     CloudModule.forRoot(cloudSettings),
     IonicStorageModule.forRoot(),
-    // Lazy Loaded Modules 
+    // Custom Modules
+    EnvironmentsModule,
     SelectSearchModule
   ],
   providers: [
