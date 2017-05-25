@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Observable, Observer } from 'rxjs/rx';
+import { Observable, Observer } from 'rxjs/Rx';
 
 import { File as NativeFile, Entry, FileEntry }  from '@ionic-native/file';
 
