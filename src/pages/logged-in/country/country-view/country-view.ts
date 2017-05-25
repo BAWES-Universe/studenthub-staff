@@ -12,8 +12,8 @@ import { Candidate } from '../../../../models/candidate';
 import { Country } from '../../../../models/Country';
 
 @Component({
-  selector: 'page-Country-view',
-  templateUrl: 'Country-view.html'
+  selector: 'page-country-view',
+  templateUrl: 'country-view.html'
 })
 export class CountryViewPage {
   
