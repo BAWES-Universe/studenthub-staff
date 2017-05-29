@@ -64,7 +64,6 @@ export class CandidateFormPage {
         iban: ["", Validators.required],
         name_ar: ["", Validators.required],
         phone: ["", Validators.required],
-        address: ["", Validators.required],
         birth_date: ["", Validators.required],
         civil_id: ["", Validators.required],
         photo: ["", Validators.required],
@@ -85,7 +84,6 @@ export class CandidateFormPage {
         iban: [this.model.candidate_iban, Validators.required],
         name_ar: [this.model.candidate_name_ar, Validators.required],
         phone: [this.model.candidate_phone, Validators.required],
-        address: [this.model.candidate_address_line1, Validators.required],
         birth_date: [this.model.candidate_birth_date, Validators.required],
         civil_id: [this.model.candidate_civil_id, Validators.required],
         photo: [this.model.candidate_personal_photo, Validators.required],
@@ -121,7 +119,6 @@ export class CandidateFormPage {
     this.model.candidate_name_ar = this.form.value.name_ar;
 
     this.model.candidate_phone = this.form.value.phone;
-    this.model.candidate_address_line1 = this.form.value.address;
     this.model.candidate_birth_date = this.form.value.birth_date;
     this.model.candidate_civil_id = this.form.value.civil_id;
     this.model.candidate_civil_expiry_date = this.form.value.expiry_date;

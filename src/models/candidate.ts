@@ -17,7 +17,6 @@ export class Candidate {
     candidate_email: string;
     //candidate_password_hash: string;
     candidate_phone: string;
-    candidate_address_line1: string;
     candidate_birth_date: string;
     candidate_civil_id: string;
     candidate_civil_expiry_date: string;
