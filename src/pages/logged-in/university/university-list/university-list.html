@@ -3,29 +3,24 @@
     <button ion-button menuToggle="left">
       <ion-icon name="menu"></ion-icon>
     </button>
-
-    <ion-title>Universities </ion-title>
+    <ion-title>Universities</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
   <ion-list>
-    <ion-item *ngFor="let university of universities">
-      <button ion-item (click)="rowSelected(university)">
-        {{ university.university_name_en }}
-      </button>  
-    </ion-item>
-</ion-list>
+    <button *ngFor="let university of universities" ion-item (click)="rowSelected(university)">
+      {{ university.university_name_en }}
+    </button>  
+  </ion-list>
 
-<ion-row text-center>
-  <div class="pagination-wrapper">
-    <button *ngFor="let page of pages" ion-button small color="{{ pageLinkColor(page) }}" (click)="loadData(page)">
-      {{ page }}
-    </button>
-  </div>
-</ion-row>
-
+  <ion-row text-center>
+    <div class="pagination-wrapper">
+      <button *ngFor="let page of pages" ion-button small color="{{ pageLinkColor(page) }}" (click)="loadData(page)">
+        {{ page }}
+      </button>
+    </div>
+  </ion-row>
 </ion-content>
 
-<ion-footer>
-</ion-footer>
+<ion-footer></ion-footer>
