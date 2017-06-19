@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, ViewController, LoadingController, AlertController, NavParams } from 'ionic-angular';
+import { Events, NavController, ViewController, LoadingController, AlertController, NavParams } from 'ionic-angular';
 // Forms
 import { FormBuilder, FormGroup } from '@angular/forms';
 
@@ -29,7 +29,8 @@ export class ExpiredIdPage {
     private _fb: FormBuilder,
     private _viewCtrl: ViewController,
     private _loadingCtrl: LoadingController,
-    private _alertCtrl: AlertController
+    private _alertCtrl: AlertController,
+    private _events: Events
   ) {
     
       this.form = this._fb.group({
@@ -66,6 +67,8 @@ export class ExpiredIdPage {
       //refresh list 
       this.currentPage = 1;
       this.loadData();
+
+      this._events.publish('navigation:expiredIdCard');
     });
   }
 

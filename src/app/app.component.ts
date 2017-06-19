@@ -16,7 +16,7 @@ import { AuthService } from '../providers/auth.service';
 })
 export class MyApp implements OnInit {
   rootPage;
-
+  
   constructor(
       public deploy: Deploy,
       private _platform: Platform,
@@ -25,7 +25,8 @@ export class MyApp implements OnInit {
       private _alertCtrl: AlertController,
       private _auth: AuthService,
       private _zone: NgZone,
-      statusBar: StatusBar, splashScreen: SplashScreen
+      statusBar: StatusBar, 
+      splashScreen: SplashScreen
   ) {
     this._platform.ready().then(() => {
       // Native functions

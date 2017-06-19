@@ -47,6 +47,15 @@ export class CandidateIdCardService {
   }
 
   /**
+   * Total candidates whose card not generated, to generate card
+   * @returns {Observable<any>}
+   */
+  totalExpiredIds(): Observable<any> {
+    let url = this._candidateEndpoint + '/total-expired';
+    return this._authhttp.get(url);
+  }
+
+  /**
    * List of all candidates whose card not generated, to generate card
    * @returns {Observable<any>}
    */

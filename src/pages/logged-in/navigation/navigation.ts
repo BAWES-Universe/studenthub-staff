@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { MenuController, NavController } from 'ionic-angular';
+import { Events, MenuController, NavController } from 'ionic-angular';
 
 // Page Imports
 import { DefaultPage } from '../default/default';
@@ -12,6 +12,7 @@ import { ExpiredIdPage } from '../candidate/expired-id/expired-id';
 
 // Services
 import { AuthService } from '../../../providers/auth.service';
+import { CandidateIdCardService } from '../../../providers/logged-in/candidate-id-card.service';
 
 @Component({
   selector: 'page-navigation',
@@ -21,12 +22,34 @@ export class NavigationPage {
 
   rootPage: any = DefaultPage;
 
+  public expiredIdCount: number = 5;
+
   @ViewChild('loggedInContent') nav: NavController
 
   constructor(
     private _auth: AuthService,
-    private _menuCtrl: MenuController
-  ){}
+    private _menuCtrl: MenuController,
+    private _events: Events,
+    private candidateIdCardService: CandidateIdCardService
+  ){
+    this.updateExpiredIdCount();
+  }
+  
+  /**
+   * Using Ng2 Lifecycle hooks because view lifecycle events don't trigger for Bootstrapped MyApp Component
+   */
+  ngOnInit(){
+      // Check for network connection
+      this._events.subscribe('navigation:expiredIdCard', (userEventData) => {
+        this.updateExpiredIdCount();
+      });
+  }
+
+  updateExpiredIdCount() {
+    this.candidateIdCardService.totalExpiredIds().subscribe(result => {
+      this.expiredIdCount = result.total;
+    });
+  }
 
   loadPage(pageName: string){
     switch(pageName){
@@ -62,5 +85,4 @@ export class NavigationPage {
   logout(){
     this._auth.logout();
   }
-
 }
