@@ -11,6 +11,10 @@
   <ion-list>
     <button *ngFor="let university of universities" ion-item (click)="rowSelected(university)">
       {{ university.university_name_en }}
+
+      <ion-badge item-right *ngIf="university.total_candidates > 0">
+          {{ university.total_candidates }} candidates
+        </ion-badge>
     </button>  
   </ion-list>
 
