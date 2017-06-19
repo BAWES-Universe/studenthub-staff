@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, LoadingController, ModalController } from 'ionic-angular';
+import { NavController, NavParams, LoadingController, ModalController,ToastController, AlertController } from 'ionic-angular';
 
 // Pages
 import { CandidateViewPage } from '../../candidate/candidate-view/candidate-view';
@@ -29,7 +29,9 @@ export class CountryViewPage {
     private _modalCtrl: ModalController,
     private candidateService: CandidateService,
     private _loadingCtrl: LoadingController,
-    params: NavParams
+    params: NavParams,
+    public toastCtrl: ToastController,
+    public alertCtrl: AlertController,
   ) {
     this.country = params.get('model');
 
@@ -69,14 +71,62 @@ export class CountryViewPage {
     });
   }
 
-  deleteCandidates(candidate) {
+  // deleteCandidates(candidate) {
+  //   let loader = this._loadingCtrl.create();
+  //   loader.present();
+
+  //   this.candidateService.delete(candidate).subscribe(jsonResp => {
+  //     loader.dismiss();
+  //     this.loadData(this.currentPage);
+  //   });
+  // }
+
+  /**
+   * Delete the provided model
+   */
+  deleteCandidates(candidate: Candidate) {
     let loader = this._loadingCtrl.create();
     loader.present();
+    let confirm = this.alertCtrl.create({
+      title: 'Delete Candidate?',
+      message: 'Are you sure you want to delete this Candidate?',
+      buttons: [
+        {
+          text: 'Yes',
+          handler: () => {
+            this.candidateService.delete(candidate).subscribe(jsonResp => {
+              loader.dismiss();
+              
+              if (jsonResp.operation == 'error') {
+                let alert = this.alertCtrl.create({
+                    title: 'Deletion Error!',
+                    subTitle: jsonResp.message,
+                    buttons: ['OK']
+                  });
+                  alert.present();
+              }
 
-    this.candidateService.delete(candidate).subscribe(jsonResp => {
-      loader.dismiss();
-      this.loadData(this.currentPage);
+              if (jsonResp.operation == 'success') {
+                let toast = this.toastCtrl.create({
+                  message: jsonResp.message,
+                  duration: 3000
+                });
+                toast.present();
+              }
+              this.loadData(this.currentPage);
+            });
+          }
+        },
+        {
+          text: 'No',
+          handler: () => {
+            this.loadData(this.currentPage);
+            loader.dismiss();
+          }
+        }
+      ]
     });
+    confirm.present();
   }
 
   pageLinkColor(page: number) {

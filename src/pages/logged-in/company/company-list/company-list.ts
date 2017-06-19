@@ -34,10 +34,9 @@ export class CompanyListPage {
       this.loadCompanyList(this.currentPage);
     }
   }
-
-  ionViewDidLoad() {
-    
-  }
+  
+  ionViewWillEnter() {}
+  ionViewDidLoad() {}
 
   pageLinkColor(page: number) {
 

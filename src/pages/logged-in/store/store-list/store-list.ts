@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, LoadingController, ModalController } from 'ionic-angular';
+import { NavController, NavParams, AlertController, ToastController, LoadingController,ModalController } from 'ionic-angular';
 
 // Pages
 import { StoreViewPage } from '../store-view/store-view';
@@ -29,6 +29,8 @@ export class StoreListPage {
     public storeService: StoreService,
     private _modalCtrl: ModalController,
     private _loadingCtrl: LoadingController,
+    private _alertCtrl: AlertController,
+    private _toastCtrl: ToastController,
   ) {
     this._companyId = params.get("companyId");
   }
@@ -109,11 +111,45 @@ export class StoreListPage {
   delete(store: Store){
     let loader = this._loadingCtrl.create();
     loader.present();
+    let confirm = this._alertCtrl.create({
+      title: 'Delete Store?',
+      message: 'Are you sure you want to delete this Store?',
+      buttons: [
+        {
+          text: 'Yes',
+          handler: () => {
+            this.storeService.delete(store).subscribe(jsonResp => {
+              loader.dismiss();
+              
+              if (jsonResp.operation == 'error') {
+                let alert = this._alertCtrl.create({
+                    title: 'Deletion Error!',
+                    subTitle: jsonResp.message,
+                    buttons: ['OK']
+                  });
+                  alert.present();
+              }
 
-    this.storeService.delete(store).subscribe(jsonResp => {
-      loader.dismiss();
-      this.loadData(this.currentPage);
+              if (jsonResp.operation == 'success') {
+                let toast = this._toastCtrl.create({
+                  message: jsonResp.message,
+                  duration: 3000
+                });
+                toast.present();
+              }
+              this.loadData(this.currentPage);
+            });
+          }
+        },
+        {
+          text: 'No',
+          handler: () => {
+            this.loadData(this.currentPage);
+            loader.dismiss();
+          }
+        }
+      ]
     });
+    confirm.present();
   }
-
 }

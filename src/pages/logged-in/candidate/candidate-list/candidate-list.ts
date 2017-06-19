@@ -142,26 +142,49 @@ export class CandidateListPage {
   /**
    * Delete the provided model
    */
+
   delete(candidate: Candidate) {
     let loader = this._loadingCtrl.create();
     loader.present();
+    let confirm = this.alertCtrl.create({
+      title: 'Delete Candidate?',
+      message: 'Are you sure you want to delete this Candidate?',
+      buttons: [
+        {
+          text: 'Yes',
+          handler: () => {
+            this.candidateService.delete(candidate).subscribe(jsonResp => {
+              loader.dismiss();
+              
+              if (jsonResp.operation == 'error') {
+                let alert = this.alertCtrl.create({
+                    title: 'Deletion Error!',
+                    subTitle: jsonResp.message,
+                    buttons: ['OK']
+                  });
+                  alert.present();
+              }
 
-    this.candidateService.delete(candidate).subscribe(response => {
-      loader.dismiss();
-
-      if(response.operation == 'error')
-      {
-        let toast = this.toastCtrl.create({
-          message: response.message,
-          duration: 3000
-        });
-        
-        toast.present();
-      } else {
-        this.search();
-      }
-      
+              if (jsonResp.operation == 'success') {
+                let toast = this.toastCtrl.create({
+                  message: jsonResp.message,
+                  duration: 3000
+                });
+                toast.present();
+              }
+              this.search();
+            });
+          }
+        },
+        {
+          text: 'No',
+          handler: () => {
+            this.search();
+            loader.dismiss();
+          }
+        }
+      ]
     });
+    confirm.present();
   }
-
 }
