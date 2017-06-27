@@ -43,7 +43,7 @@
 
     <ion-item *ngIf="candidate.store_id">
       <h5>Currently assigned work at</h5>
-      <p>{{ candidate.store_name }} @ {{ candidate.company_name }}</p>
+      <p>{{ candidate.store.store_name }} @ {{ candidate.company.company_name }}</p>
     </ion-item>
 
     <select-search-input *ngIf="!candidate.store_id"

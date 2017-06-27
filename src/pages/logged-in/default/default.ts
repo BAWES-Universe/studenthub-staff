@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { NavController, LoadingController } from 'ionic-angular';
+import { Events, NavController, LoadingController } from 'ionic-angular';
 
 import { StatisticService } from '../../../providers/logged-in/statistic.service';
 
@@ -16,6 +16,7 @@ export class DefaultPage {
   	public navCtrl: NavController,
   	public statisticService: StatisticService,
   	private _loadingCtrl: LoadingController,
+  	private _events: Events,
   ) {
 
   }
@@ -31,6 +32,7 @@ export class DefaultPage {
     
     this.statisticService.get().subscribe(response => {
 		this.statistics = response;
+    this._events.publish('navigation:expiredIdCard');
 	},
     error => {},
     () => {loader.dismiss();}
