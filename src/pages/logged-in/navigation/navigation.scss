@@ -1,11 +1,11 @@
 page-navigation {
-
   ion-menu{
     .logo{width:120px;}
-
     ion-header{
-      .toolbar-background{background: #231f20;}
+      .toolbar-background{
+        background: #231f20;
+      }
     }
+    ion-badge{color: #fff!important; background: #231f20!important;}
   }
-  
 }
