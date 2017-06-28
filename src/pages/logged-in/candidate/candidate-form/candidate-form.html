@@ -68,7 +68,7 @@
         </ion-item>
         <ion-item>
           <ion-label floating>Birth Date</ion-label>
-          <ion-datetime displayFormat="YYYY-MM-DD" formControlName="birth_date"></ion-datetime>
+          <ion-datetime displayFormat="YYYY-MM-DD" [min]="minBirthDate" [max]="todayDate" formControlName="birth_date"></ion-datetime>
         </ion-item>
         <select-search-input formControlName="country_id"
           placeholder="Select Nationality" 
