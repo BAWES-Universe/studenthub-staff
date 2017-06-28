@@ -42,8 +42,10 @@
   <ion-card *ngIf="statistics && statistics.id_expired.length > 0">
     <ion-card-header>
       ID Expired
+      <ion-badge item-right>
+          {{ statistics.id_expired.length }}
+      </ion-badge>
     </ion-card-header>
-
     <ion-list>
       <button ion-item *ngFor="let id of statistics.id_expired">
         {{ id.candidate.candidate_name }} 
@@ -54,6 +56,9 @@
   <ion-card *ngIf="statistics && statistics.id_need_generated.length > 0">
     <ion-card-header>
       ID Need Generated
+      <ion-badge item-right>
+          {{ statistics.id_need_generated.length }}
+      </ion-badge>
     </ion-card-header>
 
     <ion-list>
