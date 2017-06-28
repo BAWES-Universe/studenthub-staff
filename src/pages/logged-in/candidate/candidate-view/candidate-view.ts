@@ -73,7 +73,7 @@ export class CandidateViewPage {
       {
         this.candidate.store_id = response.store_id;
         this.candidate.store_name = response.store_name;
-        this.candidate.company_name = response.company_name;        
+        this.candidate.company_name = response.company_name;
       }      
       else {
         let prompt = this.alertCtrl.create({
