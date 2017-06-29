@@ -72,8 +72,8 @@ export class CandidateViewPage {
       if(response.operation == 'success') 
       {
         this.candidate.store_id = response.store_id;
-        this.candidate.store_name = response.store_name;
-        this.candidate.company_name = response.company_name;
+        this.candidate.store.store_name = response.store_name;
+        this.candidate.company.company_name = response.company_name;
       }      
       else {
         let prompt = this.alertCtrl.create({
@@ -112,7 +112,8 @@ export class CandidateViewPage {
               loader.dismiss();              
 
               if(response.operation == 'success') {
-                this.candidate.store_name = null;
+                this.candidate.store.store_name = '';
+                this.candidate.company.company_name = '';
                 this.candidate.store_id = null;
               }
               else {
