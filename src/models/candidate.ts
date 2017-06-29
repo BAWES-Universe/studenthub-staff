@@ -1,4 +1,5 @@
 import { Store } from './store';
+import { Company } from './company';
 import { Bank } from './bank';
 import { University } from './university';
 import { Country } from './country';
@@ -27,13 +28,13 @@ export class Candidate {
     candidate_hourly_rate: string;
     candidate_status: string;
     approved: number;
-    candidate_created_at: string;
-    candidate_updated_at: string;
     age: string;
-    store_name: string;
-    company_name: string;
+    employee_id: string;
+    candidate_personal_photo_thumb: string;
+
     store: Store;
-    bank: Bank;
+    company: Company;
     university: University;
     country: Country;
+    bank: Bank;
 }
