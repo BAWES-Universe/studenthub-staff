@@ -32,6 +32,7 @@ export class CandidateFormPage {
   public todayDate;
   public maxDate;
   public minBirthDate;
+  public maxBirthDate;
 
   constructor(
     params: NavParams,
@@ -234,5 +235,7 @@ export class CandidateFormPage {
     this.todayDate = new Date().toISOString();
     this.maxDate = new Date((yyyy+20), mm).toISOString();
     this.minBirthDate = new Date((yyyy-26), mm).toISOString();
+    this.maxBirthDate = new Date((yyyy-16), mm).toISOString();
   }
 }
+ 
