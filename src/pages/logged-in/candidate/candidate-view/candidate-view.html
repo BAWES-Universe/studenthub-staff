@@ -3,9 +3,7 @@
     <button ion-button menuToggle="left">
       <ion-icon name="menu"></ion-icon>
     </button>
-
     <ion-title>{{ candidate.candidate_name }}</ion-title>
-
     <ion-buttons right>
       <button ion-button (click)="update()">
         Update
@@ -15,8 +13,6 @@
 </ion-header>
 
 <ion-content>
-  <ion-item-group>
-
     <ion-item>
       <ion-avatar item-left *ngIf="candidate.candidate_personal_photo">
         <img [src]="aws.permanentBucketUrl + candidate.candidate_personal_photo">
@@ -59,7 +55,6 @@
       <button ion-button full color="danger" (click)="unassignCandidateFromStore()">Unassign candidate from {{ candidate.store.store_name }}</button>
     </ion-item>
 
-
     <ion-item>
       <h5>Hourly Rate</h5>
       <p>{{ candidate.candidate_hourly_rate }}</p>
@@ -79,7 +74,6 @@
       <p>{{ candidate.university.university_name_en }}</p>
     </ion-item>
     
-
     <ion-item-divider color="light">Civil ID</ion-item-divider>
     <ion-item>
       <h5>Civil ID Number</h5>
@@ -123,6 +117,5 @@
       <h5>IBAN</h5>
       <p>{{ candidate.candidate_iban }}</p>
     </ion-item>
-  </ion-item-group>
   
 </ion-content>

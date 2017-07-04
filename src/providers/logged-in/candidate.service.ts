@@ -16,6 +16,15 @@ export class CandidateService {
   constructor(private _authhttp: AuthHttpService) { }
 
   /**
+   * candidate detail
+   * @returns {Observable<any>}
+   */
+  detail(id:number): Observable<any> {
+    let url = this._candidateEndpoint + '/detail/' + id;
+    return this._authhttp.getRaw(url);
+  }
+  
+  /**
    * List of all candidates
    * @returns {Observable<any>}
    */
