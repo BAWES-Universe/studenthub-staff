@@ -67,20 +67,15 @@ export class CandidateViewPage {
     loader.present();
 
     this.candidateService.assignCandidateToStore(this.candidate, store_id).subscribe(response => {
-      loader.dismiss();      
+      loader.dismiss();
 
-      if(response.operation == 'success') 
-      {
-        this.candidate.store_id = response.store_id;
-        this.candidate.store.store_name = response.store_name;
-        this.candidate.company.company_name = response.company_name;
-      }      
-      else {
-        let prompt = this.alertCtrl.create({
+      if (response.operation == 'success') {
+        this.candidate = response.candidate_detail; 
+      } else {
+        this.alertCtrl.create({
           message: this._processResponseMessage(response),
           buttons: ["Ok"]
-        });
-        prompt.present();
+        }).present();
       }
     });
   }
@@ -112,11 +107,8 @@ export class CandidateViewPage {
               loader.dismiss();              
 
               if(response.operation == 'success') {
-                this.candidate.store.store_name = '';
-                this.candidate.company.company_name = '';
-                this.candidate.store_id = null;
-              }
-              else {
+                this.candidate = response.candidate_detail;
+              } else {
                 let prompt = this.alertCtrl.create({
                   message: this._processResponseMessage(response),
                   buttons: ["Ok"]
@@ -203,5 +195,4 @@ export class CandidateViewPage {
       }      
     });
   }
-
 }
