@@ -13,6 +13,10 @@
     <button ion-item *ngFor="let company of companies" (click)="rowSelected(company)">
       {{ company.company_name }}
 
+      <ion-badge item-right *ngIf="company.total_candidates > 0">
+        {{ company.total_candidates }} candidates
+      </ion-badge>
+
       <ion-badge item-right *ngIf="company.subcompanies.length > 0">
         {{ company.subcompanies.length }} sub-companies
       </ion-badge>
