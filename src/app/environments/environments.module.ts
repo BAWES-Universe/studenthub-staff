@@ -13,7 +13,7 @@ export function environmentFactory() {
   // If the environment is available in NODE_ENV then load it, otherwise load the last env in the list.
   for(var i = 0; i < environmentList.length; i++){
     loadEnvironment = environmentList[i];
-    if(environmentList[i].envName == process.env.NODE_ENV) break;
+    if((environmentList[i].envName == process.env.IONIC_ENV) || (environmentList[i].envName == process.env.NODE_ENV)) break;
   }
   return loadEnvironment;
 }
