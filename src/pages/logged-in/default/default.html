@@ -9,63 +9,70 @@
 </ion-header>
 
 <ion-content padding>
-  
-  <ion-card *ngIf="statistics">
-    <ion-card-header>
-      Statistics
-    </ion-card-header>
+    
+  <ion-grid *ngIf="statistics">
+    <ion-row>
+      
+      <!-- New candidate id need to renew -->
+      <ion-col col-12 col-md-6 *ngIf="statistics.id_expired && statistics.id_expired.length > 0">
+        <ion-card>
+          <ion-card-header>
+            {{ statistics.id_expired.length }} - total candidate(s) ID Expired
+          </ion-card-header>
+          <ion-card-content>
+            <p>You'll need to renew it</p>
+            <button ion-button (click)="showExpiredIDs()">
+              Show Expired IDs
+            </button>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
 
-    <ion-list>
-      <button ion-item *ngIf="statistics.id_expired && statistics.id_expired.length > 0">
-        {{ statistics.id_expired.length }} - ID Expired
-      </button>
+      <!-- New candidate id need to generate -->
+      <ion-col col-12 col-md-6 *ngIf="statistics.id_need_generated && statistics.id_need_generated.length > 0">
+        <ion-card>
+          <ion-card-header>
+            {{ statistics.id_need_generated.length }} candidates need new ID generated
+          </ion-card-header>
+          <ion-card-content>
+            <p>You'll need to generate IDs for new candidates</p>
+            <button ion-button (click)="showCandidatesRequireNewID()">
+              Show Candidates require new ID
+            </button>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      
+      <!-- Candidate Count Card -->
+      <ion-col col-12 col-md-6>
+        <ion-card>
+          <ion-card-header>
+            {{statistics.total_candidates_assigned}} candidates currently working
+          </ion-card-header>
+          <ion-card-content>
+            <p>from a total of {{statistics.total_candidates}} registered candidates</p>
+            <button ion-button (click)="showAssignedCandidates()">
+              Show Candidates Assigned to Companies 
+            </button>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
 
-      <button ion-item *ngIf="statistics.id_need_generated && statistics.id_need_generated.length > 0">
-        {{ statistics.id_need_generated.length }} - ID Need Generated
-      </button>
+      <!-- Candidate Count Card -->
+      <ion-col col-12 col-md-6>
+        <ion-card>
+          <ion-card-header>
+            {{statistics.total_candidates_unassigned}} candidates not assinged to companies 
+          </ion-card-header>
+          <ion-card-content>
+            <p>from a total of {{statistics.total_candidates}} registered candidates</p>
+            <button ion-button (click)="showNotAssignedCandidates()">
+              Show Candidates Not Assigned
+            </button>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
 
-      <button ion-item>
-        {{ statistics.total_candidates }} - Total Candidates
-      </button>
-
-      <button ion-item>
-        {{ statistics.total_candidates_assigned }} - Total Candidates Assigned
-      </button>
-
-      <button ion-item>
-        {{ statistics.total_candidates_unassigned }} - Total Candidates Unassigned
-      </button>
-
-    </ion-list>
-  </ion-card>
-
-  <ion-card *ngIf="statistics && statistics.id_expired.length > 0">
-    <ion-card-header>
-      ID Expired
-      <ion-badge item-right>
-          {{ statistics.id_expired.length }}
-      </ion-badge>
-    </ion-card-header>
-    <ion-list>
-      <button ion-item *ngFor="let id of statistics.id_expired">
-        {{ id.candidate.candidate_name }} 
-      </button>
-    </ion-list>
-  </ion-card>
-
-  <ion-card *ngIf="statistics && statistics.id_need_generated.length > 0">
-    <ion-card-header>
-      ID Need Generated
-      <ion-badge item-right>
-          {{ statistics.id_need_generated.length }}
-      </ion-badge>
-    </ion-card-header>
-
-    <ion-list>
-      <button ion-item *ngFor="let candidate of statistics.id_need_generated">
-        {{ candidate.candidate_name }} 
-      </button>
-    </ion-list>
-  </ion-card>
-
+    </ion-row>
+  </ion-grid>
 </ion-content>

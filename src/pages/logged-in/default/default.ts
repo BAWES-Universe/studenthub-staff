@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
-
 import { Events, NavController, LoadingController } from 'ionic-angular';
-
+// Pages
+import { CandidateListPage } from '../candidate/candidate-list/candidate-list';
+import { GenerateIdPage } from '../candidate/generate-id/generate-id';
+import { ExpiredIdPage } from '../candidate/expired-id/expired-id';
+// Services
 import { StatisticService } from '../../../providers/logged-in/statistic.service';
 
 @Component({
@@ -38,5 +41,25 @@ export class DefaultPage {
     error => {},
     () => {loader.dismiss();}
     );
+  }
+
+  showExpiredIDs() {
+    this.navCtrl.push(ExpiredIdPage);
+  }
+
+  showCandidatesRequireNewID() {
+    this.navCtrl.push(GenerateIdPage);
+  }
+
+  showAssignedCandidates() {
+    this.navCtrl.push(CandidateListPage, {
+      'segment' : 'assigned'
+    });
+  }
+
+  showNotAssignedCandidates() {
+    this.navCtrl.push(CandidateListPage, {
+      'segment': 'not-assigned'
+    });
   }
 }

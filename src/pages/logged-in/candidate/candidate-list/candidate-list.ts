@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, LoadingController, ModalController, ToastController, AlertController } from 'ionic-angular';
+import { NavController, NavParams, LoadingController, ModalController, ToastController, AlertController } from 'ionic-angular';
 
 // Pages
 import { CandidateViewPage } from '../candidate-view/candidate-view';
@@ -25,12 +25,19 @@ export class CandidateListPage {
 
   constructor(
     public navCtrl: NavController,
+    public navParams: NavParams,
     public candidateService: CandidateService,
     private _modalCtrl: ModalController,
     private _loadingCtrl: LoadingController,
     public toastCtrl: ToastController,
     public alertCtrl: AlertController,
-  ) { }
+  ) {
+    //to open specific tab  
+    let segment = this.navParams.get('segment');
+    if(segment) {
+      this.cndSegment = segment;
+    }
+  }
 
   ionViewWillEnter() {
     this.loadData(this.currentPage);

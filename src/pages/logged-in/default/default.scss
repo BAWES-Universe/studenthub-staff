@@ -1,5 +1,8 @@
 page-default {
     ion-card-header { background: #231f20; color: #fff!important;}
+    .card-content-md {
+        padding: 10px !important;
+    }
     ion-badge{color: #231f20!important; background: #fff!important;float: right;}
     button {border-bottom: 1px solid #f2f2f2!important;}
 }
