@@ -17,6 +17,7 @@ import { AwsService } from '../../../../providers/aws.service';
 export class CandidateViewPage {
 
   public candidate: Candidate;
+  public salaryTransfers: any[] = [];
   public stores: Store[];
 
   constructor(
@@ -34,18 +35,28 @@ export class CandidateViewPage {
   }
 
   ionViewDidLoad() {
+    //let loader = this._loadingCtrl.create();
+    //loader.present();
     this.loadStoreData();
+    this.loadTransfersData();
+    //loader.dismiss();
   }
 
+  /**
+   * Load list of all salary transfers
+   */
+  loadTransfersData() {
+    this.candidateService.transfers(this.candidate.candidate_id).subscribe(response => {
+      this.salaryTransfers = response;
+    });
+  }
+  
   /**
    * Load list of all stores then set store name and id as per candidate data
    */
   loadStoreData() {
-    let loader = this._loadingCtrl.create();
-    loader.present();
     this.storeService.list("store_id", "storeWithCompany").subscribe(response => {
       this.stores = response;
-      loader.dismiss();
     });
   }
 

@@ -24,6 +24,15 @@ export class CandidateService {
     let url = this._candidateEndpoint + '/detail/' + id;
     return this._authhttp.getRaw(url);
   }
+
+  /**
+   * candidate salary transfer list 
+   * @returns {Observable<any>}
+   */
+  transfers(id:number): Observable<any> {
+    let url = this._candidateEndpoint + '/transfers/' + id;
+    return this._authhttp.get(url);
+  }
   
   /**
    * List of all candidates

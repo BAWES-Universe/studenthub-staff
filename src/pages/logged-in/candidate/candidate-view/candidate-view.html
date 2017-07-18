@@ -118,4 +118,13 @@
       <p>{{ candidate.candidate_iban }}</p>
     </ion-item>
   
+    <ion-item-divider color="light">Salary Transfers</ion-item-divider>
+    <ion-item *ngFor="let salary of salaryTransfers">
+        {{ salary.tc_created_at }}
+        <p>KWD {{ salary.total_amount | number:'1.3-3' }}</p>
+        <p *ngIf="(salary.bonus | number) > 0">Bonus:<b>KWD {{salary.bonus | number:'1.3-3' }}</b></p>
+        <p>From {{ salary.store_name }} @ {{ salary.company_name }}</p>
+        <ion-badge item-right color="secondary" *ngIf="salary.status =='Paid'">{{salary.status}}</ion-badge>
+        <ion-badge item-right *ngIf="salary.status =='Unpaid'">In Progress</ion-badge>
+    </ion-item>
 </ion-content>
