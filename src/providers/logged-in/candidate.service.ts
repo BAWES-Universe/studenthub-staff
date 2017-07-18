@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { AuthHttpService } from './authhttp.service';
 // Models
 import { Candidate } from '../../models/candidate';
+import { Country } from '../../models/country';
 
 /**
  * Manages Candidate Functionality on the server
@@ -137,7 +138,7 @@ export class CandidateService {
 
   /**
    * Removes Candidate from Assigned store
-   * @param {any} candidate_id
+   * @param {any} candidate
    * @returns {Observable<any>}
    */
   removeFromAssignedStore(candidate: Candidate): Observable<any> { 
@@ -161,11 +162,11 @@ export class CandidateService {
 
   /**
    * List candidates by country
-   * @param country_id 
+   * @param country
    * @param page 
    */
-  listByCountry(country_id: number, page: number): Observable<any>{
-    let url = this._candidateEndpoint + '/search?country_id=' + country_id + '&page=' + page;
+  listByCountry(country: Country, page: number): Observable<any>{
+    let url = this._candidateEndpoint + '/search?country_id=' + country.country_id + '&page=' + page;
     return this._authhttp.getRaw(url);
   }
 }

@@ -42,7 +42,7 @@ export class CountryViewPage {
     // Load list of candidates
     let loader = this._loadingCtrl.create();
     loader.present();
-    this.candidateService.listByCountry(this.country.country_id, page).subscribe(response => {
+    this.candidateService.listByCountry(this.country, page).subscribe(response => {
 
       this.pageCount = response.headers.get('X-Pagination-Page-Count');
       this.currentPage = response.headers.get('X-Pagination-Current-Page');
