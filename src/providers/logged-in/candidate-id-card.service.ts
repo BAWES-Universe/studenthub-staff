@@ -26,7 +26,7 @@ export class CandidateIdCardService {
   }
 
   /**
-   * List of all candidates
+   * generate candidate id zip
    * @returns {Observable<any>}
    */
   generate(candidates: any): Observable<any> {

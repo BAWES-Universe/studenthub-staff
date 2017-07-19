@@ -136,7 +136,7 @@ export class CandidateService {
   }
 
   /**
-   * Delete
+   * Delete candidate
    * @param {Candidate} model
    * @returns {Observable<any>}
    */

@@ -39,6 +39,10 @@ export class StoreListPage {
     this.loadData(this.currentPage);
   }
 
+  /**
+   * current page link
+   * @param page 
+   */
   pageLinkColor(page: number) {
 
     if(page == this.currentPage) 
@@ -47,6 +51,10 @@ export class StoreListPage {
     return '';
   }
 
+  /**
+   * load store list
+   * @param page 
+   */
   loadData(page: number) {
     // Load list of ALL stores
     let loader = this._loadingCtrl.create();
