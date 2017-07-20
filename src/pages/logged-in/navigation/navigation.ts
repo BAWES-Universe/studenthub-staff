@@ -51,12 +51,19 @@ export class NavigationPage {
       });
   }
 
+  /**
+   * update expired count
+   */
   updateExpiredIdCount() {
     this.candidateIdCardService.totalExpiredIds().subscribe(result => {
       this.expiredIdCount = result.total;
     });
   }
 
+/**
+ * load navigation links
+ * @param pageName 
+ */
   loadPage(pageName: string){
     switch(pageName){
       case "summary":

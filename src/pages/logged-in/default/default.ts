@@ -28,6 +28,9 @@ export class DefaultPage {
     this.loadData();
   }
 
+  /**
+   * load current data
+   */
   loadData() {
     // Load list of country
     let loader = this._loadingCtrl.create();
@@ -43,20 +46,32 @@ export class DefaultPage {
     );
   }
 
+  /**
+   * show expired ids page
+   */
   showExpiredIDs() {
     this.navCtrl.push(ExpiredIdPage);
   }
 
+  /**
+   * show candidate which required to generate id
+   */
   showCandidatesRequireNewID() {
     this.navCtrl.push(GenerateIdPage);
   }
 
+  /**
+   * show assigned candidate page
+   */
   showAssignedCandidates() {
     this.navCtrl.push(CandidateListPage, {
       'segment' : 'assigned'
     });
   }
 
+  /**
+   * show not assigned candidate page
+   */
   showNotAssignedCandidates() {
     this.navCtrl.push(CandidateListPage, {
       'segment': 'not-assigned'

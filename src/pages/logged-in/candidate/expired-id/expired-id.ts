@@ -72,6 +72,10 @@ export class ExpiredIdPage {
     });
   }
 
+  /**
+   * current page link
+   * @param page 
+   */
   pageLinkColor(page: number) {
 
     if(page == this.currentPage) 

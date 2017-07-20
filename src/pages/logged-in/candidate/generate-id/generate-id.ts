@@ -68,11 +68,18 @@ export class GenerateIdPage {
     });
   }
 
+  /**
+   * search method
+   */
   search() {
     this.currentPage = 1;
     this.loadData(this.currentPage);
   }
 
+  /**
+   * load data
+   * @param page 
+   */
   loadData(page: number) {
     if(this.cndSegment == 'not-generated') {
       this.loadNotGenerated(page);
