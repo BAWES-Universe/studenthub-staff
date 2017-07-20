@@ -17,10 +17,10 @@
       <ion-col col-12 col-md-6 *ngIf="statistics.id_expired && statistics.id_expired.length > 0">
         <ion-card>
           <ion-card-header>
-            {{ statistics.id_expired.length }} - total candidate(s) ID Expired
+            {{ statistics.id_expired.length }} candidates have expired IDs
           </ion-card-header>
           <ion-card-content>
-            <p>You'll need to renew it</p>
+            <p>You'll need to renew it for them</p>
             <button ion-button (click)="showExpiredIDs()">
               Show Expired IDs
             </button>
@@ -32,12 +32,11 @@
       <ion-col col-12 col-md-6 *ngIf="statistics.id_need_generated && statistics.id_need_generated.length > 0">
         <ion-card>
           <ion-card-header>
-            {{ statistics.id_need_generated.length }} candidates need new ID generated
+            {{ statistics.id_need_generated.length }} candidates need an ID generated
           </ion-card-header>
           <ion-card-content>
-            <p>You'll need to generate IDs for new candidates</p>
             <button ion-button (click)="showCandidatesRequireNewID()">
-              Show Candidates require new ID
+              Show Candidates Requiring IDs
             </button>
           </ion-card-content>
         </ion-card>
@@ -47,27 +46,12 @@
       <ion-col col-12 col-md-6>
         <ion-card>
           <ion-card-header>
-            {{statistics.total_candidates_assigned}} candidates currently working
+            {{statistics.total_candidates_assigned}} candidates currently working -diwandiwuah wh uidwah duiwah diuwah adui i
           </ion-card-header>
           <ion-card-content>
             <p>from a total of {{statistics.total_candidates}} registered candidates</p>
-            <button ion-button (click)="showAssignedCandidates()">
-              Show Candidates Assigned to Companies 
-            </button>
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-
-      <!-- Candidate Count Card -->
-      <ion-col col-12 col-md-6>
-        <ion-card>
-          <ion-card-header>
-            {{statistics.total_candidates_unassigned}} candidates not assinged to companies 
-          </ion-card-header>
-          <ion-card-content>
-            <p>from a total of {{statistics.total_candidates}} registered candidates</p>
-            <button ion-button (click)="showNotAssignedCandidates()">
-              Show Candidates Not Assigned
+            <button ion-button (click)="showNotAssignedCandidates()" *ngIf="statistics.total_candidates_unassigned > 0">
+              Show candidates that aren't working
             </button>
           </ion-card-content>
         </ion-card>
