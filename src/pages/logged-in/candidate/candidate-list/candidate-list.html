@@ -33,7 +33,7 @@
           <img src="https://sh-payroll.s3.eu-west-2.amazonaws.com/{{candidate.candidate_personal_photo_thumb}}">
         </ion-avatar>
           {{ candidate.candidate_name }}
-          <p *ngIf="candidate.store_id > 0" >{{ candidate.store.store_name }} @ {{ candidate.company.company_name }}</p>
+          <p *ngIf="candidate.store" >{{ candidate.store.store_name }} @ {{ candidate.company.company_name }}</p>
       </button>  
       
       <ion-item-options side="right">

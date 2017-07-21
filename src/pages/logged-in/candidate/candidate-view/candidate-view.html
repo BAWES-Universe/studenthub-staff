@@ -50,7 +50,7 @@
       valueAttr="store_id"
       labelAttr="storeWithCompany">
     </select-search-input>
-
+ 
     <ion-item [hidden]="!candidate.store_id">
       <button *ngIf="candidate.store" ion-button full color="danger" (click)="unassignCandidateFromStore()">Unassign candidate from {{ candidate.store.store_name }}</button>
     </ion-item>
@@ -104,20 +104,22 @@
       </p>
     </ion-item>    
     
-    <ion-item-divider color="light">Bank Info</ion-item-divider>
-    <ion-item>
-      <h5>Bank</h5>
-      <p>{{ candidate.bank.bank_name }}</p>
-    </ion-item>
-    <ion-item>
-      <h5>Beneficiary Name</h5>
-      <p>{{ candidate.bank_account_name }}</p>
-    </ion-item>
-    <ion-item>
-      <h5>IBAN</h5>
-      <p>{{ candidate.candidate_iban }}</p>
-    </ion-item>
-  
+    <div *ngIf="candidate.bank">
+      <ion-item-divider color="light">Bank Info</ion-item-divider>
+      <ion-item>
+        <h5>Bank</h5>
+        <p>{{ candidate.bank.bank_name }}</p>
+      </ion-item>
+      <ion-item>
+        <h5>Beneficiary Name</h5>
+        <p>{{ candidate.bank_account_name }}</p>
+      </ion-item>
+      <ion-item>
+        <h5>IBAN</h5>
+        <p>{{ candidate.candidate_iban }}</p>
+      </ion-item>
+    </div>
+
     <ion-item-divider color="light" *ngIf="salaryTransfers.length > 0">Salary Transfers</ion-item-divider>
     <ion-item *ngFor="let salary of salaryTransfers">
         {{ salary.tc_created_at }}
