@@ -14,7 +14,7 @@ module.exports = {
   output: {
     path: '{{BUILD}}',
     publicPath: 'build/',
-    filename: process.env.IONIC_OUTPUT_JS_FILE_NAME,
+    filename: '[name].js',
     devtoolModuleFilenameTemplate: ionicWebpackFactory.getSourceMapperFunction(),
   },
   devtool: process.env.IONIC_SOURCE_MAP_TYPE,
