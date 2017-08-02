@@ -14,10 +14,10 @@
     <ion-row>
       
       <!-- New candidate id need to renew -->
-      <ion-col col-12 col-md-6 *ngIf="statistics.id_expired && statistics.id_expired.length > 0">
+      <ion-col col-12 col-md-6 *ngIf="statistics.id_expired && statistics.id_expired > 0">
         <ion-card>
           <ion-card-header>
-            {{ statistics.id_expired.length }} candidates have expired IDs
+            {{ statistics.id_expired }} candidates have expired IDs
           </ion-card-header>
           <ion-card-content>
             <p>You'll need to renew it for them</p>
@@ -29,10 +29,10 @@
       </ion-col>
 
       <!-- New candidate id need to generate -->
-      <ion-col col-12 col-md-6 *ngIf="statistics.id_need_generated && statistics.id_need_generated.length > 0">
+      <ion-col col-12 col-md-6 *ngIf="statistics.id_need_generated && statistics.id_need_generated > 0">
         <ion-card>
           <ion-card-header>
-            {{ statistics.id_need_generated.length }} candidates need an ID generated
+            {{ statistics.id_need_generated }} candidates need an ID generated
           </ion-card-header>
           <ion-card-content>
             <button ion-button (click)="showCandidatesRequireNewID()">

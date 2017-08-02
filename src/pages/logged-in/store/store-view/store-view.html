@@ -21,6 +21,11 @@
       Candidates <ion-badge color="dark" *ngIf="store.candidates">{{ store.candidates.length }}</ion-badge>
     </ion-list-header>
     <button ion-item *ngFor="let candidate of store.candidates" (click)="candidateSelected(candidate)">
+      
+        <ion-avatar item-left *ngIf="candidate.candidate_personal_photo_thumb">
+          <img src="https://sh-payroll.s3.eu-west-2.amazonaws.com/{{candidate.candidate_personal_photo_thumb}}">
+        </ion-avatar>
+
       {{ candidate.candidate_name }}
     </button>
   </ion-list>
