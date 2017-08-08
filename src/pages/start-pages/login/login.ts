@@ -1,15 +1,17 @@
 // Core
 import { Component } from '@angular/core';
-import { NavController, AlertController, Events } from 'ionic-angular';
+import { AlertController } from 'ionic-angular';
+
 // Services
 import { AuthService } from '../../../providers/auth.service';
+
 // Forms
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CustomValidator } from '../../../validators/custom.validator';
 
-/*
-  Login Page
-*/
+/**
+ * Login Page 
+ */
 @Component({
   selector: 'page-login',
   templateUrl: 'login.html'
@@ -29,11 +31,9 @@ export class LoginPage {
   private _numberOfLoginAttempts = 0;
 
   constructor(
-    public navCtrl: NavController,
     private _fb: FormBuilder,
     private _auth: AuthService,
-    private _alertCtrl: AlertController,
-    private _events: Events
+    private _alertCtrl: AlertController
     ){
       // Initialize the Login Form
       this.loginForm = this._fb.group({
@@ -41,7 +41,6 @@ export class LoginPage {
         password: ["", Validators.required]
       });
   }
-
 
   /**
    * Attempts to login with the provided email and password

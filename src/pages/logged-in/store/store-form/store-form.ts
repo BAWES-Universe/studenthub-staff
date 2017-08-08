@@ -1,9 +1,12 @@
 import { Component } from '@angular/core';
-import { NavController, ViewController, LoadingController, AlertController, NavParams } from 'ionic-angular';
+import { ViewController, LoadingController, AlertController, NavParams } from 'ionic-angular';
+
 // Forms
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
 // Providers
 import { StoreService } from '../../../../providers/logged-in/store.service';
+
 // Models
 import { Store } from '../../../../models/store';
 
@@ -20,7 +23,6 @@ export class StoreFormPage {
 
   constructor(
     params: NavParams,
-    public navCtrl: NavController,
     public storeService: StoreService,
     private _fb: FormBuilder,
     private _viewCtrl: ViewController,

@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { NavController, ViewController, LoadingController, AlertController, NavParams, ToastController } from 'ionic-angular';
+
 // Forms
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CustomValidator } from '../../../../validators/custom.validator';
+
 // Providers
 import { CandidateService } from '../../../../providers/logged-in/candidate.service';
 import { BankService } from '../../../../providers/logged-in/bank.service';

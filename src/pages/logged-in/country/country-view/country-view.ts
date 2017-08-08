@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, LoadingController, ModalController,ToastController, AlertController } from 'ionic-angular';
+import { NavController, NavParams, LoadingController, ModalController, ToastController, AlertController } from 'ionic-angular';
 
 // Pages
 import { CandidateViewPage } from '../../candidate/candidate-view/candidate-view';
@@ -26,7 +26,6 @@ export class CountryViewPage {
 
   constructor(
     public navCtrl: NavController,
-    private _modalCtrl: ModalController,
     private candidateService: CandidateService,
     private _loadingCtrl: LoadingController,
     params: NavParams,

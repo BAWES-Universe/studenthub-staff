@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
-import { NavController, LoadingController, ModalController } from 'ionic-angular';
+import { NavController, LoadingController } from 'ionic-angular';
 
 // Pages
 import { UniversityViewPage } from '../university-view/university-view';
+
 // Providers
 import { UniversityService } from '../../../../providers/logged-in/university.service';
+
 // Models
 import { University } from '../../../../models/university';
 
@@ -23,7 +25,6 @@ export class UniversityListPage {
   constructor(
     public navCtrl: NavController,
     public universityService: UniversityService,
-    private _modalCtrl: ModalController,
     private _loadingCtrl: LoadingController,
   ) {}
 

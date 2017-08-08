@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, ModalController } from 'ionic-angular';
+
 // Pages
 import { StoreFormPage } from '../store-form/store-form';
 import { CandidateViewPage } from '../../candidate/candidate-view/candidate-view';
+
 // Models
 import { Store } from '../../../../models/store';
 import { Candidate } from '../../../../models/candidate';

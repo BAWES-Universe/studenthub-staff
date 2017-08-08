@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, AlertController, ToastController, LoadingController,ModalController } from 'ionic-angular';
+import { NavController, NavParams, AlertController, ToastController, LoadingController, ModalController } from 'ionic-angular';
 
 // Pages
 import { StoreViewPage } from '../store-view/store-view';
 import { StoreFormPage } from '../store-form/store-form';
+
 // Providers
 import { StoreService } from '../../../../providers/logged-in/store.service';
+
 // Models
 import { Store } from '../../../../models/store';
 

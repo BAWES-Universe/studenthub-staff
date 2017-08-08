@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ModalController } from 'ionic-angular';
-// Pages
+import { NavParams } from 'ionic-angular';
+
 // Models
 import { University } from '../../../../models/university';
 
@@ -13,8 +13,6 @@ export class UniversityViewPage {
   public university: University;
 
   constructor(
-    public navCtrl: NavController,
-    private _modalCtrl: ModalController,
     params: NavParams
   ) {
     this.university = params.get('model');

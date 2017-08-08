@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
-import { NavController, LoadingController, ModalController } from 'ionic-angular';
+import { NavController, LoadingController } from 'ionic-angular';
 
 // Pages
 import { CountryViewPage } from '../country-view/country-view';
+
 // Providers
 import { CountryService } from '../../../../providers/logged-in/country.service';
+
 // Models
 import { Country } from '../../../../models/country';
 
@@ -23,7 +25,6 @@ export class CountryListPage {
   constructor(
     public navCtrl: NavController,
     public countryService: CountryService,
-    private _modalCtrl: ModalController,
     private _loadingCtrl: LoadingController,
   ) {}
 

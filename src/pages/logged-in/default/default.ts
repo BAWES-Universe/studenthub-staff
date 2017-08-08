@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
 import { Events, NavController, LoadingController } from 'ionic-angular';
+
 // Pages
 import { CandidateListPage } from '../candidate/candidate-list/candidate-list';
 import { GenerateIdPage } from '../candidate/generate-id/generate-id';
 import { ExpiredIdPage } from '../candidate/expired-id/expired-id';
+
 // Services
 import { StatisticService } from '../../../providers/logged-in/statistic.service';
 

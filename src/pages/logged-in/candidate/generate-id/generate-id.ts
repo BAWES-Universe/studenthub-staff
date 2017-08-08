@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { NavController, ViewController, LoadingController, AlertController, NavParams } from 'ionic-angular';
+import { LoadingController, AlertController } from 'ionic-angular';
+
 // Forms
 import { FormBuilder, FormGroup } from '@angular/forms';
 
@@ -24,15 +25,11 @@ export class GenerateIdPage {
   public candidatelistData;
   
   constructor(
-    params: NavParams,
-    public navCtrl: NavController,
     public candidateIdCardService: CandidateIdCardService,
     private _fb: FormBuilder,
-    private _viewCtrl: ViewController,
     private _loadingCtrl: LoadingController,
     private _alertCtrl: AlertController
-  ) {
-    
+  ) {    
       this.form = this._fb.group({
         candidates: [],
       });

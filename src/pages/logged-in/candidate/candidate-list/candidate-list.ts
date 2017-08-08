@@ -4,8 +4,10 @@ import { NavController, NavParams, LoadingController, ToastController, AlertCont
 // Pages
 import { CandidateViewPage } from '../candidate-view/candidate-view';
 import { CandidateFormPage } from '../candidate-form/candidate-form';
+
 // Providers
 import { CandidateService } from '../../../../providers/logged-in/candidate.service';
+
 // Models
 import { Candidate } from '../../../../models/candidate';
 

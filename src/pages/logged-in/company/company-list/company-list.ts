@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, LoadingController, ModalController } from 'ionic-angular';
+import { NavController, NavParams, LoadingController } from 'ionic-angular';
 
 // Pages
 import { StoreListPage } from '../../store/store-list/store-list';
+
 // Providers
 import { CompanyService } from '../../../../providers/logged-in/company.service';
+
 // Models
 import { Company } from '../../../../models/company';
 
@@ -24,7 +26,6 @@ export class CompanyListPage {
     params: NavParams,
     public navCtrl: NavController,
     public companyService: CompanyService,
-    private _modalCtrl: ModalController,
     private _loadingCtrl: LoadingController,
   ) {
     this.companies = params.get("companies");
