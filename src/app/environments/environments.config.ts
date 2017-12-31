@@ -7,7 +7,7 @@
 export const environmentList = [
   {
     envName: 'khalid',
-    apiEndpoint: 'http://localhost/~BAWES/payroll/staff/web/v1',
+    apiEndpoint: 'http://localhost/~BAWES/payroll/payroll/staff/web/v1',
     environmentName: 'Khalid Local Machine'
   },
   {
