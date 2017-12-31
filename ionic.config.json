@@ -1,5 +1,8 @@
 {
   "name": "Payroll Staff",
   "app_id": "3b6fc136",
-  "type": "ionic-angular"
+  "type": "ionic-angular",
+  "integrations": {
+    "cordova": {}
+  }
 }

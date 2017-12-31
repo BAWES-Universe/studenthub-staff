@@ -6,4 +6,4 @@ export class Bank {
 	bank_address: string;
 	bank_transfer_type: string;
 	transfer_type_value: string;
-}
+} 
