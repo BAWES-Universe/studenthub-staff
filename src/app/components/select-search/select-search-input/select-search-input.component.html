@@ -1,3 +1,4 @@
-<p>
-  select-search-input works!
-</p>
+<ion-item (click)="onClick($event)" [class.no-value-selected]="!value">
+  {{ selectedItem? selectedItem[labelAttr] : placeholder }}
+  <ion-icon name="md-arrow-dropdown" slot="end"></ion-icon>
+</ion-item>

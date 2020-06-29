@@ -1,3 +1,11 @@
-<p>
-  select-search-page works!
-</p>
+<ion-searchbar
+  [(ngModel)]="searchInput"
+  (ionInput)="searchFilter($event)"
+  debounce=250>
+</ion-searchbar>
+
+<ion-list>
+  <ion-item button *ngFor="let item of displayedCollection" (click)="onSelect(item)">
+    {{ item[labelAttr] }}
+  </ion-item>
+</ion-list>

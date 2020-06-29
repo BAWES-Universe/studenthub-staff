@@ -7,14 +7,16 @@ import { IonicModule } from '@ionic/angular';
 import { CandidateFormPageRoutingModule } from './candidate-form-routing.module';
 
 import { CandidateFormPage } from './candidate-form.page';
-import {ImageUploadComponent} from "../../../../components/image-upload/image-upload.component";
+import {ImageUploadComponent} from "src/app/components/image-upload/image-upload.component";
+import {SelectSearchModule} from "src/app/components/select-search/select-search.module";
 
 @NgModule({
   imports: [
     CommonModule,
     ReactiveFormsModule,
     IonicModule,
-    CandidateFormPageRoutingModule
+    CandidateFormPageRoutingModule,
+    SelectSearchModule
   ],
   declarations: [CandidateFormPage, ImageUploadComponent]
 })

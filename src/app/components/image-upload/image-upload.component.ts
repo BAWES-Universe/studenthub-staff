@@ -27,7 +27,7 @@ export class ImageUploadComponent implements ControlValueAccessor {
   // Icon to use, by default its a regular image icon
   @Input() label: string = "Photo";
   // Icon to use, by default its a regular image icon
-  @Input() icon: string = "image";
+  @Input() icon: string = "image-outline";
   // File prefix when uploading to S3
   @Input() prefix: string = "image";
 
@@ -64,7 +64,7 @@ export class ImageUploadComponent implements ControlValueAccessor {
    * - On Native device, load native camera/gallery
    * - On Browser, trigger a click on the html file input
    */
-  async uploadBtnClicked(){
+  async uploadBtnClicked(event){
     // If already uploading, do nothing, just return
     if(this.isUploading) return;
 
@@ -107,7 +107,10 @@ export class ImageUploadComponent implements ControlValueAccessor {
       // Trigger click event on regular HTML file input
       // let event = new MouseEvent('click', {bubbles: true});
       // this._renderer.invokeElementMethod(this.fileInput.nativeElement, 'dispatchEvent', [event]);
-      this._renderer.selectRootElement('#fileInput').scrollIntoView()
+      // this._renderer.selectRootElement(this.fileInput.nativeElement).scrollIntoView()
+      // this.fileInput.nativeElement.focus();
+      // this._renderer.selectRootElement('#fileInput').focus();
+      this.fileInput.nativeElement.click();    // And also this with @ViewChild
     }
   }
 

@@ -2,12 +2,12 @@ import {Injectable, OnInit} from '@angular/core';
 import {Observable, Observer} from "rxjs";
 
 import { Plugins, FilesystemDirectory, FilesystemEncoding, FileReadResult } from '@capacitor/core';
-// import * as AWS from "aws-sdk";
+import * as AWS from "aws-sdk";
 
 const { Filesystem } = Plugins;
 // declare var AWS;
 
-declare var AWS;
+// declare var AWS;
 // export as namespace AWS;
 
 @Injectable({
@@ -24,10 +24,9 @@ export class AwsService implements OnInit {
   private _bucket_name = "bawes-public";
 
   constructor(){
-
+    this.initAwsService();
   }
   ngOnInit() {
-    this.initAwsService();
   }
   /**
    * Initialize the AWS Service

@@ -18,21 +18,21 @@
     <!-- Grid for Required File Uploads -->
     <ion-grid id='uploads'>
       <ion-row>
-        <ion-col size="col-4">
+        <ion-col>
           <app-image-upload
-            label="Photo" icon="ios-person" prefix="photo"
+            label="Photo" icon="person-outline" prefix="photo"
             formControlName="photo"
           ></app-image-upload>
         </ion-col>
-        <ion-col size="col-4">
+        <ion-col>
           <app-image-upload
-            label="Civil ID (Front)" icon="ios-card-outline" prefix="civilfront"
+            label="Civil ID (Front)" icon="card-outline" prefix="civilfront"
             formControlName="civilfront"
           ></app-image-upload>
         </ion-col>
-        <ion-col size="col-4">
+        <ion-col>
           <app-image-upload
-            label="Civil ID (Back)" icon="ios-card" prefix="civilback"
+            label="Civil ID (Back)" icon="card-outline" prefix="civilback"
             formControlName="civilback"
           ></app-image-upload>
         </ion-col>
@@ -73,18 +73,22 @@
           <ion-label  position="floating">Birth Date</ion-label>
           <ion-datetime displayFormat="YYYY-MM-DD" [min]="minBirthDate" [max]="maxBirthDate" formControlName="birth_date"></ion-datetime>
         </ion-item>
-<!--        <select-search-input formControlName="country_id"-->
-<!--                             placeholder="Select Nationality"-->
-<!--                             [collection]="countrylistData"-->
-<!--                             valueAttr="country_id"-->
-<!--                             labelAttr="country_nationality_name_en">-->
-<!--        </select-search-input>-->
-<!--        <select-search-input formControlName="university_id"-->
-<!--                             placeholder="Select University"-->
-<!--                             [collection]="universitylistData"-->
-<!--                             valueAttr="university_id"-->
-<!--                             labelAttr="university_name_en">-->
-<!--        </select-search-input>-->
+        <app-select-search-input
+          *ngIf="countrylistData"
+          formControlName="country_id"
+          placeholder="Select Nationality"
+          [collection]="countrylistData"
+          valueAttr="country_id"
+          labelAttr="country_nationality_name_en">
+        </app-select-search-input>
+        <app-select-search-input
+          *ngIf="universitylistData"
+          formControlName="university_id"
+          placeholder="Select University"
+          [collection]="universitylistData"
+          valueAttr="university_id"
+          labelAttr="university_name_en">
+        </app-select-search-input>
         <ion-item>
           <ion-label  position="floating">Phone Number</ion-label>
           <ion-input type="number" formControlName="phone"></ion-input>
@@ -110,12 +114,12 @@
       </ion-card-header>
       <ion-card-content>
 
-<!--        <select-search-input formControlName="bank_id"-->
-<!--                             placeholder="Select a Bank"-->
-<!--                             [collection]="banklistData"-->
-<!--                             valueAttr="bank_id"-->
-<!--                             labelAttr="bank_name">-->
-<!--        </select-search-input>-->
+        <app-select-search-input *ngIf="banklistData" formControlName="bank_id"
+                             placeholder="Select a Bank"
+                             [collection]="banklistData"
+                             valueAttr="bank_id"
+                             labelAttr="bank_name">
+        </app-select-search-input>
 
         <ion-item>
           <ion-label  position="floating">Beneficiary Name</ion-label>

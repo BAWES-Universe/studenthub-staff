@@ -58,48 +58,7 @@ export class CandidateFormPage implements OnInit {
     // Set the min and max dates
     this.setDates();
 
-    // Init Form
-    if (!this.model.candidate_id) { // Show Create Form
-      this.operation = "Create";
-      this.form = this._fb.group({
-        name: ["", Validators.required],
-        email: ["", [Validators.required, CustomValidator.emailValidator]],
-        bank_account_name: ["", Validators.required],
-        bank_id: ["", Validators.required],
-        university_id: ["", Validators.required],
-        country_id: ["", Validators.required],
-        iban: ["", Validators.required],
-        name_ar: ["", Validators.required],
-        phone: ["", Validators.required],
-        birth_date: ["", Validators.required],
-        civil_id: ["", Validators.required],
-        photo: ["", Validators.required],
-        civilfront: ["", Validators.required],
-        civilback: ["", Validators.required],
-        expiry_date: ["", Validators.required],
-        hourly_rate: ["", Validators.required]
-      });
-    } else { // Show Update Form
-      this.operation = "Update";
-      this.form = this._fb.group({
-        name: [this.model.candidate_name, Validators.required],
-        email: [this.model.candidate_email, [Validators.required, CustomValidator.emailValidator]],
-        bank_account_name: [this.model.bank_account_name, Validators.required],
-        bank_id: [this.model.bank_id, Validators.required],
-        university_id: [this.model.university_id, Validators.required],
-        country_id: [this.model.country_id, Validators.required],
-        iban: [this.model.candidate_iban, Validators.required],
-        name_ar: [this.model.candidate_name_ar, Validators.required],
-        phone: [this.model.candidate_phone, Validators.required],
-        birth_date: [this.model.candidate_birth_date, Validators.required],
-        civil_id: [this.model.candidate_civil_id, Validators.required],
-        photo: [this.model.candidate_personal_photo, Validators.required],
-        civilfront: [this.model.candidate_civil_photo_front, Validators.required],
-        civilback: [this.model.candidate_civil_photo_back, Validators.required],
-        expiry_date: [this.model.candidate_civil_expiry_date, Validators.required],
-        hourly_rate: [this.model.candidate_hourly_rate, Validators.required]
-      });
-    }
+    this.initForm();
   }
 
   ngOnInit() {
@@ -173,9 +132,6 @@ export class CandidateFormPage implements OnInit {
         // this._viewCtrl.dismiss(data);
 
         //open view page
-        // this.navCtrl.push(CandidateViewPage, {
-        //   'model': jsonResponse.candidate
-        // });
         this.navCtrl.navigateForward('candidate-view/'+jsonResponse.candidate.candidate_id, {
           state : {
             model: jsonResponse.candidate
@@ -259,8 +215,55 @@ export class CandidateFormPage implements OnInit {
     this.candidateService.detail(this.candidate_id).subscribe( response => {
       loading.dismiss();
       if (response) {
-        this.model = response
+        this.model = response;
+        console.log(this.model);
+        this.initForm();
       }
     })
+  }
+
+  initForm() {
+    // Init Form
+    if (!this.model.candidate_id) { // Show Create Form
+      this.operation = "Create";
+      this.form = this._fb.group({
+        name: ["", Validators.required],
+        email: ["", [Validators.required, CustomValidator.emailValidator]],
+        bank_account_name: ["", Validators.required],
+        bank_id: ["", Validators.required],
+        university_id: ["", Validators.required],
+        country_id: ["", Validators.required],
+        iban: ["", Validators.required],
+        name_ar: ["", Validators.required],
+        phone: ["", Validators.required],
+        birth_date: ["", Validators.required],
+        civil_id: ["", Validators.required],
+        photo: ["", Validators.required],
+        civilfront: ["", Validators.required],
+        civilback: ["", Validators.required],
+        expiry_date: ["", Validators.required],
+        hourly_rate: ["", Validators.required]
+      });
+    } else { // Show Update Form
+      this.operation = "Update";
+      this.form = this._fb.group({
+        name: [this.model.candidate_name, Validators.required],
+        email: [this.model.candidate_email, [Validators.required, CustomValidator.emailValidator]],
+        bank_account_name: [this.model.bank_account_name, Validators.required],
+        bank_id: [this.model.bank_id, Validators.required],
+        university_id: [this.model.university_id, Validators.required],
+        country_id: [this.model.country_id, Validators.required],
+        iban: [this.model.candidate_iban, Validators.required],
+        name_ar: [this.model.candidate_name_ar, Validators.required],
+        phone: [this.model.candidate_phone, Validators.required],
+        birth_date: [this.model.candidate_birth_date, Validators.required],
+        civil_id: [this.model.candidate_civil_id, Validators.required],
+        photo: [this.model.candidate_personal_photo, Validators.required],
+        civilfront: [this.model.candidate_civil_photo_front, Validators.required],
+        civilback: [this.model.candidate_civil_photo_back, Validators.required],
+        expiry_date: [this.model.candidate_civil_expiry_date, Validators.required],
+        hourly_rate: [this.model.candidate_hourly_rate, Validators.required]
+      });
+    }
   }
 }
