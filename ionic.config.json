@@ -1,7 +1,8 @@
 {
-  "name": "payroll-staff",
+  "name": "Payroll Staff",
   "integrations": {
-    "capacitor": {}
+    "cordova": {}
   },
-  "type": "angular"
+  "type": "ionic-angular",
+  "id": "3b6fc136"
 }

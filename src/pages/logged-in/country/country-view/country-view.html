@@ -1,0 +1,43 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle="left">
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>{{ country.country_name_en }}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <h5>Country ID</h5>
+  <p>{{ country.country_id }}</p>
+
+  <h5>Country Name</h5>
+  <p>{{ country.country_name_en }}</p>
+
+  <h5>Country Name - Arabic</h5>
+  <p>{{ country.country_name_ar }}</p>
+
+  <h5>Country Nationality</h5>
+  <p>{{ country.country_nationality_name_en }}</p>
+  
+  <h5>Country Nationality - Arabic</h5>
+  <p>{{ country.country_nationality_name_ar }}</p>
+
+  <h5 *ngIf="candidates && candidates.length > 0">Candidates</h5>
+  <ion-list>
+    <ion-item-sliding *ngFor="let candidate of candidates">
+      <button ion-item (click)="candidateSelected(candidate)">
+        {{ candidate.candidate_name }}
+      </button>  
+
+      <ion-item-options side="right">
+        <button ion-button color="danger" (click)="deleteCandidates(candidate)">
+          <ion-icon name="trash"></ion-icon>
+          Delete
+        </button>
+      </ion-item-options>
+
+    </ion-item-sliding>
+  </ion-list>
+
+</ion-content>
