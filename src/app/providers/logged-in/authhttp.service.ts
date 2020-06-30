@@ -34,7 +34,7 @@ export class AuthhttpService {
     const bearerToken = this._auth.getAccessToken();
 
     return this._http.post(url, params, {
-      responseType: ResponseContentType.Blob,
+      responseType: 'blob', //ResponseContentType.Blob,  https://github.com/angular/angular/issues/18654#issuecomment-321947661
       headers: new Headers({ 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + bearerToken })
     }).pipe(
       // retryWhen(genericRetryStrategy()),

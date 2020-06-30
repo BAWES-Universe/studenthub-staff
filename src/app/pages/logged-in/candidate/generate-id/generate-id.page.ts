@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import {FormBuilder, FormGroup} from "@angular/forms";
+import {AlertController, LoadingController} from "@ionic/angular";
+//service
+import {CandidateIdCardService} from "src/app/providers/logged-in/candidate.id.card.service";
 
 @Component({
   selector: 'app-generate-id',
@@ -7,9 +11,170 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GenerateIdPage implements OnInit {
 
-  constructor() { }
+  public pageCount: number = 0;
+  public currentPage: number = 1;
+  public pages: number[] = [];
+  public loading = false;
+  public searchBar: string = '';
+  public cndSegment: string = 'not-generated';
+  public candidates: any = [];
 
-  ngOnInit() {
+  public form: FormGroup;
+  public candidatelistData;
+
+  constructor(
+    public candidateIdCardService: CandidateIdCardService,
+    private _fb: FormBuilder,
+    private _loadingCtrl: LoadingController,
+    private _alertCtrl: AlertController
+  ) {
+    this.form = this._fb.group({
+      candidates: [],
+    });
   }
 
+  ngOnInit() {
+    this.loadData(this.currentPage);
+  }
+
+  /**
+   * Generate id cards
+   */
+  async generate() {
+
+    if(this.candidates.length == 0)
+    {
+      let prompt = await this._alertCtrl.create({
+        message: 'Please select candidate(s)',
+        buttons: ["Ok"]
+      });
+      prompt.present();
+
+      return false;
+    }
+
+    let loader = await this._loadingCtrl.create();
+    loader.present();
+
+    this.candidateIdCardService.generate(this.candidates).subscribe(response => {
+    }, (err) => {
+    }, () => {
+      loader.dismiss();
+    });
+  }
+
+  /**
+   * search method
+   */
+  search() {
+    this.currentPage = 1;
+    this.loadData(this.currentPage);
+  }
+
+  /**
+   * load data
+   * @param page
+   */
+  loadData(page: number) {
+    if(this.cndSegment == 'not-generated') {
+      this.loadNotGenerated(page);
+    } else {
+      this.loadGenerated(page);
+    }
+  }
+
+  pageLinkColor(page: number) {
+
+    if(page == this.currentPage)
+      return 'light';
+
+    return '';
+  }
+
+  /**
+   * Load candidates whose ID not generated
+   */
+  async loadNotGenerated(page: number) {
+
+    this.currentPage = page;
+
+    // Load list of candidates
+    this.loading = true;
+
+    this.candidateIdCardService.listCandidates(this.searchBar, page).subscribe(response => {
+
+        this.pageCount = response.headers.get('X-Pagination-Page-Count');
+        this.currentPage = response.headers.get('X-Pagination-Current-Page');
+
+        this.pages = [];
+
+        for(var i = 1; i <= this.pageCount; i++){
+          this.pages.push(i);
+        }
+
+        //hide if no page = 1
+
+        if(this.pageCount == 1)
+          this.pages = [];
+
+        this.candidatelistData = response.body;
+
+        this.candidates = [];
+
+        this.candidatelistData.forEach((value, index) => {
+          this.candidates[index] = value.candidate_id;
+        });
+
+      },
+      error => {},
+      ()=>{this.loading = false;}
+    );
+  }
+
+  /**
+   * Load candidates whose ID generated
+   */
+  async loadGenerated(page: number) {
+
+    this.currentPage = page;
+
+    // Load list of candidates
+    this.loading = true;
+
+    this.candidateIdCardService.listCandidateIds(this.searchBar, page).subscribe(response => {
+        this.pageCount = response.headers.get('X-Pagination-Page-Count');
+        this.currentPage = response.headers.get('X-Pagination-Current-Page');
+
+        this.pages = [];
+
+        for(var i = 1; i <= this.pageCount; i++){
+          this.pages.push(i);
+        }
+
+        //hide if no page = 1
+
+        if(this.pageCount == 1)
+          this.pages = [];
+
+        this.candidatelistData = response.body;
+
+        this.candidates = [];
+
+        this.candidatelistData.forEach((value, index) => {
+          this.candidates[index] = value.candidate_id;
+        });
+
+      },
+      error => {},
+      ()=>{this.loading = false;}
+    );
+  }
+
+  segmentChanged ($ev) {
+    if ($ev.detail.value == 'not-generated') {
+      this.loadNotGenerated(1);
+    } else  {
+      this.loadGenerated(1);
+    }
+  }
 }

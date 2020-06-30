@@ -116,7 +116,6 @@ export class AuthService {
    */
   setAccessToken(response, redirect = false) {
 
-    console.log('set Access token: ',response);
     this._accessToken = response.token;
     this.staff_id = response.staff_id;
     this.name = response.name;
@@ -127,21 +126,18 @@ export class AuthService {
 
     if (this._accessToken) {
       this.isLogged = true;
-      console.log('loggedin');
       this.eventService.userLogined$.next({ redirect: redirect });
     }
   }
 
   // This is the method you want to call at bootstrap
   load(): Promise<any> {
-    console.log('loading page');
     const promises = [
       this._storage.get('loggedInStaff')
     ];
 
     return Promise.all(promises).then(data => {
       // for guest use language value in storage, for login user loggedInAgent.language_pref
-      console.log(data);
 
       if (data[0] && data[0].token) {
         return this.setAccessToken(data[0]);
