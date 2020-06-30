@@ -1,11 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ApplicationRef } from '@angular/core';
 import {AlertController, NavController, Platform} from '@ionic/angular';
-import { SplashScreen } from '@ionic-native/splash-screen/ngx';
-import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { Plugins } from '@capacitor/core';
+import { SwUpdate } from '@angular/service-worker';
 
 //services
 import {EventService} from "./providers/event.service";
 import {AuthService} from "./providers/auth.service";
+import {environment} from "../../../payroll-company/src/environments/environment";
+import {concat, interval} from "rxjs";
+import {first} from "rxjs/operators";
+
+const { SplashScreen } = Plugins;
 
 @Component({
   selector: 'app-root',
@@ -13,10 +18,12 @@ import {AuthService} from "./providers/auth.service";
   styleUrls: ['app.component.scss']
 })
 export class AppComponent implements OnInit {
+
+  public updatesAvailable: boolean = false;
   constructor(
+    public updates: SwUpdate,
+    public appRef: ApplicationRef,
     private platform: Platform,
-    private splashScreen: SplashScreen,
-    private statusBar: StatusBar,
     private eventService: EventService,
     private _alertCtrl: AlertController,
     private navCtrl: NavController,
@@ -27,8 +34,12 @@ export class AppComponent implements OnInit {
 
   initializeApp() {
     this.platform.ready().then(() => {
-      this.statusBar.styleDefault();
-      this.splashScreen.hide();
+
+      if (this.platform.is('hybrid')) {
+        SplashScreen.hide();
+      }
+
+      this.setServiceWorker();
     });
   }
 
@@ -79,6 +90,66 @@ export class AppComponent implements OnInit {
     // this.candidateIdCardService.totalExpiredIds().subscribe(result => {
     //   this.expiredIdCount = result.total;
     // });
+  }
+
+  /**
+   * keep checking for service worker update
+   */
+  setServiceWorker() {
+
+    // service worker watcher
+    if (!this.platform.is('capacitor')) {
+
+      if ('serviceWorker' in navigator && environment.serviceWorker && window.location.hostname != 'localhost') {
+
+        navigator.serviceWorker.register('./ngsw-worker.js');
+
+        // Allow the app to stabilize first, before starting polling for updates with `interval()`.
+        const appIsStable$ = this.appRef.isStable.pipe(first(isStable => isStable === true));
+        const updateInterval$ = interval(60 * 1000);// every minute
+        const updateIntervalOnceAppIsStable$ = concat(appIsStable$, updateInterval$);
+
+        updateIntervalOnceAppIsStable$.subscribe(() => {
+          this.updates.checkForUpdate().then((e) => {
+          });
+        });
+
+        this.updates.available.subscribe((e) => {
+          this.updatesAvailable = true;
+        });
+
+        this.updates.activated.subscribe((e) => {
+          this.updatesAvailable = false;
+        }, reason => {
+          console.error('service worker update activation failed', reason);
+        });
+      }
+    }
+  }
+
+  /**
+   * When user select refresh on udpate available prompt
+   */
+  onUpdateAlertRefresh() {
+
+    if (!this.updatesAvailable) {
+      return this.updatesAvailable = false;
+    }
+
+    try {
+      this.updates.activateUpdate().then(() => {
+      });
+    } catch {
+    }
+
+    window.location.reload();
+  }
+
+  /**
+   * When user select close on udpate available prompt
+   */
+  onUpdateAlertClose() {
+    this.updatesAvailable = false;
   }
 
 
