@@ -16,6 +16,7 @@ export class EventService {
   public internetOffline$ = new Subject();
   public internetOnline$ = new Subject();
   public userLoggedOut$ = new Subject();
+  public accountAssignmentRemoved$ = new Subject();
 
   public expiredIdCard$ = new Subject();
   public printIdCard$ = new Subject();
