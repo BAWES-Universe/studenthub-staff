@@ -236,7 +236,7 @@ export class CandidateFormPage implements OnInit {
         email: [this.model.candidate_email, [Validators.required, CustomValidator.emailValidator]],
         bank_account_name: [this.model.bank_account_name, Validators.required],
         university_id: [this.model.university_id, Validators.required],
-        country_id: [this.model.country_id, Validators.required],
+        country_id: [this.model.country_id+'', Validators.required],
         iban: [this.model.candidate_iban, Validators.required],
         name_ar: [this.model.candidate_name_ar, Validators.required],
         phone: [this.model.candidate_phone, Validators.required],

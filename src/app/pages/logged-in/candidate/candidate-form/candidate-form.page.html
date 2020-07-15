@@ -73,6 +73,7 @@
           <ion-label  position="floating">Birth Date</ion-label>
           <ion-datetime displayFormat="YYYY-MM-DD" pickerFormat="YYYY-MM-DD" [min]="minBirthDate" [max]="maxBirthDate" formControlName="birth_date"></ion-datetime>
         </ion-item>
+        
         <app-select-search-input
           *ngIf="countrylistData"
           formControlName="country_id"
@@ -81,6 +82,7 @@
           valueAttr="country_id"
           labelAttr="country_nationality_name_en">
         </app-select-search-input>
+
         <app-select-search-input
           *ngIf="universitylistData"
           formControlName="university_id"
@@ -89,6 +91,7 @@
           valueAttr="university_id"
           labelAttr="university_name_en">
         </app-select-search-input>
+
         <ion-item>
           <ion-label position="floating">Phone Number</ion-label>
           <ion-input type="text" formControlName="phone"></ion-input>
