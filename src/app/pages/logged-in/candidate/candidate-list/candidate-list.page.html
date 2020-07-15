@@ -18,10 +18,17 @@
     </ion-segment-button>
   </ion-segment>
 
-  <ion-searchbar
-    [(ngModel)]="searchBar"
+  <ion-searchbar *ngIf="cndSegment == 'assigned'"
+    [(ngModel)]="assignedSearchBar"
     animated
-    debounce="500"
+    debounce="200"
+    (ionChange)="search()">
+  </ion-searchbar>
+
+  <ion-searchbar *ngIf="cndSegment == 'not-assigned'"
+    [(ngModel)]="unassignedSearchBar"
+    animated
+    debounce="200"
     (ionChange)="search()">
   </ion-searchbar>
   <loading-modal [loading]="loading" type="candidate-list"></loading-modal>

@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
-import {AlertController, LoadingController, NavController, ToastController} from "@ionic/angular";
+import {ActivatedRoute} from '@angular/router';
+import {AlertController, NavController, ToastController} from '@ionic/angular';
 
-//models
-import {Candidate} from "src/app/models/candidate";
-//service
-import {CandidateService} from "src/app/providers/logged-in/candidate.service";
+// models
+import {Candidate} from 'src/app/models/candidate';
+// service
+import {CandidateService} from 'src/app/providers/logged-in/candidate.service';
 
 @Component({
   selector: 'app-candidate-list',
@@ -18,21 +18,21 @@ export class CandidateListPage implements OnInit {
   public currentPage = 1;
   public pages: number[] = [];
 
-  public searchBar: string = '';
-  public cndSegment: string = 'assigned';
+  public assignedSearchBar = '';
+  public unassignedSearchBar = '';
+  public cndSegment = 'assigned';
   public candidates: Candidate[];
   public loading = false;
   constructor(
     public navCtrl: NavController,
     public activatedRoute: ActivatedRoute,
     public candidateService: CandidateService,
-    private _loadingCtrl: LoadingController,
     public toastCtrl: ToastController,
     public alertCtrl: AlertController,
   ) {
-    //to open specific tab
-    let segment = this.activatedRoute.snapshot.paramMap.get('segment');
-    if(segment) {
+    // to open specific tab
+    const segment = this.activatedRoute.snapshot.paramMap.get('segment');
+    if (segment) {
       this.cndSegment = segment;
     }
   }
@@ -50,34 +50,40 @@ export class CandidateListPage implements OnInit {
   }
 
   loadData(page: number) {
-    if(this.cndSegment == 'not-assigned') {
-      this.loadNotAssigned(page);
+    if (this.cndSegment == 'not-assigned') {
+      this.loadNotAssigned(page, this.unassignedSearchBar);
     } else {
-      this.loadAssigned(page);
+      this.loadAssigned(page, this.assignedSearchBar);
     }
   }
 
-  async loadNotAssigned(page: number) {
+  /**
+   * load unassigned data
+   * @param page
+   * @param search
+   */
+  async loadNotAssigned(page: number, search: string) {
 
     this.currentPage = page;
 
     // Load list of candidates
     this.loading = true;
-    this.candidateService.listNotAssigned(this.searchBar, page).subscribe(response => {
+    this.candidateService.listNotAssigned(search, page).subscribe(response => {
 
         this.pageCount = response.headers.get('X-Pagination-Page-Count');
         this.currentPage = response.headers.get('X-Pagination-Current-Page');
 
         this.pages = [];
 
-        for(var i = 1; i <= this.pageCount; i++){
+        for (let i = 1; i <= this.pageCount; i++){
           this.pages.push(i);
         }
 
-        //hide if no page = 1
+        // hide if no page = 1
 
-        if(this.pageCount == 1)
+        if (this.pageCount == 1) {
           this.pages = [];
+        }
 
         this.candidates = response.body;
       },
@@ -89,27 +95,33 @@ export class CandidateListPage implements OnInit {
     );
   }
 
-  async loadAssigned(page: number) {
+  /**
+   * load assigned user data
+   * @param page
+   * @param search
+   */
+  async loadAssigned(page: number, search: string) {
 
     this.currentPage = page;
 
     // Load list of candidates
     this.loading = true;
-    this.candidateService.listAssigned(this.searchBar, page).subscribe(response => {
+    this.candidateService.listAssigned(search, page).subscribe(response => {
 
         this.pageCount = response.headers.get('X-Pagination-Page-Count');
         this.currentPage = response.headers.get('X-Pagination-Current-Page');
 
         this.pages = [];
 
-        for(var i = 1; i <= this.pageCount; i++){
+        for (let i = 1; i <= this.pageCount; i++){
           this.pages.push(i);
         }
 
-        //hide if no page = 1
+        // hide if no page = 1
 
-        if(this.pageCount == 1)
+        if (this.pageCount == 1) {
           this.pages = [];
+        }
 
         this.candidates = response.body;
       },
@@ -120,8 +132,9 @@ export class CandidateListPage implements OnInit {
 
   pageLinkColor(page: number) {
 
-    if(page == this.currentPage)
+    if (page == this.currentPage) {
       return 'light';
+    }
 
     return '';
   }
@@ -131,9 +144,9 @@ export class CandidateListPage implements OnInit {
    */
   rowSelected(model) {
     // Load Detail Page
-    this.navCtrl.navigateForward('candidate-view/'+model.candidate_id, {
+    this.navCtrl.navigateForward('candidate-view/' + model.candidate_id, {
       state : {
-        model: model
+        model
       }
     });
   }
@@ -150,7 +163,7 @@ export class CandidateListPage implements OnInit {
    */
 
   async delete(candidate: Candidate) {
-    let confirm = await this.alertCtrl.create({
+    const confirm = await this.alertCtrl.create({
       header: 'Delete Candidate?',
       message: 'Are you sure you want to delete this Candidate?',
       buttons: [
@@ -162,7 +175,7 @@ export class CandidateListPage implements OnInit {
               this.loading = false;
 
               if (jsonResp.operation == 'error') {
-                let alert = await this.alertCtrl.create({
+                const alert = await this.alertCtrl.create({
                   header: 'Deletion Error!',
                   subHeader: jsonResp.message,
                   buttons: ['OK']
@@ -171,7 +184,7 @@ export class CandidateListPage implements OnInit {
               }
 
               if (jsonResp.operation == 'success') {
-                let toast = await this.toastCtrl.create({
+                const toast = await this.toastCtrl.create({
                   message: jsonResp.message,
                   duration: 3000
                 });
@@ -193,10 +206,11 @@ export class CandidateListPage implements OnInit {
   }
 
   loadSegment($event) {
+    this.cndSegment = $event.detail.value;
     if ($event.detail.value == 'assigned') {
-      this.loadAssigned(1);
+      this.loadAssigned(1, this.assignedSearchBar);
     } else if ($event.detail.value == 'not-assigned') {
-      this.loadNotAssigned(1);
+      this.loadNotAssigned(1, this.unassignedSearchBar);
     }
   }
 }
