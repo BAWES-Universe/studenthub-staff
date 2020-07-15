@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import {ModalController, NavController} from "@ionic/angular";
-import {ActivatedRoute} from "@angular/router";
-
+import { ModalController, NavController } from "@ionic/angular";
+import { ActivatedRoute } from "@angular/router";
 //model
-import {Store} from "../../../../models/store";
-import {Candidate} from "../../../../models/candidate";
+import { Store } from "../../../../models/store";
+import { Candidate } from "../../../../models/candidate";
 //page
-import {StoreFormPage} from "../store-form/store-form.page";
+import { StoreFormPage } from "../store-form/store-form.page";
 //service
-import {StoreService} from "../../../../providers/logged-in/store.service";
+import { StoreService } from "../../../../providers/logged-in/store.service";
+import { AwsService } from 'src/app/providers/aws.service';
+
 
 @Component({
   selector: 'app-store-view',
@@ -20,14 +21,21 @@ export class StoreViewPage implements OnInit {
   public store: Store;
   public store_id = null;
   public loading = false;
+
   constructor(
     public navCtrl: NavController,
     private _modalCtrl: ModalController,
     private activatedRoute: ActivatedRoute,
+    public aws: AwsService,
     private _storeService: StoreService
   ) {
+  }
+
+  ngOnInit() {
     this.store_id = this.activatedRoute.snapshot.paramMap.get('id');
+
     const state = window.history.state;
+    
     if (state['model']) {
       this.store = state['model'];
     } else {
@@ -35,15 +43,12 @@ export class StoreViewPage implements OnInit {
     }
   }
 
-  ngOnInit() {
-  }
-
   /**
    * On candidate selected from list
    */
-  candidateSelected(candidate: Candidate){
-    this.navCtrl.navigateForward('candidate-view/'+candidate.candidate_id, {
-      state : {
+  candidateSelected(candidate: Candidate) {
+    this.navCtrl.navigateForward('candidate-view/' + candidate.candidate_id, {
+      state: {
         model: candidate
       }
     });
@@ -62,7 +67,7 @@ export class StoreViewPage implements OnInit {
     });
 
     modal.onDidDismiss().then(data => {
-      if(data && data.data && data.data.refresh){
+      if (data && data.data && data.data.refresh) {
         this.loadData();
       }
     });
@@ -72,7 +77,7 @@ export class StoreViewPage implements OnInit {
 
   loadData() {
     this.loading = true;
-    this._storeService.detail(this.store_id).subscribe( response => {
+    this._storeService.detail(this.store_id).subscribe(response => {
       this.loading = false;
       this.store = response
     })

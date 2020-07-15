@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
-import {AlertController, NavController, ToastController} from '@ionic/angular';
-
+import { ActivatedRoute } from '@angular/router';
+import { AlertController, NavController, ToastController } from '@ionic/angular';
 // models
-import {Candidate} from 'src/app/models/candidate';
+import { Candidate } from 'src/app/models/candidate';
 // service
-import {CandidateService} from 'src/app/providers/logged-in/candidate.service';
+import { CandidateService } from 'src/app/providers/logged-in/candidate.service';
+import { AwsService } from 'src/app/providers/aws.service';
+
 
 @Component({
   selector: 'app-candidate-list',
@@ -23,9 +24,11 @@ export class CandidateListPage implements OnInit {
   public cndSegment = 'assigned';
   public candidates: Candidate[];
   public loading = false;
+
   constructor(
     public navCtrl: NavController,
     public activatedRoute: ActivatedRoute,
+    public aws: AwsService,
     public candidateService: CandidateService,
     public toastCtrl: ToastController,
     public alertCtrl: AlertController,
@@ -70,24 +73,24 @@ export class CandidateListPage implements OnInit {
     this.loading = true;
     this.candidateService.listNotAssigned(search, page).subscribe(response => {
 
-        this.pageCount = response.headers.get('X-Pagination-Page-Count');
-        this.currentPage = response.headers.get('X-Pagination-Current-Page');
+      this.pageCount = response.headers.get('X-Pagination-Page-Count');
+      this.currentPage = response.headers.get('X-Pagination-Current-Page');
 
+      this.pages = [];
+
+      for (let i = 1; i <= this.pageCount; i++) {
+        this.pages.push(i);
+      }
+
+      // hide if no page = 1
+
+      if (this.pageCount == 1) {
         this.pages = [];
+      }
 
-        for (let i = 1; i <= this.pageCount; i++){
-          this.pages.push(i);
-        }
-
-        // hide if no page = 1
-
-        if (this.pageCount == 1) {
-          this.pages = [];
-        }
-
-        this.candidates = response.body;
-      },
-      error => {},
+      this.candidates = response.body;
+    },
+      error => { },
       () => {
         // console.log('Not Assigned Request Completed');
         this.loading = false;
@@ -108,24 +111,24 @@ export class CandidateListPage implements OnInit {
     this.loading = true;
     this.candidateService.listAssigned(search, page).subscribe(response => {
 
-        this.pageCount = response.headers.get('X-Pagination-Page-Count');
-        this.currentPage = response.headers.get('X-Pagination-Current-Page');
+      this.pageCount = response.headers.get('X-Pagination-Page-Count');
+      this.currentPage = response.headers.get('X-Pagination-Current-Page');
 
+      this.pages = [];
+
+      for (let i = 1; i <= this.pageCount; i++) {
+        this.pages.push(i);
+      }
+
+      // hide if no page = 1
+
+      if (this.pageCount == 1) {
         this.pages = [];
+      }
 
-        for (let i = 1; i <= this.pageCount; i++){
-          this.pages.push(i);
-        }
-
-        // hide if no page = 1
-
-        if (this.pageCount == 1) {
-          this.pages = [];
-        }
-
-        this.candidates = response.body;
-      },
-      error => {},
+      this.candidates = response.body;
+    },
+      error => { },
       () => { console.log('Assigned Request Completed'); this.loading = false; }
     );
   }
@@ -145,7 +148,7 @@ export class CandidateListPage implements OnInit {
   rowSelected(model) {
     // Load Detail Page
     this.navCtrl.navigateForward('candidate-view/' + model.candidate_id, {
-      state : {
+      state: {
         model
       }
     });

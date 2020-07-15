@@ -2,6 +2,7 @@ import {Injectable, OnInit} from '@angular/core';
 import {Observable, Observer} from "rxjs";
 
 import { Plugins, FilesystemDirectory, FilesystemEncoding, FileReadResult } from '@capacitor/core';
+import { environment } from 'src/environments/environment';
 import * as AWS from "aws-sdk";
 
 const { Filesystem } = Plugins;
@@ -13,10 +14,9 @@ const { Filesystem } = Plugins;
 @Injectable({
   providedIn: 'root'
 })
-
 export class AwsService implements OnInit {
   public bucketUrl = "https://studenthub-public-anyone-can-upload-24hr-expiry.s3.eu-west-2.amazonaws.com/";
-  public permanentBucketUrl = "https://studenthub-uploads.s3.eu-west-2.amazonaws.com/";
+  public permanentBucketUrl = environment.permanentBucketUrl;
 
   private _region = "eu-west-2"; //London
   private _access_key_id = "AKIAJXOMRCDE65WKBPUA";
