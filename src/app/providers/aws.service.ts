@@ -15,13 +15,13 @@ const { Filesystem } = Plugins;
 })
 
 export class AwsService implements OnInit {
-  public bucketUrl = "https://bawes-public.s3.eu-west-2.amazonaws.com/";
-  public permanentBucketUrl = "https://sh-payroll.s3.eu-west-2.amazonaws.com/";
+  public bucketUrl = "https://studenthub-public-anyone-can-upload-24hr-expiry.s3.eu-west-2.amazonaws.com/";
+  public permanentBucketUrl = "https://studenthub-uploads.s3.eu-west-2.amazonaws.com/";
 
   private _region = "eu-west-2"; //London
-  private _access_key_id = "AKIAI5ZFAKH7R3WIHWXQ";
-  private _secret_access_key = "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";
-  private _bucket_name = "bawes-public";
+  private _access_key_id = "AKIAJXOMRCDE65WKBPUA";
+  private _secret_access_key = "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";
+  private _bucket_name = "studenthub-public-anyone-can-upload-24hr-expiry";
 
   constructor(){
     this.initAwsService();

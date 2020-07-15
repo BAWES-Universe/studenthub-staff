@@ -5,7 +5,7 @@
     </ion-buttons>
     <ion-title>{{ operation }}</ion-title>
     <ion-buttons slot="end">
-      <ion-button color="primary" [disabled]="!form.valid || !form.dirty" (click)="save()">
+      <ion-button color="primary" [disabled]="!form || !form.valid || !form.dirty" (click)="save()">
         Save
       </ion-button>
     </ion-buttons>
@@ -14,7 +14,7 @@
 
 <ion-content>
 
-  <form [formGroup]="form">
+  <form [formGroup]="form" *ngIf="form">
     <!-- Grid for Required File Uploads -->
     <ion-grid id='uploads'>
       <ion-row>
@@ -71,7 +71,7 @@
         </ion-item>
         <ion-item>
           <ion-label  position="floating">Birth Date</ion-label>
-          <ion-datetime displayFormat="YYYY-MM-DD" [min]="minBirthDate" [max]="maxBirthDate" formControlName="birth_date"></ion-datetime>
+          <ion-datetime displayFormat="YYYY-MM-DD" pickerFormat="YYYY-MM-DD" [min]="minBirthDate" [max]="maxBirthDate" formControlName="birth_date"></ion-datetime>
         </ion-item>
         <app-select-search-input
           *ngIf="countrylistData"
@@ -90,8 +90,8 @@
           labelAttr="university_name_en">
         </app-select-search-input>
         <ion-item>
-          <ion-label  position="floating">Phone Number</ion-label>
-          <ion-input type="number" formControlName="phone"></ion-input>
+          <ion-label position="floating">Phone Number</ion-label>
+          <ion-input type="text" formControlName="phone"></ion-input>
         </ion-item>
       </ion-card-content>
     </ion-card>
@@ -103,7 +103,7 @@
       <ion-card-content>
         <ion-item>
           <ion-label  position="floating">Hourly Rate (KWD)</ion-label>
-          <ion-input type="number" min=0 formControlName="hourly_rate"></ion-input>
+          <ion-input type="number" min="0" formControlName="hourly_rate"></ion-input>
         </ion-item>
       </ion-card-content>
     </ion-card>
@@ -113,14 +113,6 @@
         Bank Information
       </ion-card-header>
       <ion-card-content>
-
-        <app-select-search-input *ngIf="banklistData" formControlName="bank_id"
-                             placeholder="Select a Bank"
-                             [collection]="banklistData"
-                             valueAttr="bank_id"
-                             labelAttr="bank_name">
-        </app-select-search-input>
-
         <ion-item>
           <ion-label  position="floating">Beneficiary Name</ion-label>
           <ion-input type="text" formControlName="bank_account_name"></ion-input>
@@ -139,7 +131,7 @@
       <ion-card-content>
         <ion-item>
           <ion-label  position="floating">Email</ion-label>
-          <ion-input type="text" formControlName="email"></ion-input>
+          <ion-input type="email" inputmode="email" formControlName="email"></ion-input>
         </ion-item>
       </ion-card-content>
     </ion-card>

@@ -1,17 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {ActivatedRoute} from "@angular/router";
-import {AlertController, LoadingController, NavController, ToastController} from "@ionic/angular";
-
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { ActivatedRoute } from "@angular/router";
+import { AlertController, LoadingController, NavController, ToastController } from "@ionic/angular";
+import { CustomValidator } from "src/app/validators/custom.validator";
 //service
-import {CandidateService} from "src/app/providers/logged-in/candidate.service";
-import {BankService} from "src/app/providers/logged-in/bank.service";
-import {UniversityService} from "src/app/providers/logged-in/university.service";
-import {CountryService} from "src/app/providers/logged-in/country.service";
-
+import { CandidateService } from "src/app/providers/logged-in/candidate.service";
+import { UniversityService } from "src/app/providers/logged-in/university.service";
+import { CountryService } from "src/app/providers/logged-in/country.service";
 //model
-import {Candidate} from "src/app/models/candidate";
-import {CustomValidator} from "src/app/validators/custom.validator";
+import { Candidate } from "src/app/models/candidate";
+
 
 @Component({
   selector: 'app-candidate-form',
@@ -24,7 +22,6 @@ export class CandidateFormPage implements OnInit {
   public operation: string;
   public candidate_id = null;
   public form: FormGroup;
-  public banklistData;
   public universitylistData;
   public countrylistData;
 
@@ -38,40 +35,39 @@ export class CandidateFormPage implements OnInit {
     public activatedRoute: ActivatedRoute,
     public navCtrl: NavController,
     public candidateService: CandidateService,
-    public bankService: BankService,
     public universityService: UniversityService,
     public countryService: CountryService,
     private _fb: FormBuilder,
-    // private _viewCtrl: ViewController,
     private _loadingCtrl: LoadingController,
     private _alertCtrl: AlertController,
     private _toastCtrl: ToastController,
   ) {
+  }
+
+  ngOnInit() {
+
     this.candidate_id = this.activatedRoute.snapshot.paramMap.get('id');
+
     const state = window.history.state;
+
     if (state['model']) {
       this.model = state['model']
-    } if (this.candidate_id) {
+    }
+
+    if (this.candidate_id) {
       this.candidateDetail();
+    } else {
+      this.initForm();
     }
 
     // Set the min and max dates
     this.setDates();
 
-    this.initForm();
-  }
-
-  ngOnInit() {
-
-    //let loader = this._loadingCtrl.create();
-    //loader.present();
-    // Load the all available bank list
-    this.loadBanksList();
     // Load the all available university list
     this.loadUniversityList();
+
     // Load all country
     this.loadCountryList();
-    //loader.dismiss();
   }
 
   /**
@@ -91,7 +87,6 @@ export class CandidateFormPage implements OnInit {
     this.model.candidate_civil_expiry_date = this.form.value.expiry_date;
 
     this.model.candidate_hourly_rate = this.form.value.hourly_rate;
-    this.model.bank_id = Number(this.form.value.bank_id);
     this.model.university_id = Number(this.form.value.university_id);
     this.model.country_id = Number(this.form.value.country_id);
 
@@ -104,6 +99,7 @@ export class CandidateFormPage implements OnInit {
    * Save the candidate model
    */
   async save() {
+   
     let loader = await this._loadingCtrl.create();
     loader.present();
     this.updateModelDataFromForm();
@@ -123,7 +119,7 @@ export class CandidateFormPage implements OnInit {
       // On Success
       if (jsonResponse.operation == "success") {
         // Fix photo folder path after upload
-        if(this.model.candidate_personal_photo && !this.model.candidate_personal_photo.includes("photos/")){
+        if (this.model.candidate_personal_photo && !this.model.candidate_personal_photo.includes("photos/")) {
           this.model.candidate_personal_photo = `photos/${this.model.candidate_personal_photo}`;
         }
 
@@ -132,14 +128,14 @@ export class CandidateFormPage implements OnInit {
         // this._viewCtrl.dismiss(data);
 
         //open view page
-        this.navCtrl.navigateForward('candidate-view/'+jsonResponse.candidate.candidate_id, {
-          state : {
+        this.navCtrl.navigateForward('candidate-view/' + jsonResponse.candidate.candidate_id, {
+          state: {
             model: jsonResponse.candidate
           }
         });
 
         let toast = await this._toastCtrl.create({
-          message: this.model.candidate_name+' account saved successfully',
+          message: this.model.candidate_name + "'s account saved successfully",
           duration: 3000
         });
         toast.present();
@@ -183,40 +179,30 @@ export class CandidateFormPage implements OnInit {
   }
 
   /**
-   * Load list of banks
-   */
-  loadBanksList() {
-    this.bankService.listAll().subscribe(response => {
-      this.banklistData = response;
-    });
-  }
-
-  /**
    * Sets the default dates for min/max validation
    */
-  setDates(){
+  setDates() {
     let today = new Date();
     //var dd = today.getDate();
     var mm = today.getMonth() + 1; // 0 is January, so we must add 1
     var yyyy = today.getFullYear();
 
     this.todayDate = new Date().toISOString();
-    this.maxDate = new Date((yyyy+20), mm).toISOString();
-    this.minBirthDate = new Date((yyyy-26), mm).toISOString();
-    this.maxBirthDate = new Date((yyyy-16), mm).toISOString();
+    this.maxDate = new Date((yyyy + 20), mm).toISOString();
+    this.minBirthDate = new Date((yyyy - 26), mm).toISOString();
+    this.maxBirthDate = new Date((yyyy - 16), mm).toISOString();
   }
 
   /**
    * candidate detail
    */
-  async candidateDetail () {
+  async candidateDetail() {
     let loading = await this._loadingCtrl.create();
     loading.present();
-    this.candidateService.detail(this.candidate_id).subscribe( response => {
+    this.candidateService.detail(this.candidate_id).subscribe(response => {
       loading.dismiss();
       if (response) {
         this.model = response;
-        console.log(this.model);
         this.initForm();
       }
     })
@@ -230,7 +216,6 @@ export class CandidateFormPage implements OnInit {
         name: ["", Validators.required],
         email: ["", [Validators.required, CustomValidator.emailValidator]],
         bank_account_name: ["", Validators.required],
-        bank_id: ["", Validators.required],
         university_id: ["", Validators.required],
         country_id: ["", Validators.required],
         iban: ["", Validators.required],
@@ -250,7 +235,6 @@ export class CandidateFormPage implements OnInit {
         name: [this.model.candidate_name, Validators.required],
         email: [this.model.candidate_email, [Validators.required, CustomValidator.emailValidator]],
         bank_account_name: [this.model.bank_account_name, Validators.required],
-        bank_id: [this.model.bank_id, Validators.required],
         university_id: [this.model.university_id, Validators.required],
         country_id: [this.model.country_id, Validators.required],
         iban: [this.model.candidate_iban, Validators.required],
