@@ -7,7 +7,7 @@
     <ion-card-content class='authArea'>
 
       <!-- Login Form -->
-      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="classicInput" novalidate>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" (keyup.enter)="onSubmit()" class="classicInput" novalidate>
 
         <ion-input type="email" #emailInput
                    formControlName="email"
