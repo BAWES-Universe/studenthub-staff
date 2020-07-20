@@ -62,8 +62,10 @@
                        valueAttr="store_id"
                        labelAttr="storeWithCompany">
   </app-select-search-input>
-    <ion-spinner *ngIf="assigning"></ion-spinner>
-  <ion-item [hidden]="!candidate.store_id">
+    <ion-item *ngIf="assigning">
+      <ion-spinner></ion-spinner>
+    </ion-item>
+  <ion-item *ngIf="candidate.store_id && candidate.store && !assigning">
     <ion-button *ngIf="!unassinging && candidate.store" expand="full" color="danger" (click)="unassignCandidateFromStore()">
       Unassign candidate from {{ candidate.store.store_name }}
     </ion-button>
