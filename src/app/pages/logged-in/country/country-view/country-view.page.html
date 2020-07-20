@@ -46,7 +46,7 @@
   <loading-modal [loading]="loading" type="text-list"></loading-modal>
   <ion-list *ngIf="!loading">
     <ion-item-sliding *ngFor="let candidate of candidates">
-      <ion-item button (click)="candidateSelected(candidate)">
+      <ion-item tappable (click)="candidateSelected(candidate)">
         <ion-label>
           {{ candidate.candidate_name }}
         </ion-label>

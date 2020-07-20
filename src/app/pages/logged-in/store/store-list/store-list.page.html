@@ -11,7 +11,7 @@
   <loading-modal [loading]="loading" type="text-list"></loading-modal>
   <ion-list *ngIf="!loading">
     <ion-item-sliding *ngFor="let store of stores">
-      <ion-item button (click)="rowSelected(store)">
+      <ion-item tappable (click)="rowSelected(store)">
         {{ store.store_name }}
 
         <ion-badge slot="end" *ngIf="store.candidates?.length > 0">
@@ -20,10 +20,10 @@
       </ion-item>
 
       <ion-item-options side="end">
-        <ion-item button color="danger" (click)="delete(store)">
+        <ion-button color="danger" (click)="delete(store)">
           <ion-icon name="trash"></ion-icon>
           Delete
-        </ion-item>
+        </ion-button>
       </ion-item-options>
 
     </ion-item-sliding>

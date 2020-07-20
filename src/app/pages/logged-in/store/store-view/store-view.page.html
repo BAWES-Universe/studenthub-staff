@@ -19,7 +19,7 @@
     <ion-list-header>
       Candidates &nbsp; <ion-badge color="dark" *ngIf="store.candidates">{{ store.candidates.length }}</ion-badge>
     </ion-list-header>
-    <ion-item button *ngFor="let candidate of store.candidates" (click)="candidateSelected(candidate)">
+    <ion-item tappable *ngFor="let candidate of store.candidates" (click)="candidateSelected(candidate)">
       <ion-avatar slot="start" *ngIf="candidate.candidate_personal_photo_thumb">
         <img src="{{ aws.permanentBucketUrl + candidate.candidate_personal_photo_thumb }}">
       </ion-avatar>
