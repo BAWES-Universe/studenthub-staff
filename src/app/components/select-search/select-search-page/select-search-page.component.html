@@ -5,7 +5,7 @@
 </ion-searchbar>
 
 <ion-list>
-  <ion-item button *ngFor="let item of displayedCollection" (click)="onSelect(item)">
+  <ion-item tappable *ngFor="let item of displayedCollection" (click)="onSelect(item)">
     {{ item[labelAttr] }}
   </ion-item>
 </ion-list>

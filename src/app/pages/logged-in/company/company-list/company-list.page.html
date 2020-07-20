@@ -12,7 +12,7 @@
 <ion-content>
   <loading-modal [loading]="loading" type="text-list"></loading-modal>
   <ion-list *ngIf="!loading">
-    <ion-item button *ngFor="let company of companies" (click)="rowSelected(company)">
+    <ion-item tappable *ngFor="let company of companies" (click)="rowSelected(company)">
       <ion-label>
         {{ company.company_name }}
       </ion-label>
