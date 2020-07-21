@@ -48,13 +48,12 @@
   <ion-item *ngIf="workHistory">
     <ion-label>
       <p *ngFor="let history of workHistory">
-        <label>{{ history.store.store_name }}: {{ history.start_date | date }} </label> to
+        <label tappable [routerLink]="['/store-view', history.store.store_id]" >{{ history.store.store_name }}: {{ history.start_date | date }} </label> to
         <label *ngIf="history.end_date" >{{ history.end_date | date }}</label>
         <label *ngIf="!history.end_date" >now</label>
       </p>
     </ion-label>
   </ion-item>
-
   <app-select-search-input *ngIf="!candidate.store_id && !candidate.store && !assigning"
                        placeholder="Assign to work at store"
                        [(ngModel)]="candidate.store_id"
