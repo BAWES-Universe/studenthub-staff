@@ -218,5 +218,13 @@ export class CandidateListPage implements OnInit {
       this.loadNotAssigned(1, this.unassignedSearchBar);
     }
   }
+
+  /**
+   * @param $event
+   * @param candidate
+   */
+  loadLogo($event, candidate) {
+    return candidate.candidate_personal_photo_thumb = null;
+  }
 }
 

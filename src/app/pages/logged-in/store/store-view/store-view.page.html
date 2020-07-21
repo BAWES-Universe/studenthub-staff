@@ -20,8 +20,9 @@
       Candidates &nbsp; <ion-badge color="dark" *ngIf="store.candidates">{{ store.candidates.length }}</ion-badge>
     </ion-list-header>
     <ion-item tappable *ngFor="let candidate of store.candidates" (click)="candidateSelected(candidate)">
-      <ion-avatar slot="start" *ngIf="candidate.candidate_personal_photo_thumb">
-        <img src="{{ aws.permanentBucketUrl + candidate.candidate_personal_photo_thumb }}">
+      <ion-avatar slot="start">
+        <img *ngIf="candidate.candidate_personal_photo_thumb" src="{{ aws.permanentBucketUrl + candidate.candidate_personal_photo_thumb }}" (error)="loadLogo($event,candidate)">
+        <img *ngIf="!candidate.candidate_personal_photo_thumb" src="/assets/icon/icon.png">
       </ion-avatar>
       <ion-label>
         {{ candidate.candidate_name }}

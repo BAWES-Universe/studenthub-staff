@@ -35,7 +35,7 @@ export class StoreViewPage implements OnInit {
     this.store_id = this.activatedRoute.snapshot.paramMap.get('id');
 
     const state = window.history.state;
-    
+
     if (state['model']) {
       this.store = state['model'];
     } else {
@@ -81,5 +81,13 @@ export class StoreViewPage implements OnInit {
       this.loading = false;
       this.store = response;
     });
+  }
+
+  /**
+   * @param $event
+   * @param candidate
+   */
+  loadLogo($event, candidate) {
+    return candidate.candidate_personal_photo_thumb = null;
   }
 }

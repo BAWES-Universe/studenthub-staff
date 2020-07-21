@@ -5,6 +5,7 @@ import {ActivatedRoute} from '@angular/router';
 // service
 import {CandidateService} from 'src/app/providers/logged-in/candidate.service';
 import {CountryService} from 'src/app/providers/logged-in/country.service';
+import {AwsService} from 'src/app/providers/aws.service';
 
 // models
 import {Country} from 'src/app/models/country';
@@ -32,6 +33,7 @@ export class CountryViewPage implements OnInit {
     private candidateService: CandidateService,
     private countryService: CountryService,
     public activatedRoute: ActivatedRoute,
+    public aws: AwsService,
     public toastCtrl: ToastController,
     public alertCtrl: AlertController,
   ) {
@@ -166,5 +168,12 @@ export class CountryViewPage implements OnInit {
       this.country = response;
       this.loadData(this.currentPage);
     });
+  }
+  /**
+   * @param $event
+   * @param candidate
+   */
+  loadLogo($event, candidate) {
+    return candidate.candidate_personal_photo_thumb = null;
   }
 }

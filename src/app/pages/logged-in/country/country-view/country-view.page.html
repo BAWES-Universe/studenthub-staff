@@ -47,6 +47,10 @@
   <ion-list *ngIf="!loading">
     <ion-item-sliding *ngFor="let candidate of candidates">
       <ion-item tappable (click)="candidateSelected(candidate)">
+        <ion-avatar slot="start">
+          <img *ngIf="candidate.candidate_personal_photo_thumb" src="{{ aws.permanentBucketUrl + candidate.candidate_personal_photo_thumb }}" (error)="loadLogo($event,candidate)">
+          <img *ngIf="!candidate.candidate_personal_photo_thumb" src="/assets/icon/icon.png">
+        </ion-avatar>
         <ion-label>
           {{ candidate.candidate_name }}
         </ion-label>
