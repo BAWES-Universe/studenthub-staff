@@ -1,32 +1,51 @@
 <ion-app>
   <ion-split-pane contentId="main-content">
-    <ion-menu contentId="main-content" type="overlay"  [disabled]="!this.auth.isLogged">
+    <ion-menu contentId="main-content" type="overlay" [disabled]="!this.auth.isLogged">
       <ion-header>
         <ion-toolbar class="ion-text-center" style="height:auto;">
-          <img class='logo' src="assets/icon/icon.png" width=100/>
+          <img class='logo' src="assets/icon/icon.png" width=100 />
         </ion-toolbar>
       </ion-header>
       <ion-content>
 
         <ion-list class="labels-list">
+
+          <ion-menu-toggle auto-hide="false">
+            <ion-item class="item-candidate-selection" *ngIf="candidateIdCardService.candidates.length > 0">
+
+              <ion-label>
+                <span *ngIf="candidateIdCardService.candidates.length == 1">
+                  <span class="count">1</span> Candidate selected
+                </span>
+                <span *ngIf="candidateIdCardService.candidates.length > 1">
+                  <span class="count">2</span> Candidates selected
+                </span>
+              </ion-label>
+
+              <ion-button (click)="clearCandidateSelection()">
+                <ion-icon name="close-outline" slot="start"></ion-icon> Deselect all
+              </ion-button>
+            </ion-item>
+          </ion-menu-toggle>
+
           <ion-list-header>Candidate Management</ion-list-header>
 
           <ion-menu-toggle auto-hide="false">
-            <ion-item routerDirection="root" routerLink="/default" routerLinkActive="active"  detail="false">
+            <ion-item routerDirection="root" routerLink="/default" routerLinkActive="active" detail="false">
               <ion-icon name="stats-chart-outline" slot="start"></ion-icon>
               <ion-label>Summary</ion-label>
             </ion-item>
           </ion-menu-toggle>
 
           <ion-menu-toggle auto-hide="false">
-            <ion-item routerDirection="root" routerLink="/candidate-list" routerLinkActive="active"  detail="false">
+            <ion-item routerDirection="root" routerLink="/candidate-list" routerLinkActive="active" detail="false">
               <ion-icon slot="start" name="person"></ion-icon>
               <ion-label>Candidates</ion-label>
             </ion-item>
           </ion-menu-toggle>
 
           <ion-menu-toggle auto-hide="false">
-            <ion-item routerDirection="root" routerLink="/company-list" routerLinkActive="active"  detail="false">
+            <ion-item routerDirection="root" routerLink="/company-list" routerLinkActive="active" detail="false">
               <ion-icon slot="start" name="briefcase"></ion-icon>
               <ion-label>Stores</ion-label>
             </ion-item>
@@ -38,17 +57,7 @@
           <ion-list-header>ID Cards</ion-list-header>
 
           <ion-menu-toggle auto-hide="false">
-            <ion-item routerDirection="root" routerLink="/generate-id" routerLinkActive="active"   detail="false">
-              <ion-icon name="barcode" slot="start"></ion-icon>
-              Print ID Cards
-              <ion-badge slot="end" *ngIf="printIdCount && (printIdCount > 0)">
-                {{ printIdCount }}
-              </ion-badge>
-            </ion-item>
-          </ion-menu-toggle>
-
-          <ion-menu-toggle auto-hide="false">
-            <ion-item routerDirection="root" routerLink="/expired-id" routerLinkActive="active"  detail="false">
+            <ion-item routerDirection="root" routerLink="/expired-id" routerLinkActive="active" detail="false">
               <ion-icon name="repeat" slot="start"></ion-icon>
               Renew Expired ID
               <ion-badge slot="end" *ngIf="expiredIdCount && (expiredIdCount > 0)">
@@ -62,28 +71,28 @@
         <ion-list class="labels-list">
           <ion-list-header>Reports</ion-list-header>
           <ion-menu-toggle auto-hide="false">
-            <ion-item routerDirection="root" routerLink="/university-list" routerLinkActive="active"  detail="false">
+            <ion-item routerDirection="root" routerLink="/university-list" routerLinkActive="active" detail="false">
               <ion-icon name="school" slot="start"></ion-icon>
               University
             </ion-item>
           </ion-menu-toggle>
 
           <ion-menu-toggle auto-hide="false">
-            <ion-item routerDirection="root" routerLink="/country-list" routerLinkActive="active"  detail="false">
+            <ion-item routerDirection="root" routerLink="/country-list" routerLinkActive="active" detail="false">
               <ion-icon name="globe" slot="start"></ion-icon>
               Nationality
             </ion-item>
           </ion-menu-toggle>
 
           <ion-menu-toggle auto-hide="false">
-            <ion-item routerDirection="root" routerLink="/change-password" routerLinkActive="active"  detail="false">
+            <ion-item routerDirection="root" routerLink="/change-password" routerLinkActive="active" detail="false">
               <ion-icon name="key" slot="start"></ion-icon>
               Change Password
             </ion-item>
           </ion-menu-toggle>
 
           <ion-menu-toggle auto-hide="false" tappable>
-            <ion-item (click)="logout()"  detail="false">
+            <ion-item (click)="logout()" detail="false">
               <ion-icon name="log-in-outline" slot="start"></ion-icon>
               logout
             </ion-item>
@@ -98,4 +107,5 @@
 
 <!-- service worker update message -->
 
-<update-alert  (onRefresh)="onUpdateAlertRefresh()" *ngIf="updatesAvailable" (onClose)="onUpdateAlertClose()"></update-alert>
+<update-alert (onRefresh)="onUpdateAlertRefresh()" *ngIf="updatesAvailable" (onClose)="onUpdateAlertClose()">
+</update-alert>

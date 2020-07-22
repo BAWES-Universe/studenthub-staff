@@ -6,6 +6,7 @@ import { Candidate } from 'src/app/models/candidate';
 // service
 import { CandidateService } from 'src/app/providers/logged-in/candidate.service';
 import { AwsService } from 'src/app/providers/aws.service';
+import { CandidateIdCardService } from 'src/app/providers/logged-in/candidate.id.card.service';
 
 
 @Component({
@@ -24,12 +25,16 @@ export class CandidateListPage implements OnInit {
   public unassignedSearchBar = '';
   public cndSegment = 'assigned';
   public candidates: Candidate[];
-  public loading = false;
+
+  public loading: boolean = false;
+
+  public downloading: boolean = false;
 
   constructor(
     public navCtrl: NavController,
     public activatedRoute: ActivatedRoute,
     public aws: AwsService,
+    public candidateIdCardService: CandidateIdCardService,
     public candidateService: CandidateService,
     public toastCtrl: ToastController,
     public alertCtrl: AlertController,
@@ -42,6 +47,49 @@ export class CandidateListPage implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  /**
+   * Generate id cards
+   */
+  async generate() {
+
+    if (this.candidateIdCardService.candidates.length == 0)
+    {
+      const prompt = await this.alertCtrl.create({
+        message: 'Please select candidate(s)',
+        buttons: ['Ok']
+      });
+      prompt.present();
+
+      return false;
+    }
+
+    this.downloading = true;
+
+    this.candidateIdCardService.generate(this.candidateIdCardService.candidates).subscribe(response => {
+    }, (err) => {
+    }, () => {
+      this.downloading = false;
+      this.candidateIdCardService.candidates = [];
+    });
+  }
+
+  /**
+   * on candidate checkbox change
+   * @param event 
+   */
+  onCandidateSelected(event) {
+    event.preventDefault(); 
+    event.stopPropagation(); 
+
+    const candidate_id = parseInt(event.target.value);
+
+    if(event.detail.checked) {//on check
+      this.candidateIdCardService.candidates.push(candidate_id);
+    } else {//on uncheck
+      this.candidateIdCardService.candidates = this.candidateIdCardService.candidates.filter((c) => c != candidate_id);
+    }
   }
 
   ionViewWillEnter() {
