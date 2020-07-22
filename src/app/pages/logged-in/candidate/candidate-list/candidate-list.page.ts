@@ -75,23 +75,6 @@ export class CandidateListPage implements OnInit {
     });
   }
 
-  /**
-   * on candidate checkbox change
-   * @param event 
-   */
-  onCandidateSelected(event) {
-    event.preventDefault(); 
-    event.stopPropagation(); 
-
-    const candidate_id = parseInt(event.target.value);
-
-    if(event.detail.checked) {//on check
-      this.candidateIdCardService.candidates.push(candidate_id);
-    } else {//on uncheck
-      this.candidateIdCardService.candidates = this.candidateIdCardService.candidates.filter((c) => c != candidate_id);
-    }
-  }
-
   ionViewWillEnter() {
     this.loadData(this.currentPage);
   }
@@ -193,69 +176,10 @@ export class CandidateListPage implements OnInit {
   }
 
   /**
-   * When its selected
-   */
-  rowSelected(model) {
-    // Load Detail Page
-    this.navCtrl.navigateForward('candidate-view/' + model.candidate_id, {
-      state: {
-        model
-      }
-    });
-  }
-
-  /**
    * Loads the create page
    */
   create() {
     this.navCtrl.navigateForward('candidate-form');
-  }
-
-  /**
-   * Delete the provided model
-   */
-
-  async delete(candidate: Candidate) {
-    const confirm = await this.alertCtrl.create({
-      header: 'Delete Candidate?',
-      message: 'Are you sure you want to delete this Candidate?',
-      buttons: [
-        {
-          text: 'Yes',
-          handler: async () => {
-            this.loading = true;
-            this.candidateService.delete(candidate).subscribe(async jsonResp => {
-              this.loading = false;
-
-              if (jsonResp.operation == 'error') {
-                const alert = await this.alertCtrl.create({
-                  header: 'Deletion Error!',
-                  subHeader: jsonResp.message,
-                  buttons: ['OK']
-                });
-                alert.present();
-              }
-
-              if (jsonResp.operation == 'success') {
-                const toast = await this.toastCtrl.create({
-                  message: jsonResp.message,
-                  duration: 3000
-                });
-                toast.present();
-              }
-              this.search();
-            });
-          }
-        },
-        {
-          text: 'No',
-          handler: () => {
-            // this.search();
-          }
-        }
-      ]
-    });
-    confirm.present();
   }
 
   loadSegment($event) {
@@ -265,14 +189,6 @@ export class CandidateListPage implements OnInit {
     } else if ($event.detail.value == 'not-assigned') {
       this.loadNotAssigned(1, this.unassignedSearchBar);
     }
-  }
-
-  /**
-   * @param $event
-   * @param candidate
-   */
-  loadLogo($event, candidate) {
-    return candidate.candidate_personal_photo_thumb = null;
   }
 }
 

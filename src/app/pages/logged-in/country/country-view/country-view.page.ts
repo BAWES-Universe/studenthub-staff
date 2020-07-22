@@ -28,6 +28,7 @@ export class CountryViewPage implements OnInit {
   public country: Country;
   public candidates: Candidate[];
   public country_id;
+
   constructor(
     public navCtrl: NavController,
     private candidateService: CandidateService,
@@ -37,12 +38,14 @@ export class CountryViewPage implements OnInit {
     public toastCtrl: ToastController,
     public alertCtrl: AlertController,
   ) {
-    this.country_id = this.activatedRoute.snapshot.paramMap.get('id');
   }
 
   ngOnInit() {
 
+    this.country_id = this.activatedRoute.snapshot.paramMap.get('id');
+    
     const state = window.history.state;
+
     if (state.model) {
       this.country = state.model;
     }
@@ -52,6 +55,11 @@ export class CountryViewPage implements OnInit {
     } else  {
       this.countryView(this.country_id);
     }
+  }
+
+  refresh() {
+    this.currentPage = 1;
+    this.loadData(1);
   }
 
   async loadData(page: number) {
@@ -169,6 +177,7 @@ export class CountryViewPage implements OnInit {
       this.loadData(this.currentPage);
     });
   }
+
   /**
    * @param $event
    * @param candidate

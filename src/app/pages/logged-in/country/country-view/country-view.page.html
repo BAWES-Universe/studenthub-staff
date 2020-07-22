@@ -42,27 +42,15 @@
       </ion-label>
     </ion-item>
   </ion-list>
-  <h5 *ngIf="candidates && candidates.length > 0">Candidates</h5>
-  <loading-modal [loading]="loading" type="text-list"></loading-modal>
-  <ion-list *ngIf="!loading">
-    <ion-item-sliding *ngFor="let candidate of candidates">
-      <ion-item tappable (click)="candidateSelected(candidate)">
-        <ion-avatar slot="start">
-          <img *ngIf="candidate.candidate_personal_photo_thumb" src="{{ aws.permanentBucketUrl + candidate.candidate_personal_photo_thumb }}" (error)="loadLogo($event,candidate)">
-          <img *ngIf="!candidate.candidate_personal_photo_thumb" src="/assets/icon/icon.png">
-        </ion-avatar>
-        <ion-label>
-          {{ candidate.candidate_name }}
-        </ion-label>
-      </ion-item>
 
-      <ion-item-options side="end">
-        <ion-button color="danger" (click)="deleteCandidates(candidate)" [disabled]="deletingCandidate">
-          <ion-icon *ngIf="!deletingCandidate" name="trash"></ion-icon>
-          <span *ngIf="!deletingCandidate">Delete</span>
-          <ion-spinner *ngIf="deletingCandidate"></ion-spinner>
-        </ion-button>
-      </ion-item-options>
-    </ion-item-sliding>
+  <h5 *ngIf="candidates && candidates.length > 0">Candidates</h5>
+ 
+  <ion-list *ngIf="!loading">
+
+    <candidate [candidate]="candidate" (refresh)="refresh()" *ngFor="let candidate of candidates"></candidate>
+
   </ion-list>
+
+  <loading-modal [loading]="loading" type="text-list"></loading-modal>
+
 </ion-content>

@@ -15,10 +15,10 @@
 
               <ion-label>
                 <span *ngIf="candidateIdCardService.candidates.length == 1">
-                  <span class="count">1</span> Candidate selected
+                  <span class="count">{{ candidateIdCardService.candidates.length }}</span> Candidate selected
                 </span>
                 <span *ngIf="candidateIdCardService.candidates.length > 1">
-                  <span class="count">2</span> Candidates selected
+                  <span class="count">{{ candidateIdCardService.candidates.length }}</span> Candidates selected
                 </span>
               </ion-label>
 

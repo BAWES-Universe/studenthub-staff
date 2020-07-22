@@ -42,38 +42,14 @@
 
   <ion-list *ngIf="!loading">
 
-    <ion-item-sliding *ngFor="let candidate of candidates">
-      <ion-item>
-        <ion-avatar slot="start">
-          <img *ngIf="candidate.candidate_personal_photo_thumb" src="{{ aws.permanentBucketUrl + candidate.candidate_personal_photo_thumb }}" (error)="loadLogo($event,candidate)">
-          <img *ngIf="!candidate.candidate_personal_photo_thumb" src="/assets/icon/icon.png">
-        </ion-avatar>
-        <ion-label>
-          {{ candidate.candidate_name }}
-          <p *ngIf="candidate.store" >{{ candidate.store.store_name }} @ {{ candidate.company.company_name }}</p>
-        </ion-label>
-        
-        <ion-checkbox (click)="$event.preventDefault();$event.stopPropagation();" slot="end" [checked]="candidateIdCardService.candidates.indexOf(candidate.candidate_id) > -1" 
-            (ionChange)="onCandidateSelected($event)" [value]="candidate.candidate_id"></ion-checkbox>
-      </ion-item>
+    <candidate [candidate]="candidate" (refresh)="search()" *ngFor="let candidate of candidates"></candidate>
 
-      <ion-item-options side="end">
-        <ion-button color="secondary" (click)="rowSelected(candidate)">
-          <ion-icon name="eye-outline" slot="start"></ion-icon>
-          View
-        </ion-button>
-        
-        <ion-button color="danger" (click)="delete(candidate)">
-          <ion-icon name="trash" slot="start"></ion-icon>
-          Delete
-        </ion-button>
-      </ion-item-options>
-    </ion-item-sliding>
     <no-items *ngIf="candidates && candidates.length == 0" message="No candidate data available"></no-items>
+
+    <loading-modal [loading]="loading" type="candidate-list"></loading-modal>
+  
   </ion-list>
 
-  <loading-modal [loading]="loading" type="candidate-list"></loading-modal>
-  
   <ion-row class="ion-text-center" *ngIf="!loading">
     <div class="pagination-wrapper">
       <ion-button *ngFor="let page of pages" size="small" color="{{ pageLinkColor(page) }}" (click)="loadData(page)">

@@ -1,0 +1,30 @@
+<ion-item-sliding>
+  <ion-item>
+    <ion-avatar slot="start">
+      <img *ngIf="candidate.candidate_personal_photo_thumb"
+        src="{{ aws.permanentBucketUrl + candidate.candidate_personal_photo_thumb }}" (error)="loadLogo(candidate)">
+      <img *ngIf="!candidate.candidate_personal_photo_thumb" src="/assets/icon/icon.png">
+    </ion-avatar>
+    <ion-label>
+      {{ candidate.candidate_name }}
+      <p *ngIf="candidate.store">{{ candidate.store.store_name }} @ {{ candidate.company.company_name }}</p>
+    </ion-label>
+
+    <ion-checkbox *ngIf="candidate.store" (click)="$event.preventDefault();$event.stopPropagation();" slot="end"
+      [checked]="candidateIdCardService.candidates.indexOf(candidate.candidate_id) > -1"
+      (ionChange)="onCandidateSelected($event)" [value]="candidate.candidate_id"></ion-checkbox>
+
+  </ion-item>
+
+  <ion-item-options side="end">
+    <ion-button color="secondary" (click)="rowSelected(candidate)">
+      <ion-icon name="eye-outline" slot="start"></ion-icon>
+      View
+    </ion-button>
+
+    <ion-button color="danger" *ngIf="!candidate.store" (click)="delete(candidate)">
+      <ion-icon name="trash" slot="start"></ion-icon>
+      Delete
+    </ion-button>
+  </ion-item-options>
+</ion-item-sliding>
