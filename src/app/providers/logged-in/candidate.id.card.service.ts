@@ -7,6 +7,8 @@ import {Observable} from "rxjs";
 })
 export class CandidateIdCardService {
 
+  public candidates = [];
+
   private _candidateEndpoint: string = "/candidate-id-cards";
 
   constructor(private _authhttp: AuthhttpService) {

@@ -94,6 +94,10 @@ export class AppComponent implements OnInit {
     });
   }
 
+  clearCandidateSelection() {
+    this.candidateIdCardService.candidates = [];
+  }
+
   /**
    * keep checking for service worker update
    */

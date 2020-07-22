@@ -4,6 +4,14 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>Candidates <span *ngIf="!loading && totalCount">({{totalCount}})</span></ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button color="primary" [disabled]="candidateIdCardService.candidates.length == 0 || downloading" (click)="generate()">
+        <span *ngIf="!downloading">Download Zip</span>
+        <ion-spinner *ngIf="downloading"></ion-spinner>
+      </ion-button>
+    </ion-buttons>
+
   </ion-toolbar>
 </ion-header>
 
@@ -31,10 +39,11 @@
     debounce="200"
     (ionChange)="search()">
   </ion-searchbar>
-  <loading-modal [loading]="loading" type="candidate-list"></loading-modal>
+
   <ion-list *ngIf="!loading">
+
     <ion-item-sliding *ngFor="let candidate of candidates">
-      <ion-item tappable (click)="rowSelected(candidate)">
+      <ion-item>
         <ion-avatar slot="start" *ngIf="candidate.candidate_personal_photo_thumb">
           <img src="{{ aws.permanentBucketUrl + candidate.candidate_personal_photo_thumb}}">
         </ion-avatar>
@@ -42,11 +51,19 @@
           {{ candidate.candidate_name }}
           <p *ngIf="candidate.store" >{{ candidate.store.store_name }} @ {{ candidate.company.company_name }}</p>
         </ion-label>
+        
+        <ion-checkbox (click)="$event.preventDefault();$event.stopPropagation();" slot="end" [checked]="candidateIdCardService.candidates.indexOf(candidate.candidate_id) > -1" 
+            (ionChange)="onCandidateSelected($event)" [value]="candidate.candidate_id"></ion-checkbox>
       </ion-item>
 
       <ion-item-options side="end">
+        <ion-button color="secondary" (click)="rowSelected(candidate)">
+          <ion-icon name="eye-outline" slot="start"></ion-icon>
+          View
+        </ion-button>
+        
         <ion-button color="danger" (click)="delete(candidate)">
-          <ion-icon name="trash"></ion-icon>
+          <ion-icon name="trash" slot="start"></ion-icon>
           Delete
         </ion-button>
       </ion-item-options>
@@ -54,6 +71,8 @@
     <no-items *ngIf="candidates && candidates.length == 0" message="No candidate data available"></no-items>
   </ion-list>
 
+  <loading-modal [loading]="loading" type="candidate-list"></loading-modal>
+  
   <ion-row class="ion-text-center" *ngIf="!loading">
     <div class="pagination-wrapper">
       <ion-button *ngFor="let page of pages" size="small" color="{{ pageLinkColor(page) }}" (click)="loadData(page)">
