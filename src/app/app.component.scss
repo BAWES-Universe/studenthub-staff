@@ -1,0 +1,30 @@
+ion-menu{
+  .logo{width:120px;}
+}
+ion-header{
+  ion-toolbar{
+    background: #231f20;
+    --background: #231f20;
+  }
+}
+
+.item-candidate-selection {
+  --background: var(--ion-color-medium);
+  --border: none;
+  --inner-border-width: 0;
+  
+  ion-button {
+    text-transform: none !important;
+  }
+
+  .count {
+    border-radius: 2px;
+    background-color: #fb8d33;
+    color: #fff;
+    padding: 0 4px;
+    min-width: 13px;
+    height: 21px;
+    line-height: 21px;
+    text-align: center;
+  }
+}

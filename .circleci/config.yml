@@ -1,0 +1,185 @@
+version: 2
+jobs:
+    # Job: Build app for Dev server environment
+    build_for_dev_server:
+        docker:
+          # specify the version you desire here
+          - image: circleci/node:12.9.0-buster-browsers
+            environment:
+              CHROME_BIN: /usr/bin/google-chrome
+              NODE_OPTIONS: --max_old_space_size=16000
+
+        # Specify Server Type. Keep it as small as possible to reduce costs
+        resource_class: large
+
+        working_directory: ~/repo
+
+        steps:
+          - checkout
+
+          # Restore cached dependencies for node_modules
+          - restore_cache:
+              keys:
+              - dependencies-v3-{{ checksum "package.json" }}
+              # fallback to using the latest cache if no exact match is found
+              - dependencies-v3-
+
+          # Install NPM dependencies
+          - run: npm install
+
+          # Cache Node Modules until dependencies have changed
+          - save_cache:
+              paths:
+                - node_modules
+              key: dependencies-v3-{{ checksum "package.json" }}
+
+          # Run automated tests
+          # - run: npm test
+
+          # Store Test Results
+          - store_test_results:
+              path: ~/repo/junit
+
+          # Build Ionic app
+          - run: npm run build:devserver
+
+          # Store NPM Logs
+          - store_artifacts:
+              path: /home/circleci/.npm/_logs
+
+          # Store TMP Path
+          - store_artifacts:
+              path: /tmp
+
+          # Persist the output build for further jobs in workflow
+          - persist_to_workspace:
+              root: ~/repo
+              paths:
+                  - www
+
+    # Job: Build app for Prod server environment
+    build_for_prod_server:
+        docker:
+          # specify the version you desire here
+          - image: circleci/node:12.9.0-buster-browsers
+            environment:
+              CHROME_BIN: /usr/bin/google-chrome
+              NODE_OPTIONS: --max_old_space_size=16000
+
+        # Specify Server Type. Keep it as small as possible to reduce costs
+        resource_class: large
+
+        working_directory: ~/repo
+
+        steps:
+          - checkout
+
+          # Restore cached dependencies for node_modules
+          - restore_cache:
+              keys:
+              - dependencies-v3-{{ checksum "package.json" }}
+              # fallback to using the latest cache if no exact match is found
+              - dependencies-v3-
+
+          # Install NPM dependencies
+          - run: npm install
+
+          # Cache Node Modules until dependencies have changed
+          - save_cache:
+              paths:
+                - node_modules
+              key: dependencies-v3-{{ checksum "package.json" }}
+
+          # Run automated tests
+          # - run: npm test
+
+          # Store Test Results
+          - store_test_results:
+              path: ~/repo/junit
+
+          # Build Ionic app
+          - run: npm run build:production
+
+          # Store NPM Logs
+          - store_artifacts:
+              path: /home/circleci/.npm/_logs
+
+          # Store TMP Path
+          - store_artifacts:
+              path: /tmp
+
+          # Persist the output build for further jobs in workflow
+          - persist_to_workspace:
+              root: ~/repo
+              paths:
+                  - www
+
+    # Job: Deploy completed build on Dev S3 Bucket
+    deploy_on_dev_server:
+        docker:
+          - image: circleci/python:3.6.8-jessie
+
+        # Specify Server Type. Keep it as small as possible to reduce costs
+        resource_class: small
+
+        steps:
+            # Get persisted workspace from build
+            - attach_workspace:
+                at: ~/completed-build
+            - run:
+                name: Install awscli
+                command: sudo pip install awscli
+            - run:
+                name: Deploy to S3
+                command: aws s3 sync ~/completed-build/www/ s3://studenthub-staff-dev/
+            - run:
+                name: Invalidate Cloudfront Cache
+                command: aws cloudfront create-invalidation --distribution-id ESU6JF6718T50 --paths '/*'
+
+    # Job: Deploy completed build on Staging S3 Bucket
+    deploy_on_staging_server:
+        docker:
+          - image: circleci/python:3.6.8-jessie
+
+        # Specify Server Type. Keep it as small as possible to reduce costs
+        resource_class: small
+
+        steps:
+            # Get persisted workspace from build
+            - attach_workspace:
+                at: ~/completed-build
+            - run:
+                name: Install awscli
+                command: sudo pip install awscli
+            - run:
+                name: Deploy to S3
+                command: aws s3 sync ~/completed-build/www/ s3://studenthub-staff-staging/
+
+
+# Define Workflows
+workflows:
+    version: 2
+
+    # Build Develop > Then Deploy on Dev Server
+    build_deploy_on_dev_server:
+        jobs:
+            - build_for_dev_server:
+                filters:
+                    branches:
+                        only: develop
+            - deploy_on_dev_server:
+                context: org-global
+                requires:
+                    - build_for_dev_server
+
+    # Build Master > Then Deploy on Staging Server
+    build_deploy_on_staging_server:
+        jobs:
+            - build_for_prod_server:
+                filters:
+                    branches:
+                        only: master
+            - deploy_on_staging_server:
+                context: org-global
+                requires:
+                    - build_for_prod_server

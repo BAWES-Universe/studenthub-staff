@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/company-list"></ion-back-button>
+    </ion-buttons>
+    <ion-title *ngIf="store">{{ store.store_name }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="update()">
+        Update
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-list *ngIf="store">
+    
+    <ion-list-header>
+      Candidates &nbsp; <ion-badge color="dark" *ngIf="store.candidates">{{ store.candidates.length }}</ion-badge>
+    </ion-list-header>
+
+    <candidate [candidate]="candidate" (refresh)="loadData()" *ngFor="let candidate of store.candidates"></candidate>
+
+  </ion-list>
+
+  <loading-modal [loading]="loading" type="candidate-list"></loading-modal>
+
+</ion-content>

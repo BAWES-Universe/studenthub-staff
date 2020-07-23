@@ -1,137 +1,165 @@
-import { Component, OnInit, NgZone } from '@angular/core';
-import { Deploy } from '@ionic/cloud-angular';
-import { Platform, Events, ToastController, AlertController } from 'ionic-angular';
+import { Component, OnInit, ApplicationRef } from '@angular/core';
+import { AlertController, NavController, Platform } from '@ionic/angular';
+import { Plugins } from '@capacitor/core';
+import { SwUpdate } from '@angular/service-worker';
+import { concat, interval } from "rxjs";
+import { first } from "rxjs/operators";
+import { environment } from 'src/environments/environment';
+//services
+import { EventService } from "./providers/event.service";
+import { AuthService } from "./providers/auth.service";
+import { CandidateIdCardService } from "./providers/logged-in/candidate.id.card.service";
 
-// Native Components
-import { StatusBar } from '@ionic-native/status-bar';
-import { SplashScreen } from '@ionic-native/splash-screen';
 
-import { LoginPage } from '../pages/start-pages/login/login';
-import { NavigationPage } from '../pages/logged-in/navigation/navigation';
-
-import { AuthService } from '../providers/auth.service';
+const { SplashScreen } = Plugins;
 
 @Component({
-  templateUrl: 'app.html'
+  selector: 'app-root',
+  templateUrl: 'app.component.html',
+  styleUrls: ['app.component.scss']
 })
-export class MyApp implements OnInit {
-  rootPage;
-  
-  constructor(
-      public deploy: Deploy,
-      private _platform: Platform,
-      private _events: Events,
-      private _toastCtrl: ToastController,
-      private _alertCtrl: AlertController,
-      private _auth: AuthService,
-      private _zone: NgZone,
-      statusBar: StatusBar, 
-      splashScreen: SplashScreen
-  ) {
-    this._platform.ready().then(() => {
-      // Native functions
-      if (this._platform.is('cordova') && this._platform.is('mobile')) {
-        statusBar.styleDefault();
-        splashScreen.hide();
+export class AppComponent implements OnInit {
 
-        // Check for App update via Ionic Deploy
-        this._checkForUpdate();
+  public updatesAvailable: boolean = false;
+  public expiredIdCount: number = 5;
+  public printIdCount: any = 0;
+
+  constructor(
+    public updates: SwUpdate,
+    public appRef: ApplicationRef,
+    private platform: Platform,
+    private eventService: EventService,
+    private _alertCtrl: AlertController,
+    private navCtrl: NavController,
+    public auth: AuthService,
+    public candidateIdCardService: CandidateIdCardService
+  ) {
+    this.initializeApp();
+  }
+
+  initializeApp() {
+    this.platform.ready().then(() => {
+
+      if (this.platform.is('hybrid')) {
+        SplashScreen.hide();
       }
 
-      // Initiate the access token request which determines login status.
-      this._auth.getAccessToken();
+      this.setServiceWorker();
+    });
+  }
+
+  async ngOnInit() {
+
+    // Check for network connection
+    this.eventService.internetOffline$.subscribe(async () => {
+      let alert = await this._alertCtrl.create({
+        header: 'No Internet Connection',
+        subHeader: 'Sorry, no Internet connectivity detected. Please reconnect and try again.',
+        buttons: ['Dismiss']
+      });
+      alert.present();
+    });
+
+    // On Login Event, set root to Internal app page
+    this.eventService.userLogined$.subscribe(userEventData => {
+      this.navCtrl.navigateRoot(['/default']);
+    });
+
+    // On Logout Event, set root to Login Page
+    this.eventService.userLoggedOut$.subscribe((logoutReason) => {
+      // Set root to Login Page
+      this.navCtrl.navigateRoot(['/login']);
+
+      // Show Message explaining logout reason if there's one set
+      if (logoutReason) {
+        console.log(logoutReason);
+        console.log('Invalid Access');
+      }
+    });
+
+    this.eventService.expiredIdCard$.subscribe((userEventData) => {
+      this.updateExpiredIdCount();
+    });
+    this.eventService.printIdCard$.subscribe((userEventData) => {
+      this.printIdCount = userEventData;
     });
   }
 
   /**
-   * Using Ng2 Lifecycle hooks because view lifecycle events don't trigger for Bootstrapped MyApp Component
+   * update expired count
    */
-  ngOnInit(){
+  updateExpiredIdCount() {
+    this.candidateIdCardService.totalExpiredIds().subscribe(result => {
+      this.expiredIdCount = result.total;
+    });
+  }
 
-      // Check for network connection
-      this._events.subscribe('internet:offline', (userEventData) => {
-        let alert = this._alertCtrl.create({
-          title: 'No Internet Connection',
-          subTitle: 'Sorry, no Internet connectivity detected. Please reconnect and try again.',
-          buttons: ['Dismiss']
-        });
-        alert.present();
-      });
-
-      // On Login Event, set root to Internal app page
-      this._events.subscribe('user:login', (userEventData) => {
-        this._zone.run(() => {
-          this.rootPage = NavigationPage;
-        });
-      });
-
-      // On Logout Event, set root to Login Page
-      this._events.subscribe('user:logout', (logoutReason) => {
-        // Set root to Login Page
-        this.rootPage = LoginPage;
-
-        // Show Message explaining logout reason if there's one set
-        if(logoutReason){
-          console.log(logoutReason);
-        }
-      });
+  clearCandidateSelection() {
+    this.candidateIdCardService.candidates = [];
   }
 
   /**
-   * Check for app updates on the deploy channel
+   * keep checking for service worker update
    */
-  private _checkForUpdate(){
-    this.deploy.channel = 'production';
-    this.deploy.check().then((hasUpdate: boolean) => {
-      if (hasUpdate) {
-        // Show Toast with Download Progress
-        let toast = this._toastCtrl.create({
-                        message: 'Downloading Update .. 0%',
-                        position: 'bottom',
-                        showCloseButton: false,
-                    });
-        toast.present();
+  setServiceWorker() {
 
-        // update is available, download and extract the update
-        this.deploy.download({
-            onProgress: p => {
-                toast.setMessage('Downloading Update .. ' + p + '%');
-                //console.log('Downloading = ' + p + '%');
-            }
-        }).then(() => {
-          this.deploy.extract({
-              onProgress: p => {
-                  toast.setMessage('Extracting .. ' + p + '%');
-                  //console.log('Extracting = ' + p + '%');
-              }
-          }).then(() => {
-            // Reload App after 3 seconds
-            toast.setMessage('Restarting app to apply update..');
-            setTimeout(() => {
-              this.deploy.load();
-            }, 3000);
+    // service worker watcher
+    if (!this.platform.is('capacitor')) {
 
-            // Get info about the currently active snapshot 
-            this.deploy.info().then((info: {deploy_uuid: string, binary_version: string}) => {
-              
-              let activeSnapshot = info.deploy_uuid;
+      if ('serviceWorker' in navigator && environment.serviceWorker && window.location.hostname != 'localhost') {
 
-              // List of snapshots applied on this device.
-              this.deploy.getSnapshots().then((snapshots) => {
-                // Loop through Existing snapshots and delete the inactive ones
-                snapshots.forEach(snapshot => {
-                  if(snapshot != activeSnapshot){
-                    this.deploy.deleteSnapshot(snapshot).then(() => {
-                      // Reload app to apply the update
-                      return this.deploy.load();
-                    });
-                  }
-                });
-              });
-            });
+        navigator.serviceWorker.register('./ngsw-worker.js');
+
+        // Allow the app to stabilize first, before starting polling for updates with `interval()`.
+        const appIsStable$ = this.appRef.isStable.pipe(first(isStable => isStable === true));
+        const updateInterval$ = interval(60 * 1000);// every minute
+        const updateIntervalOnceAppIsStable$ = concat(appIsStable$, updateInterval$);
+
+        updateIntervalOnceAppIsStable$.subscribe(() => {
+          this.updates.checkForUpdate().then((e) => {
           });
         });
+
+        this.updates.available.subscribe((e) => {
+          this.updatesAvailable = true;
+        });
+
+        this.updates.activated.subscribe((e) => {
+          this.updatesAvailable = false;
+        }, reason => {
+          console.error('service worker update activation failed', reason);
+        });
       }
-    });
+    }
+  }
+
+  /**
+   * When user select refresh on udpate available prompt
+   */
+  onUpdateAlertRefresh() {
+
+    if (!this.updatesAvailable) {
+      return this.updatesAvailable = false;
+    }
+
+    try {
+      this.updates.activateUpdate().then(() => {
+      });
+    } catch {
+    }
+
+    window.location.reload();
+  }
+
+  /**
+   * When user select close on udpate available prompt
+   */
+  onUpdateAlertClose() {
+    this.updatesAvailable = false;
+  }
+
+
+  logout() {
+    this.auth.logout();
   }
 }

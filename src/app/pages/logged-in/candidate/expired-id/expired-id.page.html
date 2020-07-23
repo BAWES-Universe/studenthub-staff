@@ -1,0 +1,47 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+
+    <ion-title>Expired ID Card</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button color="primary" [disabled]="!form.valid" (click)="renew()">
+        Renew Cards
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-searchbar
+    [(ngModel)]="searchBar"
+    (ionChange)="loadData(this.currentPage)"
+    debounce="200"
+    animated
+  >
+  </ion-searchbar>
+
+  <form [formGroup]="form">
+
+    <loading-modal [loading]="loading" type="text-list"></loading-modal>
+    <ion-list *ngIf="!loading && candidatelistData && candidatelistData.length > 0">
+      <ion-item *ngFor="let obj of candidatelistData; let i= index">
+        <ion-label>{{ obj.candidate_name }}</ion-label>
+        <ion-checkbox [(ngModel)]="candidates[i]" [ngModelOptions]="{standalone: true}"></ion-checkbox>
+      </ion-item>
+    </ion-list>
+    <no-items *ngIf="!loading && candidatelistData && candidatelistData.length == 0" message="No data available"></no-items>
+
+    <ion-row class="ion-text-center" *ngIf="!loading">
+      <div class="pagination-wrapper">
+        <ion-button *ngFor="let page of pages"  size="small" color="{{ pageLinkColor(page) }}" (click)="loadData(page)">
+          {{ page }}
+        </ion-button>
+      </div>
+    </ion-row>
+
+  </form>
+</ion-content>

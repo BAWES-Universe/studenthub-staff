@@ -1,0 +1,55 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button *ngIf="!this.company_id"></ion-menu-button>
+      <ion-back-button *ngIf="this.company_id" defaultHref="/company-list"></ion-back-button>
+    </ion-buttons>
+
+    <ion-title>Select Company</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <loading-modal [loading]="loading" type="text-list"></loading-modal>
+  <ion-list *ngIf="!loading">
+    <ion-item tappable *ngFor="let company of companies" (click)="rowSelected(company)">
+      <ion-label>
+        {{ company.company_name }}
+      </ion-label>
+      <ng-container *ngIf="platform.width() > 450">
+        <ion-badge slot="end" *ngIf="company.total_candidates > 0">
+          {{ company.total_candidates }} candidates
+        </ion-badge>
+        <ion-badge slot="end" *ngIf="company.subCompanies && company.subCompanies.length > 0">
+          {{ company.subCompanies.length }} sub-companies
+        </ion-badge>
+        <ion-badge slot="end" *ngIf="company.stores.length > 0">
+          {{ company.stores.length }} stores
+        </ion-badge>
+      </ng-container>
+
+      <ng-container *ngIf="platform.width() <= 449">
+        <div slot="end" class="end">
+          <ion-badge *ngIf="company.total_candidates > 0">
+            {{ company.total_candidates }} candidates
+          </ion-badge>
+          <ion-badge  *ngIf="company.subCompanies && company.subCompanies.length > 0">
+            {{ company.subCompanies.length }} sub-companies
+          </ion-badge>
+          <ion-badge *ngIf="company.stores.length > 0">
+            {{ company.stores.length }} stores
+          </ion-badge>
+        </div>
+      </ng-container>
+    </ion-item>
+  </ion-list>
+
+  <ion-row class="ion-text-center" *ngIf="!loading">
+    <div class="pagination-wrapper">
+      <ion-button *ngFor="let page of pages" size="small" color="{{ pageLinkColor(page) }}" (click)="loadCompanyList(page)">
+        {{ page }}
+      </ion-button>
+    </div>
+  </ion-row>
+
+</ion-content>

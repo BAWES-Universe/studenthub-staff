@@ -1,0 +1,36 @@
+<ion-content class='contentArea ion-padding'>
+  <div class='brand'>
+    <img src="assets/icon/icon.png" />
+  </div>
+
+  <ion-card class='loginCard'>
+    <ion-card-content class='authArea'>
+
+      <!-- Login Form -->
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" (keyup.enter)="onSubmit()" class="classicInput" novalidate>
+
+        <ion-input type="email" #emailInput
+                   formControlName="email"
+                   placeholder="Your Email Address">
+        </ion-input>
+
+        <ion-input type="password" #passwordInput
+                   formControlName="password"
+                   placeholder="Your Password">
+        </ion-input>
+
+        <div class="ion-text-center">
+          <ion-button expand="block" class="login-btn" type="submit"
+                  [disabled]="!loginForm.valid || isLoading ||
+                        (emailInput.value == oldEmailInput && passwordInput.value == oldPasswordInput)">
+
+            <ion-spinner *ngIf="isLoading"></ion-spinner>
+            <span *ngIf="!isLoading">Sign in</span>
+          </ion-button>
+        </div>
+      </form>
+      <!-- END Login Form -->
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>

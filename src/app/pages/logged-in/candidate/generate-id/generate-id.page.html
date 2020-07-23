@@ -1,0 +1,55 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+
+    <ion-title class="ion-text-left">Generate ID Card</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button color="primary" [disabled]="!form.valid && downloading" (click)="generate()">
+        <span *ngIf="!downloading">Download Zip</span>
+        <ion-spinner *ngIf="downloading"></ion-spinner>
+      </ion-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-segment [(ngModel)]="cndSegment" (ionChange)="segmentChanged($event)" color="primary">
+    <ion-segment-button value="not-generated">
+      Not Generated
+    </ion-segment-button>
+    <ion-segment-button value="generated">
+      Already Generated
+    </ion-segment-button>
+  </ion-segment>
+
+  <ion-searchbar
+    [(ngModel)]="searchBar"
+    (ionChange) ="search()"
+    debounce="200"
+    animated="true"
+  >
+  </ion-searchbar>
+
+  <form [formGroup]="form">
+    <loading-modal [loading]="loading" type="text-list"></loading-modal>
+    <ion-list *ngIf="!loading">
+      <ion-item *ngFor="let obj of candidatelistData; let i= index">
+        <ion-label>{{ obj.candidate_name }}</ion-label>
+        <ion-checkbox [(ngModel)]="candidates[i]" [ngModelOptions]="{standalone: true}"></ion-checkbox>
+      </ion-item>
+    </ion-list>
+    <no-items *ngIf="!loading && candidatelistData && candidatelistData.length == 0" message="No data available"></no-items>
+    <ion-row class="ion-text-center"  *ngIf="!loading">
+      <div class="pagination-wrapper">
+        <ion-button *ngFor="let page of pages" size="small" color="{{ pageLinkColor(page) }}" (click)="loadData(page)">
+          {{ page }}
+        </ion-button>
+      </div>
+    </ion-row>
+  </form>
+</ion-content>

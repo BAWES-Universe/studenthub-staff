@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/company-list"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Stores</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <loading-modal [loading]="loading" type="text-list"></loading-modal>
+  <ion-list *ngIf="!loading">
+    <ion-item-sliding *ngFor="let store of stores">
+      <ion-item tappable (click)="rowSelected(store)">
+        {{ store.store_name }}
+
+        <ion-badge slot="end" *ngIf="store.candidates?.length > 0">
+          <ion-icon name="person"></ion-icon> {{ store.candidates.length }}
+        </ion-badge>
+      </ion-item>
+
+      <ion-item-options side="end">
+        <ion-button color="danger" (click)="delete(store)">
+          <ion-icon name="trash"></ion-icon>
+          Delete
+        </ion-button>
+      </ion-item-options>
+
+    </ion-item-sliding>
+  </ion-list>
+
+  <ion-row class="ion-text-center">
+    <div class="pagination-wrapper">
+      <ion-button *ngFor="let page of pages" size="small" color="{{ pageLinkColor(page) }}" (click)="loadData(page)">
+        {{ page }}
+      </ion-button>
+    </div>
+  </ion-row>
+</ion-content>
+
+<ion-footer>
+  <ion-button expand="full" (click)="create()">
+    Add a store
+  </ion-button>
+</ion-footer>

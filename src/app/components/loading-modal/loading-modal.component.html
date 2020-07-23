@@ -1,0 +1,242 @@
+<!------------------ text-list -------------------->
+
+<div class="text-list" *ngIf="loading && type == 'text-list'">
+  <ion-list>
+    <ion-item>
+      <ion-skeleton-text></ion-skeleton-text>
+    </ion-item>
+    <ion-item>
+      <ion-skeleton-text></ion-skeleton-text>
+    </ion-item>
+    <ion-item>
+      <ion-skeleton-text></ion-skeleton-text>
+    </ion-item>
+    <ion-item>
+      <ion-skeleton-text></ion-skeleton-text>
+    </ion-item>
+  </ion-list>
+</div>
+
+<div class="text-list-view" *ngIf="loading && type == 'text-list-view'">
+  <ion-list>
+    <ion-item>
+      <ion-label>
+        <h5><ion-skeleton-text></ion-skeleton-text></h5>
+        <p><ion-skeleton-text></ion-skeleton-text></p>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <h5><ion-skeleton-text></ion-skeleton-text></h5>
+        <p><ion-skeleton-text></ion-skeleton-text></p>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <h5><ion-skeleton-text></ion-skeleton-text></h5>
+        <p><ion-skeleton-text></ion-skeleton-text></p>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <h5><ion-skeleton-text></ion-skeleton-text></h5>
+        <p><ion-skeleton-text></ion-skeleton-text></p>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <h5><ion-skeleton-text></ion-skeleton-text></h5>
+        <p><ion-skeleton-text></ion-skeleton-text></p>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <h5><ion-skeleton-text></ion-skeleton-text></h5>
+        <p><ion-skeleton-text></ion-skeleton-text></p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</div>
+
+<div class="candidate-list" *ngIf="loading && type == 'candidate-list'">
+  <ion-list>
+    <ion-item>
+      <ion-avatar slot="start">
+        <ion-skeleton-text animated></ion-skeleton-text>
+      </ion-avatar>
+      <ion-label>
+        <h3>
+          <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+        </h3>
+        <p>
+          <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
+        </p>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-avatar slot="start">
+        <ion-skeleton-text animated></ion-skeleton-text>
+      </ion-avatar>
+      <ion-label>
+        <h3>
+          <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+        </h3>
+        <p>
+          <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
+        </p>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-avatar slot="start">
+        <ion-skeleton-text animated></ion-skeleton-text>
+      </ion-avatar>
+      <ion-label>
+        <h3>
+          <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+        </h3>
+        <p>
+          <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
+        </p>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-avatar slot="start">
+        <ion-skeleton-text animated></ion-skeleton-text>
+      </ion-avatar>
+      <ion-label>
+        <h3>
+          <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+        </h3>
+        <p>
+          <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
+        </p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</div>
+
+<div class="candidate-list" *ngIf="loading && type == 'candidate-form'">
+    <!-- Grid for Required File Uploads -->
+    <ion-grid id='uploads'>
+      <ion-row>
+        <ion-col>
+          <ion-skeleton-text class="height-80" animated></ion-skeleton-text>
+        </ion-col>
+        <ion-col>
+          <ion-skeleton-text class="height-80" animated></ion-skeleton-text>
+        </ion-col>
+        <ion-col>
+          <ion-skeleton-text class="height-80" animated></ion-skeleton-text>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <!-- Rest of Form -->
+    <ion-card>
+      <ion-card-header>
+        Civil ID
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item>
+          <ion-label position="stacked">Civil ID Number</ion-label>
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Civil ID Expiry Date</ion-label>
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        Personal Information
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item>
+          <ion-label  position="stacked">Name [English]</ion-label>
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </ion-item>
+        <ion-item>
+          <ion-label  position="stacked">Name [Arabic]</ion-label>
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </ion-item>
+        <ion-item>
+          <ion-label  position="stacked">Birth Date</ion-label>
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Phone Number</ion-label>
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        Payment
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item>
+          <ion-label  position="stacked">Hourly Rate (KWD)</ion-label>
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        Bank Information
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item>
+          <ion-label  position="stacked">Beneficiary Name</ion-label>
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </ion-item>
+        <ion-item>
+          <ion-label  position="stacked">IBAN</ion-label>
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        Login Information
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item>
+          <ion-label  position="stacked">Email</ion-label>
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+</div>
+
+<div class="stats" *ngIf="loading && type == 'stats'">
+  <ion-grid>
+    <ion-row>
+      <!-- New candidate id need to renew -->
+      <ion-col size-lg="12" size-xl="12" size-md="6">
+        <ion-card>
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </ion-card>
+      </ion-col>
+
+      <!-- New candidate id need to generate -->
+      <ion-col size-lg="12" size-xl="12" size-md="6">
+        <ion-card>
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </ion-card>
+      </ion-col>
+
+      <!-- Candidate Count Card -->
+      <ion-col size-lg="12" size-xl="12" size-md="6">
+        <ion-card>
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </ion-card>
+      </ion-col>
+
+    </ion-row>
+  </ion-grid>
+</div>

@@ -1,104 +1,66 @@
 {
   "name": "payroll-staff",
-  "version": "0.0.0",
   "author": "BAWES",
   "homepage": "http://bawes.net/",
-  "private": true,
+  "version": "0.0.1",
   "scripts": {
-    "clean": "ionic-app-scripts clean",
-    "build": "ionic-app-scripts build",
-    "lint": "ionic-app-scripts lint",
-    "ionic:build": "ionic-app-scripts build",
-    "ionic:serve": "ionic-app-scripts serve"
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "test": "ng test",
+    "lint": "ng lint",
+    "e2e": "ng e2e",
+    "ionic:serve:anil": "ionic serve --configuration=anil --service-worker",
+    "build:devserver": "ng build --configuration=dev --service-worker",
+    "build:production": "ng build --configuration=production --prod --service-worker",
+    "ionic:serve:khalid": "ionic serve --configuration=khalid"
   },
-  "config": {
-    "ionic_webpack": "./webpack.config.js"
-  },
+  "private": true,
   "dependencies": {
-    "@angular/common": "4.1.3",
-    "@angular/compiler": "4.1.3",
-    "@angular/compiler-cli": "4.1.3",
-    "@angular/core": "4.1.3",
-    "@angular/forms": "4.1.3",
-    "@angular/http": "4.1.3",
-    "@angular/platform-browser": "4.1.3",
-    "@angular/platform-browser-dynamic": "4.1.3",
-    "@angular/tsc-wrapped": "^4.3.2",
-    "@ionic-native/camera": "^3.6.1",
-    "@ionic-native/core": "^3.6.1",
-    "@ionic-native/file": "^3.6.1",
-    "@ionic-native/splash-screen": "3.4.2",
-    "@ionic-native/status-bar": "3.4.2",
-    "@ionic/cloud-angular": "^0.12.0",
-    "@ionic/storage": "2.0.1",
-    "cordova-android": "^6.2.3",
-    "cordova-plugin-camera": "^2.4.1",
-    "cordova-plugin-compat": "^1.1.0",
-    "cordova-plugin-console": "^1.0.5",
-    "cordova-plugin-device": "^1.1.4",
-    "cordova-plugin-file": "^4.3.3",
-    "cordova-plugin-splashscreen": "^4.0.3",
-    "cordova-plugin-statusbar": "^2.2.1",
-    "cordova-plugin-whitelist": "^1.3.1",
-    "cordova-sqlite-storage": "^2.0.4",
+    "@angular/common": "~9.1.6",
+    "@angular/core": "~9.1.6",
+    "@angular/forms": "~9.1.6",
+    "@angular/platform-browser": "~9.1.6",
+    "@angular/platform-browser-dynamic": "~9.1.6",
+    "@angular/router": "~9.1.6",
+    "@angular/service-worker": "^9.1.11",
+    "@capacitor/core": "2.2.0",
+    "@ionic-native/core": "^5.0.7",
+    "@ionic-native/splash-screen": "^5.0.0",
+    "@ionic-native/status-bar": "^5.0.0",
+    "@ionic/angular": "^5.0.0",
+    "@ionic/storage": "^2.2.0",
+    "@sentry/browser": "^5.19.2",
+    "aws-sdk": "^2.683.0",
     "file-saver": "^1.3.3",
-    "ionic-angular": "3.5.3",
-    "ionic-plugin-deploy": "^0.6.7",
-    "ionic-plugin-keyboard": "^2.2.1",
-    "ionicons": "3.0.0",
-    "rxjs": "5.4.0",
-    "sw-toolbox": "3.6.0",
-    "zone.js": "0.8.12"
+    "raven-js": "^3.27.2",
+    "rxjs": "~6.5.1",
+    "tslib": "^1.10.0",
+    "zone.js": "~0.10.2"
   },
   "devDependencies": {
-    "@ionic/app-scripts": "2.0.2",
-    "ionic": "3.7.0",
-    "typescript": "2.3.4"
+    "@angular-devkit/build-angular": "~0.901.5",
+    "@angular/cli": "~9.1.5",
+    "@angular/compiler": "~9.1.6",
+    "@angular/compiler-cli": "~9.1.6",
+    "@angular/language-service": "~9.1.6",
+    "@capacitor/cli": "2.2.0",
+    "@ionic/angular-toolkit": "^2.1.1",
+    "@types/jasmine": "~3.5.0",
+    "@types/jasminewd2": "~2.0.3",
+    "@types/node": "^12.12.47",
+    "codelyzer": "^5.1.2",
+    "jasmine-core": "~3.5.0",
+    "jasmine-spec-reporter": "~4.2.1",
+    "karma": "~5.0.0",
+    "karma-chrome-launcher": "~3.1.0",
+    "karma-coverage-istanbul-reporter": "~2.1.0",
+    "karma-jasmine": "~3.0.1",
+    "karma-jasmine-html-reporter": "^1.4.2",
+    "protractor": "~5.4.3",
+    "ts-node": "~8.3.0",
+    "tslint": "~6.1.0",
+    "typescript": "~3.8.3"
   },
-  "cordovaPlugins": [
-    "cordova-plugin-camera",
-    "cordova-plugin-file",
-    "cordova-plugin-compat",
-    "ionic-plugin-keyboard",
-    "cordova-plugin-whitelist",
-    "cordova-plugin-console",
-    "cordova-plugin-statusbar",
-    "cordova-plugin-device",
-    "cordova-plugin-splashscreen",
-    "cordova-sqlite-storage"
-  ],
-  "cordovaPlatforms": [
-    "ios",
-    {
-      "platform": "ios",
-      "version": "",
-      "locator": "ios"
-    },
-    {
-      "platform": "android",
-      "version": "",
-      "locator": "android"
-    }
-  ],
-  "description": "payroll-staff: Payroll Staff",
-  "cordova": {
-    "plugins": {
-      "cordova-plugin-camera": {
-        "CAMERA_USAGE_DESCRIPTION": "Required for photo uploads",
-        "PHOTOLIBRARY_USAGE_DESCRIPTION": "Required for image uploads"
-      },
-      "cordova-plugin-console": {},
-      "cordova-plugin-device": {},
-      "cordova-plugin-file": {},
-      "cordova-plugin-splashscreen": {},
-      "cordova-plugin-statusbar": {},
-      "cordova-plugin-whitelist": {},
-      "cordova-sqlite-storage": {},
-      "ionic-plugin-deploy": {},
-      "ionic-plugin-keyboard": {}
-    },
-    "platforms": [
-      "android"
-    ]
-  }
+  "description": "payroll-staff: Payroll Staff Accounts"
 }
