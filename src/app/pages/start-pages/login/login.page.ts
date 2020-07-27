@@ -46,7 +46,6 @@ export class LoginPage implements OnInit {
     const email = this.oldEmailInput = this.loginForm.value.email;
     const password = this.oldPasswordInput = this.loginForm.value.password;
 
-
     this._auth.basicAuth(email, password).subscribe(async res => {
       this.isLoading = false;
 

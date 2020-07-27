@@ -140,8 +140,9 @@
       </ion-card-content>
     </ion-card>
 
-    <ion-button expand="block" color="primary" [disabled]="!form.valid || !form.dirty" (click)="save()">
-      Save
+    <ion-button expand="block" color="primary" [disabled]="saving || !form.valid || !form.dirty" (click)="save()">
+      <ion-spinner *ngIf="saving"></ion-spinner>
+      <span *ngIf="!saving">Save</span>
     </ion-button>
   </form>
 </ion-content>
