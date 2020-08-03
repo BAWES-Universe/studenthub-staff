@@ -160,7 +160,7 @@ export class StoreListPage implements OnInit {
     confirm.present();
   }
 
-  doInfinite(event, type) {
+  doInfinite(event) {
     this.loading = true;
 
     this.currentPage++;

@@ -30,17 +30,9 @@
   </ion-list>
 
 
-  <ion-infinite-scroll *ngIf="currentPageAssign < pageCountAssign" (ionInfinite)="doInfinite($event)">
+  <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
     <ion-infinite-scroll-content></ion-infinite-scroll-content>
   </ion-infinite-scroll>
-
-  <ion-row class="ion-text-center">
-    <div class="pagination-wrapper">
-      <ion-button *ngFor="let page of pages" size="small" color="{{ pageLinkColor(page) }}" (click)="loadData(page)">
-        {{ page }}
-      </ion-button>
-    </div>
-  </ion-row>
 </ion-content>
 
 <ion-footer>
