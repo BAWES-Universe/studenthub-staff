@@ -42,7 +42,7 @@ export class StoreListPage implements OnInit {
    */
   pageLinkColor(page: number) {
 
-    if(page == this.currentPage)
+    if (page == this.currentPage)
       return 'light';
 
     return '';
@@ -55,36 +55,39 @@ export class StoreListPage implements OnInit {
   async loadData(page: number) {
     // Load list of ALL stores
     this.loading = true;
-    this.storeService.getStoresBelongingToCompany(this._companyId).subscribe(response => {
+    this.storeService.getStoresBelongingToCompany(this._companyId, this.currentPage).subscribe(response => {
 
         this.pageCount = response.headers.get('X-Pagination-Page-Count');
         this.currentPage = response.headers.get('X-Pagination-Current-Page');
 
         this.pages = [];
 
-        for(var i = 1; i <= this.pageCount; i++){
+        for (var i = 1; i <= this.pageCount; i++) {
           this.pages.push(i);
         }
 
         //hide if no page = 1
 
-        if(this.pageCount == 1)
+        if (this.pageCount == 1)
           this.pages = [];
 
         this.stores = response.body;
       },
-      error => {},
-      () => {this.loading = false;}
+      error => {
+      },
+      () => {
+        this.loading = false;
+      }
     );
   }
 
   /**
    * When its selected
    */
-  rowSelected(model){
+  rowSelected(model) {
     // Load Detail Page
-    this.navCtrl.navigateForward('store-view/'+model.store_id, {
-      state : {
+    this.navCtrl.navigateForward('store-view/' + model.store_id, {
+      state: {
         model: model
       }
     });
@@ -97,13 +100,13 @@ export class StoreListPage implements OnInit {
     const modal = await this._modalCtrl.create({
       component: StoreFormPage,
       componentProps: {
-        company_id : this._companyId
+        company_id: this._companyId
       },
       cssClass: 'my-custom-class'
     });
     modal.onDidDismiss().then(data => {
-      if(data && data.data && data.data.refresh){
-          this.loadData(this.currentPage);
+      if (data && data.data && data.data.refresh) {
+        this.loadData(this.currentPage);
       }
     });
     return await modal.present();
@@ -112,7 +115,7 @@ export class StoreListPage implements OnInit {
   /**
    * Delete the provided model
    */
-  async delete(store: Store){
+  async delete(store: Store) {
     this.loading = true;
     let confirm = await this._alertCtrl.create({
       header: 'Delete Store?',
@@ -156,5 +159,25 @@ export class StoreListPage implements OnInit {
     });
     confirm.present();
   }
-}
 
+  doInfinite(event, type) {
+    this.loading = true;
+
+    this.currentPage++;
+    this.storeService.getStoresBelongingToCompany(this._companyId, this.currentPage).subscribe(response => {
+
+        this.pageCount = response.headers.get('X-Pagination-Page-Count');
+        this.currentPage = response.headers.get('X-Pagination-Current-Page');
+
+        this.stores = this.stores.concat(response.body);
+      },
+      error => {
+      },
+      () => {
+        this.loading = false;
+        event.target.complete();
+      }
+    );
+  }
+
+}

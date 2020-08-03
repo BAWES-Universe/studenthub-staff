@@ -16,9 +16,12 @@ import { CandidateIdCardService } from 'src/app/providers/logged-in/candidate.id
 })
 export class CandidateListPage implements OnInit {
 
-  public pageCount = 0;
-  public currentPage = 1;
-  public totalCount = 0;
+  public pageCountAssign = 0;
+  public pageCountUnAssign = 0;
+  public currentPageAssign = 1;
+  public currentPageUnAssign = 1;
+  public totalCountAssign = 0;
+  public totalCountUnAssign = 0;
   public pages: number[] = [];
 
   public assignedSearchBar = '';
@@ -76,12 +79,12 @@ export class CandidateListPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    this.loadData(this.currentPage);
+    this.loadData(this.currentPageAssign);
   }
 
   search() {
-    this.currentPage = 1;
-    this.loadData(this.currentPage);
+    this.currentPageAssign = 1;
+    this.loadData(this.currentPageAssign);
   }
 
   loadData(page: number) {
@@ -99,24 +102,24 @@ export class CandidateListPage implements OnInit {
    */
   async loadNotAssigned(page: number, search: string) {
 
-    this.currentPage = page;
+    this.currentPageUnAssign = page;
 
     // Load list of candidates
     this.loading = true;
     this.candidateService.listNotAssigned(search, page).subscribe(response => {
-      this.totalCount = response.headers.get('X-Pagination-Total-Count');
-      this.pageCount = response.headers.get('X-Pagination-Page-Count');
-      this.currentPage = response.headers.get('X-Pagination-Current-Page');
+      this.totalCountUnAssign = response.headers.get('X-Pagination-Total-Count');
+      this.pageCountUnAssign = response.headers.get('X-Pagination-Page-Count');
+      this.currentPageUnAssign = response.headers.get('X-Pagination-Current-Page');
 
       this.pages = [];
 
-      for (let i = 1; i <= this.pageCount; i++) {
+      for (let i = 1; i <= this.pageCountUnAssign; i++) {
         this.pages.push(i);
       }
 
       // hide if no page = 1
 
-      if (this.pageCount == 1) {
+      if (this.pageCountUnAssign == 1) {
         this.pages = [];
       }
 
@@ -137,25 +140,25 @@ export class CandidateListPage implements OnInit {
    */
   async loadAssigned(page: number, search: string) {
 
-    this.currentPage = page;
+    this.currentPageAssign = page;
 
     // Load list of candidates
     this.loading = true;
     this.candidateService.listAssigned(search, page).subscribe(response => {
 
-      this.totalCount = response.headers.get('X-Pagination-Total-Count');
-      this.pageCount = response.headers.get('X-Pagination-Page-Count');
-      this.currentPage = response.headers.get('X-Pagination-Current-Page');
+      this.totalCountAssign = response.headers.get('X-Pagination-Total-Count');
+      this.pageCountAssign = response.headers.get('X-Pagination-Page-Count');
+      this.currentPageAssign = response.headers.get('X-Pagination-Current-Page');
 
       this.pages = [];
 
-      for (let i = 1; i <= this.pageCount; i++) {
+      for (let i = 1; i <= this.pageCountAssign; i++) {
         this.pages.push(i);
       }
 
       // hide if no page = 1
 
-      if (this.pageCount == 1) {
+      if (this.pageCountAssign == 1) {
         this.pages = [];
       }
 
@@ -168,7 +171,7 @@ export class CandidateListPage implements OnInit {
 
   pageLinkColor(page: number) {
 
-    if (page == this.currentPage) {
+    if (page == this.currentPageAssign) {
       return 'light';
     }
 
@@ -189,6 +192,41 @@ export class CandidateListPage implements OnInit {
     } else if ($event.detail.value == 'not-assigned') {
       this.loadNotAssigned(1, this.unassignedSearchBar);
     }
+  }
+
+  doInfinite(event, type) {
+    this.loading = true;
+    if (type == 'assigned') {
+      console.log('assigned');
+      this.currentPageAssign ++;
+      this.candidateService.listAssigned(this.assignedSearchBar, this.currentPageAssign).subscribe(response => {
+          this.loading = false;
+          this.totalCountAssign = response.headers.get('X-Pagination-Total-Count');
+          this.pageCountAssign = response.headers.get('X-Pagination-Page-Count');
+          this.currentPageAssign = response.headers.get('X-Pagination-Current-Page');
+
+          this.candidates = this.candidates.concat(response.body);
+        },
+        error => { },
+        () => { event.target.complete(); }
+      );
+    } else {
+      console.log('unassigned');
+      this.currentPageUnAssign ++;
+
+      this.candidateService.listNotAssigned(this.unassignedSearchBar, this.currentPageUnAssign).subscribe(response => {
+          this.loading = false;
+          this.totalCountUnAssign = response.headers.get('X-Pagination-Total-Count');
+          this.pageCountUnAssign = response.headers.get('X-Pagination-Page-Count');
+          this.currentPageUnAssign = response.headers.get('X-Pagination-Current-Page');
+          this.candidates = this.candidates.concat(response.body);
+        },
+        error => { },
+        () => { event.target.complete(); }
+      );
+    }
+
+
   }
 }
 

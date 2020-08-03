@@ -74,7 +74,7 @@ export class ExpiredIdPage implements OnInit {
   }
 
   onCandidateToggle(event) {
-    let candidate_id = event.target.value; 
+    let candidate_id = event.target.value;
 
     if(event.detail.checked) {
       this.candidates.push(candidate_id);
@@ -129,5 +129,25 @@ export class ExpiredIdPage implements OnInit {
         this.renewLoader = false;
         this.loading = false;
       });
+  }
+
+  doInfinite(event) {
+    this.loading = true;
+
+    this.currentPage++;
+    this.candidateIdCardService.listExpiredIds(this.searchBar, this.currentPage).subscribe(response => {
+
+        this.pageCount = response.headers.get('X-Pagination-Page-Count');
+        this.currentPage = response.headers.get('X-Pagination-Current-Page');
+
+        this.candidatelistData = this.candidatelistData.concat(response.body);
+      },
+      error => {
+      },
+      () => {
+        this.loading = false;
+        event.target.complete();
+      }
+    );
   }
 }

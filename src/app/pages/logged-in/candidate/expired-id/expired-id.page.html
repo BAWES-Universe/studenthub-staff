@@ -26,7 +26,7 @@
   </ion-searchbar>
 
   <form [formGroup]="form">
-    <ion-list *ngIf="!loading && candidatelistData && candidatelistData.length > 0">
+    <ion-list *ngIf="candidatelistData && candidatelistData.length > 0">
       <ion-item *ngFor="let obj of candidatelistData; let i= index">
         <ion-label>{{ obj.candidate_name }}</ion-label>
         <ion-checkbox [value]="obj.candidate_id" (ionChange)="onCandidateToggle($event)"></ion-checkbox>
@@ -37,13 +37,10 @@
 
     <no-items *ngIf="!loading && candidatelistData && candidatelistData.length == 0" message="No data available"></no-items>
 
-    <ion-row class="ion-text-center" *ngIf="!loading">
-      <div class="pagination-wrapper">
-        <ion-button *ngFor="let page of pages"  size="small" color="{{ pageLinkColor(page) }}" (click)="loadData(page)">
-          {{ page }}
-        </ion-button>
-      </div>
-    </ion-row>
+
+    <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
+      <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
 
   </form>
 </ion-content>
