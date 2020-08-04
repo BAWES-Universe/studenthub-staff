@@ -1,9 +1,9 @@
 <ion-item-sliding>
   <ion-item tappable (click)="rowSelected(candidate)">
     <ion-avatar slot="start">
-      <img *ngIf="candidate.candidate_personal_photo_thumb"
-        src="{{ aws.permanentBucketUrl + candidate.candidate_personal_photo_thumb }}" (error)="loadLogo(candidate)">
-      <img *ngIf="!candidate.candidate_personal_photo_thumb" src="/assets/icon/icon.png">
+      <img *ngIf="candidate.candidate_personal_photo"
+        src="{{ aws.permanentBucketUrl + candidate.candidate_personal_photo }}" (error)="loadLogo(candidate)">
+      <img *ngIf="!candidate.candidate_personal_photo" src="/assets/icon/icon.png">
     </ion-avatar>
 
     <ion-label>

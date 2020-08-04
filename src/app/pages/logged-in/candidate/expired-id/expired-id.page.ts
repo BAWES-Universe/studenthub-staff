@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup} from '@angular/forms';
-import {AlertController, LoadingController} from '@ionic/angular';
-
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { AlertController, LoadingController } from '@ionic/angular';
 // services
-import {CandidateIdCardService} from 'src/app/providers/logged-in/candidate.id.card.service';
-import {EventService} from 'src/app/providers/event.service';
+import { CandidateIdCardService } from 'src/app/providers/logged-in/candidate.id.card.service';
+import { EventService } from 'src/app/providers/event.service';
+
 
 @Component({
   selector: 'app-expired-id',
@@ -18,11 +18,15 @@ export class ExpiredIdPage implements OnInit {
   public pages: number[] = [];
 
   public searchBar = '';
-  public candidates: any = [];
 
   public form: FormGroup;
-  public candidatelistData;
+  public candidatelistData = [];
+
+  public candidates = [];
+
   public loading = false;
+  public renewLoader: boolean = false;
+
   constructor(
     public candidateIdCardService: CandidateIdCardService,
     private _fb: FormBuilder,
@@ -53,17 +57,30 @@ export class ExpiredIdPage implements OnInit {
       return false;
     }
 
-    this.loading = true;
+    this.renewLoader = true;
 
     this.candidateIdCardService.renew(this.candidates).subscribe(jsonResponse => {
-      this.loading = false;
+
+      this.candidates = [];
 
       // refresh list
       this.currentPage = 1;
       this.loadData(this.currentPage);
 
       this._events.expiredIdCard$.next();
+    }, () => {
+      this.renewLoader = false;
     });
+  }
+
+  onCandidateToggle(event) {
+    let candidate_id = event.target.value;
+
+    if(event.detail.checked) {
+      this.candidates.push(candidate_id);
+    } else {
+      this.candidates = this.candidates.filter(c => c != candidate_id);
+    }
   }
 
   /**
@@ -86,32 +103,51 @@ export class ExpiredIdPage implements OnInit {
   async loadData(page) {
 
     // Load list of candidates
-    this.loading = true;
+    if (!this.renewLoader)
+      this.loading = true;
 
     this.candidateIdCardService.listExpiredIds(this.searchBar, page).subscribe(response => {
+      this.pageCount = response.headers.get('X-Pagination-Page-Count');
+      this.currentPage = response.headers.get('X-Pagination-Current-Page');
+
+      this.pages = [];
+
+      for (let i = 1; i <= this.pageCount; i++) {
+        this.pages.push(i);
+      }
+
+      // hide if no page = 1
+
+      if (this.pageCount == 1) {
+        this.pages = [];
+      }
+
+      this.candidatelistData = response.body;
+    },
+      error => { },
+      () => {
+        this.renewLoader = false;
+        this.loading = false;
+      });
+  }
+
+  doInfinite(event) {
+    this.loading = true;
+
+    this.currentPage++;
+    this.candidateIdCardService.listExpiredIds(this.searchBar, this.currentPage).subscribe(response => {
+
         this.pageCount = response.headers.get('X-Pagination-Page-Count');
         this.currentPage = response.headers.get('X-Pagination-Current-Page');
 
-        this.pages = [];
-
-        for (let i = 1; i <= this.pageCount; i++){
-          this.pages.push(i);
-        }
-
-        // hide if no page = 1
-
-        if (this.pageCount == 1) {
-          this.pages = [];
-        }
-
-        this.candidatelistData = response.body;
-
-        this.candidatelistData.forEach((value, index) => {
-          this.candidates[index] = value.candidate_id;
-        });
+        this.candidatelistData = this.candidatelistData.concat(response.body);
       },
-      error => {},
-      () => {this.loading = false; }
+      error => {
+      },
+      () => {
+        this.loading = false;
+        event.target.complete();
+      }
     );
   }
 }

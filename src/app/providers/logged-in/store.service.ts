@@ -36,8 +36,8 @@ export class StoreService {
    * List of all stores belonging to company along with candidates within them
    * @returns {Observable<any>}
    */
-  getStoresBelongingToCompany(companyId: number): Observable<any>{
-    let url = `${this._storeEndpoint}?companyId=${companyId}&expand=candidates`;
+  getStoresBelongingToCompany(companyId: number, page): Observable<any>{
+    let url = `${this._storeEndpoint}?companyId=${companyId}&page=${page}&expand=candidates`;
     return this._authhttp.getRaw(url);
   }
 

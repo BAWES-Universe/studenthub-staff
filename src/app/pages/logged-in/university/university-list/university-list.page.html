@@ -9,7 +9,7 @@
 
 <ion-content>
   <loading-modal [loading]="loading" type="text-list"></loading-modal>
-  <ion-list *ngIf="!loading">
+  <ion-list>
     <ion-item tappable *ngFor="let university of universities" (click)="rowSelected(university)">
       <ion-label>
         {{ university.university_name_en }}
@@ -20,12 +20,9 @@
     </ion-item>
   </ion-list>
 
-  <ion-row class="ion-text-center" *ngIf="!loading">
-    <div class="pagination-wrapper">
-      <ion-button *ngFor="let page of pages" size="small" color="{{ pageLinkColor(page) }}" (click)="loadData(page)">
-        {{ page }}
-      </ion-button>
-    </div>
-  </ion-row>
+
+  <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>
 <ion-footer></ion-footer>

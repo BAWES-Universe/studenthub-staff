@@ -16,8 +16,8 @@
   <ion-list *ngIf="candidate">
     <ion-item>
       <ion-avatar slot="start">
-        <img *ngIf="candidate.candidate_personal_photo_thumb" src="{{ aws.permanentBucketUrl + candidate.candidate_personal_photo_thumb }}" (error)="loadLogo($event,candidate)">
-        <img *ngIf="!candidate.candidate_personal_photo_thumb" src="/assets/icon/icon.png">
+        <img *ngIf="candidate.candidate_personal_photo" src="{{ aws.permanentBucketUrl + candidate.candidate_personal_photo }}" (error)="loadLogo($event,candidate)">
+        <img *ngIf="!candidate.candidate_personal_photo" src="/assets/icon/icon.png">
       </ion-avatar>
       <ion-label>
         <h2>{{ candidate.candidate_name }}</h2>

@@ -2,6 +2,6 @@
 <ion-card (click)="uploadBtnClicked($event)" tappable>
   <ion-spinner *ngIf="isUploading"></ion-spinner>
   <ion-icon [name]="icon" *ngIf="!isUploading && !value"></ion-icon>
-  <img [src]='bucketUrl+value' *ngIf="!isUploading && value"/>
+  <img [src]='bucketUrl+value' *ngIf="!isUploading && value"/><br/>
   <ion-label>{{ label }}</ion-label>
 </ion-card>

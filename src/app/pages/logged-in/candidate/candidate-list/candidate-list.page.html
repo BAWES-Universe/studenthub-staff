@@ -40,24 +40,23 @@
     (ionChange)="search()">
   </ion-searchbar>
 
-  <ion-list *ngIf="!loading">
+  <ion-list>
 
     <candidate [candidate]="candidate" (refresh)="search()" *ngFor="let candidate of candidates"></candidate>
 
     <no-items *ngIf="candidates && candidates.length == 0" message="No candidate data available"></no-items>
 
     <loading-modal [loading]="loading" type="candidate-list"></loading-modal>
-  
+
   </ion-list>
 
-  <ion-row class="ion-text-center" *ngIf="!loading">
-    <div class="pagination-wrapper">
-      <ion-button *ngFor="let page of pages" size="small" color="{{ pageLinkColor(page) }}" (click)="loadData(page)">
-        {{ page }}
-      </ion-button>
-    </div>
-  </ion-row>
+  <ion-infinite-scroll *ngIf="cndSegment == 'not-assigned' && currentPageUnAssign < pageCountUnAssign" (ionInfinite)="doInfinite($event, 'no-assigned')">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 
+  <ion-infinite-scroll *ngIf="cndSegment == 'assigned' && currentPageAssign < pageCountAssign" (ionInfinite)="doInfinite($event , 'assigned')">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>
 
 <ion-footer *ngIf="!loading">

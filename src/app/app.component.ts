@@ -21,7 +21,7 @@ const { SplashScreen } = Plugins;
 export class AppComponent implements OnInit {
 
   public updatesAvailable: boolean = false;
-  public expiredIdCount: number = 5;
+  public expiredIdCount: number = 0;
   public printIdCount: any = 0;
 
   constructor(

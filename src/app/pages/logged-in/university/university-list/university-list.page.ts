@@ -76,4 +76,22 @@ export class UniversityListPage implements OnInit {
 
     return '';
   }
+
+  doInfinite(event) {
+    this.loading = true;
+    this.currentPage++;
+    this.universityService.list(this.currentPage).subscribe(response => {
+
+          this.pageCount = response.headers.get('X-Pagination-Page-Count');
+          this.currentPage = response.headers.get('X-Pagination-Current-Page');
+
+          this.universities = this.universities.concat(response.body);
+        },
+        error => {},
+        () => {
+          this.loading = false;
+          event.target.complete();
+        }
+    );
+  }
 }

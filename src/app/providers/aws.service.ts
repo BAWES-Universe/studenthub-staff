@@ -1,9 +1,9 @@
 import {Injectable, OnInit} from '@angular/core';
-import {Observable, Observer} from "rxjs";
+import {Observable, Observer} from 'rxjs';
 
 import { Plugins, FilesystemDirectory, FilesystemEncoding, FileReadResult } from '@capacitor/core';
 import { environment } from 'src/environments/environment';
-import * as AWS from "aws-sdk";
+import * as AWS from 'aws-sdk';
 
 const { Filesystem } = Plugins;
 // declare var AWS;
@@ -15,13 +15,13 @@ const { Filesystem } = Plugins;
   providedIn: 'root'
 })
 export class AwsService implements OnInit {
-  public bucketUrl = "https://studenthub-public-anyone-can-upload-24hr-expiry.s3.eu-west-2.amazonaws.com/";
+  public bucketUrl = 'https://studenthub-public-anyone-can-upload-24hr-expiry.s3.eu-west-2.amazonaws.com/';
   public permanentBucketUrl = environment.permanentBucketUrl;
 
-  private _region = "eu-west-2"; //London
-  private _access_key_id = "AKIAJXOMRCDE65WKBPUA";
-  private _secret_access_key = "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";
-  private _bucket_name = "studenthub-public-anyone-can-upload-24hr-expiry";
+  private _region = 'eu-west-2'; // London
+  private _access_key_id = 'AKIAJXOMRCDE65WKBPUA';
+  private _secret_access_key = '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';
+  private _bucket_name = 'studenthub-public-anyone-can-upload-24hr-expiry';
 
   constructor(){
     this.initAwsService();
@@ -52,9 +52,9 @@ export class AwsService implements OnInit {
         path: 'secrets/text.txt',
         directory: FilesystemDirectory.Documents,
         encoding: FilesystemEncoding.UTF8
-      }).then((response:FileReadResult) => {
+      }).then((response: FileReadResult) => {
           console.log(response.data);
-      })
+      });
       // console.log(contents);
 
       // // Resolve File Path on System
@@ -100,23 +100,23 @@ export class AwsService implements OnInit {
    * @returns {Observable<any>}
    */
   uploadFile(file_prefix: string, file: File): Observable<any> {
-    let s3 = new AWS.S3({
+    const s3 = new AWS.S3({
       apiVersion: '2006-03-01'
     });
 
-    let params = {
+    const params = {
       Body: file, // the actual file file
-      ACL: "public-read", // to allow public access to the file
-      Bucket: this._bucket_name, //bucket name
-      Key: file_prefix + "-" + Date.now() + "." + this._getFileExtension(file.name), //file name
-      ContentType: file.type //(String) A standard MIME type describing the format of the object file
-    }
+      ACL: 'public-read', // to allow public access to the file
+      Bucket: this._bucket_name, // bucket name
+      Key: file_prefix + '-' + Date.now() + '.' + this._getFileExtension(file.name), // file name
+      ContentType: file.type // (String) A standard MIME type describing the format of the object file
+    };
 
     return Observable.create((observer: Observer<any>) => {
       s3.upload(params).on('httpUploadProgress', (progress: ProgressEvent) => {
         observer.next(progress);
       }).send((err, data) => {
-        if(err) {
+        if (err) {
           observer.error(err);
         }else {
           observer.next(data);
@@ -130,12 +130,13 @@ export class AwsService implements OnInit {
    * Take file name / path and return the file extension.
    */
   private _getFileExtension(path) {
-    var basename = path.split(/[\\/]/).pop(),  // extract file name from full path ...
+    const basename = path.split(/[\\/]/).pop(),  // extract file name from full path ...
       // (supports `\\` and `/` separators)
-      pos = basename.lastIndexOf(".");       // get last position of `.`
+      pos = basename.lastIndexOf('.');       // get last position of `.`
 
-    if (basename === "" || pos < 1)            // if file name is empty or ...
-      return "";                             //  `.` not found (-1) or comes first (0)
+    if (basename === '' || pos < 1) {            // if file name is empty or ...
+      return '';
+    }                             //  `.` not found (-1) or comes first (0)
 
     return basename.slice(pos + 1);            // extract extension ignoring `.`
   }

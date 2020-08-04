@@ -16,10 +16,10 @@ import { CandidateService } from 'src/app/providers/logged-in/candidate.service'
 export class CandidateComponent implements OnInit {
 
   @Input() candidate: Candidate;
-  
+
   @Output() refresh: EventEmitter<any> = new EventEmitter();
 
-  public deleting: boolean = false; 
+  public deleting: boolean = false;
 
   constructor(
     public alertCtrl: AlertController,
@@ -95,20 +95,21 @@ export class CandidateComponent implements OnInit {
     confirm.present();
   }
 
-  /** 
+  /**
    * @param candidate
    */
   loadLogo(candidate) {
-    return candidate.candidate_personal_photo_thumb = null;
+    return candidate.candidate_personal_photo = null;
+    // return candidate.candidate_personal_photo_thumb = null;
   }
 
   /**
    * on candidate checkbox change
-   * @param event 
+   * @param event
    */
   onCandidateSelected(event) {
-    event.preventDefault(); 
-    event.stopPropagation(); 
+    event.preventDefault();
+    event.stopPropagation();
 
     const candidate_id = parseInt(event.target.value);
 
