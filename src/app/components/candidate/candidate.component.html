@@ -8,7 +8,10 @@
 
     <ion-label>
       {{ candidate.candidate_name }}
-      <p *ngIf="candidate.store">{{ candidate.store.store_name }} @ {{ candidate.company.company_name }}</p>
+      <p *ngIf="candidate.store">
+        {{ candidate.store.store_name }} 
+        <span *ngIf="candidate.company">@ {{ candidate.company.company_name }}</span>
+      </p>
     </ion-label>
 
     <ion-checkbox *ngIf="candidate.store" (click)="$event.preventDefault();$event.stopPropagation();" slot="end"

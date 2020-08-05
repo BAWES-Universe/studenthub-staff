@@ -1,17 +1,18 @@
 import { Injectable } from '@angular/core';
 import {Observable} from "rxjs";
-
 //services
 import {AuthhttpService} from "./authhttp.service";
-
 //model
 import {Candidate} from "src/app/models/candidate";
 import {Country} from "src/app/models/country";
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class CandidateService {
+
+  public algoliaConfig;
 
   private _candidateEndpoint: string = "/candidates";
 

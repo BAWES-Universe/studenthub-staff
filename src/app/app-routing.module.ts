@@ -108,11 +108,19 @@ const routes: Routes = [
     loadChildren: () => import('./pages/logged-in/company/company-list/company-list.module').then( m => m.CompanyListPageModule),
     canActivate: [AuthService],
   },
+  {
+    path: 'candidate-search',
+    loadChildren: () => import('./pages/logged-in/candidate/candidate-search/candidate-search.module').then( m => m.CandidateSearchPageModule)
+  },
+  {
+    path: 'candidate-filter',
+    loadChildren: () => import('./pages/logged-in/candidate/candidate-filter/candidate-filter.module').then( m => m.CandidateFilterPageModule)
+  },
 ];
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
+    RouterModule.forRoot(routes, { enableTracing: false, preloadingStrategy: PreloadAllModules })
   ],
   exports: [RouterModule]
 })
