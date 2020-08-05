@@ -1,19 +1,20 @@
 import { Injectable } from '@angular/core';
-import {Observable} from 'rxjs';
+import { Observable } from "rxjs";
+//services
+import { AuthhttpService } from "./authhttp.service";
+//model
+import { Candidate } from "src/app/models/candidate";
+import { Country } from "src/app/models/country";
 
-// services
-import {AuthhttpService} from './authhttp.service';
-
-// model
-import {Candidate} from 'src/app/models/candidate';
-import {Country} from 'src/app/models/country';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CandidateService {
 
-  private _candidateEndpoint = '/candidates';
+  public algoliaConfig;
+
+  private _candidateEndpoint: string = "/candidates";
 
   constructor(private _authhttp: AuthhttpService) { }
 
@@ -183,7 +184,7 @@ export class CandidateService {
    * @param country
    * @param page
    */
-  listByCountry(country: Country, page: number): Observable<any>{
+  listByCountry(country: Country, page: number): Observable<any> {
     const url = this._candidateEndpoint + '/search?country_id=' + country.country_id + '&page=' + page;
     return this._authhttp.getRaw(url);
   }

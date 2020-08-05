@@ -1,0 +1,126 @@
+
+.component-content {
+    display: block;
+    padding: 10px 15px 0; 
+}
+
+h3 {
+    font-size: 26px;
+    font-weight: 500;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    margin: 0px;
+    color: #000000;
+    float: var(--start);
+    width: 100%;
+}
+
+.applied-filters-skeleton {
+    display: block;   
+    position: relative;
+    z-index: 1;
+    height: 27px;
+
+    ion-skeleton-text {
+        height: 100%;
+        width: 70%;
+    }
+}
+
+.txt-average {
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.41;
+    letter-spacing: normal;
+    color: #000000;
+    margin-bottom: 0px;
+}
+
+.ais-AppliedFiltersComponent-list {
+    margin-top: 10px;
+    display: block;
+    margin-bottom: -5px;
+}
+
+ion-icon {
+    position: relative;
+}
+
+.ais-CurrentRefinementComponent-list {
+    font-size: 14px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.41;
+    letter-spacing: normal;
+    color: #4f4f4f;
+} 
+
+ion-button,button {
+    height: 27px;
+    --border-radius: 3px;
+    border-radius: 3px;
+    background-color: #f24459;
+    font-size: 14px;
+    line-height: 1.41;
+    color: #fff;
+    margin-bottom: 7px;
+    text-transform: unset;
+    letter-spacing: normal;
+    --padding-start: 5px;
+    --padding-end: 5px;
+    --background: #f24459;
+    --border: none;
+}
+
+[dir="rtl"] {
+    button,ion-button {
+        margin-left: 7px;
+        margin-right: 0px;
+        
+        ion-icon {
+            margin-right: 5px;
+        }
+    }
+}
+
+[dir="ltr"] {
+    button,ion-button {
+        margin-right: 7px;
+        margin-left: 0px;
+
+        ion-icon {
+            margin-left: 5px;
+        }
+    }
+}
+
+.swiper-slide, ion-slide{
+    width: auto!important;
+}
+
+@media only screen and (max-width: 640px) {
+
+    .outer-slider {
+        width: 100%;
+        overflow-y: scroll;
+    }
+    [dir="ltr"] {
+        .outer-slider {
+            margin-right: 51px;
+        }
+    }
+    [dir="rtl"] {
+        .outer-slider {
+            margin-left: 51px;
+        }
+    }
+    .inner-element {
+        display: inline-flex;
+    }
+}
+

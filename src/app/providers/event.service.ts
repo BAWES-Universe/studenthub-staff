@@ -18,6 +18,8 @@ export class EventService {
   public userLoggedOut$ = new Subject();
   public accountAssignmentRemoved$ = new Subject();
 
+  public filterCollapse$ = new Subject();
+  
   public expiredIdCard$ = new Subject();
   public printIdCard$ = new Subject();
 }

@@ -1,0 +1,28 @@
+[dir="rtl"] .ais-CurrentRefinementComponent-reset {
+    left: 10px;
+}
+
+[dir="ltr"] .ais-CurrentRefinementComponent-reset {
+    right: 10px;
+}
+
+.ais-CurrentRefinementComponent-reset {
+    position: absolute;
+    top: 15px;
+    height: auto;
+    background: transparent;
+    --background: transparent;
+    --box-shadow: none;
+    --padding-start: 0;
+    --padding-bottom: 0;
+    --padding-end: 0;
+    --padding-top: 0; 
+    margin: 0px;
+}
+
+.ais-CurrentRefinementComponent-list {
+    font-size: 13px;
+    font-weight: normal;
+    color: #4f4f4f;
+}
+
