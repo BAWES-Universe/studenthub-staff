@@ -1,0 +1,86 @@
+.filter-group-wrapper {
+
+    display: block;
+    margin-bottom: 100px;
+    .label {
+        white-space: normal;
+        text-transform: capitalize;
+    }
+
+    span.count {
+        opacity: 0.5;
+        float: var(--end);
+    }
+
+    .checkbox {
+        margin: 9px !important;
+    }
+
+    ion-list-header {
+        margin:0 !important; 
+        color: black;
+        border: none !important;
+
+        ion-icon[name="add"],
+        ion-icon[name="checkmark"] {
+            font-size: 13px;
+        }
+    }
+
+    .filter-group-name {
+        text-indent: 10px;
+    }
+
+    .filter-selection {
+        font-weight: bold;
+    }
+
+    .closed ion-item {
+        display: none;
+    }
+
+    .ais-SearchBox-reset {
+        position: absolute;
+        top: 16px;
+        opacity: 0.5;
+
+        svg {
+            width: 14px;
+            height: 14px;
+        }
+    }
+  .filter-groups {
+    margin-bottom: 50px;
+  }
+}
+
+[dir="ltr"] {
+
+    ion-list-header {
+        ion-icon[name="add"],
+        ion-icon[name="checkmark"] {
+            margin-right: 5px;
+        }
+    }
+
+    .ais-SearchBox-reset {
+        right: 10px;
+    }
+}
+
+[dir="rtl"] {
+
+    ion-list-header {
+        ion-icon[name="add"],
+        ion-icon[name="checkmark"] {
+            margin-left: 5px;
+        }
+    }
+
+    .ais-SearchBox-reset {
+        left: 10px;
+    }
+}
+.margin-bottom-20 {
+    margin-bottom: 80px;
+}

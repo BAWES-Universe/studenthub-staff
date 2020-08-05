@@ -1,15 +1,15 @@
-import { Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient, HttpResponse } from '@angular/common/http';
+import { AlertController } from "@ionic/angular";
 import { environment } from '../../../environments/environment';
 import { EMPTY, Observable, throwError } from 'rxjs';
 import { catchError, map, take, retryWhen } from 'rxjs/operators';
 import { genericRetryStrategy } from '../../util/genericRetryStrategy';
-
+import { saveAs } from 'file-saver';
 //service
-import {EventService} from "../event.service";
-import {AuthService} from "../auth.service";
-import {Headers, Response, ResponseContentType, saveAs} from 'file-saver';
-import {AlertController} from "@ionic/angular";
+import { EventService } from "../event.service";
+import { AuthService } from "../auth.service";
+
 
 @Injectable({
   providedIn: 'root'
@@ -63,12 +63,12 @@ export class AuthhttpService {
     const url = environment.apiEndpoint + endpointUrl;
     const headers = this._buildAuthHeaders();
     //https://www.techiediaries.com/angular-httpclient-headers-full-response/
-    return this._http.get(url, { headers: headers,observe: 'response' })
+    return this._http.get(url, { headers: headers, observe: 'response' })
       .pipe(
         retryWhen(genericRetryStrategy()),
         catchError((err) => this._handleError(err)),
         take(1),
-        map((res: HttpResponse <any> ) => {return res})
+        map((res: HttpResponse<any>) => { return res })
       );
   }
 
@@ -86,7 +86,7 @@ export class AuthhttpService {
         retryWhen(genericRetryStrategy()),
         catchError((err) => this._handleError(err)),
         take(1),
-        map((res: HttpResponse <any> ) => {return res})
+        map((res: HttpResponse<any>) => { return res })
       );
   }
 
@@ -167,13 +167,13 @@ export class AuthhttpService {
   post(endpointUrl: string, params: any, withHeader: boolean = false): Observable<any> {
     const url = environment.apiEndpoint + endpointUrl;
     const headers = this._buildAuthHeaders();
-    let responseHeader =  { headers: headers, observe: 'response'};
-    return this._http.post(url, JSON.stringify(params), { headers: headers, observe: 'response'})
+    let responseHeader = { headers: headers, observe: 'response' };
+    return this._http.post(url, JSON.stringify(params), { headers: headers, observe: 'response' })
       .pipe(
         retryWhen(genericRetryStrategy()),
         catchError((err) => this._handleError(err)),
         take(1),
-        map((res: HttpResponse <any> ) => {
+        map((res: HttpResponse<any>) => {
           return (withHeader) ? res : res.body;
         })
       );
@@ -194,7 +194,7 @@ export class AuthhttpService {
         retryWhen(genericRetryStrategy()),
         catchError((err) => this._handleError(err)),
         take(1),
-        map((res: HttpResponse <any> ) => {return res})
+        map((res: HttpResponse<any>) => { return res })
       );
   }
 
@@ -222,7 +222,7 @@ export class AuthhttpService {
       .pipe(
         retryWhen(genericRetryStrategy()),
         catchError((err) => this._handleError(err)),
-        map((res: HttpResponse <any> ) => {return res})
+        map((res: HttpResponse<any>) => { return res })
       );
   }
 
@@ -241,7 +241,7 @@ export class AuthhttpService {
         retryWhen(genericRetryStrategy()),
         catchError((err) => this._handleError(err)),
         take(1),
-        map((res: HttpResponse <any> ) => {return res})
+        map((res: HttpResponse<any>) => { return res })
       );
   }
 
@@ -254,9 +254,9 @@ export class AuthhttpService {
 
     // Build Headers with Bearer Token
     return new HttpHeaders({
-      'Authorization':'Bearer ' + bearerToken,
-      'Content-Type':'application/json',
-      'Language':'en'
+      'Authorization': 'Bearer ' + bearerToken,
+      'Content-Type': 'application/json',
+      'Language': 'en'
     });
   }
 

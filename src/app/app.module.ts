@@ -1,21 +1,27 @@
 import {APP_INITIALIZER, ErrorHandler, NgModule} from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, BrowserTransferStateModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
-
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import {IonicStorageModule, Storage} from "@ionic/storage";
-import {HttpClientModule} from "@angular/common/http";
+import {HttpClientModule, HttpClient} from "@angular/common/http";
 import {UpdateAlertModule} from "./components/update-alert/update-alert.module";
 import { ServiceWorkerModule, SwUpdate } from '@angular/service-worker';
 import {AuthService} from "./providers/auth.service";
 import {environment} from "../environments/environment";
 import {SentryErrorhandlerService} from "./providers/sentry.errorhandler.service";
+import { TranslateLabelService } from './providers/translate-label.service';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 
 export function startupServiceFactory(authService, storage) {
   return () => authService.load();
+}
+
+export function createTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/');
 }
 
 @NgModule({
@@ -26,10 +32,18 @@ export function startupServiceFactory(authService, storage) {
         IonicModule.forRoot(),
         AppRoutingModule,
         HttpClientModule,
+        BrowserTransferStateModule,
         IonicStorageModule.forRoot({
             name: '__payroll_staff',
             version: 2
             //driverOrder: ['sqlite', 'indexeddb', 'websql', 'localstorage']
+        }),
+        TranslateModule.forRoot({
+          loader: {
+            provide: TranslateLoader,
+            useFactory: (createTranslateLoader),
+            deps: [HttpClient]
+          }
         }),
         UpdateAlertModule,
         ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.serviceWorker }),
@@ -43,8 +57,9 @@ export function startupServiceFactory(authService, storage) {
       multi: true
     },
     SwUpdate,
+    TranslateLabelService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    { provide: ErrorHandler, useClass: SentryErrorhandlerService }
+    //{ provide: ErrorHandler, useClass: SentryErrorhandlerService }
   ],
   bootstrap: [AppComponent]
 })

@@ -1,0 +1,46 @@
+<div class="component-content" [attr.dir]="_translateService.direction()">
+  <h3 *ngIf="total > -1 && !loading">
+
+    <span *ngIf="this.state.items.length == 0 && total">
+        {{ labelWithoutFilter | translate : { value : total }  }}
+    </span>
+  
+    <span *ngIf="this.state.items.length > 0 && total">
+        {{ labelWithFilter | translate : { value : total }  }}
+    </span>
+  </h3>
+
+  <div *ngIf="loading" class="applied-filters-skeleton">
+    <ion-skeleton-text animated></ion-skeleton-text>
+  </div>
+
+  <p class="txt-average" *ngIf="authService && average">
+    {{
+        'txt_with_average_salary' | translate : {
+          value : average | currency : authService.currency_pref : 'code':'3.0'
+        }
+    }}
+  </p>
+
+  <div class="clearfix"></div>
+  
+  <div [class]="cx()" *ngIf="!isHidden()">
+    <span [class]="cx('list')" *ngIf="this.platform.is('mobile')">
+        <div class="outer-slider">
+            <div class="inner-element">
+                <ion-button (click)="toggleCurrentSelection(currentSelection)" class="skip-hover" *ngFor="let currentSelection of currentSelections()">
+                  {{ currentSelection.label }}
+                  <ion-icon name="close"></ion-icon>
+                </ion-button>
+            </div>
+        </div>
+    </span>
+
+      <span [class]="cx('list')" *ngIf="this.platform.is('desktop')">
+        <ion-button (click)="toggleCurrentSelection(currentSelection)"  *ngFor="let currentSelection of currentSelections()" class="skip-hover">
+          {{ currentSelection.label }}
+            <ion-icon name="close"></ion-icon>
+        </ion-button>
+    </span>
+  </div>
+</div>
