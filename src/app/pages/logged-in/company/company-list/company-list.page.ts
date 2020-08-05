@@ -18,6 +18,7 @@ export class CompanyListPage implements OnInit {
   public pages: number[] = [];
   public loading = false;
   public company_id = null;
+  public company: Company;
   public companies: Company[];
 
   constructor(
@@ -33,7 +34,9 @@ export class CompanyListPage implements OnInit {
   ionViewWillEnter() {
     const state = window.history.state;
     if (state.companies) {
+      this.company = state.company;
       this.companies = state.companies;
+      console.log(this.company);
     }
 
     if (!this.companies && this.company_id) {
@@ -91,7 +94,23 @@ export class CompanyListPage implements OnInit {
       // Load Subcompany List
       this.navCtrl.navigateForward('company-list/' + model.company_id, {
         state : {
+          company: model,
           companies: model.subCompanies
+        }
+      });
+    }else{
+      // Load store list for this company
+      this.navCtrl.navigateForward('store-list/' + model.company_id);
+    }
+  }
+
+  rowSelectedNew(model: Company){
+    // Check if has subCompanies
+    if (model.subCompanies && model.subCompanies.length > 0){
+      // Load Subcompany List
+      this.navCtrl.navigateForward('company-view/' + model.company_id, {
+        state : {
+          model: model
         }
       });
     }else{
@@ -107,6 +126,8 @@ export class CompanyListPage implements OnInit {
     this.loading = true;
     this.companyService.view(this.company_id).subscribe( response => {
       this.loading = false;
+      this.company = response;
+      console.log(this.company);
       this.companies = response.subCompanies;
     });
   }

@@ -108,6 +108,11 @@ const routes: Routes = [
     loadChildren: () => import('./pages/logged-in/company/company-list/company-list.module').then( m => m.CompanyListPageModule),
     canActivate: [AuthService],
   },
+  {
+    path: 'company-view',
+    loadChildren: () => import('./pages/logged-in/company/company-view/company-view.module').then( m => m.CompanyViewPageModule),
+    canActivate: [AuthService],
+  },
 ];
 
 @NgModule({

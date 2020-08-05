@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Observable } from "rxjs";
-import { AuthhttpService } from "./authhttp.service";
+import { Observable } from 'rxjs';
+import { AuthhttpService } from './authhttp.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CompanyService {
 
-  private _companyEndpoint: string = "/companies";
+  private _companyEndpoint = '/companies';
 
   constructor(private _authhttp: AuthhttpService) { }
 
@@ -16,7 +16,7 @@ export class CompanyService {
    * @returns {Observable<any>}
    */
   list(page): Observable<any>{
-    return this._authhttp.getRaw(this._companyEndpoint + '?page=' + page+'&expand=subCompanies,subCompanies.stores,stores');
+    return this._authhttp.getRaw(this._companyEndpoint + '?page=' + page + '&expand=subCompanies,subCompanies.stores,stores,subCompanies.stores.candidates');
   }
 
   /**
@@ -24,6 +24,14 @@ export class CompanyService {
    * @param company_id
    */
   view(company_id) {
-    return this._authhttp.get(this._companyEndpoint + '/' + company_id + '?expand=subCompanies,subCompanies.stores,stores');
+    return this._authhttp.get(this._companyEndpoint + '/' + company_id + '?expand=subCompanies,subCompanies.stores,stores,subCompanies.stores.candidates');
+  }
+
+  /**
+   * model detail
+   * @param id
+   */
+  companyDetail(id) {
+    return this._authhttp.get(this._companyEndpoint + '/' + id);
   }
 }
