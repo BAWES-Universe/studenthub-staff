@@ -16,7 +16,7 @@
   <ion-list *ngIf="candidate">
     <ion-item>
       <ion-avatar slot="start">
-        <img *ngIf="candidate.candidate_personal_photo" src="{{ aws.permanentBucketUrl + candidate.candidate_personal_photo }}" (error)="loadLogo($event,candidate)">
+        <img *ngIf="candidate.candidate_personal_photo" src="{{ aws.cloudinaryUrl + candidate.candidate_personal_photo }}" (error)="loadLogo($event,candidate)">
         <img *ngIf="!candidate.candidate_personal_photo" src="/assets/icon/icon.png">
       </ion-avatar>
       <ion-label>
@@ -146,6 +146,16 @@
     </ion-label>
   </ion-item>
 
+    <ion-item>
+    <ion-label>
+      <h5>Candidate CV</h5>
+      <a target="_blank" *ngIf="candidate.candidate_resume"
+         href="{{ aws.permanentBucketUrl }}candidate-resume/{{ candidate.candidate_resume }}">
+        {{ candidate.candidate_resume }}
+      </a>
+    </ion-label>
+  </ion-item>
+
   <ion-item-divider color="light">Civil ID</ion-item-divider>
   <ion-item>
     <ion-label>
@@ -191,8 +201,8 @@
     <ion-item>
       <ion-label>
         <h5>Bank</h5>
-        <p *ngIf="candidate.bank.bank_name">{{ candidate.bank.bank_name }}</p>
-        <p *ngIf="!candidate.bank.bank_name">-</p>
+        <p *ngIf="candidate.bank">{{ candidate.bank.bank_name }}</p>
+        <p *ngIf="!candidate.bank">-</p>
       </ion-label>
     </ion-item>
     <ion-item>

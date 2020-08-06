@@ -1,0 +1,66 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button fill="clear" (click)="dismiss()" class="btn-close">
+        <ion-back-button></ion-back-button>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>
+      {{ "Upload your CV / Resume / Portfolio" }}
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+
+    <div class="max-width">
+        <div *ngIf="!progress">
+
+            <div class="selected-file" *ngIf="candidate.candidate_resume">
+
+                <div class="extension">{{ uploadedFileExtension }}</div>
+
+                <div class="fileName">{{ candidate.candidate_resume }}</div>
+
+                <a target="_blank" (click)="$event.stopPropagation()" *ngIf="!candidate.tempLocation"
+                    href="{{ awsService.permanentBucketUrl }}candidate-resume/{{ candidate.candidate_resume }}">
+                    <ion-icon src="assets/images/md-arrow-down.svg"></ion-icon>
+                </a>
+
+                <a target="_blank" (click)="$event.stopPropagation()" *ngIf="candidate.tempLocation"
+                    href="{{ candidate.tempLocation }}">
+                    <ion-icon src="assets/images/md-arrow-down.svg"></ion-icon>
+                </a>
+            </div>
+
+            <ion-button tabindex="2" class="fileUpload" full (click)="mobileUpload();" *ngIf="platform.is('hybrid')">
+                <ion-icon src="assets/images/md-cloud-upload.svg"></ion-icon>
+                <span *ngIf="candidate.candidate_resume">{{ "Replace File" }}</span>
+                <span *ngIf="!candidate.candidate_resume">{{ "Select file" }}</span>
+            </ion-button>
+
+            <ion-button tabindex="3" class="fileUpload" full *ngIf="!platform.is('hybrid')">
+                <ion-icon src="assets/images/md-cloud-upload.svg"></ion-icon>
+                <span *ngIf="candidate.candidate_resume">{{ "Replace File" }}</span>
+                <span *ngIf="!candidate.candidate_resume">{{ "Select file" }}</span>
+                <input class="upload" type='file' #fileInput (change)="browserUpload($event)">
+                <!-- .png,.jpg,.jpeg,.pdf,.doc,.docx -->
+            </ion-button>
+
+        </div>
+
+        <div class="progress-wrapper" *ngIf="progress">
+            <div class="progress-box">
+
+                <h4>{{ "Uploading…" | translate }} <span>{{ progress + '%' }}</span></h4>
+
+                <div class="progress-bar">
+                    <div class="progress" [style.width]="progress + '%'"></div>
+                </div>
+
+                <ion-icon *ngIf="currentTarget" tappable src="assets/images/close.svg" (click)="cancelUpload()">
+                </ion-icon>
+            </div>
+        </div>
+
+    </div>
+</ion-content>

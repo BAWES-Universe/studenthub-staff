@@ -16,7 +16,7 @@ import {AwsService} from '../../providers/aws.service';
     }
   ]
 })
-export class ImageUploadComponent implements ControlValueAccessor {
+export class ImageUploadComponent implements ControlValueAccessor, OnInit {
   // File input used for browser fallback when no cordova is available
     @ViewChild('fileInput') fileInput: ElementRef;
 
@@ -50,13 +50,19 @@ export class ImageUploadComponent implements ControlValueAccessor {
     private _awsService: AwsService,
     private _cameraService: CameraService,
     private _actionSheetCtrl: ActionSheetController,
-    private _alertCtrl: AlertController
+    private _alertCtrl: AlertController,
   ) {
     this._bucketUrlPermanent = this._awsService.permanentBucketUrl;
     this._bucketUrlTemporary = this._awsService.bucketUrl;
 
     // By Default, use the permanent bucket url
     this.bucketUrl = this._bucketUrlPermanent;
+  }
+
+  ngOnInit() {
+    if (this.prefix == 'photo') {
+      this.bucketUrl = this._awsService.cloudinaryUrl;
+    }
   }
 
   /**

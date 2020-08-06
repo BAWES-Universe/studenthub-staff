@@ -23,7 +23,7 @@ export class CandidateService {
    * @returns {Observable<any>}
    */
   detail(id: number): Observable<any> {
-    return this._authhttp.get(this._candidateEndpoint + '/detail/' + id + '?expand=candidateSkills,candidateExperiences');
+    return this._authhttp.get(this._candidateEndpoint + '/detail/' + id + '?expand=candidateSkills,candidateExperiences,bank');
   }
 
   /**
@@ -94,6 +94,7 @@ export class CandidateService {
       candidate_driving_license: model.candidate_driving_license,
       skill: model.skill,
       experience: model.experience,
+      resume: model.resume
     };
     return this._authhttp.post(postUrl, params);
   }
@@ -130,6 +131,7 @@ export class CandidateService {
       candidate_driving_license: model.candidate_driving_license,
       skill: model.skill,
       experience: model.experience,
+      resume: model.resume
     };
 
     return this._authhttp.patch(url, params);
