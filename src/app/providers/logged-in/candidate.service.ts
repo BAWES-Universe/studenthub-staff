@@ -94,7 +94,7 @@ export class CandidateService {
       candidate_driving_license: model.candidate_driving_license,
       skill: model.skill,
       experience: model.experience,
-      resume: model.resume
+      resume: model.candidate_resume
     };
     return this._authhttp.post(postUrl, params);
   }
@@ -131,7 +131,7 @@ export class CandidateService {
       candidate_driving_license: model.candidate_driving_license,
       skill: model.skill,
       experience: model.experience,
-      resume: model.resume
+      resume: model.candidate_resume
     };
 
     return this._authhttp.patch(url, params);
