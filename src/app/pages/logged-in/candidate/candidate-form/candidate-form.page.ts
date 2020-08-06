@@ -9,8 +9,9 @@ import { UniversityService } from 'src/app/providers/logged-in/university.servic
 import { CountryService } from 'src/app/providers/logged-in/country.service';
 // model
 import { Candidate } from 'src/app/models/candidate';
-import {SkillFormPage} from "../skill-form/skill-form.page";
-import {ExperienceFormPage} from "../experience-form/experience-form.page";
+import { SkillFormPage } from '../skill-form/skill-form.page';
+import { ExperienceFormPage } from '../experience-form/experience-form.page';
+import { UploadCvPage } from '../upload-cv/upload-cv.page';
 
 
 @Component({
@@ -106,7 +107,6 @@ export class CandidateFormPage implements OnInit {
 
     this.saving = true;
     this.updateModelDataFromForm();
-
     let action;
     if (!this.model.candidate_id) {
       // Create
@@ -234,7 +234,8 @@ export class CandidateFormPage implements OnInit {
         gender: ['', Validators.required],
         license: ['', Validators.required],
         skills: ['', Validators.required],
-        experiences: ['', Validators.required]
+        experiences: [''],
+        resume: ['']
       });
     } else { // Show Update Form
       this.operation = 'Update';
@@ -258,7 +259,8 @@ export class CandidateFormPage implements OnInit {
         gender: [this.model.candidate_gender, Validators.required],
         license: [this.model.candidate_driving_license, Validators.required],
         skills: [this.model.skill, Validators.required],
-        experiences: [this.model.experience, Validators.required]
+        experiences: [this.model.experience],
+        resume: [this.model.candidate_resume]
       });
       this.loadExp();
       this.loadSkill();
@@ -315,7 +317,7 @@ export class CandidateFormPage implements OnInit {
   loadSkill() {
     const skills = [];
     if (this.model.candidateSkills && this.model.candidateSkills.length > 0) {
-      for (let skl of this.model.candidateSkills) {
+      for (const skl of this.model.candidateSkills) {
           skills.push(skl.skill);
           this.form.controls.skills.setValue(skills.join(','));
           this.model.experience = skills.join(',');
@@ -326,11 +328,30 @@ export class CandidateFormPage implements OnInit {
   loadExp() {
     const experiences = [];
     if (this.model.candidateExperiences && this.model.candidateExperiences.length > 0) {
-      for (let exp of this.model.candidateExperiences) {
+      for (const exp of this.model.candidateExperiences) {
           experiences.push(exp.experience);
           this.form.controls.experiences.setValue(experiences.join(','));
           this.model.experience = experiences.join(',');
         }
       }
+  }
+
+  async updateResume() {
+
+    const modal = await this.modalCtrl.create({
+      component: UploadCvPage,
+      componentProps: {
+        candidate: this.model,
+      }
+    });
+    modal.present();
+
+    const { data } = await modal.onWillDismiss();
+
+    if (data.resume) {
+      this.form.controls.resume.setValue(data.resume);
+      this.form.controls.resume.markAsDirty();
+      this.model.candidate_resume = data.resume;
     }
+  }
 }

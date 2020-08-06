@@ -19,7 +19,7 @@ export class AuthService {
   public staff_id: number;
   public name: string;
   public email: string;
-
+  public currency_pref: string = 'USD';
   public isLogged = false;
 
   public displayCookieMessage = false;

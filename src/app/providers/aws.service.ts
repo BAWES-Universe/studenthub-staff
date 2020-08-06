@@ -15,9 +15,10 @@ const { Filesystem } = Plugins;
   providedIn: 'root'
 })
 export class AwsService implements OnInit {
-  
+
   public bucketUrl = 'https://studenthub-public-anyone-can-upload-24hr-expiry.s3.eu-west-2.amazonaws.com/';
   public permanentBucketUrl = environment.permanentBucketUrl;
+  public cloudinaryUrl = environment.permanentCloudinaryUrl;
 
   private _region = 'eu-west-2'; // London
   private _access_key_id = 'AKIAJXOMRCDE65WKBPUA';
@@ -101,6 +102,7 @@ export class AwsService implements OnInit {
    * @returns {Observable<any>}
    */
   uploadFile(file_prefix: string, file: File): Observable<any> {
+  // uploadFile(file_prefix: string): Observable<any> {
     const s3 = new AWS.S3({
       apiVersion: '2006-03-01'
     });

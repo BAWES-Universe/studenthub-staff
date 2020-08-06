@@ -16,8 +16,8 @@ import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 // services
 import { CandidateService } from '../../../../providers/logged-in/candidate.service';
-import { TranslateLabelService } from '../../../../providers/translate-label.service'; 
-import { AuthService } from '../../../../providers/auth.service'; 
+import { TranslateLabelService } from '../../../../providers/translate-label.service';
+import { AuthService } from '../../../../providers/auth.service';
 import { EventService } from '../../../../providers/event.service';
 import { AlgoliaService } from 'src/app/providers/logged-in/algolia.service';
 
@@ -55,9 +55,10 @@ export class CandidateFilterPage implements OnInit {
 
   public refreshingCandidates = false;
   public dirty = false;
- 
+
+  public sourceSaveSearch;
   public searchParameters;
- 
+
   public showSearchBox = true;
 
   public lastRefinements;
@@ -76,7 +77,7 @@ export class CandidateFilterPage implements OnInit {
     private location: Location,
     public navCtrl: NavController,
     public popoverCtrl: PopoverController,
-    public auth: AuthService, 
+    public auth: AuthService,
     public algoliaService: AlgoliaService,
     public candidateService: CandidateService,
     public storage: Storage,
@@ -91,7 +92,7 @@ export class CandidateFilterPage implements OnInit {
       if (this.platform.is('mobile')) {
         this.isMobile = true;
       }
-    }); 
+    });
   }
 
   /**
@@ -102,7 +103,7 @@ export class CandidateFilterPage implements OnInit {
     if (this.candidateService.algoliaConfig) {
 
       this.searchParameters = this.candidateService.algoliaConfig.searchParameters;
-      
+
       this.nbHits = this.candidateService.algoliaConfig.nbHits;
       this.nbPages = this.candidateService.algoliaConfig.nbPages;
     }
@@ -142,14 +143,14 @@ export class CandidateFilterPage implements OnInit {
   ionViewWillEnter() {
     this.initializeSearchParameters();
 
-    this.content.scrollToPoint(0, this.scrollPosition); 
+    this.content.scrollToPoint(0, this.scrollPosition);
   }
 
   ionViewDidEnter() {
     console.log(this.searchParameters);
     if (!this.instantSearchConfig) { // on first time app load
       this.setConfig();
-    } 
+    }
   }
 
   ionViewWillLeave() {
@@ -187,7 +188,7 @@ export class CandidateFilterPage implements OnInit {
     this.loading = true;
 
     this.algoliaService.getKey().then(response => {
- 
+
       this.instantSearchConfig = {
         indexName: environment.algoliaCandidateIndex,
         //searchParameters: this.searchParameters,
@@ -282,9 +283,9 @@ export class CandidateFilterPage implements OnInit {
             this.loading = true;
 
             if (
-              opts.jsonBody && 
-              opts.jsonBody.requests && 
-              opts.jsonBody.requests[0].params && 
+              opts.jsonBody &&
+              opts.jsonBody.requests &&
+              opts.jsonBody.requests[0].params &&
               opts.jsonBody.requests[0].params.indexOf('page=0') != -1
             ) {
               this.refreshingCandidates = true;
@@ -473,10 +474,14 @@ export class CandidateFilterPage implements OnInit {
       this.candidateService.algoliaConfig.refresh = this.refresh;
 
       console.log('refresh', this.candidateService.algoliaConfig.searchParameters);
-      
+
       this.router.navigate(['candidate-search']);
     } else {
       this.location.back();
     }
+  }
+
+  scrollPos($event) {
+    // console.log($event);
   }
 }

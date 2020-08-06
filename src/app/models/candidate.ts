@@ -35,6 +35,7 @@ export class Candidate {
     candidate_driving_license: any;
     skill: string;
     experience: string;
+    candidate_resume: string;
 
     store: Store;
     company: Company;

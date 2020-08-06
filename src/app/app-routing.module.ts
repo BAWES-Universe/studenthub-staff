@@ -116,6 +116,11 @@ const routes: Routes = [
     path: 'candidate-filter',
     loadChildren: () => import('./pages/logged-in/candidate/candidate-filter/candidate-filter.module').then( m => m.CandidateFilterPageModule)
   },
+  {
+    path: 'company-view',
+    loadChildren: () => import('./pages/logged-in/company/company-view/company-view.module').then( m => m.CompanyViewPageModule),
+    canActivate: [AuthService],
+  },
 ];
 
 @NgModule({
