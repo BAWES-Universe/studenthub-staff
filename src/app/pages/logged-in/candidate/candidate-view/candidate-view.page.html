@@ -213,7 +213,14 @@
     <ion-label>
       {{ salary.tc_created_at }}
       <p>KWD {{salary.total | number:'1.3-3' }}</p>
-      <p *ngIf="salary.bonus > 0">Bonus:<b>KWD {{salary.candidate_bonus | number:'1.3-3' }}</b></p>
+      <p *ngIf="salary.bonus > 0">Bonus: <b>KWD {{salary.candidate_bonus | number:'1.3-3' }}</b></p>
+
+      <p>Confirmation ID: <b>{{ salary.transfer_confirmation_id }}</b></p>
+      
+      <p *ngIf="salary.bank">Bank: <b>{{ salary.transfer_benef_iban }} @ {{ salary.bank.bank_name }}</b></p>
+  
+      <p>Account name: <b>{{ salary.transfer_benef_name }}</b></p>
+
     </ion-label>
     <ion-badge slot="end" color="secondary" *ngIf="salary.status == 'Paid'">{{salary.status}}</ion-badge>
     <ion-badge slot="end" *ngIf="salary.status =='Unpaid'">In Progress</ion-badge>
