@@ -20,6 +20,9 @@ import { FileChooser } from '@ionic-native/file-chooser/ngx';
 import { FilePath } from '@ionic-native/file-path/ngx';
 import { IOSFilePicker } from '@ionic-native/file-picker/ngx';
 import { File } from '@ionic-native/file/ngx';
+import { SkillFormPageModule } from './pages/logged-in/candidate/skill-form/skill-form.module';
+import { ExperienceFormPageModule } from './pages/logged-in/candidate/experience-form/experience-form.module';
+import { UploadCvPageModule } from './pages/logged-in/candidate/upload-cv/upload-cv.module';
 
 export function startupServiceFactory(authService, storage) {
   return () => authService.load();
@@ -52,6 +55,9 @@ export function createTranslateLoader(http: HttpClient) {
         }),
         UpdateAlertModule,
         ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.serviceWorker }),
+        SkillFormPageModule,
+        ExperienceFormPageModule,
+        UploadCvPageModule
     ],
   providers: [
     {
@@ -68,7 +74,7 @@ export function createTranslateLoader(http: HttpClient) {
     SwUpdate,
     TranslateLabelService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    // { provide: ErrorHandler, useClass: SentryErrorhandlerService }
+    { provide: ErrorHandler, useClass: SentryErrorhandlerService }
   ],
   bootstrap: [AppComponent]
 })

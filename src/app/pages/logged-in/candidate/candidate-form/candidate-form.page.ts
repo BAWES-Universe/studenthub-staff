@@ -9,6 +9,7 @@ import { UniversityService } from 'src/app/providers/logged-in/university.servic
 import { CountryService } from 'src/app/providers/logged-in/country.service';
 // model
 import { Candidate } from 'src/app/models/candidate';
+//pages
 import { SkillFormPage } from '../skill-form/skill-form.page';
 import { ExperienceFormPage } from '../experience-form/experience-form.page';
 import { UploadCvPage } from '../upload-cv/upload-cv.page';
