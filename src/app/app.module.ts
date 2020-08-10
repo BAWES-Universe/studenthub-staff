@@ -6,7 +6,7 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import {IonicStorageModule, Storage} from '@ionic/storage';
+// import {IonicStorageModule, Storage} from '@ionic/storage';
 import {HttpClientModule, HttpClient} from '@angular/common/http';
 import {UpdateAlertModule} from './components/update-alert/update-alert.module';
 import { ServiceWorkerModule, SwUpdate } from '@angular/service-worker';
@@ -24,7 +24,7 @@ import { SkillFormPageModule } from './pages/logged-in/candidate/skill-form/skil
 import { ExperienceFormPageModule } from './pages/logged-in/candidate/experience-form/experience-form.module';
 import { UploadCvPageModule } from './pages/logged-in/candidate/upload-cv/upload-cv.module';
 
-export function startupServiceFactory(authService, storage) {
+export function startupServiceFactory(authService) {
   return () => authService.load();
 }
 
@@ -41,11 +41,11 @@ export function createTranslateLoader(http: HttpClient) {
         AppRoutingModule,
         HttpClientModule,
         BrowserTransferStateModule,
-        IonicStorageModule.forRoot({
-            name: '__payroll_staff',
-            version: 2
-            // driverOrder: ['sqlite', 'indexeddb', 'websql', 'localstorage']
-        }),
+        // IonicStorageModule.forRoot({
+        //     name: '__payroll_staff',
+        //     version: 3
+        //     // driverOrder: ['sqlite', 'indexeddb', 'websql', 'localstorage']
+        // }),
         TranslateModule.forRoot({
           loader: {
             provide: TranslateLoader,
@@ -64,7 +64,7 @@ export function createTranslateLoader(http: HttpClient) {
       // Provider for APP_INITIALIZER
       provide: APP_INITIALIZER,
       useFactory: startupServiceFactory,
-      deps: [AuthService, Storage],
+      deps: [AuthService],
       multi: true
     },
     File,

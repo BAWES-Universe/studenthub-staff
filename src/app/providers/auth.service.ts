@@ -1,14 +1,16 @@
 import { Injectable } from '@angular/core';
-import {EMPTY, Observable, throwError} from "rxjs";
-import {first, map, retryWhen, take} from "rxjs/operators";
-import {HttpClient, HttpHeaders, HttpResponse} from "@angular/common/http";
-import {ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree} from "@angular/router";
-import {genericRetryStrategy} from "../util/genericRetryStrategy";
-import { Storage } from '@ionic/storage';
+import {EMPTY, Observable, throwError} from 'rxjs';
+import {first, map, retryWhen, take} from 'rxjs/operators';
+import {HttpClient, HttpHeaders, HttpResponse} from '@angular/common/http';
+import {ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree} from '@angular/router';
+import {genericRetryStrategy} from '../util/genericRetryStrategy';
 
-//service
-import {EventService} from "./event.service";
-import {environment} from "../../environments/environment";
+// service
+import {EventService} from './event.service';
+import {environment} from '../../environments/environment';
+
+import { Plugins } from '@capacitor/core';
+const { Storage } = Plugins;
 
 @Injectable({
   providedIn: 'root'
@@ -19,19 +21,18 @@ export class AuthService {
   public staff_id: number;
   public name: string;
   public email: string;
-  public currency_pref: string = 'USD';
+  public currency_pref = 'USD';
   public isLogged = false;
 
-  public displayCookieMessage = false;
+  public displayCookieMessage = '0';
 
   public showOneSignalPrompt = false;
-  private _urlBasicAuth: string = "/auth/login";
-  private _urlUpdatePass: string = "/auth/update-password";
+  private _urlBasicAuth = '/auth/login';
+  private _urlUpdatePass = '/auth/update-password';
 
   constructor(
     public _http: HttpClient,
     public router: Router,
-    public _storage: Storage,
     public eventService: EventService
   ) { }
 
@@ -43,36 +44,28 @@ export class AuthService {
      * new router changes don't wait for startup service
      * https://github.com/angular/angular/issues/14615
      */
-    return new Promise(resolve => {
+    return new Promise(async resolve => {
 
       if (this.isLogged) {
         resolve(true);
       }
 
-      this._storage.get('loggedInStaff').then(data => {
-        if (
-          data &&
-          data.token &&
-          data.staff_id &&
-          data.name &&
-          data.email
-        ) {
+      const ret = await Storage.get({ key: 'loggedInStaff' });
+      const user = JSON.parse(ret.value);
 
-          // to enable page to call restricted apis
-          this.isLogged = true;
-          this._accessToken = data.token;
-          this.staff_id = data.staff_id;
-          this.email = data.email;
-          this.name = data.name;
+      if (user) {
+        this.isLogged = true;
+        this._accessToken = user.token;
+        this.staff_id = user.staff_id;
+        this.email = user.email;
+        this.name = user.name;
 
-          // set token without redirect if not already setting
-          // this.setAccessToken(data, false);
-          resolve(true);
-        } else {
-          resolve(false);
-          this.logout('invalid access');
-        }
-      });
+        resolve(true);
+      } else {
+        resolve(false);
+        this.logout('invalid access');
+      }
+
     });
   }
 
@@ -80,11 +73,14 @@ export class AuthService {
    * Save user data in storage
    */
   saveInStorage() {
-    return this._storage.set('loggedInStaff', {
-      token: this._accessToken,
-      staff_id: this.staff_id,
-      name: this.name,
-      email: this.email
+    Storage.set({
+      key: 'loggedInStaff',
+      value: JSON.stringify({
+        token: this._accessToken,
+        staff_id: this.staff_id,
+        name: this.name,
+        email: this.email
+      })
     });
   }
 
@@ -103,12 +99,15 @@ export class AuthService {
     this.staff_id = null;
     this.name = null;
     this.email = null;
-    this._storage.clear();
+    Storage.clear();
 
     if (!silent) {
       this.eventService.userLoggedOut$.next(reason ? reason : false);
     }
-    this._storage.set('cookieMessageWasApproved', !this.displayCookieMessage);
+    Storage.set({
+      key: 'cookieMessageWasApproved',
+      value : (this.displayCookieMessage == '0') ? '1' : '0'
+    });
   }
 
   /**
@@ -126,14 +125,15 @@ export class AuthService {
 
     if (this._accessToken) {
       this.isLogged = true;
-      this.eventService.userLogined$.next({ redirect: redirect });
+      this.eventService.userLogined$.next({ redirect });
     }
   }
 
   // This is the method you want to call at bootstrap
-  load(): Promise<any> {
+  async load(): Promise<any> {
+    const ret = await Storage.get({ key: 'loggedInStaff' });
     const promises = [
-      this._storage.get('loggedInStaff')
+      JSON.parse(ret.value)
     ];
 
     return Promise.all(promises).then(data => {
@@ -158,18 +158,12 @@ export class AuthService {
       return this._accessToken;
     }
 
-    this._storage.get('loggedInStaff').then(data => {
+    Storage.get({ key: 'loggedInStaff' }).then(ret => {
+      const user = JSON.parse(ret.value);
 
-      if (data) {
-
-        this.setAccessToken(
-          data,
-          redirect
-        );
-
-        this._accessToken = data.token;
-      } else {
-        //  this.logout('error with store variables');
+      if (user) {
+        this.setAccessToken(user, redirect);
+        this._accessToken = user.token;
       }
     });
 
@@ -185,7 +179,7 @@ export class AuthService {
   basicAuth(email: string, password: string): Observable<any> {
     // Add Basic Auth Header with Base64 encoded email and password
     const authHeader = new HttpHeaders({
-      'Authorization': 'Basic ' + btoa(`${email}:${password}`),
+      Authorization: 'Basic ' + btoa(`${email}:${password}`),
     });
     const url = environment.apiEndpoint + this._urlBasicAuth;
     return this._http.get(url, {

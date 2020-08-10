@@ -111,45 +111,30 @@ export class AppComponent implements OnInit {
 
     // service worker watcher
     if (!this.platform.is('capacitor')) {
+      if ('serviceWorker' in navigator && environment.serviceWorker && window.location.hostname != 'localhost') {
 
-      if ('serviceWorker' in navigator) {
-        console.log(navigator);
-        navigator.serviceWorker.getRegistrations().then((registrations)  => {
-          console.log(registrations);
-          // returns installed service workers
-          if (registrations.length) {
-            for (let registration of registrations) {
-              console.log(registration);
-              registration.unregister();
-            }
-          }
+        navigator.serviceWorker.register('./ngsw-worker.js');
+
+        // Allow the app to stabilize first, before starting polling for updates with `interval()`.
+        const appIsStable$ = this.appRef.isStable.pipe(first(isStable => isStable === true));
+        const updateInterval$ = interval(60 * 1000);// every minute
+        const updateIntervalOnceAppIsStable$ = concat(appIsStable$, updateInterval$);
+
+        updateIntervalOnceAppIsStable$.subscribe(() => {
+          this.updates.checkForUpdate().then((e) => {
+          });
+        });
+
+        this.updates.available.subscribe((e) => {
+          this.updatesAvailable = true;
+        });
+
+        this.updates.activated.subscribe((e) => {
+          this.updatesAvailable = false;
+        }, reason => {
+          console.error('service worker update activation failed', reason);
         });
       }
-
-      // if ('serviceWorker' in navigator && environment.serviceWorker && window.location.hostname != 'localhost') {
-      //
-      //   navigator.serviceWorker.register('./ngsw-worker.js');
-      //
-      //   // Allow the app to stabilize first, before starting polling for updates with `interval()`.
-      //   const appIsStable$ = this.appRef.isStable.pipe(first(isStable => isStable === true));
-      //   const updateInterval$ = interval(60 * 1000);// every minute
-      //   const updateIntervalOnceAppIsStable$ = concat(appIsStable$, updateInterval$);
-      //
-      //   updateIntervalOnceAppIsStable$.subscribe(() => {
-      //     this.updates.checkForUpdate().then((e) => {
-      //     });
-      //   });
-      //
-      //   this.updates.available.subscribe((e) => {
-      //     this.updatesAvailable = true;
-      //   });
-      //
-      //   this.updates.activated.subscribe((e) => {
-      //     this.updatesAvailable = false;
-      //   }, reason => {
-      //     console.error('service worker update activation failed', reason);
-      //   });
-      // }
     }
   }
 

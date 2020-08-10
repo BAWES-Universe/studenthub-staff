@@ -5,7 +5,8 @@ import {
   PopoverController,
   IonContent
 } from '@ionic/angular';
-import { Storage } from '@ionic/storage';
+import { Plugins } from '@capacitor/core';
+// import { Storage } from '@ionic/storage';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { TransferState, makeStateKey } from '@angular/platform-browser';
 import * as algoliasearchProxy from 'algoliasearch/index';
@@ -21,6 +22,7 @@ import { AuthService } from '../../../../providers/auth.service';
 import { EventService } from '../../../../providers/event.service';
 import { AlgoliaService } from 'src/app/providers/logged-in/algolia.service';
 
+const { Storage } = Plugins;
 
 const algoliasearch = algoliasearchProxy.default || algoliasearchProxy;
 const encode = encodeProxy.default || encodeProxy;
@@ -80,7 +82,7 @@ export class CandidateFilterPage implements OnInit {
     public auth: AuthService,
     public algoliaService: AlgoliaService,
     public candidateService: CandidateService,
-    public storage: Storage,
+    // public storage: Storage,
     public eventService: EventService,
     public translateService: TranslateLabelService
   ) {

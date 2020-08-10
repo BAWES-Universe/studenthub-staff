@@ -1,6 +1,7 @@
 import {Component, ViewChild, OnInit, ChangeDetectorRef, ViewRef} from '@angular/core';
 import { NavController, Platform, MenuController, PopoverController, IonContent } from '@ionic/angular';
-import { Storage } from '@ionic/storage';
+import { Plugins } from '@capacitor/core';
+// import { Storage } from '@ionic/storage';
 import { environment } from '../../../../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { TransferState, makeStateKey } from '@angular/platform-browser';
@@ -15,6 +16,7 @@ import { EventService } from '../../../../providers/event.service';
 import { AlgoliaService } from 'src/app/providers/logged-in/algolia.service';
 
 
+const { Storage } = Plugins;
 const algoliasearch = algoliasearchProxy.default || algoliasearchProxy;
 const encode = encodeProxy.default || encodeProxy;
 
@@ -41,11 +43,11 @@ export class CandidateSearchPage implements OnInit {
 
   public nbHits = null;
   public nbPages;
-  public page; 
+  public page;
   public searchParameters = {};
   public refreshingCandidates = false;
   public dirty = false;
-  public noCandidateList = false; 
+  public noCandidateList = false;
   public showSearchForm = false;
   public showSearchBox = true;
   public haveLocationFilter = false;
@@ -62,7 +64,6 @@ export class CandidateSearchPage implements OnInit {
     public auth: AuthService,
     public algoliaService: AlgoliaService,
     public candidateService: CandidateService,
-    public storage: Storage,
     public changeDetector: ChangeDetectorRef,
     public eventService: EventService,
     public translateService: TranslateLabelService,
@@ -155,7 +156,7 @@ export class CandidateSearchPage implements OnInit {
     if(!this.candidateService.algoliaConfig) {
       this.candidateService.algoliaConfig = {};
     }
-    
+
     this.candidateService.algoliaConfig.instantSearchConfig = Object.assign({}, this.instantSearchConfig);
     this.candidateService.algoliaConfig.searchParameters = this.instantSearch ? Object.assign({}, this.instantSearch.instantSearchInstance.helper.state) : Object.assign({}, this.searchParameters);
     this.candidateService.algoliaConfig.nbHits = this.nbHits;
@@ -237,7 +238,7 @@ export class CandidateSearchPage implements OnInit {
       const transferStateKey = makeStateKey('pogi-source-ais(' + opts.body + ')');
 
       if (transferState.hasKey(transferStateKey)) {
-    
+
         console.log('from cache');
 
         // @type {?}
@@ -273,9 +274,9 @@ export class CandidateSearchPage implements OnInit {
             this.loading = true;
 
             if (
-              opts.jsonBody && 
-              opts.jsonBody.requests && 
-              opts.jsonBody.requests[0].params && 
+              opts.jsonBody &&
+              opts.jsonBody.requests &&
+              opts.jsonBody.requests[0].params &&
               opts.jsonBody.requests[0].params.indexOf('page=0') != -1
             ) {
               setTimeout(() => {
@@ -285,13 +286,13 @@ export class CandidateSearchPage implements OnInit {
           });
         }*/
 
-        //if key got time out  
+        //if key got time out
 
         if (this.algoliaService.getCurrentTimeUTC() > this.algoliaService.securedApiKeyValidUntil) {
           return this.resetKey(opts, rawUrl, resolve, transferState, transferStateKey);
         }
 
-        //normal request 
+        //normal request
 
         httpClient
           .request(opts.method, url, {
