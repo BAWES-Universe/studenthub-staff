@@ -54,7 +54,7 @@ export function createTranslateLoader(http: HttpClient) {
           }
         }),
         UpdateAlertModule,
-        ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.serviceWorker }),
+        // ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.serviceWorker }),
         SkillFormPageModule,
         ExperienceFormPageModule,
         UploadCvPageModule
@@ -71,7 +71,7 @@ export function createTranslateLoader(http: HttpClient) {
     FileChooser,
     FilePath,
     IOSFilePicker,
-    SwUpdate,
+    // SwUpdate,
     TranslateLabelService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: ErrorHandler, useClass: SentryErrorhandlerService }

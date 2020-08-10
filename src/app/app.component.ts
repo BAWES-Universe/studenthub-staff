@@ -50,7 +50,7 @@ export class AppComponent implements OnInit {
         SplashScreen.hide();
       }
 
-      this.setServiceWorker();
+      // this.setServiceWorker();
     });
   }
 
