@@ -1,10 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute} from '@angular/router';
 
-import {AlertController, LoadingController, ModalController, NavController, ToastController} from "@ionic/angular";
-import {StoreService} from "src/app/providers/logged-in/store.service";
-import {Store} from "src/app/models/store";
-import {StoreFormPage} from "../store-form/store-form.page";
+import {AlertController, ModalController, NavController, ToastController} from '@ionic/angular';
+
+import {Store} from 'src/app/models/store';
+import {Company} from '../../../../models/company';
+
+import {StoreFormPage} from '../store-form/store-form.page';
+
+import {StoreService} from 'src/app/providers/logged-in/store.service';
+import {CompanyService} from '../../../../providers/logged-in/company.service';
+import {AwsService} from '../../../../providers/aws.service';
+
+
 
 @Component({
   selector: 'app-store-list',
@@ -18,6 +26,7 @@ export class StoreListPage implements OnInit {
   public pages: number[] = [];
   public loading = false;
   public stores: Store[];
+  public company: Company;
 
   private _companyId;
 
@@ -25,15 +34,18 @@ export class StoreListPage implements OnInit {
     public activatedRoute: ActivatedRoute,
     public navCtrl: NavController,
     public storeService: StoreService,
+    public companyService: CompanyService,
     private _modalCtrl: ModalController,
     private _alertCtrl: AlertController,
     private _toastCtrl: ToastController,
+    public aws: AwsService
   ) {
     this._companyId = this.activatedRoute.snapshot.paramMap.get('id');
   }
 
   ngOnInit() {
     this.loadData(this.currentPage);
+    this.loadCompany();
   }
 
   /**
@@ -42,8 +54,9 @@ export class StoreListPage implements OnInit {
    */
   pageLinkColor(page: number) {
 
-    if (page == this.currentPage)
+    if (page == this.currentPage) {
       return 'light';
+    }
 
     return '';
   }
@@ -62,14 +75,15 @@ export class StoreListPage implements OnInit {
 
         this.pages = [];
 
-        for (var i = 1; i <= this.pageCount; i++) {
+        for (let i = 1; i <= this.pageCount; i++) {
           this.pages.push(i);
         }
 
-        //hide if no page = 1
+        // hide if no page = 1
 
-        if (this.pageCount == 1)
+        if (this.pageCount == 1) {
           this.pages = [];
+        }
 
         this.stores = response.body;
       },
@@ -88,7 +102,7 @@ export class StoreListPage implements OnInit {
     // Load Detail Page
     this.navCtrl.navigateForward('store-view/' + model.store_id, {
       state: {
-        model: model
+        model
       }
     });
   }
@@ -117,7 +131,7 @@ export class StoreListPage implements OnInit {
    */
   async delete(store: Store) {
     this.loading = true;
-    let confirm = await this._alertCtrl.create({
+    const confirm = await this._alertCtrl.create({
       header: 'Delete Store?',
       message: 'Are you sure you want to delete this Store?',
       buttons: [
@@ -128,7 +142,7 @@ export class StoreListPage implements OnInit {
               this.loading = false;
 
               if (jsonResp.operation == 'error') {
-                let alert = await this._alertCtrl.create({
+                const alert = await this._alertCtrl.create({
                   header: 'Deletion Error!',
                   subHeader: jsonResp.message,
                   buttons: ['OK']
@@ -137,7 +151,7 @@ export class StoreListPage implements OnInit {
               }
 
               if (jsonResp.operation == 'success') {
-                let toast = await this._toastCtrl.create({
+                const toast = await this._toastCtrl.create({
                   message: jsonResp.message,
                   duration: 3000
                 });
@@ -180,4 +194,12 @@ export class StoreListPage implements OnInit {
     );
   }
 
+  /**
+   * view detail
+   */
+  loadCompany() {
+    this.companyService.companyDetail(this._companyId).subscribe( response => {
+      this.company = response;
+    });
+  }
 }

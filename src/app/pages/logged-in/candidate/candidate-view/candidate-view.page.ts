@@ -43,11 +43,12 @@ export class CandidateViewPage implements OnInit {
   ngOnInit() {
     const state = window.history.state;
 
-    if (state.model) {
-      this.candidate = state.model;
-    } else  {
-      this.loadCandidateDetail();
-    }
+    // if (state.model) {
+    //   this.candidate = state.model;
+    // } else  {
+    //   this.loadCandidateDetail();
+    // }
+    this.loadCandidateDetail();
     this.loadWorkHistoryData();
 
     this.loadStoreData();
@@ -230,6 +231,7 @@ export class CandidateViewPage implements OnInit {
 
   loadCandidateDetail() {
     this.candidateService.detail(this.candidate_id).subscribe( response => {
+      console.log(this.candidate);
       this.candidate = response;
     });
   }
@@ -239,6 +241,7 @@ export class CandidateViewPage implements OnInit {
    * @param candidate
    */
   loadLogo($event, candidate) {
+    candidate.candidate_personal_photo = null;
     return candidate.candidate_personal_photo_thumb = null;
   }
 }

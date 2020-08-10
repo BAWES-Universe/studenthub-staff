@@ -5,9 +5,11 @@
 export const environment = {
   production: false,
   envName: 'prod',
-  // permanentBucketUrl: "https://studenthub-uploads-dev-server.s3.amazonaws.com/",
-  permanentBucketUrl: 'https://res.cloudinary.com/studenthub/image/upload/v1596525812/candidate-photo/',
+  permanentBucketUrl: 'https://studenthub-uploads-dev-server.s3.amazonaws.com/',
+  cloudinaryUrl: 'https://res.cloudinary.com/studenthub/image/upload/c_thumb,w_200,h_200,g_face/v1596525812/candidate-photo/',
   apiEndpoint: 'https://staff.api.dev.studenthub.co/v1',
+  algoliaCacheDuration: 5 * 60 * 1000, // 5 min in millisecond
+  algoliaCandidateIndex: 'krushn_candidate_public',
   environmentName: 'Production Server',
   serviceWorker: false
 };

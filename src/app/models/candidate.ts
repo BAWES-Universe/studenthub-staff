@@ -5,7 +5,7 @@ import { University } from './university';
 import { Country } from './country';
 
 export class Candidate {
-    employee_id:number;
+    employee_id: number;
     candidate_id: string;
     candidate_uid: string;
     store_id: number;
@@ -19,7 +19,7 @@ export class Candidate {
     candidate_personal_photo: string;
     candidate_email: string;
     candidate_phone: string;
-    candidate_address_line1
+    candidate_address_line1;
     candidate_birth_date: string;
     candidate_civil_id: string;
     candidate_civil_expiry_date: string;
@@ -30,10 +30,18 @@ export class Candidate {
     approved: number;
     age: string;
     candidate_personal_photo_thumb: string;
+    candidate_objective: string;
+    candidate_gender: any;
+    candidate_driving_license: any;
+    skill: string;
+    experience: string;
+    candidate_resume: string;
 
     store: Store;
     company: Company;
     university: University;
     country: Country;
     bank: Bank;
+    candidateExperiences: any;
+    candidateSkills: any;
 }

@@ -59,7 +59,7 @@
                 }
               ],
               "aot": true,
-              "serviceWorker": true,
+              "serviceWorker": false,
               "ngswConfigPath": "ngsw-config.json"
             },
             "dev-mobile": {

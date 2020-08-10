@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start" (click)="dismiss()">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      {{ "Work Experience" }}
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+
+  <div class="max-width">
+    <ion-list class="candidateExperiences" *ngIf="experienceList">
+
+      <ion-item *ngFor="let s of tmpExperience;let i=index;">
+
+        <ion-input id="input[{{ i }}]" placeholder="{{ 'Type a experience'}}"
+          [(ngModel)]="experienceList[i]" (ionFocus)="validateExperiences()" (ionChange)="change($event, i, s)"
+          type="text" enterkeyhint="{{ 'Next' }}" (keyup)="nextOnEnter($event, i)"></ion-input>
+
+        <ion-button fill="clear" tabindex="-1" item-right *ngIf="experienceList[i]" fill="clear"
+          (click)="removeExperience(i,s)" class="skip-hover">
+          <img src="assets/images/ic_circledCancel.svg">
+        </ion-button>
+      </ion-item>
+    </ion-list>
+
+    <ion-button class="btn-submit" (click)="save()"
+      [disabled]="(this.candidate && this.candidate.candidateExperiences && this.candidate.candidateExperiences.length == this.experienceList.length)  || this.experienceList.length < 1 || loading"
+      type="submit">
+      Submit
+    </ion-button>
+
+  </div>
+</ion-content>

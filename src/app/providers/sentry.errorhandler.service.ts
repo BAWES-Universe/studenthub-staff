@@ -71,9 +71,9 @@ export class SentryErrorhandlerService implements ErrorHandler {
       // Capture handled exception and send it to Sentry.
       const eventId = Sentry.captureException(extractedError);
       console.error(extractedError);
+      Sentry.showReportDialog({ eventId });
       // When in development mode, log the error to console for immediate feedback
       // Optionally show user dialog to provide details on what happened.
-      Sentry.showReportDialog({ eventId });
     }
   }
 }

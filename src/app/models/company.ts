@@ -7,7 +7,11 @@ export class Company{
     company_email: string;
     company_status: number;
     total_candidates: number;
+    company_hourly_rate: number;
+    company_bonus_commission: number;
+    currency_pref: number;
     subcompanies: Company[];
     subCompanies: Company[];
     stores: Store[];
+    files: any[];
 }

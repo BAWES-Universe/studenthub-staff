@@ -183,6 +183,7 @@ export class CountryViewPage implements OnInit {
    * @param candidate
    */
   loadLogo($event, candidate) {
+    candidate.candidate_personal_photo = null;
     return candidate.candidate_personal_photo_thumb = null;
   }
 }

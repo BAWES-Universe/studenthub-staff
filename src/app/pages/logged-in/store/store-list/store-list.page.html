@@ -3,30 +3,93 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/company-list"></ion-back-button>
     </ion-buttons>
-    <ion-title>Stores</ion-title>
+    <ion-title *ngIf="!loading && !company">Select Store</ion-title>
+    <ion-title *ngIf="!loading && company">{{ company.company_name }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <loading-modal [loading]="loading" type="text-list"></loading-modal>
-  <ion-list *ngIf="!loading">
-    <ion-item-sliding *ngFor="let store of stores">
-      <ion-item tappable (click)="rowSelected(store)">
-        {{ store.store_name }}
 
-        <ion-badge slot="end" *ngIf="store.candidates?.length > 0">
-          <ion-icon name="person"></ion-icon> {{ store.candidates.length }}
-        </ion-badge>
+  <section *ngIf="!loading && company && company.company_email">
+    <ion-item-divider color="light">
+      <ion-label>
+        Contact
+      </ion-label>
+    </ion-item-divider>
+
+    <ion-item href='mailto:{{ company.company_email }}'>
+      <ion-label>
+        <ion-icon name="mail-outline" slot="start"></ion-icon>
+        {{ company.company_email }}
+      </ion-label>
+    </ion-item>
+
+    <div *ngIf="company.files && company.files.length > 0">
+      <ion-item-divider color="light">
+        <ion-label>
+          Uploaded Document
+        </ion-label>
+      </ion-item-divider>
+
+      <ion-item *ngFor="let file of company.files">
+        <ion-label>
+          <ion-icon name="caret-forward-outline"></ion-icon> &nbsp;
+          <a target="_blank" (click)="$event.stopPropagation()"
+             href="{{ aws.permanentBucketUrl }}{{ file.file_s3_path }}">
+            {{file.file_title}}
+          </a>
+        </ion-label>
       </ion-item>
+    </div>
 
-      <ion-item-options side="end">
-        <ion-button color="danger" (click)="delete(store)">
-          <ion-icon name="trash"></ion-icon>
-          Delete
-        </ion-button>
-      </ion-item-options>
+    <ion-item-divider color="light">
+      <ion-label>
+        Payment
+      </ion-label>
+    </ion-item-divider>
 
-    </ion-item-sliding>
+    <ion-item>
+      <ion-label>
+        Bonus Commission(%) - {{ company.company_bonus_commission }}
+      </ion-label>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>
+        Hourly Rate - {{ company.company_hourly_rate }} KWD
+      </ion-label>
+    </ion-item>
+
+  </section>
+
+
+  <ion-list *ngIf="!loading">
+    <section>
+
+      <ion-item-divider color="light">
+        <ion-label>
+          Stores
+        </ion-label>
+      </ion-item-divider>
+      <ion-item-sliding *ngFor="let store of stores">
+        <ion-item tappable (click)="rowSelected(store)">
+          {{ store.store_name }}
+
+          <ion-badge slot="end" *ngIf="store.candidates?.length > 0">
+            <ion-icon name="person"></ion-icon> {{ store.candidates.length }}
+          </ion-badge>
+        </ion-item>
+
+        <ion-item-options side="end">
+          <ion-button color="danger" (click)="delete(store)">
+            <ion-icon name="trash"></ion-icon>
+            Delete
+          </ion-button>
+        </ion-item-options>
+
+      </ion-item-sliding>
+    </section>
   </ion-list>
 
 

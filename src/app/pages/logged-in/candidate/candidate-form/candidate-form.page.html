@@ -97,6 +97,67 @@
           <ion-label position="floating">Phone Number</ion-label>
           <ion-input type="text" formControlName="phone"></ion-input>
         </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Objective</ion-label>
+          <ion-input type="text" formControlName="objective"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Gender</ion-label>
+          <ion-buttons class="btn-wrapper">
+            <ion-button class="btn-male"
+                        [class.active]="model.candidate_gender == 1"
+                        (click)="setGenderOption(1)">
+              Male</ion-button>
+
+            <div class="clearfix"></div>
+
+            <ion-button class="btn-female"
+                        [class.active]="model.candidate_gender == 2"
+                        (click)="setGenderOption(2)">
+              Female</ion-button>
+
+            <div class="clearfix"></div>
+
+            <ion-button class="other"
+                        [class.active]="model.candidate_gender == 3"
+                        (click)="setGenderOption(3)">
+              Other</ion-button>
+          </ion-buttons>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Driving License Available?</ion-label>
+          <ion-buttons class="btn-wrapper">
+            <ion-button class="btn-male"
+                        [class.active]="model.candidate_driving_license == 1"
+                        (click)="setLicenseOption(1)">
+              Yes</ion-button>
+
+            <div class="clearfix"></div>
+
+            <ion-button class="btn-female"
+                        [class.active]="model.candidate_driving_license == 2"
+                        (click)="setLicenseOption(2)">
+              No</ion-button>
+          </ion-buttons>
+        </ion-item>
+
+        <ion-item (click)="updateSkills()">
+          <ion-label position="floating">Skill</ion-label>
+          <ion-input type="text" formControlName="skills"></ion-input>
+        </ion-item>
+
+        <ion-item (click)="updateExperiences()">
+          <ion-label position="floating">Experience</ion-label>
+          <ion-input type="text" formControlName="experiences"></ion-input>
+        </ion-item>
+
+        <ion-item (click)="updateResume()">
+          <ion-label position="floating">Candidate CV</ion-label>
+          <ion-input type="text" formControlName="resume"></ion-input>
+        </ion-item>
       </ion-card-content>
     </ion-card>
 

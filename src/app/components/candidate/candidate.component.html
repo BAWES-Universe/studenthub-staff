@@ -2,13 +2,16 @@
   <ion-item tappable (click)="rowSelected(candidate)">
     <ion-avatar slot="start">
       <img *ngIf="candidate.candidate_personal_photo"
-        src="{{ aws.permanentBucketUrl + candidate.candidate_personal_photo }}" (error)="loadLogo(candidate)">
+        src="{{ aws.cloudinaryUrl + candidate.candidate_personal_photo }}" (error)="loadLogo(candidate)">
       <img *ngIf="!candidate.candidate_personal_photo" src="/assets/icon/icon.png">
     </ion-avatar>
 
     <ion-label>
       {{ candidate.candidate_name }}
-      <p *ngIf="candidate.store">{{ candidate.store.store_name }} @ {{ candidate.company.company_name }}</p>
+      <p *ngIf="candidate.store">
+        {{ candidate.store.store_name }}
+        <span *ngIf="candidate.company">@ {{ candidate.company.company_name }}</span>
+      </p>
     </ion-label>
 
     <ion-checkbox *ngIf="candidate.store" (click)="$event.preventDefault();$event.stopPropagation();" slot="end"

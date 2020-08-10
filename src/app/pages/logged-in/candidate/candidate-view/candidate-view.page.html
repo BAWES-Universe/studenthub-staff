@@ -16,7 +16,7 @@
   <ion-list *ngIf="candidate">
     <ion-item>
       <ion-avatar slot="start">
-        <img *ngIf="candidate.candidate_personal_photo" src="{{ aws.permanentBucketUrl + candidate.candidate_personal_photo }}" (error)="loadLogo($event,candidate)">
+        <img *ngIf="candidate.candidate_personal_photo" src="{{ aws.cloudinaryUrl + candidate.candidate_personal_photo }}" (error)="loadLogo($event,candidate)">
         <img *ngIf="!candidate.candidate_personal_photo" src="/assets/icon/icon.png">
       </ion-avatar>
       <ion-label>
@@ -100,6 +100,62 @@
     </ion-label>
   </ion-item>
 
+  <ion-item>
+    <ion-label>
+      <h5>Gender</h5>
+      <p *ngIf="candidate.candidate_gender == 1">Male</p>
+      <p *ngIf="candidate.candidate_gender == 2">Female</p>
+      <p *ngIf="candidate.candidate_gender == 3">Other</p>
+    </ion-label>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>
+      <h5>Objective</h5>
+      <p *ngIf="candidate.candidate_objective">{{ candidate.candidate_objective }}</p>
+    </ion-label>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>
+      <h5>Driving License Available?</h5>
+      <p *ngIf="candidate.candidate_driving_license == 1">Yes</p>
+      <p *ngIf="candidate.candidate_driving_license == 2">No</p>
+    </ion-label>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>
+      <h5>Skills</h5>
+      <div *ngIf="candidate.candidateSkills && candidate.candidateSkills.length > 0">
+        <p class="sub-span" *ngFor="let skills of candidate.candidateSkills">
+          {{skills.skill}}
+        </p>
+      </div>
+    </ion-label>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>
+      <h5>Experiences</h5>
+      <div *ngIf="candidate.candidateExperiences && candidate.candidateExperiences.length > 0">
+        <p class="sub-span" *ngFor="let exp of candidate.candidateExperiences">
+          {{exp.experience}}
+        </p>
+      </div>
+    </ion-label>
+  </ion-item>
+
+    <ion-item>
+    <ion-label>
+      <h5>Candidate CV</h5>
+      <a target="_blank" *ngIf="candidate.candidate_resume"
+         href="{{ aws.urlResume }}{{ candidate.candidate_resume }}">
+        {{ candidate.candidate_resume }}
+      </a>
+    </ion-label>
+  </ion-item>
+
   <ion-item-divider color="light">Civil ID</ion-item-divider>
   <ion-item>
     <ion-label>
@@ -140,24 +196,27 @@
     </ion-label>
   </ion-item>
 
-  <div *ngIf="candidate.bank">
+  <div>
     <ion-item-divider color="light">Bank Info</ion-item-divider>
     <ion-item>
       <ion-label>
         <h5>Bank</h5>
-        <p>{{ candidate.bank.bank_name }}</p>
+        <p *ngIf="candidate.bank">{{ candidate.bank.bank_name }}</p>
+        <p *ngIf="!candidate.bank">-</p>
       </ion-label>
     </ion-item>
     <ion-item>
       <ion-label>
         <h5>Beneficiary Name</h5>
-        <p>{{ candidate.bank_account_name }}</p>
+        <p *ngIf="candidate.bank_account_name">{{ candidate.bank_account_name }}</p>
+        <p *ngIf="!candidate.bank_account_name">-</p>
       </ion-label>
     </ion-item>
     <ion-item>
       <ion-label>
         <h5>IBAN</h5>
-        <p>{{ candidate.candidate_iban }}</p>
+        <p *ngIf="candidate.candidate_iban">{{ candidate.candidate_iban }}</p>
+        <p *ngIf="!candidate.candidate_iban">-</p>
       </ion-label>
     </ion-item>
   </div>
@@ -167,7 +226,14 @@
     <ion-label>
       {{ salary.tc_created_at }}
       <p>KWD {{salary.total | number:'1.3-3' }}</p>
-      <p *ngIf="salary.bonus > 0">Bonus:<b>KWD {{salary.candidate_bonus | number:'1.3-3' }}</b></p>
+      <p *ngIf="salary.bonus > 0">Bonus: <b>KWD {{salary.candidate_bonus | number:'1.3-3' }}</b></p>
+
+      <p>Confirmation ID: <b>{{ salary.transfer_confirmation_id }}</b></p>
+
+      <p *ngIf="salary.bank">Bank: <b>{{ salary.transfer_benef_iban }} @ {{ salary.bank.bank_name }}</b></p>
+
+      <p>Account name: <b>{{ salary.transfer_benef_name }}</b></p>
+
     </ion-label>
     <ion-badge slot="end" color="secondary" *ngIf="salary.status == 'Paid'">{{salary.status}}</ion-badge>
     <ion-badge slot="end" *ngIf="salary.status =='Unpaid'">In Progress</ion-badge>

@@ -9,6 +9,7 @@ import { environment } from 'src/environments/environment';
 import { EventService } from "./providers/event.service";
 import { AuthService } from "./providers/auth.service";
 import { CandidateIdCardService } from "./providers/logged-in/candidate.id.card.service";
+import { TranslateLabelService } from './providers/translate-label.service';
 
 
 const { SplashScreen } = Plugins;
@@ -32,12 +33,17 @@ export class AppComponent implements OnInit {
     private _alertCtrl: AlertController,
     private navCtrl: NavController,
     public auth: AuthService,
+    public translateService: TranslateLabelService,
     public candidateIdCardService: CandidateIdCardService
   ) {
     this.initializeApp();
   }
 
   initializeApp() {
+
+    //this language will be used as a fallback when a translation isn't found in the current language
+    this.translateService.setDefaultLang('en');
+
     this.platform.ready().then(() => {
 
       if (this.platform.is('hybrid')) {
@@ -105,7 +111,6 @@ export class AppComponent implements OnInit {
 
     // service worker watcher
     if (!this.platform.is('capacitor')) {
-
       if ('serviceWorker' in navigator && environment.serviceWorker && window.location.hostname != 'localhost') {
 
         navigator.serviceWorker.register('./ngsw-worker.js');
