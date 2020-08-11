@@ -128,7 +128,7 @@ export class CompanyListPage implements OnInit {
     this.companyService.view(this.company_id).subscribe( response => {
       this.loading = false;
       this.company = response;
-      console.log(this.company);
+      
       this.companies = response.subCompanies;
     });
   }

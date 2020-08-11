@@ -148,8 +148,7 @@ export class CandidateFilterPage implements OnInit {
     this.content.scrollToPoint(0, this.scrollPosition);
   }
 
-  ionViewDidEnter() {
-    console.log(this.searchParameters);
+  ionViewDidEnter() { 
     if (!this.instantSearchConfig) { // on first time app load
       this.setConfig();
     }
@@ -184,9 +183,7 @@ export class CandidateFilterPage implements OnInit {
    * Set algolia config
    */
   async setConfig() {
-
-    console.log('setConfig');
-
+ 
     this.loading = true;
 
     this.algoliaService.getKey().then(response => {
@@ -481,16 +478,10 @@ export class CandidateFilterPage implements OnInit {
       this.candidateService.algoliaConfig.instantSearchConfig = this.instantSearchConfig;
       this.candidateService.algoliaConfig.searchParameters = this.instantSearch ? this.instantSearch.instantSearchInstance.helper.state : this.searchParameters;
       this.candidateService.algoliaConfig.refresh = this.refresh;
-
-      console.log('refresh', this.candidateService.algoliaConfig.searchParameters);
-
+ 
       this.router.navigate(['candidate-search']);
     } else {
       this.location.back();
     }
-  }
-
-  scrollPos($event) {
-    // console.log($event);
   }
 }

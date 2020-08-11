@@ -125,8 +125,7 @@ export class CandidateListPage implements OnInit {
       this.candidates = response.body;
     },
       error => { },
-      () => {
-        // console.log('Not Assigned Request Completed');
+      () => { 
         this.loading = false;
       }
     );
@@ -164,7 +163,7 @@ export class CandidateListPage implements OnInit {
       this.candidates = response.body;
     },
       error => { },
-      () => { console.log('Assigned Request Completed'); this.loading = false; }
+      () => { this.loading = false; }
     );
   }
 
@@ -196,7 +195,7 @@ export class CandidateListPage implements OnInit {
   doInfinite(event, type) {
     this.loading = true;
     if (type == 'assigned') {
-      console.log('assigned');
+     
       this.currentPageAssign ++;
       this.candidateService.listAssigned(this.assignedSearchBar, this.currentPageAssign).subscribe(response => {
           this.loading = false;
@@ -210,7 +209,6 @@ export class CandidateListPage implements OnInit {
         () => { event.target.complete(); }
       );
     } else {
-      console.log('unassigned');
       this.currentPageUnAssign ++;
 
       this.candidateService.listNotAssigned(this.unassignedSearchBar, this.currentPageUnAssign).subscribe(response => {

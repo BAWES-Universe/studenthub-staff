@@ -56,7 +56,7 @@ export class AwsService implements OnInit {
         directory: FilesystemDirectory.Documents,
         encoding: FilesystemEncoding.UTF8
       }).then((response: FileReadResult) => {
-          console.log(response.data);
+          
       });
       // console.log(contents);
 

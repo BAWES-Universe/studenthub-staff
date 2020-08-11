@@ -40,7 +40,6 @@ export class CompanyViewPage implements OnInit {
     // Load the passed model if available
     if (window && window.history.state) {
       this.company = window.history.state.model;
-      console.log(this.company);
     }
 
     this.company_id = this.activatedRoute.snapshot.paramMap.get('company_id');

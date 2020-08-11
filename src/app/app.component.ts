@@ -79,7 +79,6 @@ export class AppComponent implements OnInit {
       // Show Message explaining logout reason if there's one set
       if (logoutReason) {
         console.log(logoutReason);
-        console.log('Invalid Access');
       }
     });
 

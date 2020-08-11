@@ -132,7 +132,6 @@ export class CandidateSearchPage implements OnInit {
 
     if (this.candidateService.algoliaConfig) {
       this.searchParameters = Object.assign({}, this.candidateService.algoliaConfig.searchParameters);
-      console.log(this.searchParameters);
     }
   }
 
@@ -239,8 +238,6 @@ export class CandidateSearchPage implements OnInit {
 
       if (transferState.hasKey(transferStateKey)) {
 
-        console.log('from cache');
-
         // @type {?}
         let resp = JSON.parse(transferState.get(transferStateKey, {}));
 
@@ -300,9 +297,7 @@ export class CandidateSearchPage implements OnInit {
             body: opts.body,
             observe: 'response'
           }).subscribe(resp => {
-
-            console.log('normal response');
-
+ 
             this.processResponse(resp, transferState, transferStateKey);
 
             resolve(this.resolveResponse(resp));
@@ -327,9 +322,7 @@ export class CandidateSearchPage implements OnInit {
   }
 
   resetKey(opts, rawUrl, resolve,  transferState, transferStateKey) {
-
-    console.log('reset key');
-
+ 
     this.algoliaService.getKey(true).then(response => {
 
       // update config
@@ -357,9 +350,7 @@ export class CandidateSearchPage implements OnInit {
    * @param transferStateKey
    */
   processResponse(resp, transferState = null, transferStateKey = null) {
-
-    console.log('processResponse', resp);
-
+ 
     if (transferState) {
       transferState.set(transferStateKey, JSON.stringify(resp));
     }

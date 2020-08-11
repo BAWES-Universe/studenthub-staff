@@ -27,7 +27,7 @@ export class SkillFormPage implements OnInit {
 
   ngOnInit() {
     // this.addToSkillList(JSON.parse(JSON.stringify(this.candidate.candidateSkills)));
-    console.log(this.candidate.candidateSkills);
+    
     this.addToSkillList(this.candidate.candidateSkills);
   }
 

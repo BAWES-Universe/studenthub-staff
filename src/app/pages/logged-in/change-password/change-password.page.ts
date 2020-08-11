@@ -51,8 +51,13 @@ export class ChangePasswordPage implements OnInit {
         });
         prompt.present();
       }
-    }, (err) => {
-      console.log(err);
+    }, async (err) => {
+      
+      const prompt = await this._alertCtrl.create({
+        message: err,
+        buttons: ['Ok']
+      });
+      prompt.present(); 
     }, () => {
       this.loading = false;
     });

@@ -231,7 +231,6 @@ export class CandidateViewPage implements OnInit {
 
   loadCandidateDetail() {
     this.candidateService.detail(this.candidate_id).subscribe( response => {
-      console.log(this.candidate);
       this.candidate = response;
     });
   }
