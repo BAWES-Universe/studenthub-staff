@@ -415,7 +415,14 @@ export class CandidateFilterPage implements OnInit {
 
     // either need candidates in result or query in searchbox
 
-    if (!this.noCandidateList || this.instantSearch.instantSearchInstance.helper.state.query.length > 0) {
+    if (
+      !this.noCandidateList || 
+      (
+        this.instantSearch.instantSearchInstance && 
+        this.instantSearch.instantSearchInstance.helper.state.query && 
+        this.instantSearch.instantSearchInstance.helper.state.query.length > 0
+      )
+    ) {
       setTimeout(_ => {
         this.showSearchBox = true;
       }, 1);

@@ -388,7 +388,15 @@ export class CandidateSearchPage implements OnInit {
     // TF condition
     setTimeout(() => {
 
-      this.showSearchBox = (!this.noCandidateList || (this.instantSearch && this.instantSearch.instantSearchInstance && this.instantSearch.instantSearchInstance.helper.state.query.length > 0));
+      this.showSearchBox = (
+        !this.noCandidateList || 
+        (
+          this.instantSearch && 
+          this.instantSearch.instantSearchInstance && 
+          this.instantSearch.instantSearchInstance.helper.state.query && 
+          this.instantSearch.instantSearchInstance.helper.state.query.length > 0
+        )
+      );
 
       if (this.changeDetector !== null &&
         this.changeDetector !== undefined &&
