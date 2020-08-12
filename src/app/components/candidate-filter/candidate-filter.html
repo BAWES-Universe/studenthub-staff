@@ -2,11 +2,10 @@
     <h4 class="filter-group-name">{{ "Profile" | translate }}</h4>
 
     <div class="filter-groups">
-   
-        <refinement-list data-facet-order="9" [class.is-refined]="arrRefined && arrRefined['candidate_gender']"
-            label="{{ 'Gender' | translate }}" operator="or" [transformItems]="genderTransformItems"
-            attribute="candidate_gender"></refinement-list>
 
+      <refinement-list data-facet-order="9" [class.is-refined]="arrRefined && arrRefined['candidate_gender']"
+                       label="{{ 'Gender' | translate }}" operator="or" [transformItems]="genderTransformItems"
+                       attribute="candidate_gender"></refinement-list>
         <refinement-list data-facet-order="9" [class.is-refined]="arrRefined && arrRefined['candidate_driving_license']"
             label="{{ 'Driving license' | translate }}" operator="or" [transformItems]="booleanTransformItems"
             attribute="candidate_driving_license"></refinement-list>
@@ -16,18 +15,18 @@
             searchPlaceholder="{{ 'Search here...' | translate }}" showMoreLabel="{{ 'Show more' | translate }}"
             showLessLabel="{{ 'Show less' | translate }}" showMoreLimit="15" operator="or"
             attribute="bank.bank_name"></refinement-list>
-            
+
         <refinement-list label="{{ 'Country' | translate }}" [searchable]="true"
             data-sort-order="6" [class.is-refined]="arrRefined['country.country_name_en']"
             searchPlaceholder="{{ 'Search here...' | translate }}" showMoreLabel="{{ 'Show more' | translate }}"
             showLessLabel="{{ 'Show less' | translate }}" showMoreLimit="15" operator="or"
             attribute="country.country_name_en"></refinement-list>
     </div>
-     
+
     <h4 class="filter-group-name">{{ "Education" | translate }}</h4>
 
     <div class="filter-groups">
-   
+
         <refinement-list label="{{ 'Skill' | translate }}" [searchable]="true"
             data-sort-order="6" [class.is-refined]="arrRefined['candidateSKills.skill']"
             searchPlaceholder="{{ 'Search here...' | translate }}" showMoreLabel="{{ 'Show more' | translate }}"
@@ -47,22 +46,25 @@
             attribute="university.university_name_en"></refinement-list>
     </div>
 
-    <h4 class="filter-group-name">{{ "Curren Assignment" | translate }}</h4>
+    <h4 class="filter-group-name">{{ "Current Assignment" | translate }}</h4>
 
     <div class="filter-groups">
-         
+
         <refinement-list label="{{ 'Company' | translate }}" [searchable]="true"
             data-sort-order="6" [class.is-refined]="arrRefined['store.company.company_name']"
             searchPlaceholder="{{ 'Search here...' | translate }}" showMoreLabel="{{ 'Show more' | translate }}"
             showLessLabel="{{ 'Show less' | translate }}" showMoreLimit="15" operator="or"
             attribute="store.company.company_name"></refinement-list>
-            
+
         <refinement-list label="{{ 'Store' | translate }}" [searchable]="true"
             data-sort-order="6" [class.is-refined]="arrRefined['store.store_name']"
             searchPlaceholder="{{ 'Search here...' | translate }}" showMoreLabel="{{ 'Show more' | translate }}"
             showLessLabel="{{ 'Show less' | translate }}" showMoreLimit="15" operator="or"
             attribute="store.store_name"></refinement-list>
 
+      <refinement-list data-facet-order="9" [class.is-refined]="arrRefined && arrRefined['assigned']"
+                       label="{{ 'Assigned' | translate }}" operator="or" [transformItems]="assignedTransformItems"
+                       attribute="assigned"></refinement-list>
     </div>
 
 </div>

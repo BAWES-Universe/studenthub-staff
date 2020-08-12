@@ -13,7 +13,7 @@ import { InstantSearchComponent } from '../instant-search/instant-search.compone
 
 
 /**
- * Display filter selection 
+ * Display filter selection
  */
 @Component({
     selector: 'applied-filters',
@@ -68,7 +68,7 @@ export class AppliedFiltersComponent extends BaseWidget {
     }
 
     /**
-     * Initialize widget 
+     * Initialize widget
      */
     public ngOnInit() {
 
@@ -78,7 +78,7 @@ export class AppliedFiltersComponent extends BaseWidget {
 
         if (this.instantSearchParent) {
             this.createWidget(connectCurrentRefinements, options);
-            
+
             setTimeout(() => { // to protect dual request
                 super.ngOnInit();
             },500)
@@ -90,7 +90,7 @@ export class AppliedFiltersComponent extends BaseWidget {
     };*/
 
     /**
-     * Return current selection for given attribute 
+     * Return current selection for given attribute
      */
     refinements() {
 
@@ -128,7 +128,7 @@ export class AppliedFiltersComponent extends BaseWidget {
     }
 
     /**
-     * @return boolean 
+     * @return boolean
      */
     isHidden() {
         return this.state.items && this.state.items.length === 0;
@@ -139,16 +139,16 @@ export class AppliedFiltersComponent extends BaseWidget {
     }
 
     /**
-     * remove current selection 
-     * @param currentSelection 
+     * remove current selection
+     * @param currentSelection
      */
     toggleCurrentSelection(currentSelection) {
-        this.instantSearchParent.instantSearchInstance.helper.setPage(0);//for security in case facet clear not updating page number 
+        this.instantSearchParent.instantSearchInstance.helper.setPage(0);//for security in case facet clear not updating page number
         currentSelection.refine(currentSelection);
     }
 
     /**
-     * Return current selection comma(,) separated 
+     * Return current selection comma(,) separated
      */
     currentSelections() {
 
@@ -164,12 +164,16 @@ export class AppliedFiltersComponent extends BaseWidget {
 
             if (b.attribute == 'candidate_driving_license') {
                 refinements = this.licenseTransformItems(b.refinements);
-            }  
+            }
+
+            if (b.attribute == 'assigned') {
+                refinements = this.assignedTransformItems(b.refinements);
+            }
 
             for (let c of refinements) {
 
                 c.attribute = b.attribute;
-                c.refine = b.refine;//function to clear refinement 
+                c.refine = b.refine;//function to clear refinement
 
                 buttons.push(c);
             }
@@ -191,4 +195,18 @@ export class AppliedFiltersComponent extends BaseWidget {
             return item;
         });
     };
-} 
+
+    assignedTransformItems = (items) => {
+
+      return items.map(item => {
+        if (item.name == '0' || item.label == '0') {
+          item.label = item.highlighted = item.name = this._translateService.transform('Not Assigned');
+        }
+        else if (item.name == '1' || item.label == '1') {
+          item.label = item.highlighted = item.name = this._translateService.transform('Assigned');
+        }
+
+        return item;
+      });
+    };
+}
