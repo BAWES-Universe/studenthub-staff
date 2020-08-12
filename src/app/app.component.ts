@@ -64,11 +64,24 @@ export class AppComponent implements OnInit {
         buttons: ['Dismiss']
       });
       alert.present();
+      this.navCtrl.navigateRoot(['/no-internet']);
     });
 
     // On Login Event, set root to Internal app page
     this.eventService.userLogined$.subscribe(userEventData => {
       this.navCtrl.navigateRoot(['/default']);
+    });
+
+    this.eventService.error500$.subscribe(userEventData => {
+      this.navCtrl.navigateRoot(['/server-error']);
+    });
+
+    this.eventService.error404$.subscribe(userEventData => {
+      this.navCtrl.navigateRoot(['/not-found']);
+    });
+
+    this.eventService.accountAssignmentRemoved$.subscribe(userEventData => {
+      this.navCtrl.navigateRoot(['/server-error']);
     });
 
     // On Logout Event, set root to Login Page
