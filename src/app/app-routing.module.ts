@@ -35,6 +35,11 @@ const routes: Routes = [
     canActivate: [AuthService],
   },
   {
+    path: 'candidate-bank-info-list',
+    loadChildren: () => import('./pages/logged-in/candidate/candidate-bank-info-list/candidate-bank-info-list.module').then( m => m.CandidateBankInfoListModule),
+    canActivate: [AuthService],
+  },
+  {
     path: 'candidate-view',
     loadChildren: () => import('./pages/logged-in/candidate/candidate-view/candidate-view.module').then( m => m.CandidateViewPageModule),
     canActivate: [AuthService],

@@ -3,15 +3,7 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>Candidates <span *ngIf="!loading && totalCount">({{totalCount}})</span></ion-title>
-
-    <ion-buttons slot="end">
-      <ion-button color="primary" [disabled]="candidateIdCardService.candidates.length == 0 || downloading" (click)="generate()">
-        <span *ngIf="!downloading">Download Zip</span>
-        <ion-spinner *ngIf="downloading"></ion-spinner>
-      </ion-button>
-    </ion-buttons>
-
+    <ion-title>Candidates</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -42,10 +34,10 @@
 
   <ion-list>
     <ng-container *ngIf="!loading">
-      <candidate [candidate]="candidate" (refresh)="search()" *ngFor="let candidate of candidates"></candidate>
+      <candidate [candidate]="transfer.candidate" (refresh)="search()" *ngFor="let transfer of transferCandidate"></candidate>
     </ng-container>
 
-    <no-items *ngIf="candidates && candidates.length == 0" message="No candidate data available"></no-items>
+    <no-items *ngIf="transferCandidate && transferCandidate.length == 0" message="No candidate data available"></no-items>
 
     <loading-modal [loading]="loading" type="candidate-list"></loading-modal>
 
@@ -59,9 +51,3 @@
     <ion-infinite-scroll-content></ion-infinite-scroll-content>
   </ion-infinite-scroll>
 </ion-content>
-
-<ion-footer *ngIf="!loading">
-  <ion-button expand="full" (click)="create()">
-    Create
-  </ion-button>
-</ion-footer>

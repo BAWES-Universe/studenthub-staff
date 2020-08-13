@@ -29,6 +29,7 @@ export class CandidateListPage implements OnInit {
   public candidates: Candidate[];
 
   public loading: boolean = false;
+  public paginationLoading = false;
 
   public downloading: boolean = false;
 
@@ -125,7 +126,7 @@ export class CandidateListPage implements OnInit {
       this.candidates = response.body;
     },
       error => { },
-      () => { 
+      () => {
         this.loading = false;
       }
     );
@@ -193,12 +194,12 @@ export class CandidateListPage implements OnInit {
   }
 
   doInfinite(event, type) {
-    this.loading = true;
+    this.paginationLoading = true;
     if (type == 'assigned') {
-     
+
       this.currentPageAssign ++;
       this.candidateService.listAssigned(this.assignedSearchBar, this.currentPageAssign).subscribe(response => {
-          this.loading = false;
+          this.paginationLoading = false;
           this.totalCount = response.headers.get('X-Pagination-Total-Count');
           this.pageCountAssign = response.headers.get('X-Pagination-Page-Count');
           this.currentPageAssign = response.headers.get('X-Pagination-Current-Page');
@@ -212,7 +213,7 @@ export class CandidateListPage implements OnInit {
       this.currentPageUnAssign ++;
 
       this.candidateService.listNotAssigned(this.unassignedSearchBar, this.currentPageUnAssign).subscribe(response => {
-          this.loading = false;
+          this.paginationLoading = false;
           this.totalCount = response.headers.get('X-Pagination-Total-Count');
           this.pageCountUnAssign = response.headers.get('X-Pagination-Page-Count');
           this.currentPageUnAssign = response.headers.get('X-Pagination-Current-Page');
