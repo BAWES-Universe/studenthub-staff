@@ -48,8 +48,17 @@ export class CandidateService {
    * List of all candidates asigned to store
    * @returns {Observable<any>}
    */
-  listAssigned(candidate_name: string, page: number, incompleteProfile = 0): Observable<any> {
-    const url = this._candidateEndpoint + '/assigned?candidate_name=' + candidate_name + '&page=' + page + '&incomplete_profile=' + incompleteProfile + '&expand=candidateSkills,candidateExperiences';
+  listAssigned(candidate_name: string, page: number, incompleteProfile = 0, withoutBank = 0): Observable<any> {
+    const url = this._candidateEndpoint + '/assigned?candidate_name=' + candidate_name + '&page=' + page + '&incomplete_profile=' + incompleteProfile  + '&without_bank=' + withoutBank + '&expand=candidateSkills,candidateExperiences';
+    return this._authhttp.getRaw(url);
+  }
+
+  /**
+   * List of all candidates asigned to store
+   * @returns {Observable<any>}
+   */
+  listAssignedWithoutBank(candidate_name: string, page: number, incompleteProfile = 0, withoutBank = 0): Observable<any> {
+    const url = this._candidateEndpoint + '/assigned-without-bank?candidate_name=' + candidate_name + '&page=' + page + '&incomplete_profile=' + incompleteProfile  + '&without_bank=' + withoutBank + '&expand=candidate,candidate.candidateSkills,candidate.candidateExperiences';
     return this._authhttp.getRaw(url);
   }
 
@@ -57,8 +66,17 @@ export class CandidateService {
    * List of all candidates not asigned to store
    * @returns {Observable<any>}
    */
-  listNotAssigned(candidate_name: string, page: number, incompleteProfile = 0): Observable<any> {
-    const url = this._candidateEndpoint + '/not-assigned?candidate_name=' + candidate_name + '&page=' + page + '&incomplete_profile=' + incompleteProfile + '&expand=candidateSkills,candidateExperiences';
+  listNotAssignedWithoutBank(candidate_name: string, page: number, incompleteProfile = 0, withoutBank = 0): Observable<any> {
+    const url = this._candidateEndpoint + '/not-assigned-without-bank?candidate_name=' + candidate_name + '&page=' + page + '&incomplete_profile=' + incompleteProfile + '&expand=candidate,candidate.candidateSkills,candidate.candidateExperiences';
+    return this._authhttp.getRaw(url);
+  }
+
+  /**
+   * List of all candidates not asigned to store
+   * @returns {Observable<any>}
+   */
+  listNotAssigned(candidate_name: string, page: number, incompleteProfile = 0, withoutBank = 0): Observable<any> {
+    const url = this._candidateEndpoint + '/not-assigned?candidate_name=' + candidate_name + '&page=' + page + '&incomplete_profile=' + incompleteProfile + '&without_bank=' + withoutBank + '&expand=candidateSkills,candidateExperiences';
     return this._authhttp.getRaw(url);
   }
 

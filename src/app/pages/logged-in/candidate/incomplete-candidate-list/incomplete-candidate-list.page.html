@@ -41,12 +41,13 @@
   </ion-searchbar>
 
   <ion-list>
-
-    <candidate [candidate]="candidate" (refresh)="search()" *ngFor="let candidate of candidates"></candidate>
+    <ng-container *ngIf="!loading">
+      <candidate [candidate]="candidate" (refresh)="search()" *ngFor="let candidate of candidates"></candidate>
+    </ng-container>
 
     <no-items *ngIf="candidates && candidates.length == 0" message="No candidate data available"></no-items>
 
-    <loading-modal [loading]="loading" type="candidate-list"></loading-modal>
+    <loading-modal [loading]="loading || paginationLoading" type="candidate-list"></loading-modal>
 
   </ion-list>
 

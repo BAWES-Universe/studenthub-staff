@@ -7,26 +7,26 @@ import { Candidate } from 'src/app/models/candidate';
 import { CandidateService } from 'src/app/providers/logged-in/candidate.service';
 import { AwsService } from 'src/app/providers/aws.service';
 import { CandidateIdCardService } from 'src/app/providers/logged-in/candidate.id.card.service';
+import {TransferCandidate} from "../../../../models/transfer-candidate";
 
 
 @Component({
-  selector: 'app-incomplete-candidate-list',
-  templateUrl: './incomplete-candidate-list.page.html',
-  styleUrls: ['./incomplete-candidate-list.page.scss'],
+  selector: 'app-candidate-bank-info-list',
+  templateUrl: './candidate-bank-info-list.page.html',
+  styleUrls: ['./candidate-bank-info-list.page.scss'],
 })
-export class IncompleteCandidateListPage implements OnInit {
+export class CandidateBankInfoListPage implements OnInit {
 
   public pageCountAssign = 0;
   public pageCountUnAssign = 0;
   public currentPageAssign = 1;
   public currentPageUnAssign = 1;
   public totalCount = 0;
-  public pages: number[] = [];
 
   public assignedSearchBar = '';
   public unassignedSearchBar = '';
   public cndSegment = 'assigned';
-  public candidates: Candidate[];
+  public transferCandidate: TransferCandidate[];
 
   public loading: boolean = false;
   public paginationLoading = false;
@@ -50,32 +50,6 @@ export class IncompleteCandidateListPage implements OnInit {
   }
 
   ngOnInit() {
-  }
-
-  /**
-   * Generate id cards
-   */
-  async generate() {
-
-    if (this.candidateIdCardService.candidates.length == 0)
-    {
-      const prompt = await this.alertCtrl.create({
-        message: 'Please select candidate(s)',
-        buttons: ['Ok']
-      });
-      prompt.present();
-
-      return false;
-    }
-
-    this.downloading = true;
-
-    this.candidateIdCardService.generate(this.candidateIdCardService.candidates).subscribe(response => {
-    }, (err) => {
-    }, () => {
-      this.downloading = false;
-      this.candidateIdCardService.candidates = [];
-    });
   }
 
   ionViewWillEnter() {
@@ -106,24 +80,12 @@ export class IncompleteCandidateListPage implements OnInit {
 
     // Load list of candidates
     this.loading = true;
-    this.candidateService.listNotAssigned(search, page, 1).subscribe(response => {
+    this.candidateService.listNotAssignedWithoutBank(search, page, 0, 1).subscribe(response => {
       this.totalCount = response.headers.get('X-Pagination-Total-Count');
       this.pageCountUnAssign = response.headers.get('X-Pagination-Page-Count');
       this.currentPageUnAssign = response.headers.get('X-Pagination-Current-Page');
 
-      this.pages = [];
-
-      for (let i = 1; i <= this.pageCountUnAssign; i++) {
-        this.pages.push(i);
-      }
-
-      // hide if no page = 1
-
-      if (this.pageCountUnAssign == 1) {
-        this.pages = [];
-      }
-
-      this.candidates = response.body;
+      this.transferCandidate = response.body;
     },
       error => { },
       () => {
@@ -143,25 +105,13 @@ export class IncompleteCandidateListPage implements OnInit {
 
     // Load list of candidates
     this.loading = true;
-    this.candidateService.listAssigned(search, page, 1).subscribe(response => {
+    this.candidateService.listAssignedWithoutBank(search, page, 0, 1).subscribe(response => {
 
       this.totalCount = response.headers.get('X-Pagination-Total-Count');
       this.pageCountAssign = response.headers.get('X-Pagination-Page-Count');
       this.currentPageAssign = response.headers.get('X-Pagination-Current-Page');
 
-      this.pages = [];
-
-      for (let i = 1; i <= this.pageCountAssign; i++) {
-        this.pages.push(i);
-      }
-
-      // hide if no page = 1
-
-      if (this.pageCountAssign == 1) {
-        this.pages = [];
-      }
-
-      this.candidates = response.body;
+      this.transferCandidate = response.body;
     },
       error => { },
       () => { this.loading = false; }
@@ -198,13 +148,13 @@ export class IncompleteCandidateListPage implements OnInit {
     if (type == 'assigned') {
 
       this.currentPageAssign ++;
-      this.candidateService.listAssigned(this.assignedSearchBar, this.currentPageAssign, 1).subscribe(response => {
+      this.candidateService.listAssignedWithoutBank(this.assignedSearchBar, this.currentPageAssign, 0, 1).subscribe(response => {
           this.paginationLoading = false;
           this.totalCount = response.headers.get('X-Pagination-Total-Count');
           this.pageCountAssign = response.headers.get('X-Pagination-Page-Count');
           this.currentPageAssign = response.headers.get('X-Pagination-Current-Page');
 
-          this.candidates = this.candidates.concat(response.body);
+          this.transferCandidate = this.transferCandidate.concat(response.body);
         },
         error => { },
         () => { event.target.complete(); }
@@ -212,17 +162,19 @@ export class IncompleteCandidateListPage implements OnInit {
     } else {
       this.currentPageUnAssign ++;
 
-      this.candidateService.listNotAssigned(this.unassignedSearchBar, this.currentPageUnAssign, 1).subscribe(response => {
-          this.loading = false;
+      this.candidateService.listNotAssignedWithoutBank(this.unassignedSearchBar, this.currentPageUnAssign, 0, 1).subscribe(response => {
+          this.paginationLoading = false;
           this.totalCount = response.headers.get('X-Pagination-Total-Count');
           this.pageCountUnAssign = response.headers.get('X-Pagination-Page-Count');
           this.currentPageUnAssign = response.headers.get('X-Pagination-Current-Page');
-          this.candidates = this.candidates.concat(response.body);
+          this.transferCandidate = this.transferCandidate.concat(response.body);
         },
         error => { },
         () => { event.target.complete(); }
       );
     }
+
+
   }
 }
 
