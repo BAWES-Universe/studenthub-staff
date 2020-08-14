@@ -27,6 +27,8 @@ export class CandidateViewPage implements OnInit {
   public sendingPassword = false;
   public assigning = false;
   public unassinging = false;
+  public loading = false;
+
   constructor(
     public navCtrl: NavController,
     public activatedRoute: ActivatedRoute,
@@ -42,7 +44,6 @@ export class CandidateViewPage implements OnInit {
 
   ngOnInit() {
     const state = window.history.state;
-
     // if (state.model) {
     //   this.candidate = state.model;
     // } else  {
@@ -230,7 +231,9 @@ export class CandidateViewPage implements OnInit {
   }
 
   loadCandidateDetail() {
+    this.loading = true;
     this.candidateService.detail(this.candidate_id).subscribe( response => {
+      this.loading = false;
       this.candidate = response;
     });
   }

@@ -13,6 +13,7 @@
 </ion-header>
 
 <ion-content>
+  <loading-modal [loading]="loading" type="candidate-view"></loading-modal>
   <ion-list *ngIf="candidate">
     <ion-item>
       <ion-avatar slot="start">
