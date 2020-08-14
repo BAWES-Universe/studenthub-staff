@@ -40,7 +40,9 @@
     </ion-item>
 
   <ion-item>
-    <ion-button *ngIf="!sendingPassword" expand="full" color="danger" (click)="resetPassword()">Send new password to candidate</ion-button>
+    <ion-button *ngIf="!sendingPassword" expand="full" color="danger" (click)="resetPassword()">
+      Send password reset email to candidate
+    </ion-button>
     <ion-spinner *ngIf="sendingPassword"></ion-spinner>
   </ion-item>
 
