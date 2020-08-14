@@ -107,7 +107,7 @@ export class CandidateFormPage implements OnInit {
   async save() {
 
     this.saving = true;
-    
+
     this.updateModelDataFromForm();
 
     let action;
@@ -126,11 +126,7 @@ export class CandidateFormPage implements OnInit {
       if (jsonResponse.operation == 'success') {
 
         // open view page
-        this.navCtrl.navigateForward('candidate-view/' + jsonResponse.candidate.candidate_id, {
-          state: {
-            model: this.model
-          }
-        });
+        this.navCtrl.navigateForward('candidate-view/' + jsonResponse.candidate.candidate_id);
 
         const toast = await this._toastCtrl.create({
           message: this.model.candidate_name + '\'s account saved successfully',

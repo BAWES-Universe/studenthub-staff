@@ -37,7 +37,7 @@
       <candidate [candidate]="transfer.candidate" (refresh)="search()" *ngFor="let transfer of transferCandidate"></candidate>
     </ng-container>
 
-    <no-items *ngIf="transferCandidate && transferCandidate.length == 0" message="No candidate data available"></no-items>
+    <no-items *ngIf="!loading && transferCandidate && transferCandidate.length == 0" message="No candidate data available"></no-items>
 
     <loading-modal [loading]="loading" type="candidate-list"></loading-modal>
 
