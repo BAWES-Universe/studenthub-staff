@@ -213,7 +213,7 @@ export class CandidateFormPage implements OnInit {
         country_id: ['', Validators.required],
         iban: [''],
         name_ar: ['', Validators.required],
-        phone: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
+        phone: ['', [Validators.required, Validators.pattern('^[0-9]{8}$')]],
         birth_date: ['', Validators.required],
         civil_id: ['', [Validators.required, Validators.pattern('^[0-9]{12}$')]],
         photo: ['', Validators.required],
