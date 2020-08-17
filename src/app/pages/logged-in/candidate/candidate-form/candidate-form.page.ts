@@ -238,7 +238,7 @@ export class CandidateFormPage implements OnInit {
         country_id: [this.model.country_id + '', Validators.required],
         iban: [this.model.candidate_iban],
         name_ar: [this.model.candidate_name_ar, Validators.required],
-        phone: [this.model.candidate_phone, [Validators.required, Validators.pattern('^[0-9]{10}$')]],
+        phone: [this.model.candidate_phone, [Validators.required, Validators.pattern('^[0-9]{8}$')]],
         birth_date: [this.model.candidate_birth_date, Validators.required],
         civil_id: [this.model.candidate_civil_id, [Validators.required, Validators.pattern('^[0-9]{12}$')]],
         photo: [this.model.candidate_personal_photo, Validators.required],
