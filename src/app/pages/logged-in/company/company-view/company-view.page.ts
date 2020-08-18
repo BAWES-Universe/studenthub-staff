@@ -5,6 +5,7 @@ import { ToastController, AlertController, ModalController, Platform } from '@io
 import { StoreService } from 'src/app/providers/logged-in/store.service';
 import { CompanyService } from 'src/app/providers/logged-in/company.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import {UploadFilePage} from "../upload-file/upload-file.page";
 
 
 @Component({
@@ -110,5 +111,20 @@ export class CompanyViewPage implements OnInit {
       this.loading = false;
       this.company = response;
     });
+  }
+
+  async uploadDocument() {
+    const modal = await this._modalCtrl.create({
+      component: UploadFilePage,
+      componentProps: {
+        company: this.company,
+      }
+    });
+    modal.present();
+
+    const { data } = await modal.onWillDismiss();
+    if (data && data.refresh) {
+      this.loadData();
+    }
   }
 }

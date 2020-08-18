@@ -146,7 +146,7 @@ export class ImageUploadComponent implements ControlValueAccessor, OnInit {
    */
   uploadFileViaNativeFilePath(path){
     // Upload and process for progress
-    this._awsService.uploadNativePath(this.prefix, path)
+    this._awsService.uploadNativePath(path)
       .then((uploadObservable) => {
         this.processFileUpload(uploadObservable);
       })

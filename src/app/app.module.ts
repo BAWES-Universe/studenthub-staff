@@ -23,6 +23,7 @@ import { File } from '@ionic-native/file/ngx';
 import { SkillFormPageModule } from './pages/logged-in/candidate/skill-form/skill-form.module';
 import { ExperienceFormPageModule } from './pages/logged-in/candidate/experience-form/experience-form.module';
 import { UploadCvPageModule } from './pages/logged-in/candidate/upload-cv/upload-cv.module';
+import { UploadFilePageModule } from './pages/logged-in/company/upload-file/upload-file.module';
 
 export function startupServiceFactory(authService) {
   return () => authService.load();
@@ -57,7 +58,8 @@ export function createTranslateLoader(http: HttpClient) {
         ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.serviceWorker }),
         SkillFormPageModule,
         ExperienceFormPageModule,
-        UploadCvPageModule
+        UploadCvPageModule,
+        UploadFilePageModule
     ],
   providers: [
     {

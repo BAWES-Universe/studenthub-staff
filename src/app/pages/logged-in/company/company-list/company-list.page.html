@@ -8,7 +8,7 @@
     <ion-title *ngIf="!company">Select Company</ion-title>
     <ion-title *ngIf="company">{{ company.company_name }}</ion-title>
   </ion-toolbar>
-  <ion-toolbar>
+  <ion-toolbar *ngIf="!company">
     <ion-segment (ionChange)="segmentChanged($event)" [value]="segment">
       <ion-segment-button value="1">
         <ion-label>Active</ion-label>
@@ -36,6 +36,12 @@
         <ion-icon name="mail-outline" slot="start"></ion-icon>
         {{ company.company_email }}
       </ion-label>
+    </ion-item>
+
+    <ion-item>
+      <ion-button expand="full" color="danger" (click)="uploadDocument()">
+        <span>Upload Document</span>
+      </ion-button>
     </ion-item>
 
     <div *ngIf="company.files && company.files.length > 0">

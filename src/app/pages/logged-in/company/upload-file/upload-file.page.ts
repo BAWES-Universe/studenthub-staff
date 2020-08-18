@@ -1,33 +1,36 @@
 import {Component, OnInit, ViewChild, ElementRef, OnDestroy} from '@angular/core';
 import { Subscription } from 'rxjs';
-import { AlertController, ModalController, Platform } from '@ionic/angular';
+import {AlertController, ModalController, Platform, ToastController} from '@ionic/angular';
 
-// services
+// Services
 import { SentryErrorhandlerService } from 'src/app/providers/sentry.errorhandler.service';
-import { TranslateLabelService } from 'src/app/providers/translate-label.service';
-import { AccountService } from 'src/app/providers/logged-in/account.service';
 import { FilepickerService } from 'src/app/providers/logged-in/filepicker.service';
 import { AwsService } from 'src/app/providers/aws.service';
-
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {File} from '../../../../models/file';
+import {CompanyService} from '../../../../providers/logged-in/company.service';
 
 @Component({
-  selector: 'app-upload-cv',
-  templateUrl: './upload-cv.page.html',
-  styleUrls: ['./upload-cv.page.scss'],
+  selector: 'app-upload-file',
+  templateUrl: './upload-file.page.html',
+  styleUrls: ['./upload-file.page.scss'],
 })
-export class UploadCvPage implements OnInit, OnDestroy {
+export class UploadFilePage implements OnInit, OnDestroy {
 
   @ViewChild('fileInput', { static: false }) fileInput: ElementRef;
 
-  public candidate;
+  public fileModel: File = new File();
+  public company;
 
-  public progress;
-
+  public progress = null;
+  public form: FormGroup;
   public loading = false;
 
   public dirty = false;
+  public saving = false;
 
   public currentTarget;
+  public tempLocation;
 
   public filePickSubscription: Subscription;
   public browserUploadSubscription: Subscription;
@@ -36,15 +39,19 @@ export class UploadCvPage implements OnInit, OnDestroy {
   constructor(
     public platform: Platform,
     public modalCtrl: ModalController,
+    public toastCtrl: ToastController,
     public alertCtrl: AlertController,
-    public accountService: AccountService,
-    public translateService: TranslateLabelService,
+    public fb: FormBuilder,
+    public companyService: CompanyService,
     public sentryService: SentryErrorhandlerService,
     public filepickerService: FilepickerService,
     public awsService: AwsService
-  ) { }
+  ) {
+
+  }
 
   ngOnInit() {
+    this._initForm();
   }
 
   ngOnDestroy() {
@@ -83,6 +90,7 @@ export class UploadCvPage implements OnInit, OnDestroy {
    * Upload file in mobile device
    */
   mobileUpload() {
+
     this.filePickSubscription = this.filepickerService.pick().subscribe(async uri => {
 
       // validate extension
@@ -131,10 +139,10 @@ export class UploadCvPage implements OnInit, OnDestroy {
 
           // networking errors
           if (err && networkErrors.indexOf(err.message) > -1) {
-            message = this.translateService.transform('Error uploading file');
+            message = 'Error uploading file';
             // system errors
           } else if (err.message && err.message.indexOf(':') > -1) {
-            message = this.translateService.transform('Error getting file from Library');
+            message = 'Error getting file from Library';
             // plugin errors
           } else if (err.message) {
             message = err.message;
@@ -144,9 +152,9 @@ export class UploadCvPage implements OnInit, OnDestroy {
           }
 
           const alert = await this.alertCtrl.create({
-            header: this.translateService.transform('Error'),
+            header: 'Error',
             message,
-            buttons: [this.translateService.transform('Okay')]
+            buttons: ['Okay']
           });
 
           await alert.present();
@@ -162,6 +170,7 @@ export class UploadCvPage implements OnInit, OnDestroy {
    * @param event
    */
   browserUpload(event) {
+
     const fileList: FileList = event.target.files;
 
     if (fileList.length == 0) {
@@ -183,9 +192,9 @@ export class UploadCvPage implements OnInit, OnDestroy {
         }
 
         const alert = await this.alertCtrl.create({
-          header: this.translateService.transform('Error'),
-          message: this.translateService.transform('Error while uploading file!'),
-          buttons: [this.translateService.transform('Okay')]
+          header: 'Error',
+          message: 'Error while uploading file!',
+          buttons: ['Okay']
         });
 
         await alert.present();
@@ -211,25 +220,12 @@ export class UploadCvPage implements OnInit, OnDestroy {
       if (this.fileInput && this.fileInput.nativeElement) {
         this.fileInput.nativeElement.value = null;
       }
-
       this.dirty = true;
-      this.dismiss({resume: event.Key});
-      // this.uploadSubscription = this.accountService.updateResume(event.Key).subscribe(res => {
-      //
-      //   this.progress = false;
-      //
-      //   if (res.operation == 'success') {
-      //
-      //     this.candidate.candidate_resume = res.candidate_resume;
-
-      //   }
-      //
-      // }, () => {
-      //   this.progress = false;
-      // });
-
-      // tempLocation = event.Location;
-
+      this.form.controls.file.setValue(event.Key);
+      this.form.controls.file.markAsDirty();
+      this.fileModel.file_s3_path = event.Key;
+      this.tempLocation = event.Location;
+      this.progress = false;
     } else {
       this.currentTarget = event;
     }
@@ -265,10 +261,61 @@ export class UploadCvPage implements OnInit, OnDestroy {
    * return extension of uploaded file
    */
   get uploadedFileExtension() {
-    const a = this.candidate.candidate_resume.split('.');
+    const a = this.fileModel.file_s3_path.split('.');
 
     if (a) {
       return a[a.length - 1];
     }
+  }
+
+  /**
+   * init form
+   */
+  _initForm() {
+      this.form = this.fb.group({
+        title: ['', Validators.required],
+        desc: [''],
+        file: ['', Validators.required]
+      });
+  }
+
+  async save(){
+    this.saving = true;
+    this.fileModel.file_title = this.form.value.title;
+    this.fileModel.file_description = this.form.value.desc;
+    this.fileModel.company_id = this.company.company_id;
+    this.companyService.createFile(this.fileModel).subscribe( async jsonResponse => {
+      this.saving = false;
+
+      // On Success
+      if (jsonResponse.operation == 'success') {
+
+        // open view page
+        this.dismiss({refresh: true});
+
+        const toast = await this.toastCtrl.create({
+          message: jsonResponse.message,
+          duration: 3000
+        });
+        toast.present();
+      }
+
+      // On Failure
+      if (jsonResponse.operation == 'error') {
+        let html = '';
+
+        for (const i in jsonResponse.message) {
+          for (const j of jsonResponse.message[i]) {
+            html += j + '<br />';
+          }
+        }
+
+        const prompt = await this.alertCtrl.create({
+          message: html,
+          buttons: ['Ok']
+        });
+        prompt.present();
+      }
+    });
   }
 }

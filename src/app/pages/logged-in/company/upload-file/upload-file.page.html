@@ -1,0 +1,89 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-button fill="clear" (click)="dismiss()" class="btn-close">
+                <ion-back-button></ion-back-button>
+            </ion-button>
+        </ion-buttons>
+        <ion-title>
+            Upload File
+        </ion-title>
+        <ion-buttons slot="end">
+            <ion-button color="primary"
+                        [disabled]="!form.valid"
+                        (click)="save()">
+                <span *ngIf="!saving">Save</span>
+                <ion-spinner *ngIf="saving"></ion-spinner>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <div class="">
+        <form [formGroup]="form" *ngIf="form">
+            <ion-list>
+                <ion-item>
+                    <ion-label position="floating">Title</ion-label>
+                    <ion-input type="text" formControlName="title"></ion-input>
+                </ion-item>
+
+                <ion-item>
+                    <ion-label position="floating">Description</ion-label>
+                    <ion-input type="text" formControlName="desc"></ion-input>
+                </ion-item>
+
+                <ion-item *ngIf="!progress">
+                    <ion-button class="fileUpload" (click)="mobileUpload();" *ngIf="platform.is('hybrid')">
+                        <ion-icon name="cloud-upload-outline"></ion-icon>&nbsp;&nbsp;
+                        <span *ngIf="this.fileModel.file_s3_path">Replace File</span>
+                        <span *ngIf="!this.fileModel.file_s3_path">Select file</span>
+                    </ion-button>
+
+                    <ion-button  class="fileUpload" *ngIf="!platform.is('hybrid') || platform.is('desktop')">
+                        <ion-icon name="cloud-upload-outline"></ion-icon>&nbsp;&nbsp;
+                        <span *ngIf="this.fileModel.file_s3_path">Replace File</span>
+                        <span *ngIf="!this.fileModel.file_s3_path">Select file</span>
+                        <input class="upload" type='file' #fileInput (change)="browserUpload($event)">
+                        <!-- .png,.jpg,.jpeg,.pdf,.doc,.docx -->
+                    </ion-button>
+
+                    <br/>
+                </ion-item>
+                <ion-item *ngIf="!progress && this.fileModel.file_s3_path">
+                    <div class="selected-file">
+
+                        <div class="extension">{{ uploadedFileExtension }}</div>
+
+                        <div class="fileName">{{ this.fileModel.file_s3_path }}</div>
+
+                        <a target="_blank" (click)="$event.stopPropagation()" *ngIf="!tempLocation"
+                           href="{{ awsService.permanentBucketUrl }}candidate-resume/{{ this.fileModel.file_s3_path }}">
+                            <ion-icon name="cloud-download-outline"></ion-icon>
+                        </a>
+
+                        <a target="_blank" (click)="$event.stopPropagation()" *ngIf="tempLocation"
+                           href="{{ tempLocation }}">
+                            <ion-icon name="cloud-download-outline"></ion-icon>
+                        </a>
+                    </div>
+                </ion-item>
+
+            </ion-list>
+        </form>
+
+        <div class="progress-wrapper" *ngIf="progress">
+            <div class="progress-box">
+
+                <h4>{{ "Uploading…" }} <span>{{ progress + '%' }}</span></h4>
+
+                <div class="progress-bar">
+                    <div class="progress" [style.width]="progress + '%'"></div>
+                </div>
+
+                <ion-icon *ngIf="currentTarget" tappable src="assets/images/close.svg" (click)="cancelUpload()">
+                </ion-icon>
+            </div>
+        </div>
+
+    </div>
+</ion-content>

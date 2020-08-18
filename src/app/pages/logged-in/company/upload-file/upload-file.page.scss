@@ -1,0 +1,192 @@
+
+ion-content {
+    --padding-start: 30px;
+    --padding-end: 30px;
+    --padding-top: 25px;
+    --padding-bottom: 26px;
+}
+
+.btn-close {
+    --padding-bottom: 0;
+    --padding-start: 0;
+    --padding-end: 0;
+    --padding-top: 0;
+    margin: 0;
+    height: auto;
+}
+
+h3 {
+    font-size: 42px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #000000;
+    margin-top: 45px;
+    margin-bottom: 45px;
+}
+
+.fileUpload {
+    height: 42px;
+    font-size: 14px;
+    text-transform: none;
+    min-width: 137px;
+    text-align: var(--start);
+    font-weight: 500;
+    margin-top: 38px;
+    --padding-start: 10px;
+    --border-radius: 4px;
+    --background: #333333;
+    --box-shadow: none;
+}
+
+.fileUpload:hover {
+    background-color: #fff !important;
+}
+
+.fileUpload ion-icon {
+    display: block;
+    font-size: 28px;
+    font-weight: normal;
+}
+
+[dir="ltr"] .fileUpload ion-icon {
+    margin-right: 10px;
+}
+
+[dir="rtl"] .fileUpload ion-icon {
+    margin-left: 10px;
+}
+
+.fileUpload input.upload {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity = 0);
+    width: 100%;
+    height: 100%;
+    display: block !important;
+}
+
+.fileUpload .button-inner span {
+    text-indent: -25px;
+}
+
+.progress-wrapper {
+    h4 {
+        font-size: 14px;
+        line-height: 1.41;
+        color: #292f38;
+        font-weight: normal;
+        margin: 0;
+        width: calc(100% - 50px);
+
+        span {
+            float: var(--end);
+        }
+    }
+
+    .progress-box {
+        width: 313px;
+        height: 60px;
+        border-radius: 4px;
+        border: solid 1px #bdbdbd;
+        padding: 10px 13px;
+        position: relative;
+
+        .progress-bar {
+            width: 233px;
+            height: 5px;
+            border-radius: 15px;
+            background-color: rgba(242, 68, 89, 0.2);
+            margin-top: 10px;
+        }
+
+        .progress {
+            width: 0%;
+            height: 5px;
+            border-radius: 15px;
+            background-color: #f24459;
+        }
+
+        ion-icon {
+            position: absolute; 
+            top: 20px; 
+        }
+    }
+}
+
+[dir="ltr"] .progress-wrapper ion-icon { 
+    right: 20px;
+}
+
+[dir="rtl"] .progress-wrapper ion-icon { 
+    left: 20px;
+}
+
+.selected-file {
+    width: 100%;
+    height: 60px;
+    border: solid 1px #bdbdbd;
+    background-color: #fff;
+    border-radius: 4px;
+    padding: 5px 9px;
+    margin-bottom: 26px;
+    display: block;
+
+    .extension {
+        width: 50px;
+        height: 50px;
+        border-radius: 10px;
+        background-color: #f5f7fb;
+        font-size: 14px;
+        font-weight: 500;
+        text-transform: uppercase;
+        display: inline-block;
+        text-align: center;
+        padding: 15px 0;
+    }
+
+    .fileName {
+        font-size: 14px;
+        line-height: 1.41;
+        color: #292f38;
+        display: inline-block;
+        margin: 0 15px;
+        width: calc(100% - 120px);
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden; 
+        padding-top: 5px;
+        position: relative;
+        top: 5px;
+    }
+
+    a {
+        top: 5px;
+        position: relative;
+    }
+}
+
+.btn-deleteFile {
+    width: calc(100% - 24px) !important;
+    border: 1px solid rgba(130, 130, 130, 0.3) !important;
+    margin: 12px !important;
+    
+    span {
+        font-weight: 500;
+        color: #828282;
+        font-size: 18px;
+        margin: 0 12px;
+        vertical-align: middle;
+    }
+}
+ion-back-button {
+    display: block;
+}

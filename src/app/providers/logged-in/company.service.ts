@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AuthhttpService } from './authhttp.service';
+import {File} from "../../models/file";
 
 @Injectable({
   providedIn: 'root'
@@ -34,4 +35,21 @@ export class CompanyService {
   companyDetail(id) {
     return this._authhttp.get(this._companyEndpoint + '/' + id + '?expand=files');
   }
+
+  /**
+   * create file for company
+   * @param {Company} model
+   * @returns {Observable<any>}
+   */
+  createFile(model: File): Observable<any>{
+    const url = `${this._companyEndpoint}/file-create/${model.company_id}`;
+    const params = {
+      file_title: model.file_title,
+      file_description: model.file_description,
+      file_s3_path: model.file_s3_path,
+    };
+
+    return this._authhttp.post(url, params);
+  }
+
 }
