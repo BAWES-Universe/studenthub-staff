@@ -118,6 +118,14 @@ export class CandidateBankInfoListPage implements OnInit {
     );
   }
 
+  /**
+   * get candidate detail from transfer candidate record
+   * @param transferCandidate
+   */
+  getCandidateDetail(transferCandidate) {
+    return { store: transferCandidate.store, company: transferCandidate.company, ...transferCandidate.candidate };
+  }
+
   pageLinkColor(page: number) {
 
     if (page == this.currentPageAssign) {

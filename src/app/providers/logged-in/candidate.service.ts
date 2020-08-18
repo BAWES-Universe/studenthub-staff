@@ -23,7 +23,7 @@ export class CandidateService {
    * @returns {Observable<any>}
    */
   detail(id: number): Observable<any> {
-    return this._authhttp.get(this._candidateEndpoint + '/detail/' + id + '?expand=candidateSkills,candidateExperiences,bank');
+    return this._authhttp.get(this._candidateEndpoint + '/detail/' + id + '?expand=store,company,candidateSkills,candidateExperiences,bank');
   }
 
   /**
@@ -41,7 +41,7 @@ export class CandidateService {
    */
   list(): Observable<any> {
     const url = this._candidateEndpoint;
-    return this._authhttp.getRaw(url + '?expand=candidateSkills,candidateExperiences');
+    return this._authhttp.getRaw(url + '?expand=store,company,candidateSkills,candidateExperiences');
   }
 
   /**
@@ -49,7 +49,7 @@ export class CandidateService {
    * @returns {Observable<any>}
    */
   listAssigned(candidate_name: string, page: number, incompleteProfile = 0, withoutBank = 0): Observable<any> {
-    const url = this._candidateEndpoint + '/assigned?candidate_name=' + candidate_name + '&page=' + page + '&incomplete_profile=' + incompleteProfile  + '&without_bank=' + withoutBank + '&expand=candidateSkills,candidateExperiences';
+    const url = this._candidateEndpoint + '/assigned?candidate_name=' + candidate_name + '&page=' + page + '&incomplete_profile=' + incompleteProfile  + '&without_bank=' + withoutBank + '&expand=store,company,candidateSkills,candidateExperiences';
     return this._authhttp.getRaw(url);
   }
 
@@ -58,7 +58,7 @@ export class CandidateService {
    * @returns {Observable<any>}
    */
   listAssignedWithoutBank(candidate_name: string, page: number, incompleteProfile = 0, withoutBank = 0): Observable<any> {
-    const url = this._candidateEndpoint + '/assigned-without-bank?candidate_name=' + candidate_name + '&page=' + page + '&incomplete_profile=' + incompleteProfile  + '&without_bank=' + withoutBank + '&expand=candidate,candidate.candidateSkills,candidate.candidateExperiences';
+    const url = this._candidateEndpoint + '/assigned-without-bank?candidate_name=' + candidate_name + '&page=' + page + '&incomplete_profile=' + incompleteProfile  + '&without_bank=' + withoutBank + '&expand=store,company,candidate,candidate.candidateSkills,candidate.candidateExperiences';
     return this._authhttp.getRaw(url);
   }
 
@@ -67,7 +67,7 @@ export class CandidateService {
    * @returns {Observable<any>}
    */
   listNotAssignedWithoutBank(candidate_name: string, page: number, incompleteProfile = 0, withoutBank = 0): Observable<any> {
-    const url = this._candidateEndpoint + '/not-assigned-without-bank?candidate_name=' + candidate_name + '&page=' + page + '&incomplete_profile=' + incompleteProfile + '&expand=candidate,candidate.candidateSkills,candidate.candidateExperiences';
+    const url = this._candidateEndpoint + '/not-assigned-without-bank?candidate_name=' + candidate_name + '&page=' + page + '&incomplete_profile=' + incompleteProfile + '&expand=store,company,candidate,candidate.candidateSkills,candidate.candidateExperiences';
     return this._authhttp.getRaw(url);
   }
 
@@ -76,7 +76,7 @@ export class CandidateService {
    * @returns {Observable<any>}
    */
   listNotAssigned(candidate_name: string, page: number, incompleteProfile = 0, withoutBank = 0): Observable<any> {
-    const url = this._candidateEndpoint + '/not-assigned?candidate_name=' + candidate_name + '&page=' + page + '&incomplete_profile=' + incompleteProfile + '&without_bank=' + withoutBank + '&expand=candidateSkills,candidateExperiences';
+    const url = this._candidateEndpoint + '/not-assigned?candidate_name=' + candidate_name + '&page=' + page + '&incomplete_profile=' + incompleteProfile + '&without_bank=' + withoutBank + '&expand=store,company,candidateSkills,candidateExperiences';
     return this._authhttp.getRaw(url);
   }
 
@@ -217,7 +217,7 @@ export class CandidateService {
    * @param page
    */
   listByCountry(country: Country, page: number): Observable<any> {
-    const url = this._candidateEndpoint + '/search?country_id=' + country.country_id + '&page=' + page;
+    const url = this._candidateEndpoint + '/search?expand=store,company&country_id=' + country.country_id + '&page=' + page;
     return this._authhttp.getRaw(url);
   }
 

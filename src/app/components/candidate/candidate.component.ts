@@ -100,7 +100,6 @@ export class CandidateComponent implements OnInit {
    */
   loadLogo(candidate) {
     return candidate.candidate_personal_photo = null;
-    // return candidate.candidate_personal_photo_thumb = null;
   }
 
   /**

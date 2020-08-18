@@ -34,7 +34,7 @@
 
   <ion-list>
     <ng-container *ngIf="!loading">
-      <candidate [candidate]="transfer.candidate" (refresh)="search()" *ngFor="let transfer of transferCandidate"></candidate>
+      <candidate [candidate]="getCandidateDetail(transfer)" (refresh)="search()" *ngFor="let transfer of transferCandidate"></candidate>
     </ng-container>
 
     <no-items *ngIf="!loading && transferCandidate && transferCandidate.length == 0" message="No candidate data available"></no-items>

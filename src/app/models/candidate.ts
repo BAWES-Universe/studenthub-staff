@@ -30,7 +30,6 @@ export class Candidate {
     approved: number;
     candidate_job_search_status: any;
     age: string;
-    candidate_personal_photo_thumb: string;
     candidate_objective: string;
     candidate_gender: any;
     candidate_driving_license: any;

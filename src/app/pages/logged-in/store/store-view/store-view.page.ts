@@ -89,6 +89,5 @@ export class StoreViewPage implements OnInit {
    */
   loadLogo($event, candidate) {
     candidate.candidate_personal_photo = null;
-    return candidate.candidate_personal_photo_thumb = null;
   }
 }
