@@ -156,8 +156,8 @@ export class CandidateService {
   }
 
   /**
-   * update job search status 
-   * @param params 
+   * update job search status
+   * @param params
    */
   updateJobSearchStatus(params) : Observable<any> {
     const url = `${this._candidateEndpoint}/job-search-status`;
@@ -228,5 +228,31 @@ export class CandidateService {
   workHistory(candidate_id): Observable<any> {
     const url = this._candidateEndpoint + '/work-history/' + candidate_id;
     return this._authhttp.get(url);
+  }
+
+  /**
+   * List of all candidate to review changes
+   * @returns {Observable<any>}
+   */
+  listToReview(page: number): Observable<any>{
+    let url = this._candidateEndpoint + '/search?expand=store,company&by=review&review=0&page=' + page;
+    return this._authhttp.getRaw(url);
+  }
+
+  /**
+   * No. of all candidate to review changes
+   * @returns {Observable<any>}
+   */
+  totalToReview(): Observable<any>{
+    return this._authhttp.get(this._candidateEndpoint + '/total-to-review');
+  }
+
+  /**
+   * approve candidate
+   * @param {Candidate} model
+   * @returns {Observable<any>}
+   */
+  approve(model: Candidate): Observable<any>{
+    return this._authhttp.patch(`${this._candidateEndpoint}/approve/${model.candidate_id}`, {});
   }
 }

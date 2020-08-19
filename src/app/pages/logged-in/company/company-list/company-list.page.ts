@@ -171,4 +171,8 @@ export class CompanyListPage implements OnInit {
       this.viewDetail(false);
     }
   }
+
+  loadLogo($event, company) {
+    company.company_logo = null;
+  }
 }

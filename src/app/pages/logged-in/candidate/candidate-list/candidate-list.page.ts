@@ -79,7 +79,7 @@ export class CandidateListPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    this.loadData(this.currentPageAssign);
+    this.loadData(1);
   }
 
   search() {

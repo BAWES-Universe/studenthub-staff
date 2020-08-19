@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-toggle>
+        <ion-button>
+          <ion-icon slot="icon-only" name="menu"></ion-icon>
+        </ion-button>
+      </ion-menu-toggle>
+    </ion-buttons>
+
+    <ion-title>Candidates Review</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- When No Candidates left for Review -->
+  <section class="ion-padding ion-text-center" *ngIf="!loading && candidates.length == 0">
+    <h1>All done!</h1>
+    <h2>No more candidates to review</h2>
+  </section>
+
+  <!-- When Candidates are Available to Review -->
+  <section>
+    <ion-list>
+      <ion-item *ngFor="let candidate of candidates" tappable (click)="rowSelected(candidate)">
+        <ion-avatar slot="start">
+          <img *ngIf="candidate.candidate_personal_photo" src="{{ aws.cloudinaryUrl + 'candidate-photo/' + candidate.candidate_personal_photo }}" (error)="loadLogo($event,candidate)">
+          <img *ngIf="!candidate.candidate_personal_photo" src="/assets/icon/icon.png">
+        </ion-avatar>
+        <ion-label>
+          <h3>{{ candidate.candidate_name }}</h3>
+          <p *ngIf="candidate.store_id > 0">{{ candidate.store.store_name }} @ {{ candidate.company.company_name }}</p>
+        </ion-label>
+      </ion-item>
+
+      <loading-modal type="review-list" [loading]="loading"></loading-modal>
+    </ion-list>
+
+    <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
+      <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+
+  </section>
+
+</ion-content>

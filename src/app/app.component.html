@@ -50,6 +50,19 @@
           </ion-menu-toggle>
 
           <ion-menu-toggle auto-hide="false">
+            <ion-item routerDirection="root" *ngIf="totalCandidateToReview > 0" routerLink="/candidate-review-list" routerLinkActive="active" detail="false">
+              <ion-icon name="person" slot="start"></ion-icon>
+              <ion-label>
+                Candidates Requiring Review
+              </ion-label>
+
+              <ion-badge slot="end">
+                {{ totalCandidateToReview }}
+              </ion-badge>
+            </ion-item>
+          </ion-menu-toggle>
+
+          <ion-menu-toggle auto-hide="false">
             <ion-item routerDirection="root" routerLink="/incomplete-candidate-list" routerLinkActive="active" detail="false">
               <ion-icon slot="start" name="person"></ion-icon>
               <ion-label>Incomplete Candidates</ion-label>

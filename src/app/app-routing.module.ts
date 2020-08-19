@@ -134,6 +134,11 @@ const routes: Routes = [
     loadChildren: () => import('./pages/logged-in/company/company-view/company-view.module').then( m => m.CompanyViewPageModule),
     canActivate: [AuthService],
   },
+  {
+    path: 'candidate-review-list',
+    loadChildren: () => import('./pages/logged-in/candidate/candidate-review-list/candidate-review-list.module').then( m => m.CandidateReviewListPageModule),
+    canActivate: [AuthService],
+  },
 ];
 
 @NgModule({

@@ -81,7 +81,7 @@
     <ion-button [disabled]="updatingJobSearchStatus" expand="full" color="danger" (click)="toggleJobSearchStatus()">
       <ion-spinner *ngIf="updatingJobSearchStatus"></ion-spinner>
       <span *ngIf="!updatingJobSearchStatus && !candidate.candidate_job_search_status">
-        Mark as looking for job 
+        Mark as looking for job
       </span>
       <span *ngIf="!updatingJobSearchStatus && candidate.candidate_job_search_status">
         Mark as not looking for job
@@ -257,3 +257,10 @@
   </ion-item>
   </ion-list>
 </ion-content>
+<ion-footer *ngIf="candidate && !candidate.approved && candidate.isProfileCompleted">
+    <ion-button expand="full" (click)="approve(candidate)">
+      <span *ngIf="!approving">Approve</span>
+      <ion-spinner *ngIf="approving"></ion-spinner>
+    </ion-button>
+  <ion-progress-bar type="indeterminate" *ngIf="approving"></ion-progress-bar>
+</ion-footer>

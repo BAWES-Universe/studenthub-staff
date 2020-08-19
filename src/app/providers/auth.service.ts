@@ -41,7 +41,7 @@ export class AuthService {
     public router: Router,
     public eventService: EventService,
     public rendererFactory: RendererFactory2
-  ) { 
+  ) {
     this.renderer = this.rendererFactory.createRenderer(null, null);
   }
 
@@ -82,7 +82,7 @@ export class AuthService {
 
   /**
    * set app theme
-   * @param theme 
+   * @param theme
    */
   setTheme(theme) {
     Storage.set({
@@ -175,8 +175,9 @@ export class AuthService {
 
     const { value } = await Storage.get({ key: 'theme' });
 
-    if(value)
+    if (value) {
       this.setTheme(value);
+    }
   }
 
   /**
@@ -223,6 +224,32 @@ export class AuthService {
     );
   }
 
+  /**
+   * json to string error message
+   * @param message
+   */
+  errorMessage(message): string {
+
+    if (message.length) {
+      return message + '';
+    }
+
+    const a = [];
+
+    for (const i in message) {
+
+      if (!Array.isArray(message[i])) {
+        a.push(message[i]);
+        continue;
+      }
+
+      for (const j of message[i]) {
+        a.push(j);
+      }
+    }
+
+    return a.join('<br />');
+  }
 
   /**
    * Change password by password reset token

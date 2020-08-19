@@ -7,11 +7,17 @@
     </ion-avatar>
 
     <ion-label>
-      {{ candidate.candidate_name }}
+      <h2>{{ candidate.candidate_name }}</h2>
       <p *ngIf="candidate.store">
         {{ candidate.store.store_name }}
         <span *ngIf="candidate.company">@ {{ candidate.company.company_name }}</span>
       </p>
+      <ion-badge *ngIf="candidate.approved" color="success">
+        Approved
+      </ion-badge>
+      <ion-badge *ngIf="!candidate.approved" color="warning">
+        Un-Approved
+      </ion-badge>
     </ion-label>
 
     <ion-checkbox *ngIf="candidate.store" (click)="$event.preventDefault();$event.stopPropagation();" slot="end"

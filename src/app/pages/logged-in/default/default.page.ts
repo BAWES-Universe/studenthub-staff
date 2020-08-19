@@ -36,6 +36,7 @@ export class DefaultPage implements OnInit {
         this.statistics = response;
         this._events.expiredIdCard$.next();
         this._events.printIdCard$.next(this.statistics.id_need_generated);
+        this._events.reviewRequired$.next(this.statistics.candidate_review_required);
       },
       error => {},
       () => {this.loading = false; }

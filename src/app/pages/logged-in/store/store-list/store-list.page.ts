@@ -202,4 +202,8 @@ export class StoreListPage implements OnInit {
       this.company = response;
     });
   }
+
+  loadLogo($event, company) {
+    company.company_logo = null;
+  }
 }

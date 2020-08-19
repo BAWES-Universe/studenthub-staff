@@ -23,6 +23,10 @@
 <ion-content>
   <loading-modal [loading]="loading" type="text-list"></loading-modal>
 
+  <div class="ion-text-center"  *ngIf="company">
+    <img *ngIf="company.company_logo" src="{{ aws.cloudinaryUrl + company.company_logo }}" (error)="loadLogo($event,company)" width="80">
+    <img *ngIf="!company.company_logo" src="/assets/icon/icon.png"  width="80">
+  </div>
 
   <section *ngIf="company && company.company_email">
     <ion-item-divider color="light">
@@ -33,8 +37,8 @@
 
     <ion-item href='mailto:{{ company.company_email }}'>
       <ion-label>
-        <ion-icon name="mail-outline" slot="start"></ion-icon>
-        {{ company.company_email }}
+        <h3>Email</h3>
+        <p>{{ company.company_email }}</p>
       </ion-label>
     </ion-item>
     <ion-item>
@@ -102,10 +106,10 @@
         </ion-label>
       </ion-item-divider>
 
-      <ion-list> 
+      <ion-list>
           <ion-item tappable *ngFor="let brand of company.brands">
             <ion-thumbnail slot="start">
-              <ion-img *ngIf="brand.brand_logo" [src]="awsService.cloudinaryUrl + 'company-brand/' + brand.brand_logo">
+              <ion-img *ngIf="brand.brand_logo" [src]="aws.cloudinaryUrl + 'company-brand/' + brand.brand_logo">
               </ion-img>
               <ion-img *ngIf="!brand.brand_logo" src="assets/images/placeholder.png"></ion-img>
             </ion-thumbnail>
@@ -147,6 +151,12 @@
 
       <ng-container *ngIf="segment == 1">
         <ion-item tappable *ngFor="let company of enableCompanies" (click)="rowSelected(company)">
+
+          <ion-avatar slot="start">
+            <img *ngIf="company.company_logo" src="{{ aws.cloudinaryUrl + company.company_logo }}" (error)="loadLogo($event,company)">
+            <img *ngIf="!company.company_logo" src="/assets/icon/icon.png">
+          </ion-avatar>
+
           <ion-label>
             {{ company.company_name }}
           </ion-label>
@@ -179,6 +189,12 @@
       </ng-container>
       <ng-container *ngIf="segment == 0">
         <ion-item tappable *ngFor="let company of disableCompanies" (click)="rowSelected(company)">
+
+          <ion-avatar slot="start">
+            <img *ngIf="company.company_logo" src="{{ aws.cloudinaryUrl + company.company_logo }}" (error)="loadLogo($event,company)">
+            <img *ngIf="!company.company_logo" src="/assets/icon/icon.png">
+          </ion-avatar>
+
           <ion-label>
             {{ company.company_name }}
           </ion-label>

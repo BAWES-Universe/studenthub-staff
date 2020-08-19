@@ -19,7 +19,8 @@ export class EventService {
   public accountAssignmentRemoved$ = new Subject();
 
   public filterCollapse$ = new Subject();
-  
+
   public expiredIdCard$ = new Subject();
   public printIdCard$ = new Subject();
+  public reviewRequired$ = new Subject();
 }
