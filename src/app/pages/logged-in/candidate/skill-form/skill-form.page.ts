@@ -31,6 +31,20 @@ export class SkillFormPage implements OnInit {
     this.addToSkillList(this.candidate.candidateSkills);
   }
 
+  ionViewDidEnter() {
+
+    setTimeout(() => {
+
+      const lastElementIndex = this.candidate.candidateSkills.length;
+
+      const lastElement = document.getElementById('input[' + lastElementIndex + ']') as any;
+ 
+      if(lastElement) {
+        lastElement.setFocus();
+      }
+    }, 200);
+  }
+  
   // add skill in temp
   addToSkillList(skills) {
     if (skills && skills.length > 0) {
