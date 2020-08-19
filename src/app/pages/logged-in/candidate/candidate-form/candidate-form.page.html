@@ -14,7 +14,9 @@
 </ion-header>
 
 <ion-content>
+  
   <loading-modal [loading]="loading" type="candidate-form"></loading-modal>
+  
   <form [formGroup]="form" *ngIf="form">
     <!-- Grid for Required File Uploads -->
     <ion-grid id='uploads'>
@@ -24,18 +26,37 @@
             label="Photo" icon="person-outline" prefix="photo"
             formControlName="photo"
           ></app-image-upload>
+
+          <div class="error-wrapper" *ngIf="!form.controls.photo.pristine">
+            <p class="error" *ngIf="form.controls.photo.errors && form.controls.photo.errors.required">
+              * required
+            </p>
+          </div>
         </ion-col>
         <ion-col>
           <app-image-upload
             label="Civil ID (Front)" icon="card-outline" prefix="civilfront"
             formControlName="civilfront"
           ></app-image-upload>
+
+          <div class="error-wrapper" *ngIf="!form.controls.civilfront.pristine">
+            <p class="error" *ngIf="form.controls.civilfront.errors && form.controls.civilfront.errors.required">
+              * required
+            </p>
+          </div>
+
         </ion-col>
         <ion-col>
           <app-image-upload
             label="Civil ID (Back)" icon="card-outline" prefix="civilback"
             formControlName="civilback"
           ></app-image-upload>
+
+          <div class="error-wrapper" *ngIf="!form.controls.civilback.pristine">
+            <p class="error" *ngIf="form.controls.civilback.errors && form.controls.civilback.errors.required">
+              * required
+            </p>
+          </div>
         </ion-col>
       </ion-row>
     </ion-grid>
@@ -50,10 +71,24 @@
           <ion-label position="floating">Civil ID Number</ion-label>
           <ion-input type="text" formControlName="civil_id"></ion-input>
         </ion-item>
+        <div class="error-wrapper" *ngIf="!form.controls.civil_id.pristine">
+          <p class="error" *ngIf="form.controls.civil_id.errors && form.controls.civil_id.errors.pattern">
+            Should be 12 Digit 
+          </p>
+          <p class="error" *ngIf="form.controls.civil_id.errors && form.controls.civil_id.errors.required">
+            * required
+          </p>
+        </div>
+
         <ion-item>
           <ion-label position="floating">Civil ID Expiry Date</ion-label>
           <ion-datetime displayFormat="YYYY-MM-DD" [min]="todayDate" [max]="maxDate" formControlName="expiry_date"></ion-datetime>
         </ion-item>
+        <div class="error-wrapper" *ngIf="!form.controls.expiry_date.pristine">
+          <p class="error" *ngIf="form.controls.expiry_date.errors && form.controls.expiry_date.errors.required">
+            * required
+          </p>
+        </div>
       </ion-card-content>
     </ion-card>
 
@@ -66,14 +101,31 @@
           <ion-label  position="floating">Name [English]</ion-label>
           <ion-input type="text" formControlName="name"></ion-input>
         </ion-item>
+        <div class="error-wrapper" *ngIf="!form.controls.name.pristine">
+          <p class="error" *ngIf="form.controls.name.errors && form.controls.name.errors.required">
+            * required
+          </p>
+        </div>
+
         <ion-item>
           <ion-label  position="floating">Name [Arabic]</ion-label>
           <ion-input type="text" formControlName="name_ar"></ion-input>
         </ion-item>
+        <div class="error-wrapper" *ngIf="!form.controls.name_ar.pristine">
+          <p class="error" *ngIf="form.controls.name_ar.errors && form.controls.name_ar.errors.required">
+            * required
+          </p>
+        </div>
+
         <ion-item>
           <ion-label  position="floating">Birth Date</ion-label>
           <ion-datetime displayFormat="YYYY-MM-DD" pickerFormat="YYYY-MM-DD" [min]="minBirthDate" [max]="maxBirthDate" formControlName="birth_date"></ion-datetime>
         </ion-item>
+        <div class="error-wrapper" *ngIf="!form.controls.birth_date.pristine">
+          <p class="error" *ngIf="form.controls.birth_date.errors && form.controls.birth_date.errors.required">
+            * required
+          </p>
+        </div>
 
         <app-select-search-input
           *ngIf="countrylistData"
@@ -84,6 +136,12 @@
           labelAttr="country_nationality_name_en">
         </app-select-search-input>
 
+        <div class="error-wrapper" *ngIf="!form.controls.country_id.pristine">
+          <p class="error" *ngIf="form.controls.country_id.errors && form.controls.country_id.errors.required">
+            * required
+          </p>
+        </div>
+
         <app-select-search-input
           *ngIf="universitylistData"
           formControlName="university_id"
@@ -93,15 +151,36 @@
           labelAttr="university_name_en">
         </app-select-search-input>
 
+        <div class="error-wrapper" *ngIf="!form.controls.university_id.pristine">
+          <p class="error" *ngIf="form.controls.university_id.errors && form.controls.university_id.errors.required">
+            * required
+          </p>
+        </div>
+
         <ion-item>
           <ion-label position="floating">Phone Number</ion-label>
           <ion-input type="text" formControlName="phone"></ion-input>
         </ion-item>
 
+        <div class="error-wrapper" *ngIf="!form.controls.phone.pristine">
+          <p class="error" *ngIf="form.controls.phone.errors && form.controls.phone.errors.pattern">
+            Should be 8 Digit 
+          </p>
+          <p class="error" *ngIf="form.controls.phone.errors && form.controls.phone.errors.required">
+            * required
+          </p>
+        </div>
+
         <ion-item>
           <ion-label position="floating">Objective</ion-label>
           <ion-input type="text" formControlName="objective"></ion-input>
         </ion-item>
+
+        <div class="error-wrapper" *ngIf="!form.controls.objective.pristine">
+          <p class="error" *ngIf="form.controls.objective.errors && form.controls.objective.errors.required">
+            * required
+          </p>
+        </div>
 
         <ion-item>
           <ion-label>Gender</ion-label>
@@ -127,6 +206,12 @@
           </ion-buttons>
         </ion-item>
 
+        <div class="error-wrapper" *ngIf="!form.controls.gender.pristine">
+          <p class="error" *ngIf="form.controls.gender.errors && form.controls.gender.errors.required">
+            * required
+          </p>
+        </div>
+
         <ion-item>
           <ion-label>Driving License Available?</ion-label>
           <ion-buttons class="btn-wrapper">
@@ -144,20 +229,45 @@
           </ion-buttons>
         </ion-item>
 
+        <div class="error-wrapper" *ngIf="!form.controls.license.pristine">
+          <p class="error" *ngIf="form.controls.license.errors && form.controls.license.errors.required">
+            * required
+          </p>
+        </div>
+
         <ion-item (click)="updateSkills()">
           <ion-label position="floating">Skill</ion-label>
           <ion-input type="text" formControlName="skills"></ion-input>
         </ion-item>
+
+        <div class="error-wrapper" *ngIf="!form.controls.skills.pristine">
+          <p class="error" *ngIf="form.controls.skills.errors && form.controls.skills.errors.required">
+            * required
+          </p>
+        </div>
 
         <ion-item (click)="updateExperiences()">
           <ion-label position="floating">Experience</ion-label>
           <ion-input type="text" formControlName="experiences"></ion-input>
         </ion-item>
 
+        <div class="error-wrapper" *ngIf="!form.controls.experiences.pristine">
+          <p class="error" *ngIf="form.controls.experiences.errors && form.controls.experiences.errors.required">
+            * required
+          </p>
+        </div>
+
         <ion-item (click)="updateResume()">
           <ion-label position="floating">Candidate CV</ion-label>
           <ion-input type="text" formControlName="resume"></ion-input>
         </ion-item>
+
+        <div class="error-wrapper" *ngIf="!form.controls.resume.pristine">
+          <p class="error" *ngIf="form.controls.resume.errors && form.controls.resume.errors.required">
+            * required
+          </p>
+        </div>
+
       </ion-card-content>
     </ion-card>
 
@@ -170,6 +280,13 @@
           <ion-label  position="floating">Hourly Rate (KWD)</ion-label>
           <ion-input type="number" min="0" formControlName="hourly_rate"></ion-input>
         </ion-item>
+
+        <div class="error-wrapper" *ngIf="!form.controls.hourly_rate.pristine">
+          <p class="error" *ngIf="form.controls.hourly_rate.errors && form.controls.hourly_rate.errors.required">
+            * required
+          </p>
+        </div>
+
       </ion-card-content>
     </ion-card>
 
@@ -182,10 +299,24 @@
           <ion-label  position="floating">Beneficiary Name</ion-label>
           <ion-input type="text" formControlName="bank_account_name"></ion-input>
         </ion-item>
+
+        <div class="error-wrapper" *ngIf="!form.controls.bank_account_name.pristine">
+          <p class="error" *ngIf="form.controls.bank_account_name.errors && form.controls.bank_account_name.errors.required">
+            * required
+          </p>
+        </div>
+
         <ion-item>
           <ion-label  position="floating">IBAN</ion-label>
           <ion-input type="text" formControlName="iban"></ion-input>
         </ion-item>
+
+        <div class="error-wrapper" *ngIf="!form.controls.iban.pristine">
+          <p class="error" *ngIf="form.controls.iban.errors && form.controls.iban.errors.required">
+            * required
+          </p>
+        </div>
+
       </ion-card-content>
     </ion-card>
 
@@ -198,6 +329,13 @@
           <ion-label  position="floating">Email</ion-label>
           <ion-input type="email" inputmode="email" formControlName="email"></ion-input>
         </ion-item>
+
+        <div class="error-wrapper" *ngIf="!form.controls.email.pristine">
+          <p class="error" *ngIf="form.controls.email.errors && form.controls.email.errors.required">
+            * required
+          </p>
+        </div>
+
       </ion-card-content>
     </ion-card>
 
