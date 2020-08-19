@@ -29,6 +29,20 @@ export class ExperienceFormPage implements OnInit {
     this.addToExperienceList(this.candidate.candidateExperiences);
   }
 
+  ionViewDidEnter() {
+
+    setTimeout(() => {
+
+      const lastElementIndex = this.candidate.candidateExperiences.length;
+
+      const lastElement = document.getElementById('input[' + lastElementIndex + ']') as any;
+ 
+      if(lastElement) {
+        lastElement.setFocus();
+      }
+    }, 200);
+  }
+
   // add experience in temp
   addToExperienceList(experiences) {
     if (experiences && experiences.length > 0) {
