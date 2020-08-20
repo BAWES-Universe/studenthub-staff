@@ -8,15 +8,16 @@ import { ModalController, ToastController, AlertController } from '@ionic/angula
 })
 export class ExperienceFormPage implements OnInit {
 
-  public experienceList: Array<{ id: number, value: string }> = [];
+  public experienceList = [];
 
   public txtExperience = '';
   public loading = false;
-  public tmpExperience: any = [0]; // assignment initial value
+  public tmpExperience: any = []; // assignment initial value
   public dirty = false;
   public count = 1;
   public candidate;
   public query;
+
   public maxExperiencesAllowed = 40;
 
   constructor(
@@ -26,7 +27,19 @@ export class ExperienceFormPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.addToExperienceList(this.candidate.candidateExperiences);
+
+    if (this.experienceList.length > 0) {
+      this.experienceList.map((data, index) => {
+        // initializing experience list and loop count
+
+        this.tmpExperience.push(index); // for loop
+      });
+    } else {
+      // initializing experience list with zero and loop count
+      this.tmpExperience[0] = null;
+    }
+
+    this.count = this.tmpExperience.length; // to check to add new textbox when type
   }
 
   ionViewDidEnter() {
@@ -41,23 +54,6 @@ export class ExperienceFormPage implements OnInit {
         lastElement.setFocus();
       }
     }, 200);
-  }
-
-  // add experience in temp
-  addToExperienceList(experiences) {
-    if (experiences && experiences.length > 0) {
-      experiences.map((data, index) => {
-        // initializing experience list and loop count
-
-        this.experienceList.push(data.experience);
-        this.tmpExperience.push(index); // for loop
-      });
-    } else {
-      // initializing experience list with zero and loop count
-      this.tmpExperience[0] = null;
-    }
-
-    this.count = this.tmpExperience.length; // to check to add new textbox when type
   }
 
   /**
@@ -214,36 +210,14 @@ export class ExperienceFormPage implements OnInit {
     }
 
     if (experiences.length <= this.maxExperiencesAllowed) {
+
       this.loading = true;
+
       const params = {
         experiences: experiences.join(',')
       };
-      this.candidate.candidateExperiences = experiences.join(',');
+      
       this.dismiss(params);
-
-      // this.accountService.updateExperiences(params).subscribe(jsonResponse => {
-      //
-      //   // On Success
-      //   if (jsonResponse.operation == 'success') {
-      //
-      //     this.candidate.candidateExperiences = jsonResponse.experiences;
-      //
-      //     this.dismiss();
-      //   }
-      //
-      //   // On Failure
-      //   if (jsonResponse.operation == 'error') {
-      //     this.alertCtrl.create({
-      //       message: this.translateService.errorMessage(jsonResponse.message),
-      //       buttons: [ok]
-      //     }).then(alert => alert.present());
-      //   }
-      // },
-      //   error => {
-      //   },
-      //   () => {
-      //     this.loading = false;
-      //   });
     }
   }
 }

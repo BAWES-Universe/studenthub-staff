@@ -184,26 +184,9 @@
 
         <ion-item>
           <ion-label>Gender</ion-label>
-          <ion-buttons class="btn-wrapper">
-            <ion-button class="btn-male"
-                        [class.active]="model.candidate_gender == 1"
-                        (click)="setGenderOption(1)">
-              Male</ion-button>
-
-            <div class="clearfix"></div>
-
-            <ion-button class="btn-female"
-                        [class.active]="model.candidate_gender == 2"
-                        (click)="setGenderOption(2)">
-              Female</ion-button>
-
-            <div class="clearfix"></div>
-
-            <ion-button class="other"
-                        [class.active]="model.candidate_gender == 3"
-                        (click)="setGenderOption(3)">
-              Other</ion-button>
-          </ion-buttons>
+          <ion-chip (click)="setGenderOption(1)" [class.active]="model.candidate_gender == 1">Male</ion-chip>
+          <ion-chip (click)="setGenderOption(2)" [class.active]="model.candidate_gender == 2">Female</ion-chip>
+          <ion-chip (click)="setGenderOption(3)" [class.active]="model.candidate_gender == 3">Other</ion-chip>
         </ion-item>
 
         <div class="error-wrapper" *ngIf="!form.controls.gender.pristine">
@@ -214,19 +197,8 @@
 
         <ion-item>
           <ion-label>Driving License Available?</ion-label>
-          <ion-buttons class="btn-wrapper">
-            <ion-button class="btn-male"
-                        [class.active]="model.candidate_driving_license == 1"
-                        (click)="setLicenseOption(1)">
-              Yes</ion-button>
-
-            <div class="clearfix"></div>
-
-            <ion-button class="btn-female"
-                        [class.active]="model.candidate_driving_license == 2"
-                        (click)="setLicenseOption(2)">
-              No</ion-button>
-          </ion-buttons>
+          <ion-chip (click)="setLicenseOption(1)" [class.active]="model.candidate_driving_license == 1">Yes</ion-chip>
+          <ion-chip (click)="setLicenseOption(2)" [class.active]="model.candidate_driving_license == 2">No</ion-chip>
         </ion-item>
 
         <div class="error-wrapper" *ngIf="!form.controls.license.pristine">
@@ -237,7 +209,7 @@
 
         <ion-item (click)="updateSkills()">
           <ion-label position="floating">Skill</ion-label>
-          <ion-input type="text" formControlName="skills"></ion-input>
+          <ion-input type="text" readonly formControlName="skills"></ion-input>
         </ion-item>
 
         <div class="error-wrapper" *ngIf="!form.controls.skills.pristine">
@@ -248,7 +220,7 @@
 
         <ion-item (click)="updateExperiences()">
           <ion-label position="floating">Experience</ion-label>
-          <ion-input type="text" formControlName="experiences"></ion-input>
+          <ion-input type="text" readonly formControlName="experiences"></ion-input>
         </ion-item>
 
         <div class="error-wrapper" *ngIf="!form.controls.experiences.pristine">

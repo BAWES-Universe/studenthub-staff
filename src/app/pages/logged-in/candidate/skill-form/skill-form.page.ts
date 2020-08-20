@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController, ToastController, AlertController } from '@ionic/angular';
 
+
 @Component({
   selector: 'app-skill-form',
   templateUrl: './skill-form.page.html',
@@ -8,7 +9,7 @@ import { ModalController, ToastController, AlertController } from '@ionic/angula
 })
 export class SkillFormPage implements OnInit {
 
-  public skillList: Array<{ id: number, value: string }> = [];
+  public skillList = [];
 
   public txtSkill = '';
   public loading = false;
@@ -26,9 +27,18 @@ export class SkillFormPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    // this.addToSkillList(JSON.parse(JSON.stringify(this.candidate.candidateSkills)));
-    
-    this.addToSkillList(this.candidate.candidateSkills);
+    if (this.skillList.length > 0) {
+      this.skillList.map((data, index) => {
+        // initializing skill list and loop count
+
+        this.tmpSkill.push(index); // for loop
+      });
+    } else {
+      // initializing skill list with zero and loop count
+      this.tmpSkill[0] = null;
+    }
+
+    this.count = this.tmpSkill.length; // to check to add new textbox when type
   }
 
   ionViewDidEnter() {
@@ -43,23 +53,6 @@ export class SkillFormPage implements OnInit {
         lastElement.setFocus();
       }
     }, 200);
-  }
-  
-  // add skill in temp
-  addToSkillList(skills) {
-    if (skills && skills.length > 0) {
-      skills.map((data, index) => {
-        // initializing skill list and loop count
-
-        this.skillList.push(data.skill);
-        this.tmpSkill.push(index); // for loop
-      });
-    } else {
-      // initializing skill list with zero and loop count
-      this.tmpSkill[0] = null;
-    }
-
-    this.count = this.tmpSkill.length; // to check to add new textbox when type
   }
 
   /**

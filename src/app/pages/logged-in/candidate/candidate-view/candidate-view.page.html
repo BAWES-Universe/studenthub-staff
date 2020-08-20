@@ -48,7 +48,7 @@
 
   <ion-item-divider color="light">Store Assignment</ion-item-divider>
 
-  <ion-item *ngIf="workHistory">
+  <ion-item *ngIf="workHistory && workHistory.length > 0">
     <ion-label *ngIf="!assigning">
       <p *ngFor="let history of workHistory">
         <label tappable [routerLink]="['/store-view', history.store.store_id]" >{{ history.store.store_name }}: {{ history.start_date | date }} </label> to
@@ -59,16 +59,17 @@
   </ion-item>
 
   <app-select-search-input *ngIf="!candidate.store_id && !candidate.store && !assigning"
-                       placeholder="Assign to work at store"
-                       [(ngModel)]="candidate.store_id"
-                       (ngModelChange)="assignCandidateToStore($event)"
-                       [collection]="stores"
-                       valueAttr="store_id"
-                       labelAttr="storeWithCompany">
+    placeholder="Assign to work at store"
+    [(ngModel)]="candidate.store_id"
+    (ngModelChange)="assignCandidateToStore($event)"
+    [collection]="stores"
+    valueAttr="store_id"
+    labelAttr="storeWithCompany">
   </app-select-search-input>
-    <ion-item *ngIf="assigning">
-      <ion-spinner></ion-spinner>
-    </ion-item>
+
+  <ion-item *ngIf="assigning">
+    <ion-spinner></ion-spinner>
+  </ion-item>
 
   <ion-item *ngIf="candidate.store_id && candidate.store && !assigning">
     <ion-button *ngIf="!unassinging && candidate.store" expand="full" color="danger" (click)="unassignCandidateFromStore()">
@@ -145,9 +146,9 @@
     <ion-label>
       <h5>Skills</h5>
       <div *ngIf="candidate.candidateSkills && candidate.candidateSkills.length > 0">
-        <p class="sub-span" *ngFor="let skills of candidate.candidateSkills">
-          {{skills.skill}}
-        </p>
+        <ion-chip class="sub-span" *ngFor="let skills of candidate.candidateSkills">
+          {{ skills.skill }}
+        </ion-chip>
       </div>
     </ion-label>
   </ion-item>
@@ -156,9 +157,9 @@
     <ion-label>
       <h5>Experiences</h5>
       <div *ngIf="candidate.candidateExperiences && candidate.candidateExperiences.length > 0">
-        <p class="sub-span" *ngFor="let exp of candidate.candidateExperiences">
+        <ion-chip class="sub-span" *ngFor="let exp of candidate.candidateExperiences">
           {{exp.experience}}
-        </p>
+        </ion-chip>
       </div>
     </ion-label>
   </ion-item>

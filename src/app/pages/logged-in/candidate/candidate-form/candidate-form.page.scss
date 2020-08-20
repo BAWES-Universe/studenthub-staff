@@ -6,12 +6,12 @@ ion-card-header{font-weight:bold; font-size:1.2em !important; padding-bottom:0 !
   ion-spinner{display:block; margin:0 auto;}
   img{max-height:30px; width: auto; margin:0 auto;display: block;}
 }
+
 .segment-button-checked {
   border: 0px solid;
   background: rgb(56, 128, 255);
   color: #fff;
 }
-
 
 .btn-wrapper ion-button {
   //width: 314px;
@@ -44,17 +44,12 @@ ion-card-header{font-weight:bold; font-size:1.2em !important; padding-bottom:0 !
   }
 }
 
-
 .active,
 .button-outline-md:hover:not(.disable-hover) {
-  background: #292f38;
-  border: 4px solid #4354a4 !important;
-  font-weight: 500;
-
-  span {
-    font-weight: 500;
-  }
+  background: var(--ion-color-primary);
+  color: var(--ion-color-primary-contrast);
 }
+
 ion-content {
   ion-buttons {
     padding-bottom: 12px;

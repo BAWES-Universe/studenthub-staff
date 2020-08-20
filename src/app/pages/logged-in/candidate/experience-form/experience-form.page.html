@@ -27,9 +27,9 @@
     </ion-list>
 
     <ion-button class="btn-submit" (click)="save()"
-      [disabled]="(this.candidate && this.candidate.candidateExperiences && this.candidate.candidateExperiences.length == this.experienceList.length)  || this.experienceList.length < 1 || loading"
+      [disabled]="experienceList.length < 1 || loading"
       type="submit">
-      Submit
+      Done
     </ion-button>
 
   </div>

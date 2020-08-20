@@ -24,8 +24,8 @@
         </ion-item>
       </ion-list>
 
-      <ion-button (click)="save()" class="btn-submit" [disabled]="(this.candidate && this.candidate.candidateSkills && this.candidate.candidateSkills.length == this.skillList.length)  || this.skillList.length < 1 || loading" type="submit">
-        Submit
+      <ion-button (click)="save()" class="btn-submit" [disabled]="skillList.length < 1 || loading" type="submit">
+        Done
       </ion-button>
 
   </div>
