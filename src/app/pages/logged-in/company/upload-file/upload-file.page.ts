@@ -113,12 +113,19 @@ export class UploadFilePage implements OnInit, OnDestroy {
           this._handleFileSuccess(event);
         }, async err => {
 
+          this.progress = null;
+
           const ignoreErrors = [
             'No image picked',
             'User cancelled photos app',
           ];
 
-          if (err && ignoreErrors.indexOf(err.message) > -1) {
+          if (
+            err && (
+              ignoreErrors.indexOf(err.message) > -1 ||
+              err.message.includes('aborted')
+            ) 
+          ) {
             return null;
           }
 
@@ -156,8 +163,6 @@ export class UploadFilePage implements OnInit, OnDestroy {
           });
 
           await alert.present();
-
-          this.progress = null;
         });
       });
     });
@@ -183,19 +188,22 @@ export class UploadFilePage implements OnInit, OnDestroy {
       async err => {
         // log to slack/sentry to know how many user getting file upload error
 
-        this.sentryService.handleError(err);
+        if(!err.message || !err.message.includes('aborted')) {
 
+          const alert = await this.alertCtrl.create({
+            header: 'Error',
+            message: 'Error while uploading file!',
+            buttons: ['Okay']
+          });
+  
+          await alert.present();
+
+          this.sentryService.handleError(err);
+        }
+         
         if (this.fileInput && this.fileInput.nativeElement) {
           this.fileInput.nativeElement.value = null;
         }
-
-        const alert = await this.alertCtrl.create({
-          header: 'Error',
-          message: 'Error while uploading file!',
-          buttons: ['Okay']
-        });
-
-        await alert.present();
 
         this.progress = null;
       });

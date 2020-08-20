@@ -231,7 +231,7 @@
 
         <ion-item (click)="updateResume()">
           <ion-label position="floating">Candidate CV</ion-label>
-          <ion-input type="text" formControlName="resume"></ion-input>
+          <ion-input type="text" readonly formControlName="resume"></ion-input>
         </ion-item>
 
         <div class="error-wrapper" *ngIf="!form.controls.resume.pristine">

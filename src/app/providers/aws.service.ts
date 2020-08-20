@@ -135,9 +135,16 @@ export class AwsService {
     };
 
     return Observable.create((observer: Observer<any>) => {
-      s3.upload(params).on('httpUploadProgress', (progress: ProgressEvent) => {
+      
+      const currUpload = s3.upload(params);
+      
+      observer.next(currUpload);
+      
+      currUpload.on('httpUploadProgress', (progress: ProgressEvent) => {
         observer.next(progress);
-      }).send((err, data) => {
+      });
+      
+      currUpload.send((err, data) => {
         if (err) {
           observer.error(err);
         }else {

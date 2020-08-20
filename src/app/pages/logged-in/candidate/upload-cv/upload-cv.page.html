@@ -10,7 +10,7 @@
     </ion-title>
   </ion-toolbar>
 </ion-header>
-<ion-content>
+<ion-content dir="ltr">
 
     <div class="max-width">
         <div *ngIf="!progress">
@@ -33,13 +33,13 @@
             </div>
 
             <ion-button tabindex="2" class="fileUpload" full (click)="mobileUpload();" *ngIf="platform.is('hybrid')">
-                <ion-icon src="assets/images/md-cloud-upload.svg"></ion-icon>
+                <ion-icon slot="start" src="assets/images/md-cloud-upload.svg"></ion-icon>
                 <span *ngIf="candidate.candidate_resume">{{ "Replace File" }}</span>
                 <span *ngIf="!candidate.candidate_resume">{{ "Select file" }}</span>
             </ion-button>
 
             <ion-button tabindex="3" class="fileUpload" full *ngIf="!platform.is('hybrid')">
-                <ion-icon src="assets/images/md-cloud-upload.svg"></ion-icon>
+                <ion-icon slot="start" src="assets/images/md-cloud-upload.svg"></ion-icon>
                 <span *ngIf="candidate.candidate_resume">{{ "Replace File" }}</span>
                 <span *ngIf="!candidate.candidate_resume">{{ "Select file" }}</span>
                 <input class="upload" type='file' #fileInput (change)="browserUpload($event)">
