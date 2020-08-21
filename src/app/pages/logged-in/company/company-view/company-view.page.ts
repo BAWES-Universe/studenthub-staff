@@ -1,16 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Platform, ModalController } from '@ionic/angular';
+import { Platform, ModalController, AlertController } from '@ionic/angular';
 //services
 import { StoreService } from 'src/app/providers/logged-in/store.service';
 import { CompanyService } from 'src/app/providers/logged-in/company.service';
+import { CompanyContactService } from 'src/app/providers/logged-in/company-contact.service';
 import { AwsService } from 'src/app/providers/aws.service';
-//services
+import { AuthService } from 'src/app/providers/auth.service';
+//models
+import { CompanyContact } from 'src/app/models/company-contact';
 import { Company } from 'src/app/models/company';
 import { Store } from 'src/app/models/store';
 import { Brand } from 'src/app/models/brand'; 
 //pages
 import { UploadFilePage } from "../upload-file/upload-file.page";
+import { CompanyContactFormPage } from '../company-contact-form/company-contact-form.page';
 
 
 @Component({
@@ -26,6 +30,8 @@ export class CompanyViewPage implements OnInit {
   public subCompanies: Company[] = [];
   public stores: Store[] = [];
 
+  public companyContacts: CompanyContact[] = [];
+
   public brands: Brand[] = [];
 
   public deleting = false;
@@ -35,9 +41,12 @@ export class CompanyViewPage implements OnInit {
   constructor(
     public platform: Platform,
     public modalCtrl: ModalController,
+    public alertCtrl: AlertController,
     public router: Router,
     public activatedRoute: ActivatedRoute, 
     public companyService: CompanyService,
+    public authService: AuthService,
+    public companyContactService: CompanyContactService,
     public storeService: StoreService,
     public awsService: AwsService
   ) { }
@@ -51,8 +60,8 @@ export class CompanyViewPage implements OnInit {
 
     this.company_id = this.activatedRoute.snapshot.paramMap.get('company_id');
 
-
     this.loadData();
+    this.loadContacts();
   }
 
   /**
@@ -107,6 +116,76 @@ export class CompanyViewPage implements OnInit {
     this.router.navigate(['store-view', model.store_id], {
       state: {
         model: model
+      }
+    });
+  }
+
+  loadContacts() {
+    this.companyContactService.companyContacts(this.company_id).subscribe(data => {
+      this.companyContacts = data;
+    });
+  }
+
+  async onContactSelected(companyContact) {
+    const modal = await this.modalCtrl.create({
+      component: CompanyContactFormPage,
+      componentProps: { 
+        model: companyContact
+      }
+    });
+
+    // Refresh List if required
+    modal.onDidDismiss().then(e => {
+      if (e && e.data && e.data.refresh) {
+        this.loadContacts();
+      }
+    });
+    modal.present();
+  }
+
+  async addCompanyContact() {
+
+    let companyContact = new CompanyContact;
+    companyContact.company_id = this.company_id;
+    
+    const modal = await this.modalCtrl.create({
+      component: CompanyContactFormPage,
+      componentProps: { 
+        model: companyContact
+      }
+    });
+
+    // Refresh List if required
+    modal.onDidDismiss().then(e => {
+      if (e && e.data && e.data.refresh) {
+        this.loadContacts();
+      }
+    });
+    modal.present();
+  }
+
+  doNothing(event) {
+    event.stopPropagation();
+  }
+
+  async deleteContact(event, companyContact) {
+
+    event.preventDefault();
+    event.stopPropagation();
+
+    this.companyContactService.delete(companyContact).subscribe(async response => {
+
+      if (response.operation == 'success')
+      {
+        this.companyContacts = this.companyContacts.filter(e => e.contact_uuid != companyContact.contact_uuid);
+      }
+      else
+      {
+        const prompt = await this.alertCtrl.create({
+          message: this.authService.errorMessage(response.message),
+          buttons: ['Ok']
+        });
+        prompt.present();
       }
     });
   }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Observable} from "rxjs";
 
-import {AuthhttpService} from "./authhttp.service";
+import {AuthHttpService} from "./authhttp.service";
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +10,7 @@ export class StatisticService {
 
   private _endpoint: string = "/statistics";
 
-  constructor(private _authhttp: AuthhttpService) { }
+  constructor(private _authhttp: AuthHttpService) { }
 
   /**
    * Return statistics

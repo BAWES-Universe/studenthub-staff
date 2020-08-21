@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, Observer, throwError } from 'rxjs';
 import * as algoliasearchProxy from 'algoliasearch';
 // Services
-import { AuthhttpService } from "./authhttp.service";
+import { AuthHttpService } from "./authhttp.service";
 
 
 const algoliasearch = algoliasearchProxy.default || algoliasearchProxy;
@@ -24,7 +24,7 @@ export class AlgoliaService {
   private _apiEndpoint: string = "/algolia";
 
   constructor(
-    private _authhttp: AuthhttpService
+    private _authhttp: AuthHttpService
   ) {
   }
 

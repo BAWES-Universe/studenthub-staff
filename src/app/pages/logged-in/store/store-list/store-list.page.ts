@@ -1,16 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
-import {AlertController, ModalController, NavController, ToastController} from '@ionic/angular';
+import { AlertController, ModalController, NavController, ToastController, Platform } from '@ionic/angular';
 
-import {Store} from 'src/app/models/store';
-import {Company} from '../../../../models/company';
+import { Store } from 'src/app/models/store';
+import { Company } from '../../../../models/company';
 
-import {StoreFormPage} from '../store-form/store-form.page';
+import { StoreFormPage } from '../store-form/store-form.page';
 
-import {StoreService} from 'src/app/providers/logged-in/store.service';
-import {CompanyService} from '../../../../providers/logged-in/company.service';
-import {AwsService} from '../../../../providers/aws.service';
+import { StoreService } from 'src/app/providers/logged-in/store.service';
+import { CompanyService } from '../../../../providers/logged-in/company.service';
+import { AwsService } from '../../../../providers/aws.service';
+import { CompanyContact } from 'src/app/models/company-contact';
+import { CompanyContactFormPage } from '../../company/company-contact-form/company-contact-form.page';
+import { CompanyContactService } from 'src/app/providers/logged-in/company-contact.service';
+import { AuthService } from 'src/app/providers/auth.service';
 
 
 
@@ -28,24 +32,100 @@ export class StoreListPage implements OnInit {
   public stores: Store[];
   public company: Company;
 
-  private _companyId;
+  public companyContacts: CompanyContact[] = [];
+
+  private company_id;
 
   constructor(
+    public platform: Platform,
     public activatedRoute: ActivatedRoute,
     public navCtrl: NavController,
     public storeService: StoreService,
     public companyService: CompanyService,
-    private _modalCtrl: ModalController,
-    private _alertCtrl: AlertController,
+    private modalCtrl: ModalController,
+    private alertCtrl: AlertController,
     private _toastCtrl: ToastController,
-    public aws: AwsService
+    public aws: AwsService,
+    public authService: AuthService,
+    public companyContactService: CompanyContactService
   ) {
-    this._companyId = this.activatedRoute.snapshot.paramMap.get('id');
+    this.company_id = this.activatedRoute.snapshot.paramMap.get('id');
   }
 
   ngOnInit() {
     this.loadData(this.currentPage);
     this.loadCompany();
+    this.loadContacts();
+  }
+
+  loadContacts() {
+    this.companyContactService.companyContacts(this.company_id).subscribe(data => {
+      this.companyContacts = data;
+    });
+  }
+
+  async onContactSelected(companyContact) {
+    const modal = await this.modalCtrl.create({
+      component: CompanyContactFormPage,
+      componentProps: { 
+        model: companyContact
+      }
+    });
+
+    // Refresh List if required
+    modal.onDidDismiss().then(e => {
+      if (e && e.data && e.data.refresh) {
+        this.loadContacts();
+      }
+    });
+    modal.present();
+  }
+
+  async addCompanyContact() {
+
+    let companyContact = new CompanyContact;
+    companyContact.company_id = this.company_id;
+    
+    const modal = await this.modalCtrl.create({
+      component: CompanyContactFormPage,
+      componentProps: { 
+        model: companyContact
+      }
+    });
+
+    // Refresh List if required
+    modal.onDidDismiss().then(e => {
+      if (e && e.data && e.data.refresh) {
+        this.loadContacts();
+      }
+    });
+    modal.present();
+  }
+
+  doNothing(event) {
+    event.stopPropagation();
+  }
+
+  async deleteContact(event, companyContact) {
+
+    event.preventDefault();
+    event.stopPropagation();
+
+    this.companyContactService.delete(companyContact).subscribe(async response => {
+
+      if (response.operation == 'success')
+      {
+        this.companyContacts = this.companyContacts.filter(e => e.contact_uuid != companyContact.contact_uuid);
+      }
+      else
+      {
+        const prompt = await this.alertCtrl.create({
+          message: this.authService.errorMessage(response.message),
+          buttons: ['Ok']
+        });
+        prompt.present();
+      }
+    });
   }
 
   /**
@@ -68,25 +148,25 @@ export class StoreListPage implements OnInit {
   async loadData(page: number) {
     // Load list of ALL stores
     this.loading = true;
-    this.storeService.getStoresBelongingToCompany(this._companyId, this.currentPage).subscribe(response => {
+    this.storeService.getStoresBelongingToCompany(this.company_id, this.currentPage).subscribe(response => {
 
-        this.pageCount = response.headers.get('X-Pagination-Page-Count');
-        this.currentPage = response.headers.get('X-Pagination-Current-Page');
+      this.pageCount = response.headers.get('X-Pagination-Page-Count');
+      this.currentPage = response.headers.get('X-Pagination-Current-Page');
 
+      this.pages = [];
+
+      for (let i = 1; i <= this.pageCount; i++) {
+        this.pages.push(i);
+      }
+
+      // hide if no page = 1
+
+      if (this.pageCount == 1) {
         this.pages = [];
+      }
 
-        for (let i = 1; i <= this.pageCount; i++) {
-          this.pages.push(i);
-        }
-
-        // hide if no page = 1
-
-        if (this.pageCount == 1) {
-          this.pages = [];
-        }
-
-        this.stores = response.body;
-      },
+      this.stores = response.body;
+    },
       error => {
       },
       () => {
@@ -111,10 +191,10 @@ export class StoreListPage implements OnInit {
    * Loads the create page
    */
   async create() {
-    const modal = await this._modalCtrl.create({
+    const modal = await this.modalCtrl.create({
       component: StoreFormPage,
       componentProps: {
-        company_id: this._companyId
+        company_id: this.company_id
       },
       cssClass: 'my-custom-class'
     });
@@ -131,7 +211,7 @@ export class StoreListPage implements OnInit {
    */
   async delete(store: Store) {
     this.loading = true;
-    const confirm = await this._alertCtrl.create({
+    const confirm = await this.alertCtrl.create({
       header: 'Delete Store?',
       message: 'Are you sure you want to delete this Store?',
       buttons: [
@@ -142,7 +222,7 @@ export class StoreListPage implements OnInit {
               this.loading = false;
 
               if (jsonResp.operation == 'error') {
-                const alert = await this._alertCtrl.create({
+                const alert = await this.alertCtrl.create({
                   header: 'Deletion Error!',
                   subHeader: jsonResp.message,
                   buttons: ['OK']
@@ -178,13 +258,13 @@ export class StoreListPage implements OnInit {
     this.loading = true;
 
     this.currentPage++;
-    this.storeService.getStoresBelongingToCompany(this._companyId, this.currentPage).subscribe(response => {
+    this.storeService.getStoresBelongingToCompany(this.company_id, this.currentPage).subscribe(response => {
 
-        this.pageCount = response.headers.get('X-Pagination-Page-Count');
-        this.currentPage = response.headers.get('X-Pagination-Current-Page');
+      this.pageCount = response.headers.get('X-Pagination-Page-Count');
+      this.currentPage = response.headers.get('X-Pagination-Current-Page');
 
-        this.stores = this.stores.concat(response.body);
-      },
+      this.stores = this.stores.concat(response.body);
+    },
       error => {
       },
       () => {
@@ -198,7 +278,7 @@ export class StoreListPage implements OnInit {
    * view detail
    */
   loadCompany() {
-    this.companyService.companyDetail(this._companyId).subscribe( response => {
+    this.companyService.companyDetail(this.company_id).subscribe(response => {
       this.company = response;
     });
   }

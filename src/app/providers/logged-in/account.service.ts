@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {AuthhttpService} from "./authhttp.service";
+import {AuthHttpService} from "./authhttp.service";
 import {Observable} from "rxjs";
 
 @Injectable({
@@ -9,7 +9,7 @@ export class AccountService {
 
   private _accountEndpoint: string = "/account";
 
-  constructor(private _authhttp: AuthhttpService) {
+  constructor(private _authhttp: AuthHttpService) {
   }
 
   /**

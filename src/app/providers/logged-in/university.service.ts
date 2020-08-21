@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {Observable} from "rxjs";
-import {AuthhttpService} from "./authhttp.service";
+import {AuthHttpService} from "./authhttp.service";
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +9,7 @@ export class UniversityService {
 
   private _universityEndpoint: string = "/universities";
 
-  constructor(private _authhttp: AuthhttpService) { }
+  constructor(private _authhttp: AuthHttpService) { }
 
   /**
    * List of all universities

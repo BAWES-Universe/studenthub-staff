@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {Observable} from "rxjs";
-import {AuthhttpService} from "./authhttp.service";
+import {AuthHttpService} from "./authhttp.service";
 import {Store} from "../../models/store";
 
 @Injectable({
@@ -10,7 +10,7 @@ export class StoreService {
 
   private _storeEndpoint: string = "/stores";
 
-  constructor(private _authhttp: AuthhttpService) { }
+  constructor(private _authhttp: AuthHttpService) { }
 
   /**
    * Return list of all stores

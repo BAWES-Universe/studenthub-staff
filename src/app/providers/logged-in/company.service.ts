@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AuthhttpService } from './authhttp.service';
+import { AuthHttpService } from './authhttp.service';
 import {File} from "../../models/file";
 
 @Injectable({
@@ -10,7 +10,7 @@ export class CompanyService {
 
   private _companyEndpoint = '/companies';
 
-  constructor(private _authhttp: AuthhttpService) { }
+  constructor(private _authhttp: AuthHttpService) { }
 
   /**
    * List of all companies

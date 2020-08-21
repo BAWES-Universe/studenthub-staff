@@ -95,10 +95,65 @@
         Hourly Rate - {{ company.company_hourly_rate | number:'1.3-3' }} KWD
       </ion-label>
     </ion-item>
-
   </section>
 
+  <!-- Contact List -->
 
+  <section>
+
+    <ion-item-divider color="light">
+      <ion-label>
+        Contacts
+      </ion-label>
+    </ion-item-divider>
+
+    <ion-list class="contact-list">
+      <ion-item-sliding *ngFor="let companyContact of companyContacts" [disabled]="platform.width() > 768">
+        <ion-item tappable (click)="onContactSelected(companyContact)">
+          <ion-label>
+            <h4>{{ companyContact.contact_name }}</h4>
+            <p>
+              {{ companyContact.contact_position }}
+            </p>
+            <p>
+              <a href="mailto:{{ companyContactEmail.email_address }}" (click)="doNothing($event)"
+                *ngFor="let companyContactEmail of companyContact.companyContactEmails">
+                <ion-icon name="mail-outline"></ion-icon> {{ companyContactEmail.email_address }}
+              </a>
+            </p>
+            <p>
+              <a href="tel:{{ companyContactPhone.phone_number }}" (click)="doNothing($event)"
+                *ngFor="let companyContactPhone of companyContact.companyContactPhones">
+                <ion-icon name="call-outline"></ion-icon> {{ companyContactPhone.phone_number }}
+              </a>
+            </p>
+          </ion-label>
+
+          <ion-buttons slot="end" *ngIf="platform.width() > 768">
+            <ion-button color="danger" (click)="deleteContact($event, companyContact)">
+              <ion-icon slot="start" name="trash-outline"></ion-icon>
+              Delete
+            </ion-button>
+          </ion-buttons>
+
+        </ion-item>
+
+        <ion-item-options side="end">
+          <ion-button color="danger" (click)="deleteContact($event, companyContact)">
+            <ion-icon slot="start" name="trash-outline"></ion-icon>
+            Delete
+          </ion-button>
+        </ion-item-options>
+      </ion-item-sliding>
+
+      <ion-item lines="none">
+        <ion-button (click)="addCompanyContact()">
+          Add New Contact
+        </ion-button>
+      </ion-item>
+    </ion-list>
+  </section>
+  
   <ion-list *ngIf="!loading">
     <section>
 
@@ -109,6 +164,7 @@
       </ion-item-divider>
       <ion-item-sliding *ngFor="let store of stores">
         <ion-item tappable (click)="rowSelected(store)">
+
           {{ store.store_name }}
 
           <ion-badge slot="end" *ngIf="store.candidates?.length > 0">
