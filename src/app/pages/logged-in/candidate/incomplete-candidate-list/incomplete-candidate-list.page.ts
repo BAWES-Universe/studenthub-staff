@@ -16,21 +16,16 @@ import { CandidateIdCardService } from 'src/app/providers/logged-in/candidate.id
 })
 export class IncompleteCandidateListPage implements OnInit {
 
-  public pageCountAssign = 0;
-  public pageCountUnAssign = 0;
-  public currentPageAssign = 1;
-  public currentPageUnAssign = 1;
+  public pageCount = 0;
+  public currentPage = 1;
   public totalCount = 0;
   public pages: number[] = [];
 
-  public assignedSearchBar = '';
-  public unassignedSearchBar = '';
-  public cndSegment = 'assigned';
+  public SearchBar = '';
   public candidates: Candidate[];
 
   public loading: boolean = false;
   public paginationLoading = false;
-
   public downloading: boolean = false;
 
   constructor(
@@ -42,11 +37,6 @@ export class IncompleteCandidateListPage implements OnInit {
     public toastCtrl: ToastController,
     public alertCtrl: AlertController,
   ) {
-    // to open specific tab
-    const segment = this.activatedRoute.snapshot.paramMap.get('segment');
-    if (segment) {
-      this.cndSegment = segment;
-    }
   }
 
   ngOnInit() {
@@ -79,57 +69,16 @@ export class IncompleteCandidateListPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    this.loadData(this.currentPageAssign);
+    this.loadData(this.currentPage);
   }
 
   search() {
-    this.currentPageAssign = 1;
-    this.loadData(this.currentPageAssign);
+    this.currentPage = 1;
+    this.loadData(this.currentPage);
   }
 
   loadData(page: number) {
-    if (this.cndSegment == 'not-assigned') {
-      this.loadNotAssigned(page, this.unassignedSearchBar);
-    } else {
-      this.loadAssigned(page, this.assignedSearchBar);
-    }
-  }
-
-  /**
-   * load unassigned data
-   * @param page
-   * @param search
-   */
-  async loadNotAssigned(page: number, search: string) {
-
-    this.currentPageUnAssign = page;
-
-    // Load list of candidates
-    this.loading = true;
-    this.candidateService.listNotAssigned(search, page, 1).subscribe(response => {
-      this.totalCount = response.headers.get('X-Pagination-Total-Count');
-      this.pageCountUnAssign = response.headers.get('X-Pagination-Page-Count');
-      this.currentPageUnAssign = response.headers.get('X-Pagination-Current-Page');
-
-      this.pages = [];
-
-      for (let i = 1; i <= this.pageCountUnAssign; i++) {
-        this.pages.push(i);
-      }
-
-      // hide if no page = 1
-
-      if (this.pageCountUnAssign == 1) {
-        this.pages = [];
-      }
-
-      this.candidates = response.body;
-    },
-      error => { },
-      () => {
-        this.loading = false;
-      }
-    );
+    this.loadAssigned(page, this.SearchBar);
   }
 
   /**
@@ -139,42 +88,21 @@ export class IncompleteCandidateListPage implements OnInit {
    */
   async loadAssigned(page: number, search: string) {
 
-    this.currentPageAssign = page;
+    this.currentPage = page;
 
     // Load list of candidates
     this.loading = true;
     this.candidateService.listAssigned(search, page, 1).subscribe(response => {
 
       this.totalCount = response.headers.get('X-Pagination-Total-Count');
-      this.pageCountAssign = response.headers.get('X-Pagination-Page-Count');
-      this.currentPageAssign = response.headers.get('X-Pagination-Current-Page');
-
-      this.pages = [];
-
-      for (let i = 1; i <= this.pageCountAssign; i++) {
-        this.pages.push(i);
-      }
-
-      // hide if no page = 1
-
-      if (this.pageCountAssign == 1) {
-        this.pages = [];
-      }
+      this.pageCount = response.headers.get('X-Pagination-Page-Count');
+      this.currentPage = response.headers.get('X-Pagination-Current-Page');
 
       this.candidates = response.body;
     },
       error => { },
       () => { this.loading = false; }
     );
-  }
-
-  pageLinkColor(page: number) {
-
-    if (page == this.currentPageAssign) {
-      return 'light';
-    }
-
-    return '';
   }
 
   /**
@@ -184,45 +112,20 @@ export class IncompleteCandidateListPage implements OnInit {
     this.navCtrl.navigateForward('candidate-form');
   }
 
-  loadSegment($event) {
-    this.cndSegment = $event.detail.value;
-    if ($event.detail.value == 'assigned') {
-      this.loadAssigned(1, this.assignedSearchBar);
-    } else if ($event.detail.value == 'not-assigned') {
-      this.loadNotAssigned(1, this.unassignedSearchBar);
-    }
-  }
-
   doInfinite(event, type) {
     this.paginationLoading = true;
-    if (type == 'assigned') {
+    this.currentPage ++;
+    this.candidateService.listAssigned(this.SearchBar, this.currentPage, 1).subscribe(response => {
+        this.paginationLoading = false;
+        this.totalCount = response.headers.get('X-Pagination-Total-Count');
+        this.pageCount = response.headers.get('X-Pagination-Page-Count');
+        this.currentPage = response.headers.get('X-Pagination-Current-Page');
 
-      this.currentPageAssign ++;
-      this.candidateService.listAssigned(this.assignedSearchBar, this.currentPageAssign, 1).subscribe(response => {
-          this.paginationLoading = false;
-          this.totalCount = response.headers.get('X-Pagination-Total-Count');
-          this.pageCountAssign = response.headers.get('X-Pagination-Page-Count');
-          this.currentPageAssign = response.headers.get('X-Pagination-Current-Page');
-
-          this.candidates = this.candidates.concat(response.body);
-        },
-        error => { },
-        () => { event.target.complete(); }
-      );
-    } else {
-      this.currentPageUnAssign ++;
-
-      this.candidateService.listNotAssigned(this.unassignedSearchBar, this.currentPageUnAssign, 1).subscribe(response => {
-          this.loading = false;
-          this.totalCount = response.headers.get('X-Pagination-Total-Count');
-          this.pageCountUnAssign = response.headers.get('X-Pagination-Page-Count');
-          this.currentPageUnAssign = response.headers.get('X-Pagination-Current-Page');
-          this.candidates = this.candidates.concat(response.body);
-        },
-        error => { },
-        () => { event.target.complete(); }
-      );
-    }
+        this.candidates = this.candidates.concat(response.body);
+      },
+      error => { },
+      () => { event.target.complete(); }
+    );
   }
 }
 
