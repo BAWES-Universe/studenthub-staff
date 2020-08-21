@@ -1,0 +1,10 @@
+
+.contact-list a {
+    text-decoration: none;
+
+    ion-icon {
+        top: 2px;
+        position: relative;
+        color: var(--ion-color-step-600, #666666);
+    }
+}

@@ -14,7 +14,7 @@ import { AuthService } from "../auth.service";
 @Injectable({
   providedIn: 'root'
 })
-export class AuthhttpService {
+export class AuthHttpService {
 
   constructor(
     private _http: HttpClient,

@@ -1,0 +1,82 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button (click)="close()"></ion-back-button>
+    </ion-buttons>
+
+    <ion-title>{{ operation }}</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button clear color="primary" [disabled]="!form.valid" (click)="save()">
+        <span *ngIf="!saving">Save</span>
+        <ion-spinner *ngIf="saving"></ion-spinner>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form [formGroup]="form" *ngIf="form">
+    <ion-list>
+
+      <ion-item>
+        <ion-label position="floating">Name</ion-label>
+        <ion-input type="text" formControlName="name"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Position</ion-label>
+        <ion-input type="text" formControlName="position"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Note</ion-label>
+        <ion-textarea formControlName="note"></ion-textarea>
+      </ion-item>
+
+    </ion-list>
+
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Emails </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+
+        <div *ngFor="let email of emails.controls; let i = index">
+          <ion-item [formGroup]="email">
+
+            <ion-input (ionChange)="onEmailChange($event, i)" formControlName="email_address" inputmode="email"
+              enterkeyhint="Next"></ion-input>
+
+            <ion-button fill="clear" slot="end" tabindex="-1" *ngIf="emails.controls.length -1 != i" (click)="removeEmail(i)">
+              <img src="assets/images/close.svg">
+            </ion-button>
+
+          </ion-item>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Phones </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+
+        <div *ngFor="let phone of phones.controls; let i = index">
+          <ion-item [formGroup]="phone">
+
+            <ion-input (ionChange)="onPhoneChange($event, i)" formControlName="phone_number" inputmode="telephone"
+                  enterkeyhint="Next"></ion-input>
+
+            <ion-button fill="clear" slot="end" tabindex="-1" *ngIf="phones.controls.length -1 != i" (click)="removePhone(i)">
+              <img src="assets/images/close.svg">
+            </ion-button>
+
+          </ion-item>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </form>
+</ion-content>

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from "rxjs";
 //services
-import { AuthhttpService } from "./authhttp.service";
+import { AuthHttpService } from "./authhttp.service";
 //model
 import { Candidate } from "src/app/models/candidate";
 import { Country } from "src/app/models/country";
@@ -16,7 +16,7 @@ export class CandidateService {
 
   private _candidateEndpoint: string = "/candidates";
 
-  constructor(private _authhttp: AuthhttpService) { }
+  constructor(private _authhttp: AuthHttpService) { }
 
   /**
    * candidate detail
