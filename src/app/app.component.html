@@ -82,21 +82,8 @@
               <ion-label>Candidates (Need bank info)</ion-label>
             </ion-item>
           </ion-menu-toggle>
-        </ion-list>
-        <ion-list class="labels-list">
-          <ion-list-header>Client Management</ion-list-header>
-          <ion-menu-toggle auto-hide="false">
-            <ion-item routerDirection="root" routerLink="/company-list" routerLinkActive="active" detail="false">
-              <ion-icon slot="start" name="briefcase"></ion-icon>
-              <ion-label>Clients</ion-label>
-            </ion-item>
-          </ion-menu-toggle>
-        </ion-list>
 
-        <ion-list class="labels-list">
-          <ion-list-header>ID Cards</ion-list-header>
-
-          <ion-menu-toggle auto-hide="false">
+          <ion-menu-toggle auto-hide="false" *ngIf="expiredIdCount && (expiredIdCount > 0)">
             <ion-item routerDirection="root" routerLink="/expired-id" routerLinkActive="active" detail="false">
               <ion-icon name="repeat" slot="start"></ion-icon>
               Renew Expired ID
@@ -107,7 +94,15 @@
           </ion-menu-toggle>
 
         </ion-list>
-
+        <ion-list class="labels-list">
+          <ion-list-header>Client Management</ion-list-header>
+          <ion-menu-toggle auto-hide="false">
+            <ion-item routerDirection="root" routerLink="/company-list" routerLinkActive="active" detail="false">
+              <ion-icon slot="start" name="briefcase"></ion-icon>
+              <ion-label>Clients</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+        </ion-list>
         <ion-list class="labels-list">
           <ion-list-header>Reports</ion-list-header>
           <ion-menu-toggle auto-hide="false">
