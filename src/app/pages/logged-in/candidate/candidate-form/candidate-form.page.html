@@ -14,9 +14,9 @@
 </ion-header>
 
 <ion-content>
-  
+
   <loading-modal [loading]="loading" type="candidate-form"></loading-modal>
-  
+
   <form [formGroup]="form" *ngIf="form">
     <!-- Grid for Required File Uploads -->
     <ion-grid id='uploads'>
@@ -73,7 +73,7 @@
         </ion-item>
         <div class="error-wrapper" *ngIf="!form.controls.civil_id.pristine">
           <p class="error" *ngIf="form.controls.civil_id.errors && form.controls.civil_id.errors.pattern">
-            Should be 12 Digit 
+            Should be 12 Digit
           </p>
           <p class="error" *ngIf="form.controls.civil_id.errors && form.controls.civil_id.errors.required">
             * required
@@ -98,7 +98,7 @@
       </ion-card-header>
       <ion-card-content>
         <ion-item>
-          <ion-label  position="floating">Name [English]</ion-label>
+          <ion-label position="floating">Name [English]</ion-label>
           <ion-input type="text" formControlName="name"></ion-input>
         </ion-item>
         <div class="error-wrapper" *ngIf="!form.controls.name.pristine">
@@ -164,7 +164,7 @@
 
         <div class="error-wrapper" *ngIf="!form.controls.phone.pristine">
           <p class="error" *ngIf="form.controls.phone.errors && form.controls.phone.errors.pattern">
-            Should be 8 Digit 
+            Should be 8 Digit
           </p>
           <p class="error" *ngIf="form.controls.phone.errors && form.controls.phone.errors.required">
             * required
@@ -182,7 +182,7 @@
           </p>
         </div>
 
-        <ion-item>
+        <ion-item [class.ion-invalid]="!model.candidate_gender">
           <ion-label>Gender</ion-label>
           <ion-chip (click)="setGenderOption(1)" [class.active]="model.candidate_gender == 1">Male</ion-chip>
           <ion-chip (click)="setGenderOption(2)" [class.active]="model.candidate_gender == 2">Female</ion-chip>
@@ -195,7 +195,7 @@
           </p>
         </div>
 
-        <ion-item>
+        <ion-item [class.ion-invalid]="!model.candidate_driving_license">
           <ion-label>Driving License Available?</ion-label>
           <ion-chip (click)="setLicenseOption(1)" [class.active]="model.candidate_driving_license == 1">Yes</ion-chip>
           <ion-chip (click)="setLicenseOption(2)" [class.active]="model.candidate_driving_license == 2">No</ion-chip>

@@ -8,7 +8,10 @@
     <ion-title *ngIf="!company">Select Company</ion-title>
     <ion-title *ngIf="company">{{ company.company_name }}</ion-title>
   </ion-toolbar>
-  <ion-toolbar *ngIf="!company">
+</ion-header>
+
+<ion-content>
+  <ng-container *ngIf="!company">
     <ion-segment (ionChange)="segmentChanged($event)" [value]="segment">
       <ion-segment-button value="1">
         <ion-label>Active</ion-label>
@@ -17,10 +20,7 @@
         <ion-label>In Active</ion-label>
       </ion-segment-button>
     </ion-segment>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content>
+  </ng-container>
   <loading-modal [loading]="loading" type="text-list"></loading-modal>
 
   <div class="ion-text-center"  *ngIf="company">
@@ -229,12 +229,9 @@
 
     </section>
   </ion-list>
-  <ion-row class="ion-text-center" *ngIf="!loading">
-    <div class="pagination-wrapper">
-      <ion-button *ngFor="let page of pages" size="small" color="{{ pageLinkColor(page) }}" (click)="loadCompanyList(page)">
-        {{ page }}
-      </ion-button>
-    </div>
-  </ion-row>
+
+  <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 
 </ion-content>

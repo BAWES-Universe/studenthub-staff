@@ -17,7 +17,7 @@ const routes: Routes = [
   {
     path: 'change-password',
     loadChildren: () => import('./pages/logged-in/change-password/change-password.module').then( m => m.ChangePasswordPageModule),
-    canActivate: [LoginGuard]
+    canActivate: [AuthService]
   },
   {
     path: 'candidate-form',
@@ -123,11 +123,13 @@ const routes: Routes = [
   },
   {
     path: 'candidate-search',
-    loadChildren: () => import('./pages/logged-in/candidate/candidate-search/candidate-search.module').then( m => m.CandidateSearchPageModule)
+    loadChildren: () => import('./pages/logged-in/candidate/candidate-search/candidate-search.module').then( m => m.CandidateSearchPageModule),
+    canActivate: [AuthService],
   },
   {
     path: 'candidate-filter',
-    loadChildren: () => import('./pages/logged-in/candidate/candidate-filter/candidate-filter.module').then( m => m.CandidateFilterPageModule)
+    loadChildren: () => import('./pages/logged-in/candidate/candidate-filter/candidate-filter.module').then( m => m.CandidateFilterPageModule),
+    canActivate: [AuthService],
   },
   {
     path: 'company-view',

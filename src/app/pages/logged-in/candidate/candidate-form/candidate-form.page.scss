@@ -55,3 +55,9 @@ ion-content {
     padding-bottom: 12px;
   }
 }
+ion-item.ion-invalid {
+  border-left: 3px solid red;
+}
+.error-wrapper {
+  display: none;
+}

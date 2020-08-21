@@ -17,24 +17,8 @@
 
 <ion-content>
 
-  <ion-segment (ionChange)="loadSegment($event)" [value]="cndSegment"  color="primary">
-    <ion-segment-button value="assigned">
-      Already Assigned
-    </ion-segment-button>
-    <ion-segment-button value="not-assigned">
-      Not Assigned
-    </ion-segment-button>
-  </ion-segment>
-
-  <ion-searchbar *ngIf="cndSegment == 'assigned'"
-    [(ngModel)]="assignedSearchBar"
-    animated
-    debounce="200"
-    (ionChange)="search()">
-  </ion-searchbar>
-
-  <ion-searchbar *ngIf="cndSegment == 'not-assigned'"
-    [(ngModel)]="unassignedSearchBar"
+  <ion-searchbar
+    [(ngModel)]="SearchBar"
     animated
     debounce="200"
     (ionChange)="search()">
@@ -51,11 +35,7 @@
 
   </ion-list>
 
-  <ion-infinite-scroll *ngIf="cndSegment == 'not-assigned' && currentPageUnAssign < pageCountUnAssign" (ionInfinite)="doInfinite($event, 'no-assigned')">
-    <ion-infinite-scroll-content></ion-infinite-scroll-content>
-  </ion-infinite-scroll>
-
-  <ion-infinite-scroll *ngIf="cndSegment == 'assigned' && currentPageAssign < pageCountAssign" (ionInfinite)="doInfinite($event , 'assigned')">
+  <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event , 'assigned')">
     <ion-infinite-scroll-content></ion-infinite-scroll-content>
   </ion-infinite-scroll>
 </ion-content>
