@@ -27,6 +27,7 @@ export class AppComponent implements OnInit {
   public expiredIdCount = 0;
   public totalCandidateToReview = null;
   public assignedIncompleteCandidates = null;
+  public candidateBankInfo = null;
   public printIdCount: any = 0;
 
   constructor(
@@ -209,7 +210,8 @@ export class AppComponent implements OnInit {
     this.statisticService.get().subscribe(response => {
         this.eventService.expiredIdCard$.next();
         this.eventService.printIdCard$.next(response.id_need_generated);
-        this.assignedIncompleteCandidates = response.assigned_incomplete_candidates;
+        this.assignedIncompleteCandidates = response.candidates_assigned_incomplete_profile;
+        this.candidateBankInfo = response.candidate_without_bank;
         this.totalCandidateToReview = response.candidate_review_required;
       },
       error => {},
