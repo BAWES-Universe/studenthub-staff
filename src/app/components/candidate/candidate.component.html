@@ -20,7 +20,7 @@
       </ion-badge>
     </ion-label>
 
-    <ion-checkbox *ngIf="candidate.store" (click)="$event.preventDefault();$event.stopPropagation();" slot="end"
+    <ion-checkbox *ngIf="type == 'candidate' && candidate.store" (click)="$event.preventDefault();$event.stopPropagation();" slot="end"
       [checked]="candidateIdCardService.candidates.indexOf(candidate.candidate_id) > -1"
       (ionChange)="onCandidateSelected($event)" [value]="candidate.candidate_id"></ion-checkbox>
 

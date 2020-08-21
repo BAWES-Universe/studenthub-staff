@@ -69,15 +69,6 @@ export class CountryListPage implements OnInit {
     });
   }
 
-  pageLinkColor(page: number) {
-
-    if (page == this.currentPage) {
-      return 'light';
-    }
-
-    return '';
-  }
-
   doInfinite(event) {
     this.loading = true;
     this.currentPage++;
