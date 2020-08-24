@@ -22,7 +22,7 @@
       </ion-segment-button>
     </ion-segment>
   </ng-container>
-  <loading-modal [loading]="loading" type="text-list"></loading-modal>
+  <loading-modal [loading]="loading || loadingMore" type="text-list"></loading-modal>
 
   <div class="ion-text-center"  *ngIf="company">
     <img *ngIf="company.company_logo" src="{{ aws.cloudinaryUrl + company.company_logo }}" (error)="loadLogo($event,company)" width="80">

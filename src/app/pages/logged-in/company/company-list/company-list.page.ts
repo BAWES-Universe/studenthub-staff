@@ -22,6 +22,7 @@ export class CompanyListPage implements OnInit {
   public currentPage = 1;
   public pages: number[] = [];
   public loading = false;
+  public loadingMore = false;
   public company_id = null;
   public company: Company;
   public companies: Company[];
@@ -131,6 +132,8 @@ export class CompanyListPage implements OnInit {
    * segment data
    */
   loadCompaniesSegmentData() {
+    this.enableCompanies = [];
+    this.disableCompanies = [];
     for (const company of this.companies) {
       if (company.company_status == 10) {
         this.enableCompanies.push(company);
@@ -171,7 +174,7 @@ export class CompanyListPage implements OnInit {
 
   doInfinite(event) {
 
-    this.loading = true;
+    this.loadingMore = true;
     this.currentPage++;
 
     this.companyService.list(this.currentPage).subscribe(response => {
@@ -184,7 +187,7 @@ export class CompanyListPage implements OnInit {
       },
       error => {},
       () => {
-        this.loading = false;
+        this.loadingMore = false;
         event.target.complete();
       }
     );
