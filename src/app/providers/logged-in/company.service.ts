@@ -21,6 +21,15 @@ export class CompanyService {
   }
 
   /**
+   * List of all followup companies
+   * @returns {Observable<any>}
+   */
+  listFollowups(page): Observable<any>{
+    const url = this._companyEndpoint + '/followups?page=' + page + '&expand=subCompanies,subCompanies.stores,stores';
+    return this._authhttp.getRaw(url);
+  }
+
+  /**
    * model detail
    * @param company_id
    */
