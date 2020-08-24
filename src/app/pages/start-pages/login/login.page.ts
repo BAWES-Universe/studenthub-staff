@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {AlertController} from "@ionic/angular";
-import {AuthService} from "../../../providers/auth.service";
-import {CustomValidator} from "../../../validators/custom.validator";
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {AlertController} from '@ionic/angular';
+import {AuthService} from '../../../providers/auth.service';
+import {CustomValidator} from '../../../validators/custom.validator';
 
 @Component({
   selector: 'app-login',
@@ -17,8 +17,8 @@ export class LoginPage implements OnInit {
   public isLoading = false;
 
   // Store old email and password to make sure user won't make same mistake twice
-  public oldEmailInput = "";
-  public oldPasswordInput = "";
+  public oldEmailInput = '';
+  public oldPasswordInput = '';
 
   // Store number of invalid password attempts to suggest reset password
   private _numberOfLoginAttempts = 0;
@@ -30,8 +30,8 @@ export class LoginPage implements OnInit {
   ){
     // Initialize the Login Form
     this.loginForm = this._fb.group({
-      email: ["", [Validators.required, CustomValidator.emailValidator]],
-      password: ["", Validators.required]
+      email: ['', [Validators.required, CustomValidator.emailValidator]],
+      password: ['', Validators.required]
     });
   }
   ngOnInit() {
@@ -49,11 +49,11 @@ export class LoginPage implements OnInit {
     this._auth.basicAuth(email, password).subscribe(async res => {
       this.isLoading = false;
 
-      if(res.operation == "success"){
+      if (res.operation == 'success'){
         // Successfully logged in, set the access token within AuthService
         this._auth.setAccessToken(res);
-      }else if(res.operation == "error"){
-        let alert = await this._alertCtrl.create({
+      }else if (res.operation == 'error'){
+        const alert = await this._alertCtrl.create({
           header: 'Unable to Log In',
           message: res.message,
           buttons: ['Ok'],
@@ -65,20 +65,20 @@ export class LoginPage implements OnInit {
       this.isLoading = false;
 
       // Incorrect email or password
-      if(err.status == 401){
+      if (err.status == 401){
         this._numberOfLoginAttempts++;
 
         // Check how many login attempts this user made, offer to reset password
-        if(this._numberOfLoginAttempts > 2){
-          let alert = await this._alertCtrl.create({
+        if (this._numberOfLoginAttempts > 2){
+          const alert = await this._alertCtrl.create({
             header: 'Trouble Logging In?',
-            message: "If you've forgotten your password, contact us to have it reset.",
+            message: 'If you\'ve forgotten your password, contact us to have it reset.',
             buttons: ['Ok'],
           });
           alert.present();
         }
         else{
-          let alert = await this._alertCtrl.create({
+          const alert = await this._alertCtrl.create({
             header: 'Invalid email or password',
             message: 'The information entered is incorrect. Please try again.',
             buttons: ['Try Again'],
@@ -89,9 +89,9 @@ export class LoginPage implements OnInit {
         /**
          * Error not accounted for. Show Message
          */
-        let alert = await this._alertCtrl.create({
+        const alert = await this._alertCtrl.create({
           header: 'Unable to Log In',
-          message: "There seems to be an issue connecting to Payroll servers. Please contact us if the issue persists.",
+          message: 'There seems to be an issue connecting to Payroll servers. Please contact us if the issue persists.',
           buttons: ['Ok'],
         });
         alert.present();

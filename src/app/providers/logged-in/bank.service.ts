@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import {AuthHttpService} from "./authhttp.service";
-import {Observable} from "rxjs";
+import {AuthHttpService} from './authhttp.service';
+import {Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BankService {
 
-  private _bankEndpoint: string = "/banks";
+  private _bankEndpoint = '/banks';
 
   constructor(private _authhttp: AuthHttpService) { }
   /**

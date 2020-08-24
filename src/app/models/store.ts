@@ -6,6 +6,7 @@ export class Store {
     company_id: number;
     store_name: string;
     store_status: number;
-    candidates: Candidate[];    
+    store_total_candidates: any;
+    candidates: Candidate[];
     company: Company;
 }

@@ -17,7 +17,7 @@ export class CompanyService {
    * @returns {Observable<any>}
    */
   list(page): Observable<any>{
-    return this._authhttp.getRaw(this._companyEndpoint + '?page=' + page + '&expand=subCompanies,subCompanies.stores,stores,subCompanies.stores.candidates,files');
+    return this._authhttp.getRaw(this._companyEndpoint + '?page=' + page + '&expand=subCompanies,subCompanies.stores,stores,subCompanies.stores.candidates,files,notes');
   }
 
   /**
@@ -34,7 +34,7 @@ export class CompanyService {
    * @param company_id
    */
   view(company_id) {
-    return this._authhttp.get(this._companyEndpoint + '/' + company_id + '?expand=brands,subCompanies,subCompanies.stores,stores,subCompanies.stores.candidates,files');
+    return this._authhttp.get(this._companyEndpoint + '/' + company_id + '?expand=brands,subCompanies,subCompanies.stores,stores,subCompanies.stores.candidates,files,notes');
   }
 
   /**
@@ -42,7 +42,7 @@ export class CompanyService {
    * @param id
    */
   companyDetail(id) {
-    return this._authhttp.get(this._companyEndpoint + '/' + id + '?expand=files');
+    return this._authhttp.get(this._companyEndpoint + '/' + id + '?expand=files,notes');
   }
 
   /**

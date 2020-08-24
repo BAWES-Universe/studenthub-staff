@@ -5,7 +5,7 @@
     </ion-buttons>
     <ion-title *ngIf="!loading && !company">Select Store</ion-title>
     <ion-title *ngIf="!loading && company">
-      {{ company.company_name }}     
+      {{ company.company_name }}
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -38,7 +38,7 @@
         <p>@ {{ toDate(company.company_last_followup_datetime) | date: 'MMM d, y, h:mm:ss a' }}</p>
       </ion-label>
     </ion-item>
-    
+
     <ion-item-divider color="light">
       <ion-label>
         Contact
@@ -175,7 +175,40 @@
       </ion-item>
     </ion-list>
   </section>
-  
+
+  <!-- note List -->
+  <section *ngIf="!loading && company">
+
+    <ion-item-divider color="light">
+      <ion-label>
+        Notes
+      </ion-label>
+    </ion-item-divider>
+
+    <ion-list>
+      <ion-item-sliding *ngFor="let note of company.notes">
+        <ion-item tappable  (click)="addNote(note)">
+          <ion-label>
+            {{ note.note_text }}<br/>
+            <small>{{ note.note_created_datetime | date}}</small>
+          </ion-label>
+        </ion-item>
+        <ion-item-options side="end">
+          <ion-button color="danger" (click)="remoteNote($event, note)">
+            <ion-icon slot="start" name="trash-outline"></ion-icon>
+            Delete
+          </ion-button>
+        </ion-item-options>
+      </ion-item-sliding>
+      <ion-item>
+        <ion-button expand="full" color="danger" (click)="addNote(null)">
+          <span>Add New Note</span>
+        </ion-button>
+      </ion-item>
+    </ion-list>
+  </section>
+
+
   <ion-list *ngIf="!loading">
     <section>
 

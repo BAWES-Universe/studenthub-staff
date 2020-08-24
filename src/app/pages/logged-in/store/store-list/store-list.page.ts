@@ -5,8 +5,10 @@ import { AlertController, ModalController, NavController, ToastController, Platf
 
 import { Store } from 'src/app/models/store';
 import { Company } from '../../../../models/company';
+import {Note} from '../../../../models/note';
 
 import { StoreFormPage } from '../store-form/store-form.page';
+import {CompanyNoteFormPage} from '../../company/company-note-form/company-note-form.page';
 
 import { StoreService } from 'src/app/providers/logged-in/store.service';
 import { CompanyService } from '../../../../providers/logged-in/company.service';
@@ -15,6 +17,7 @@ import { CompanyContact } from 'src/app/models/company-contact';
 import { CompanyContactFormPage } from '../../company/company-contact-form/company-contact-form.page';
 import { CompanyContactService } from 'src/app/providers/logged-in/company-contact.service';
 import { AuthService } from 'src/app/providers/auth.service';
+import {CompanyNoteService} from '../../../../providers/logged-in/company-note.service';
 
 
 
@@ -44,7 +47,8 @@ export class StoreListPage implements OnInit {
     public companyService: CompanyService,
     private modalCtrl: ModalController,
     private alertCtrl: AlertController,
-    private _toastCtrl: ToastController,
+    private toastCtrl: ToastController,
+    private noteService: CompanyNoteService,
     public aws: AwsService,
     public authService: AuthService,
     public companyContactService: CompanyContactService
@@ -69,14 +73,15 @@ export class StoreListPage implements OnInit {
    * @param date
    */
   toDate(date) {
-    if (date)
+    if (date) {
       return new Date(date.replace(/-/g, '/'));
+    }
   }
-  
+
   async onContactSelected(companyContact) {
     const modal = await this.modalCtrl.create({
       component: CompanyContactFormPage,
-      componentProps: { 
+      componentProps: {
         model: companyContact
       }
     });
@@ -92,12 +97,12 @@ export class StoreListPage implements OnInit {
 
   async addCompanyContact() {
 
-    let companyContact = new CompanyContact;
+    const companyContact = new CompanyContact;
     companyContact.company_id = this.company_id;
-    
+
     const modal = await this.modalCtrl.create({
       component: CompanyContactFormPage,
-      componentProps: { 
+      componentProps: {
         model: companyContact
       }
     });
@@ -240,7 +245,7 @@ export class StoreListPage implements OnInit {
               }
 
               if (jsonResp.operation == 'success') {
-                const toast = await this._toastCtrl.create({
+                const toast = await this.toastCtrl.create({
                   message: jsonResp.message,
                   duration: 3000
                 });
@@ -294,5 +299,46 @@ export class StoreListPage implements OnInit {
 
   loadLogo($event, company) {
     company.company_logo = null;
+  }
+
+  async addNote(note: Note) {
+    const modal = await this.modalCtrl.create({
+      component: CompanyNoteFormPage,
+      componentProps: {
+        company: this.company,
+        note,
+      }
+    });
+    modal.present();
+
+    const { data } = await modal.onWillDismiss();
+    if (data && data.refresh) {
+      this.loadCompany();
+    }
+  }
+
+  /**
+   * removing note
+   * @param event
+   * @param note
+   */
+  async remoteNote(event, note) {
+
+    event.preventDefault();
+    event.stopPropagation();
+
+    this.noteService.delete(note).subscribe(async response => {
+
+      if (response.operation == 'success') {
+        this.loadCompany();
+      } else {
+        this.toastCtrl.create({
+          message: response.message,
+          buttons: ['Ok']
+        }).then(prompt => {
+          prompt.present();
+        });
+      }
+    });
   }
 }

@@ -30,12 +30,12 @@
         <p>@ {{ toDate(company.company_last_followup_datetime) | date: 'MMM d, y, h:mm:ss a' }}</p>
       </ion-label>
     </ion-item>
-    
+
     <!-- If Main Company -->
     <section *ngIf="company.company_email">
       <ion-item-divider color="light">
         <ion-label>
-          Contact 
+          Contact
         </ion-label>
       </ion-item-divider>
 
@@ -213,6 +213,26 @@
           {{ brand.brand_name_en }}
         </ion-label>
       </ion-item>
+    </ion-list>
+  </section>
+  <!-- note -->
+  <section *ngIf="!loading && company">
+
+    <ion-item-divider color="light">
+      <ion-label>
+        Notes
+      </ion-label>
+    </ion-item-divider>
+
+    <ion-list>
+      <ion-item-sliding *ngFor="let note of company.notes">
+        <ion-item tappable>
+          <ion-label>
+            {{ note.note_text }}<br/>
+            <small>{{ note.note_created_datetime | date}}</small>
+          </ion-label>
+        </ion-item>
+      </ion-item-sliding>
     </ion-list>
   </section>
 

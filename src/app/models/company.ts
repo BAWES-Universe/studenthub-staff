@@ -9,6 +9,7 @@ export class Company {
     company_description_en: string;
     company_description_ar: string;
     company_website: string;
+  // tslint:disable-next-line:variable-name
     company_email: string;
     company_logo: string;
     company_status: number;
@@ -16,10 +17,12 @@ export class Company {
     company_hourly_rate: number;
     company_bonus_commission: number;
     company_followup: any;
+    company_last_followup_datetime: any;
     currency_pref: number;
     subcompanies: Company[];
     subCompanies: Company[];
     stores: Store[];
     files: any[];
     brands: any[];
+    notes: any[];
 }
