@@ -163,7 +163,6 @@ export class CompanyListPage implements OnInit {
     company.company_logo = null;
   }
 
-
   doInfinite(event) {
 
     this.loading = true;
