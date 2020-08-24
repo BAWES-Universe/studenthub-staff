@@ -25,6 +25,7 @@ import { ExperienceFormPageModule } from './pages/logged-in/candidate/experience
 import { UploadCvPageModule } from './pages/logged-in/candidate/upload-cv/upload-cv.module';
 import { UploadFilePageModule } from './pages/logged-in/company/upload-file/upload-file.module';
 import {CompanyNoteFormPageModule} from "./pages/logged-in/company/company-note-form/company-note-form.module";
+import { CompanyContactFormPageModule } from './pages/logged-in/company/company-contact-form/company-contact-form.module';
 
 export function startupServiceFactory(authService) {
   return () => authService.load();
@@ -61,7 +62,8 @@ export function createTranslateLoader(http: HttpClient) {
         ExperienceFormPageModule,
         UploadCvPageModule,
         UploadFilePageModule,
-        CompanyNoteFormPageModule
+        CompanyNoteFormPageModule,
+        CompanyContactFormPageModule
     ],
   providers: [
     {
