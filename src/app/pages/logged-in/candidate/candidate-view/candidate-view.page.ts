@@ -53,8 +53,8 @@ export class CandidateViewPage implements OnInit {
   }
 
   ngOnInit() {
-
   }
+
   ionViewDidEnter() {
     // const state = window.history.state;
     // if (state.model) {
@@ -106,10 +106,17 @@ export class CandidateViewPage implements OnInit {
     this.assigning = true;
 
     this.candidateService.assignCandidateToStore(this.candidate, store_id).subscribe(async response => {
+
       this.assigning = false;
+
       if (response.operation == 'success') {
-        this.candidate = response.candidate_detail;
+
+        this.candidate.store_id = store_id;
+        
+        this.loadCandidateDetail();
+
         this.loadWorkHistoryData();
+
       } else {
         this.candidate.store_id = null;
         const alert = await this.alertCtrl.create({
@@ -147,7 +154,7 @@ export class CandidateViewPage implements OnInit {
               this.unassinging = false;
 
               if (response.operation == 'success') {
-                this.candidate = response.candidate_detail;
+                this.loadCandidateDetail();
                 this.loadWorkHistoryData();
               } else {
                 const prompt = await this.alertCtrl.create({
