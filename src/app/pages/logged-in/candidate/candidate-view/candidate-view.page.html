@@ -67,140 +67,154 @@
   <ion-item *ngIf="assigning">
     <ion-spinner></ion-spinner>
   </ion-item>
+    <!-- Default Segment -->
+    <ion-item-divider color="light">
+    <ion-segment (ionChange)="segmentChanged($event)" [value]="sections">
+      <ion-segment-button value="personal">
+        <ion-label>Personal</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="bank">
+        <ion-label>Bank Info</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="civil">
+        <ion-label>Civil ID</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-item-divider>
+  <ng-container *ngIf="sections == 'personal'">
 
-  <ion-item [class.pending]="!candidate.candidate_hourly_rate">
-    <ion-label>
-      <h5>Hourly Rate</h5>
-      <p>{{ candidate.candidate_hourly_rate }}</p>
-    </ion-label>
-  </ion-item>
+    <ion-item [class.pending]="!candidate.candidate_hourly_rate">
+      <ion-label>
+        <h5>Hourly Rate</h5>
+        <p>{{ candidate.candidate_hourly_rate }}</p>
+      </ion-label>
+    </ion-item>
 
-  <ion-item-divider color="light">Personal</ion-item-divider>
-  <ion-item [class.pending]="!candidate.age">
-    <ion-label>
-      <h5>Age</h5>
-      <p>{{ candidate.age }}</p>
-    </ion-label>
-  </ion-item>
-  <ion-item [class.pending]="!candidate.country">
-    <ion-label>
-      <h5>Nationality</h5>
-      <p *ngIf="candidate.country">{{ candidate.country.country_name_en }}</p>
-      <p *ngIf="!candidate.country">-</p>
-    </ion-label>
-  </ion-item>
-  <ion-item [class.pending]="!candidate.university">
-    <ion-label>
-      <h5>University</h5>
-      <p *ngIf="candidate.university">{{ candidate.university.university_name_en }}</p>
-      <p *ngIf="!candidate.university">-</p>
-    </ion-label>
-  </ion-item>
+    <ion-item [class.pending]="!candidate.age">
+      <ion-label>
+        <h5>Age</h5>
+        <p>{{ candidate.age }}</p>
+      </ion-label>
+    </ion-item>
+    <ion-item [class.pending]="!candidate.country">
+      <ion-label>
+        <h5>Nationality</h5>
+        <p *ngIf="candidate.country">{{ candidate.country.country_name_en }}</p>
+        <p *ngIf="!candidate.country">-</p>
+      </ion-label>
+    </ion-item>
+    <ion-item [class.pending]="!candidate.university">
+      <ion-label>
+        <h5>University</h5>
+        <p *ngIf="candidate.university">{{ candidate.university.university_name_en }}</p>
+        <p *ngIf="!candidate.university">-</p>
+      </ion-label>
+    </ion-item>
 
-  <ion-item [class.pending]="!candidate.candidate_gender">
-    <ion-label>
-      <h5>Gender</h5>
-      <p *ngIf="candidate.candidate_gender == 1">Male</p>
-      <p *ngIf="candidate.candidate_gender == 2">Female</p>
-      <p *ngIf="candidate.candidate_gender == 3">Other</p>
-      <p *ngIf="!candidate.candidate_gender">-</p>
-    </ion-label>
-  </ion-item>
+    <ion-item [class.pending]="!candidate.candidate_gender">
+      <ion-label>
+        <h5>Gender</h5>
+        <p *ngIf="candidate.candidate_gender == 1">Male</p>
+        <p *ngIf="candidate.candidate_gender == 2">Female</p>
+        <p *ngIf="candidate.candidate_gender == 3">Other</p>
+        <p *ngIf="!candidate.candidate_gender">-</p>
+      </ion-label>
+    </ion-item>
 
-  <ion-item [class.pending]="!candidate.candidate_objective">
-    <ion-label>
-      <h5>Objective</h5>
-      <p *ngIf="candidate.candidate_objective">{{ candidate.candidate_objective }}</p>
-      <p *ngIf="!candidate.candidate_objective">-</p>
-    </ion-label>
-  </ion-item>
+    <ion-item [class.pending]="!candidate.candidate_objective">
+      <ion-label>
+        <h5>Objective</h5>
+        <p *ngIf="candidate.candidate_objective">{{ candidate.candidate_objective }}</p>
+        <p *ngIf="!candidate.candidate_objective">-</p>
+      </ion-label>
+    </ion-item>
 
-  <ion-item [class.pending]="!candidate.candidate_driving_license">
-    <ion-label>
-      <h5>Driving License Available?</h5>
-      <p *ngIf="candidate.candidate_driving_license == 1">Yes</p>
-      <p *ngIf="candidate.candidate_driving_license == 2">No</p>
-      <p *ngIf="!candidate.candidate_driving_license">-</p>
-    </ion-label>
-  </ion-item>
+    <ion-item [class.pending]="!candidate.candidate_driving_license">
+      <ion-label>
+        <h5>Driving License Available?</h5>
+        <p *ngIf="candidate.candidate_driving_license == 1">Yes</p>
+        <p *ngIf="candidate.candidate_driving_license == 2">No</p>
+        <p *ngIf="!candidate.candidate_driving_license">-</p>
+      </ion-label>
+    </ion-item>
 
-  <ion-item [class.pending]="candidate.candidateSkills && candidate.candidateSkills.length == 0">
-    <ion-label>
-      <h5>Skills</h5>
-      <div *ngIf="candidate.candidateSkills && candidate.candidateSkills.length > 0">
-        <ion-chip class="sub-span" *ngFor="let skills of candidate.candidateSkills">
-          {{ skills.skill }}
-        </ion-chip>
-      </div>
-      <p *ngIf="candidate.candidateSkills.length == 0">-</p>
-    </ion-label>
-  </ion-item>
+    <ion-item [class.pending]="candidate.candidateSkills && candidate.candidateSkills.length == 0">
+      <ion-label>
+        <h5>Skills</h5>
+        <div *ngIf="candidate.candidateSkills && candidate.candidateSkills.length > 0">
+          <ion-chip class="sub-span" *ngFor="let skills of candidate.candidateSkills">
+            {{ skills.skill }}
+          </ion-chip>
+        </div>
+        <p *ngIf="candidate.candidateSkills.length == 0">-</p>
+      </ion-label>
+    </ion-item>
 
-  <ion-item [class.pending]="candidate.candidateExperiences && candidate.candidateExperiences.length == 0">
-    <ion-label>
-      <h5>Experiences</h5>
-      <div *ngIf="candidate.candidateExperiences && candidate.candidateExperiences.length > 0">
-        <ion-chip class="sub-span" *ngFor="let exp of candidate.candidateExperiences">
-          {{exp.experience}}
-        </ion-chip>
-      </div>
-      <p *ngIf="candidate.candidateExperiences.length == 0">-</p>
-    </ion-label>
-  </ion-item>
+    <ion-item [class.pending]="candidate.candidateExperiences && candidate.candidateExperiences.length == 0">
+      <ion-label>
+        <h5>Experiences</h5>
+        <div *ngIf="candidate.candidateExperiences && candidate.candidateExperiences.length > 0">
+          <ion-chip class="sub-span" *ngFor="let exp of candidate.candidateExperiences">
+            {{exp.experience}}
+          </ion-chip>
+        </div>
+        <p *ngIf="candidate.candidateExperiences.length == 0">-</p>
+      </ion-label>
+    </ion-item>
 
-  <ion-item  [class.pending]="!candidate.candidate_resume">
-    <ion-label>
-      <h5>Candidate CV</h5>
-      <a target="_blank" *ngIf="candidate.candidate_resume"
-         href="{{ aws.urlResume }}{{ candidate.candidate_resume }}">
-        {{ candidate.candidate_resume }}
-      </a>
-      <span *ngIf="!candidate.candidate_resume">-</span>
-    </ion-label>
-  </ion-item>
-
-  <ion-item-divider color="light">Civil ID</ion-item-divider>
-  <ion-item [class.pending]="!candidate.candidate_civil_id">
-    <ion-label>
-      <h5>Civil ID Number</h5>
-      <p>{{ candidate.candidate_civil_id }}</p>
-    </ion-label>
-  </ion-item>
-  <ion-item [class.pending]="!candidate.candidate_birth_date">
-    <ion-label>
-      <h5>Birth date</h5>
-      <p>{{ candidate.candidate_birth_date }}</p>
-    </ion-label>
-  </ion-item>
-  <ion-item [class.pending]="!candidate.candidate_civil_expiry_date">
-    <ion-label>
-      <h5>Expiry Date</h5>
-      <p>{{ candidate.candidate_civil_expiry_date }}</p>
-    </ion-label>
-  </ion-item>
-  <ion-item [class.pending]="!candidate.candidate_civil_photo_front">
-    <ion-label>
-      <h5>ID Photo Front</h5>
-      <p *ngIf="candidate.candidate_civil_photo_front" >
-        <a [href]="aws.permanentBucketUrl + 'photos/' + candidate.candidate_civil_photo_front" target='_blank'>
-          {{ candidate.candidate_civil_photo_front }}
+    <ion-item  [class.pending]="!candidate.candidate_resume">
+      <ion-label>
+        <h5>Candidate CV</h5>
+        <a target="_blank" *ngIf="candidate.candidate_resume"
+           href="{{ aws.urlResume }}{{ candidate.candidate_resume }}">
+          {{ candidate.candidate_resume }}
         </a>
-      </p>
-    </ion-label>
-  </ion-item>
-  <ion-item [class.pending]="!candidate.candidate_civil_photo_back">
-    <ion-label>
-      <h5>ID Photo Back</h5>
-      <p *ngIf="candidate.candidate_civil_photo_back">
-        <a [href]="aws.permanentBucketUrl + 'photos/' + candidate.candidate_civil_photo_back" target='_blank'>
-          {{ candidate.candidate_civil_photo_back }}
-        </a>
-      </p>
-    </ion-label>
-  </ion-item>
+        <span *ngIf="!candidate.candidate_resume">-</span>
+      </ion-label>
+    </ion-item>
+  </ng-container>
+  <ng-container *ngIf="sections == 'civil'">
 
-  <div>
-    <ion-item-divider color="light">Bank Info</ion-item-divider>
+      <ion-item [class.pending]="!candidate.candidate_civil_id">
+      <ion-label>
+        <h5>Civil ID Number</h5>
+        <p>{{ candidate.candidate_civil_id }}</p>
+      </ion-label>
+    </ion-item>
+    <ion-item [class.pending]="!candidate.candidate_birth_date">
+      <ion-label>
+        <h5>Birth date</h5>
+        <p>{{ candidate.candidate_birth_date }}</p>
+      </ion-label>
+    </ion-item>
+    <ion-item [class.pending]="!candidate.candidate_civil_expiry_date">
+      <ion-label>
+        <h5>Expiry Date</h5>
+        <p>{{ candidate.candidate_civil_expiry_date }}</p>
+      </ion-label>
+    </ion-item>
+    <ion-item [class.pending]="!candidate.candidate_civil_photo_front">
+      <ion-label>
+        <h5>ID Photo Front</h5>
+        <p *ngIf="candidate.candidate_civil_photo_front" >
+          <a [href]="aws.permanentBucketUrl + 'photos/' + candidate.candidate_civil_photo_front" target='_blank'>
+            {{ candidate.candidate_civil_photo_front }}
+          </a>
+        </p>
+      </ion-label>
+    </ion-item>
+    <ion-item [class.pending]="!candidate.candidate_civil_photo_back">
+      <ion-label>
+        <h5>ID Photo Back</h5>
+        <p *ngIf="candidate.candidate_civil_photo_back">
+          <a [href]="aws.permanentBucketUrl + 'photos/' + candidate.candidate_civil_photo_back" target='_blank'>
+            {{ candidate.candidate_civil_photo_back }}
+          </a>
+        </p>
+      </ion-label>
+    </ion-item>
+  </ng-container>
+  <ng-container *ngIf="sections == 'bank'">
     <ion-item [class.pending]="!candidate.bank">
       <ion-label>
         <h5>Bank</h5>
@@ -222,7 +236,7 @@
         <p *ngIf="!candidate.candidate_iban">-</p>
       </ion-label>
     </ion-item>
-  </div>
+  </ng-container>
 
   <ion-item-divider color="light" *ngIf="salaryTransfers.length > 0">Salary Transfers</ion-item-divider>
   <ion-item *ngFor="let salary of salaryTransfers">

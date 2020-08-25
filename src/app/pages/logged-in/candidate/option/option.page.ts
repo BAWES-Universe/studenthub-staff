@@ -1,11 +1,14 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {AlertController, PopoverController, ToastController} from '@ionic/angular';
+
+// model
+import {Candidate} from 'src/app/models/candidate';
+
 // services
 import { AuthService } from 'src/app/providers/auth.service';
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
-import {Candidate} from 'src/app/models/candidate';
-import {CandidateService} from '../../../../providers/logged-in/candidate.service';
-import {EventService} from "../../../../providers/event.service";
+import {CandidateService} from 'src/app/providers/logged-in/candidate.service';
+import {EventService} from 'src/app/providers/event.service';
 
 
 @Component({
@@ -17,9 +20,9 @@ export class OptionPage implements OnInit {
 
   @Input() candidate: Candidate;
   public updatingJobSearchStatus = false;
-  public sendingPassword: boolean = false;
-  public unassinging: boolean = false;
-  public assigning: boolean = false;
+  public sendingPassword = false;
+  public unassinging = false;
+  public assigning = false;
 
   constructor(
     public translateService: TranslateLabelService,
@@ -42,13 +45,6 @@ export class OptionPage implements OnInit {
   }
 
   /**
-   * Log Agent out of the app
-   */
-  logout() {
-    this.popoverCtrl.dismiss();
-  }
-
-  /**
    * Show confirm alert to reset password
    */
   async resetPassword() {
@@ -60,7 +56,7 @@ export class OptionPage implements OnInit {
           text: 'No',
           role: 'cancel',
           handler: () => {
-            this.popoverCtrl.dismiss();
+            this.dismiss();
           }
         },
         {
@@ -98,7 +94,7 @@ export class OptionPage implements OnInit {
           buttons: ['Okay']
         });
         alert.present();
-        this.popoverCtrl.dismiss();
+        this.dismiss();
       }
     });
   }
@@ -125,7 +121,7 @@ export class OptionPage implements OnInit {
 
             // Unassign Candidate from store
             this.candidateService.removeFromAssignedStore(this.candidate).subscribe(async response => {
-              this.popoverCtrl.dismiss();
+              this.dismiss();
               // Dismiss the loader
               this.unassinging = false;
               if (response.operation == 'success') {
@@ -146,28 +142,48 @@ export class OptionPage implements OnInit {
     confirm.present();
   }
 
-  toggleJobSearchStatus() {
+  toggleJobSearchStatus(status = 'mark_as_looking') {
 
-    this.updatingJobSearchStatus = true;
+    this.alertCtrl.create({
+      header: 'Are you sure?',
+      message: (status == 'mark_as_looking') ? 'Mark as looking for job?' : 'Mark as not looking for job?',
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: () => {
+            // Handle the functionality when user click on 'cancel' button
+          }
+        },
+        {
+          text: 'Yes',
+          handler: async () => {
+            this.updatingJobSearchStatus = true;
 
-    const params = {
-      candidate_id: this.candidate.candidate_id,
-      job_search_status: this.candidate.candidate_job_search_status == 1 ? 0 : 1
-    };
-    this.candidateService.updateJobSearchStatus(params).subscribe(async data => {
+            const params = {
+              candidate_id: this.candidate.candidate_id,
+              job_search_status: this.candidate.candidate_job_search_status == 1 ? 0 : 1
+            };
+            this.candidateService.updateJobSearchStatus(params).subscribe(async data => {
 
-      this.updatingJobSearchStatus = false;
-      this.popoverCtrl.dismiss();
-      if (data.operation == 'success') {
-        this.eventService.reloadCandiate$.next();
-      } else {
-        const toast = await this.toastCtrl.create({
-          message: data.message,
-          duration: 3000
-        });
-
-        toast.present();
-      }
+              this.updatingJobSearchStatus = false;
+              this.dismiss();
+              if (data.operation == 'success') {
+                this.candidate.candidate_job_search_status = this.candidate.candidate_job_search_status == 1 ? 0 : 1;
+                this.eventService.reloadCandiate$.next();
+              } else {
+                this.toastCtrl.create({
+                  message: data.message,
+                  duration: 3000
+                }).then(toast => {
+                  toast.present();
+                });
+              }
+            });
+          }
+        }
+      ]
+    }).then(confirm => {
+      confirm.present();
     });
   }
 

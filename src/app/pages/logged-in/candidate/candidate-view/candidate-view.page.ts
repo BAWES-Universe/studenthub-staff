@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {AlertController, NavController, PopoverController, ToastController} from '@ionic/angular';
+import {AlertController, IonSegment, NavController, PopoverController, ToastController} from '@ionic/angular';
 import {ActivatedRoute, Router} from '@angular/router';
 // models
 import { Store } from 'src/app/models/store';
@@ -34,6 +34,7 @@ export class CandidateViewPage implements OnInit {
   public unassinging: boolean = false;
   public loading: boolean = false;
   public approving: boolean = false;
+  public sections = 'personal';
 
   public updatingJobSearchStatus: boolean = false;
 
@@ -226,5 +227,9 @@ export class CandidateViewPage implements OnInit {
       event: e
     });
     popover.present();
+  }
+
+  public segmentChanged($e){
+    this.sections = $e.detail.value;
   }
 }
