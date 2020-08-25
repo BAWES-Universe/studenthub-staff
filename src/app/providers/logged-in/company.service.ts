@@ -21,6 +21,15 @@ export class CompanyService {
   }
 
   /**
+   * List of all followup companies
+   * @returns {Observable<any>}
+   */
+  listFollowups(page): Observable<any>{
+    const url = this._companyEndpoint + '/followups?page=' + page + '&expand=subCompanies,subCompanies.stores,stores';
+    return this._authhttp.getRaw(url);
+  }
+
+  /**
    * model detail
    * @param company_id
    */
@@ -34,6 +43,19 @@ export class CompanyService {
    */
   companyDetail(id) {
     return this._authhttp.get(this._companyEndpoint + '/' + id + '?expand=files,notes');
+  }
+
+  /**
+   * add followup note
+   * @param note 
+   * @param company_id 
+   */
+  addFollowupNote(note: string, company_id: number): Observable<any>{
+    const url = `${this._companyEndpoint}/add-followup-note/${company_id}`;
+    const params = {
+      note: note
+    };
+    return this._authhttp.post(url, params);
   }
 
   /**

@@ -141,6 +141,18 @@ const routes: Routes = [
     loadChildren: () => import('./pages/logged-in/candidate/candidate-review-list/candidate-review-list.module').then( m => m.CandidateReviewListPageModule),
     canActivate: [AuthService],
   },
+  {
+    path: 'company-followup-list',
+    loadChildren: () => import('./pages/logged-in/company/company-followup-list/company-followup-list.module').then( m => m.CompanyFollowupListPageModule)
+  },
+  {
+    path: '**',
+    redirectTo: 'not-found'
+  },
+  {
+    path: 'company-followup-note',
+    loadChildren: () => import('./pages/logged-in/company/company-followup-note/company-followup-note.module').then( m => m.CompanyFollowupNotePageModule)
+  }
 ];
 
 @NgModule({

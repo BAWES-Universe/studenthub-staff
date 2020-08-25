@@ -44,21 +44,21 @@
 
           <ion-menu-toggle auto-hide="false">
             <ion-item routerDirection="root" routerLink="/candidate-list" routerLinkActive="active" detail="false">
-              <ion-icon slot="start" name="person"></ion-icon>
+              <ion-icon slot="start" name="person-outline"></ion-icon>
               <ion-label>Candidates [Deprecated]</ion-label>
             </ion-item>
           </ion-menu-toggle>
 
           <ion-menu-toggle auto-hide="false">
             <ion-item routerDirection="root" routerLink="/candidate-search" routerLinkActive="active" detail="false">
-              <ion-icon slot="start" name="person"></ion-icon>
+              <ion-icon slot="start" name="person-outline"></ion-icon>
               <ion-label>Candidates [Beta]</ion-label>
             </ion-item>
           </ion-menu-toggle>
 
           <ion-menu-toggle auto-hide="false">
             <ion-item routerDirection="root" *ngIf="totalCandidateToReview > 0" routerLink="/candidate-review-list" routerLinkActive="active" detail="false">
-              <ion-icon name="person" slot="start"></ion-icon>
+              <ion-icon name="person-outline" slot="start"></ion-icon>
               <ion-label>
                 Candidates Requiring Review
               </ion-label>
@@ -71,7 +71,7 @@
 
           <ion-menu-toggle auto-hide="false" *ngIf="assignedIncompleteCandidates > 0">
             <ion-item routerDirection="root" routerLink="/incomplete-candidate-list" routerLinkActive="active" detail="false">
-              <ion-icon slot="start" name="person"></ion-icon>
+              <ion-icon slot="start" name="person-outline"></ion-icon>
               <ion-label>Assigned Incomplete Candidates</ion-label>
               <ion-badge color="danger">{{assignedIncompleteCandidates}}</ion-badge>
             </ion-item>
@@ -79,7 +79,7 @@
 
           <ion-menu-toggle auto-hide="false" *ngIf="candidateBankInfo > 0">
             <ion-item routerDirection="root" routerLink="/candidate-bank-info-list" routerLinkActive="active" detail="false">
-              <ion-icon slot="start" name="person"></ion-icon>
+              <ion-icon slot="start" name="person-outline"></ion-icon>
               <ion-label>Candidates Missing Bank Info</ion-label>
               <ion-badge color="danger">{{candidateBankInfo}}</ion-badge>
             </ion-item>
@@ -87,7 +87,7 @@
 
           <ion-menu-toggle auto-hide="false" *ngIf="expiredIdCount && (expiredIdCount > 0)">
             <ion-item routerDirection="root" routerLink="/expired-id" routerLinkActive="active" detail="false">
-              <ion-icon name="repeat" slot="start"></ion-icon>
+              <ion-icon name="repeat-outline" slot="start"></ion-icon>
               Renew Expired ID
               <ion-badge slot="end" *ngIf="expiredIdCount && (expiredIdCount > 0)">
                 {{ expiredIdCount }}
@@ -100,30 +100,38 @@
           <ion-list-header>Client Management</ion-list-header>
           <ion-menu-toggle auto-hide="false">
             <ion-item routerDirection="root" routerLink="/company-list" routerLinkActive="active" detail="false">
-              <ion-icon slot="start" name="briefcase"></ion-icon>
+              <ion-icon slot="start" name="briefcase-outline"></ion-icon>
               <ion-label>Clients</ion-label>
             </ion-item>
           </ion-menu-toggle>
+          
+          <ion-menu-toggle auto-hide="false">
+            <ion-item routerDirection="root" routerLink="/company-followup-list" routerLinkActive="active" detail="false">
+              <ion-icon slot="start" name="briefcase-outline"></ion-icon>
+              <ion-label>Clients requiring followup</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+
         </ion-list>
         <ion-list class="labels-list">
           <ion-list-header>Reports</ion-list-header>
           <ion-menu-toggle auto-hide="false">
             <ion-item routerDirection="root" routerLink="/university-list" routerLinkActive="active" detail="false">
-              <ion-icon name="school" slot="start"></ion-icon>
+              <ion-icon name="school-outline" slot="start"></ion-icon>
               University
             </ion-item>
           </ion-menu-toggle>
 
           <ion-menu-toggle auto-hide="false">
             <ion-item routerDirection="root" routerLink="/country-list" routerLinkActive="active" detail="false">
-              <ion-icon name="globe" slot="start"></ion-icon>
+              <ion-icon name="globe-outline" slot="start"></ion-icon>
               Nationality
             </ion-item>
           </ion-menu-toggle>
 
           <ion-menu-toggle auto-hide="false">
             <ion-item routerDirection="root" routerLink="/change-password" routerLinkActive="active" detail="false">
-              <ion-icon name="key" slot="start"></ion-icon>
+              <ion-icon name="key-outline" slot="start"></ion-icon>
               Change Password
             </ion-item>
           </ion-menu-toggle>

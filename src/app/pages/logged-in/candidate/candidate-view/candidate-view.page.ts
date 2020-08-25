@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController, NavController, ToastController } from '@ionic/angular';
+import {AlertController, NavController, PopoverController, ToastController} from '@ionic/angular';
 import {ActivatedRoute, Router} from '@angular/router';
 // models
 import { Store } from 'src/app/models/store';
@@ -10,7 +10,7 @@ import { CandidateService } from 'src/app/providers/logged-in/candidate.service'
 import { AwsService } from 'src/app/providers/aws.service';
 import {EventService} from "../../../../providers/event.service";
 import {AuthService} from "../../../../providers/auth.service";
-
+import {OptionPage} from "../option/option.page";
 
 @Component({
   selector: 'app-candidate-view',
@@ -34,6 +34,8 @@ export class CandidateViewPage implements OnInit {
   public unassinging: boolean = false;
   public loading: boolean = false;
   public approving: boolean = false;
+  public sections = 'personal';
+  public processing = null;
 
   public updatingJobSearchStatus: boolean = false;
 
@@ -48,13 +50,23 @@ export class CandidateViewPage implements OnInit {
     public toastCtrl: ToastController,
     public eventService: EventService,
     public authService: AuthService,
+    public popoverCtrl: PopoverController,
   ) {
     this.candidate_id = this.activatedRoute.snapshot.paramMap.get('id');
   }
 
   ngOnInit() {
 
+    this.eventService.reloadCandidateHistory$.subscribe((res) => {
+      this.loadCandidateDetail();
+      this.loadWorkHistoryData();
+    });
+
+    this.eventService.reloadCandiate$.subscribe((res) => {
+      this.loadCandidateDetail();
+    });
   }
+
   ionViewDidEnter() {
     // const state = window.history.state;
     // if (state.model) {
@@ -106,10 +118,17 @@ export class CandidateViewPage implements OnInit {
     this.assigning = true;
 
     this.candidateService.assignCandidateToStore(this.candidate, store_id).subscribe(async response => {
+
       this.assigning = false;
+
       if (response.operation == 'success') {
-        this.candidate = response.candidate_detail;
+
+        this.candidate.store_id = store_id;
+
+        this.loadCandidateDetail();
+
         this.loadWorkHistoryData();
+
       } else {
         this.candidate.store_id = null;
         const alert = await this.alertCtrl.create({
@@ -119,49 +138,6 @@ export class CandidateViewPage implements OnInit {
         alert.present();
       }
     });
-  }
-
-  /**
-   * Unassign Candidate from store
-   */
-  async unassignCandidateFromStore() {
-    const confirm = await this.alertCtrl.create({
-      header: 'Are you sure?',
-      message: 'Remove candidate from store',
-      buttons: [
-        {
-          text: 'Cancel',
-          handler: () => {
-            // Handle the functionality when user click on 'cancel' button
-          }
-        },
-        {
-          text: 'Ok',
-          handler: async () => {
-            // Handle the functionality when user click on 'ok' button
-            this.unassinging = true;
-
-            // Unassign Candidate from store
-            this.candidateService.removeFromAssignedStore(this.candidate).subscribe(async response => {
-              // Dismiss the loader
-              this.unassinging = false;
-
-              if (response.operation == 'success') {
-                this.candidate = response.candidate_detail;
-                this.loadWorkHistoryData();
-              } else {
-                const prompt = await this.alertCtrl.create({
-                  message: this._processResponseMessage(response),
-                  buttons: ['Ok']
-                });
-                prompt.present();
-              }
-            });
-          }
-        }
-      ]
-    });
-    confirm.present();
   }
 
   /**
@@ -184,82 +160,6 @@ export class CandidateViewPage implements OnInit {
   }
 
   /**
-   * Show confirm alert to reset password
-   */
-  async resetPassword() {
-    const alert = await this.alertCtrl.create({
-      header: 'Confirm password reset',
-      message: 'Do you want to send new password to candidate?',
-      buttons: [
-        {
-          text: 'No',
-          role: 'cancel'
-        },
-        {
-          text: 'Yes',
-          handler: () => {
-            this.sendNewPassword();
-          }
-        }
-      ]
-    });
-    alert.present();
-  }
-
-  /**
-   * Reset and email the candidate a new password
-   */
-  async sendNewPassword() {
-    this.sendingPassword = true;
-
-    this.candidateService.resetPassword(this.candidate).subscribe(async response => {
-      this.sendingPassword = false;
-
-      if (response.operation == 'error') {
-        const toast = await this.toastCtrl.create({
-          message: response.message,
-          duration: 3000
-        });
-
-        toast.present();
-      }
-      else {
-        const alert = await this.alertCtrl.create({
-          header: 'Reset Password',
-          subHeader: 'New password sent to candidate',
-          buttons: ['Okay']
-        });
-        alert.present();
-      }
-    });
-  }
-
-  toggleJobSearchStatus() {
-
-    this.updatingJobSearchStatus = true;
-
-    const params = {
-      'candidate_id': this.candidate_id,
-      'job_search_status': this.candidate.candidate_job_search_status == 1? 0: 1
-    }
-    this.candidateService.updateJobSearchStatus(params).subscribe(async data => {
-
-      this.updatingJobSearchStatus = false;
-
-      if (data.operation == 'success') {
-        this.candidate.candidate_job_search_status = params.job_search_status;
-      } else {
-        const toast = await this.toastCtrl.create({
-          message: data.message,
-          duration: 3000
-        });
-
-        toast.present();
-      }
-    });
-  }
-
-  /**
    * Load candidate work history data
    */
   loadWorkHistoryData() {
@@ -268,8 +168,8 @@ export class CandidateViewPage implements OnInit {
     });
   }
 
-  loadCandidateDetail() {
-    this.loading = true;
+  loadCandidateDetail(loading = true) {
+    this.loading = loading;
     this.candidateService.detail(this.candidate_id).subscribe(response => {
       this.loading = false;
       this.candidate = response;
@@ -313,5 +213,69 @@ export class CandidateViewPage implements OnInit {
         // this.router.navigate(['/candidate-review-list']);
       }
     });
+  }
+
+  /**
+   * Display Popover with Additional Actions (Change Password and Logout)
+   * @param e
+   */
+  async openPopover(e) {
+    const popover = await this.popoverCtrl.create({
+      component: OptionPage,
+      componentProps : {
+        candidate: this.candidate
+      },
+      event: e
+    });
+    popover.present();
+  }
+
+  public segmentChanged($e){
+    this.sections = $e.detail.value;
+  }
+
+  updateRate($e) {
+      this.alertCtrl.create({
+        header: 'Set hourly rate',
+        inputs: [
+          {
+            name: 'rate',
+            type: 'text',
+            placeholder: 'Hourly Rate'
+          }
+        ],
+        buttons: [
+          {
+            text: 'Cancel',
+            role: 'cancel',
+            cssClass: 'secondary',
+            handler: () => {
+              console.log('Confirm Cancel');
+            }
+          }, {
+            text: 'Save',
+            handler: (data) => {
+              this.processing = 'setting_hours';
+              if (data.rate) {
+                this.candidateService.updateHour(this.candidate, data.rate).subscribe(response => {
+
+                  this.processing = false;
+
+                  if (response.operation == 'error') {
+                    this.toastCtrl.create({
+                      message: this.authService.errorMessage(response.message),
+                      duration: 3000
+                    }).then( toast => {
+                      toast.present();
+                    });
+                  } else {
+                    this.loadCandidateDetail(false);
+                  }
+                });
+              }
+            }
+          }
+        ]
+      }).then( alert => { alert.present(); });
   }
 }

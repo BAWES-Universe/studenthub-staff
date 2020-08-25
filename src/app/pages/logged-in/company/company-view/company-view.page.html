@@ -24,6 +24,12 @@
       </ion-label>
     </ion-item>
 
+    <ion-item *ngIf="company.company_followup">
+      <ion-button (click)="addFollowupNote()">
+        I have followed up with this company
+      </ion-button>
+    </ion-item>
+
     <ion-item>
       <ion-label>
         <h3>Last Followup</h3>
@@ -215,6 +221,7 @@
       </ion-item>
     </ion-list>
   </section>
+
   <!-- note -->
   <section *ngIf="!loading && company">
 

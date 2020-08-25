@@ -15,6 +15,7 @@ import { Brand } from 'src/app/models/brand';
 //pages
 import { UploadFilePage } from "../upload-file/upload-file.page";
 import { CompanyContactFormPage } from '../company-contact-form/company-contact-form.page';
+import { CompanyFollowupNotePage } from '../company-followup-note/company-followup-note.page';
 
 
 @Component({
@@ -94,6 +95,25 @@ export class CompanyViewPage implements OnInit {
       this.loading = false;
       this.deleting = false;
     });
+  }
+
+  /**
+   * add followup note
+   */
+  async addFollowupNote() {
+    const modal = await this.modalCtrl.create({
+      component: CompanyFollowupNotePage,
+      componentProps: { 
+        company_id: this.company_id
+      }
+    });
+    modal.onDidDismiss().then(e => {
+      if (e && e.data && e.data.company_last_followup_datetime && this.company) {
+        this.company.company_last_followup_datetime = e.data.company_last_followup_datetime;
+        this.loadData(true);
+      }
+    });
+    modal.present();
   }
 
   /**

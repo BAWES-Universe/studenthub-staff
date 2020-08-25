@@ -17,6 +17,8 @@ export class EventService {
   public internetOnline$ = new Subject();
   public userLoggedOut$ = new Subject();
   public accountAssignmentRemoved$ = new Subject();
+  public reloadCandidateHistory$ = new Subject();
+  public reloadCandiate$ = new Subject();
 
   public filterCollapse$ = new Subject();
 

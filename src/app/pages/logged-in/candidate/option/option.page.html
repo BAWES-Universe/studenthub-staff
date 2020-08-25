@@ -1,0 +1,31 @@
+<ion-content [attr.dir]="translateService.direction()">
+  <ion-list>
+    <ion-item [disabled]="sendingPassword" (click)="resetPassword()" tappable>
+        <span *ngIf="!sendingPassword">Send password reset email to candidate</span>
+        <ion-spinner *ngIf="sendingPassword"></ion-spinner>
+    </ion-item>
+    <ng-container *ngIf="candidate.store_id && candidate.store && !assigning">
+      <ion-item *ngIf="!unassinging && candidate.store" (click)="unassignCandidateFromStore()" tappable>
+        Unassign candidate from {{ candidate.store.store_name }}
+      </ion-item>
+      <ion-spinner *ngIf="unassinging"></ion-spinner>
+    </ng-container>
+  </ion-list>
+
+  <ng-container *ngIf="!candidate.candidate_job_search_status && candidate.isProfileCompleted">
+    <ion-item [disabled]="updatingJobSearchStatus" (click)="toggleJobSearchStatus('mark_as_looking')" tappable>
+      <ion-spinner *ngIf="updatingJobSearchStatus"></ion-spinner>
+      <span *ngIf="!updatingJobSearchStatus">
+        Mark as looking for job
+      </span>
+    </ion-item>
+  </ng-container>
+  <ng-container *ngIf="candidate.candidate_job_search_status && !candidate.store_id && candidate.isProfileCompleted" >
+    <ion-item [disabled]="updatingJobSearchStatus" (click)="toggleJobSearchStatus('mark_as_not_looking')" tappable>
+      <ion-spinner *ngIf="updatingJobSearchStatus"></ion-spinner>
+      <span *ngIf="!updatingJobSearchStatus">
+        Mark as not looking for job
+      </span>
+    </ion-item>
+  </ng-container>
+</ion-content>

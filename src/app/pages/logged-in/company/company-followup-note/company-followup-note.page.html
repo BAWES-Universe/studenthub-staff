@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button (click)="close()"></ion-back-button>
+    </ion-buttons>
+
+    <ion-title>Add followup note</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button clear color="primary" [disabled]="note && note.length == 0" (click)="save()">
+        <span *ngIf="!saving">Save</span>
+        <ion-spinner *ngIf="saving"></ion-spinner>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item>
+    <ion-textarea [(ngModel)]="note"></ion-textarea>
+  </ion-item>
+</ion-content>

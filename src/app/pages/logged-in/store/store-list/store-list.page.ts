@@ -18,6 +18,7 @@ import { CompanyContactFormPage } from '../../company/company-contact-form/compa
 import { CompanyContactService } from 'src/app/providers/logged-in/company-contact.service';
 import { AuthService } from 'src/app/providers/auth.service';
 import {CompanyNoteService} from '../../../../providers/logged-in/company-note.service';
+import { CompanyFollowupNotePage } from '../../company/company-followup-note/company-followup-note.page';
 
 
 
@@ -140,6 +141,25 @@ export class StoreListPage implements OnInit {
         prompt.present();
       }
     });
+  }
+
+  /**
+   * add followup note
+   */
+  async addFollowupNote() {
+    const modal = await this.modalCtrl.create({
+      component: CompanyFollowupNotePage,
+      componentProps: { 
+        company_id: this.company_id
+      }
+    });
+    modal.onDidDismiss().then(e => {
+      if (e && e.data && e.data.company_last_followup_datetime && this.company) {
+        this.company.company_last_followup_datetime = e.data.company_last_followup_datetime;
+        this.loadCompany();
+      }
+    });
+    modal.present();
   }
 
   /**
