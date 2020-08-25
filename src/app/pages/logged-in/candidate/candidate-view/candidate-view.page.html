@@ -55,7 +55,7 @@
     </ion-label>
   </ion-item>
 
-  <app-select-search-input *ngIf="!candidate.store_id && !candidate.store && !assigning"
+  <app-select-search-input *ngIf="!candidate.store_id && !candidate.store && !assigning && candidate.candidate_hourly_rate"
     placeholder="Assign to work at store"
     [(ngModel)]="candidate.store_id"
     (ngModelChange)="assignCandidateToStore($event)"
@@ -86,7 +86,13 @@
     <ion-item [class.pending]="!candidate.candidate_hourly_rate">
       <ion-label>
         <h5>Hourly Rate</h5>
-        <p>{{ candidate.candidate_hourly_rate }}</p>
+        <ion-spinner *ngIf="processing && processing == 'setting_hours'"></ion-spinner>
+        <p *ngIf="candidate.candidate_hourly_rate">{{ candidate.candidate_hourly_rate }}</p>
+        <p *ngIf="!candidate.candidate_hourly_rate">
+          <ion-button (click)="updateRate($event)" tappable color="danger">
+            <span>Set hourly rate</span>
+          </ion-button>
+        </p>
       </ion-label>
     </ion-item>
 

@@ -255,4 +255,15 @@ export class CandidateService {
   approve(model: Candidate): Observable<any>{
     return this._authhttp.patch(`${this._candidateEndpoint}/approve/${model.candidate_id}`, {});
   }
+
+  /**
+   * update candidate hourly rate
+   * @param model
+   * @param rate
+   */
+  updateHour(model: Candidate, rate: number): Observable<any>{
+    return this._authhttp.patch(`${this._candidateEndpoint}/update-hour-rate/${model.candidate_id}`, {
+      hourly_rate: rate
+    });
+  }
 }

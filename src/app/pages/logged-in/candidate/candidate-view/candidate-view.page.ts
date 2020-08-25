@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {AlertController, IonSegment, NavController, PopoverController, ToastController} from '@ionic/angular';
+import {AlertController, NavController, PopoverController, ToastController} from '@ionic/angular';
 import {ActivatedRoute, Router} from '@angular/router';
 // models
 import { Store } from 'src/app/models/store';
@@ -35,6 +35,7 @@ export class CandidateViewPage implements OnInit {
   public loading: boolean = false;
   public approving: boolean = false;
   public sections = 'personal';
+  public processing = null;
 
   public updatingJobSearchStatus: boolean = false;
 
@@ -167,8 +168,8 @@ export class CandidateViewPage implements OnInit {
     });
   }
 
-  loadCandidateDetail() {
-    this.loading = true;
+  loadCandidateDetail(loading = true) {
+    this.loading = loading;
     this.candidateService.detail(this.candidate_id).subscribe(response => {
       this.loading = false;
       this.candidate = response;
@@ -231,5 +232,50 @@ export class CandidateViewPage implements OnInit {
 
   public segmentChanged($e){
     this.sections = $e.detail.value;
+  }
+
+  updateRate($e) {
+      this.alertCtrl.create({
+        header: 'Set hourly rate',
+        inputs: [
+          {
+            name: 'rate',
+            type: 'text',
+            placeholder: 'Hourly Rate'
+          }
+        ],
+        buttons: [
+          {
+            text: 'Cancel',
+            role: 'cancel',
+            cssClass: 'secondary',
+            handler: () => {
+              console.log('Confirm Cancel');
+            }
+          }, {
+            text: 'Save',
+            handler: (data) => {
+              this.processing = 'setting_hours';
+              if (data.rate) {
+                this.candidateService.updateHour(this.candidate, data.rate).subscribe(response => {
+
+                  this.processing = false;
+
+                  if (response.operation == 'error') {
+                    this.toastCtrl.create({
+                      message: this.authService.errorMessage(response.message),
+                      duration: 3000
+                    }).then( toast => {
+                      toast.present();
+                    });
+                  } else {
+                    this.loadCandidateDetail(false);
+                  }
+                });
+              }
+            }
+          }
+        ]
+      }).then( alert => { alert.present(); });
   }
 }
