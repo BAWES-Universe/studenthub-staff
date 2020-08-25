@@ -9,15 +9,15 @@
 </ion-header>
 
 <ion-content>
-  
+
   <ion-list>
     <ion-item tappable *ngFor="let company of companies" (click)="rowSelected(company)">
 
       <ion-avatar slot="start">
-        <img *ngIf="company.company_logo" src="{{ aws.cloudinaryUrl + company.company_logo }}" (error)="loadLogo($event,company)">
+        <img *ngIf="company.company_logo" src="{{ aws.cloudinaryUrl + company.company_logo }}" (error)="loadLogo(company)">
         <img *ngIf="!company.company_logo" src="/assets/icon/icon.png">
       </ion-avatar>
-  
+
       <ion-label>
         <h3>{{ company.company_name }}</h3>
         <p>@ {{ toDate(company.company_last_followup_datetime) | date: 'MMM d, y, h:mm:ss a' }}</p>
@@ -35,7 +35,7 @@
           {{ company.stores.length }} stores
         </ion-badge>
       </ng-container>
-  
+
       <ng-container *ngIf="platform.width() <= 449">
         <div slot="end" class="end">
           <ion-badge *ngIf="company.total_candidates > 0">
@@ -50,7 +50,7 @@
         </div>
       </ng-container>
     </ion-item>
-  
+
     <loading-modal [loading]="loading" type="text-list"></loading-modal>
 
   </ion-list>

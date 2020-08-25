@@ -8,6 +8,10 @@
       <ion-button [disabled]="!candidate" (click)="update()">
         Update
       </ion-button>
+
+      <ion-button (click)="openPopover($event)">
+        <ion-icon name="options-outline"></ion-icon>
+      </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -39,13 +43,6 @@
       </a>
     </ion-item>
 
-    <ion-item>
-      <ion-button [disabled]="sendingPassword" expand="full" color="danger" (click)="resetPassword()">
-        <span *ngIf="!sendingPassword">Send password reset email to candidate</span>
-        <ion-spinner *ngIf="sendingPassword"></ion-spinner>
-      </ion-button>
-    </ion-item>
-
   <ion-item-divider color="light">Store Assignment</ion-item-divider>
 
   <ion-item *ngIf="workHistory && workHistory.length > 0">
@@ -69,29 +66,6 @@
 
   <ion-item *ngIf="assigning">
     <ion-spinner></ion-spinner>
-  </ion-item>
-
-  <ion-item *ngIf="candidate.store_id && candidate.store && !assigning">
-    <ion-button *ngIf="!unassinging && candidate.store" expand="full" color="danger" (click)="unassignCandidateFromStore()">
-      Unassign candidate from {{ candidate.store.store_name }}
-    </ion-button>
-    <ion-spinner *ngIf="unassinging"></ion-spinner>
-  </ion-item>
-
-  <ion-item *ngIf="!updatingJobSearchStatus && !candidate.candidate_job_search_status && candidate.isProfileCompleted">
-    <ion-button [disabled]="updatingJobSearchStatus" expand="full" color="danger" (click)="toggleJobSearchStatus()">
-      <ion-spinner *ngIf="updatingJobSearchStatus"></ion-spinner>
-      <span>
-        Mark as looking for job
-      </span>
-    </ion-button>
-  </ion-item>
-  <ion-item *ngIf="!updatingJobSearchStatus && candidate.candidate_job_search_status && !candidate.store_id && candidate.isProfileCompleted">
-    <ion-button [disabled]="updatingJobSearchStatus" expand="full" color="danger" (click)="toggleJobSearchStatus()">
-      <span>
-        Mark as not looking for job
-      </span>
-    </ion-button>
   </ion-item>
 
   <ion-item [class.pending]="!candidate.candidate_hourly_rate">
