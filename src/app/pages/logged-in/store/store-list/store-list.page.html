@@ -11,6 +11,7 @@
 </ion-header>
 
 <ion-content>
+  
   <loading-modal [loading]="loading" type="text-list"></loading-modal>
 
   <div class="ion-text-center ion-padding" *ngIf="company">
@@ -195,7 +196,7 @@
 
     <ion-list>
       <ion-item-sliding *ngFor="let request of company.requests" [disabled]="platform.width() > 768">
-        <ion-item tappable (click)="addRequest(request)">
+        <ion-item tappable (click)="editRequest(request)">
           <ion-label>
             {{ request.request_position_title }}<br />
             <small>{{ request.request_created_datetime | date}}</small>

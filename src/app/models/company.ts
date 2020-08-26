@@ -1,5 +1,6 @@
 import { Store } from './store';
 import { CompanyContact } from './company-contact';
+import { Request } from './request';
 
 export class Company {
     company_id: number;
@@ -26,4 +27,5 @@ export class Company {
     brands: any[];
     notes: any[];
     companyContacts: CompanyContact[];
+    requests: Request[];
 }

@@ -368,6 +368,26 @@ export class StoreListPage implements OnInit {
     });
   }
 
+  async editRequest(request) {
+
+    this.company.companyContacts = this.companyContacts;
+
+    const modal = await this.modalCtrl.create({
+      component: CompanyRequestFormPage,
+      componentProps: {
+        company: this.company,
+        request: request,
+      }
+    });
+    modal.present();
+
+    const { data } = await modal.onWillDismiss();
+
+    if (data && data.refresh) {
+      this.loadCompany();
+    }
+  }
+
   async addRequest() {
 
     let request = new Request;

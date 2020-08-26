@@ -223,7 +223,7 @@
 
       <ion-list>
         <ion-item-sliding [disabled]="platform.width() > 768" *ngFor="let request of company.requests">
-          <ion-item tappable (click)="addRequest(request)">
+          <ion-item tappable (click)="editRequest(request)">
             <ion-label>
               {{ request.request_position_title }}<br />
               <small>{{ request.request_created_datetime | date}}</small>
