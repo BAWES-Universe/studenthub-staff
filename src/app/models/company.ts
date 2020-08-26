@@ -1,4 +1,5 @@
 import { Store } from './store';
+import { CompanyContact } from './company-contact';
 
 export class Company {
     company_id: number;
@@ -9,7 +10,6 @@ export class Company {
     company_description_en: string;
     company_description_ar: string;
     company_website: string;
-  // tslint:disable-next-line:variable-name
     company_email: string;
     company_logo: string;
     company_status: number;
@@ -25,4 +25,5 @@ export class Company {
     files: any[];
     brands: any[];
     notes: any[];
+    companyContacts: CompanyContact[];
 }

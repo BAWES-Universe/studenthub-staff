@@ -5,17 +5,20 @@ import { ActivatedRoute } from '@angular/router';
 import { Company } from 'src/app/models/company';
 import { CompanyContact } from 'src/app/models/company-contact';
 import { Note } from "../../../../models/note";
+import { Request } from 'src/app/models/request';
 // service
 import { CompanyService } from 'src/app/providers/logged-in/company.service';
 import { AwsService } from '../../../../providers/aws.service';
 import { CompanyNoteService } from "../../../../providers/logged-in/company-note.service";
 import { CompanyContactService } from 'src/app/providers/logged-in/company-contact.service';
 import { AuthService } from 'src/app/providers/auth.service';
+import { CompanyRequestService } from 'src/app/providers/logged-in/company-request.service';
 //pages
 import { UploadFilePage } from '../upload-file/upload-file.page';
 import { CompanyNoteFormPage } from "../company-note-form/company-note-form.page";
 import { CompanyContactFormPage } from '../company-contact-form/company-contact-form.page';
 import { CompanyFollowupNotePage } from '../company-followup-note/company-followup-note.page';
+import { CompanyRequestFormPage } from '../company-request-form/company-request-form.page';
 
 
 @Component({
@@ -47,6 +50,7 @@ export class CompanyListPage implements OnInit {
     public companyService: CompanyService,
     public noteService: CompanyNoteService,
     public authService: AuthService,
+    public requestService: CompanyRequestService,
     public companyContactService: CompanyContactService,
     public platform: Platform,
     public aws: AwsService,
@@ -153,14 +157,20 @@ export class CompanyListPage implements OnInit {
       this.companies = state.companies;
       this.loadCompaniesSegmentData();
     }
-
-    if (!this.companies && this.company_id) {
-      this.viewDetail(true);
-      this.loadContacts();
-    }
-
+    
     if (!this.companies && !this.company_id) {
       this.loadCompanyList(this.currentPage);
+    }
+
+    if(this.company_id) {
+
+      if(this.company) {
+        this.viewDetail(false);//silent loading 
+      } else {
+        this.viewDetail(true);//loading with loader
+      }
+
+      this.loadContacts();
     }
   }
 
@@ -219,12 +229,16 @@ export class CompanyListPage implements OnInit {
    * view detail
    */
   viewDetail(loading = true) {
+
     this.loading = loading;
+
     this.companyService.view(this.company_id).subscribe(response => {
       this.loading = false;
       this.company = response;
 
       this.companies = response.subCompanies;
+
+      this.loadCompaniesSegmentData();
     });
   }
 
@@ -295,7 +309,6 @@ export class CompanyListPage implements OnInit {
       }
     );
   }
-
   async addNote(note: Note) {
     const modal = await this.modalCtrl.create({
       component: CompanyNoteFormPage,
@@ -323,6 +336,53 @@ export class CompanyListPage implements OnInit {
     event.stopPropagation();
 
     this.noteService.delete(note).subscribe(async response => {
+
+      if (response.operation == 'success') {
+        this.viewDetail(false);
+      } else {
+        this.toastCtrl.create({
+          message: response.message,
+          buttons: ['Ok']
+        }).then(prompt => {
+          prompt.present();
+        });
+      }
+    });
+  }
+
+  async addRequest() {
+
+    let request = new Request;
+
+    this.company.companyContacts = this.companyContacts;
+
+    const modal = await this.modalCtrl.create({
+      component: CompanyRequestFormPage,
+      componentProps: {
+        company: this.company,
+        request: request,
+      }
+    });
+    modal.present();
+
+    const { data } = await modal.onWillDismiss();
+
+    if (data && data.refresh) {
+      this.viewDetail(false);
+    }
+  }
+
+  /**
+   * removing request
+   * @param event
+   * @param request
+   */
+  async remoteRequest(event, request) {
+
+    event.preventDefault();
+    event.stopPropagation();
+
+    this.requestService.delete(request).subscribe(async response => {
 
       if (response.operation == 'success') {
         this.viewDetail(false);

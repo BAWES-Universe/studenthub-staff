@@ -10,6 +10,7 @@ export class BankService {
   private _bankEndpoint = '/banks';
 
   constructor(private _authhttp: AuthHttpService) { }
+  
   /**
    * List of all banks without pagination
    * @returns {Observable<any>}

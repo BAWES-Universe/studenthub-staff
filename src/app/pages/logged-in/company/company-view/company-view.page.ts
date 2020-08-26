@@ -1,21 +1,24 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Platform, ModalController, AlertController } from '@ionic/angular';
+import { Platform, ModalController, AlertController, ToastController } from '@ionic/angular';
 //services
 import { StoreService } from 'src/app/providers/logged-in/store.service';
 import { CompanyService } from 'src/app/providers/logged-in/company.service';
 import { CompanyContactService } from 'src/app/providers/logged-in/company-contact.service';
 import { AwsService } from 'src/app/providers/aws.service';
 import { AuthService } from 'src/app/providers/auth.service';
+import { CompanyRequestService } from 'src/app/providers/logged-in/company-request.service';
 //models
 import { CompanyContact } from 'src/app/models/company-contact';
 import { Company } from 'src/app/models/company';
 import { Store } from 'src/app/models/store';
 import { Brand } from 'src/app/models/brand'; 
+import { Request } from 'src/app/models/request';
 //pages
 import { UploadFilePage } from "../upload-file/upload-file.page";
 import { CompanyContactFormPage } from '../company-contact-form/company-contact-form.page';
 import { CompanyFollowupNotePage } from '../company-followup-note/company-followup-note.page';
+import { CompanyRequestFormPage } from '../company-request-form/company-request-form.page';
 
 
 @Component({
@@ -42,11 +45,13 @@ export class CompanyViewPage implements OnInit {
   constructor(
     public platform: Platform,
     public modalCtrl: ModalController,
+    public toastCtrl: ToastController,
     public alertCtrl: AlertController,
     public router: Router,
     public activatedRoute: ActivatedRoute, 
     public companyService: CompanyService,
     public authService: AuthService,
+    public requestService: CompanyRequestService,
     public companyContactService: CompanyContactService,
     public storeService: StoreService,
     public awsService: AwsService
@@ -243,5 +248,52 @@ export class CompanyViewPage implements OnInit {
     if (data && data.refresh) {
       this.loadData();
     }
+  }
+
+  async addRequest() {
+
+    let request = new Request;
+
+    this.company.companyContacts = this.companyContacts;
+
+    const modal = await this.modalCtrl.create({
+      component: CompanyRequestFormPage,
+      componentProps: {
+        company: this.company,
+        request: request,
+      }
+    });
+    modal.present();
+
+    const { data } = await modal.onWillDismiss();
+
+    if (data && data.refresh) {
+      this.viewDetail();
+    }
+  }
+
+  /**
+   * removing request
+   * @param event
+   * @param request
+   */
+  async remoteRequest(event, request) {
+
+    event.preventDefault();
+    event.stopPropagation();
+
+    this.requestService.delete(request).subscribe(async response => {
+
+      if (response.operation == 'success') {
+        this.viewDetail();
+      } else {
+        this.toastCtrl.create({
+          message: response.message,
+          buttons: ['Ok']
+        }).then(prompt => {
+          prompt.present();
+        });
+      }
+    });
   }
 }

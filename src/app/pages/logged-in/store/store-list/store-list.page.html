@@ -13,9 +13,10 @@
 <ion-content>
   <loading-modal [loading]="loading" type="text-list"></loading-modal>
 
-  <div class="ion-text-center"  *ngIf="company">
-    <img *ngIf="company.company_logo" src="{{ aws.cloudinaryUrl + company.company_logo }}" (error)="loadLogo($event,company)" width="80">
-    <img *ngIf="!company.company_logo" src="/assets/icon/icon.png"  width="80">
+  <div class="ion-text-center ion-padding" *ngIf="company">
+    <img *ngIf="company.company_logo" src="{{ aws.cloudinaryUrl + company.company_logo }}"
+      (error)="loadLogo($event,company)" width="80">
+    <img *ngIf="!company.company_logo" src="/assets/icon/icon.png" width="80">
   </div>
 
   <section *ngIf="company && company.company_email">
@@ -37,7 +38,7 @@
         I have followed up with this company
       </ion-button>
     </ion-item>
-    
+
     <ion-item>
       <ion-label>
         <h3>Last Followup</h3>
@@ -59,25 +60,25 @@
     </ion-item>
     <ion-item>
       <ion-label>
-        <h3>Common Name En.</h3>
+        <h3>Common Name [English]</h3>
         <p>{{ company.company_common_name_en }}</p>
       </ion-label>
     </ion-item>
     <ion-item>
       <ion-label>
-        <h3>Common Name Ar.</h3>
+        <h3>Common Name [Arabic]</h3>
         <p>{{ company.company_common_name_ar }}</p>
       </ion-label>
     </ion-item>
     <ion-item>
       <ion-label>
-        <h3>Description En.</h3>
+        <h3>Description [English]</h3>
         <p>{{ company.company_description_en }}</p>
       </ion-label>
     </ion-item>
     <ion-item>
       <ion-label>
-        <h3>Description Ar.</h3>
+        <h3>Description [Arabic]</h3>
         <p>{{ company.company_description_ar }}</p>
       </ion-label>
     </ion-item>
@@ -99,7 +100,7 @@
         <ion-label>
           <ion-icon name="caret-forward-outline"></ion-icon> &nbsp;
           <a target="_blank" (click)="$event.stopPropagation()"
-             href="{{ aws.permanentBucketUrl }}{{ file.file_s3_path }}">
+            href="{{ aws.permanentBucketUrl }}{{ file.file_s3_path }}">
             {{file.file_title}}
           </a>
         </ion-label>
@@ -127,7 +128,7 @@
 
   <!-- Contact List -->
 
-  <section>
+  <section *ngIf="!loading && company">
 
     <ion-item-divider color="light">
       <ion-label>
@@ -182,9 +183,48 @@
     </ion-list>
   </section>
 
-  <!-- note List -->
   <section *ngIf="!loading && company">
+  
+    <!-- request List -->
+  
+    <ion-item-divider color="light">
+      <ion-label>
+        Requests
+      </ion-label>
+    </ion-item-divider>
 
+    <ion-list>
+      <ion-item-sliding *ngFor="let request of company.requests" [disabled]="platform.width() > 768">
+        <ion-item tappable (click)="addRequest(request)">
+          <ion-label>
+            {{ request.request_position_title }}<br />
+            <small>{{ request.request_created_datetime | date}}</small>
+          </ion-label>
+
+          <ion-buttons slot="end" *ngIf="platform.width() > 768">
+            <ion-button color="danger" (click)="remoteRequest($event, request)">
+              <ion-icon slot="start" name="trash-outline"></ion-icon>
+              Delete
+            </ion-button>
+          </ion-buttons>
+
+        </ion-item>
+        <ion-item-options side="end">
+          <ion-button color="danger" (click)="remoteRequest($event, request)">
+            <ion-icon slot="start" name="trash-outline"></ion-icon>
+            Delete
+          </ion-button>
+        </ion-item-options>
+      </ion-item-sliding>
+      <ion-item>
+        <ion-button expand="full" color="danger" (click)="addRequest()">
+          <span>Add New Request</span>
+        </ion-button>
+      </ion-item>
+    </ion-list>
+
+    <!-- note List -->
+    
     <ion-item-divider color="light">
       <ion-label>
         Notes
@@ -192,12 +232,20 @@
     </ion-item-divider>
 
     <ion-list>
-      <ion-item-sliding *ngFor="let note of company.notes">
-        <ion-item tappable  (click)="addNote(note)">
+      <ion-item-sliding *ngFor="let note of company.notes" [disabled]="platform.width() > 768">
+        <ion-item tappable (click)="addNote(note)">
           <ion-label>
-            {{ note.note_text }}<br/>
+            {{ note.note_text }}<br />
             <small>{{ note.note_created_datetime | date}}</small>
           </ion-label>
+
+          <ion-buttons slot="end" *ngIf="platform.width() > 768">
+            <ion-button color="danger" (click)="remoteNote($event, note)">
+              <ion-icon slot="start" name="trash-outline"></ion-icon>
+              Delete
+            </ion-button>
+          </ion-buttons>
+
         </ion-item>
         <ion-item-options side="end">
           <ion-button color="danger" (click)="remoteNote($event, note)">
@@ -222,7 +270,7 @@
           Stores
         </ion-label>
       </ion-item-divider>
-      <ion-item-sliding *ngFor="let store of stores">
+      <ion-item-sliding *ngFor="let store of stores" [disabled]="platform.width() > 768">
         <ion-item tappable (click)="rowSelected(store)">
 
           {{ store.store_name }}
@@ -230,10 +278,18 @@
           <ion-badge slot="end" *ngIf="store.candidates?.length > 0">
             <ion-icon name="person"></ion-icon> {{ store.candidates.length }}
           </ion-badge>
+
+          <ion-buttons slot="end" *ngIf="platform.width() > 768">
+            <ion-button color="danger" (click)="delete($event, note)">
+              <ion-icon slot="start" name="trash-outline"></ion-icon>
+              Delete
+            </ion-button>
+          </ion-buttons>
+
         </ion-item>
 
         <ion-item-options side="end">
-          <ion-button color="danger" (click)="delete(store)">
+          <ion-button color="danger" (click)="delete($event, store)">
             <ion-icon name="trash"></ion-icon>
             Delete
           </ion-button>

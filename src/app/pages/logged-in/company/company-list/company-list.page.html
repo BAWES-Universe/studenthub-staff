@@ -22,9 +22,10 @@
       </ion-segment-button>
     </ion-segment>
   </ng-container>
+
   <loading-modal [loading]="loading || loadingMore" type="text-list"></loading-modal>
 
-  <div class="ion-text-center" *ngIf="company">
+  <div class="ion-text-center ion-padding" *ngIf="company">
     <img *ngIf="company.company_logo" src="{{ aws.cloudinaryUrl + company.company_logo }}"
       (error)="loadLogo($event,company)" width="80">
     <img *ngIf="!company.company_logo" src="/assets/icon/icon.png" width="80">
@@ -69,30 +70,35 @@
         <p>{{ company.company_email }}</p>
       </ion-label>
     </ion-item>
+
     <ion-item>
       <ion-label>
-        <h3>Common Name En.</h3>
+        <h3>Common Name [English]</h3>
         <p>{{ company.company_common_name_en }}</p>
       </ion-label>
     </ion-item>
+
     <ion-item>
       <ion-label>
-        <h3>Common Name Ar.</h3>
+        <h3>Common Name [Arabic]</h3>
         <p>{{ company.company_common_name_ar }}</p>
       </ion-label>
     </ion-item>
+
     <ion-item>
       <ion-label>
-        <h3>Description En.</h3>
+        <h3>Description [English]</h3>
         <p>{{ company.company_description_en }}</p>
       </ion-label>
     </ion-item>
+
     <ion-item>
       <ion-label>
-        <h3>Description Ar.</h3>
+        <h3>Description [Arabic]</h3>
         <p>{{ company.company_description_ar }}</p>
       </ion-label>
     </ion-item>
+
     <ion-item href='{{ company.company_website }}'>
       <ion-label>
         <h3>Website</h3>
@@ -126,7 +132,7 @@
 
     <!-- Brand List -->
 
-    <section *ngIf="company.brands.length > 0">
+    <section *ngIf="company.brands && company.brands.length > 0">
 
       <ion-item-divider color="light">
         <ion-label>
@@ -205,6 +211,47 @@
       </ion-list>
     </section>
 
+    <!-- request List -->
+    
+    <section *ngIf="!loading && company">
+
+      <ion-item-divider color="light">
+        <ion-label>
+          Requests
+        </ion-label>
+      </ion-item-divider>
+
+      <ion-list>
+        <ion-item-sliding [disabled]="platform.width() > 768" *ngFor="let request of company.requests">
+          <ion-item tappable (click)="addRequest(request)">
+            <ion-label>
+              {{ request.request_position_title }}<br />
+              <small>{{ request.request_created_datetime | date}}</small>
+            </ion-label>
+
+            <ion-buttons slot="end" *ngIf="platform.width() > 768">
+              <ion-button color="danger" (click)="remoteRequest($event, request)">
+                <ion-icon slot="start" name="trash-outline"></ion-icon>
+                Delete
+              </ion-button>
+            </ion-buttons>
+
+          </ion-item>
+          <ion-item-options side="end">
+            <ion-button color="danger" (click)="remoteRequest($event, request)">
+              <ion-icon slot="start" name="trash-outline"></ion-icon>
+              Delete
+            </ion-button>
+          </ion-item-options>
+        </ion-item-sliding>
+        <ion-item>
+          <ion-button expand="full" color="danger" (click)="addRequest()">
+            <span>Add New Request</span>
+          </ion-button>
+        </ion-item>
+      </ion-list>
+    </section>
+
     <!-- note List -->
     <section *ngIf="!loading && company">
 
@@ -215,12 +262,20 @@
       </ion-item-divider>
 
       <ion-list>
-        <ion-item-sliding *ngFor="let note of company.notes">
+        <ion-item-sliding [disabled]="platform.width() > 768" *ngFor="let note of company.notes">
           <ion-item tappable (click)="addNote(note)">
             <ion-label>
               {{ note.note_text }}<br />
               <small>{{ note.note_created_datetime | date}}</small>
             </ion-label>
+
+            <ion-buttons slot="end" *ngIf="platform.width() > 768">
+              <ion-button color="danger" (click)="remoteNote($event, note)">
+                <ion-icon slot="start" name="trash-outline"></ion-icon>
+                Delete
+              </ion-button>
+            </ion-buttons>
+
           </ion-item>
           <ion-item-options side="end">
             <ion-button color="danger" (click)="remoteNote($event, note)">
@@ -236,7 +291,6 @@
         </ion-item>
       </ion-list>
     </section>
-
 
     <ion-item-divider color="light">
       <ion-label>

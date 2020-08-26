@@ -222,6 +222,39 @@
     </ion-list>
   </section>
 
+  <!-- request List -->
+  
+  <section *ngIf="!loading && company">
+
+    <ion-item-divider color="light">
+      <ion-label>
+        Requests
+      </ion-label>
+    </ion-item-divider>
+
+    <ion-list>
+      <ion-item-sliding *ngFor="let request of company.requests">
+        <ion-item tappable (click)="addRequest(request)">
+          <ion-label>
+            {{ request.request_position_title }}<br />
+            <small>{{ request.request_created_datetime | date}}</small>
+          </ion-label>
+        </ion-item>
+        <ion-item-options side="end">
+          <ion-button color="danger" (click)="remoteRequest($event, request)">
+            <ion-icon slot="start" name="trash-outline"></ion-icon>
+            Delete
+          </ion-button>
+        </ion-item-options>
+      </ion-item-sliding>
+      <ion-item>
+        <ion-button expand="full" color="danger" (click)="addRequest()">
+          <span>Add New Request</span>
+        </ion-button>
+      </ion-item>
+    </ion-list>
+  </section>
+
   <!-- note -->
   <section *ngIf="!loading && company">
 
