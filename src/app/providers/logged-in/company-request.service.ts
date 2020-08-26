@@ -45,7 +45,9 @@ export class CompanyRequestService {
    */
   cancel(model: Request): Observable<any> {
     const url = `${this.companyRequestEndpoint}/cancel/${model.request_uuid}`;
-    return this.authhttp.patch(url, {});
+    return this.authhttp.patch(url, {
+      feedback: model.request_feedback
+    });
   }
 
   /**
@@ -54,9 +56,11 @@ export class CompanyRequestService {
    */
   deliver(model: Request): Observable<any> {
     const url = `${this.companyRequestEndpoint}/deliver/${model.request_uuid}`;
-    return this.authhttp.patch(url, {});
+    return this.authhttp.patch(url, {
+      feedback: model.request_feedback
+    });
   }
-  
+
   /**
    * update request
    * @param model
