@@ -31,10 +31,19 @@
       </ion-label>
     </ion-item>
     <ion-item [class.pending]="!candidate.candidate_phone">
-      <a href='tel:{{ candidate.candidate_phone }}' target='_blank'>
-        <ion-icon name="call" slot="start"></ion-icon>
-        {{ candidate.candidate_phone }}
-      </a>
+      <ion-label>
+        <p class="phone-number">
+          <a href='tel:{{ candidate.candidate_phone }}' target='_blank'>
+            <ion-icon name="call" slot="start"></ion-icon>
+            {{ candidate.candidate_phone }}
+          </a>
+        </p>
+        <p class="phone-number-whatsapp">
+          <a href='https://api.whatsapp.com/send?phone={{ candidate.candidate_phone }}' target='_blank'>
+            <ion-icon name="logo-whatsapp"></ion-icon>
+          </a>
+        </p>
+      </ion-label>
     </ion-item>
     <ion-item [class.pending]="!candidate.candidate_email">
       <a href='mailto:{{ candidate.candidate_email }}' target='_blank'>

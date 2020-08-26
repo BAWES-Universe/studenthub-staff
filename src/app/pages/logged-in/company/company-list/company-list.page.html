@@ -49,7 +49,7 @@
         I have followed up with this company
       </ion-button>
     </ion-item>
-    
+
     <ion-item>
       <ion-label>
         <h3>Last Followup</h3>
@@ -126,7 +126,7 @@
 
     <!-- Brand List -->
 
-    <section *ngIf="company.brands.length > 0">
+    <section *ngIf="company.brands && company.brands.length > 0">
 
       <ion-item-divider color="light">
         <ion-label>
