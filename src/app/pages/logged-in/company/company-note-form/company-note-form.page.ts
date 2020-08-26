@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ModalController, AlertController } from '@ionic/angular';
 import { CompanyNoteService } from 'src/app/providers/logged-in/company-note.service';
 import {Note} from 'src/app/models/note';
+import {AuthService} from "../../../../providers/auth.service";
 
 
 @Component({
@@ -24,7 +25,8 @@ export class CompanyNoteFormPage implements OnInit {
     public noteService: CompanyNoteService,
     private fb: FormBuilder,
     private modalCtrl: ModalController,
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
+    private authService: AuthService
   ) {
 
   }
@@ -89,7 +91,7 @@ export class CompanyNoteFormPage implements OnInit {
       // On Failure
       if (jsonResponse.operation == 'error') {
         const prompt = await this.alertCtrl.create({
-          message: JSON.stringify(jsonResponse.message),
+          message: this.authService._processResponseMessage(jsonResponse),
           buttons: ['Ok']
         });
         prompt.present();

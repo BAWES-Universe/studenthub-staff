@@ -318,4 +318,15 @@ export class AuthService {
 
     return throwError(errMsg);
   }
+
+  _processResponseMessage(response) {
+    let html = '';
+      for (const i in response.message) {
+        for (const j of response.message[i]) {
+          html += j + '<br />';
+        }
+      }
+
+    return html;
+  }
 }

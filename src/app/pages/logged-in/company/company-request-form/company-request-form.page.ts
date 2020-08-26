@@ -5,6 +5,7 @@ import { ModalController, AlertController } from '@ionic/angular';
 import { CompanyRequestService } from 'src/app/providers/logged-in/company-request.service';
 //models
 import { Request } from 'src/app/models/request';
+import {AuthService} from "../../../../providers/auth.service";
 
 
 @Component({
@@ -28,7 +29,8 @@ export class CompanyRequestFormPage implements OnInit {
     public requestService: CompanyRequestService,
     private fb: FormBuilder,
     private modalCtrl: ModalController,
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
+    private authService: AuthService
   ) {
   }
 
@@ -101,7 +103,7 @@ export class CompanyRequestFormPage implements OnInit {
       // On Failure
       if (jsonResponse.operation == 'error') {
         const prompt = await this.alertCtrl.create({
-          message: JSON.stringify(jsonResponse.message),
+          message: this.authService._processResponseMessage(jsonResponse),
           buttons: ['Ok']
         });
         prompt.present();
