@@ -23,6 +23,7 @@ export class OptionPage implements OnInit {
   public sendingPassword = false;
   public unassinging = false;
   public assigning = false;
+  public expiring = false;
 
   constructor(
     public translateService: TranslateLabelService,
@@ -134,6 +135,47 @@ export class OptionPage implements OnInit {
                 });
                 prompt.present();
               }
+            });
+          }
+        }
+      ]
+    });
+    confirm.present();
+  }
+
+  /**
+   * set candidate card expire
+   */
+  async setExpire() {
+    const confirm = await this.alertCtrl.create({
+      header: 'Are you sure?',
+      message: 'Candidate card Expired?',
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: () => {
+            // Handle the functionality when user click on 'cancel' button
+          }
+        },
+        {
+          text: 'Yes',
+          handler: async () => {
+            // Handle the functionality when user click on 'ok' button
+            this.expiring = true;
+
+            // Unassign Candidate from store
+            this.candidateService.expired(this.candidate).subscribe(async response => {
+              this.dismiss();
+              // Dismiss the loader
+              this.expiring = false;
+              if (response.operation == 'success') {
+                this.eventService.reloadCandidateHistory$.next();
+              }
+              const prompt = await this.alertCtrl.create({
+                message: this._processResponseMessage(response),
+                buttons: ['Ok']
+              });
+              prompt.present();
             });
           }
         }

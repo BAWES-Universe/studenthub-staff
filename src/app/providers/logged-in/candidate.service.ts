@@ -266,4 +266,12 @@ export class CandidateService {
       hourly_rate: rate
     });
   }
+  /**
+   * update candidate hourly rate
+   * @param model
+   * @param rate
+   */
+  expired(model: Candidate): Observable<any>{
+    return this._authhttp.patch(`${this._candidateEndpoint}/expire-card/${model.candidate_id}`, {});
+  }
 }

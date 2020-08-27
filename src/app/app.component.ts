@@ -29,6 +29,7 @@ export class AppComponent implements OnInit {
   public assignedIncompleteCandidates = null;
   public candidateBankInfo = null;
   public printIdCount: any = 0;
+  public companyFollowUp: any = 0;
 
   constructor(
     public updates: SwUpdate,
@@ -213,6 +214,7 @@ export class AppComponent implements OnInit {
         this.assignedIncompleteCandidates = response.candidates_assigned_incomplete_profile;
         this.candidateBankInfo = response.candidate_without_bank;
         this.totalCandidateToReview = response.candidate_review_required;
+        this.companyFollowUp = response.company_follow_up;
       },
       error => {},
       () => {}
