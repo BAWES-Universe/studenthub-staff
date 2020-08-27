@@ -435,19 +435,53 @@ export class StoreListPage implements OnInit {
     event.preventDefault();
     event.stopPropagation();
 
-    this.requestService.cancel(request).subscribe(async response => {
+    this.alertCtrl.create({
+      header: 'Please provide feedback',
+      inputs: [
+        {
+          name: 'feedback',
+          type: 'textarea',
+          placeholder: 'Feedback'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            console.log('Confirm Cancel');
+          }
+        }, {
+          text: 'Save',
+          handler: (data) => {
+            if (data.feedback) {
+              request.request_feedback = data.feedback;
+              this.requestService.cancel(request).subscribe(async response => {
 
-      if (response.operation == 'success') {
-        request.request_status = 'cancelled';
-      } else {
-        this.toastCtrl.create({
-          message: response.message,
-          buttons: ['Ok']
-        }).then(prompt => {
-          prompt.present();
-        });
-      }
-    });
+                if (response.operation == 'success') {
+                  request.request_status = 'cancelled';
+                } else {
+                  this.toastCtrl.create({
+                    message: response.message,
+                    buttons: ['Ok']
+                  }).then(prompt => {
+                    prompt.present();
+                  });
+                }
+              });
+            } else  {
+              this.alertCtrl.create({
+                message: 'Please provide feedback',
+                buttons: ['ok']
+              }).then(alert => {
+                alert.present();
+              });
+            }
+          }
+        }
+      ]
+    }).then( alert => { alert.present(); });
   }
 
   deliveredRequest(event, request) {
@@ -455,18 +489,54 @@ export class StoreListPage implements OnInit {
     event.preventDefault();
     event.stopPropagation();
 
-    this.requestService.deliver(request).subscribe(async response => {
 
-      if (response.operation == 'success') {
-        request.request_status = 'delivered';
-      } else {
-        this.toastCtrl.create({
-          message: response.message,
-          buttons: ['Ok']
-        }).then(prompt => {
-          prompt.present();
-        });
-      }
-    });
+    this.alertCtrl.create({
+      header: 'Please provide feedback',
+      inputs: [
+        {
+          name: 'feedback',
+          type: 'textarea',
+          placeholder: 'Feedback'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            console.log('Confirm Cancel');
+          }
+        }, {
+          text: 'Save',
+          handler: (data) => {
+            if (data.feedback) {
+              request.request_feedback = data.feedback;
+              this.requestService.deliver(request).subscribe(async response => {
+
+                if (response.operation == 'success') {
+                  request.request_status = 'delivered';
+                } else {
+                  this.toastCtrl.create({
+                    message: response.message,
+                    buttons: ['Ok']
+                  }).then(prompt => {
+                    prompt.present();
+                  });
+                }
+              });
+            } else  {
+              this.alertCtrl.create({
+                message: 'Please provide feedback',
+                buttons: ['ok']
+              }).then(alert => {
+                alert.present();
+              });
+            }
+          }
+        }
+      ]
+    }).then( alert => { alert.present(); });
+
   }
 }

@@ -28,4 +28,10 @@
       </span>
     </ion-item>
   </ng-container>
+     <ion-item (click)="setExpire()" tappable>
+      <ion-spinner *ngIf="expiring"></ion-spinner>
+      <span *ngIf="!expiring">
+        Expire the card
+      </span>
+    </ion-item>
 </ion-content>
