@@ -16,22 +16,35 @@ import { CandidateIdCardService } from 'src/app/providers/logged-in/candidate.id
 })
 export class CandidateListPage implements OnInit {
 
-  public pageCountAssign = 0;
-  public pageCountUnAssign = 0;
-  public currentPageAssign = 1;
-  public currentPageUnAssign = 1;
+  public pageCount = 0;
+  public currentPage: any = 1;
   public totalCount = 0;
   public pages: number[] = [];
+  public filters: {
+    name: string,
+    email: string,
+    phone: number,
+    type: string
+  } = {
+    name: null,
+    email: null,
+    phone: null,
+    type: 'assigned'
+  };
+  public searchName = null;
+  public searchEmail = null;
+  public searchPhone = null;
+  public searchType = null;
 
   public assignedSearchBar = '';
   public unassignedSearchBar = '';
   public cndSegment = 'assigned';
   public candidates: Candidate[];
 
-  public loading: boolean = false;
+  public loading = false;
   public paginationLoading = false;
 
-  public downloading: boolean = false;
+  public downloading = false;
 
   constructor(
     public navCtrl: NavController,
@@ -42,16 +55,48 @@ export class CandidateListPage implements OnInit {
     public toastCtrl: ToastController,
     public alertCtrl: AlertController,
   ) {
-    // to open specific tab
-    const segment = this.activatedRoute.snapshot.paramMap.get('segment');
-    if (segment) {
-      this.cndSegment = segment;
-    }
   }
 
   ngOnInit() {
   }
 
+  /**
+   * Return url string to filter list
+   */
+  urlParams() {
+    let urlParams = '';
+
+    if (this.filters.name) {
+      urlParams += '&name=' + this.filters.name;
+    }
+
+    if (this.filters.email) {
+      urlParams += '&email=' + this.filters.email;
+    }
+
+    if (this.filters.phone) {
+      urlParams += '&phone=' + this.filters.phone;
+    }
+
+    if (this.filters.type) {
+      urlParams += '&type=' + this.filters.type;
+    }
+
+    return urlParams;
+  }
+
+  /**
+   * Reset question filter
+   */
+  resetFilter() {
+    this.filters = {
+        name: null,
+        email: null,
+        phone: null,
+        type: 'assigned'
+      };
+    this.loadData(1); // reload all result
+  }
   /**
    * Generate id cards
    */
@@ -83,98 +128,27 @@ export class CandidateListPage implements OnInit {
   }
 
   search() {
-    this.currentPageAssign = 1;
-    this.loadData(this.currentPageAssign);
+    this.currentPage = 1;
+    this.loadData(this.currentPage);
   }
 
   loadData(page: number) {
-    if (this.cndSegment == 'not-assigned') {
-      this.loadNotAssigned(page, this.unassignedSearchBar);
-    } else {
-      this.loadAssigned(page, this.assignedSearchBar);
-    }
-  }
-
-  /**
-   * load unassigned data
-   * @param page
-   * @param search
-   */
-  async loadNotAssigned(page: number, search: string) {
-
-    this.currentPageUnAssign = page;
+    const search = this.urlParams();
+    this.currentPage = page;
 
     // Load list of candidates
     this.loading = true;
-    this.candidateService.listNotAssigned(search, page).subscribe(response => {
-      this.totalCount = response.headers.get('X-Pagination-Total-Count');
-      this.pageCountUnAssign = response.headers.get('X-Pagination-Page-Count');
-      this.currentPageUnAssign = response.headers.get('X-Pagination-Current-Page');
+    this.candidateService.listFilter(search, page).subscribe(response => {
 
-      this.pages = [];
+        this.totalCount = response.headers.get('X-Pagination-Total-Count');
+        this.pageCount = response.headers.get('X-Pagination-Page-Count');
+        this.currentPage = response.headers.get('X-Pagination-Current-Page');
 
-      for (let i = 1; i <= this.pageCountUnAssign; i++) {
-        this.pages.push(i);
-      }
-
-      // hide if no page = 1
-
-      if (this.pageCountUnAssign == 1) {
-        this.pages = [];
-      }
-
-      this.candidates = response.body;
-    },
-      error => { },
-      () => {
-        this.loading = false;
-      }
-    );
-  }
-
-  /**
-   * load assigned user data
-   * @param page
-   * @param search
-   */
-  async loadAssigned(page: number, search: string) {
-
-    this.currentPageAssign = page;
-
-    // Load list of candidates
-    this.loading = true;
-    this.candidateService.listAssigned(search, page).subscribe(response => {
-
-      this.totalCount = response.headers.get('X-Pagination-Total-Count');
-      this.pageCountAssign = response.headers.get('X-Pagination-Page-Count');
-      this.currentPageAssign = response.headers.get('X-Pagination-Current-Page');
-
-      this.pages = [];
-
-      for (let i = 1; i <= this.pageCountAssign; i++) {
-        this.pages.push(i);
-      }
-
-      // hide if no page = 1
-
-      if (this.pageCountAssign == 1) {
-        this.pages = [];
-      }
-
-      this.candidates = response.body;
-    },
+        this.candidates = response.body;
+      },
       error => { },
       () => { this.loading = false; }
     );
-  }
-
-  pageLinkColor(page: number) {
-
-    if (page == this.currentPageAssign) {
-      return 'light';
-    }
-
-    return '';
   }
 
   /**
@@ -184,47 +158,22 @@ export class CandidateListPage implements OnInit {
     this.navCtrl.navigateForward('candidate-form');
   }
 
-  loadSegment($event) {
-    this.cndSegment = $event.detail.value;
-    if ($event.detail.value == 'assigned') {
-      this.loadAssigned(1, this.assignedSearchBar);
-    } else if ($event.detail.value == 'not-assigned') {
-      this.loadNotAssigned(1, this.unassignedSearchBar);
-    }
-  }
 
-  doInfinite(event, type) {
-    this.paginationLoading = true;
-    if (type == 'assigned') {
+  doInfinite(event) {
+  const search = this.urlParams();
+  this.paginationLoading = true;
+  this.currentPage ++;
+  this.candidateService.listFilter(search, this.currentPage).subscribe(response => {
+      this.paginationLoading = false;
+      this.totalCount = response.headers.get('X-Pagination-Total-Count');
+      this.pageCount = response.headers.get('X-Pagination-Page-Count');
+      this.currentPage = response.headers.get('X-Pagination-Current-Page');
 
-      this.currentPageAssign ++;
-      this.candidateService.listAssigned(this.assignedSearchBar, this.currentPageAssign).subscribe(response => {
-          this.paginationLoading = false;
-          this.totalCount = response.headers.get('X-Pagination-Total-Count');
-          this.pageCountAssign = response.headers.get('X-Pagination-Page-Count');
-          this.currentPageAssign = response.headers.get('X-Pagination-Current-Page');
-
-          this.candidates = this.candidates.concat(response.body);
-        },
-        error => { },
-        () => { event.target.complete(); }
-      );
-    } else {
-      this.currentPageUnAssign ++;
-
-      this.candidateService.listNotAssigned(this.unassignedSearchBar, this.currentPageUnAssign).subscribe(response => {
-          this.paginationLoading = false;
-          this.totalCount = response.headers.get('X-Pagination-Total-Count');
-          this.pageCountUnAssign = response.headers.get('X-Pagination-Page-Count');
-          this.currentPageUnAssign = response.headers.get('X-Pagination-Current-Page');
-          this.candidates = this.candidates.concat(response.body);
-        },
-        error => { },
-        () => { event.target.complete(); }
-      );
-    }
-
-
+      this.candidates = this.candidates.concat(response.body);
+    },
+    error => { },
+    () => { event.target.complete(); }
+  );
   }
 }
 

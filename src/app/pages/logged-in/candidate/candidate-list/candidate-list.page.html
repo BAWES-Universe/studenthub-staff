@@ -16,29 +16,48 @@
 </ion-header>
 
 <ion-content>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Filter by</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <!-- Filter by Major -->
+        <ion-item>
+          <ion-label position="floating" color="primary">Name</ion-label>
+          <ion-input type="text" [(ngModel)]="filters.name"></ion-input>
+        </ion-item>
 
-  <ion-segment (ionChange)="loadSegment($event)" [value]="cndSegment"  color="primary">
-    <ion-segment-button value="assigned">
-      Already Assigned
-    </ion-segment-button>
-    <ion-segment-button value="not-assigned">
-      Not Assigned
-    </ion-segment-button>
-  </ion-segment>
+        <!-- Filter by Tag -->
+        <ion-item>
+          <ion-label position="floating" color="primary">Email</ion-label>
+          <ion-input type="text" [(ngModel)]="filters.email"></ion-input>
+        </ion-item>
 
-  <ion-searchbar *ngIf="cndSegment == 'assigned'"
-    [(ngModel)]="assignedSearchBar"
-    animated
-    debounce="200"
-    (ionChange)="search()">
-  </ion-searchbar>
+        <!-- Filter by Tag -->
+        <ion-item>
+          <ion-label position="floating" color="primary">phone</ion-label>
+          <ion-input type="text" [(ngModel)]="filters.phone"></ion-input>
+        </ion-item>
 
-  <ion-searchbar *ngIf="cndSegment == 'not-assigned'"
-    [(ngModel)]="unassignedSearchBar"
-    animated
-    debounce="200"
-    (ionChange)="search()">
-  </ion-searchbar>
+        <ion-item>
+          <ion-label>Type</ion-label>
+          <ion-select [(ngModel)]="filters.type" [value]="filters.type" okText="Okay" cancelText="Dismiss">
+            <ion-select-option value="assigned">Assigned</ion-select-option>
+            <ion-select-option value="un-assigned">UnAssigned</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+      </ion-list>
+
+    </ion-card-content>
+
+    <ion-card-header>
+      <ion-button (click)="loadData(1);">Submit</ion-button>
+      <ion-button (click)="resetFilter();" color="secondary">Reset</ion-button>
+    </ion-card-header>
+
+  </ion-card>
 
   <ion-list>
     <ng-container *ngIf="!loading">
@@ -51,13 +70,9 @@
 
   </ion-list>
 
-  <ion-infinite-scroll *ngIf="cndSegment == 'not-assigned' && currentPageUnAssign < pageCountUnAssign" (ionInfinite)="doInfinite($event, 'no-assigned')">
-    <ion-infinite-scroll-content></ion-infinite-scroll-content>
-  </ion-infinite-scroll>
-
-  <ion-infinite-scroll *ngIf="cndSegment == 'assigned' && currentPageAssign < pageCountAssign" (ionInfinite)="doInfinite($event , 'assigned')">
-    <ion-infinite-scroll-content></ion-infinite-scroll-content>
-  </ion-infinite-scroll>
+    <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
+      <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
 </ion-content>
 
 <ion-footer *ngIf="!loading">
