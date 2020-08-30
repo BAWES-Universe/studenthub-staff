@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Observable } from "rxjs";
-//services
-import { AuthHttpService } from "./authhttp.service";
-//model
-import { Candidate } from "src/app/models/candidate";
-import { Country } from "src/app/models/country";
+import { Observable } from 'rxjs';
+// services
+import { AuthHttpService } from './authhttp.service';
+// model
+import { Candidate } from 'src/app/models/candidate';
+import { Country } from 'src/app/models/country';
 
 
 @Injectable({
@@ -14,7 +14,7 @@ export class CandidateService {
 
   public algoliaConfig;
 
-  private _candidateEndpoint: string = "/candidates";
+  private _candidateEndpoint = '/candidates';
 
   constructor(private _authhttp: AuthHttpService) { }
 
@@ -42,6 +42,15 @@ export class CandidateService {
   list(): Observable<any> {
     const url = this._candidateEndpoint;
     return this._authhttp.getRaw(url + '?expand=store,company,candidateSkills,candidateExperiences');
+  }
+
+  /**
+   * List of all candidates
+   * @returns {Observable<any>}
+   */
+  listFilter(search: string, page: number): Observable<any> {
+    const url = this._candidateEndpoint + '/filter?page=' + page + search + '&expand=store,company,candidateSkills,candidateExperiences';
+    return this._authhttp.getRaw(url);
   }
 
   /**
@@ -159,7 +168,7 @@ export class CandidateService {
    * update job search status
    * @param params
    */
-  updateJobSearchStatus(params) : Observable<any> {
+  updateJobSearchStatus(params): Observable<any> {
     const url = `${this._candidateEndpoint}/job-search-status`;
     return this._authhttp.patch(url, {
       candidate_id: params.candidate_id,
@@ -205,7 +214,7 @@ export class CandidateService {
    */
   assignCandidateToStore(candidate: Candidate, store_id: number): Observable<any> {
     const params = {
-      store_id: store_id
+      store_id
     };
     const url = `${this._candidateEndpoint}/assign/${candidate.candidate_id}`;
     return this._authhttp.patch(url, params);
@@ -235,7 +244,7 @@ export class CandidateService {
    * @returns {Observable<any>}
    */
   listToReview(page: number): Observable<any>{
-    let url = this._candidateEndpoint + '/search?expand=store,company&by=review&review=0&page=' + page;
+    const url = this._candidateEndpoint + '/search?expand=store,company&by=review&review=0&page=' + page;
     return this._authhttp.getRaw(url);
   }
 
@@ -265,5 +274,13 @@ export class CandidateService {
     return this._authhttp.patch(`${this._candidateEndpoint}/update-hour-rate/${model.candidate_id}`, {
       hourly_rate: rate
     });
+  }
+  /**
+   * update candidate hourly rate
+   * @param model
+   * @param rate
+   */
+  expired(model: Candidate): Observable<any>{
+    return this._authhttp.patch(`${this._candidateEndpoint}/expire-card/${model.candidate_id}`, {});
   }
 }

@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+//services
 import { AuthHttpService } from './authhttp.service';
-import {File} from "../../models/file";
+//models
+import { File } from "../../models/file";
+
 
 @Injectable({
   providedIn: 'root'
@@ -16,15 +19,15 @@ export class CompanyService {
    * List of all companies
    * @returns {Observable<any>}
    */
-  list(page): Observable<any>{
-    return this._authhttp.getRaw(this._companyEndpoint + '?page=' + page + '&expand=subCompanies,subCompanies.stores,stores,subCompanies.stores.candidates,files,notes');
+  list(page): Observable<any> {
+    return this._authhttp.getRaw(this._companyEndpoint + '?page=' + page + '&expand=subCompanies,subCompanies.stores,stores,subCompanies.stores.candidates,files,requests,notes');
   }
 
   /**
    * List of all followup companies
    * @returns {Observable<any>}
    */
-  listFollowups(page): Observable<any>{
+  listFollowups(page): Observable<any> {
     const url = this._companyEndpoint + '/followups?page=' + page + '&expand=subCompanies,subCompanies.stores,stores';
     return this._authhttp.getRaw(url);
   }
@@ -34,7 +37,7 @@ export class CompanyService {
    * @param company_id
    */
   view(company_id) {
-    return this._authhttp.get(this._companyEndpoint + '/' + company_id + '?expand=brands,subCompanies,subCompanies.stores,stores,subCompanies.stores.candidates,files,notes');
+    return this._authhttp.get(this._companyEndpoint + '/' + company_id + '?expand=brands,subCompanies,subCompanies.stores,stores,subCompanies.stores.candidates,files,requests,notes');
   }
 
   /**
@@ -42,7 +45,7 @@ export class CompanyService {
    * @param id
    */
   companyDetail(id) {
-    return this._authhttp.get(this._companyEndpoint + '/' + id + '?expand=files,notes');
+    return this._authhttp.get(this._companyEndpoint + '/' + id + '?expand=files,requests,notes');
   }
 
   /**
@@ -50,7 +53,7 @@ export class CompanyService {
    * @param note 
    * @param company_id 
    */
-  addFollowupNote(note: string, company_id: number): Observable<any>{
+  addFollowupNote(note: string, company_id: number): Observable<any> {
     const url = `${this._companyEndpoint}/add-followup-note/${company_id}`;
     const params = {
       note: note
@@ -63,7 +66,7 @@ export class CompanyService {
    * @param {Company} model
    * @returns {Observable<any>}
    */
-  createFile(model: File): Observable<any>{
+  createFile(model: File): Observable<any> {
     const url = `${this._companyEndpoint}/file-create/${model.company_id}`;
     const params = {
       file_title: model.file_title,

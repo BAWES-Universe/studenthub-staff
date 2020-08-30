@@ -222,6 +222,75 @@
     </ion-list>
   </section>
 
+  <!-- request List -->
+  
+  <section *ngIf="!loading && company">
+
+    <ion-item-divider color="light">
+      <ion-label>
+        Requests
+      </ion-label>
+    </ion-item-divider>
+
+    <ion-list>
+      <ion-item-sliding *ngFor="let request of company.requests">
+        <ion-item tappable (click)="editRequest(request)">
+
+          <ion-label>
+            {{ request.request_position_title }}<br />
+            <small>{{ request.request_created_datetime | date}}</small>
+          </ion-label>
+
+          <ion-badge color="primary" *ngIf="request.request_status == 'pending'">pending</ion-badge>
+          <ion-badge color="secondary" *ngIf="request.request_status == 'started'">started</ion-badge>
+          <ion-badge color="success" *ngIf="request.request_status == 'delivered'">delivered</ion-badge>
+          <ion-badge color="light" *ngIf="request.request_status == 'cancelled'">cancelled</ion-badge>
+
+          <ion-buttons slot="end" *ngIf="platform.width() > 768 && request.request_status == 'pending'">
+            <ion-button (click)="startRequest($event, request)">
+              <ion-icon slot="start" name="play-outline"></ion-icon>
+              Start working on this request
+            </ion-button>
+          </ion-buttons>
+
+          <ion-buttons slot="end" *ngIf="platform.width() > 768 && request.request_status == 'started'">
+            <ion-button (click)="deliveredRequest($event, request)">
+              <ion-icon slot="start" name="checkmark-outline"></ion-icon>
+              Mark delivered
+            </ion-button>
+          
+            <ion-button color="danger" (click)="cancelledRequest($event, request)">
+              <ion-icon slot="start" name="close-outline"></ion-icon>
+              Mark cancelled
+            </ion-button>
+          </ion-buttons>
+          
+        </ion-item>
+        <ion-item-options side="end">
+          <ion-button (click)="startRequest($event, request)" *ngIf="request.request_status == 'pending'">
+            <ion-icon slot="start" name="play-outline"></ion-icon>
+            Start working on this request
+          </ion-button>
+          
+          <ion-button (click)="deliveredRequest($event, request)" *ngIf="request.request_status == 'started'">
+            <ion-icon slot="start" name="checkmark-outline"></ion-icon>
+            Mark delivered
+          </ion-button>
+
+          <ion-button color="danger" (click)="cancelledRequest($event, request)" *ngIf="request.request_status == 'started'">
+            <ion-icon slot="start" name="close-outline"></ion-icon>
+            Mark cancelled
+          </ion-button>
+        </ion-item-options>
+      </ion-item-sliding>
+      <ion-item>
+        <ion-button expand="full" color="danger" (click)="addRequest()">
+          <span>Add New Request</span>
+        </ion-button>
+      </ion-item>
+    </ion-list>
+  </section>
+
   <!-- note -->
   <section *ngIf="!loading && company">
 

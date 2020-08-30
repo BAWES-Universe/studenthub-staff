@@ -5,10 +5,11 @@ import { AlertController, ModalController, NavController, ToastController, Platf
 
 import { Store } from 'src/app/models/store';
 import { Company } from '../../../../models/company';
-import {Note} from '../../../../models/note';
+import { Note } from '../../../../models/note';
+import { Request } from 'src/app/models/request';
 
 import { StoreFormPage } from '../store-form/store-form.page';
-import {CompanyNoteFormPage} from '../../company/company-note-form/company-note-form.page';
+import { CompanyNoteFormPage } from '../../company/company-note-form/company-note-form.page';
 
 import { StoreService } from 'src/app/providers/logged-in/store.service';
 import { CompanyService } from '../../../../providers/logged-in/company.service';
@@ -17,8 +18,10 @@ import { CompanyContact } from 'src/app/models/company-contact';
 import { CompanyContactFormPage } from '../../company/company-contact-form/company-contact-form.page';
 import { CompanyContactService } from 'src/app/providers/logged-in/company-contact.service';
 import { AuthService } from 'src/app/providers/auth.service';
-import {CompanyNoteService} from '../../../../providers/logged-in/company-note.service';
+import { CompanyNoteService } from '../../../../providers/logged-in/company-note.service';
 import { CompanyFollowupNotePage } from '../../company/company-followup-note/company-followup-note.page';
+import { CompanyRequestService } from 'src/app/providers/logged-in/company-request.service';
+import { CompanyRequestFormPage } from '../../company/company-request-form/company-request-form.page';
 
 
 
@@ -51,6 +54,7 @@ export class StoreListPage implements OnInit {
     private toastCtrl: ToastController,
     private noteService: CompanyNoteService,
     public aws: AwsService,
+    public requestService: CompanyRequestService,
     public authService: AuthService,
     public companyContactService: CompanyContactService
   ) {
@@ -128,12 +132,10 @@ export class StoreListPage implements OnInit {
 
     this.companyContactService.delete(companyContact).subscribe(async response => {
 
-      if (response.operation == 'success')
-      {
+      if (response.operation == 'success') {
         this.companyContacts = this.companyContacts.filter(e => e.contact_uuid != companyContact.contact_uuid);
       }
-      else
-      {
+      else {
         const prompt = await this.alertCtrl.create({
           message: this.authService.errorMessage(response.message),
           buttons: ['Ok']
@@ -149,7 +151,7 @@ export class StoreListPage implements OnInit {
   async addFollowupNote() {
     const modal = await this.modalCtrl.create({
       component: CompanyFollowupNotePage,
-      componentProps: { 
+      componentProps: {
         company_id: this.company_id
       }
     });
@@ -243,7 +245,11 @@ export class StoreListPage implements OnInit {
   /**
    * Delete the provided model
    */
-  async delete(store: Store) {
+  async delete(event, store: Store) {
+
+    event.preventDefault();
+    event.stopPropagation();
+
     this.loading = true;
     const confirm = await this.alertCtrl.create({
       header: 'Delete Store?',
@@ -360,5 +366,177 @@ export class StoreListPage implements OnInit {
         });
       }
     });
+  }
+
+  async editRequest(request) {
+
+    this.company.companyContacts = this.companyContacts;
+
+    const modal = await this.modalCtrl.create({
+      component: CompanyRequestFormPage,
+      componentProps: {
+        company: this.company,
+        request: request,
+      }
+    });
+    modal.present();
+
+    const { data } = await modal.onWillDismiss();
+
+    if (data && data.refresh) {
+      this.loadCompany();
+    }
+  }
+
+  async addRequest() {
+
+    let request = new Request;
+
+    this.company.companyContacts = this.companyContacts;
+
+    const modal = await this.modalCtrl.create({
+      component: CompanyRequestFormPage,
+      componentProps: {
+        company: this.company,
+        request: request,
+      }
+    });
+    modal.present();
+
+    const { data } = await modal.onWillDismiss();
+
+    if (data && data.refresh) {
+      this.loadCompany();
+    }
+  }
+
+  startRequest(event, request) {
+
+    event.preventDefault();
+    event.stopPropagation();
+
+    this.requestService.start(request).subscribe(async response => {
+
+      if (response.operation == 'success') {
+        request.request_status = 'started';
+      } else {
+        this.toastCtrl.create({
+          message: response.message,
+          buttons: ['Ok']
+        }).then(prompt => {
+          prompt.present();
+        });
+      }
+    });
+  }
+
+  cancelledRequest(event, request) {
+
+    event.preventDefault();
+    event.stopPropagation();
+
+    this.alertCtrl.create({
+      header: 'Please provide feedback',
+      inputs: [
+        {
+          name: 'feedback',
+          type: 'textarea',
+          placeholder: 'Feedback'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            console.log('Confirm Cancel');
+          }
+        }, {
+          text: 'Save',
+          handler: (data) => {
+            if (data.feedback) {
+              request.request_feedback = data.feedback;
+              this.requestService.cancel(request).subscribe(async response => {
+
+                if (response.operation == 'success') {
+                  request.request_status = 'cancelled';
+                } else {
+                  this.toastCtrl.create({
+                    message: response.message,
+                    buttons: ['Ok']
+                  }).then(prompt => {
+                    prompt.present();
+                  });
+                }
+              });
+            } else  {
+              this.alertCtrl.create({
+                message: 'Please provide feedback',
+                buttons: ['ok']
+              }).then(alert => {
+                alert.present();
+              });
+            }
+          }
+        }
+      ]
+    }).then( alert => { alert.present(); });
+  }
+
+  deliveredRequest(event, request) {
+
+    event.preventDefault();
+    event.stopPropagation();
+
+
+    this.alertCtrl.create({
+      header: 'Please provide feedback',
+      inputs: [
+        {
+          name: 'feedback',
+          type: 'textarea',
+          placeholder: 'Feedback'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            console.log('Confirm Cancel');
+          }
+        }, {
+          text: 'Save',
+          handler: (data) => {
+            if (data.feedback) {
+              request.request_feedback = data.feedback;
+              this.requestService.deliver(request).subscribe(async response => {
+
+                if (response.operation == 'success') {
+                  request.request_status = 'delivered';
+                } else {
+                  this.toastCtrl.create({
+                    message: response.message,
+                    buttons: ['Ok']
+                  }).then(prompt => {
+                    prompt.present();
+                  });
+                }
+              });
+            } else  {
+              this.alertCtrl.create({
+                message: 'Please provide feedback',
+                buttons: ['ok']
+              }).then(alert => {
+                alert.present();
+              });
+            }
+          }
+        }
+      ]
+    }).then( alert => { alert.present(); });
+
   }
 }
