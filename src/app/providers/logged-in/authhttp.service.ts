@@ -108,13 +108,11 @@ export class AuthHttpService {
       })
     }).pipe(
       retryWhen(genericRetryStrategy()),
-      map(
-        (response) => { // download file
-          // todo blob type is not available
-          // const blob = new Blob([response.blob()], { type: 'application/pdf' });
-          // file name to dowanload/generate invoice
-          // saveAs(blob, filename);
-        })
+      map((response) => { // download file
+        var blob = new Blob([response], { type: 'application/pdf' });
+        //file name to dowanload/generate invoice
+        saveAs(blob, filename);
+      })
     );
   }
 

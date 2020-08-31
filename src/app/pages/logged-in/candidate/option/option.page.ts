@@ -24,6 +24,7 @@ export class OptionPage implements OnInit {
   public unassinging = false;
   public assigning = false;
   public expiring = false;
+  public exportingCV = false;
 
   constructor(
     public translateService: TranslateLabelService,
@@ -182,6 +183,21 @@ export class OptionPage implements OnInit {
       ]
     });
     confirm.present();
+  }
+
+  /**
+   * set candidate card expire
+   */
+  async exportCV() {
+      // Handle the functionality when user click on 'ok' button
+      this.exportingCV = true;
+
+      // Unassign Candidate from store
+      this.candidateService.exportCV(this.candidate).subscribe(async response => {
+        this.dismiss();
+        // Dismiss the loader
+        this.exportingCV = false;
+      });
   }
 
   toggleJobSearchStatus(status = 'mark_as_looking') {

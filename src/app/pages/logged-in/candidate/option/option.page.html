@@ -34,4 +34,10 @@
         Expire the card
       </span>
     </ion-item>
+  <ion-item (click)="exportCV()" tappable>
+      <ion-spinner *ngIf="exportingCV"></ion-spinner>
+      <span *ngIf="!exportingCV">
+        Export CV as PDF
+      </span>
+    </ion-item>
 </ion-content>
