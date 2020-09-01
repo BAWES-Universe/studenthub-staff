@@ -34,6 +34,7 @@ export class Candidate {
     candidate_objective: string;
     candidate_gender: any;
     candidate_driving_license: any;
+    candidate_email_verification: any;
     skill: string;
     experience: string;
     candidate_resume: string;
