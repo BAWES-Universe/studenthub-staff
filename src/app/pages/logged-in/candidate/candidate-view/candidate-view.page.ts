@@ -32,8 +32,11 @@ export class CandidateViewPage implements OnInit {
   public sendingPassword: boolean = false;
   public assigning: boolean = false;
   public unassinging: boolean = false;
+  
   public loading: boolean = false;
   public approving: boolean = false;
+  public unapproving: boolean = false;
+
   public sections = 'personal';
   public processing = null;
 
@@ -212,6 +215,40 @@ export class CandidateViewPage implements OnInit {
         // back to listing
         // this.router.navigate(['/candidate-review-list']);
       }
+    });
+  }
+
+  /**
+   * unapprove the provided model
+   */
+  async unapprove(candidate: Candidate) {
+
+    this.unapproving = true;
+
+    this.candidateService.unapprove(candidate).subscribe(response => {
+
+      this.unapproving = false;
+
+      if(response.operation == 'error') {
+
+        this.toastCtrl.create({
+          message: this.authService.errorMessage(response.message),
+          duration: 3000
+        }).then( toast => {
+          toast.present();
+        });
+
+      } else {
+        this.candidate.approved = 0;
+
+        // update review count
+        this.eventService.reviewRequired$.next();
+
+        // back to listing
+        // this.router.navigate(['/candidate-review-list']);
+      }
+    }, () => {
+      this.unapproving = false;
     });
   }
 

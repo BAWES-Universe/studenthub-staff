@@ -105,10 +105,15 @@
             </ion-item>
           </ion-menu-toggle>
 
-          <ion-menu-toggle auto-hide="false" *ngIf="this.companyFollowUp > 0">
+          <ion-menu-toggle auto-hide="false" *ngIf="companyFollowUp > 0">
             <ion-item routerDirection="root" routerLink="/company-followup-list" routerLinkActive="active" detail="false">
               <ion-icon slot="start" name="briefcase-outline"></ion-icon>
-              <ion-label>Clients requiring followup</ion-label>
+              <ion-label>
+                Clients requiring followup 
+              </ion-label>
+              <ion-badge slot="end" *ngIf="companyFollowUp > 0">
+                {{ companyFollowUp }}
+              </ion-badge>
             </ion-item>
           </ion-menu-toggle>
 

@@ -266,6 +266,15 @@ export class CandidateService {
   }
 
   /**
+   * unapprove candidate
+   * @param {Candidate} model
+   * @returns {Observable<any>}
+   */
+  unapprove(model: Candidate): Observable<any>{
+    return this._authhttp.patch(`${this._candidateEndpoint}/unapprove/${model.candidate_id}`, {});
+  }
+
+  /**
    * update candidate hourly rate
    * @param model
    * @param rate

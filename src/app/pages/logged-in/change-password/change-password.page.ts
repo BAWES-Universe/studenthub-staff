@@ -37,6 +37,7 @@ export class ChangePasswordPage implements OnInit {
     this.loading = true;
 
     this.accountService.updatePassword(this.form.value).subscribe(async result => {
+
       if (result.operation == 'success') {
         const toast = await this._toastCtrl.create({
           message: result.message,
@@ -55,7 +56,7 @@ export class ChangePasswordPage implements OnInit {
       
       const prompt = await this._alertCtrl.create({
         message: err,
-        buttons: ['Ok']
+        buttons: ['Okay']
       });
       prompt.present(); 
     }, () => {
