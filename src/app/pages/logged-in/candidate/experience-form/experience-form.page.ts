@@ -44,9 +44,13 @@ export class ExperienceFormPage implements OnInit {
 
   ionViewDidEnter() {
 
+    if(!this.candidate.candidateExperiences) {
+      this.candidate.candidateExperiences = [];
+    }
+    
     setTimeout(() => {
 
-      const lastElementIndex = this.candidate.candidateExperiences.length;
+      const lastElementIndex = this.candidate.candidateExperiences.length ;
 
       const lastElement = document.getElementById('input[' + lastElementIndex + ']') as any;
  

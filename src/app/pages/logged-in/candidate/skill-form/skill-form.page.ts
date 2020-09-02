@@ -43,6 +43,10 @@ export class SkillFormPage implements OnInit {
 
   ionViewDidEnter() {
 
+    if(!this.candidate.candidateSkills) {
+      this.candidate.candidateSkills = [];
+    }
+    
     setTimeout(() => {
 
       const lastElementIndex = this.candidate.candidateSkills.length;
