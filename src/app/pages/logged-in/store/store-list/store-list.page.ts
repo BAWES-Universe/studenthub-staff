@@ -84,15 +84,21 @@ export class StoreListPage implements OnInit {
   }
 
   async onContactSelected(companyContact) {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
     const modal = await this.modalCtrl.create({
       component: CompanyContactFormPage,
       componentProps: {
         model: companyContact
       }
     });
-
-    // Refresh List if required
     modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    
       if (e && e.data && e.data.refresh) {
         this.loadContacts();
       }
@@ -101,6 +107,7 @@ export class StoreListPage implements OnInit {
   }
 
   async addCompanyContact() {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
     const companyContact = new CompanyContact;
     companyContact.company_id = this.company_id;
@@ -111,9 +118,13 @@ export class StoreListPage implements OnInit {
         model: companyContact
       }
     });
-
-    // Refresh List if required
     modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+   
       if (e && e.data && e.data.refresh) {
         this.loadContacts();
       }
@@ -149,6 +160,8 @@ export class StoreListPage implements OnInit {
    * add followup note
    */
   async addFollowupNote() {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
     const modal = await this.modalCtrl.create({
       component: CompanyFollowupNotePage,
       componentProps: {
@@ -156,6 +169,12 @@ export class StoreListPage implements OnInit {
       }
     });
     modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    
       if (e && e.data && e.data.company_last_followup_datetime && this.company) {
         this.company.company_last_followup_datetime = e.data.company_last_followup_datetime;
         this.loadCompany();
@@ -227,6 +246,8 @@ export class StoreListPage implements OnInit {
    * Loads the create page
    */
   async create() {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
     const modal = await this.modalCtrl.create({
       component: StoreFormPage,
       componentProps: {
@@ -234,8 +255,14 @@ export class StoreListPage implements OnInit {
       },
       cssClass: 'my-custom-class'
     });
-    modal.onDidDismiss().then(data => {
-      if (data && data.data && data.data.refresh) {
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    
+      if (e.data && e.data.refresh) {
         this.loadData(this.currentPage);
       }
     });
@@ -328,6 +355,8 @@ export class StoreListPage implements OnInit {
   }
 
   async addNote(note: Note) {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
     const modal = await this.modalCtrl.create({
       component: CompanyNoteFormPage,
       componentProps: {
@@ -336,7 +365,14 @@ export class StoreListPage implements OnInit {
       }
     });
     modal.present();
+    modal.onDidDismiss().then(e => {
 
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
+    
     const { data } = await modal.onWillDismiss();
     if (data && data.refresh) {
       this.loadCompany();
@@ -369,6 +405,7 @@ export class StoreListPage implements OnInit {
   }
 
   async editRequest(request) {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
     this.company.companyContacts = this.companyContacts;
 
@@ -380,6 +417,13 @@ export class StoreListPage implements OnInit {
       }
     });
     modal.present();
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
 
     const { data } = await modal.onWillDismiss();
 
@@ -389,6 +433,7 @@ export class StoreListPage implements OnInit {
   }
 
   async addRequest() {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
     let request = new Request;
 
@@ -402,7 +447,14 @@ export class StoreListPage implements OnInit {
       }
     });
     modal.present();
+    modal.onDidDismiss().then(e => {
 
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
+    
     const { data } = await modal.onWillDismiss();
 
     if (data && data.refresh) {

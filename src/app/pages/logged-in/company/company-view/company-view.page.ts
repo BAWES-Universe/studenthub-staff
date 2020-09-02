@@ -106,6 +106,8 @@ export class CompanyViewPage implements OnInit {
    * add followup note
    */
   async addFollowupNote() {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
     const modal = await this.modalCtrl.create({
       component: CompanyFollowupNotePage,
       componentProps: { 
@@ -113,6 +115,12 @@ export class CompanyViewPage implements OnInit {
       }
     });
     modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    
       if (e && e.data && e.data.company_last_followup_datetime && this.company) {
         this.company.company_last_followup_datetime = e.data.company_last_followup_datetime;
         this.loadData(true);
@@ -161,15 +169,21 @@ export class CompanyViewPage implements OnInit {
   }
 
   async onContactSelected(companyContact) {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
     const modal = await this.modalCtrl.create({
       component: CompanyContactFormPage,
       componentProps: { 
         model: companyContact
       }
     });
-
-    // Refresh List if required
     modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+   
       if (e && e.data && e.data.refresh) {
         this.loadContacts();
       }
@@ -178,6 +192,7 @@ export class CompanyViewPage implements OnInit {
   }
 
   async addCompanyContact() {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
     let companyContact = new CompanyContact;
     companyContact.company_id = this.company_id;
@@ -188,9 +203,13 @@ export class CompanyViewPage implements OnInit {
         model: companyContact
       }
     });
-
-    // Refresh List if required
     modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+   
       if (e && e.data && e.data.refresh) {
         this.loadContacts();
       }
@@ -236,6 +255,8 @@ export class CompanyViewPage implements OnInit {
   }
 
   async uploadDocument() {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
     const modal = await this.modalCtrl.create({
       component: UploadFilePage,
       componentProps: {
@@ -243,6 +264,13 @@ export class CompanyViewPage implements OnInit {
       }
     });
     modal.present();
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
 
     const { data } = await modal.onWillDismiss();
     if (data && data.refresh) {
@@ -251,6 +279,7 @@ export class CompanyViewPage implements OnInit {
   }
 
   async editRequest(request) {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
     this.company.companyContacts = this.companyContacts;
 
@@ -262,7 +291,14 @@ export class CompanyViewPage implements OnInit {
       }
     });
     modal.present();
+    modal.onDidDismiss().then(e => {
 
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
+    
     const { data } = await modal.onWillDismiss();
 
     if (data && data.refresh) {
@@ -271,6 +307,7 @@ export class CompanyViewPage implements OnInit {
   }
 
   async addRequest() {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
     let request = new Request;
 
@@ -284,7 +321,14 @@ export class CompanyViewPage implements OnInit {
       }
     });
     modal.present();
+    modal.onDidDismiss().then(e => {
 
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
+    
     const { data } = await modal.onWillDismiss();
 
     if (data && data.refresh) {

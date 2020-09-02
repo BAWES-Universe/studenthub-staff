@@ -58,6 +58,8 @@ export class StoreViewPage implements OnInit {
    * Loads Form in modal to update
    */
   async update() {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
     const modal = await this._modalCtrl.create({
       component: StoreFormPage,
       componentProps: {
@@ -65,9 +67,14 @@ export class StoreViewPage implements OnInit {
       },
       cssClass: 'my-custom-class'
     });
+    modal.onDidDismiss().then(e => {
 
-    modal.onDidDismiss().then(data => {
-      if (data && data.data && data.data.refresh) {
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+   
+      if (e.data && e.data.refresh) {
         this.loadData();
       }
     });

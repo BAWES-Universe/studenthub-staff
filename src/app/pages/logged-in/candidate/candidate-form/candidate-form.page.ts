@@ -271,6 +271,8 @@ export class CandidateFormPage implements OnInit {
   }
 
   async updateSkills() {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
     const modal = await this.modalCtrl.create({
       component: SkillFormPage,
       componentProps: {
@@ -279,6 +281,13 @@ export class CandidateFormPage implements OnInit {
       }
     });
     modal.present();
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
 
     const { data } = await modal.onWillDismiss();
 
@@ -290,6 +299,7 @@ export class CandidateFormPage implements OnInit {
   }
 
   async updateExperiences() {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
     const modal = await this.modalCtrl.create({
       component: ExperienceFormPage,
@@ -299,6 +309,14 @@ export class CandidateFormPage implements OnInit {
       }
     });
     modal.present();
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
+    
     const { data } = await modal.onWillDismiss();
 
     if (data && data.experiences) {
@@ -331,6 +349,7 @@ export class CandidateFormPage implements OnInit {
   }
 
   async updateResume() {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
     const modal = await this.modalCtrl.create({
       component: UploadCvPage,
@@ -339,7 +358,14 @@ export class CandidateFormPage implements OnInit {
       }
     });
     modal.present();
+    modal.onDidDismiss().then(e => {
 
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
+    
     const { data } = await modal.onWillDismiss();
 
     if (data.resume) {

@@ -1,5 +1,5 @@
 import { Component, OnInit, ApplicationRef } from '@angular/core';
-import { AlertController, NavController, Platform } from '@ionic/angular';
+import { AlertController, NavController, Platform, PopoverController, ModalController } from '@ionic/angular';
 import { Plugins } from '@capacitor/core';
 import { SwUpdate } from '@angular/service-worker';
 import { concat, interval } from 'rxjs';
@@ -37,7 +37,9 @@ export class AppComponent implements OnInit {
     private platform: Platform,
     private eventService: EventService,
     private _alertCtrl: AlertController,
+    public popoverCtrl: PopoverController,
     private navCtrl: NavController,
+    public modalCtrl: ModalController,
     public authService: AuthService,
     public translateService: TranslateLabelService,
     public candidateIdCardService: CandidateIdCardService,
@@ -51,6 +53,32 @@ export class AppComponent implements OnInit {
 
     // this language will be used as a fallback when a translation isn't found in the current language
     this.translateService.setDefaultLang('en');
+
+    window.onpopstate = e => {
+
+      if (window['history-back-from'] == 'onDidDismiss') {
+        window['history-back-from'] = null;
+        return false;
+      }
+
+      this.popoverCtrl.getTop().then(overlay => {
+        
+        if (overlay) {
+          this.popoverCtrl.dismiss({
+            'from': 'native-back-btn'
+          });
+        }
+
+        this.modalCtrl.getTop().then(overlay => {
+
+          if (overlay) {
+            this.modalCtrl.dismiss({
+              'from': 'native-back-btn'
+            });
+          }
+        });
+      });
+    };
 
     this.platform.ready().then(() => {
 
