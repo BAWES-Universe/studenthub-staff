@@ -45,7 +45,7 @@
         <div *ngFor="let email of emails.controls; let i = index">
           <ion-item [formGroup]="email">
 
-            <ion-input (ionChange)="onEmailChange($event, i)" formControlName="email_address" inputmode="email"
+            <ion-input type="email" autocomplete="off1" (ionChange)="onEmailChange($event, i)" formControlName="email_address" inputmode="email"
               enterkeyhint="Next"></ion-input>
 
             <ion-button fill="clear" slot="end" tabindex="-1" *ngIf="emails.controls.length -1 != i" (click)="removeEmail(i)">
@@ -66,7 +66,7 @@
         <div *ngFor="let phone of phones.controls; let i = index">
           <ion-item [formGroup]="phone">
 
-            <ion-input (ionChange)="onPhoneChange($event, i)" formControlName="phone_number" inputmode="telephone"
+            <ion-input type="telephone" autocomplete="off1" (ionChange)="onPhoneChange($event, i)" formControlName="phone_number" inputmode="telephone"
                   enterkeyhint="Next"></ion-input>
 
             <ion-button fill="clear" slot="end" tabindex="-1" *ngIf="phones.controls.length -1 != i" (click)="removePhone(i)">
