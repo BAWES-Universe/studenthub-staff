@@ -8,8 +8,8 @@ import { NavParams, PopoverController } from "@ionic/angular";
 })
 export class SelectSearchPageComponent {
 
-  public searchInput: string = "";
-
+  public query: string = '';
+  
   public collection: any[];
   public labelAttr: string;
 
@@ -34,17 +34,31 @@ export class SelectSearchPageComponent {
     this._viewCtrl.dismiss(selectedItem);
   }
 
+  highlight(item) {
+
+    if(!this.query) {
+      return item;
+    }
+
+    let reg = new RegExp(this.query, 'gi'); 
+
+    return item.replace(reg, str => { 
+      return '<b>' + str + '</b>'
+    });
+  }
+
   /**
    * Display search results based on user input
    */
-  searchFilter($event){
-    let searchInput = this.searchInput.toLowerCase();
+  searchFilter(event) {
+    
+    this.query = event.target.value.toLowerCase();
 
-    if(searchInput){
+    if(this.query) {
       this.displayedCollection = this.collection.filter((collectionItem) => {
-        return collectionItem[this.labelAttr].toLowerCase().indexOf(searchInput) >= 0;
+        return collectionItem[this.labelAttr].toLowerCase().indexOf(this.query) >= 0;
       });
-    }else{
+    } else {
       this.displayedCollection = this.collection.slice();
     }
   }
