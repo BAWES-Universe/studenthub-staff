@@ -1,3 +1,6 @@
+import { Candidate } from './candidate';
+import { Store } from './store';
+
 export class Brand {
     brand_uuid: string;
     company_id: number;
@@ -7,4 +10,6 @@ export class Brand {
     candidate_count: number;
     brand_created_datetime: string;
     brand_updated_datetime: string;
+    candidates: Candidate[];
+    stores: Store[];
 }

@@ -666,7 +666,7 @@ export class StoreListPage implements OnInit {
    * open brand edit page
    * @param brand
    */
-  async brandSelected(brand) {
+  async editSelected($event, brand) {
     window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
     const modal = await this.modalCtrl.create({
@@ -716,5 +716,17 @@ export class StoreListPage implements OnInit {
       }
     });
     modal.present();
+  }
+
+  /**
+   * open brand edit page
+   * @param brand
+   */
+  async brandSelected(brand) {
+    this.navCtrl.navigateForward('brand-view/' + brand.brand_uuid, {
+      state: {
+        model: brand
+      }
+    });
   }
 }

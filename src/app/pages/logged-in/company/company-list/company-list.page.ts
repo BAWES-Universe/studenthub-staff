@@ -578,6 +578,14 @@ export class CompanyListPage implements OnInit {
    * @param brand
    */
   async brandSelected(brand) {
+    this.navCtrl.navigateForward('brand-view/' + brand.brand_uuid, {
+      state: {
+        model: brand
+      }
+    });
+  }
+
+  async editSelected($event, brand) {
     window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
     const modal = await this.modalCtrl.create({

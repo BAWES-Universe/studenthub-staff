@@ -23,7 +23,7 @@ export class BrandService {
    * @param brand_uuid
    */
   view(brand_uuid) {
-    let url = this._brandEndpoint + '/' + brand_uuid;
+    let url = this._brandEndpoint + '/' + brand_uuid + '?expand=candidates,stores';
     return this._authhttp.get(url);
   }
 

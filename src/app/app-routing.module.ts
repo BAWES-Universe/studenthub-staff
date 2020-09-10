@@ -146,17 +146,22 @@ const routes: Routes = [
     loadChildren: () => import('./pages/logged-in/company/company-followup-list/company-followup-list.module').then( m => m.CompanyFollowupListPageModule)
   },
   {
-    path: '**',
-    redirectTo: 'not-found'
-  },
-  {
     path: 'company-followup-note',
     loadChildren: () => import('./pages/logged-in/company/company-followup-note/company-followup-note.module').then( m => m.CompanyFollowupNotePageModule)
   },
   {
     path: 'company-request-form',
     loadChildren: () => import('./pages/logged-in/company/company-request-form/company-request-form.module').then( m => m.CompanyRequestFormPageModule)
-  }
+  },
+  {
+    path: 'brand-view',
+    loadChildren: () => import('./pages/logged-in/company/brand-view/brand-view.module').then( m => m.BrandViewPageModule),
+    canActivate: [AuthService],
+  },
+  {
+    path: '**',
+    redirectTo: 'not-found'
+  },
 ];
 
 @NgModule({
