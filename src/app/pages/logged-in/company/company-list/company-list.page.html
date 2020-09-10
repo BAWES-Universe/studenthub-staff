@@ -208,7 +208,7 @@
             <ion-label>
               {{ brand.brand_name_en }}
             </ion-label>
-
+            <ion-badge slot="end">{{brand.candidate_count}}</ion-badge>
             <ion-buttons slot="end" *ngIf="platform.width() > 768">
               <ion-button color="danger" (click)="deleteBrand($event, brand)">
                 <ion-icon slot="start" name="trash-outline"></ion-icon>
