@@ -29,9 +29,17 @@
     <img *ngIf="company.company_logo" src="{{ aws.cloudinaryUrl + company.company_logo }}"
       (error)="loadLogo($event,company)" width="80">
     <img *ngIf="!company.company_logo" src="/assets/icon/icon.png" width="80">
+    <br/>
+    <h2>{{ company.company_name }}</h2>
   </div>
-
+  <!-- basic detail -->
   <section *ngIf="company && company.company_email">
+
+    <ion-item-divider color="light">
+      <ion-label>
+        Info
+      </ion-label>
+    </ion-item-divider>
 
     <ion-item lines="none">
       <ion-label>
@@ -57,12 +65,6 @@
         <p>@ {{ toDate(company.company_last_followup_datetime) | date: 'MMM d, y, h:mm:ss a' }}</p>
       </ion-label>
     </ion-item>
-
-    <ion-item-divider color="light">
-      <ion-label>
-        Contact
-      </ion-label>
-    </ion-item-divider>
 
     <ion-item href='mailto:{{ company.company_email }}'>
       <ion-label>
@@ -105,33 +107,101 @@
         <p>{{ company.company_website }}</p>
       </ion-label>
     </ion-item>
+  </section>
 
-    <ion-item>
-      <ion-button expand="full" color="danger" (click)="uploadDocument()">
-        <span>Upload Document</span>
-      </ion-button>
-    </ion-item>
+    <ion-list *ngIf="!loading">
+      <section>
 
-    <div *ngIf="company.files && company.files.length > 0">
-      <ion-item-divider color="light">
-        <ion-label>
-          Uploaded Document
-        </ion-label>
-      </ion-item-divider>
+        <ion-item-divider color="light" *ngIf="company && company.subCompanies && company.subCompanies.length > 0">
+          <ion-label>
+            Companies
+          </ion-label>
+        </ion-item-divider>
 
-      <ion-item *ngFor="let file of company.files">
-        <ion-label>
-          <a target="_blank" (click)="$event.stopPropagation()"
-            href="{{ aws.permanentBucketUrl }}{{ file.file_s3_path }}">
-            {{file.file_title}}
-          </a>
-          <p>{{file.file_description}}</p>
-        </ion-label>
-      </ion-item>
-    </div>
+        <ng-container *ngIf="segment == 1">
+          <ion-item tappable *ngFor="let company of enableCompanies" (click)="rowSelected(company)">
+
+            <ion-avatar slot="start">
+              <img *ngIf="company.company_logo" src="{{ aws.cloudinaryUrl + company.company_logo }}"
+                   (error)="loadLogo($event,company)">
+              <img *ngIf="!company.company_logo" src="/assets/icon/icon.png">
+            </ion-avatar>
+
+            <ion-label>
+              {{ company.company_name }}
+            </ion-label>
+            <ng-container *ngIf="platform.width() > 450">
+              <ion-badge slot="end" *ngIf="company.total_candidates > 0">
+                {{ company.total_candidates }} candidates
+              </ion-badge>
+              <ion-badge slot="end" *ngIf="company.subCompanies && company.subCompanies.length > 0">
+                {{ company.subCompanies.length }} sub-companies
+              </ion-badge>
+              <ion-badge slot="end" *ngIf="company.stores.length > 0">
+                {{ company.stores.length }} stores
+              </ion-badge>
+            </ng-container>
+
+            <ng-container *ngIf="platform.width() <= 449">
+              <div slot="end" class="end">
+                <ion-badge *ngIf="company.total_candidates > 0">
+                  {{ company.total_candidates }} candidates
+                </ion-badge>
+                <ion-badge *ngIf="company.subCompanies && company.subCompanies.length > 0">
+                  {{ company.subCompanies.length }} sub-companies
+                </ion-badge>
+                <ion-badge *ngIf="company.stores.length > 0">
+                  {{ company.stores.length }} stores
+                </ion-badge>
+              </div>
+            </ng-container>
+          </ion-item>
+        </ng-container>
+
+        <ng-container *ngIf="segment == 0">
+          <ion-item tappable *ngFor="let company of disableCompanies" (click)="rowSelected(company)">
+
+            <ion-avatar slot="start">
+              <img *ngIf="company.company_logo" src="{{ aws.cloudinaryUrl + company.company_logo }}"
+                   (error)="loadLogo($event,company)">
+              <img *ngIf="!company.company_logo" src="/assets/icon/icon.png">
+            </ion-avatar>
+
+            <ion-label>
+              {{ company.company_name }}
+            </ion-label>
+            <ng-container *ngIf="platform.width() > 450">
+              <ion-badge slot="end" *ngIf="company.total_candidates > 0">
+                {{ company.total_candidates }} candidates
+              </ion-badge>
+              <ion-badge slot="end" *ngIf="company.subCompanies && company.subCompanies.length > 0">
+                {{ company.subCompanies.length }} sub-companies
+              </ion-badge>
+              <ion-badge slot="end" *ngIf="company.stores.length > 0">
+                {{ company.stores.length }} stores
+              </ion-badge>
+            </ng-container>
+
+            <ng-container *ngIf="platform.width() <= 449">
+              <div slot="end" class="end">
+                <ion-badge *ngIf="company.total_candidates > 0">
+                  {{ company.total_candidates }} candidates
+                </ion-badge>
+                <ion-badge *ngIf="company.subCompanies && company.subCompanies.length > 0">
+                  {{ company.subCompanies.length }} sub-companies
+                </ion-badge>
+                <ion-badge *ngIf="company.stores.length > 0">
+                  {{ company.stores.length }} stores
+                </ion-badge>
+              </div>
+            </ng-container>
+          </ion-item>
+        </ng-container>
+
+      </section>
+    </ion-list>
 
     <!-- Contact List -->
-
     <section>
 
       <ion-item-divider color="light">
@@ -187,63 +257,47 @@
       </ion-list>
     </section>
 
-    <!-- Brand List -->
-
+    <!-- note List -->
     <section *ngIf="!loading && company">
 
       <ion-item-divider color="light">
         <ion-label>
-          Brands
+          Notes
         </ion-label>
       </ion-item-divider>
 
       <ion-list>
-        <ion-item-sliding *ngFor="let brand of brands" [disabled]="platform.width() > 768">
-          <ion-item tappable (click)="brandSelected(brand)">
-            <ion-thumbnail slot="start">
-              <ion-img *ngIf="brand.brand_logo" [src]="aws.cloudinaryUrl + 'company-brand/' + brand.brand_logo">
-              </ion-img>
-              <ion-img *ngIf="!brand.brand_logo" src="assets/images/placeholder.png"></ion-img>
-            </ion-thumbnail>
+        <ion-item-sliding [disabled]="platform.width() > 768" *ngFor="let note of company.notes">
+          <ion-item tappable (click)="addNote(note)">
             <ion-label>
-              {{ brand.brand_name_en }}
+              {{ note.note_text }}<br />
+              <small>{{ note.note_created_datetime | date}}</small>
             </ion-label>
-            <ion-badge slot="end">{{brand.candidate_count}}</ion-badge>
-            <ion-buttons slot="end" *ngIf="platform.width() > 768">
-              <ion-button color="primary" (click)="editSelected($event, brand)">
-                <ion-icon slot="start" name="pencil-outline"></ion-icon>
-                Edit
-              </ion-button>
 
-              <ion-button color="danger" (click)="deleteBrand($event, brand)">
+            <ion-buttons slot="end" *ngIf="platform.width() > 768">
+              <ion-button color="danger" (click)="remoteNote($event, note)">
                 <ion-icon slot="start" name="trash-outline"></ion-icon>
                 Delete
               </ion-button>
             </ion-buttons>
 
           </ion-item>
-
           <ion-item-options side="end">
-            <ion-button color="primary" (click)="editSelected($event, brand)">
-              <ion-icon slot="start" name="pencil-outline"></ion-icon>
-              Edit
-            </ion-button>
-            <ion-button color="danger" (click)="deleteBrand($event, brand)">
+            <ion-button color="danger" (click)="remoteNote($event, note)">
               <ion-icon slot="start" name="trash-outline"></ion-icon>
               Delete
             </ion-button>
           </ion-item-options>
         </ion-item-sliding>
-
-        <ion-item lines="none">
-          <ion-button (click)="addBrand()">
-            Add New Brand
+        <ion-item>
+          <ion-button expand="full" color="danger" (click)="addNote(null)">
+            <span>Add New Note</span>
           </ion-button>
         </ion-item>
       </ion-list>
     </section>
-    <!-- request List -->
 
+    <!-- Requests List -->
     <section *ngIf="!loading && company">
 
       <ion-item-divider color="light">
@@ -310,157 +364,108 @@
       </ion-list>
     </section>
 
-    <!-- note List -->
+    <!-- Payment -->
+    <section *ngIf="company">
+      <ion-item-divider color="light">
+        <ion-label>
+          Payment
+        </ion-label>
+      </ion-item-divider>
+
+      <ion-item>
+        <ion-label>
+          Bonus Commission(%) - {{ company.company_bonus_commission }}
+        </ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>
+          Hourly Rate - {{ company.company_hourly_rate | number:'1.3-3' }} KWD
+        </ion-label>
+      </ion-item>
+    </section>
+
+    <!--  Documents-->
+    <section *ngIf="company">
+    <ion-item>
+      <ion-button expand="full" color="danger" (click)="uploadDocument()">
+        <span>Upload Document</span>
+      </ion-button>
+    </ion-item>
+
+    <div *ngIf="company.files && company.files.length > 0">
+      <ion-item-divider color="light">
+        <ion-label>
+          Uploaded Document
+        </ion-label>
+      </ion-item-divider>
+
+      <ion-item *ngFor="let file of company.files">
+        <ion-label>
+          <a target="_blank" (click)="$event.stopPropagation()"
+             href="{{ aws.permanentBucketUrl }}{{ file.file_s3_path }}">
+            {{file.file_title}}
+          </a>
+          <p>{{file.file_description}}</p>
+        </ion-label>
+      </ion-item>
+    </div>
+  </section>
+
+    <!-- Brand List -->
     <section *ngIf="!loading && company">
 
       <ion-item-divider color="light">
         <ion-label>
-          Notes
+          Brands
         </ion-label>
       </ion-item-divider>
 
       <ion-list>
-        <ion-item-sliding [disabled]="platform.width() > 768" *ngFor="let note of company.notes">
-          <ion-item tappable (click)="addNote(note)">
+        <ion-item-sliding *ngFor="let brand of brands" [disabled]="platform.width() > 768">
+          <ion-item tappable (click)="brandSelected(brand)">
+            <ion-thumbnail slot="start">
+              <ion-img *ngIf="brand.brand_logo" [src]="aws.cloudinaryUrl + 'company-brand/' + brand.brand_logo">
+              </ion-img>
+              <ion-img *ngIf="!brand.brand_logo" src="assets/images/placeholder.png"></ion-img>
+            </ion-thumbnail>
             <ion-label>
-              {{ note.note_text }}<br />
-              <small>{{ note.note_created_datetime | date}}</small>
+              {{ brand.brand_name_en }}
             </ion-label>
-
+            <ion-badge slot="end">{{brand.candidate_count}}</ion-badge>
             <ion-buttons slot="end" *ngIf="platform.width() > 768">
-              <ion-button color="danger" (click)="remoteNote($event, note)">
+              <ion-button color="primary" (click)="editSelected($event, brand)">
+                <ion-icon slot="start" name="pencil-outline"></ion-icon>
+                Edit
+              </ion-button>
+
+              <ion-button color="danger" (click)="deleteBrand($event, brand)">
                 <ion-icon slot="start" name="trash-outline"></ion-icon>
                 Delete
               </ion-button>
             </ion-buttons>
 
           </ion-item>
+
           <ion-item-options side="end">
-            <ion-button color="danger" (click)="remoteNote($event, note)">
+            <ion-button color="primary" (click)="editSelected($event, brand)">
+              <ion-icon slot="start" name="pencil-outline"></ion-icon>
+              Edit
+            </ion-button>
+            <ion-button color="danger" (click)="deleteBrand($event, brand)">
               <ion-icon slot="start" name="trash-outline"></ion-icon>
               Delete
             </ion-button>
           </ion-item-options>
         </ion-item-sliding>
-        <ion-item>
-          <ion-button expand="full" color="danger" (click)="addNote(null)">
-            <span>Add New Note</span>
+
+        <ion-item lines="none">
+          <ion-button (click)="addBrand()">
+            Add New Brand
           </ion-button>
         </ion-item>
       </ion-list>
     </section>
-
-    <ion-item-divider color="light">
-      <ion-label>
-        Payment
-      </ion-label>
-    </ion-item-divider>
-
-    <ion-item>
-      <ion-label>
-        Bonus Commission(%) - {{ company.company_bonus_commission }}
-      </ion-label>
-    </ion-item>
-
-    <ion-item>
-      <ion-label>
-        Hourly Rate - {{ company.company_hourly_rate | number:'1.3-3' }} KWD
-      </ion-label>
-    </ion-item>
-
-  </section>
-
-  <ion-list *ngIf="!loading">
-    <section>
-
-      <ion-item-divider color="light" *ngIf="company && company.subCompanies && company.subCompanies.length > 0">
-        <ion-label>
-          Companies under this company
-        </ion-label>
-      </ion-item-divider>
-
-      <ng-container *ngIf="segment == 1">
-        <ion-item tappable *ngFor="let company of enableCompanies" (click)="rowSelected(company)">
-
-          <ion-avatar slot="start">
-            <img *ngIf="company.company_logo" src="{{ aws.cloudinaryUrl + company.company_logo }}"
-              (error)="loadLogo($event,company)">
-            <img *ngIf="!company.company_logo" src="/assets/icon/icon.png">
-          </ion-avatar>
-
-          <ion-label>
-            {{ company.company_name }}
-          </ion-label>
-          <ng-container *ngIf="platform.width() > 450">
-            <ion-badge slot="end" *ngIf="company.total_candidates > 0">
-              {{ company.total_candidates }} candidates
-            </ion-badge>
-            <ion-badge slot="end" *ngIf="company.subCompanies && company.subCompanies.length > 0">
-              {{ company.subCompanies.length }} sub-companies
-            </ion-badge>
-            <ion-badge slot="end" *ngIf="company.stores.length > 0">
-              {{ company.stores.length }} stores
-            </ion-badge>
-          </ng-container>
-
-          <ng-container *ngIf="platform.width() <= 449">
-            <div slot="end" class="end">
-              <ion-badge *ngIf="company.total_candidates > 0">
-                {{ company.total_candidates }} candidates
-              </ion-badge>
-              <ion-badge *ngIf="company.subCompanies && company.subCompanies.length > 0">
-                {{ company.subCompanies.length }} sub-companies
-              </ion-badge>
-              <ion-badge *ngIf="company.stores.length > 0">
-                {{ company.stores.length }} stores
-              </ion-badge>
-            </div>
-          </ng-container>
-        </ion-item>
-      </ng-container>
-
-      <ng-container *ngIf="segment == 0">
-        <ion-item tappable *ngFor="let company of disableCompanies" (click)="rowSelected(company)">
-
-          <ion-avatar slot="start">
-            <img *ngIf="company.company_logo" src="{{ aws.cloudinaryUrl + company.company_logo }}"
-              (error)="loadLogo($event,company)">
-            <img *ngIf="!company.company_logo" src="/assets/icon/icon.png">
-          </ion-avatar>
-
-          <ion-label>
-            {{ company.company_name }}
-          </ion-label>
-          <ng-container *ngIf="platform.width() > 450">
-            <ion-badge slot="end" *ngIf="company.total_candidates > 0">
-              {{ company.total_candidates }} candidates
-            </ion-badge>
-            <ion-badge slot="end" *ngIf="company.subCompanies && company.subCompanies.length > 0">
-              {{ company.subCompanies.length }} sub-companies
-            </ion-badge>
-            <ion-badge slot="end" *ngIf="company.stores.length > 0">
-              {{ company.stores.length }} stores
-            </ion-badge>
-          </ng-container>
-
-          <ng-container *ngIf="platform.width() <= 449">
-            <div slot="end" class="end">
-              <ion-badge *ngIf="company.total_candidates > 0">
-                {{ company.total_candidates }} candidates
-              </ion-badge>
-              <ion-badge *ngIf="company.subCompanies && company.subCompanies.length > 0">
-                {{ company.subCompanies.length }} sub-companies
-              </ion-badge>
-              <ion-badge *ngIf="company.stores.length > 0">
-                {{ company.stores.length }} stores
-              </ion-badge>
-            </div>
-          </ng-container>
-        </ion-item>
-      </ng-container>
-
-    </section>
-  </ion-list>
 
   <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
     <ion-infinite-scroll-content></ion-infinite-scroll-content>
