@@ -14,11 +14,28 @@
 
 <ion-content>
 
+  <section *ngIf="store">
+    <ion-item>
+      <ion-label>
+        <h3>Store Name</h3>
+        <p>{{ store.store_name }}</p>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <h3>Brand Name</h3>
+        <p *ngIf="store.brand">{{ store.brand.brand_name_en }}</p>
+      </ion-label>
+    </ion-item>
+
+  </section>
   <ion-list *ngIf="store">
-    
-    <ion-list-header>
-      Candidates &nbsp; <ion-badge color="dark" *ngIf="store.candidates">{{ store.candidates.length }}</ion-badge>
-    </ion-list-header>
+
+    <ion-item-divider color="light">
+      <ion-label>
+        Candidates &nbsp; <ion-badge color="dark" *ngIf="store.candidates">{{ store.candidates.length }}</ion-badge>
+      </ion-label>
+    </ion-item-divider>
 
     <candidate [candidate]="candidate" (refresh)="loadData()" *ngFor="let candidate of store.candidates"></candidate>
 

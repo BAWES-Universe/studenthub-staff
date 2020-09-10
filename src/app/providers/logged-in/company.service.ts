@@ -45,7 +45,7 @@ export class CompanyService {
    * @param id
    */
   companyDetail(id) {
-    return this._authhttp.get(this._companyEndpoint + '/' + id + '?expand=files,requests,notes');
+    return this._authhttp.get(this._companyEndpoint + '/' + id + '?expand=files,requests,notes,brands');
   }
 
   /**

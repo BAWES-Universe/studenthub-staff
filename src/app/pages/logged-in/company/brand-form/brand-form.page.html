@@ -6,7 +6,7 @@
 
     <ion-title>{{ operation }}</ion-title>
 
-    <ion-buttons slot="end" *ngIf="!authService.admin_limited_access">
+    <ion-buttons slot="end">
       <ion-button clear color="primary" [disabled]="!form.valid" (click)="save()">
         <span *ngIf="!saving">Save</span>
         <ion-spinner *ngIf="saving"></ion-spinner>

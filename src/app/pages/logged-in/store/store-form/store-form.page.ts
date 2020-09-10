@@ -6,6 +6,8 @@ import {ActivatedRoute} from '@angular/router';
 import {StoreService} from 'src/app/providers/logged-in/store.service';
 // model
 import {Store} from 'src/app/models/store';
+import {Company} from "../../../../models/company";
+import {Brand} from "../../../../models/brand";
 
 @Component({
   selector: 'app-store-form',
@@ -15,6 +17,7 @@ import {Store} from 'src/app/models/store';
 export class StoreFormPage implements OnInit {
 
   public model: Store = new Store();
+  public brands: any = [];
   public operation: string;
   public store_id = null;
   public company_id;
@@ -29,17 +32,19 @@ export class StoreFormPage implements OnInit {
     private _alertCtrl: AlertController
   ){
     this.store_id = this.activatedRoute.snapshot.paramMap.get('id');
-
   }
 
   ngOnInit() {
-
     // Load the passed model if available
     const state = window.history.state;
     if (state.model) {
       this.model = state.model;
     } else {
       this.model.company_id = this.company_id;
+    }
+
+    if (state.brands) {
+      this.brands = state.brands;
     }
     this.formInit();
   }
@@ -49,12 +54,14 @@ export class StoreFormPage implements OnInit {
     if (!this.model.store_id){ // Show Create Form
       this.operation = 'Create';
       this.form = this._fb.group({
-        name: ['', Validators.required]
+        name: ['', Validators.required],
+        brand: ['']
       });
     }else{ // Show Update Form
       this.operation = 'Update';
       this.form = this._fb.group({
-        name: [this.model.store_name, Validators.required]
+        name: [this.model.store_name, Validators.required],
+        brand: [this.model.brand_uuid]
       });
     }
   }
@@ -63,6 +70,7 @@ export class StoreFormPage implements OnInit {
    */
   updateModelDataFromForm(){
     this.model.store_name = this.form.value.name;
+    this.model.brand_uuid = this.form.value.brand || null;
   }
 
   /**

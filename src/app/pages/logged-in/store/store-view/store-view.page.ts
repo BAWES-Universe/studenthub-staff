@@ -38,11 +38,11 @@ export class StoreViewPage implements OnInit {
 
     const state = window.history.state;
 
-    if (state['model']) {
-      this.store = state['model'];
-    } else {
-      this.loadData();
-    }
+    // if (state['model']) {
+    //   this.store = state['model'];
+    // } else {
+    this.loadData();
+    // }
     this.eventService.reloadCandidateHistory$.subscribe(response => {
       this.loadData();
     });
@@ -68,7 +68,8 @@ export class StoreViewPage implements OnInit {
     const modal = await this._modalCtrl.create({
       component: StoreFormPage,
       componentProps: {
-        model: this.store
+        model: this.store,
+        brands: this.store.company.brands
       },
       cssClass: 'my-custom-class'
     });
