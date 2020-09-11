@@ -66,7 +66,8 @@ export class CandidateBankInfoListPage implements OnInit {
 
     // Load list of candidates
     this.loading = true;
-    this.candidateService.listAssignedWithoutBank(search, page, 0, 1).subscribe(response => {
+
+    this.candidateService.listWithoutBank(search, page).subscribe(response => {
 
       this.totalCount = response.headers.get('X-Pagination-Total-Count');
       this.pageCount = response.headers.get('X-Pagination-Page-Count');
@@ -98,8 +99,11 @@ export class CandidateBankInfoListPage implements OnInit {
     this.paginationLoading = true;
 
     this.currentPage ++;
-    this.candidateService.listAssignedWithoutBank(this.searchBar, this.currentPage, 0, 1).subscribe(response => {
+
+    this.candidateService.listWithoutBank(this.searchBar, this.currentPage).subscribe(response => {
+
         this.paginationLoading = false;
+
         this.totalCount = response.headers.get('X-Pagination-Total-Count');
         this.pageCount = response.headers.get('X-Pagination-Page-Count');
         this.currentPage = response.headers.get('X-Pagination-Current-Page');
