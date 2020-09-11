@@ -10,6 +10,8 @@ import { StoreFormPage } from "../store-form/store-form.page";
 import { StoreService } from "../../../../providers/logged-in/store.service";
 import { AwsService } from 'src/app/providers/aws.service';
 import {EventService} from "../../../../providers/event.service";
+import {MallService} from "../../../../providers/logged-in/mall.service";
+import {Mall} from "../../../../models/mall";
 
 
 @Component({
@@ -22,6 +24,7 @@ export class StoreViewPage implements OnInit {
   public store: Store;
   public store_id = null;
   public loading = false;
+  public malls: Mall[];
 
   constructor(
     public navCtrl: NavController,
@@ -29,7 +32,8 @@ export class StoreViewPage implements OnInit {
     private activatedRoute: ActivatedRoute,
     public aws: AwsService,
     private _storeService: StoreService,
-    private eventService: EventService
+    private eventService: EventService,
+    private mallService: MallService
   ) {
   }
 
@@ -42,6 +46,7 @@ export class StoreViewPage implements OnInit {
     //   this.store = state['model'];
     // } else {
     this.loadData();
+    this.loadMall();
     // }
     this.eventService.reloadCandidateHistory$.subscribe(response => {
       this.loadData();
@@ -69,7 +74,8 @@ export class StoreViewPage implements OnInit {
       component: StoreFormPage,
       componentProps: {
         model: this.store,
-        brands: this.store.company.brands
+        brands: this.store.company.brands,
+        malls: this.malls
       },
       cssClass: 'my-custom-class'
     });
@@ -102,5 +108,14 @@ export class StoreViewPage implements OnInit {
    */
   loadLogo($event, candidate) {
     candidate.candidate_personal_photo = null;
+  }
+
+  /**
+   * load all mails
+   */
+  async loadMall() {
+    this.mallService.fullList().subscribe(response => {
+      this.malls = response;
+    });
   }
 }

@@ -4,9 +4,11 @@ import {AlertController, LoadingController, ModalController} from '@ionic/angula
 import {ActivatedRoute} from '@angular/router';
 // service
 import {StoreService} from 'src/app/providers/logged-in/store.service';
+import {AuthService} from 'src/app/providers/auth.service';
+import {MallService} from 'src/app/providers/logged-in/mall.service';
 // model
 import {Store} from 'src/app/models/store';
-import {Company} from "../../../../models/company";
+import {Mall} from 'src/app/models/mall';
 import {Brand} from "../../../../models/brand";
 
 @Component({
@@ -17,7 +19,8 @@ import {Brand} from "../../../../models/brand";
 export class StoreFormPage implements OnInit {
 
   public model: Store = new Store();
-  public brands: any = [];
+  public brands: Brand[];
+  public malls: Mall[];
   public operation: string;
   public store_id = null;
   public company_id;
@@ -29,7 +32,10 @@ export class StoreFormPage implements OnInit {
     public storeService: StoreService,
     private _fb: FormBuilder,
     private _modelCtrl: ModalController,
-    private _alertCtrl: AlertController
+    private _alertCtrl: AlertController,
+    private authService: AuthService,
+    private mallService: MallService,
+    private loadCtrl: LoadingController
   ){
     this.store_id = this.activatedRoute.snapshot.paramMap.get('id');
   }
@@ -46,6 +52,10 @@ export class StoreFormPage implements OnInit {
     if (state.brands) {
       this.brands = state.brands;
     }
+
+    if (state.malls) {
+      this.malls = state.malls;
+    }
     this.formInit();
   }
 
@@ -55,13 +65,15 @@ export class StoreFormPage implements OnInit {
       this.operation = 'Create';
       this.form = this._fb.group({
         name: ['', Validators.required],
-        brand: ['']
+        brand: [''],
+        mall: ['']
       });
     }else{ // Show Update Form
       this.operation = 'Update';
       this.form = this._fb.group({
         name: [this.model.store_name, Validators.required],
-        brand: [this.model.brand_uuid]
+        brand: [this.model.brand_uuid],
+        mall: [this.model.mall_uuid]
       });
     }
   }
@@ -71,6 +83,7 @@ export class StoreFormPage implements OnInit {
   updateModelDataFromForm(){
     this.model.store_name = this.form.value.name;
     this.model.brand_uuid = this.form.value.brand || null;
+    this.model.mall_uuid = this.form.value.mall || null;
   }
 
   /**
@@ -111,7 +124,7 @@ export class StoreFormPage implements OnInit {
       // On Failure
       if (jsonResponse.operation == 'error'){
         const prompt = await this._alertCtrl.create({
-          message: JSON.stringify(jsonResponse.message),
+          message: this.authService.errorMessage(jsonResponse.message),
           buttons: ['Ok']
         });
         prompt.present();

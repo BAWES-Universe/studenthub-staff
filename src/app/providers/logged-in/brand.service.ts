@@ -14,7 +14,7 @@ import { Brand } from '../../models/brand';
 })
 export class BrandService {
 
-  private _brandEndpoint: string = "/brands";
+  private _brandEndpoint = '/brands';
 
   constructor(private _authhttp: AuthHttpService) { }
 
@@ -23,7 +23,7 @@ export class BrandService {
    * @param brand_uuid
    */
   view(brand_uuid) {
-    let url = this._brandEndpoint + '/' + brand_uuid + '?expand=candidates,stores';
+    const url = this._brandEndpoint + '/' + brand_uuid + '?expand=candidates,stores';
     return this._authhttp.get(url);
   }
 
@@ -32,7 +32,7 @@ export class BrandService {
    * @returns {Observable<any>}
    */
   list(page: number): Observable<any>{
-    let url = this._brandEndpoint + '?page=' + page;
+    const url = this._brandEndpoint + '?page=' + page;
     return this._authhttp.getRaw(url);
   }
 
@@ -42,13 +42,13 @@ export class BrandService {
    * @returns {Observable<any>}
    */
   create(model: Brand): Observable<any>{
-    let postUrl = `${this._brandEndpoint}`;
+    const postUrl = `${this._brandEndpoint}`;
 
-    let params = {
-      "name_en": model.brand_name_en,
-      "name_ar": model.brand_name_ar,
-      "company_id": model.company_id,
-      "logo": model.brand_logo,
+    const params = {
+      name_en: model.brand_name_en,
+      name_ar: model.brand_name_ar,
+      company_id: model.company_id,
+      logo: model.brand_logo,
     };
 
     return this._authhttp.post(postUrl, params);
@@ -60,13 +60,13 @@ export class BrandService {
    * @returns {Observable<any>}
    */
   update(model: Brand): Observable<any>{
-    let url = `${this._brandEndpoint}/${model.brand_uuid}`;
+    const url = `${this._brandEndpoint}/${model.brand_uuid}`;
 
-    let params = {
-      "name_en": model.brand_name_en,
-      "name_ar": model.brand_name_ar,
-      "company_id": model.company_id,
-      "logo": model.brand_logo,
+    const params = {
+      name_en: model.brand_name_en,
+      name_ar: model.brand_name_ar,
+      company_id: model.company_id,
+      logo: model.brand_logo,
     };
 
     return this._authhttp.patch(url, params);
@@ -78,7 +78,7 @@ export class BrandService {
    * @returns {Observable<any>}
    */
   delete(model: Brand): Observable<any>{
-    let url = `${this._brandEndpoint}/${model.brand_uuid}`;
+    const url = `${this._brandEndpoint}/${model.brand_uuid}`;
     return this._authhttp.delete(url);
   }
 }

@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/company-list"></ion-back-button>
+    </ion-buttons>
+    <ion-title *ngIf="mall">{{ mall.mall_name_en }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="update()">
+        Update
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-list *ngIf="!loading">
+    <section>
+
+      <ion-item-divider color="light">
+        <ion-label>
+          Stores
+        </ion-label>
+      </ion-item-divider>
+        <ion-item tappable (click)="rowSelected(store)" *ngFor="let store of mall.stores">
+          {{ store.store_name }}
+          <ion-badge slot="end" *ngIf="store.candidatesCount">
+            <ion-icon name="person"></ion-icon> {{ store.candidatesCount }}
+          </ion-badge>
+        </ion-item>
+    </section>
+  </ion-list>
+
+  <loading-modal [loading]="loading" type="candidate-list"></loading-modal>
+
+</ion-content>

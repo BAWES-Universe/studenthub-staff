@@ -26,6 +26,8 @@ import { CompanyRequestService } from 'src/app/providers/logged-in/company-reque
 import { CompanyRequestFormPage } from '../../company/company-request-form/company-request-form.page';
 import { EventService } from "src/app/providers/event.service";
 import { BrandService } from "src/app/providers/logged-in/brand.service";
+import {MallService} from "../../../../providers/logged-in/mall.service";
+import {Mall} from "../../../../models/mall";
 
 
 @Component({
@@ -43,6 +45,7 @@ export class StoreListPage implements OnInit {
   public stores: Store[];
   public company: Company;
   public brands: Brand[] = [];
+  public malls: Mall[];
 
   public companyContacts: CompanyContact[] = [];
 
@@ -63,12 +66,16 @@ export class StoreListPage implements OnInit {
     public authService: AuthService,
     public companyContactService: CompanyContactService,
     public eventService: EventService,
-    public brandService: BrandService
+    public brandService: BrandService,
+    public mallService: MallService
   ) {
     this.company_id = this.activatedRoute.snapshot.paramMap.get('id');
   }
 
   ngOnInit() {
+
+    this.loadMall();
+
     this.loadData(this.currentPage);
     this.loadCompany();
     this.loadContacts();
@@ -266,7 +273,8 @@ export class StoreListPage implements OnInit {
       componentProps: {
         company_id: this.company_id,
         company: this.company,
-        brands: this.company.brands
+        brands: this.company.brands,
+        malls: this.malls
       },
       cssClass: 'my-custom-class'
     });
@@ -727,6 +735,15 @@ export class StoreListPage implements OnInit {
       state: {
         model: brand
       }
+    });
+  }
+
+  /**
+   * load all mails
+   */
+  async loadMall() {
+    this.mallService.fullList().subscribe(response => {
+      this.malls = response;
     });
   }
 }

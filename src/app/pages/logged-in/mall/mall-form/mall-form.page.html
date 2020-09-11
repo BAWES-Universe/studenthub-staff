@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="close()">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>{{ operation }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button color="primary"
+                  [disabled]="!form.valid || loading"
+                  (click)="save()">
+        <span *ngIf="!loading">Save</span>
+        <ion-spinner *ngIf="loading"></ion-spinner>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form [formGroup]="form">
+    <ion-list>
+      <ion-item>
+        <ion-label position="floating">Name English</ion-label>
+        <ion-input type="text" formControlName="name_en"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Name Arabic</ion-label>
+        <ion-input type="text" formControlName="name_ar"></ion-input>
+      </ion-item>
+
+    </ion-list>
+  </form>
+</ion-content>

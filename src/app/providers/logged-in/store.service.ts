@@ -45,7 +45,7 @@ export class StoreService {
    * @param story_id
    */
   detail(story_id: number): Observable<any>{
-    return this._authhttp.get(`${this._storeEndpoint}/${story_id}?expand=candidates,brand,company,company.brands`);
+    return this._authhttp.get(`${this._storeEndpoint}/${story_id}?expand=candidates,brand,company,company.brands,mall`);
   }
 
   /**
@@ -57,7 +57,8 @@ export class StoreService {
     return this._authhttp.post(this._storeEndpoint, {
       company_id: model.company_id,
       name: model.store_name,
-      brand_uuid: model.brand_uuid
+      brand_uuid: model.brand_uuid,
+      mall_uuid: model.mall_uuid
     });
   }
 
@@ -70,7 +71,8 @@ export class StoreService {
     return this._authhttp.patch(`${this._storeEndpoint}/${model.store_id}`, {
       company_id: model.company_id,
       name: model.store_name,
-      brand_uuid: model.brand_uuid
+      brand_uuid: model.brand_uuid,
+      mall_uuid: model.mall_uuid
     });
   }
 
