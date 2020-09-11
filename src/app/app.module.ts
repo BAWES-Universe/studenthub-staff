@@ -27,7 +27,8 @@ import { UploadFilePageModule } from './pages/logged-in/company/upload-file/uplo
 import { CompanyNoteFormPageModule } from './pages/logged-in/company/company-note-form/company-note-form.module';
 import { CompanyContactFormPageModule } from './pages/logged-in/company/company-contact-form/company-contact-form.module';
 import { OptionPageModule } from './pages/logged-in/candidate/option/option.module';
-import {BrandFormPageModule} from "./pages/logged-in/company/brand-form/brand-form.module";
+import {BrandFormPageModule} from './pages/logged-in/company/brand-form/brand-form.module';
+import {MallFormPageModule} from './pages/logged-in/mall/mall-form/mall-form.module';
 
 export function startupServiceFactory(authService) {
   return () => authService.load();
@@ -67,7 +68,8 @@ export function createTranslateLoader(http: HttpClient) {
         CompanyNoteFormPageModule,
         CompanyContactFormPageModule,
         OptionPageModule,
-        BrandFormPageModule
+        BrandFormPageModule,
+        MallFormPageModule
     ],
   providers: [
     {

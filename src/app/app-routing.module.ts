@@ -159,9 +159,24 @@ const routes: Routes = [
     canActivate: [AuthService],
   },
   {
+    path: 'mall-form',
+    loadChildren: () => import('./pages/logged-in/mall/mall-form/mall-form.module').then( m => m.MallFormPageModule),
+    canActivate: [AuthService],
+  },
+  {
+    path: 'mall-list',
+    loadChildren: () => import('./pages/logged-in/mall/mall-list/mall-list.module').then( m => m.MallListPageModule),
+    canActivate: [AuthService],
+  },
+  {
+    path: 'mall-view',
+    loadChildren: () => import('./pages/logged-in/mall/mall-view/mall-view.module').then( m => m.MallViewPageModule),
+    canActivate: [AuthService],
+  },
+  {
     path: '**',
     redirectTo: 'not-found'
-  },
+  }
 ];
 
 @NgModule({
