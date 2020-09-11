@@ -57,6 +57,7 @@ export class StoreService {
     return this._authhttp.post(this._storeEndpoint, {
       company_id: model.company_id,
       name: model.store_name,
+      location: model.store_location,
       brand_uuid: model.brand_uuid,
       mall_uuid: model.mall_uuid
     });
@@ -71,6 +72,7 @@ export class StoreService {
     return this._authhttp.patch(`${this._storeEndpoint}/${model.store_id}`, {
       company_id: model.company_id,
       name: model.store_name,
+      location: model.store_location,
       brand_uuid: model.brand_uuid,
       mall_uuid: model.mall_uuid
     });

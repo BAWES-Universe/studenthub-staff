@@ -188,7 +188,8 @@
     <ion-list>
       <ion-item tappable *ngFor="let store of stores" (click)="storeSelected(store)">
         <ion-label>
-          {{ store.store_name }}
+          <h5>{{ store.store_name }}</h5>
+          <p *ngIf="store.store_location"><ion-icon name="location-outline"></ion-icon> {{ store.store_location }}</p>
         </ion-label>
 
         <ion-badge slot="end" *ngIf="store.store_total_candidates > 0">

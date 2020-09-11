@@ -9,6 +9,7 @@ export class Store {
     brand_uuid: string;
     mall_uuid: string;
     store_name: string;
+    store_location: string;
     store_status: number;
     store_total_candidates: any;
     candidatesCount: any;

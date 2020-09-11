@@ -11,6 +11,7 @@ import {Store} from 'src/app/models/store';
 import {Mall} from 'src/app/models/mall';
 import {Brand} from "../../../../models/brand";
 
+
 @Component({
   selector: 'app-store-form',
   templateUrl: './store-form.page.html',
@@ -33,9 +34,7 @@ export class StoreFormPage implements OnInit {
     private _fb: FormBuilder,
     private _modelCtrl: ModalController,
     private _alertCtrl: AlertController,
-    private authService: AuthService,
-    private mallService: MallService,
-    private loadCtrl: LoadingController
+    private authService: AuthService
   ){
     this.store_id = this.activatedRoute.snapshot.paramMap.get('id');
   }
@@ -65,6 +64,7 @@ export class StoreFormPage implements OnInit {
       this.operation = 'Create';
       this.form = this._fb.group({
         name: ['', Validators.required],
+        location: ['', Validators.required],
         brand: [''],
         mall: ['']
       });
@@ -72,6 +72,7 @@ export class StoreFormPage implements OnInit {
       this.operation = 'Update';
       this.form = this._fb.group({
         name: [this.model.store_name, Validators.required],
+        location: [this.model.store_location, Validators.required],
         brand: [this.model.brand_uuid],
         mall: [this.model.mall_uuid]
       });
@@ -82,6 +83,7 @@ export class StoreFormPage implements OnInit {
    */
   updateModelDataFromForm(){
     this.model.store_name = this.form.value.name;
+    this.model.store_location = this.form.value.location;
     this.model.brand_uuid = this.form.value.brand || null;
     this.model.mall_uuid = this.form.value.mall || null;
   }
