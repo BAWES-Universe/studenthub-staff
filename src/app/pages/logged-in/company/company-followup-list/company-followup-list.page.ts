@@ -70,19 +70,11 @@ export class CompanyFollowupListPage implements OnInit {
   }
 
   rowSelected(model: Company) {
-    // Check if has subCompanies
-    if (model.subCompanies && model.subCompanies.length > 0) {
-      // Load Subcompany List
-      this.navCtrl.navigateForward('company-list/' + model.company_id, {
-        state : {
-          company: model,
-          companies: model.subCompanies
-        }
-      });
-    } else {
-      // Load store list for this company
-      this.navCtrl.navigateForward('store-list/' + model.company_id);
-    }
+    this.navCtrl.navigateForward('company-view/' + model.company_id, {
+      state: {
+        model
+      }
+    });
   }
 
   /**

@@ -7,10 +7,41 @@
 
     <ion-title *ngIf="company">{{ company.company_name }}</ion-title>
   </ion-toolbar>
+  
+  <ion-toolbar>
+    <ion-segment (ionChange)="segmentChanged($event)" [value]="segment">
+      <ion-segment-button value="info">
+        <ion-label>Info</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="companies" *ngIf="subCompanies && subCompanies.length > 0">
+        <ion-label>Companies</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="contacts">
+        <ion-label>Contacts</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="notes">
+        <ion-label>Notes</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="requests">
+        <ion-label>Requests</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="documents" *ngIf="company && company.files && company.files.length > 0">
+        <ion-label>Documents</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="stores" *ngIf="stores && stores.length > 0">
+        <ion-label>Stores</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="brands">
+        <ion-label>Brands</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+
 </ion-header>
 
 <ion-content>
-  <ion-list *ngIf="company">
+
+  <ion-list *ngIf="company && segment == 'info'">
 
     <ion-item lines="none">
       <ion-label>
@@ -30,7 +61,7 @@
       </ion-button>
     </ion-item>
 
-    <ion-item>
+    <ion-item lines="none">
       <ion-label>
         <h3>Last Followup</h3>
         <p>@ {{ toDate(company.company_last_followup_datetime) | date: 'MMM d, y, h:mm:ss a' }}</p>
@@ -57,31 +88,29 @@
           {{ company.company_common_name_en }}
         </ion-label>
       </ion-item>
-      <ion-item>
+
+      <ion-item *ngIf="company.company_description_ar">
         <ion-label>
           {{ company.company_common_name_ar }}
         </ion-label>
       </ion-item>
-      <ion-item>
+
+      <ion-item *ngIf="company.company_description_en">
         <ion-label>
           {{ company.company_description_en }}
         </ion-label>
       </ion-item>
-      <ion-item>
+
+      <ion-item *ngIf="company.company_description_ar">
         <ion-label>
           {{ company.company_description_ar }}
         </ion-label>
       </ion-item>
-      <ion-item>
+
+      <ion-item *ngIf="company.company_website">
         <ion-label>
           {{ company.company_website }}
         </ion-label>
-      </ion-item>
-
-      <ion-item>
-        <ion-button expand="full" color="danger" (click)="uploadDocument()">
-          <span>Upload Document</span>
-        </ion-button>
       </ion-item>
 
       <ion-item-divider color="light">
@@ -96,7 +125,7 @@
         </ion-label>
       </ion-item>
 
-      <ion-item>
+      <ion-item lines="none">
         <ion-label>
           Hourly Rate - {{ company.company_hourly_rate | number:'1.3-3' }} KWD
         </ion-label>
@@ -128,9 +157,27 @@
 
   </ion-list>
 
+  <section *ngIf="segment == 'documents'">
+    <ion-item *ngFor="let file of company.files">
+      <ion-label>
+        <a target="_blank" (click)="$event.stopPropagation()"
+          href="{{ awsService.permanentBucketUrl }}{{ file.file_s3_path }}">
+          {{file.file_title}}
+        </a>
+        <p>{{file.file_description}}</p>
+      </ion-label>
+    </ion-item>
+    
+    <ion-item lines="none">
+      <ion-button (click)="uploadDocument()">
+        <span>Upload Document</span>
+      </ion-button>
+    </ion-item>
+  </section>
+
   <!-- Subcompany List -->
 
-  <section *ngIf="subCompanies && subCompanies.length > 0">
+  <section *ngIf="segment == 'companies'">
 
     <ion-item-divider color="light">
       <ion-label>
@@ -177,13 +224,7 @@
 
   <!-- Store List -->
 
-  <section *ngIf="stores && stores.length > 0">
-
-    <ion-item-divider color="light">
-      <ion-label>
-        Stores
-      </ion-label>
-    </ion-item-divider>
+  <section *ngIf="segment == 'stores'">
 
     <ion-list>
       <ion-item tappable *ngFor="let store of stores" (click)="storeSelected(store)">
@@ -201,37 +242,56 @@
 
   <!-- Brand List -->
 
-  <section>
-
-    <ion-item-divider color="light">
-      <ion-label>
-        Brands
-      </ion-label>
-    </ion-item-divider>
+  <section *ngIf="segment == 'brands'">
 
     <ion-list>
-      <ion-item tappable *ngFor="let brand of brands">
-        <ion-thumbnail slot="start">
-          <ion-img *ngIf="brand.brand_logo" [src]="awsService.cloudinaryUrl + 'company-brand/' + brand.brand_logo">
-          </ion-img>
-          <ion-img *ngIf="!brand.brand_logo" src="assets/images/placeholder.png"></ion-img>
-        </ion-thumbnail>
-        <ion-label>
-          {{ brand.brand_name_en }}
-        </ion-label>
+      <ion-item-sliding *ngFor="let brand of brands" [disabled]="platform.width() > 768">
+        <ion-item tappable (click)="brandSelected(brand)">
+          <ion-thumbnail slot="start">
+            <ion-img *ngIf="brand.brand_logo" [src]="aws.cloudinaryUrl + 'company-brand/' + brand.brand_logo">
+            </ion-img>
+            <ion-img *ngIf="!brand.brand_logo" src="assets/images/placeholder.png"></ion-img>
+          </ion-thumbnail>
+          <ion-label>
+            {{ brand.brand_name_en }}
+          </ion-label>
+          <ion-badge slot="end">{{brand.candidate_count}}</ion-badge>
+          <ion-buttons slot="end" *ngIf="platform.width() > 768">
+            <ion-button color="primary" (click)="editBrandSelected($event, brand)">
+              <ion-icon slot="start" name="pencil-outline"></ion-icon>
+              Edit
+            </ion-button>
+            <ion-button color="danger" (click)="deleteBrand($event, brand)">
+              <ion-icon slot="start" name="trash-outline"></ion-icon>
+              Delete
+            </ion-button>
+          </ion-buttons>
+
+        </ion-item>
+
+        <ion-item-options side="end">
+          <ion-button color="primary" (click)="editBrandSelected($event, brand)">
+            <ion-icon slot="start" name="pencil-outline"></ion-icon>
+            Edit
+          </ion-button>
+          <ion-button color="danger" (click)="deleteBrand($event, brand)">
+            <ion-icon slot="start" name="trash-outline"></ion-icon>
+            Delete
+          </ion-button>
+        </ion-item-options>
+      </ion-item-sliding>
+
+      <ion-item lines="none">
+        <ion-button (click)="addBrand()">
+          Add New Brand
+        </ion-button>
       </ion-item>
     </ion-list>
   </section>
 
   <!-- request List -->
   
-  <section *ngIf="!loading && company">
-
-    <ion-item-divider color="light">
-      <ion-label>
-        Requests
-      </ion-label>
-    </ion-item-divider>
+  <section *ngIf="segment == 'requests'">
 
     <ion-list>
       <ion-item-sliding *ngFor="let request of company.requests">
@@ -293,35 +353,42 @@
   </section>
 
   <!-- note -->
-  <section *ngIf="!loading && company">
 
-    <ion-item-divider color="light">
-      <ion-label>
-        Notes
-      </ion-label>
-    </ion-item-divider>
-
+  <section *ngIf="segment == 'notes'">
     <ion-list>
-      <ion-item-sliding *ngFor="let note of company.notes">
-        <ion-item tappable>
+      <ion-item-sliding *ngFor="let note of company.notes" [disabled]="platform.width() > 768">
+        <ion-item tappable (click)="addNote(note)">
           <ion-label>
-            {{ note.note_text }}<br/>
+            {{ note.note_text }}<br />
             <small>{{ note.note_created_datetime | date}}</small>
           </ion-label>
+
+          <ion-buttons slot="end" *ngIf="platform.width() > 768">
+            <ion-button color="danger" (click)="remoteNote($event, note)">
+              <ion-icon slot="start" name="trash-outline"></ion-icon>
+              Delete
+            </ion-button>
+          </ion-buttons>
+
         </ion-item>
+        <ion-item-options side="end">
+          <ion-button color="danger" (click)="remoteNote($event, note)">
+            <ion-icon slot="start" name="trash-outline"></ion-icon>
+            Delete
+          </ion-button>
+        </ion-item-options>
       </ion-item-sliding>
+      <ion-item>
+        <ion-button expand="full" color="danger" (click)="addNote(null)">
+          <span>Add New Note</span>
+        </ion-button>
+      </ion-item>
     </ion-list>
   </section>
 
   <!-- Contact List -->
 
-  <section>
-
-    <ion-item-divider color="light">
-      <ion-label>
-        Contacts
-      </ion-label>
-    </ion-item-divider>
+  <section *ngIf="segment == 'contacts'">
 
     <ion-list class="contact-list">
       <ion-item-sliding *ngFor="let companyContact of companyContacts" [disabled]="platform.width() > 768">

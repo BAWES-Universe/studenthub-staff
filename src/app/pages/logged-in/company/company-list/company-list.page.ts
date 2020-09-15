@@ -1,28 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController, NavController, Platform, ToastController, AlertController } from '@ionic/angular';
-import { ActivatedRoute } from '@angular/router';
+import { NavController, Platform } from '@ionic/angular';
 // model
 import { Company } from 'src/app/models/company';
-import { CompanyContact } from 'src/app/models/company-contact';
-import { Note } from '../../../../models/note';
-import { Request } from 'src/app/models/request';
-import {Brand} from 'src/app/models/brand';
 // service
 import { CompanyService } from 'src/app/providers/logged-in/company.service';
 import { AwsService } from '../../../../providers/aws.service';
-import { CompanyNoteService } from '../../../../providers/logged-in/company-note.service';
-import { CompanyContactService } from 'src/app/providers/logged-in/company-contact.service';
-import { AuthService } from 'src/app/providers/auth.service';
-import { CompanyRequestService } from 'src/app/providers/logged-in/company-request.service';
 import { EventService } from 'src/app/providers/event.service';
-import { BrandService } from 'src/app/providers/logged-in/brand.service';
-// pages
-import { UploadFilePage } from '../upload-file/upload-file.page';
-import { CompanyNoteFormPage } from '../company-note-form/company-note-form.page';
-import { CompanyContactFormPage } from '../company-contact-form/company-contact-form.page';
-import { CompanyFollowupNotePage } from '../company-followup-note/company-followup-note.page';
-import { CompanyRequestFormPage } from '../company-request-form/company-request-form.page';
-import {BrandFormPage} from "../brand-form/brand-form.page";
 
 
 @Component({
@@ -32,151 +15,29 @@ import {BrandFormPage} from "../brand-form/brand-form.page";
 })
 export class CompanyListPage implements OnInit {
 
-  public brands: Brand[] = [];
   public pageCount = 0;
   public currentPage = 1;
   public pages: number[] = [];
   public loading = false;
   public loadingMore = false;
-  public deleting = false;
-  public company_id = null;
-  public company: Company;
+
   public companies: Company[];
   public segment = 1;
   public enableCompanies: Company[] = [];
   public disableCompanies: Company[] = [];
 
-  public companyContacts: CompanyContact[] = [];
-
   constructor(
-    public activatedRoute: ActivatedRoute,
     public navCtrl: NavController,
-    public alertCtrl: AlertController,
-    public modalCtrl: ModalController,
     public companyService: CompanyService,
-    public noteService: CompanyNoteService,
-    public authService: AuthService,
-    public requestService: CompanyRequestService,
-    public companyContactService: CompanyContactService,
     public platform: Platform,
     public aws: AwsService,
-    public toastCtrl: ToastController,
-    public eventService: EventService,
-    public brandService: BrandService,
+    public eventService: EventService
   ) {
   }
 
   ngOnInit() {
-    this.company_id = this.activatedRoute.snapshot.paramMap.get('id');
-
     this.eventService.reloadCandidateHistory$.subscribe(response => {
       this.loadCompanyList(this.currentPage);
-    });
-  }
-
-  async onContactSelected(companyContact) {
-    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
-
-    const modal = await this.modalCtrl.create({
-      component: CompanyContactFormPage,
-      componentProps: {
-        model: companyContact
-      }
-    });
-    modal.onDidDismiss().then(e => {
-
-      if (!e.data || e.data.from != 'native-back-btn') {
-        window['history-back-from'] = 'onDidDismiss';
-        window.history.back();
-      }
-
-      if (e && e.data && e.data.refresh) {
-        this.loadContacts();
-      }
-    });
-    modal.present();
-  }
-
-  /**
-   * add followup note
-   */
-  async addFollowupNote() {
-    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
-
-    const modal = await this.modalCtrl.create({
-      component: CompanyFollowupNotePage,
-      componentProps: {
-        company_id: this.company_id
-      }
-    });
-    modal.onDidDismiss().then(e => {
-
-      if (!e.data || e.data.from != 'native-back-btn') {
-        window['history-back-from'] = 'onDidDismiss';
-        window.history.back();
-      }
-
-      if (e && e.data && e.data.company_last_followup_datetime && this.company) {
-        this.company.company_last_followup_datetime = e.data.company_last_followup_datetime;
-        this.viewDetail(false);
-      }
-    });
-    modal.present();
-  }
-
-  async addCompanyContact() {
-    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
-
-    const companyContact = new CompanyContact;
-    companyContact.company_id = this.company_id;
-
-    const modal = await this.modalCtrl.create({
-      component: CompanyContactFormPage,
-      componentProps: {
-        model: companyContact
-      }
-    });
-    modal.onDidDismiss().then(e => {
-
-      if (!e.data || e.data.from != 'native-back-btn') {
-        window['history-back-from'] = 'onDidDismiss';
-        window.history.back();
-      }
-
-      if (e && e.data && e.data.refresh) {
-        this.loadContacts();
-      }
-    });
-    modal.present();
-  }
-
-  doNothing(event) {
-    event.stopPropagation();
-  }
-
-  async deleteContact(event, companyContact) {
-
-    event.preventDefault();
-    event.stopPropagation();
-
-    this.companyContactService.delete(companyContact).subscribe(async response => {
-
-      if (response.operation == 'success') {
-        this.companyContacts = this.companyContacts.filter(e => e.contact_uuid != companyContact.contact_uuid);
-      }
-      else {
-        const prompt = await this.alertCtrl.create({
-          message: this.authService.errorMessage(response.message),
-          buttons: ['Ok']
-        });
-        prompt.present();
-      }
-    });
-  }
-
-  loadContacts() {
-    this.companyContactService.companyContacts(this.company_id).subscribe(data => {
-      this.companyContacts = data;
     });
   }
 
@@ -184,24 +45,12 @@ export class CompanyListPage implements OnInit {
     const state = window.history.state;
 
     if (state.companies) {
-      this.company = state.company;
       this.companies = state.companies;
       this.loadCompaniesSegmentData();
     }
 
-    if (!this.companies && !this.company_id) {
+    if (!this.companies) {
       this.loadCompanyList(this.currentPage);
-    }
-
-    if (this.company_id) {
-
-      if (this.company) {
-        this.viewDetail(false); // silent loading
-      } else {
-        this.viewDetail(true); // loading with loader
-      }
-
-      this.loadContacts();
     }
   }
 
@@ -226,50 +75,10 @@ export class CompanyListPage implements OnInit {
    * When its selected
    */
   rowSelected(model: Company) {
-    // Check if has subCompanies
-    if (model.subCompanies && model.subCompanies.length > 0) {
-      // Load Subcompany List
-      this.navCtrl.navigateForward('company-list/' + model.company_id, {
-        state: {
-          company: model,
-          companies: model.subCompanies
-        }
-      });
-    } else {
-      // Load store list for this company
-      this.navCtrl.navigateForward('store-list/' + model.company_id);
-    }
-  }
-
-  rowSelectedNew(model: Company) {
-    // Check if has subCompanies
-    if (model.subCompanies && model.subCompanies.length > 0) {
-      // Load Subcompany List
-      this.navCtrl.navigateForward('company-view/' + model.company_id, {
-        state: {
-          model
-        }
-      });
-    } else {
-      // Load store list for this company
-      this.navCtrl.navigateForward('store-list/' + model.company_id);
-    }
-  }
-
-  /**
-   * view detail
-   */
-  viewDetail(loading = true) {
-
-    this.loading = loading;
-
-    this.companyService.view(this.company_id).subscribe(response => {
-      this.loading = false;
-      this.company = response;
-
-      this.companies = response.subCompanies;
-      this.brands = response.brands;
-      this.loadCompaniesSegmentData();
+    this.navCtrl.navigateForward('company-view/' + model.company_id, {
+      state: {
+        model
+      }
     });
   }
 
@@ -289,40 +98,6 @@ export class CompanyListPage implements OnInit {
       } else {
         this.disableCompanies.push(company);
       }
-    }
-  }
-
-  /**
-   * Make date readable by Safari
-   * @param date
-   */
-  toDate(date) {
-    if (date) {
-      return new Date(date.replace(/-/g, '/'));
-    }
-  }
-
-  async uploadDocument() {
-    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
-
-    const modal = await this.modalCtrl.create({
-      component: UploadFilePage,
-      componentProps: {
-        company: this.company,
-      }
-    });
-    modal.present();
-    modal.onDidDismiss().then(e => {
-
-      if (!e.data || e.data.from != 'native-back-btn') {
-        window['history-back-from'] = 'onDidDismiss';
-        window.history.back();
-      }
-    });
-
-    const { data } = await modal.onWillDismiss();
-    if (data && data.refresh) {
-      this.viewDetail(false);
     }
   }
 
@@ -350,290 +125,5 @@ export class CompanyListPage implements OnInit {
       }
     );
   }
-
-  async addNote(note: Note) {
-    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
-
-    const modal = await this.modalCtrl.create({
-      component: CompanyNoteFormPage,
-      componentProps: {
-        company: this.company,
-        note,
-      }
-    });
-    modal.present();
-    modal.onDidDismiss().then(e => {
-
-      if (!e.data || e.data.from != 'native-back-btn') {
-        window['history-back-from'] = 'onDidDismiss';
-        window.history.back();
-      }
-    });
-
-    const { data } = await modal.onWillDismiss();
-    if (data && data.refresh) {
-      this.viewDetail(false);
-    }
-  }
-
-  /**
-   * removing note
-   * @param event
-   * @param note
-   */
-  async remoteNote(event, note) {
-
-    event.preventDefault();
-    event.stopPropagation();
-
-    this.noteService.delete(note).subscribe(async response => {
-
-      if (response.operation == 'success') {
-        this.viewDetail(false);
-      } else {
-        this.toastCtrl.create({
-          message: response.message,
-          buttons: ['Ok']
-        }).then(prompt => {
-          prompt.present();
-        });
-      }
-    });
-  }
-
-  async editRequest(request) {
-
-    this.company.companyContacts = this.companyContacts;
-
-    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
-
-    const modal = await this.modalCtrl.create({
-      component: CompanyRequestFormPage,
-      componentProps: {
-        company: this.company,
-        request,
-      }
-    });
-    modal.present();
-    modal.onDidDismiss().then(e => {
-
-      if (!e.data || e.data.from != 'native-back-btn') {
-        window['history-back-from'] = 'onDidDismiss';
-        window.history.back();
-      }
-    });
-
-    const { data } = await modal.onWillDismiss();
-
-    if (data && data.refresh) {
-      this.viewDetail(false);
-    }
-  }
-
-  async addRequest() {
-    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
-
-    const request = new Request;
-
-    this.company.companyContacts = this.companyContacts;
-
-    const modal = await this.modalCtrl.create({
-      component: CompanyRequestFormPage,
-      componentProps: {
-        company: this.company,
-        request,
-      }
-    });
-    modal.present();
-    modal.onDidDismiss().then(e => {
-
-      if (!e.data || e.data.from != 'native-back-btn') {
-        window['history-back-from'] = 'onDidDismiss';
-        window.history.back();
-      }
-    });
-
-    const { data } = await modal.onWillDismiss();
-
-    if (data && data.refresh) {
-      this.viewDetail(false);
-    }
-  }
-
-  startRequest(event, request) {
-
-    event.preventDefault();
-    event.stopPropagation();
-
-    this.requestService.start(request).subscribe(async response => {
-
-      if (response.operation == 'success') {
-        request.request_status = 'started';
-      } else {
-        this.toastCtrl.create({
-          message: response.message,
-          buttons: ['Ok']
-        }).then(prompt => {
-          prompt.present();
-        });
-      }
-    });
-  }
-
-  cancelledRequest(event, request) {
-
-    event.preventDefault();
-    event.stopPropagation();
-
-    this.requestService.cancel(request).subscribe(async response => {
-
-      if (response.operation == 'success') {
-        request.request_status = 'cancelled';
-      } else {
-        this.toastCtrl.create({
-          message: response.message,
-          buttons: ['Ok']
-        }).then(prompt => {
-          prompt.present();
-        });
-      }
-    });
-  }
-
-  deliveredRequest(event, request) {
-
-    event.preventDefault();
-    event.stopPropagation();
-
-    this.requestService.deliver(request).subscribe(async response => {
-
-      if (response.operation == 'success') {
-        request.request_status = 'delivered';
-      } else {
-        this.toastCtrl.create({
-          message: response.message,
-          buttons: ['Ok']
-        }).then(prompt => {
-          prompt.present();
-        });
-      }
-    });
-  }
-
-  async deleteBrand(event, brand) {
-
-    event.preventDefault();
-    event.stopPropagation();
-
-    const confirm = await this.alertCtrl.create({
-      header: 'Delete Brand?',
-      message: 'Do you want to delete this brand?',
-      buttons: [
-        {
-          text: 'Yes',
-          handler: () => {
-
-            this.deleting = true;
-
-            this.brandService.delete(brand).subscribe(async jsonResp => {
-
-              // On Success
-              if (jsonResp.operation == 'success') {
-                const toast = await this.toastCtrl.create({
-                  message: jsonResp.message,
-                  duration: 3000
-                });
-                toast.present();
-
-                this.viewDetail(true);
-              }
-
-              // On Failure
-              if (jsonResp.operation == 'error') {
-
-                this.deleting = false;
-
-                // failer text
-                const prompt = await this.alertCtrl.create({
-                  header: 'Deletion Error!',
-                  message: jsonResp.message,
-                  buttons: ['Ok']
-                });
-                prompt.present();
-              }
-
-            });
-          }
-        },
-        {
-          text: 'No'
-        }
-      ]
-    });
-    confirm.present();
-  }
-
-  /**
-   * open brand edit page
-   * @param brand
-   */
-  async brandSelected(brand) {
-    this.navCtrl.navigateForward('brand-view/' + brand.brand_uuid, {
-      state: {
-        model: brand
-      }
-    });
-  }
-
-  async editSelected($event, brand) {
-    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
-
-    const modal = await this.modalCtrl.create({
-      component: BrandFormPage,
-      componentProps: {
-        model: brand
-      }
-    });
-    modal.onDidDismiss().then(e => {
-
-      if (!e.data || e.data.from != 'native-back-btn') {
-        window['history-back-from'] = 'onDidDismiss';
-        window.history.back();
-      }
-
-      if (e && e.data && e.data.refresh) {
-        this.viewDetail(true);
-      }
-    });
-    modal.present();
-  }
-
-  /**
-   * form to add new brand
-   */
-  async addBrand() {
-    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
-
-    const brand = new Brand;
-    brand.company_id = this.company_id;
-
-    const modal = await this.modalCtrl.create({
-      component: BrandFormPage,
-      componentProps: {
-        model: brand
-      }
-    });
-    modal.onDidDismiss().then(e => {
-
-      if (!e.data || e.data.from != 'native-back-btn') {
-        window['history-back-from'] = 'onDidDismiss';
-        window.history.back();
-      }
-
-      if (e && e.data && e.data.refresh) {
-        this.viewDetail(true);
-      }
-    });
-    modal.present();
-  }
 }
+
