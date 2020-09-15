@@ -62,7 +62,7 @@ export class AppComponent implements OnInit {
       }
 
       this.popoverCtrl.getTop().then(overlay => {
-        
+
         if (overlay) {
           this.popoverCtrl.dismiss({
             'from': 'native-back-btn'

@@ -24,7 +24,7 @@ export class AuthService {
   public name: string;
   public email: string;
   public theme: string;
-
+  public navEnable = true;
   public currency_pref = 'USD';
 
   public isLogged = false;
@@ -49,11 +49,18 @@ export class AuthService {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+
     /**
      * new router changes don't wait for startup service
      * https://github.com/angular/angular/issues/14615
      */
     return new Promise(async resolve => {
+
+      this.navEnable = true;
+
+      if (route.data.navDisable) {
+        this.navEnable = false;
+      }
 
       if (this.isLogged) {
         resolve(true);

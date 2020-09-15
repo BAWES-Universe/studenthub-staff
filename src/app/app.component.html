@@ -1,6 +1,6 @@
 <ion-app>
   <ion-split-pane contentId="main-content">
-    <ion-menu contentId="main-content" type="overlay" [disabled]="!this.authService.isLogged">
+    <ion-menu contentId="main-content" type="overlay" [disabled]="!this.authService.isLogged || !this.authService.navEnable">
       <ion-header>
         <ion-toolbar class="ion-text-center" style="height:auto;">
           <img class='logo' src="assets/icon/icon.png" width=100 />
