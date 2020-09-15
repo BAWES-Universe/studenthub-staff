@@ -19,6 +19,11 @@ import { UploadFilePage } from "../upload-file/upload-file.page";
 import { CompanyContactFormPage } from '../company-contact-form/company-contact-form.page';
 import { CompanyFollowupNotePage } from '../company-followup-note/company-followup-note.page';
 import { CompanyRequestFormPage } from '../company-request-form/company-request-form.page';
+import { Note } from 'src/app/models/note';
+import { CompanyNoteFormPage } from '../company-note-form/company-note-form.page';
+import { CompanyNoteService } from 'src/app/providers/logged-in/company-note.service';
+import { BrandService } from 'src/app/providers/logged-in/brand.service';
+import { BrandFormPage } from '../brand-form/brand-form.page';
 
 
 @Component({
@@ -42,6 +47,8 @@ export class CompanyViewPage implements OnInit {
   public loading = false;
   public sendingNewPassword = false;
 
+  public segment: string = 'info';
+
   constructor(
     public platform: Platform,
     public modalCtrl: ModalController,
@@ -52,6 +59,8 @@ export class CompanyViewPage implements OnInit {
     public companyService: CompanyService,
     public authService: AuthService,
     public requestService: CompanyRequestService,
+    public brandService: BrandService,
+    public noteService: CompanyNoteService,
     public companyContactService: CompanyContactService,
     public storeService: StoreService,
     public awsService: AwsService
@@ -99,6 +108,173 @@ export class CompanyViewPage implements OnInit {
     }, () => {
       this.loading = false;
       this.deleting = false;
+    });
+  }
+
+  async deleteBrand(event, brand) {
+
+    event.preventDefault();
+    event.stopPropagation();
+
+    const confirm = await this.alertCtrl.create({
+      header: 'Delete Brand?',
+      message: 'Do you want to delete this brand?',
+      buttons: [
+        {
+          text: 'Yes',
+          handler: () => {
+
+            this.deleting = true;
+
+            this.brandService.delete(brand).subscribe(async jsonResp => {
+
+              // On Success
+              if (jsonResp.operation == 'success') {
+                const toast = await this.toastCtrl.create({
+                  message: jsonResp.message,
+                  duration: 3000
+                });
+                toast.present();
+
+                this.loadData(true);
+              }
+
+              // On Failure
+              if (jsonResp.operation == 'error') {
+
+                this.deleting = false;
+
+                // failer text
+                const prompt = await this.alertCtrl.create({
+                  header: 'Deletion Error!',
+                  message: jsonResp.message,
+                  buttons: ['Ok']
+                });
+                prompt.present();
+              }
+
+            });
+          }
+        },
+        {
+          text: 'No'
+        }
+      ]
+    });
+    confirm.present();
+  }
+
+  /**
+   * open brand edit page
+   * @param brand
+   */
+  async brandSelected(brand) {
+    this.router.navigate(['brand-view', brand.brand_uuid], {
+      state: {
+        model: brand
+      }
+    });
+  }
+
+  async editBrandSelected($event, brand) {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
+    const modal = await this.modalCtrl.create({
+      component: BrandFormPage,
+      componentProps: {
+        model: brand
+      }
+    });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+
+      if (e && e.data && e.data.refresh) {
+        this.loadData(true);
+      }
+    });
+    modal.present();
+  }
+
+  /**
+   * form to add new brand
+   */
+  async addBrand() {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
+    const brand = new Brand;
+    brand.company_id = this.company_id;
+
+    const modal = await this.modalCtrl.create({
+      component: BrandFormPage,
+      componentProps: {
+        model: brand
+      }
+    });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+
+      if (e && e.data && e.data.refresh) {
+        this.loadData(true);
+      }
+    });
+    modal.present();
+  }
+
+  async addNote(note: Note) {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
+    const modal = await this.modalCtrl.create({
+      component: CompanyNoteFormPage,
+      componentProps: {
+        company: this.company,
+        note,
+      }
+    });
+    modal.present();
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
+
+    const { data } = await modal.onWillDismiss();
+    if (data && data.refresh) {
+      this.loadData(false);
+    }
+  }
+
+  /**
+   * removing note
+   * @param event
+   * @param note
+   */
+  async remoteNote(event, note) {
+
+    event.preventDefault();
+    event.stopPropagation();
+
+    this.noteService.delete(note).subscribe(async response => {
+
+      if (response.operation == 'success') {
+        this.loadData(false);
+      } else {
+        this.toastCtrl.create({
+          message: response.message,
+          buttons: ['Ok']
+        }).then(prompt => {
+          prompt.present();
+        });
+      }
     });
   }
 
@@ -243,15 +419,8 @@ export class CompanyViewPage implements OnInit {
     });
   }
 
-  /**
-   * view detail
-   */
-  viewDetail() {
-    this.loading = true;
-    this.companyService.view(this.company_id).subscribe( response => {
-      this.loading = false;
-      this.company = response;
-    });
+  segmentChanged($event) {
+    this.segment = $event.detail.value;
   }
 
   async uploadDocument() {
@@ -302,7 +471,7 @@ export class CompanyViewPage implements OnInit {
     const { data } = await modal.onWillDismiss();
 
     if (data && data.refresh) {
-      this.viewDetail();
+      this.loadData();
     }
   }
 
@@ -332,7 +501,7 @@ export class CompanyViewPage implements OnInit {
     const { data } = await modal.onWillDismiss();
 
     if (data && data.refresh) {
-      this.viewDetail();
+      this.loadData();
     }
   }
 

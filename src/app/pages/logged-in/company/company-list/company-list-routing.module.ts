@@ -5,10 +5,6 @@ import { CompanyListPage } from './company-list.page';
 
 const routes: Routes = [
   {
-    path: ':id',
-    component: CompanyListPage
-  },
-  {
     path: '',
     component: CompanyListPage
   }
