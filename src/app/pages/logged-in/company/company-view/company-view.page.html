@@ -248,7 +248,7 @@
       <ion-item-sliding *ngFor="let brand of brands" [disabled]="platform.width() > 768">
         <ion-item tappable (click)="brandSelected(brand)">
           <ion-thumbnail slot="start">
-            <ion-img *ngIf="brand.brand_logo" [src]="aws.cloudinaryUrl + 'company-brand/' + brand.brand_logo">
+            <ion-img *ngIf="brand.brand_logo" [src]="awsService.cloudinaryUrl + 'company-brand/' + brand.brand_logo">
             </ion-img>
             <ion-img *ngIf="!brand.brand_logo" src="assets/images/placeholder.png"></ion-img>
           </ion-thumbnail>

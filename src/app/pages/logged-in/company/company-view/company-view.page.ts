@@ -8,21 +8,21 @@ import { CompanyContactService } from 'src/app/providers/logged-in/company-conta
 import { AwsService } from 'src/app/providers/aws.service';
 import { AuthService } from 'src/app/providers/auth.service';
 import { CompanyRequestService } from 'src/app/providers/logged-in/company-request.service';
+import { CompanyNoteService } from 'src/app/providers/logged-in/company-note.service';
+import { BrandService } from 'src/app/providers/logged-in/brand.service';
 //models
 import { CompanyContact } from 'src/app/models/company-contact';
 import { Company } from 'src/app/models/company';
 import { Store } from 'src/app/models/store';
 import { Brand } from 'src/app/models/brand'; 
+import { Note } from 'src/app/models/note';
 import { Request } from 'src/app/models/request';
 //pages
 import { UploadFilePage } from "../upload-file/upload-file.page";
 import { CompanyContactFormPage } from '../company-contact-form/company-contact-form.page';
 import { CompanyFollowupNotePage } from '../company-followup-note/company-followup-note.page';
 import { CompanyRequestFormPage } from '../company-request-form/company-request-form.page';
-import { Note } from 'src/app/models/note';
 import { CompanyNoteFormPage } from '../company-note-form/company-note-form.page';
-import { CompanyNoteService } from 'src/app/providers/logged-in/company-note.service';
-import { BrandService } from 'src/app/providers/logged-in/brand.service';
 import { BrandFormPage } from '../brand-form/brand-form.page';
 
 
