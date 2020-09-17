@@ -17,10 +17,11 @@ export class CompanyService {
 
   /**
    * List of all companies
-   * @returns {Observable<any>}
+   * @param page
+   * @param status
    */
-  list(page): Observable<any> {
-    return this._authhttp.getRaw(this._companyEndpoint + '?page=' + page + '&expand=subCompanies,subCompanies.stores,stores,subCompanies.stores.candidates,files,requests,notes');
+  list(page, status = 0): Observable<any> {
+    return this._authhttp.getRaw(this._companyEndpoint + '?page=' + page + '&status=' + status + '&expand=subCompanies,subCompanies.stores,stores,subCompanies.stores.candidates,files,requests,notes');
   }
 
   /**

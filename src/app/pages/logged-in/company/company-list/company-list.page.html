@@ -3,11 +3,9 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-
     <ion-title>Select Company</ion-title>
-
   </ion-toolbar>
-  
+
   <ion-toolbar>
     <ion-segment (ionChange)="segmentChanged($event)" [value]="segment">
       <ion-segment-button value="1">
@@ -16,9 +14,8 @@
       <ion-segment-button value="0">
         <ion-label>In Active</ion-label>
       </ion-segment-button>
-    </ion-segment>   
+    </ion-segment>
   </ion-toolbar>
-
 </ion-header>
 
 <ion-content>
@@ -27,7 +24,7 @@
     <section>
 
       <ng-container *ngIf="segment == 1">
-        <ion-item tappable *ngFor="let company of enableCompanies" (click)="rowSelected(company)">
+        <ion-item tappable *ngFor="let company of activeCompanies" (click)="rowSelected(company)">
 
           <ion-avatar slot="start">
             <img *ngIf="company.company_logo" src="{{ aws.cloudinaryUrl + company.company_logo }}"
@@ -67,7 +64,7 @@
       </ng-container>
 
       <ng-container *ngIf="segment == 0">
-        <ion-item tappable *ngFor="let company of disableCompanies" (click)="rowSelected(company)">
+        <ion-item tappable *ngFor="let company of inActiveCompanies" (click)="rowSelected(company)">
 
           <ion-avatar slot="start">
             <img *ngIf="company.company_logo" src="{{ aws.cloudinaryUrl + company.company_logo }}"
@@ -109,10 +106,14 @@
 
     </section>
   </ion-list>
- 
+
   <loading-modal [loading]="loading || loadingMore" type="text-list"></loading-modal>
 
-  <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
+  <ion-infinite-scroll *ngIf="segment == 1 && activeCurrentPage < activePageCount" (ionInfinite)="doInfinite($event, this.active)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+  <ion-infinite-scroll *ngIf="segment == 2 && inActiveCurrentPage < inActivePageCount" (ionInfinite)="doInfinite($event,this.inActive)">
     <ion-infinite-scroll-content></ion-infinite-scroll-content>
   </ion-infinite-scroll>
 
