@@ -7,7 +7,7 @@
 
     <ion-title *ngIf="company">{{ company.company_name }}</ion-title>
   </ion-toolbar>
-  
+
   <ion-toolbar>
     <ion-segment (ionChange)="segmentChanged($event)" [value]="segment">
       <ion-segment-button value="info">
@@ -28,7 +28,8 @@
       <ion-segment-button value="documents" *ngIf="company && company.files && company.files.length > 0">
         <ion-label>Documents</ion-label>
       </ion-segment-button>
-      <ion-segment-button value="stores" *ngIf="stores && stores.length > 0">
+      <!-- store can't be assigned to company having sub companies -->
+      <ion-segment-button value="stores" *ngIf="!subCompanies || subCompanies.length == 0">
         <ion-label>Stores</ion-label>
       </ion-segment-button>
       <ion-segment-button value="brands">
@@ -36,6 +37,8 @@
       </ion-segment-button>
     </ion-segment>
   </ion-toolbar>
+  
+  <ion-progress-bar type="indeterminate" *ngIf="updating"></ion-progress-bar>
 
 </ion-header>
 
@@ -167,7 +170,7 @@
         <p>{{file.file_description}}</p>
       </ion-label>
     </ion-item>
-    
+
     <ion-item lines="none">
       <ion-button (click)="uploadDocument()">
         <span>Upload Document</span>
@@ -227,17 +230,46 @@
   <section *ngIf="segment == 'stores'">
 
     <ion-list>
-      <ion-item tappable *ngFor="let store of stores" (click)="storeSelected(store)">
-        <ion-label>
-          <h5>{{ store.store_name }}</h5>
-          <p *ngIf="store.store_location"><ion-icon name="location-outline"></ion-icon> {{ store.store_location }}</p>
-        </ion-label>
+      <ion-item-sliding *ngFor="let store of stores" [disabled]="platform.width() > 768">
+        <ion-item tappable (click)="storeSelected(store)">
 
-        <ion-badge slot="end" *ngIf="store.store_total_candidates > 0">
-          {{ store.store_total_candidates }} candidates
-        </ion-badge>
+          <ion-label>
+            <h5>{{ store.store_name }}</h5>
+            <p *ngIf="store.store_location">
+              <ion-icon name="location-outline"></ion-icon> {{ store.store_location }}
+            </p>
+          </ion-label>
+
+          <ion-badge slot="end" *ngIf="store.store_total_candidates > 0">
+            {{ store.store_total_candidates }} candidates
+          </ion-badge>
+
+          <ion-buttons slot="end" *ngIf="platform.width() > 768">
+            <ion-button color="danger" (click)="deleteStore($event, store)">
+              <ion-icon slot="start" name="trash-outline"></ion-icon>
+              Delete
+            </ion-button>
+          </ion-buttons>
+
+        </ion-item>
+
+        <ion-item-options side="end">
+          <ion-button color="danger" (click)="deleteStore($event, store)">
+            <ion-icon name="trash"></ion-icon>
+            Delete
+          </ion-button>
+        </ion-item-options>
+
+      </ion-item-sliding>
+      
+      <ion-item lines="none">
+        <ion-button (click)="addStore()">
+          Add a store
+        </ion-button>
       </ion-item>
+
     </ion-list>
+
   </section>
 
   <!-- Brand List -->
@@ -290,7 +322,7 @@
   </section>
 
   <!-- request List -->
-  
+
   <section *ngIf="segment == 'requests'">
     <ion-list>
       <ion-item-sliding *ngFor="let request of company.requests">
@@ -319,7 +351,8 @@
               Mark delivered
             </ion-button>
 
-            <ion-button color="danger" (click)="cancelledRequest($event, request)" *ngIf="request.request_status == 'started'">
+            <ion-button color="danger" (click)="cancelledRequest($event, request)"
+              *ngIf="request.request_status == 'started'">
               <ion-icon slot="start" name="close-outline"></ion-icon>
               Mark cancelled
             </ion-button>
@@ -337,14 +370,15 @@
             Mark delivered
           </ion-button>
 
-          <ion-button color="danger" (click)="cancelledRequest($event, request)" *ngIf="request.request_status == 'started'">
+          <ion-button color="danger" (click)="cancelledRequest($event, request)"
+            *ngIf="request.request_status == 'started'">
             <ion-icon slot="start" name="close-outline"></ion-icon>
             Mark cancelled
           </ion-button>
         </ion-item-options>
       </ion-item-sliding>
-      <ion-item>
-        <ion-button expand="full" color="danger" (click)="addRequest()">
+      <ion-item lines="none">
+        <ion-button color="danger" (click)="addRequest()">
           <span>Add New Request</span>
         </ion-button>
       </ion-item>
@@ -363,7 +397,7 @@
           </ion-label>
 
           <ion-buttons slot="end" *ngIf="platform.width() > 768">
-            <ion-button color="danger" (click)="remoteNote($event, note)">
+            <ion-button color="danger" (click)="removeNote($event, note)">
               <ion-icon slot="start" name="trash-outline"></ion-icon>
               Delete
             </ion-button>
@@ -371,14 +405,14 @@
 
         </ion-item>
         <ion-item-options side="end">
-          <ion-button color="danger" (click)="remoteNote($event, note)">
+          <ion-button color="danger" (click)="removeNote($event, note)">
             <ion-icon slot="start" name="trash-outline"></ion-icon>
             Delete
           </ion-button>
         </ion-item-options>
       </ion-item-sliding>
-      <ion-item>
-        <ion-button expand="full" color="danger" (click)="addNote(null)">
+      <ion-item lines="none">
+        <ion-button color="danger" (click)="addNote(null)">
           <span>Add New Note</span>
         </ion-button>
       </ion-item>

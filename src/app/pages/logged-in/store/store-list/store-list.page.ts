@@ -277,8 +277,7 @@ export class StoreListPage implements OnInit {
         company: this.company,
         brands: this.company.brands,
         malls: this.malls
-      },
-      cssClass: 'my-custom-class'
+      }
     });
     modal.onDidDismiss().then(e => {
 

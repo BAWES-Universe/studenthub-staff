@@ -76,8 +76,7 @@ export class StoreViewPage implements OnInit {
         model: this.store,
         brands: this.store.company.brands,
         malls: this.malls
-      },
-      cssClass: 'my-custom-class'
+      }
     });
     modal.onDidDismiss().then(e => {
 

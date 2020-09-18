@@ -80,8 +80,7 @@ export class MallListPage implements OnInit {
       component: MallFormPage,
       componentProps: {
         model: mall
-      },
-      cssClass: 'my-custom-class'
+      }
     });
     modal.onDidDismiss().then(e => {
 
