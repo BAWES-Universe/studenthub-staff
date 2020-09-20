@@ -43,6 +43,9 @@ const routes: Routes = [
     path: 'candidate-view',
     loadChildren: () => import('./pages/logged-in/candidate/candidate-view/candidate-view.module').then( m => m.CandidateViewPageModule),
     canActivate: [AuthService],
+    data: {
+      navDisable: true,
+    }
   },
   {
     path: 'expired-id',

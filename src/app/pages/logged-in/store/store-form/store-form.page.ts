@@ -34,6 +34,7 @@ export class StoreFormPage implements OnInit {
     private _fb: FormBuilder,
     private _modelCtrl: ModalController,
     private _alertCtrl: AlertController,
+    public mallService: MallService,
     private authService: AuthService
   ){
     this.store_id = this.activatedRoute.snapshot.paramMap.get('id');
@@ -42,6 +43,7 @@ export class StoreFormPage implements OnInit {
   ngOnInit() {
     // Load the passed model if available
     const state = window.history.state;
+
     if (state.model) {
       this.model = state.model;
     } else {
@@ -54,8 +56,22 @@ export class StoreFormPage implements OnInit {
 
     if (state.malls) {
       this.malls = state.malls;
+    } 
+
+    if(!this.malls || this.malls.length == 0) {
+      this.loadMall();
     }
+
     this.formInit();
+  }
+
+  /**
+   * load all mails
+   */
+  async loadMall() {
+    this.mallService.fullList().subscribe(response => {
+      this.malls = response;
+    });
   }
 
   formInit() {

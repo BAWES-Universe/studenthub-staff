@@ -7,7 +7,6 @@ import { CompanyService } from 'src/app/providers/logged-in/company.service';
 import { AwsService } from '../../../../providers/aws.service';
 import { EventService } from 'src/app/providers/event.service';
 
-
 @Component({
   selector: 'app-company-list',
   templateUrl: './company-list.page.html',
@@ -15,16 +14,18 @@ import { EventService } from 'src/app/providers/event.service';
 })
 export class CompanyListPage implements OnInit {
 
-  public pageCount = 0;
-  public currentPage = 1;
-  public pages: number[] = [];
+  public activePageCount = 0;
+  public activeCurrentPage = 1;
+  public inActivePageCount = 0;
+  public inActiveCurrentPage = 1;
   public loading = false;
   public loadingMore = false;
-
+  public active = 1;
+  public inActive = 2;
   public companies: Company[];
   public segment = 1;
-  public enableCompanies: Company[] = [];
-  public disableCompanies: Company[] = [];
+  public activeCompanies: Company[] = [];
+  public inActiveCompanies: Company[] = [];
 
   constructor(
     public navCtrl: NavController,
@@ -37,34 +38,43 @@ export class CompanyListPage implements OnInit {
 
   ngOnInit() {
     this.eventService.reloadCandidateHistory$.subscribe(response => {
-      this.loadCompanyList(this.currentPage);
+      this.loadCompanyList(this.activeCurrentPage, this.active);
+      this.loadCompanyList(this.inActiveCurrentPage, this.inActive);
     });
   }
 
   ionViewWillEnter() {
-    const state = window.history.state;
+    // const state = window.history.state;
 
-    if (state.companies) {
-      this.companies = state.companies;
-      this.loadCompaniesSegmentData();
-    }
+    // if (state.companies) {
+    //   this.companies = state.companies;
+    //   this.loadCompaniesSegmentData();
+    // }
 
     if (!this.companies) {
-      this.loadCompanyList(this.currentPage);
+      this.loadCompanyList(this.activeCurrentPage, this.active);
+      this.loadCompanyList(this.inActiveCurrentPage, this.inActive);
     }
   }
 
-  async loadCompanyList(page: number) {
+  async loadCompanyList(page: number, status) {
     // Load list of companies
     this.loading = true;
 
-    this.companyService.list(page).subscribe(response => {
+    this.companyService.list(page, status).subscribe(response => {
+      if (status == this.active) {
 
-      this.pageCount = response.headers.get('X-Pagination-Page-Count');
-      this.currentPage = response.headers.get('X-Pagination-Current-Page');
+        this.activePageCount = response.headers.get('X-Pagination-Page-Count');
+        this.activeCurrentPage = response.headers.get('X-Pagination-Current-Page');
+        this.activeCompanies = response.body;
 
-      this.companies = response.body;
-      this.loadCompaniesSegmentData();
+      } else if (status == this.inActive) {
+
+        this.activePageCount = response.headers.get('X-Pagination-Page-Count');
+        this.activeCurrentPage = response.headers.get('X-Pagination-Current-Page');
+        this.inActiveCompanies = response.body;
+
+      }
     },
       error => { },
       () => { this.loading = false; }
@@ -86,37 +96,35 @@ export class CompanyListPage implements OnInit {
     this.segment = $event.detail.value;
   }
 
-  /**
-   * segment data
-   */
-  loadCompaniesSegmentData() {
-    this.enableCompanies = [];
-    this.disableCompanies = [];
-    for (const company of this.companies) {
-      if (company.company_status == 10) {
-        this.enableCompanies.push(company);
-      } else {
-        this.disableCompanies.push(company);
-      }
-    }
-  }
-
   loadLogo($event, company) {
     company.company_logo = null;
   }
 
-  doInfinite(event) {
+  doInfinite(event, status) {
 
     this.loadingMore = true;
-    this.currentPage++;
 
-    this.companyService.list(this.currentPage).subscribe(response => {
+    if (status == this.active) {
+      this.activeCurrentPage++;
+    } else {
+      this.inActiveCurrentPage++;
+    }
 
-      this.pageCount = response.headers.get('X-Pagination-Page-Count');
-      this.currentPage = response.headers.get('X-Pagination-Current-Page');
+    this.companyService.list((status == this.active) ? this.activeCurrentPage : this.inActiveCurrentPage, status).subscribe(response => {
 
-      this.companies = this.companies.concat(response.body);
-      this.loadCompaniesSegmentData();
+      if (status == this.active) {
+
+        this.activePageCount = response.headers.get('X-Pagination-Page-Count');
+        this.activeCurrentPage = response.headers.get('X-Pagination-Current-Page');
+        this.activeCompanies = this.activeCompanies.concat(response.body);
+
+      } else if (status == this.inActive) {
+
+        this.inActiveCompanies = this.inActiveCompanies.concat(response.body);
+        this.inActivePageCount = response.headers.get('X-Pagination-Page-Count');
+        this.inActiveCurrentPage = response.headers.get('X-Pagination-Current-Page');
+
+      }
     },
       error => { },
       () => {

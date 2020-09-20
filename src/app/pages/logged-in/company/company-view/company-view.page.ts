@@ -24,6 +24,7 @@ import { CompanyFollowupNotePage } from '../company-followup-note/company-follow
 import { CompanyRequestFormPage } from '../company-request-form/company-request-form.page';
 import { CompanyNoteFormPage } from '../company-note-form/company-note-form.page';
 import { BrandFormPage } from '../brand-form/brand-form.page';
+import { StoreFormPage } from '../../store/store-form/store-form.page';
 
 
 @Component({
@@ -45,6 +46,8 @@ export class CompanyViewPage implements OnInit {
 
   public deleting = false;
   public loading = false;
+  public updating = false; 
+
   public sendingNewPassword = false;
 
   public segment: string = 'info';
@@ -86,6 +89,8 @@ export class CompanyViewPage implements OnInit {
 
     if (!silent) {
       this.loading = true;
+    } else {
+      this.updating = true;
     }
 
     if (!this.company) {
@@ -97,6 +102,7 @@ export class CompanyViewPage implements OnInit {
 
       this.loading = false;
       this.deleting = false;
+      this.updating = false;
 
       this.company = response;
 
@@ -108,7 +114,97 @@ export class CompanyViewPage implements OnInit {
     }, () => {
       this.loading = false;
       this.deleting = false;
+      this.updating = false;
     });
+  }
+
+  /**
+   * Loads the create page
+   */
+  async addStore() {
+
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
+    const modal = await this.modalCtrl.create({
+      component: StoreFormPage,
+      componentProps: {
+        company_id: this.company_id,
+        company: this.company,
+        brands: this.company.brands
+      }
+    });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+
+      if (e.data && e.data.refresh) {
+        this.loadData(true);
+      }
+    });
+    return await modal.present();
+  }
+
+  /**
+   * Delete the provided model
+   */
+  async deleteStore(event, store: Store) {
+
+    event.preventDefault();
+    event.stopPropagation();
+
+    const confirm = await this.alertCtrl.create({
+      header: 'Delete Store?',
+      message: 'Are you sure you want to delete this Store?',
+      buttons: [
+        {
+          text: 'Yes',
+          handler: () => {
+
+            this.updating = true;
+
+            this.storeService.delete(store).subscribe(async jsonResp => {
+
+              this.updating = false;
+
+              if (jsonResp.operation == 'error') {
+                const alert = await this.alertCtrl.create({
+                  header: 'Deletion Error!',
+                  subHeader: jsonResp.message,
+                  buttons: ['OK']
+                });
+                alert.present();
+              }
+
+              if (jsonResp.operation == 'success') {
+                const toast = await this.toastCtrl.create({
+                  message: jsonResp.message,
+                  duration: 3000
+                });
+                toast.present();
+
+                this.stores = this.stores.filter(e => {
+                  return e.store_id != store.store_id
+                });
+              }
+            }, () => {
+              this.updating = false;
+            });
+          }
+        },
+        {
+          text: 'No',
+          handler: () => {
+            // this.loadData(this.currentPage);
+            // loader.dismiss();
+            console.log('no');
+          }
+        }
+      ]
+    });
+    confirm.present();
   }
 
   async deleteBrand(event, brand) {
@@ -259,7 +355,7 @@ export class CompanyViewPage implements OnInit {
    * @param event
    * @param note
    */
-  async remoteNote(event, note) {
+  async removeNote(event, note) {
 
     event.preventDefault();
     event.stopPropagation();

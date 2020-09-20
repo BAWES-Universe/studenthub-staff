@@ -44,17 +44,18 @@ export class ExperienceFormPage implements OnInit {
 
   ionViewDidEnter() {
 
-    if(!this.candidate.candidateExperiences) {
+    if (!this.candidate.candidateExperiences) {
       this.candidate.candidateExperiences = [];
     }
-    
+
     setTimeout(() => {
 
-      const lastElementIndex = this.candidate.candidateExperiences.length ;
+      const lastElementIndex = (this.candidate && this.candidate.candidateExperiences && this.candidate.candidateExperiences.length) ?
+        this.candidate.candidateExperiences.length : 0;
 
       const lastElement = document.getElementById('input[' + lastElementIndex + ']') as any;
- 
-      if(lastElement) {
+
+      if (lastElement) {
         lastElement.setFocus();
       }
     }, 200);
@@ -220,7 +221,7 @@ export class ExperienceFormPage implements OnInit {
       const params = {
         experiences: experiences.join(',')
       };
-      
+
       this.dismiss(params);
     }
   }
