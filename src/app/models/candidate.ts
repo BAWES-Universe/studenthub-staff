@@ -38,6 +38,7 @@ export class Candidate {
     skill: string;
     experience: string;
     candidate_resume: string;
+    candidate_video: string;
 
     store: Store;
     company: Company;
