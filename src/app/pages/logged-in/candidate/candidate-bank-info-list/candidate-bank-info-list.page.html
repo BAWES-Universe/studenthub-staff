@@ -10,7 +10,7 @@
 <ion-content>
   <ion-searchbar
     [(ngModel)]="searchBar"
-    *ngIf="transferCandidate && transferCandidate.length > 3"
+    *ngIf="transferCandidate"
     animated
     debounce="200"
     (ionChange)="search()">

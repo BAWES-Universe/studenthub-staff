@@ -68,7 +68,7 @@ export class CandidateService {
    */
   listWithoutBank(candidate_name: string, page: number): Observable<any> {
     const url = this._candidateEndpoint + '/without-bank?candidate_name=' + candidate_name + '&page=' + page
-     + '&expand=store,company,candidate,candidate.candidateSkills,candidate.candidateExperiences';
+     + '&expand=candidate.store,candidate.company,candidate,candidate.candidateSkills,candidate.candidateExperiences';
     return this._authhttp.getRaw(url);
   }
 
