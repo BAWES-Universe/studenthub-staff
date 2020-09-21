@@ -9,6 +9,18 @@
         color: var(--ion-color-step-600, #666666);
     }
 }
+
+.meta-data {
+  font-size: small;
+  color: var(--ion-color-secondary);
+}
+
+.date {
+  font-size: small;
+  margin: 0;
+  color: var(--ion-color-medium);
+}
+
 .status {
   color: #fff!important;
   padding: 2px 15px;

@@ -1,14 +1,17 @@
 import { NgModule } from '@angular/core';
+import { FileSizePipe } from './filesize.pipe';
 import { TimeAgoPipe } from './timeago.pipe'; 
 
 //import custom pipes here
 @NgModule({
     declarations: [ 
-        TimeAgoPipe
+        TimeAgoPipe,
+        FileSizePipe
     ],
     imports: [],
     exports: [
-        TimeAgoPipe
+        TimeAgoPipe,
+        FileSizePipe
     ]
 })
 export class PipesModule {}
