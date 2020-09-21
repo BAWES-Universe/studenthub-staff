@@ -28,4 +28,5 @@ export class Company {
     notes: any[];
     companyContacts: CompanyContact[];
     requests: Request[];
+    parentTransfers: any[];
 }

@@ -14,7 +14,7 @@ import { BrandService } from 'src/app/providers/logged-in/brand.service';
 import { CompanyContact } from 'src/app/models/company-contact';
 import { Company } from 'src/app/models/company';
 import { Store } from 'src/app/models/store';
-import { Brand } from 'src/app/models/brand'; 
+import { Brand } from 'src/app/models/brand';
 import { Note } from 'src/app/models/note';
 import { Request } from 'src/app/models/request';
 //pages
@@ -46,7 +46,7 @@ export class CompanyViewPage implements OnInit {
 
   public deleting = false;
   public loading = false;
-  public updating = false; 
+  public updating = false;
 
   public sendingNewPassword = false;
 
@@ -58,7 +58,7 @@ export class CompanyViewPage implements OnInit {
     public toastCtrl: ToastController,
     public alertCtrl: AlertController,
     public router: Router,
-    public activatedRoute: ActivatedRoute, 
+    public activatedRoute: ActivatedRoute,
     public companyService: CompanyService,
     public authService: AuthService,
     public requestService: CompanyRequestService,
@@ -383,7 +383,7 @@ export class CompanyViewPage implements OnInit {
 
     const modal = await this.modalCtrl.create({
       component: CompanyFollowupNotePage,
-      componentProps: { 
+      componentProps: {
         company_id: this.company_id
       }
     });
@@ -393,7 +393,7 @@ export class CompanyViewPage implements OnInit {
         window['history-back-from'] = 'onDidDismiss';
         window.history.back();
       }
-    
+
       if (e && e.data && e.data.company_last_followup_datetime && this.company) {
         this.company.company_last_followup_datetime = e.data.company_last_followup_datetime;
         this.loadData(true);
@@ -446,7 +446,7 @@ export class CompanyViewPage implements OnInit {
 
     const modal = await this.modalCtrl.create({
       component: CompanyContactFormPage,
-      componentProps: { 
+      componentProps: {
         model: companyContact
       }
     });
@@ -456,7 +456,7 @@ export class CompanyViewPage implements OnInit {
         window['history-back-from'] = 'onDidDismiss';
         window.history.back();
       }
-   
+
       if (e && e.data && e.data.refresh) {
         this.loadContacts();
       }
@@ -469,10 +469,10 @@ export class CompanyViewPage implements OnInit {
 
     let companyContact = new CompanyContact;
     companyContact.company_id = this.company_id;
-    
+
     const modal = await this.modalCtrl.create({
       component: CompanyContactFormPage,
-      componentProps: { 
+      componentProps: {
         model: companyContact
       }
     });
@@ -482,7 +482,7 @@ export class CompanyViewPage implements OnInit {
         window['history-back-from'] = 'onDidDismiss';
         window.history.back();
       }
-   
+
       if (e && e.data && e.data.refresh) {
         this.loadContacts();
       }
@@ -539,7 +539,7 @@ export class CompanyViewPage implements OnInit {
     });
 
     const { data } = await modal.onWillDismiss();
-    
+
     if (data && data.refresh) {
       this.loadData();
     }
@@ -565,7 +565,7 @@ export class CompanyViewPage implements OnInit {
         window.history.back();
       }
     });
-    
+
     const { data } = await modal.onWillDismiss();
 
     if (data && data.refresh) {
@@ -595,7 +595,7 @@ export class CompanyViewPage implements OnInit {
         window.history.back();
       }
     });
-    
+
     const { data } = await modal.onWillDismiss();
 
     if (data && data.refresh) {
@@ -661,5 +661,8 @@ export class CompanyViewPage implements OnInit {
         });
       }
     });
+  }
+  loadLogo($event, company) {
+    company.company_logo = null;
   }
 }
