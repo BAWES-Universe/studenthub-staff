@@ -179,7 +179,9 @@
           href="{{ awsService.permanentBucketUrl }}{{ file.file_s3_path }}">
           {{file.file_title}}
         </a>
+        <p class="meta-data">{{ file.file_size | filesize }} {{ file.file_type }}</p>
         <p>{{file.file_description}}</p>
+        <p class="date">{{ toDate(file.file_created_datetime) | date: 'MMM d, y, h:mm:ss a' }}</p>
       </ion-label>
     </ion-item>
 
