@@ -23,6 +23,9 @@ const routes: Routes = [
     path: 'candidate-form',
     loadChildren: () => import('./pages/logged-in/candidate/candidate-form/candidate-form.module').then( m => m.CandidateFormPageModule),
     canActivate: [AuthService],
+    data: {
+      navDisable: true,
+    }
   },
   {
     path: 'candidate-list',
