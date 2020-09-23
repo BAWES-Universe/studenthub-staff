@@ -22,17 +22,14 @@ export const genericRetryStrategy = ({
         excludedStatusCodes.find(e => e === error.status)
       ) {
         return throwError(error);
-      }
-
+      } 
       console.log(
         `Attempt ${retryAttempt}: retrying in ${retryAttempt *
-          scalingDuration}ms`,
-        error
+          scalingDuration}ms`
       );
-      
       // retry after 1s, 2s, etc...
       return timer(retryAttempt * scalingDuration);
-    }),
-    finalize(() => console.log('We are done!'))
+    })
+    //finalize(() => console.log('We are done!'))
   );
 };

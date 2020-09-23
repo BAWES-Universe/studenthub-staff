@@ -1,4 +1,4 @@
-import {APP_INITIALIZER, ErrorHandler, NgModule} from '@angular/core';
+import {APP_INITIALIZER, ErrorHandler, Injector, NgModule} from '@angular/core';
 import { BrowserModule, BrowserTransferStateModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -29,6 +29,7 @@ import { CompanyContactFormPageModule } from './pages/logged-in/company/company-
 import { OptionPageModule } from './pages/logged-in/candidate/option/option.module';
 import {BrandFormPageModule} from './pages/logged-in/company/brand-form/brand-form.module';
 import {MallFormPageModule} from './pages/logged-in/mall/mall-form/mall-form.module';
+import { SelectiveLoadingStrategy } from './util/SelectiveLoadingStrategy';
 
 export function startupServiceFactory(authService) {
   return () => authService.load();
@@ -85,9 +86,17 @@ export function createTranslateLoader(http: HttpClient) {
     IOSFilePicker,
     SwUpdate,
     TranslateLabelService,
+    SelectiveLoadingStrategy,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: ErrorHandler, useClass: SentryErrorhandlerService }
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule {
+  
+  static injector: Injector;
+
+  constructor(public injector: Injector) {
+    AppModule.injector = injector;
+  }
+}
