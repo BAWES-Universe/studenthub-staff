@@ -1,4 +1,4 @@
-import {APP_INITIALIZER, ErrorHandler, NgModule} from '@angular/core';
+import {APP_INITIALIZER, ErrorHandler, Injector, NgModule} from '@angular/core';
 import { BrowserModule, BrowserTransferStateModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -90,4 +90,11 @@ export function createTranslateLoader(http: HttpClient) {
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule {
+  
+  static injector: Injector;
+
+  constructor(public injector: Injector) {
+    AppModule.injector = injector;
+  }
+}
