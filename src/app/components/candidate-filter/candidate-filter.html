@@ -16,6 +16,12 @@
             showLessLabel="{{ 'Show less' | translate }}" showMoreLimit="15" operator="or"
             attribute="bank.bank_name"></refinement-list>
 
+        <refinement-list label="{{ 'Location' | translate }}" [searchable]="true"
+            data-sort-order="6" [class.is-refined]="arrRefined['currentLocations.en']"
+            searchPlaceholder="{{ 'Search here...' | translate }}" showMoreLabel="{{ 'Show more' | translate }}"
+            showLessLabel="{{ 'Show less' | translate }}" showMoreLimit="15" operator="or"
+            attribute="currentLocations.en"></refinement-list>
+            
         <refinement-list label="{{ 'Country' | translate }}" [searchable]="true"
             data-sort-order="6" [class.is-refined]="arrRefined['country.country_name_en']"
             searchPlaceholder="{{ 'Search here...' | translate }}" showMoreLabel="{{ 'Show more' | translate }}"
