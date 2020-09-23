@@ -9,3 +9,40 @@
         color: var(--ion-color-step-600, #666666);
     }
 }
+
+.meta-data {
+  font-size: small;
+  color: var(--ion-color-secondary);
+}
+
+.date {
+  font-size: small;
+  margin: 0;
+  color: var(--ion-color-medium);
+}
+
+.status {
+  color: #fff!important;
+  padding: 2px 15px;
+  border-radius: 10px;
+}
+.status_4 {
+  background: green;
+}
+
+.status_10 {
+  background: grey;
+}
+
+.status_5 {
+  background: burlywood;
+}
+
+.status_1,
+.status_2 {
+  background: yellowgreen;
+}
+
+.status_3 {
+  background: #387ef5;
+}

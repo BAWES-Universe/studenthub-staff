@@ -210,6 +210,28 @@
           <span *ngIf="!candidate.candidate_resume">-</span>
         </ion-label>
       </ion-item>
+      <ion-item [class.pending]="!candidate.candidate_video">
+        <ion-label>
+          <h5>Candidate Video</h5>
+          <a target="_blank" *ngIf="candidate.candidate_video"
+            href="{{ aws.cloudinaryVideoUrl }}candidate-video/{{ candidate.candidate_video }}">
+            {{ candidate.candidate_video }}
+          </a>
+          <span *ngIf="!candidate.candidate_video">-</span>
+        </ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label>
+          <h5>Created On</h5>
+          <p>{{candidate.candidate_created_at | date}}</p>
+        </ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label>
+          <h5>Updated On</h5>
+          <p>{{candidate.candidate_updated_at | date}}</p>
+        </ion-label>
+      </ion-item>
     </ng-container>
     <ng-container *ngIf="sections == 'civil'">
 

@@ -23,6 +23,9 @@ const routes: Routes = [
     path: 'candidate-form',
     loadChildren: () => import('./pages/logged-in/candidate/candidate-form/candidate-form.module').then( m => m.CandidateFormPageModule),
     canActivate: [AuthService],
+    data: {
+      navDisable: true,
+    }
   },
   {
     path: 'candidate-list',
@@ -57,7 +60,6 @@ const routes: Routes = [
     loadChildren: () => import('./pages/logged-in/candidate/generate-id/generate-id.module').then( m => m.GenerateIdPageModule),
     canActivate: [AuthService],
   },
-
   {
     path: 'country-list',
     loadChildren: () => import('./pages/logged-in/country/country-list/country-list.module').then( m => m.CountryListPageModule),
@@ -67,6 +69,9 @@ const routes: Routes = [
     path: 'country-view',
     loadChildren: () => import('./pages/logged-in/country/country-view/country-view.module').then( m => m.CountryViewPageModule),
     canActivate: [AuthService],
+    data: {
+      navDisable: true,
+    }
   },
   {
     path: 'store-form',
@@ -141,6 +146,9 @@ const routes: Routes = [
     path: 'company-view',
     loadChildren: () => import('./pages/logged-in/company/company-view/company-view.module').then( m => m.CompanyViewPageModule),
     canActivate: [AuthService],
+    data: {
+      navDisable: true,
+    }
   },
   {
     path: 'candidate-review-list',
@@ -149,15 +157,18 @@ const routes: Routes = [
   },
   {
     path: 'company-followup-list',
-    loadChildren: () => import('./pages/logged-in/company/company-followup-list/company-followup-list.module').then( m => m.CompanyFollowupListPageModule)
+    loadChildren: () => import('./pages/logged-in/company/company-followup-list/company-followup-list.module').then( m => m.CompanyFollowupListPageModule),
+    canActivate: [AuthService],
   },
   {
     path: 'company-followup-note',
-    loadChildren: () => import('./pages/logged-in/company/company-followup-note/company-followup-note.module').then( m => m.CompanyFollowupNotePageModule)
+    loadChildren: () => import('./pages/logged-in/company/company-followup-note/company-followup-note.module').then( m => m.CompanyFollowupNotePageModule),
+    canActivate: [AuthService],
   },
   {
     path: 'company-request-form',
-    loadChildren: () => import('./pages/logged-in/company/company-request-form/company-request-form.module').then( m => m.CompanyRequestFormPageModule)
+    loadChildren: () => import('./pages/logged-in/company/company-request-form/company-request-form.module').then( m => m.CompanyRequestFormPageModule),
+    canActivate: [AuthService],
   },
   {
     path: 'brand-view',

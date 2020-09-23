@@ -10,8 +10,8 @@ import { EventService } from './providers/event.service';
 import { AuthService } from './providers/auth.service';
 import { CandidateIdCardService } from './providers/logged-in/candidate.id.card.service';
 import { TranslateLabelService } from './providers/translate-label.service';
-import {CandidateService} from './providers/logged-in/candidate.service';
-import {StatisticService} from './providers/logged-in/statistic.service';
+import { CandidateService } from './providers/logged-in/candidate.service';
+import { StatisticService } from './providers/logged-in/statistic.service';
 
 
 const { SplashScreen } = Plugins;
@@ -24,11 +24,17 @@ const { SplashScreen } = Plugins;
 export class AppComponent implements OnInit {
 
   public updatesAvailable = false;
+  
   public expiredIdCount = 0;
+
   public totalCandidateToReview = null;
+
   public assignedIncompleteCandidates = null;
+
   public candidateBankInfo = null;
+
   public printIdCount: any = 0;
+
   public companyFollowUp: any = 0;
 
   constructor(
@@ -237,15 +243,15 @@ export class AppComponent implements OnInit {
   async loadStats() {
 
     this.statisticService.get().subscribe(response => {
-        this.eventService.expiredIdCard$.next();
-        this.eventService.printIdCard$.next(response.id_need_generated);
-        this.assignedIncompleteCandidates = response.candidates_assigned_incomplete_profile;
-        this.candidateBankInfo = response.candidate_without_bank;
-        this.totalCandidateToReview = response.candidate_review_required;
-        this.companyFollowUp = response.company_follow_up;
-      },
-      error => {},
-      () => {}
+      this.eventService.expiredIdCard$.next();
+      this.eventService.printIdCard$.next(response.id_need_generated);
+      this.assignedIncompleteCandidates = response.candidates_assigned_incomplete_profile;
+      this.candidateBankInfo = response.candidate_without_bank;
+      this.totalCandidateToReview = response.candidate_review_required;
+      this.companyFollowUp = response.company_follow_up;
+    },
+      error => { },
+      () => { }
     );
   }
 }

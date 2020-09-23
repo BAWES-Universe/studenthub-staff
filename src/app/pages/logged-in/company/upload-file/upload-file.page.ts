@@ -1,14 +1,15 @@
-import {Component, OnInit, ViewChild, ElementRef, OnDestroy, Input} from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, OnDestroy, Input } from '@angular/core';
 import { Subscription } from 'rxjs';
-import {AlertController, ModalController, Platform, ToastController} from '@ionic/angular';
-
+import { AlertController, ModalController, Platform, ToastController } from '@ionic/angular';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+//models
+import { File } from '../../../../models/file';
 // Services
 import { SentryErrorhandlerService } from 'src/app/providers/sentry.errorhandler.service';
 import { FilepickerService } from 'src/app/providers/logged-in/filepicker.service';
 import { AwsService } from 'src/app/providers/aws.service';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {File} from '../../../../models/file';
-import {CompanyService} from '../../../../providers/logged-in/company.service';
+import { CompanyService } from '../../../../providers/logged-in/company.service';
+
 
 @Component({
   selector: 'app-upload-file',
@@ -19,9 +20,11 @@ export class UploadFilePage implements OnInit, OnDestroy {
 
   @ViewChild('fileInput', { static: false }) fileInput: ElementRef;
 
+  @Input() file;
+  
   public fileModel: File = new File();
   public company;
-  @Input() file;
+  
   public progress = null;
   public form: FormGroup;
   public loading = false;
@@ -124,7 +127,7 @@ export class UploadFilePage implements OnInit, OnDestroy {
             err && (
               ignoreErrors.indexOf(err.message) > -1 ||
               err.message.includes('aborted')
-            ) 
+            )
           ) {
             return null;
           }
@@ -188,19 +191,19 @@ export class UploadFilePage implements OnInit, OnDestroy {
       async err => {
         // log to slack/sentry to know how many user getting file upload error
 
-        if(!err.message || !err.message.includes('aborted')) {
+        if (!err.message || !err.message.includes('aborted')) {
 
           const alert = await this.alertCtrl.create({
             header: 'Error',
             message: 'Error while uploading file!',
             buttons: ['Okay']
           });
-  
+
           await alert.present();
 
           this.sentryService.handleError(err);
         }
-         
+
         if (this.fileInput && this.fileInput.nativeElement) {
           this.fileInput.nativeElement.value = null;
         }
@@ -278,26 +281,26 @@ export class UploadFilePage implements OnInit, OnDestroy {
    * init form
    */
   _initForm() {
-      this.form = this.fb.group({
-        title: ['', Validators.required],
-        desc: [''],
-        file: ['', Validators.required]
-      });
+    this.form = this.fb.group({
+      title: ['', Validators.required],
+      desc: [''],
+      file: ['', Validators.required]
+    });
   }
 
-  async save(){
+  async save() {
     this.saving = true;
     this.fileModel.file_title = this.form.value.title;
     this.fileModel.file_description = this.form.value.desc;
     this.fileModel.company_id = this.company.company_id;
-    this.companyService.createFile(this.fileModel).subscribe( async jsonResponse => {
+    this.companyService.createFile(this.fileModel).subscribe(async jsonResponse => {
       this.saving = false;
 
       // On Success
       if (jsonResponse.operation == 'success') {
 
         // open view page
-        this.dismiss({refresh: true});
+        this.dismiss({ refresh: true });
 
         const toast = await this.toastCtrl.create({
           message: jsonResponse.message,

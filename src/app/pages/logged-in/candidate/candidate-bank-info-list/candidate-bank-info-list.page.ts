@@ -43,7 +43,7 @@ export class CandidateBankInfoListPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    this.loadData(this.currentPage);
+    this.loadData(0);
   }
 
   search() {
