@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {AlertController, NavController, PopoverController, ToastController} from '@ionic/angular';
-import {ActivatedRoute, Router} from '@angular/router';
+import { AlertController, NavController, Platform, PopoverController, ToastController } from '@ionic/angular';
+import { ActivatedRoute, Router } from '@angular/router';
 // models
 import { Store } from 'src/app/models/store';
 import { Candidate } from 'src/app/models/candidate';
@@ -8,9 +8,11 @@ import { Candidate } from 'src/app/models/candidate';
 import { StoreService } from 'src/app/providers/logged-in/store.service';
 import { CandidateService } from 'src/app/providers/logged-in/candidate.service';
 import { AwsService } from 'src/app/providers/aws.service';
-import {EventService} from "../../../../providers/event.service";
-import {AuthService} from "../../../../providers/auth.service";
-import {OptionPage} from "../option/option.page";
+import { EventService } from "../../../../providers/event.service";
+import { AuthService } from "../../../../providers/auth.service";
+//pages
+import { OptionPage } from "../option/option.page";
+
 
 @Component({
   selector: 'app-candidate-view',
@@ -32,7 +34,7 @@ export class CandidateViewPage implements OnInit {
   public sendingPassword: boolean = false;
   public assigning: boolean = false;
   public unassinging: boolean = false;
-  
+
   public loading: boolean = false;
   public approving: boolean = false;
   public unapproving: boolean = false;
@@ -45,6 +47,7 @@ export class CandidateViewPage implements OnInit {
   constructor(
     public navCtrl: NavController,
     public router: Router,
+    public platform: Platform,
     public activatedRoute: ActivatedRoute,
     public alertCtrl: AlertController,
     public storeService: StoreService,
@@ -134,7 +137,7 @@ export class CandidateViewPage implements OnInit {
 
       } else {
         this.candidate.store_id = null;
-        
+
         const alert = await this.alertCtrl.create({
           message: this._processResponseMessage(response),
           buttons: ['Ok']
@@ -199,12 +202,12 @@ export class CandidateViewPage implements OnInit {
 
       this.approving = false;
 
-      if(response.operation == 'error') {
+      if (response.operation == 'error') {
 
         this.toastCtrl.create({
           message: this.authService.errorMessage(response.message),
           duration: 3000
-        }).then( toast => {
+        }).then(toast => {
           toast.present();
         });
 
@@ -230,12 +233,12 @@ export class CandidateViewPage implements OnInit {
 
       this.unapproving = false;
 
-      if(response.operation == 'error') {
+      if (response.operation == 'error') {
 
         this.toastCtrl.create({
           message: this.authService.errorMessage(response.message),
           duration: 3000
-        }).then( toast => {
+        }).then(toast => {
           toast.present();
         });
 
@@ -260,7 +263,7 @@ export class CandidateViewPage implements OnInit {
   async openPopover(e) {
     const popover = await this.popoverCtrl.create({
       component: OptionPage,
-      componentProps : {
+      componentProps: {
         candidate: this.candidate
       },
       event: e
@@ -268,52 +271,52 @@ export class CandidateViewPage implements OnInit {
     popover.present();
   }
 
-  public segmentChanged($e){
+  public segmentChanged($e) {
     this.sections = $e.detail.value;
   }
 
   updateRate($e) {
-      this.alertCtrl.create({
-        header: 'Set hourly rate',
-        inputs: [
-          {
-            name: 'rate',
-            type: 'text',
-            placeholder: 'Hourly Rate'
+    this.alertCtrl.create({
+      header: 'Set hourly rate',
+      inputs: [
+        {
+          name: 'rate',
+          type: 'text',
+          placeholder: 'Hourly Rate'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            console.log('Confirm Cancel');
           }
-        ],
-        buttons: [
-          {
-            text: 'Cancel',
-            role: 'cancel',
-            cssClass: 'secondary',
-            handler: () => {
-              console.log('Confirm Cancel');
-            }
-          }, {
-            text: 'Save',
-            handler: (data) => {
-              this.processing = 'setting_hours';
-              if (data.rate) {
-                this.candidateService.updateHour(this.candidate, data.rate).subscribe(response => {
+        }, {
+          text: 'Save',
+          handler: (data) => {
+            this.processing = 'setting_hours';
+            if (data.rate) {
+              this.candidateService.updateHour(this.candidate, data.rate).subscribe(response => {
 
-                  this.processing = false;
+                this.processing = false;
 
-                  if (response.operation == 'error') {
-                    this.toastCtrl.create({
-                      message: this.authService.errorMessage(response.message),
-                      duration: 3000
-                    }).then( toast => {
-                      toast.present();
-                    });
-                  } else {
-                    this.loadCandidateDetail(false);
-                  }
-                });
-              }
+                if (response.operation == 'error') {
+                  this.toastCtrl.create({
+                    message: this.authService.errorMessage(response.message),
+                    duration: 3000
+                  }).then(toast => {
+                    toast.present();
+                  });
+                } else {
+                  this.loadCandidateDetail(false);
+                }
+              });
             }
           }
-        ]
-      }).then( alert => { alert.present(); });
+        }
+      ]
+    }).then(alert => { alert.present(); });
   }
 }

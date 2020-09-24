@@ -77,7 +77,8 @@
 
     <!-- Default Segment -->
     <ion-item-divider color="light">
-      <ion-segment (ionChange)="segmentChanged($event)" [value]="sections">
+
+      <ion-segment *ngIf="!platform.is('mobile')" (ionChange)="segmentChanged($event)" [value]="sections">
         <ion-segment-button value="personal">
           <ion-label>Personal</ion-label>
         </ion-segment-button>
@@ -91,6 +92,22 @@
           <ion-label>Salary Transfers</ion-label>
         </ion-segment-button>
       </ion-segment>
+      
+      <ion-select *ngIf="platform.is('mobile')" interface="popover" (ionChange)="segmentChanged($event)" [value]="sections">
+        <ion-select-option value="personal">
+          <ion-label>Personal</ion-label>
+        </ion-select-option>
+        <ion-select-option value="bank">
+          <ion-label>Bank Info</ion-label>
+        </ion-select-option>
+        <ion-select-option value="civil">
+          <ion-label>Civil ID</ion-label>
+        </ion-select-option>
+        <ion-select-option value="salary" *ngIf="salaryTransfers.length > 0">
+          <ion-label>Salary Transfers</ion-label>
+        </ion-select-option>
+      </ion-select>
+
     </ion-item-divider>
 
     <ng-container *ngIf="sections == 'salary'">
