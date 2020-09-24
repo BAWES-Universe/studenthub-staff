@@ -29,9 +29,12 @@ export class CandidateComponent implements OnInit {
     public candidateService: CandidateService,
     public candidateIdCardService: CandidateIdCardService,
     public aws: AwsService
-  ) { }
+  ) {
+    // this.candidate.candidate_personal_photo = null;
+  }
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 
   /**
    * When its selected
@@ -100,7 +103,7 @@ export class CandidateComponent implements OnInit {
    * @param candidate
    */
   loadLogo(candidate) {
-    return candidate.candidate_personal_photo = null;
+    this.candidate.candidate_personal_photo = null;
   }
 
   /**

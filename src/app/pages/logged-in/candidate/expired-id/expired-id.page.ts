@@ -17,7 +17,7 @@ export class ExpiredIdPage implements OnInit {
   public currentPage = 1;
   public pages: number[] = [];
 
-  public searchBar = '';
+  public searchBar = null;
 
   public form: FormGroup;
   public candidatelistData = [];
@@ -123,6 +123,7 @@ export class ExpiredIdPage implements OnInit {
       }
 
       this.candidatelistData = response.body;
+      // this.candidatelistData = [];
     },
       error => { },
       () => {
@@ -149,5 +150,12 @@ export class ExpiredIdPage implements OnInit {
         event.target.complete();
       }
     );
+  }
+
+  candidateDetailPage(ev, obj) {
+    ev.preventDefault();
+    ev.stopPropagation();
+
+    console.log(obj);
   }
 }
