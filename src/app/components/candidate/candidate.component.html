@@ -1,4 +1,4 @@
-<ion-item-sliding>
+<ion-item-sliding  [disabled]="platform.width() > 768">
   <ion-item tappable (click)="rowSelected(candidate)">
     <ion-avatar slot="start">
       <img *ngIf="candidate.candidate_personal_photo"
@@ -26,10 +26,18 @@
       </ion-badge>
     </ion-label>
 
-    <ion-checkbox *ngIf="type == 'candidate' && candidate.store" (click)="$event.preventDefault();$event.stopPropagation();" slot="end"
+    <ion-checkbox *ngIf="type == 'candidate' && candidate.store" 
+      (click)="$event.preventDefault();$event.stopPropagation();" slot="end"
       [checked]="candidateIdCardService.candidates.indexOf(candidate.candidate_id) > -1"
       (ionChange)="onCandidateSelected($event)" [value]="candidate.candidate_id"></ion-checkbox>
-
+    
+    <ion-buttons slot="end" *ngIf="!candidate.store && platform.width() > 768">
+      <ion-button color="danger" (click)="delete(candidate)">
+        <ion-icon slot="start" name="trash-outline"></ion-icon>
+        Delete
+      </ion-button>
+    </ion-buttons>
+    
   </ion-item>
 
   <ion-item-options side="end" *ngIf="!candidate.store">

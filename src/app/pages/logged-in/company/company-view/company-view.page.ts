@@ -156,7 +156,7 @@ export class CompanyViewPage implements OnInit {
     event.stopPropagation();
 
     const confirm = await this.alertCtrl.create({
-      header: 'Delete Store?',
+      header: 'Delete Store',
       message: 'Are you sure you want to delete this Store?',
       buttons: [
         {
@@ -213,7 +213,7 @@ export class CompanyViewPage implements OnInit {
     event.stopPropagation();
 
     const confirm = await this.alertCtrl.create({
-      header: 'Delete Brand?',
+      header: 'Delete Brand',
       message: 'Do you want to delete this brand?',
       buttons: [
         {
@@ -364,19 +364,45 @@ export class CompanyViewPage implements OnInit {
     event.preventDefault();
     event.stopPropagation();
 
-    this.noteService.delete(note).subscribe(async response => {
+    const confirm = await this.alertCtrl.create({
+      header: 'Delete Note',
+      message: 'Do you want to delete this note?',
+      buttons: [
+        {
+          text: 'Yes',
+          handler: () => {
 
-      if (response.operation == 'success') {
-        this.loadData(false);
-      } else {
-        this.toastCtrl.create({
-          message: response.message,
-          buttons: ['Ok']
-        }).then(prompt => {
-          prompt.present();
-        });
-      }
+            this.deleting = true;
+                    
+            this.noteService.delete(note).subscribe(async response => {
+
+              this.deleting = false;
+
+              if (response.operation == 'success') {
+                this.loadData(true);
+              } else {
+                
+                this.deleting = false;
+
+                // failer text
+                const prompt = await this.alertCtrl.create({
+                  header: 'Deletion Error!',
+                  message: response.message,
+                  buttons: ['Ok']
+                });
+                prompt.present();
+              }
+            }, () => {
+              this.deleting = false;
+            });
+          }
+        },
+        {
+          text: 'No'
+        }
+      ]
     });
+    confirm.present();
   }
 
   /**
@@ -502,22 +528,44 @@ export class CompanyViewPage implements OnInit {
 
     event.preventDefault();
     event.stopPropagation();
+    
+    const confirm = await this.alertCtrl.create({
+      header: 'Delete Contact',
+      message: 'Do you want to delete this contact?',
+      buttons: [
+        {
+          text: 'Yes',
+          handler: () => {
 
-    this.companyContactService.delete(companyContact).subscribe(async response => {
+            this.deleting = true;
 
-      if (response.operation == 'success')
-      {
-        this.companyContacts = this.companyContacts.filter(e => e.contact_uuid != companyContact.contact_uuid);
-      }
-      else
-      {
-        const prompt = await this.alertCtrl.create({
-          message: this.authService.errorMessage(response.message),
-          buttons: ['Ok']
-        });
-        prompt.present();
-      }
+            this.companyContactService.delete(companyContact).subscribe(async response => {
+
+              this.deleting = false;
+
+              if (response.operation == 'success')
+              {
+                this.companyContacts = this.companyContacts.filter(e => e.contact_uuid != companyContact.contact_uuid);
+              }
+              else
+              {
+                const prompt = await this.alertCtrl.create({
+                  message: this.authService.errorMessage(response.message),
+                  buttons: ['Ok']
+                });
+                prompt.present();
+              }
+            }, () => {
+              this.deleting = false;
+            });
+          },
+        },
+        {
+          text: 'No',
+        }
+      ]      
     });
+    confirm.present();
   }
 
   segmentChanged($event) {
@@ -666,6 +714,7 @@ export class CompanyViewPage implements OnInit {
       }
     });
   }
+
   loadLogo($event, company) {
     company.company_logo = null;
   }

@@ -24,8 +24,11 @@
 </ion-header>
 
 <ion-content>
+  
   <loading-modal [loading]="loading" type="candidate-view"></loading-modal>
+
   <ion-list *ngIf="candidate">
+
     <ion-item [class.pending-image]="!candidate.candidate_personal_photo"
       [class.pending]="!candidate.candidate_name || !candidate.candidate_name_ar || !candidate.employee_id">
       <ion-avatar slot="start">
@@ -40,15 +43,18 @@
         <p>{{ candidate.employee_id }}</p>
       </ion-label>
     </ion-item>
+
     <ion-item [class.pending]="!candidate.candidate_phone" href='tel:{{ candidate.candidate_phone }}' target='_blank'>
       <ion-icon name="call" slot="start"></ion-icon>
       {{ candidate.candidate_phone }}
     </ion-item>
+
     <ion-item *ngIf="candidate.candidate_phone"
       href='https://api.whatsapp.com/send?phone={{ candidate.candidate_phone }}' target='_blank'>
       <ion-icon name="logo-whatsapp" slot="start"></ion-icon>
       Whats App Link
     </ion-item>
+
     <ion-item lines="none" [class.pending]="!candidate.candidate_email" href='mailto:{{ candidate.candidate_email }}'
       target='_blank'>
       <ion-icon name="mail" slot="start"></ion-icon>
@@ -158,6 +164,7 @@
           <p>{{ candidate.age }}</p>
         </ion-label>
       </ion-item>
+
       <ion-item [class.pending]="!candidate.country">
         <ion-label>
           <h5>Nationality</h5>
@@ -165,6 +172,7 @@
           <p *ngIf="!candidate.country">-</p>
         </ion-label>
       </ion-item>
+
       <ion-item [class.pending]="!candidate.university">
         <ion-label>
           <h5>University</h5>
@@ -325,6 +333,7 @@
   </ion-list>
 </ion-content>
 <ion-footer *ngIf="candidate && candidate.isProfileCompleted">
+  
   <ion-button expand="full" *ngIf="!candidate.approved" (click)="approve(candidate)">
     <span *ngIf="!approving">Approve</span>
     <ion-spinner *ngIf="approving"></ion-spinner>

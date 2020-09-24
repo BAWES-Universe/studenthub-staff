@@ -233,41 +233,39 @@
       </ion-label>
     </ion-item-divider>
 
-    <ion-item-sliding *ngFor="let company of subCompanies" [disabled]="platform.width() > 768">
-      <ion-item tappable (click)="rowSelected(company)">
+    <ion-item tappable *ngFor="let company of subCompanies" (click)="rowSelected(company)">
 
-        <ion-label>
-          {{ company.company_name }}
-        </ion-label>
+      <ion-label>
+        {{ company.company_name }}
+      </ion-label>
 
-        <ng-container *ngIf="platform.width() > 450">
-          <ion-badge slot="end" *ngIf="company.total_candidates > 0">
+      <ng-container *ngIf="platform.width() > 450">
+        <ion-badge slot="end" *ngIf="company.total_candidates > 0">
+          {{ company.total_candidates }} candidates
+        </ion-badge>
+        <ion-badge slot="end" *ngIf="company.subCompanies && company.subCompanies.length > 0">
+          {{ company.subCompanies.length }} sub-companies
+        </ion-badge>
+        <ion-badge slot="end" *ngIf="company.stores.length > 0">
+          {{ company.stores.length }} stores
+        </ion-badge>
+      </ng-container>
+
+      <ng-container *ngIf="platform.width() <= 449">
+        <div slot="end" class="end">
+          <ion-badge *ngIf="company.total_candidates > 0">
             {{ company.total_candidates }} candidates
           </ion-badge>
-          <ion-badge slot="end" *ngIf="company.subCompanies && company.subCompanies.length > 0">
+          <ion-badge *ngIf="company.subCompanies && company.subCompanies.length > 0">
             {{ company.subCompanies.length }} sub-companies
           </ion-badge>
-          <ion-badge slot="end" *ngIf="company.stores.length > 0">
+          <ion-badge *ngIf="company.stores.length > 0">
             {{ company.stores.length }} stores
           </ion-badge>
-        </ng-container>
+        </div>
+      </ng-container>
 
-        <ng-container *ngIf="platform.width() <= 449">
-          <div slot="end" class="end">
-            <ion-badge *ngIf="company.total_candidates > 0">
-              {{ company.total_candidates }} candidates
-            </ion-badge>
-            <ion-badge *ngIf="company.subCompanies && company.subCompanies.length > 0">
-              {{ company.subCompanies.length }} sub-companies
-            </ion-badge>
-            <ion-badge *ngIf="company.stores.length > 0">
-              {{ company.stores.length }} stores
-            </ion-badge>
-          </div>
-        </ng-container>
-
-      </ion-item>
-    </ion-item-sliding>
+    </ion-item>
   </section>
 
   <!-- Store List -->
@@ -370,7 +368,7 @@
 
   <section *ngIf="segment == 'requests'">
     <ion-list>
-      <ion-item-sliding *ngFor="let request of company.requests">
+      <ion-item-sliding  [disabled]="platform.width() > 768" *ngFor="let request of company.requests">
         <ion-item tappable (click)="editRequest(request)">
 
           <ion-label>
@@ -442,6 +440,11 @@
           </ion-label>
 
           <ion-buttons slot="end" *ngIf="platform.width() > 768">
+            <ion-button color="default">
+              <ion-icon slot="start" name="pencil-outline"></ion-icon>
+              Edit
+            </ion-button>
+
             <ion-button color="danger" (click)="removeNote($event, note)">
               <ion-icon slot="start" name="trash-outline"></ion-icon>
               Delete
@@ -450,6 +453,11 @@
 
         </ion-item>
         <ion-item-options side="end">
+          <ion-button (click)="addNote(note)">
+            <ion-icon slot="start" name="pencil-outline"></ion-icon>
+            Edit
+          </ion-button>
+
           <ion-button color="danger" (click)="removeNote($event, note)">
             <ion-icon slot="start" name="trash-outline"></ion-icon>
             Delete
@@ -491,6 +499,11 @@
           </ion-label>
 
           <ion-buttons slot="end" *ngIf="platform.width() > 768">
+            <ion-button color="default">
+              <ion-icon slot="start" name="pencil-outline"></ion-icon>
+              Edit
+            </ion-button>
+
             <ion-button color="danger" (click)="deleteContact($event, companyContact)">
               <ion-icon slot="start" name="trash-outline"></ion-icon>
               Delete
@@ -500,6 +513,11 @@
         </ion-item>
 
         <ion-item-options side="end">
+          <ion-button (click)="onContactSelected(companyContact)">
+            <ion-icon slot="start" name="pencil-outline"></ion-icon>
+            Edit
+          </ion-button>
+
           <ion-button color="danger" (click)="deleteContact($event, companyContact)">
             <ion-icon slot="start" name="trash-outline"></ion-icon>
             Delete
@@ -535,6 +553,7 @@
       </ion-card>
     </ion-list>
   </section>
+
   <loading-modal [loading]="loading" type="university-view"></loading-modal>
 
 </ion-content>
