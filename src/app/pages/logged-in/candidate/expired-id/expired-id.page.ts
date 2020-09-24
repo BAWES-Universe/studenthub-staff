@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { AlertController, LoadingController } from '@ionic/angular';
+import {AlertController, LoadingController, NavController} from '@ionic/angular';
 // services
 import { CandidateIdCardService } from 'src/app/providers/logged-in/candidate.id.card.service';
 import { EventService } from 'src/app/providers/event.service';
@@ -32,7 +32,8 @@ export class ExpiredIdPage implements OnInit {
     private _fb: FormBuilder,
     private _loadingCtrl: LoadingController,
     private _alertCtrl: AlertController,
-    private _events: EventService
+    private _events: EventService,
+    private _nav: NavController
   ) {
     this.form = this._fb.group({
       candidates: [],
@@ -149,5 +150,8 @@ export class ExpiredIdPage implements OnInit {
         event.target.complete();
       }
     );
+  }
+  detail(obj) {
+    this._nav.navigateForward('candidate-view/' + obj.candidate_id);
   }
 }

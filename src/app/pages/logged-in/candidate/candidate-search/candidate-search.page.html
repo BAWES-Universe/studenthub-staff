@@ -67,10 +67,12 @@
                   <applied-filters [loading]="refreshingCandidates"></applied-filters>
                 </div>
 
+                
                 <div class="searchBox">
-                  <is-search-box [searchAsYouType]="true"
+                  <ion-searchbar (ionChange)="onSearch($event)" placeholder="{{ 'Type to filter from these results' | translate }}"></ion-searchbar>
+                  <!-- <is-search-box [searchAsYouType]="true"
                     placeholder="{{ 'Type to filter from these results' | translate }}">
-                  </is-search-box>
+                  </is-search-box>-->
                 </div>
 
               </div>

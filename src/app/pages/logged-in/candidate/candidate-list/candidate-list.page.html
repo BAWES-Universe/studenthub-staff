@@ -21,35 +21,38 @@
       <ion-card-title>Filter by</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <ion-list>
-        <!-- Filter by Major -->
-        <ion-item>
-          <ion-label position="floating" color="primary">Name</ion-label>
-          <ion-input type="text" [(ngModel)]="filters.name"></ion-input>
-        </ion-item>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <!-- Filter by Major -->
+            <ion-item>
+              <ion-label position="floating" color="primary">Name</ion-label>
+              <ion-input type="text" [(ngModel)]="filters.name"></ion-input>
+            </ion-item>
 
-        <!-- Filter by Tag -->
-        <ion-item>
-          <ion-label position="floating" color="primary">Email</ion-label>
-          <ion-input type="text" [(ngModel)]="filters.email"></ion-input>
-        </ion-item>
+            <!-- Filter by Tag -->
+            <ion-item>
+              <ion-label position="floating" color="primary">Email</ion-label>
+              <ion-input type="text" [(ngModel)]="filters.email"></ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col>
+            <!-- Filter by Tag -->
+            <ion-item>
+              <ion-label position="floating" color="primary">phone</ion-label>
+              <ion-input type="text" [(ngModel)]="filters.phone"></ion-input>
+            </ion-item>
 
-        <!-- Filter by Tag -->
-        <ion-item>
-          <ion-label position="floating" color="primary">phone</ion-label>
-          <ion-input type="text" [(ngModel)]="filters.phone"></ion-input>
-        </ion-item>
-
-        <ion-item>
-          <ion-label>Type</ion-label>
-          <ion-select [(ngModel)]="filters.type" [value]="filters.type" okText="Okay" cancelText="Dismiss">
-            <ion-select-option value="assigned">Assigned</ion-select-option>
-            <ion-select-option value="un-assigned">UnAssigned</ion-select-option>
-          </ion-select>
-        </ion-item>
-
-      </ion-list>
-
+            <ion-item>
+              <ion-label position="floating" color="primary">Type</ion-label>
+              <ion-select [(ngModel)]="filters.type" [value]="filters.type" okText="Okay" cancelText="Dismiss">
+                <ion-select-option value="assigned">Assigned</ion-select-option>
+                <ion-select-option value="un-assigned">UnAssigned</ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
     </ion-card-content>
 
     <ion-card-header>

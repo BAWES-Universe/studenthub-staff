@@ -190,6 +190,11 @@ export class CandidateSearchPage implements OnInit {
     };
   }
 
+  onSearch(event) {
+    if(this.instantSearch && this.instantSearch.instantSearchInstance) 
+      this.instantSearch.instantSearchInstance.helper.setQuery(event.target.value).search();
+  }
+
   /**
    * Set algolia config
    */

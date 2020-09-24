@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { AlertController, ToastController, NavController } from '@ionic/angular';
+import { AlertController, ToastController, NavController, Platform } from '@ionic/angular';
 //models
 import { Candidate } from 'src/app/models/candidate';
 //services
@@ -23,15 +23,19 @@ export class CandidateComponent implements OnInit {
   public deleting: boolean = false;
 
   constructor(
+    public platform: Platform,
     public alertCtrl: AlertController,
     public toastCtrl: ToastController,
     public navCtrl: NavController,
     public candidateService: CandidateService,
     public candidateIdCardService: CandidateIdCardService,
     public aws: AwsService
-  ) { }
+  ) {
+    // this.candidate.candidate_personal_photo = null;
+  }
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 
   /**
    * When its selected
@@ -100,7 +104,7 @@ export class CandidateComponent implements OnInit {
    * @param candidate
    */
   loadLogo(candidate) {
-    return candidate.candidate_personal_photo = null;
+    this.candidate.candidate_personal_photo = null;
   }
 
   /**

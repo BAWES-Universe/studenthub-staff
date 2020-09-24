@@ -64,6 +64,7 @@
       </ng-container>
 
       <ng-container *ngIf="segment == 0">
+        <no-items *ngIf="!loading && inActiveCompanies && inActiveCompanies.length == 0" message="no inactive company right now"></no-items>
         <ion-item tappable *ngFor="let company of inActiveCompanies" (click)="rowSelected(company)">
 
           <ion-avatar slot="start">

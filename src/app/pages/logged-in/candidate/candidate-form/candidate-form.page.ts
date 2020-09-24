@@ -128,8 +128,10 @@ export class CandidateFormPage implements OnInit {
         // open view page
         this.navCtrl.navigateForward('candidate-view/' + jsonResponse.candidate.candidate_id);
 
+        const candidate_name = this.model.candidate_name? this.model.candidate_name: this.model.candidate_name_ar;
+        
         const toast = await this._toastCtrl.create({
-          message: this.model.candidate_name + '\'s account saved successfully',
+          message: candidate_name + '\'s account saved successfully',
           duration: 3000
         });
         toast.present();

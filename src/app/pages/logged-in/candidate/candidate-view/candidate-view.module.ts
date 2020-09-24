@@ -9,6 +9,7 @@ import { CandidateViewPageRoutingModule } from './candidate-view-routing.module'
 import { CandidateViewPage } from './candidate-view.page';
 import {SelectSearchModule} from "src/app/components/select-search/select-search.module";
 import {LoadingModalModule} from "../../../../components/loading-modal/loading-modal.module";
+import { NoItemsModule } from 'src/app/components/no-items/no-items.module';
 @NgModule({
     imports: [
         CommonModule,
@@ -16,6 +17,7 @@ import {LoadingModalModule} from "../../../../components/loading-modal/loading-m
         IonicModule,
         CandidateViewPageRoutingModule,
         SelectSearchModule,
+        NoItemsModule,
         LoadingModalModule
     ],
   declarations: [CandidateViewPage]
