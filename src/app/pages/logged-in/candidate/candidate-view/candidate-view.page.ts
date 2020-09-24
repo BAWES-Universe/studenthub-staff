@@ -31,6 +31,7 @@ export class CandidateViewPage implements OnInit {
 
   public candidate_id;
 
+  public loadingSalaryTransfers: boolean = false; 
   public sendingPassword: boolean = false;
   public assigning: boolean = false;
   public unassinging: boolean = false;
@@ -91,8 +92,14 @@ export class CandidateViewPage implements OnInit {
    * Load list of all salary transfers
    */
   loadTransfersData() {
+    this.loadingSalaryTransfers = true;
+
     this.candidateService.transfers(this.candidate_id).subscribe(response => {
+      this.loadingSalaryTransfers = false;
+
       this.salaryTransfers = response;
+    }, () => {
+      this.loadingSalaryTransfers = false;
     });
   }
 

@@ -128,6 +128,9 @@
         <ion-badge slot="end" color="secondary" *ngIf="salary.status == 'Paid'">{{salary.status}}</ion-badge>
         <ion-badge slot="end" *ngIf="salary.status =='Unpaid'">In Progress</ion-badge>
       </ion-item>
+      
+      <no-items message = "No salary transferred yet!" *ngIf="salaryTransfers.length == 0 && !loadingSalaryTransfers"></no-items>
+
     </ng-container>
 
     <ng-container *ngIf="sections == 'personal'">
