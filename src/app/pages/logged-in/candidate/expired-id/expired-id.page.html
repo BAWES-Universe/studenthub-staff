@@ -27,15 +27,15 @@
 
   <form [formGroup]="form">
     <ion-list *ngIf="candidatelistData && candidatelistData.length > 0">
-      <ion-item *ngFor="let obj of candidatelistData; let i= index">
+      <ion-item *ngFor="let obj of candidatelistData; let i= index" (click)="candidateDetailPage($event, obj)">
         <ion-label>{{ obj.candidate_name }}</ion-label>
-        <ion-checkbox [value]="obj.candidate_id" (ionChange)="onCandidateToggle($event)"></ion-checkbox>
+        <ion-checkbox slot="end" [value]="obj.candidate_id" (ionChange)="onCandidateToggle($event)"></ion-checkbox>
       </ion-item>
     </ion-list>
 
     <loading-modal [loading]="loading" type="text-list"></loading-modal>
 
-    <no-items *ngIf="!loading && candidatelistData && candidatelistData.length == 0" message="No data available"></no-items>
+    <no-items *ngIf="!loading && candidatelistData && candidatelistData.length == 0" message="No Expired ID"></no-items>
 
 
     <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
