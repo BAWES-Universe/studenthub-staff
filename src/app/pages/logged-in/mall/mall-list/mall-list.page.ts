@@ -102,7 +102,7 @@ export class MallListPage implements OnInit {
     event.stopPropagation();
 
     const confirm = await this.alertCtrl.create({
-      header: 'Delete Store?',
+      header: 'Delete Mall?',
       message: 'Are you sure you want to delete this Mall?',
       buttons: [
         {
