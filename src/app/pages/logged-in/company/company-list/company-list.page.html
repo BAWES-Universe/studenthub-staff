@@ -25,7 +25,7 @@
 
       <ng-container *ngIf="segment == 1">
         <ion-item tappable *ngFor="let company of activeCompanies" (click)="rowSelected(company)">
-
+          <div tabindex="0"></div>
           <ion-avatar slot="start">
             <img *ngIf="company.company_logo" src="{{ aws.cloudinaryUrl + company.company_logo }}"
                   (error)="loadLogo($event,company)">
@@ -65,8 +65,9 @@
 
       <ng-container *ngIf="segment == 0">
         <no-items *ngIf="!loading && inActiveCompanies && inActiveCompanies.length == 0" message="no inactive company right now"></no-items>
+        
         <ion-item tappable *ngFor="let company of inActiveCompanies" (click)="rowSelected(company)">
-
+          <div tabindex="0"></div>
           <ion-avatar slot="start">
             <img *ngIf="company.company_logo" src="{{ aws.cloudinaryUrl + company.company_logo }}"
                   (error)="loadLogo($event,company)">

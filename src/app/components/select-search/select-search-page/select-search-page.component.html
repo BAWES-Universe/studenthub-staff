@@ -3,6 +3,7 @@
 
 <ion-list>
   <ion-item tappable *ngFor="let item of displayedCollection" (click)="onSelect(item)">
+    <div tabindex="0"></div>
     <ion-label>
       <span [innerHTML]="highlight(item[labelAttr])"></span>
     </ion-label>

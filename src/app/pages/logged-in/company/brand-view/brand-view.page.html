@@ -25,6 +25,7 @@
     </ion-item-divider>
 
     <ion-item *ngFor="let store of brand.stores" (click)="storeSelected(store)">
+      <div tabindex="0"></div>
       <ion-label>
         {{store.store_name}}
       </ion-label>

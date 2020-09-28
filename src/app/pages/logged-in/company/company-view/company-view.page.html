@@ -92,6 +92,7 @@
     </div>
 
       <ion-item lines="none">
+        <div tabindex="0"></div>
         <ion-label>
           <h3>Followup</h3>
           <ion-chip color="primary" *ngIf="company.company_followup">
@@ -104,12 +105,14 @@
       </ion-item>
 
         <ion-item *ngIf="company.company_followup">
+          <div tabindex="0"></div>
           <ion-button (click)="addFollowupNote()">
             I have followed up with this company
           </ion-button>
         </ion-item>
 
         <ion-item lines="none">
+          <div tabindex="0"></div>
           <ion-label>
             <h3>Last Followup</h3>
             <p>@ {{ toDate(company.company_last_followup_datetime) | date: 'MMM d, y, h:mm:ss a' }}</p>
@@ -125,6 +128,7 @@
       </ion-item-divider>
 
       <ion-item href='mailto:{{ company.company_email }}'>
+        <div tabindex="0"></div>
         <ion-label>
           <h3>Company Email</h3>
           <p>{{ company.company_email }}</p>
@@ -132,30 +136,39 @@
       </ion-item>
 
       <ion-item>
+        <div tabindex="0"></div>
         <ion-label>
           <h3>Common Name - English</h3>
           <p>{{ company.company_common_name_en }}</p>
         </ion-label>
       </ion-item>
+
       <ion-item>
+        <div tabindex="0"></div>
         <ion-label>
           <h3>Common Name - Arabic</h3>
           <p>{{ company.company_common_name_ar }}</p>
         </ion-label>
       </ion-item>
+
       <ion-item>
+        <div tabindex="0"></div>
         <ion-label>
           <h3>Description - English</h3>
           <p>{{ company.company_description_en }}</p>
         </ion-label>
       </ion-item>
+
       <ion-item>
+        <div tabindex="0"></div>
         <ion-label>
           <h3>Description - Arabic</h3>
           <p>{{ company.company_description_ar }}</p>
         </ion-label>
       </ion-item>
+
       <ion-item href='{{ company.company_website }}'>
+        <div tabindex="0"></div>
         <ion-label>
           <h3>Website</h3>
           <p>{{ company.company_website }}</p>
@@ -169,12 +182,14 @@
       </ion-item-divider>
 
       <ion-item>
+        <div tabindex="0"></div>
         <ion-label>
           Bonus Commission(%) - {{ company.company_bonus_commission }}
         </ion-label>
       </ion-item>
 
       <ion-item>
+        <div tabindex="0"></div>
         <ion-label>
           Hourly Rate - {{ company.company_hourly_rate | number:'1.3-3' }} KWD
         </ion-label>
@@ -191,20 +206,24 @@
       </ion-item-divider>
 
       <ion-item>
+        <div tabindex="0"></div>
         <ion-label>
           Bonus Commission(%) - {{ company.company_bonus_commission }}
         </ion-label>
       </ion-item>
 
       <ion-item>
+        <div tabindex="0"></div>
         <ion-label>
           Hourly Rate - {{ company.company_hourly_rate | number:'1.3-3' }} KWD
         </ion-label>
       </ion-item>
     </section>
   </section>
+
   <section *ngIf="segment == 'documents'">
     <ion-item *ngFor="let file of company.files">
+      <div tabindex="0"></div>
       <ion-label>
         <a target="_blank" (click)="$event.stopPropagation()"
           href="{{ awsService.permanentBucketUrl }}{{ file.file_s3_path }}">
@@ -217,6 +236,7 @@
     </ion-item>
 
     <ion-item lines="none">
+      <div tabindex="0"></div>
       <ion-button (click)="uploadDocument()">
         <span>Upload Document</span>
       </ion-button>
@@ -234,6 +254,7 @@
     </ion-item-divider>
 
     <ion-item tappable *ngFor="let company of subCompanies" (click)="rowSelected(company)">
+      <div tabindex="0"></div>
 
       <ion-label>
         {{ company.company_name }}
@@ -275,7 +296,7 @@
     <ion-list>
       <ion-item-sliding *ngFor="let store of stores" [disabled]="platform.width() > 768">
         <ion-item tappable (click)="storeSelected(store)">
-
+          <div tabindex="0"></div>
           <ion-label>
             <h5>{{ store.store_name }}</h5>
             <p *ngIf="store.store_location">
@@ -306,6 +327,7 @@
       </ion-item-sliding>
 
       <ion-item lines="none">
+        <div tabindex="0"></div>
         <ion-button (click)="addStore()">
           Add a store
         </ion-button>
@@ -322,6 +344,7 @@
     <ion-list>
       <ion-item-sliding *ngFor="let brand of brands" [disabled]="platform.width() > 768">
         <ion-item tappable (click)="brandSelected(brand)">
+          <div tabindex="0"></div>
           <ion-thumbnail slot="start">
             <ion-img *ngIf="brand.brand_logo" [src]="awsService.cloudinaryUrl + 'company-brand/' + brand.brand_logo">
             </ion-img>
@@ -370,7 +393,7 @@
     <ion-list>
       <ion-item-sliding  [disabled]="platform.width() > 768" *ngFor="let request of company.requests">
         <ion-item tappable (click)="editRequest(request)">
-
+          <div tabindex="0"></div>
           <ion-label>
             {{ request.request_position_title }}<br />
             <small>{{ request.request_created_datetime | date}}</small>
@@ -420,7 +443,9 @@
           </ion-button>
         </ion-item-options>
       </ion-item-sliding>
+
       <ion-item lines="none">
+        <div tabindex="0"></div>
         <ion-button color="danger" (click)="addRequest()">
           <span>Add New Request</span>
         </ion-button>
@@ -434,6 +459,8 @@
     <ion-list>
       <ion-item-sliding *ngFor="let note of company.notes" [disabled]="platform.width() > 768">
         <ion-item tappable (click)="addNote(note)">
+          <div tabindex="0"></div>
+
           <ion-label>
             {{ note.note_text }}<br />
             <small>{{ note.note_created_datetime | date}}</small>
@@ -464,7 +491,9 @@
           </ion-button>
         </ion-item-options>
       </ion-item-sliding>
+
       <ion-item lines="none">
+        <div tabindex="0"></div>
         <ion-button color="danger" (click)="addNote(null)">
           <span>Add New Note</span>
         </ion-button>
@@ -479,6 +508,8 @@
     <ion-list class="contact-list">
       <ion-item-sliding *ngFor="let companyContact of companyContacts" [disabled]="platform.width() > 768">
         <ion-item tappable (click)="onContactSelected(companyContact)">
+          <div tabindex="0"></div>
+
           <ion-label>
             <h4>{{ companyContact.contact_name }}</h4>
             <p>
@@ -526,6 +557,7 @@
       </ion-item-sliding>
 
       <ion-item lines="none">
+        <div tabindex="0"></div>
         <ion-button (click)="addCompanyContact()">
           Add New Contact
         </ion-button>

@@ -1,11 +1,13 @@
 <ion-content [attr.dir]="translateService.direction()">
   <ion-list>
     <ion-item [disabled]="sendingPassword" (click)="resetPassword()" tappable>
+      <div tabindex="0"></div>
         <span *ngIf="!sendingPassword">Send password reset email to candidate</span>
         <ion-spinner *ngIf="sendingPassword"></ion-spinner>
     </ion-item>
     <ng-container *ngIf="candidate && candidate.store_id && candidate.store && !assigning">
       <ion-item *ngIf="!unassinging && candidate.store" (click)="unassignCandidateFromStore()" tappable>
+        <div tabindex="0"></div>
         Unassign candidate from {{ candidate.store.store_name }}
       </ion-item>
       <ion-spinner *ngIf="unassinging"></ion-spinner>
@@ -14,6 +16,7 @@
 
   <ng-container *ngIf="!candidate.candidate_job_search_status && candidate.isProfileCompleted">
     <ion-item [disabled]="updatingJobSearchStatus" (click)="toggleJobSearchStatus('mark_as_looking')" tappable>
+      <div tabindex="0"></div>
       <ion-spinner *ngIf="updatingJobSearchStatus"></ion-spinner>
       <span *ngIf="!updatingJobSearchStatus">
         Mark as looking for job
@@ -22,6 +25,7 @@
   </ng-container>
   <ng-container *ngIf="candidate && candidate.candidate_job_search_status && !candidate.store_id && candidate.isProfileCompleted" >
     <ion-item [disabled]="updatingJobSearchStatus" (click)="toggleJobSearchStatus('mark_as_not_looking')" tappable>
+      <div tabindex="0"></div>
       <ion-spinner *ngIf="updatingJobSearchStatus"></ion-spinner>
       <span *ngIf="!updatingJobSearchStatus">
         Mark as not looking for job
@@ -29,13 +33,15 @@
     </ion-item>
   </ng-container>
      <ion-item (click)="setExpire()" tappable>
+      <div tabindex="0"></div>
       <ion-spinner *ngIf="expiring"></ion-spinner>
       <span *ngIf="!expiring">
         Expire the card
       </span>
     </ion-item>
   <ion-item (click)="exportCV()" tappable>
-      <ion-spinner *ngIf="exportingCV"></ion-spinner>
+    <div tabindex="0"></div>
+    <ion-spinner *ngIf="exportingCV"></ion-spinner>
       <span *ngIf="!exportingCV">
         Export CV as PDF
       </span>
