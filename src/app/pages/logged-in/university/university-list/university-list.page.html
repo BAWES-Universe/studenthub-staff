@@ -11,6 +11,7 @@
   <loading-modal [loading]="loading" type="text-list"></loading-modal>
   <ion-list>
     <ion-item tappable *ngFor="let university of universities" (click)="rowSelected(university)">
+      <div tabindex="0"></div>
       <ion-label>
         {{ university.university_name_en }}
       </ion-label>

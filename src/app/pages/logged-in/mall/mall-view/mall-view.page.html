@@ -22,15 +22,18 @@
           Stores
         </ion-label>
       </ion-item-divider>
-        <ion-item tappable (click)="rowSelected(store)" *ngFor="let store of mall.stores">
-         <ion-label>
+      <ion-item tappable (click)="rowSelected(store)" *ngFor="let store of mall.stores">
+        <div tabindex="0"></div>
+        <ion-label>
           <h5>{{ store.store_name }}</h5>
-          <p *ngIf="store.store_location"><ion-icon name="location-outline"></ion-icon> {{ store.store_location }}</p>
+          <p *ngIf="store.store_location">
+            <ion-icon name="location-outline"></ion-icon> {{ store.store_location }}
+          </p>
         </ion-label>
-          <ion-badge slot="end" *ngIf="store.candidatesCount">
-            <ion-icon name="person"></ion-icon> {{ store.candidatesCount }}
-          </ion-badge>
-        </ion-item>
+        <ion-badge slot="end" *ngIf="store.candidatesCount">
+          <ion-icon name="person"></ion-icon> {{ store.candidatesCount }}
+        </ion-badge>
+      </ion-item>
     </section>
   </ion-list>
 

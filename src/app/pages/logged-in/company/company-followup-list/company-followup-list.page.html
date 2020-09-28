@@ -12,7 +12,7 @@
 
   <ion-list>
     <ion-item tappable *ngFor="let company of companies" (click)="rowSelected(company)">
-
+      <div tabindex="0"></div>
       <ion-avatar slot="start">
         <img *ngIf="company.company_logo" src="{{ aws.cloudinaryUrl + company.company_logo }}" (error)="loadLogo(company)">
         <img *ngIf="!company.company_logo" src="/assets/icon/icon.png">
