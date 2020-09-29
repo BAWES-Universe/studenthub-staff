@@ -1,5 +1,6 @@
 <ion-item-sliding  [disabled]="platform.width() > 768">
   <ion-item tappable (click)="rowSelected(candidate)">
+    <div tabindex="0"></div>
     <ion-avatar slot="start">
       <img *ngIf="candidate.candidate_personal_photo"
         src="{{ aws.cloudinaryUrl + 'candidate-photo/' + candidate.candidate_personal_photo }}" onerror="this.src='/assets/icon/icon.png';">
