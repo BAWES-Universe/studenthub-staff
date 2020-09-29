@@ -183,6 +183,7 @@
         </div>
 
         <ion-item [class.ion-invalid]="!model.candidate_gender">
+          <div tabindex="0"></div>
           <ion-label>Gender</ion-label>
           <ion-chip (click)="setGenderOption(1)" [class.active]="model.candidate_gender == 1">Male</ion-chip>
           <ion-chip (click)="setGenderOption(2)" [class.active]="model.candidate_gender == 2">Female</ion-chip>
@@ -196,6 +197,7 @@
         </div>
 
         <ion-item [class.ion-invalid]="!model.candidate_driving_license">
+          <div tabindex="0"></div>
           <ion-label>Driving License Available?</ion-label>
           <ion-chip (click)="setLicenseOption(1)" [class.active]="model.candidate_driving_license == 1">Yes</ion-chip>
           <ion-chip (click)="setLicenseOption(2)" [class.active]="model.candidate_driving_license == 2">No</ion-chip>

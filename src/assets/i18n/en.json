@@ -1,3 +1,5 @@
 {
-    "txt_view_candidates": "View all {{value}} candidates"
+    "txt_view_candidates": "View all {{value}} candidates",
+    "txt_showing_candidates_for": "{{ value }} candidates Found",
+    "txt_showing_candidates": "{{ value }} candidates Found"
 }

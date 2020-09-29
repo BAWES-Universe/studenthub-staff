@@ -4,7 +4,6 @@
     <span *ngIf="this.state.items.length == 0 && total">
         {{ labelWithoutFilter | translate : { value : total }  }}
     </span>
-  
     <span *ngIf="this.state.items.length > 0 && total">
         {{ labelWithFilter | translate : { value : total }  }}
     </span>
@@ -23,7 +22,7 @@
   </p>
 
   <div class="clearfix"></div>
-  
+
   <div [class]="cx()" *ngIf="!isHidden()">
     <span [class]="cx('list')" *ngIf="this.platform.is('mobile')">
         <div class="outer-slider">

@@ -11,6 +11,7 @@
 
   <ion-list>
     <ion-item tappable *ngFor="let country of countries" (click)="rowSelected(country)">
+      <div tabindex="0"></div>
       <ion-label>
         {{ country.country_name_en }}
       </ion-label>

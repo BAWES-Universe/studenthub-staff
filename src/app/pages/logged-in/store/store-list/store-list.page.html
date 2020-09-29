@@ -15,7 +15,8 @@
   <ion-list>
     <ion-item-sliding *ngFor="let store of stores" [disabled]="platform.width() > 768">
       <ion-item tappable (click)="rowSelected(store)">
-
+        <div tabindex="0"></div>
+        
         <ion-label>
           <h5>{{ store.store_name }}</h5>
           <p *ngIf="store.store_location"><ion-icon name="location-outline"></ion-icon> {{ store.store_location }}</p>

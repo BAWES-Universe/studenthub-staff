@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {NavController} from '@ionic/angular';
 
 // services
@@ -70,4 +70,6 @@ export class DefaultPage implements OnInit {
   showNotAssignedCandidates() {
     this.navCtrl.navigateForward('candidate-list/not-assigned');
   }
+
+
 }

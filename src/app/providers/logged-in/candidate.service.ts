@@ -23,7 +23,7 @@ export class CandidateService {
    * @returns {Observable<any>}
    */
   detail(id: number): Observable<any> {
-    return this._authhttp.get(this._candidateEndpoint + '/detail/' + id + '?expand=store,company,candidateSkills,candidateExperiences,bank,country,university');
+    return this._authhttp.get(this._candidateEndpoint + '/detail/' + id + '?expand=store,company,candidateSkills,candidateExperiences,bank,nationality,area,country,university');
   }
 
   /**

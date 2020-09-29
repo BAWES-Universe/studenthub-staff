@@ -64,10 +64,10 @@
               <div class="list-header" *ngIf="showSearchBox">
 
                 <div class="applied-filters-wrapper">
-                  <applied-filters [loading]="refreshingCandidates"></applied-filters>
+                  <applied-filters [loading]="refreshingCandidates" [labelWithoutFilter]="'txt_showing_candidates_for'"
+                                   [labelWithFilter]="'txt_showing_candidates'">
+                  </applied-filters>
                 </div>
-
-                
                 <div class="searchBox">
                   <ion-searchbar (ionChange)="onSearch($event)" placeholder="{{ 'Type to filter from these results' | translate }}"></ion-searchbar>
                   <!-- <is-search-box [searchAsYouType]="true"

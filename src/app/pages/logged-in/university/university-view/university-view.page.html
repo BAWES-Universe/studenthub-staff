@@ -9,14 +9,17 @@
 
 <ion-content class="ion-padding">
   <loading-modal [loading]="loading" type="text-list-view"></loading-modal>
+
   <ion-list *ngIf="university">
     <ion-item>
+      <div tabindex="0"></div>
       <ion-label>
         <h5>University ID</h5>
         <p>{{ university.university_id }}</p>
       </ion-label>
     </ion-item>
     <ion-item>
+      <div tabindex="0"></div>
       <ion-label>
         <h5>University Name</h5>
         <p>{{ university.university_name_en }}</p>
@@ -24,6 +27,7 @@
     </ion-item>
 
     <ion-item>
+      <div tabindex="0"></div>
       <ion-label>
         <h5>University Name - Arabic</h5>
         <p>{{ university.university_name_ar }}</p>
