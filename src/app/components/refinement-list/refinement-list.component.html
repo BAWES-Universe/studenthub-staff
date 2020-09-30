@@ -37,7 +37,8 @@
       </p> 
       <ng-container *ngFor="let item of items">
           <ion-item (click)="refine($event, item)" tappable [class]="getItemClass(item)" *ngIf="item.label">
-              <ion-label tappable [class]="cx('label')">
+            <div tabindex="0"></div>
+            <ion-label tappable [class]="cx('label')">
                   <span [class]="cx('labelText')" [class.ltr]="translateService.isEnglish(item.label)">
                       <ais-highlight attribute="highlighted" [hit]="item"></ais-highlight>
                   </span>
