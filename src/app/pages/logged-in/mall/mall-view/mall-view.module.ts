@@ -9,6 +9,7 @@ import { MallViewPageRoutingModule } from './mall-view-routing.module';
 import { MallViewPage } from './mall-view.page';
 import {CandidateModule} from "../../../../components/candidate/candidate.module";
 import {LoadingModalModule} from "../../../../components/loading-modal/loading-modal.module";
+import { NoItemsModule } from 'src/app/components/no-items/no-items.module';
 
 @NgModule({
   imports: [
@@ -17,6 +18,7 @@ import {LoadingModalModule} from "../../../../components/loading-modal/loading-m
     IonicModule,
     MallViewPageRoutingModule,
     CandidateModule,
+    NoItemsModule,
     LoadingModalModule
   ],
   declarations: [MallViewPage]

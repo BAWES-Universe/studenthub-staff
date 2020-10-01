@@ -22,6 +22,7 @@
           Stores
         </ion-label>
       </ion-item-divider>
+      
       <ion-item tappable (click)="rowSelected(store)" *ngFor="let store of mall.stores">
         <div tabindex="0"></div>
         <ion-label>
@@ -34,6 +35,9 @@
           <ion-icon name="person"></ion-icon> {{ store.candidatesCount }}
         </ion-badge>
       </ion-item>
+
+      <no-items *ngIf="mall.stores.length == 0" message="No store added yet!"></no-items>
+
     </section>
   </ion-list>
 
