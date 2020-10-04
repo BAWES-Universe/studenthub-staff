@@ -20,10 +20,13 @@ export class StoreService {
    * @returns {Observable<any>}
    */
   list(fields: string = '', expand: string = ''): Observable<any>{
+
     let append = '';
-    if (fields){
+    
+    if (fields) {
       append = `?fields=${fields}`;
     }
+
     if (expand){
       append = append ? `${append}&expand=${expand}` : `?expand=${expand}`;
     }

@@ -58,3 +58,14 @@
     display: none;
   }
 }
+
+.select_search_store_id {
+
+  ion-label {
+    white-space: normal !important; 
+  }
+
+  .popover-content {
+    min-width: 350px;
+  }
+}

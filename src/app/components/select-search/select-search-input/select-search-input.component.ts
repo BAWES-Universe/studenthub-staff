@@ -1,6 +1,6 @@
 import {Component, forwardRef, Input} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
-import {PopoverController} from '@ionic/angular';
+import { PopoverController} from '@ionic/angular';
 import {SelectSearchPageComponent} from '../select-search-page/select-search-page.component';
 
 @Component({
@@ -44,7 +44,9 @@ export class SelectSearchInputComponent implements ControlValueAccessor {
   // we use it to emit changes back to the form
   private _propagateChange = (_: any) => {};
 
-  constructor(private _popoverCtrl: PopoverController) { }
+  constructor(
+    private _popoverCtrl: PopoverController
+  ) { }
 
   /**
    * When component clicked
@@ -57,6 +59,7 @@ export class SelectSearchInputComponent implements ControlValueAccessor {
         valueAttr: this.valueAttr,
         labelAttr: this.labelAttr
       },
+      cssClass: 'select_search_' + this.valueAttr,
       event: $ev,
       translucent: true
     });
