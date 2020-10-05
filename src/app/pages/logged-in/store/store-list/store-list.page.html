@@ -8,6 +8,9 @@
       {{ company.company_name }}
     </ion-title>
   </ion-toolbar>
+  
+  <ion-progress-bar type="indeterminate" *ngIf="updating"></ion-progress-bar>
+
 </ion-header>
 
 <ion-content>
@@ -27,6 +30,12 @@
         </ion-badge>
 
         <ion-buttons slot="end" *ngIf="platform.width() > 768">
+            
+          <ion-button (click)="selectStoreManager($event, store)">
+            <ion-icon name="call-outline"></ion-icon>
+            Select store manager
+          </ion-button>
+          
           <ion-button color="danger" (click)="delete($event, store)">
             <ion-icon slot="start" name="trash-outline"></ion-icon>
             Delete
@@ -36,6 +45,12 @@
       </ion-item>
 
       <ion-item-options side="end">
+
+        <ion-button color="primary" (click)="selectStoreManager($event, store)">
+          <ion-icon name="call-outline"></ion-icon>
+          Select store manager
+        </ion-button>
+
         <ion-button color="danger" (click)="delete($event, store)">
           <ion-icon name="trash"></ion-icon>
           Delete

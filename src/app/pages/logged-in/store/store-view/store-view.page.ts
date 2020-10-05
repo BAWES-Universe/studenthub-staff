@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController, NavController } from "@ionic/angular";
+import { AlertController, ModalController, NavController } from "@ionic/angular";
 import { ActivatedRoute } from "@angular/router";
 //model
 import { Store } from "../../../../models/store";
@@ -12,6 +12,7 @@ import { AwsService } from 'src/app/providers/aws.service';
 import {EventService} from "../../../../providers/event.service";
 import {MallService} from "../../../../providers/logged-in/mall.service";
 import {Mall} from "../../../../models/mall";
+import { StoreManagerFormPage } from '../store-manager-form/store-manager-form.page';
 
 
 @Component({
@@ -26,12 +27,15 @@ export class StoreViewPage implements OnInit {
   public loading = false;
   public malls: Mall[];
 
+  public updating: boolean = false;
+
   constructor(
     public navCtrl: NavController,
-    private _modalCtrl: ModalController,
+    private modalCtrl: ModalController,
+    public alertCtrl: AlertController,
     private activatedRoute: ActivatedRoute,
     public aws: AwsService,
-    private _storeService: StoreService,
+    private storeService: StoreService,
     private eventService: EventService,
     private mallService: MallService
   ) {
@@ -70,7 +74,7 @@ export class StoreViewPage implements OnInit {
   async update() {
     window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
-    const modal = await this._modalCtrl.create({
+    const modal = await this.modalCtrl.create({
       component: StoreFormPage,
       componentProps: {
         model: this.store,
@@ -92,10 +96,63 @@ export class StoreViewPage implements OnInit {
 
     return await modal.present();
   }
+  
+  async selectStoreManager() {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
+    const modal = await this.modalCtrl.create({
+      component: StoreManagerFormPage,
+      componentProps: {
+        company: this.store.company
+      }
+    });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+
+      if (e.data && e.data.refresh) {
+        this.updateStoreManager(e.data.storeManager);
+      }
+    });
+    return await modal.present();
+  }
+
+  /**
+   * update store manager
+   * @param storeManager 
+   */
+  updateStoreManager(storeManager) {
+
+    this.updating = true;
+
+    this.storeService.updateStoreManager(this.store, storeManager).subscribe(async data => {
+      this.updating = false;
+
+      if (data.operation == 'success') {
+        this.store.storeManager = storeManager;
+        this.store.store_manager_uuid = storeManager.contact_uuid;
+      }
+
+      if (data.operation == 'error') {
+        const alert = await this.alertCtrl.create({
+          header: 'Deletion Error!',
+          subHeader: data.message,
+          buttons: ['Okay']
+        });
+        alert.present();
+      }
+    }, () => {
+      this.updating = false;
+    });
+  }
 
   loadData() {
     this.loading = true;
-    this._storeService.detail(this.store_id).subscribe(response => {
+
+    this.storeService.detail(this.store_id).subscribe(response => {
       this.loading = false;
       this.store = response;
     });

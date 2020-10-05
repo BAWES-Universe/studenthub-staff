@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {Observable} from 'rxjs';
 import {AuthHttpService} from './authhttp.service';
 import {Store} from '../../models/store';
+import { CompanyContact } from 'src/app/models/company-contact';
 
 @Injectable({
   providedIn: 'root'
@@ -48,7 +49,7 @@ export class StoreService {
    * @param story_id
    */
   detail(story_id: number): Observable<any>{
-    return this._authhttp.get(`${this._storeEndpoint}/${story_id}?expand=candidates,brand,company,company.brands,mall`);
+    return this._authhttp.get(`${this._storeEndpoint}/${story_id}?expand=storeManager,candidates,brand,company,company.brands,mall`);
   }
 
   /**
@@ -78,6 +79,17 @@ export class StoreService {
       location: model.store_location,
       brand_uuid: model.brand_uuid,
       mall_uuid: model.mall_uuid
+    });
+  }
+
+  /**
+   * update store manager
+   * @param model 
+   * @param companyContact 
+   */
+  updateStoreManager(model: Store, companyContact: CompanyContact): Observable<any>{
+    return this._authhttp.patch(`${this._storeEndpoint}/update-manager/${model.store_id}`, {
+      contact_uuid: companyContact.contact_uuid
     });
   }
 

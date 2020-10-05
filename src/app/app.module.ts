@@ -30,6 +30,7 @@ import { OptionPageModule } from './pages/logged-in/candidate/option/option.modu
 import {BrandFormPageModule} from './pages/logged-in/company/brand-form/brand-form.module';
 import {MallFormPageModule} from './pages/logged-in/mall/mall-form/mall-form.module';
 import { SelectiveLoadingStrategy } from './util/SelectiveLoadingStrategy';
+import { StoreManagerFormPageModule } from './pages/logged-in/store/store-manager-form/store-manager-form.module';
 
 export function startupServiceFactory(authService) {
   return () => authService.load();
@@ -68,6 +69,7 @@ export function createTranslateLoader(http: HttpClient) {
         UploadFilePageModule,
         CompanyNoteFormPageModule,
         CompanyContactFormPageModule,
+        StoreManagerFormPageModule,
         OptionPageModule,
         BrandFormPageModule,
         MallFormPageModule
