@@ -10,6 +10,9 @@
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
+  
+  <ion-progress-bar type="indeterminate" *ngIf="updating"></ion-progress-bar>
+
 </ion-header>
 
 <ion-content>
@@ -47,7 +50,25 @@
       </ion-label>
     </ion-item>
 
+    <ion-item>
+      
+      <ion-button *ngIf="!store.storeManager" (click)="selectStoreManager()">
+        Select store manager
+      </ion-button>
+
+      <ion-label *ngIf="store.storeManager">
+        <h4>{{ store.storeManager.contact_name }}</h4>
+        <p>
+          {{ store.storeManager.contact_position }}
+        </p>
+      </ion-label>
+
+      <ion-button slot="end" *ngIf="store.storeManager" (click)="selectStoreManager()">
+        <ion-icon name="pencil-outline"></ion-icon>
+      </ion-button>
+    </ion-item>
   </section>
+
   <ion-list *ngIf="store">
 
     <ion-item-divider color="light">
