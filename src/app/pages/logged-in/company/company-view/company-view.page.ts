@@ -768,44 +768,46 @@ export class CompanyViewPage implements OnInit {
     canAvgPayment,
     averageProfitPerCandidate
   ) {
-    console.log(xAxis,
-      complete,
-      paymentReceived,
-      inProgress,
+    console.log(
+      // xAxis,
+      // complete,
+      // paymentReceived,
+      // inProgress,
       profit,
-      totalCandidates,
-      totalCandidatePaid,
-      canAvgPayment,
-      averageProfitPerCandidate);
+      // totalCandidates,
+      // totalCandidatePaid,
+      // canAvgPayment,
+      // averageProfitPerCandidate
+    );
     if (this.statsChart.nativeElement) {
       this.bars = new Chart(this.statsChart.nativeElement, {
         type: 'line',
         data: {
           // labels: ['S1', 'S2', 'S3', 'S4', 'S5', 'S6', 'S7', 'S8'],
           datasets: [
-            {
-              label: 'Completed Transfer (' + complete.length + ')',
-              display: false,
-              data: complete,
-              fill: false,
-              backgroundColor: 'rgb(38, 194, 129)',
-              borderColor: 'rgb(38, 194, 129)',
-              borderWidth: 1
-            }, {
-              label: 'Received Transfer (' + paymentReceived.length + ')',
-              fill: false,
-              data: paymentReceived,
-              backgroundColor: '#8000ff',
-              borderColor: '#8000ff',
-              borderWidth: 1
-            }, {
-              label: 'In Progress Transfer (' + inProgress.length + ')',
-              fill: false,
-              data: inProgress,
-              backgroundColor: '#387ef5',
-              borderColor: '#387ef5',
-              borderWidth: 1
-            },
+            // {
+            //   label: 'Completed Transfer (' + complete.length + ')',
+            //   display: false,
+            //   data: complete,
+            //   fill: false,
+            //   backgroundColor: 'rgb(38, 194, 129)',
+            //   borderColor: 'rgb(38, 194, 129)',
+            //   borderWidth: 1
+            // }, {
+            //   label: 'Received Transfer (' + paymentReceived.length + ')',
+            //   fill: false,
+            //   data: paymentReceived,
+            //   backgroundColor: '#8000ff',
+            //   borderColor: '#8000ff',
+            //   borderWidth: 1
+            // }, {
+            //   label: 'In Progress Transfer (' + inProgress.length + ')',
+            //   fill: false,
+            //   data: inProgress,
+            //   backgroundColor: '#387ef5',
+            //   borderColor: '#387ef5',
+            //   borderWidth: 1
+            // },
             {
               label: 'Profit',
               // xLabel: 'Profit (' + profit.length + ')',
@@ -815,36 +817,36 @@ export class CompanyViewPage implements OnInit {
               borderColor: 'red',
               borderWidth: 1
             }
-            , {
-              label: 'Total Candidates (' + totalCandidates.length + ')',
-              fill: false,
-              data: totalCandidates,
-              backgroundColor: 'Blue',
-              borderColor: 'Blue',
-              borderWidth: 1
-            }, {
-              label: 'Total Candidates Paid (' + totalCandidatePaid.length + ')',
-              fill: false,
-              data: totalCandidatePaid,
-              backgroundColor: '#ffbf00',
-              borderColor: '#ffbf00',
-              borderWidth: 1
-            }, {
-              label: 'Average Candidates Payment (' + canAvgPayment.length + ')',
-              fill: false,
-              data: canAvgPayment,
-              backgroundColor: '#F5CAC3',
-              borderColor: '#F5CAC3',
-              borderWidth: 1
-            }
-            , {
-              label: 'Average Profit Per Candidate (' + averageProfitPerCandidate.length + ')',
-              fill: false,
-              data: averageProfitPerCandidate,
-              backgroundColor: '#00ffff',
-              borderColor: '#00ffff',
-              borderWidth: 1
-            }
+            // , {
+            //   label: 'Total Candidates (' + totalCandidates.length + ')',
+            //   fill: false,
+            //   data: totalCandidates,
+            //   backgroundColor: 'Blue',
+            //   borderColor: 'Blue',
+            //   borderWidth: 1
+            // }, {
+            //   label: 'Total Candidates Paid (' + totalCandidatePaid.length + ')',
+            //   fill: false,
+            //   data: totalCandidatePaid,
+            //   backgroundColor: '#ffbf00',
+            //   borderColor: '#ffbf00',
+            //   borderWidth: 1
+            // }, {
+            //   label: 'Average Candidates Payment (' + canAvgPayment.length + ')',
+            //   fill: false,
+            //   data: canAvgPayment,
+            //   backgroundColor: '#F5CAC3',
+            //   borderColor: '#F5CAC3',
+            //   borderWidth: 1
+            // }
+            // , {
+            //   label: 'Average Profit Per Candidate (' + averageProfitPerCandidate.length + ')',
+            //   fill: false,
+            //   data: averageProfitPerCandidate,
+            //   backgroundColor: '#00ffff',
+            //   borderColor: '#00ffff',
+            //   borderWidth: 1
+            // }
           ]
         },
         options: {
@@ -874,7 +876,7 @@ export class CompanyViewPage implements OnInit {
             callbacks: {
               label: (context) => {
 
-                // console.log(context);
+                console.log(context);
                 let label = '';
                 // let label = context.label || '';
                 if (context.datasetIndex == 0) {
@@ -899,11 +901,15 @@ export class CompanyViewPage implements OnInit {
                   label += context.label + ': ';
                 }
                 // console.log(context.label);
-                if (!isNaN(context.y)) {
+                // if (!isNaN(context.yLabel)) {
+                //   label += ' KWD ' + context.yLabel;
+                // }
+
+                if (!isNaN(context.yLabel)) {
                   label += new Intl.NumberFormat('en-US', {
                     style: 'currency',
                     currency: 'KWD'
-                  }).format(context.y);
+                  }).format(context.yLabel);
                 }
                 return label;
               }
