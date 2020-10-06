@@ -13,13 +13,13 @@ import { CompanyContactService } from 'src/app/providers/logged-in/company-conta
 })
 export class StoreManagerFormPage implements OnInit {
 
-  public company; 
+  public company;
 
   public companyContacts: CompanyContact[] = [];
-  
+
   public parentCompanyContacts: CompanyContact[] = [];
 
-  public loading: boolean = false; 
+  public loading: boolean = false;
 
   constructor(
     public modalCtrl: ModalController,

@@ -13,6 +13,7 @@ import {EventService} from "../../../../providers/event.service";
 import {MallService} from "../../../../providers/logged-in/mall.service";
 import {Mall} from "../../../../models/mall";
 import { StoreManagerFormPage } from '../store-manager-form/store-manager-form.page';
+import {AuthService} from "../../../../providers/auth.service";
 
 
 @Component({
@@ -37,7 +38,8 @@ export class StoreViewPage implements OnInit {
     public aws: AwsService,
     private storeService: StoreService,
     private eventService: EventService,
-    private mallService: MallService
+    private mallService: MallService,
+    private authService: AuthService
   ) {
   }
 
@@ -96,7 +98,7 @@ export class StoreViewPage implements OnInit {
 
     return await modal.present();
   }
-  
+
   async selectStoreManager() {
     window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
@@ -122,7 +124,7 @@ export class StoreViewPage implements OnInit {
 
   /**
    * update store manager
-   * @param storeManager 
+   * @param storeManager
    */
   updateStoreManager(storeManager) {
 
@@ -138,8 +140,8 @@ export class StoreViewPage implements OnInit {
 
       if (data.operation == 'error') {
         const alert = await this.alertCtrl.create({
-          header: 'Deletion Error!',
-          subHeader: data.message,
+          header: 'Selection Error!',
+          subHeader: this.authService.errorMessage(data.message),
           buttons: ['Okay']
         });
         alert.present();
