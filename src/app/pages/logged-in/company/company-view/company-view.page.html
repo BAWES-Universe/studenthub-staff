@@ -83,36 +83,20 @@
 <!--  </ion-list>-->
   <section *ngIf="segment == 'info'">
 
-    <ion-grid>
-      <ion-row>
-        <ion-col>
-          <ion-card class="welcome-card">
-            <ion-card-header>
-              <ion-card-title>Completed / Received / InProgress Transfer</ion-card-title>
-            </ion-card-header>
-            <ion-card-content>
-              <canvas #barChart></canvas>
-            </ion-card-content>
-          </ion-card>
-        </ion-col>
-        <ion-col>
-          <ion-card class="welcome-card">
-            <ion-card-header>
-              <ion-card-title> Profit, Total Candidates, Total Paid Candidate, Candidate Average Payment,Average Profit/Candidate</ion-card-title>
-            </ion-card-header>
-            <ion-card-content>
-              <canvas #lineChart2></canvas>
-            </ion-card-content>
-          </ion-card>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
+    <ion-card class="welcome-card" [hidden]="!legendDisplay || (statsData && !statsData.length)">
+      <ion-card-header>
+        <ion-card-title> Completed / Received / InProgress Transfer/ Profit, Total Candidates, Total Paid Candidate, Candidate Average Payment,Average Profit/Candidate</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <canvas #statsChart></canvas>
+      </ion-card-content>
+    </ion-card>
 
 
     <div class="ion-text-center ion-padding">
         <img *ngIf="company.company_logo" src="{{ awsService.cloudinaryUrl + company.company_logo }}"
-           (error)="loadLogo($event,company)" width="80">
-        <img *ngIf="!company.company_logo" src="/assets/icon/icon.png"  width="80">
+           (error)="loadLogo($event,company)" width="80"/>
+        <img *ngIf="!company.company_logo" src="/assets/icon/icon.png"  width="80"/>
       <br/>
       {{ company.company_name }}
     </div>

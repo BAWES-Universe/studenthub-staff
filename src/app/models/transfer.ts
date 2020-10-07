@@ -6,7 +6,7 @@ export class Transfer {
 	parent_transfer_id: number;
 	company_id: number;
 	total: number;
-	company_total: number;
+	company_total: any;
 	payment_received_on: string;
 	transfer_status: number;
 	transfer_created_at: string;
@@ -20,7 +20,7 @@ export class Transfer {
 	//extra field
 	totalPaid: number;
 	totalUnpaid: number;
-	profit: number;
+	profit: any;
   totalCandidateTransferTotal: number;
   paidTransferCandidates: [];
 	candidates: Candidate[];
