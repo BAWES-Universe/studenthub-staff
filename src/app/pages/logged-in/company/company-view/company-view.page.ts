@@ -772,7 +772,7 @@ export class CompanyViewPage implements OnInit {
     allTransfers,
     pointBackgroundColors
   ) {
-    if (this.statsChart.nativeElement) {
+    if (this.segment == 'info' && this.statsChart && this.statsChart.nativeElement) {
       this.bars = new Chart(this.statsChart.nativeElement, {
         type: 'line',
         data: {
