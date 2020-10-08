@@ -2,7 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Platform, ModalController, AlertController, ToastController } from '@ionic/angular';
 import { Chart } from 'chart.js';
-//services
+// services
 import { StoreService } from 'src/app/providers/logged-in/store.service';
 import { CompanyService } from 'src/app/providers/logged-in/company.service';
 import { CompanyContactService } from 'src/app/providers/logged-in/company-contact.service';
@@ -11,15 +11,15 @@ import { AuthService } from 'src/app/providers/auth.service';
 import { CompanyRequestService } from 'src/app/providers/logged-in/company-request.service';
 import { CompanyNoteService } from 'src/app/providers/logged-in/company-note.service';
 import { BrandService } from 'src/app/providers/logged-in/brand.service';
-//models
+// models
 import { CompanyContact } from 'src/app/models/company-contact';
 import { Company } from 'src/app/models/company';
 import { Store } from 'src/app/models/store';
 import { Brand } from 'src/app/models/brand';
 import { Note } from 'src/app/models/note';
 import { Request } from 'src/app/models/request';
-//pages
-import { UploadFilePage } from "../upload-file/upload-file.page";
+// pages
+import { UploadFilePage } from '../upload-file/upload-file.page';
 import { CompanyContactFormPage } from '../company-contact-form/company-contact-form.page';
 import { CompanyFollowupNotePage } from '../company-followup-note/company-followup-note.page';
 import { CompanyRequestFormPage } from '../company-request-form/company-request-form.page';
@@ -53,7 +53,7 @@ export class CompanyViewPage implements OnInit {
 
   public sendingNewPassword = false;
   public statsData: any[];
-  public segment: string = 'info';
+  public segment = 'info';
   bars: any;
   colorArray: any;
   public legendDisplay = true;
@@ -204,7 +204,7 @@ export class CompanyViewPage implements OnInit {
                 toast.present();
 
                 this.stores = this.stores.filter(e => {
-                  return e.store_id != store.store_id
+                  return e.store_id != store.store_id;
                 });
               }
             }, () => {
@@ -455,8 +455,9 @@ export class CompanyViewPage implements OnInit {
    * @param date
    */
   toDate(date) {
-    if (date)
+    if (date) {
       return new Date(date.replace(/-/g, '/'));
+    }
   }
 
   /**
@@ -466,7 +467,7 @@ export class CompanyViewPage implements OnInit {
   rowSelected(model) {
     this.router.navigate(['company-view', model.company_id], {
       state: {
-        model: model
+        model
       }
     });
   }
@@ -478,7 +479,7 @@ export class CompanyViewPage implements OnInit {
   storeSelected(model) {
     this.router.navigate(['store-view', model.store_id], {
       state: {
-        model: model
+        model
       }
     });
   }
@@ -515,7 +516,7 @@ export class CompanyViewPage implements OnInit {
   async addCompanyContact() {
     window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
-    let companyContact = new CompanyContact;
+    const companyContact = new CompanyContact;
     companyContact.company_id = this.company_id;
 
     const modal = await this.modalCtrl.create({
@@ -629,7 +630,7 @@ export class CompanyViewPage implements OnInit {
       component: CompanyRequestFormPage,
       componentProps: {
         company: this.company,
-        request: request,
+        request,
       }
     });
     modal.present();
@@ -651,7 +652,7 @@ export class CompanyViewPage implements OnInit {
   async addRequest() {
     window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
-    let request = new Request;
+    const request = new Request;
 
     this.company.companyContacts = this.companyContacts;
 
@@ -659,7 +660,7 @@ export class CompanyViewPage implements OnInit {
       component: CompanyRequestFormPage,
       componentProps: {
         company: this.company,
-        request: request,
+        request,
       }
     });
     modal.present();
@@ -756,6 +757,7 @@ export class CompanyViewPage implements OnInit {
    * @param totalCandidatePaid
    * @param canAvgPayment
    * @param averageProfitPerCandidate
+   * @param allTransfers
    */
   createStatsChart(
     xAxis,
@@ -766,14 +768,18 @@ export class CompanyViewPage implements OnInit {
     totalCandidates,
     totalCandidatePaid,
     canAvgPayment,
-    averageProfitPerCandidate
+    averageProfitPerCandidate,
+    allTransfers,
+    allTransfersData,
+    pointBackgroundColors
   ) {
     console.log(
+      allTransfers
       // xAxis,
       // complete,
       // paymentReceived,
       // inProgress,
-      profit,
+      // profit,
       // totalCandidates,
       // totalCandidatePaid,
       // canAvgPayment,
@@ -786,28 +792,39 @@ export class CompanyViewPage implements OnInit {
           // labels: ['S1', 'S2', 'S3', 'S4', 'S5', 'S6', 'S7', 'S8'],
           datasets: [
             {
-              label: 'Completed Transfer (' + complete.length + ')',
+              label: 'Transfers (' + allTransfers.length + ')',
               display: false,
-              data: complete,
+              data: allTransfers,
+              pointBackgroundColor: pointBackgroundColors,
+              pointBorderColor: pointBackgroundColors, // https://stackoverflow.com/questions/28159595/chartjs-different-color-per-data-point
               fill: false,
               backgroundColor: 'rgb(38, 194, 129)',
               borderColor: 'rgb(38, 194, 129)',
               borderWidth: 1
-            }, {
-              label: 'Received Transfer (' + paymentReceived.length + ')',
-              fill: false,
-              data: paymentReceived,
-              backgroundColor: '#8000ff',
-              borderColor: '#8000ff',
-              borderWidth: 1
-            }, {
-              label: 'In Progress Transfer (' + inProgress.length + ')',
-              fill: false,
-              data: inProgress,
-              backgroundColor: '#387ef5',
-              borderColor: '#387ef5',
-              borderWidth: 1
             },
+            // {
+            //   label: 'Completed Transfer (' + complete.length + ')',
+            //   display: false,
+            //   data: complete,
+            //   fill: false,
+            //   backgroundColor: 'rgb(38, 194, 129)',
+            //   borderColor: 'rgb(38, 194, 129)',
+            //   borderWidth: 1
+            // }, {
+            //   label: 'Received Transfer (' + paymentReceived.length + ')',
+            //   fill: false,
+            //   data: paymentReceived,
+            //   backgroundColor: '#8000ff',
+            //   borderColor: '#8000ff',
+            //   borderWidth: 1
+            // }, {
+            //   label: 'In Progress Transfer (' + inProgress.length + ')',
+            //   fill: false,
+            //   data: inProgress,
+            //   backgroundColor: '#387ef5',
+            //   borderColor: '#387ef5',
+            //   borderWidth: 1
+            // },
             {
               label: 'Profit',
               // xLabel: 'Profit (' + profit.length + ')',
@@ -877,29 +894,35 @@ export class CompanyViewPage implements OnInit {
               label: (context) => {
 
                 console.log(context);
+                // console.log(this.statsChart);
                 let label = '';
-                // let label = context.label || '';
+                // let label = context.label || '';Complete/payment received/inprogress
                 if (context.datasetIndex == 0) {
-                  label += 'Completed Transfer on ';
-                } else if (context.datasetIndex == 1) {
-                  label += 'Received Transfer on';
-                } else if (context.datasetIndex == 2) {
-                  label += 'In Progress Transfer on ';
-                } else if (context.datasetIndex == 3) {
-                  label += 'Profit on ';
-                } else if (context.datasetIndex == 4) {
-                  label += 'Total Candidates on ';
-                } else if (context.datasetIndex == 5) {
-                  label += 'Total Candidates Paid on ';
-                } else if (context.datasetIndex == 6) {
-                  label += 'Average Candidates Payment on ';
-                } else if (context.datasetIndex == 7) {
-                  label += 'Average Profit Per Candidate on ';
+                  if (allTransfers[context.index].status == '4') {
+                    label += '\nTransfer Completed on ' + context.label + '\n';
+                  } else if (allTransfers[context.index].status == '1') {
+                    label += '\nConfirm Received on ' + context.label + '\n';
+                  } else if (allTransfers[context.index].status == '3') {
+                    label += '\nDistribution in Progress on ' + context.label + '\n';
+                  }
                 }
 
-                if (label) {
-                  label += context.label + ': ';
+
+                if (context.datasetIndex == 1) {
+                  label += '\nProfit on ' + context.label + '\n';
+                } else if (context.datasetIndex == 2) {
+                  label += '\nTotal Candidates on ' + context.label + '\n';
+                } else if (context.datasetIndex == 3) {
+                  label += '\nTotal Candidates Paid on ' + context.label + '\n';
+                } else if (context.datasetIndex == 4) {
+                  label += '\nAverage Candidates Payment on ' + context.label + '\n';
+                } else if (context.datasetIndex == 5) {
+                  label += '\nAverage Profit Per Candidate on ' + context.label + '\n';
                 }
+
+                // if (label) {
+                //   label += context.label + ': ';
+                // }
                 // console.log(context.label);
                 // if (!isNaN(context.yLabel)) {
                 //   label += ' KWD ' + context.yLabel;
@@ -929,6 +952,8 @@ export class CompanyViewPage implements OnInit {
 
   loadChartStats() {
 
+    const allTransfers = [];
+    const allTransfersData = [];
     const complete = [];
     const paymentReceived = [];
     const inprogress = [];
@@ -938,8 +963,11 @@ export class CompanyViewPage implements OnInit {
     const totalCandidatePaid = [];
     const canAvgPayment = [];
     const averageProfitPerCandidate = [];
+    const pointBackgroundColors = [];
     if (this.company && this.statsData && this.statsData.length > 0) {
-        for (const transfer of this.statsData) {
+      for (const transfer of this.statsData) {
+        // Complete/payment received/inprogress
+        if (transfer.transfer_status == 4 || transfer.transfer_status == 1 || transfer.transfer_status == 3) {
           // Complete/payment received/inprogress
           if (transfer.transfer_status == 4) {
             // Complete transfer
@@ -956,10 +984,11 @@ export class CompanyViewPage implements OnInit {
             inprogress.push(transfer.company_total);
           }
 
+
           // one line for profit
-          // console.log(transfer);
           if (transfer.profit) {
-            profit.push(transfer.profit.replace(/,/g, ''));
+            const tProfit = transfer.profit.replace(/,/g, '');
+            profit.push(tProfit);
           }
 
           // one line showing candidates count transferred to in that transfer
@@ -970,30 +999,54 @@ export class CompanyViewPage implements OnInit {
           // one line for total distributed to candidates
           let totalPaid = 0;
           for (const candidatePaid of transfer.paidTransferCandidates) {
-            totalPaid += candidatePaid['total_paid'];
+            totalPaid += candidatePaid.total_paid;
           }
           totalCandidatePaid.push(totalPaid);
 
           // average payment per candidate
           canAvgPayment.push((totalPaid / transfer.totalPaid));
 
-
           // Also average profit per candidate would be nice
+          const profits = 0;
           if (transfer.profit && transfer.paidTransferCandidates && transfer.paidTransferCandidates.length > 0) {
-            const profit = transfer.profit.replace(/,/g, '');
-            averageProfitPerCandidate.push((profit / transfer.paidTransferCandidates.length));
+            const profits = transfer.profit.replace(/,/g, '');
+            averageProfitPerCandidate.push((profits / transfer.paidTransferCandidates.length));
           }
 
+          allTransfers.push({
+            x: transfer.transfer_created_at_unix,
+            y: transfer.company_total.replace(/,/g, ''),
+            id: '1A',
+            total: transfer.company_total,
+            status: transfer.transfer_status,
+            profit: transfer.profit.replace(/,/g, ''),
+            totalCandidateTransferTotal: transfer.totalCandidateTransferTotal,
+            totalCandidatePaid: totalPaid,
+            canAvgPayment: (totalPaid / transfer.totalPaid),
+            averageProfitPerCandidate: (profits / transfer.paidTransferCandidates.length),
+          });
+
+          if (transfer.transfer_status == 4) {
+            pointBackgroundColors.push('rgb(38, 194, 129)');
+          } else if (transfer.transfer_status == 1) {
+            pointBackgroundColors.push('#8000ff');
+          } else if (transfer.transfer_status == 3) {
+            pointBackgroundColors.push('#387ef5');
+          }
 
           // Horizontal line shows transfer date
           xAxis.push(transfer.transfer_created_at_unix);
         }
-        // console.log(complete);
-        this.createStatsChart(
-          xAxis, complete, paymentReceived,
-          inprogress, profit, totalCandidates,
-          totalCandidatePaid, canAvgPayment, averageProfitPerCandidate
-        );
       }
-  }
+        // console.log(complete);
+      this.createStatsChart(
+            xAxis, complete, paymentReceived,
+            inprogress, profit, totalCandidates,
+            totalCandidatePaid, canAvgPayment,
+            averageProfitPerCandidate,
+            allTransfers, allTransfersData,
+            pointBackgroundColors
+          );
+        }
+    }
 }

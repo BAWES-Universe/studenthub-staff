@@ -98,7 +98,7 @@
            (error)="loadLogo($event,company)" width="80"/>
         <img *ngIf="!company.company_logo" src="/assets/icon/icon.png"  width="80"/>
       <br/>
-      {{ company.company_name }}
+
     </div>
 
       <ion-item lines="none">
@@ -130,18 +130,28 @@
         </ion-item>
 
     <!-- If Main Company -->
-    <section *ngIf="company.company_email">
+    <section>
       <ion-item-divider color="light">
         <ion-label>
           Contact
         </ion-label>
       </ion-item-divider>
 
+      <ion-item>
+        <div tabindex="0"></div>
+        <ion-label>
+          <h3>Official Name</h3>
+          <p *ngIf="company.company_name">{{ company.company_name }}</p>
+          <p *ngIf="!company.company_name">-</p>
+        </ion-label>
+      </ion-item>
+
       <ion-item href='mailto:{{ company.company_email }}'>
         <div tabindex="0"></div>
         <ion-label>
           <h3>Company Email</h3>
-          <p>{{ company.company_email }}</p>
+          <p *ngIf="company.company_email">{{ company.company_email }}</p>
+          <p *ngIf="!company.company_email">-</p>
         </ion-label>
       </ion-item>
 
@@ -149,7 +159,8 @@
         <div tabindex="0"></div>
         <ion-label>
           <h3>Common Name - English</h3>
-          <p>{{ company.company_common_name_en }}</p>
+          <p *ngIf="company.company_common_name_en">{{ company.company_common_name_en }}</p>
+          <p *ngIf="!company.company_common_name_en">-</p>
         </ion-label>
       </ion-item>
 
@@ -157,7 +168,8 @@
         <div tabindex="0"></div>
         <ion-label>
           <h3>Common Name - Arabic</h3>
-          <p>{{ company.company_common_name_ar }}</p>
+          <p *ngIf="company.company_common_name_ar">{{ company.company_common_name_ar }}</p>
+          <p *ngIf="!company.company_common_name_ar">-</p>
         </ion-label>
       </ion-item>
 
@@ -165,7 +177,8 @@
         <div tabindex="0"></div>
         <ion-label>
           <h3>Description - English</h3>
-          <p>{{ company.company_description_en }}</p>
+          <p *ngIf="company.company_description_en">{{ company.company_description_en }}</p>
+          <p *ngIf="!company.company_description_en">-</p>
         </ion-label>
       </ion-item>
 
@@ -173,7 +186,8 @@
         <div tabindex="0"></div>
         <ion-label>
           <h3>Description - Arabic</h3>
-          <p>{{ company.company_description_ar }}</p>
+          <p *ngIf="company.company_description_ar">{{ company.company_description_ar }}</p>
+          <p *ngIf="!company.company_description_ar">-</p>
         </ion-label>
       </ion-item>
 
@@ -181,7 +195,8 @@
         <div tabindex="0"></div>
         <ion-label>
           <h3>Website</h3>
-          <p>{{ company.company_website }}</p>
+          <p *ngIf="company.company_website">{{ company.company_website }}</p>
+          <p *ngIf="!company.company_website">-</p>
         </ion-label>
       </ion-item>
 
@@ -194,14 +209,18 @@
       <ion-item>
         <div tabindex="0"></div>
         <ion-label>
-          Bonus Commission(%) - {{ company.company_bonus_commission }}
+          Bonus Commission(%) -
+          <span *ngIf="company.company_bonus_commission">{{ company.company_bonus_commission }}</span>
+          <span *ngIf="!company.company_bonus_commission">-</span>
         </ion-label>
       </ion-item>
 
       <ion-item>
         <div tabindex="0"></div>
         <ion-label>
-          Hourly Rate - {{ company.company_hourly_rate | number:'1.3-3' }} KWD
+          Hourly Rate -
+          <span *ngIf="company.company_hourly_rate">{{ company.company_hourly_rate | number:'1.3-3' }} KWD</span>
+          <span *ngIf="!company.company_hourly_rate">-</span>
         </ion-label>
       </ion-item>
     </section>
