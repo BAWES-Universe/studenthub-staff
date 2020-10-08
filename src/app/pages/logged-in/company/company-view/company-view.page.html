@@ -544,6 +544,7 @@
             <p>
               {{ companyContact.contact_position }}
             </p>
+            <small>{{ companyContact.contact_note }}</small>
             <p>
               <a href="mailto:{{ companyContactEmail.email_address }}" (click)="doNothing($event)"
                 *ngFor="let companyContactEmail of companyContact.companyContactEmails">

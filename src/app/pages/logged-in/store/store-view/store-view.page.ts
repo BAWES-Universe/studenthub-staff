@@ -100,6 +100,7 @@ export class StoreViewPage implements OnInit {
   }
 
   async selectStoreManager() {
+
     window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
     const modal = await this.modalCtrl.create({

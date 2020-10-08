@@ -27,13 +27,14 @@ export class StoreManagerFormPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    console.log(this.company);
     this.loadData();
   }
 
   loadData() {
     this.loading = true;
 
-    this.comapnyContactService.companyContacts(this.company.company_uuid).subscribe(data => {
+    this.comapnyContactService.companyContacts(this.company.company_id).subscribe(data => {
       this.loading = false;
 
       this.companyContacts = data;
