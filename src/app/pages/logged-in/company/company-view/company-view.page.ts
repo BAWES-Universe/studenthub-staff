@@ -43,6 +43,8 @@ export class CompanyViewPage implements OnInit {
   public subCompanies: Company[] = [];
   public stores: Store[] = [];
 
+  public requests: Request[] = [];
+
   public companyContacts: CompanyContact[] = [];
 
   public brands: Brand[] = [];
@@ -54,9 +56,12 @@ export class CompanyViewPage implements OnInit {
   public sendingNewPassword = false;
   public statsData: any[];
   public segment = 'info';
+
   bars: any;
   colorArray: any;
+  
   public legendDisplay = true;
+
   constructor(
     public platform: Platform,
     public modalCtrl: ModalController,
@@ -90,6 +95,8 @@ export class CompanyViewPage implements OnInit {
 
     this.loadData();
     this.loadContacts();
+    this.loadRequests();
+
     if (this.platform.is('mobile')) {
       this.legendDisplay = false;
     }
@@ -123,15 +130,23 @@ export class CompanyViewPage implements OnInit {
       this.stores = response.stores;
 
       this.brands = response.brands;
+
       if (this.company && this.company.parentTransfers) {
         this.statsData = this.company.parentTransfers.reverse();
       }
+
       this.loadChartStats();
 
     }, () => {
       this.loading = false;
       this.deleting = false;
       this.updating = false;
+    });
+  }
+
+  loadRequests() {    
+    this.requestService.list(this.company_id).subscribe(response => {
+      this.requests = response;
     });
   }
 
@@ -453,7 +468,7 @@ export class CompanyViewPage implements OnInit {
    * Make date readable by Safari
    * @param date
    */
-  toDate(date) {
+  toDate(date) {  
     if (date) {
       return new Date(date.replace(/-/g, '/'));
     }
@@ -595,6 +610,9 @@ export class CompanyViewPage implements OnInit {
     this.segment = $event.detail.value;
   }
 
+  /**
+   * upload company document to S3
+   */
   async uploadDocument() {
     window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
@@ -644,7 +662,7 @@ export class CompanyViewPage implements OnInit {
     const { data } = await modal.onWillDismiss();
 
     if (data && data.refresh) {
-      this.loadData();
+      this.loadRequests();
     }
   }
 
@@ -654,6 +672,10 @@ export class CompanyViewPage implements OnInit {
     const request = new Request;
 
     this.company.companyContacts = this.companyContacts;
+
+    if(this.company.companyContacts.length == 0) {
+      return this.addCompanyContact();
+    }
 
     const modal = await this.modalCtrl.create({
       component: CompanyRequestFormPage,
@@ -674,7 +696,7 @@ export class CompanyViewPage implements OnInit {
     const { data } = await modal.onWillDismiss();
 
     if (data && data.refresh) {
-      this.loadData();
+      this.loadRequests();
     }
   }
 
