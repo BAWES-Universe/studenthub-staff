@@ -14,6 +14,16 @@ export class CompanyRequestService {
   private companyRequestEndpoint = '/requests';
 
   constructor(private authhttp: AuthHttpService) { }
+  
+  /**
+   * List all requests
+   * @returns {Observable<any>}
+   */
+  list(company_id: number): Observable<any> {
+    const url = this.companyRequestEndpoint + '?company_id=' + company_id + 
+      '&expand=requestCreatedBy,requestUpdatedBy';
+    return this.authhttp.get(url);
+  }
 
   /**
    * create request

@@ -74,8 +74,8 @@
         <p *ngFor="let history of workHistory">
           <label tappable [routerLink]="['/store-view', history.store.store_id]">
             {{ history.store.store_name }} @ {{ history.company.company_name }}:
-            {{ history.start_date | date }} </label> to
-          <label *ngIf="history.end_date">{{ history.end_date | date }}</label>
+            {{ toDate(history.start_date) | date }} </label> to
+          <label *ngIf="history.end_date">{{ toDate(history.end_date) | date }}</label>
           <label *ngIf="!history.end_date">now</label>
         </p>
       </ion-label>
@@ -301,7 +301,7 @@
         <div tabindex="0"></div>
         <ion-label>
           <h5>Created On</h5>
-          <p>{{candidate.candidate_created_at | date}}</p>
+          <p>{{ toDate(candidate.candidate_created_at) | date}}</p>
         </ion-label>
       </ion-item>
 
@@ -309,7 +309,7 @@
         <div tabindex="0"></div>
         <ion-label>
           <h5>Updated On</h5>
-          <p>{{candidate.candidate_updated_at | date}}</p>
+          <p>{{ toDate(candidate.candidate_updated_at) | date}}</p>
         </ion-label>
       </ion-item>
     </ng-container>

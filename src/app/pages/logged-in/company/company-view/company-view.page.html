@@ -420,12 +420,29 @@
 
   <section *ngIf="segment == 'requests'">
     <ion-list>
-      <ion-item-sliding  [disabled]="platform.width() > 768" *ngFor="let request of company.requests">
+      <ion-item-sliding  [disabled]="platform.width() > 768" *ngFor="let request of requests">
         <ion-item tappable (click)="editRequest(request)">
           <div tabindex="0"></div>
           <ion-label>
-            {{ request.request_position_title }}<br />
-            <small>{{ request.request_created_datetime | date}}</small>
+            <h2>
+              <ion-note>{{ request.request_number_of_employees }}</ion-note> {{ request.request_position_title }} - 
+              <span *ngIf="request.request_position_type == 1">Fulltime</span>
+              <span *ngIf="request.request_position_type == 2">Partime</span>
+            </h2>
+            <p *ngIf="request.request_additional_info">{{ request.request_additional_info }} </p>
+
+            <p *ngIf="request.request_feedback">FeedBack: {{ request.request_feedback }} </p>
+            
+            <p class="date">
+              Created at {{ toDate(request.request_created_datetime) | date}} By 
+              {{ request.requestCreatedBy.staff_name  }}
+            </p>
+
+            <p class="date" *ngIf="request.request_created_datetime != request.request_updated_datetime">
+              Updated at {{ toDate(request.request_updated_datetime) | date}} By 
+              {{ request.requestUpdatedBy.staff_name  }}
+            </p>
+
           </ion-label>
 
           <ion-badge color="primary" *ngIf="request.request_status == 'pending'">pending</ion-badge>
@@ -492,7 +509,7 @@
 
           <ion-label>
             {{ note.note_text }}<br />
-            <small>{{ note.note_created_datetime | date}}</small>
+            <small>{{ toDate(note.note_created_datetime) | date}}</small>
           </ion-label>
 
           <ion-buttons slot="end" *ngIf="platform.width() > 768">
