@@ -104,6 +104,16 @@ export class CandidateViewPage implements OnInit {
   }
 
   /**
+   * Make date readable by Safari
+   * @param date
+   */
+  toDate(date) {  
+    if (date) {
+      return new Date(date.replace(/-/g, '/'));
+    }
+  }
+  
+  /**
    * Load list of all stores then set store name and id as per candidate data
    */
   loadStoreData() {
