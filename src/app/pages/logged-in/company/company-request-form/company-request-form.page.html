@@ -19,13 +19,9 @@
   <form [formGroup]="form" *ngIf="form">
 
     <ion-list>
-      <ion-item>
+      <ion-item (click)="openClient($event)">
         <ion-label position="floating">Contact</ion-label>
-        <ion-select formControlName="contact_uuid">
-          <ion-select-option *ngFor="let contact of company.companyContacts" [value]="contact.contact_uuid">
-            {{ contact.contact_name }}
-          </ion-select-option>
-        </ion-select>
+        <ion-input type="text" formControlName="contact_name" readonly></ion-input>
       </ion-item>
     </ion-list>
 
@@ -38,21 +34,21 @@
         </ion-select>
       </ion-item>
     </ion-list>
-    
+
     <ion-list>
       <ion-item>
         <ion-label position="floating">Position title</ion-label>
         <ion-input type="text" formControlName="position_title"></ion-input>
       </ion-item>
     </ion-list>
-    
+
     <ion-list>
       <ion-item>
         <ion-label position="floating">Number of employees</ion-label>
         <ion-input type="text" formControlName="number_of_employees"></ion-input>
       </ion-item>
     </ion-list>
-    
+
     <ion-list>
       <ion-item>
         <ion-label position="floating">Additional info</ion-label>

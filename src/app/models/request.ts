@@ -1,4 +1,5 @@
 import { Staff } from './staff';
+import {CompanyContact} from "./company-contact";
 
 export class Request {
     request_uuid: string;
@@ -16,6 +17,7 @@ export class Request {
     request_updated_datetime : string;
     requestCreatedBy: Staff;
     requestUpdatedBy: Staff;
+    contact: CompanyContact;
 }
 
 enum Status {

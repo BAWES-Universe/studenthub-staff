@@ -32,6 +32,7 @@ import {MallFormPageModule} from './pages/logged-in/mall/mall-form/mall-form.mod
 import { SelectiveLoadingStrategy } from './util/SelectiveLoadingStrategy';
 import { StoreManagerFormPageModule } from './pages/logged-in/store/store-manager-form/store-manager-form.module';
 import { CompanyRequestFormPageModule } from './pages/logged-in/company/company-request-form/company-request-form.module';
+import {CompanyContactListPageModule} from "./pages/logged-in/company/company-contact/company-contact-list/company-contact-list.module";
 
 export function startupServiceFactory(authService) {
   return () => authService.load();
@@ -74,7 +75,8 @@ export function createTranslateLoader(http: HttpClient) {
         StoreManagerFormPageModule,
         OptionPageModule,
         BrandFormPageModule,
-        MallFormPageModule
+        MallFormPageModule,
+        CompanyContactListPageModule
     ],
   providers: [
     {
