@@ -26,7 +26,7 @@ export class ExpiredIdPage implements OnInit {
 
   public loading = false;
   public renewLoader: boolean = false;
-
+  public checkAll = 0;
   constructor(
     public candidateIdCardService: CandidateIdCardService,
     private _fb: FormBuilder,
@@ -153,5 +153,9 @@ export class ExpiredIdPage implements OnInit {
   }
   detail(obj) {
     this._nav.navigateForward('candidate-view/' + obj.candidate_id);
+  }
+
+  selectAll() {
+    this.checkAll = !(this.checkAll);
   }
 }
