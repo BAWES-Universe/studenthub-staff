@@ -59,7 +59,7 @@ export class CompanyViewPage implements OnInit {
 
   bars: any;
   colorArray: any;
-  
+
   public legendDisplay = true;
 
   constructor(
@@ -144,7 +144,7 @@ export class CompanyViewPage implements OnInit {
     });
   }
 
-  loadRequests() {    
+  loadRequests() {
     this.requestService.list(this.company_id).subscribe(response => {
       this.requests = response;
     });
@@ -468,7 +468,7 @@ export class CompanyViewPage implements OnInit {
    * Make date readable by Safari
    * @param date
    */
-  toDate(date) {  
+  toDate(date) {
     if (date) {
       return new Date(date.replace(/-/g, '/'));
     }
@@ -720,46 +720,156 @@ export class CompanyViewPage implements OnInit {
     });
   }
 
+
   cancelledRequest(event, request) {
 
     event.preventDefault();
     event.stopPropagation();
 
-    this.requestService.cancel(request).subscribe(async response => {
+    this.alertCtrl.create({
+      header: 'Please provide feedback',
+      inputs: [
+        {
+          name: 'feedback',
+          type: 'textarea',
+          placeholder: 'Feedback'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            console.log('Confirm Cancel');
+          }
+        }, {
+          text: 'Save',
+          handler: (data) => {
+            if (data.feedback) {
+              request.request_feedback = data.feedback;
+              this.requestService.cancel(request).subscribe(async response => {
 
-      if (response.operation == 'success') {
-        request.request_status = 'cancelled';
-      } else {
-        this.toastCtrl.create({
-          message: response.message,
-          buttons: ['Ok']
-        }).then(prompt => {
-          prompt.present();
-        });
-      }
-    });
+                if (response.operation == 'success') {
+                  request.request_status = 'cancelled';
+                } else {
+                  this.toastCtrl.create({
+                    message: response.message,
+                    buttons: ['Ok']
+                  }).then(prompt => {
+                    prompt.present();
+                  });
+                }
+              });
+            } else  {
+              this.alertCtrl.create({
+                message: 'Please provide feedback',
+                buttons: ['ok']
+              }).then(alert => {
+                alert.present();
+              });
+            }
+          }
+        }
+      ]
+    }).then( alert => { alert.present(); });
   }
+  //
+  // cancelledRequest(event, request) {
+  //
+  //   event.preventDefault();
+  //   event.stopPropagation();
+  //
+  //   this.requestService.cancel(request).subscribe(async response => {
+  //
+  //     if (response.operation == 'success') {
+  //       request.request_status = 'cancelled';
+  //     } else {
+  //       this.toastCtrl.create({
+  //         message: response.message,
+  //         buttons: ['Ok']
+  //       }).then(prompt => {
+  //         prompt.present();
+  //       });
+  //     }
+  //   });
+  // }
+
+  // deliveredRequest(event, request) {
+  //
+  //   event.preventDefault();
+  //   event.stopPropagation();
+  //
+  //   this.requestService.deliver(request).subscribe(async response => {
+  //
+  //     if (response.operation == 'success') {
+  //       request.request_status = 'delivered';
+  //     } else {
+  //       this.toastCtrl.create({
+  //         message: response.message,
+  //         buttons: ['Ok']
+  //       }).then(prompt => {
+  //         prompt.present();
+  //       });
+  //     }
+  //   });
+  // }
 
   deliveredRequest(event, request) {
 
     event.preventDefault();
     event.stopPropagation();
 
-    this.requestService.deliver(request).subscribe(async response => {
 
-      if (response.operation == 'success') {
-        request.request_status = 'delivered';
-      } else {
-        this.toastCtrl.create({
-          message: response.message,
-          buttons: ['Ok']
-        }).then(prompt => {
-          prompt.present();
-        });
-      }
-    });
+    this.alertCtrl.create({
+      header: 'Please provide feedback',
+      inputs: [
+        {
+          name: 'feedback',
+          type: 'textarea',
+          placeholder: 'Feedback'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            console.log('Confirm Cancel');
+          }
+        }, {
+          text: 'Save',
+          handler: (data) => {
+            if (data.feedback) {
+              request.request_feedback = data.feedback;
+              this.requestService.deliver(request).subscribe(async response => {
+
+                if (response.operation == 'success') {
+                  request.request_status = 'delivered';
+                } else {
+                  this.toastCtrl.create({
+                    message: response.message,
+                    buttons: ['Ok']
+                  }).then(prompt => {
+                    prompt.present();
+                  });
+                }
+              });
+            } else  {
+              this.alertCtrl.create({
+                message: 'Please provide feedback',
+                buttons: ['ok']
+              }).then(alert => {
+                alert.present();
+              });
+            }
+          }
+        }
+      ]
+    }).then( alert => { alert.present(); });
+
   }
-
   loadLogo($event, company) {
     company.company_logo = null;
   }
