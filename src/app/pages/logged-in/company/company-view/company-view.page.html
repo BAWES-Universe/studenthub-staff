@@ -505,11 +505,14 @@
 
     <form [formGroup]="noteForm" [class.editor-inactive]="!editorFocused" [class.editor-focused]="editorFocused" *ngIf="noteForm">
       <ion-item lines="none">
+        <div tabindex="0"></div>
         
         <ckeditor [config]="editorConfig" #ckeditor [editor]="Editor" (focus)="onEditorFocus()" (change)="onChange($event)"></ckeditor>
 
       </ion-item>
       <ion-item lines="none">
+        <div tabindex="0"></div>
+
         <ion-buttons slot="start">
 
           <ion-button [disabled]="addingNote || !noteForm.valid" (click)="addNote()">
