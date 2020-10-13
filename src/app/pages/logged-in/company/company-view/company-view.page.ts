@@ -388,10 +388,15 @@ export class CompanyViewPage implements OnInit {
 
   /**
    * on note editor change
-   * @param param0 
+   * @param event 
    */
-  public onChange( { editor } ) {
-    const data = editor.getData();
+  onChange(event) {
+
+    if(!event.editor) {
+      return event;
+    }
+
+    const data = event.editor.getData();
 
     this.noteForm.controls.note.setValue(data);
     this.noteForm.markAsDirty();
