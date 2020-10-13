@@ -24,17 +24,26 @@
         <ion-input type="text" formControlName="contact_name" readonly></ion-input>
       </ion-item>
     </ion-list>
-
     <ion-list>
-      <ion-item>
-        <ion-label position="floating">Position type</ion-label>
-        <ion-select formControlName="position_type">
-          <ion-select-option value="1">Full time</ion-select-option>
-          <ion-select-option value="2">Part time</ion-select-option>
-        </ion-select>
-      </ion-item>
-    </ion-list>
+      <ion-radio-group  formControlName="position_type">
+        <ion-row>
+          <ion-col>
+            <ion-item>
+              <ion-radio slot="start" value="1"></ion-radio>
+              <ion-label>Full time</ion-label>
+            </ion-item>
+          </ion-col>
 
+          <ion-col>
+            <ion-item>
+              <ion-radio slot="start" value="2"></ion-radio>
+              <ion-label>Part time</ion-label>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+      </ion-radio-group>
+    </ion-list>
+    
     <ion-list>
       <ion-item>
         <ion-label position="floating">Position title</ion-label>
@@ -52,7 +61,7 @@
     <ion-list>
       <ion-item>
         <ion-label position="floating">Additional info</ion-label>
-        <ion-textarea formControlName="additional_info"></ion-textarea>
+        <ion-textarea formControlName="additional_info" placeholder="Female only, Lebanese Jordanian Syrian NO EGYPTIAN"></ion-textarea>
       </ion-item>
     </ion-list>
 
