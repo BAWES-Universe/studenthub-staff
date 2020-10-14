@@ -49,7 +49,6 @@ export class CompanyViewPage implements OnInit {
 
   public editorConfig = {
     placeholder: 'Click here to take notes...',
-    // removePlugins: [ 'Heading', 'Link' ],
     toolbar: [ 'Heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', '|', 'indent', 'outdent'],
   };
 
@@ -464,12 +463,6 @@ export class CompanyViewPage implements OnInit {
   }
 
   async editNote(note: Note) {
-    // this.editNoteData = note;
-    // this.ckeditor.editorInstance.setData(note.note_text);
-    // setTimeout(() => this.ckeditor.editorInstance.editing.view.focus(), 1000);
-    // this.onEditorFocus();
-    // setTimeout(() => this.editorReady.focus(), 250);
-
     window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
     const modal = await this.modalCtrl.create({

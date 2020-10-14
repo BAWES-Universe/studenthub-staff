@@ -21,7 +21,7 @@
 
       <ion-item>
         <ion-label position="floating">Note Text</ion-label>
-        <ion-input type="text" formControlName="note"></ion-input>
+        <ckeditor [config]="editorConfig" #ckeditor [editor]="Editor" (change)="onChange($event)"></ckeditor>
       </ion-item>
     </ion-list>
   </form>

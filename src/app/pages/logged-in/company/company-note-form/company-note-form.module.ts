@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { CompanyNoteFormPageRoutingModule } from './company-note-form-routing.module';
 
 import { CompanyNoteFormPage } from './company-note-form.page';
+import {CKEditorModule} from '@ckeditor/ckeditor5-angular';
 
 @NgModule({
   imports: [
@@ -14,6 +15,7 @@ import { CompanyNoteFormPage } from './company-note-form.page';
     FormsModule,
     IonicModule,
     ReactiveFormsModule,
+    CKEditorModule,
     CompanyNoteFormPageRoutingModule
   ],
   declarations: [CompanyNoteFormPage]
