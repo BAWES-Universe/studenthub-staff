@@ -1,0 +1,96 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+
+    <ion-title>Company Request List</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-list>
+    <ion-item-sliding  [disabled]="platform.width() > 768" *ngFor="let request of requests">
+      <ion-item tappable (click)="editRequest($event, request)">
+        <div tabindex="0"></div>
+        <ion-label>
+          <h2>
+            <ion-note>{{ request.request_number_of_employees }}</ion-note> {{ request.request_position_title }} -
+            <span *ngIf="request.request_position_type == 1">Fulltime</span>
+            <span *ngIf="request.request_position_type == 2">Partime</span>
+          </h2>
+          <p *ngIf="request.request_additional_info">{{ request.request_additional_info }} </p>
+
+          <p *ngIf="request.request_feedback">FeedBack: {{ request.request_feedback }} </p>
+
+          <p class="date">
+            Created at {{ toDate(request.request_created_datetime) | date}} By
+            {{ request.requestCreatedBy.staff_name  }}
+          </p>
+
+          <p class="date" *ngIf="request.request_created_datetime != request.request_updated_datetime">
+            Updated at {{ toDate(request.request_updated_datetime) | date}} By
+            {{ request.requestUpdatedBy.staff_name  }}
+          </p>
+
+        </ion-label>
+
+        <ion-badge color="primary" *ngIf="request.request_status == 'pending'">pending</ion-badge>
+        <ion-badge color="secondary" *ngIf="request.request_status == 'started'">started</ion-badge>
+        <ion-badge color="success" *ngIf="request.request_status == 'delivered'">delivered</ion-badge>
+        <ion-badge color="light" *ngIf="request.request_status == 'cancelled'">cancelled</ion-badge>
+
+        <ion-buttons slot="end" *ngIf="platform.width() > 768 && request.request_status == 'pending'">
+          <ion-button (click)="startRequest($event, request)">
+            <ion-icon slot="start" name="play-outline"></ion-icon>
+            Start working on this request
+          </ion-button>
+        </ion-buttons>
+
+        <ion-buttons slot="end" *ngIf="platform.width() > 768 && request.request_status == 'started'">
+          <ion-button (click)="deliveredRequest($event, request)">
+            <ion-icon slot="start" name="checkmark-outline"></ion-icon>
+            Mark delivered
+          </ion-button>
+
+          <ion-button color="danger" (click)="cancelledRequest($event, request)"
+                      *ngIf="request.request_status == 'started'">
+            <ion-icon slot="start" name="close-outline"></ion-icon>
+            Mark cancelled
+          </ion-button>
+        </ion-buttons>
+
+      </ion-item>
+      <ion-item-options side="end">
+        <ion-button (click)="startRequest($event, request)" *ngIf="request.request_status == 'pending'">
+          <ion-icon slot="start" name="play-outline"></ion-icon>
+          Start working on this request
+        </ion-button>
+
+        <ion-button (click)="deliveredRequest($event, request)" *ngIf="request.request_status == 'started'">
+          <ion-icon slot="start" name="checkmark-outline"></ion-icon>
+          Mark delivered
+        </ion-button>
+
+        <ion-button color="danger" (click)="cancelledRequest($event, request)"
+                    *ngIf="request.request_status == 'started'">
+          <ion-icon slot="start" name="close-outline"></ion-icon>
+          Mark cancelled
+        </ion-button>
+      </ion-item-options>
+    </ion-item-sliding>
+
+
+  </ion-list>
+
+  <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+</ion-content>
+<ion-footer>
+  <ion-button color="danger" expand="full" (click)="addRequest($event)">
+    <span>Add New Request</span>
+  </ion-button>
+</ion-footer>

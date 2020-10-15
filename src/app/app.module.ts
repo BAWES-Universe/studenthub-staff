@@ -33,6 +33,8 @@ import { SelectiveLoadingStrategy } from './util/SelectiveLoadingStrategy';
 import { StoreManagerFormPageModule } from './pages/logged-in/store/store-manager-form/store-manager-form.module';
 import { CompanyRequestFormPageModule } from './pages/logged-in/company/company-request-form/company-request-form.module';
 import {CompanyContactListPageModule} from "./pages/logged-in/company/company-contact/company-contact-list/company-contact-list.module";
+import {RequestFormPageModule} from "./pages/logged-in/company/company-request-list/request-form/request-form.module";
+import {AllCompanyListPageModule} from "./pages/logged-in/company/company-request-list/all-company-list/all-company-list.module";
 
 export function startupServiceFactory(authService) {
   return () => authService.load();
@@ -77,7 +79,8 @@ export function createTranslateLoader(http: HttpClient) {
         OptionPageModule,
         BrandFormPageModule,
         MallFormPageModule,
-        CompanyContactListPageModule
+        CompanyContactListPageModule,
+        AllCompanyListPageModule
     ],
   providers: [
     {

@@ -25,6 +25,15 @@ export class CompanyService {
   }
 
   /**
+   * List of all companies
+   * @param page
+   * @param searchParams
+   */
+  listWithContact(page, searchParams): Observable<any> {
+    return this._authhttp.getRaw(this._companyEndpoint + '?page=' + page + searchParams + '&expand=subCompanies,companyContacts,companyContacts.companyContactEmails,companyContacts.companyContactPhones,subCompanies.companyContacts,subCompanies.companyContacts.companyContactEmails,subCompanies.companyContacts.companyContactPhones');
+  }
+
+  /**
    * List of all followup companies
    * @returns {Observable<any>}
    */

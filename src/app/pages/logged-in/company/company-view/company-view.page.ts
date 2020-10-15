@@ -876,46 +876,6 @@ export class CompanyViewPage implements OnInit {
       ]
     }).then( alert => { alert.present(); });
   }
-  //
-  // cancelledRequest(event, request) {
-  //
-  //   event.preventDefault();
-  //   event.stopPropagation();
-  //
-  //   this.requestService.cancel(request).subscribe(async response => {
-  //
-  //     if (response.operation == 'success') {
-  //       request.request_status = 'cancelled';
-  //     } else {
-  //       this.toastCtrl.create({
-  //         message: response.message,
-  //         buttons: ['Ok']
-  //       }).then(prompt => {
-  //         prompt.present();
-  //       });
-  //     }
-  //   });
-  // }
-
-  // deliveredRequest(event, request) {
-  //
-  //   event.preventDefault();
-  //   event.stopPropagation();
-  //
-  //   this.requestService.deliver(request).subscribe(async response => {
-  //
-  //     if (response.operation == 'success') {
-  //       request.request_status = 'delivered';
-  //     } else {
-  //       this.toastCtrl.create({
-  //         message: response.message,
-  //         buttons: ['Ok']
-  //       }).then(prompt => {
-  //         prompt.present();
-  //       });
-  //     }
-  //   });
-  // }
 
   deliveredRequest(event, request) {
 

@@ -25,4 +25,5 @@ export class EventService {
   public expiredIdCard$ = new Subject();
   public printIdCard$ = new Subject();
   public reviewRequired$ = new Subject();
+  public companyRequestUpdate$ = new Subject();
 }
