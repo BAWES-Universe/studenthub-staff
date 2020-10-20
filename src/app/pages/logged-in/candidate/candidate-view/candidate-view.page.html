@@ -278,24 +278,15 @@
         <div tabindex="0"></div>
         <ion-label>
           <h5>Candidate Video</h5>
-          <ng-container *ngIf="candidate.candidate_video">
+          <ng-container *ngIf="candidate.candidate_video && candidate.candidate_video_processed">
             <video class="manipulation-video" controls="true" preload="none" width="300"
-                   poster="{{ aws.cloudinaryVideoUrl }}candidate-video/{{ candidate.candidate_video }}.jpg">
-              <source src="{{ aws.cloudinaryVideoUrl }}candidate-video/{{ candidate.candidate_video }}.webm"
-                      type="video/webm">
-              <source src="{{ aws.cloudinaryVideoUrl }}candidate-video/{{ candidate.candidate_video }}.mp4"
+                   poster="{{ aws.permanentBucketUrl }}candidate-video/{{ candidate.candidate_id }}.jpg">
+              <source src="{{ aws.permanentBucketUrl }}candidate-video/{{ candidate.candidate_video }}.mp4"
                       type="video/mp4">
-              <source src="{{ aws.cloudinaryVideoUrl }}candidate-video/{{ candidate.candidate_video }}.ogv"
-                      type="video/ogg">
               Your browser does not support HTML5 video tags
             </video><br/>
             <small>File Name : {{candidate.candidate_video}}</small>
           </ng-container>
-<!--          <a target="_blank" *ngIf="candidate.candidate_video"-->
-<!--            href="{{ aws.cloudinaryVideoUrl }}candidate-video/{{ candidate.candidate_video }}">-->
-<!--            {{ candidate.candidate_video }}-->
-<!--          </a>-->
-          <span *ngIf="!candidate.candidate_video">-</span>
         </ion-label>
       </ion-item>
       <ion-item>
