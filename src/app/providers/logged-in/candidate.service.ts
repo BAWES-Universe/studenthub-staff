@@ -23,7 +23,7 @@ export class CandidateService {
    * @returns {Observable<any>}
    */
   detail(id: number): Observable<any> {
-    return this._authhttp.get(this._candidateEndpoint + '/detail/' + id + '?expand=store,company,candidateSkills,candidateExperiences,bank,nationality,area,country,university');
+    return this._authhttp.get(this._candidateEndpoint + '/detail/' + id + '?expand=candidateIdCard,store,company,candidateSkills,candidateExperiences,bank,nationality,area,country,university');
   }
 
   /**
@@ -284,6 +284,7 @@ export class CandidateService {
   expired(model: Candidate): Observable<any>{
     return this._authhttp.patch(`${this._candidateEndpoint}/expire-card/${model.candidate_id}`, {});
   }
+  
   /**
    * update candidate hourly rate
    * @param model
