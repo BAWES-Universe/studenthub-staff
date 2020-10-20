@@ -1,14 +1,13 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {AlertController, PopoverController, ToastController} from '@ionic/angular';
-
+import { Component, Input, OnInit } from '@angular/core';
+import { AlertController, PopoverController, ToastController } from '@ionic/angular';
 // model
-import {Candidate} from 'src/app/models/candidate';
-
+import { Candidate } from 'src/app/models/candidate';
 // services
 import { AuthService } from 'src/app/providers/auth.service';
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
-import {CandidateService} from 'src/app/providers/logged-in/candidate.service';
-import {EventService} from 'src/app/providers/event.service';
+import { CandidateService } from 'src/app/providers/logged-in/candidate.service';
+import { EventService } from 'src/app/providers/event.service';
+import { CandidateIdCardService } from 'src/app/providers/logged-in/candidate.id.card.service';
 
 
 @Component({
@@ -19,17 +18,20 @@ import {EventService} from 'src/app/providers/event.service';
 export class OptionPage implements OnInit {
 
   @Input() candidate: Candidate;
+
   public updatingJobSearchStatus = false;
   public sendingPassword = false;
   public unassinging = false;
   public assigning = false;
   public expiring = false;
   public exportingCV = false;
+  public generating: boolean = false; 
 
   constructor(
     public translateService: TranslateLabelService,
     public authService: AuthService,
     public candidateService: CandidateService,
+    public candidateIdCardService: CandidateIdCardService,
     public popoverCtrl: PopoverController,
     public alertCtrl: AlertController,
     public toastCtrl: ToastController,
@@ -144,13 +146,72 @@ export class OptionPage implements OnInit {
     confirm.present();
   }
 
+
+  /**
+   * Generate id cards
+   */
+  async generateId() {
+
+    this.generating = true;
+
+    const idList = [this.candidate.candidate_id];
+
+    this.candidateIdCardService.generate(idList).subscribe(response => {
+    }, err => {
+    }, () => {
+      this.generating = false;
+    });
+  }
+
+  async renewCard() {
+    const confirm = await this.alertCtrl.create({
+      header: 'Are you sure?',
+      message: 'Renew candidate card',
+      buttons: [
+        {
+          text: 'Cancel'
+        },
+        {
+          text: 'Yes',
+          handler: async () => {
+            // Handle the functionality when user click on 'ok' button
+            this.expiring = true;
+
+            // Unassign Candidate from store
+
+            const idList = [this.candidate.candidate_id];
+
+            this.candidateIdCardService.renew(idList).subscribe(async response => {
+
+              this.dismiss();
+              
+              // Dismiss the loader
+              this.expiring = false;
+
+              if (response.operation == 'success') {
+                this.eventService.reloadCandidateHistory$.next();
+              }
+
+              const prompt = await this.alertCtrl.create({
+                message: this._processResponseMessage(response),
+                buttons: ['Ok']
+              });
+              prompt.present();
+            });
+          }
+        }
+      ]
+    });
+    confirm.present();
+  }
+
   /**
    * set candidate card expire
    */
   async setExpire() {
     const confirm = await this.alertCtrl.create({
       header: 'Are you sure?',
-      message: 'Candidate card Expired?',
+      message: 'Mark candidate card as expired',
       buttons: [
         {
           text: 'Cancel',
@@ -189,15 +250,15 @@ export class OptionPage implements OnInit {
    * set candidate card expire
    */
   async exportCV() {
-      // Handle the functionality when user click on 'ok' button
-      this.exportingCV = true;
+    // Handle the functionality when user click on 'ok' button
+    this.exportingCV = true;
 
-      // Unassign Candidate from store
-      this.candidateService.exportCV(this.candidate).subscribe(async response => {
-        this.dismiss();
-        // Dismiss the loader
-        this.exportingCV = false;
-      });
+    // Unassign Candidate from store
+    this.candidateService.exportCV(this.candidate).subscribe(async response => {
+      this.dismiss();
+      // Dismiss the loader
+      this.exportingCV = false;
+    });
   }
 
   toggleJobSearchStatus(status = 'mark_as_looking') {

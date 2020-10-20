@@ -1,10 +1,12 @@
 <ion-content [attr.dir]="translateService.direction()">
   <ion-list>
+
     <ion-item [disabled]="sendingPassword" (click)="resetPassword()" tappable>
       <div tabindex="0"></div>
-        <span *ngIf="!sendingPassword">Send password reset email to candidate</span>
-        <ion-spinner *ngIf="sendingPassword"></ion-spinner>
+      <span *ngIf="!sendingPassword">Send password reset email to candidate</span>
+      <ion-spinner *ngIf="sendingPassword"></ion-spinner>
     </ion-item>
+    
     <ng-container *ngIf="candidate && candidate.store_id && candidate.store && !assigning">
       <ion-item *ngIf="!unassinging && candidate.store" (click)="unassignCandidateFromStore()" tappable>
         <div tabindex="0"></div>
@@ -24,7 +26,9 @@
     </ion-item>
   </ng-container>
 
-  <ng-container *ngIf="candidate && candidate.candidate_job_search_status && !candidate.store_id && candidate.isProfileCompleted" >
+  <ng-container
+    *ngIf="candidate && candidate.candidate_job_search_status && !candidate.store_id && candidate.isProfileCompleted">
+
     <ion-item [disabled]="updatingJobSearchStatus" (click)="toggleJobSearchStatus('mark_as_not_looking')" tappable>
       <div tabindex="0"></div>
       <ion-spinner *ngIf="updatingJobSearchStatus"></ion-spinner>
@@ -33,18 +37,38 @@
       </span>
     </ion-item>
   </ng-container>
-     <ion-item (click)="setExpire()" tappable>
+
+  <div *ngIf="candidate.store && candidate.candidateIdCard">
+    <ion-item (click)="renewCard()" tappable *ngIf="candidate.candidateIdCard.expired">
+      <div tabindex="0"></div>
+      <ion-spinner *ngIf="expiring"></ion-spinner>
+      <span *ngIf="!expiring">
+        Renew the card
+      </span>
+    </ion-item>
+
+    <ion-item (click)="setExpire()" tappable *ngIf="!candidate.candidateIdCard.expired">
       <div tabindex="0"></div>
       <ion-spinner *ngIf="expiring"></ion-spinner>
       <span *ngIf="!expiring">
         Expire the card
       </span>
     </ion-item>
+  </div>
+
+  <ion-item (click)="generateId()" tappable *ngIf="candidate.store && !candidate.candidateIdCard">
+    <div tabindex="0"></div>
+    <ion-spinner *ngIf="generating"></ion-spinner>
+    <span *ngIf="!generating">
+      Generate ID Card
+    </span>
+  </ion-item>
+
   <ion-item (click)="exportCV()" tappable>
     <div tabindex="0"></div>
     <ion-spinner *ngIf="exportingCV"></ion-spinner>
-      <span *ngIf="!exportingCV">
-        Export CV as PDF
-      </span>
-    </ion-item>
+    <span *ngIf="!exportingCV">
+      Export CV as PDF
+    </span>
+  </ion-item>
 </ion-content>

@@ -32,18 +32,23 @@ export class ExpiredIdPage implements OnInit {
   constructor(
     public candidateIdCardService: CandidateIdCardService,
     private _fb: FormBuilder,
-    private _loadingCtrl: LoadingController,
     private _alertCtrl: AlertController,
     private _events: EventService,
     private _nav: NavController
   ) {
-    this.form = this._fb.group({
-      candidates: [],
-    });
   }
 
   ngOnInit() {
-    this.loadData(this.currentPage);
+
+    this.form = this._fb.group({
+      candidates: [],
+    });
+
+    this.loadData(1);
+
+    this._events.reloadCandidateHistory$.subscribe(e => {
+      this.loadData(1);
+    });
   }
 
   /**
