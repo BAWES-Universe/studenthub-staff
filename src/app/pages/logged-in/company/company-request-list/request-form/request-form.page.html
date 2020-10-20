@@ -1,0 +1,75 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/company-request-list"></ion-back-button>
+    </ion-buttons>
+
+    <ion-title>{{ operation }} Request</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button color="primary" [disabled]="form && !form.valid" (click)="save()">
+        <span *ngIf="!saving">Save</span>
+        <ion-spinner *ngIf="saving"></ion-spinner>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form [formGroup]="form" *ngIf="form">
+
+    <ion-list>
+      <ion-item (click)="openClient($event)">
+        <ion-label position="floating">Company Name</ion-label>
+        <ion-input type="text" formControlName="company_name" readonly></ion-input>
+      </ion-item>
+    </ion-list>
+    <ion-list>
+      <ion-item (click)="openContact($event)">
+        <ion-label position="floating">Contact</ion-label>
+        <ion-input type="text" formControlName="contact_name" readonly></ion-input>
+      </ion-item>
+    </ion-list>
+    <ion-list>
+      <ion-radio-group  formControlName="position_type">
+        <ion-row>
+          <ion-col>
+            <ion-item>
+              <ion-radio slot="start" value="1"></ion-radio>
+              <ion-label>Full time</ion-label>
+            </ion-item>
+          </ion-col>
+
+          <ion-col>
+            <ion-item>
+              <ion-radio slot="start" value="2"></ion-radio>
+              <ion-label>Part time</ion-label>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+      </ion-radio-group>
+    </ion-list>
+
+    <ion-list>
+      <ion-item>
+        <ion-label position="floating">Position title</ion-label>
+        <ion-input type="text" formControlName="position_title"></ion-input>
+      </ion-item>
+    </ion-list>
+
+    <ion-list>
+      <ion-item>
+        <ion-label position="floating">Number of employees</ion-label>
+        <ion-input type="text" formControlName="number_of_employees"></ion-input>
+      </ion-item>
+    </ion-list>
+
+    <ion-list>
+      <ion-item>
+        <ion-label position="floating">Additional info</ion-label>
+        <ion-textarea formControlName="additional_info" placeholder="Female only, Lebanese Jordanian Syrian NO EGYPTIAN"></ion-textarea>
+      </ion-item>
+    </ion-list>
+
+  </form>
+</ion-content>
