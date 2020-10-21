@@ -16,7 +16,7 @@
     </ng-container>
   </ion-list>
 
-  <ng-container *ngIf="!candidate.candidate_job_search_status && candidate.isProfileCompleted">
+  <ng-container *ngIf="candidate && !candidate.candidate_job_search_status && candidate.isProfileCompleted">
     <ion-item [disabled]="updatingJobSearchStatus" (click)="toggleJobSearchStatus('mark_as_looking')" tappable>
       <div tabindex="0"></div>
       <ion-spinner *ngIf="updatingJobSearchStatus"></ion-spinner>
@@ -28,6 +28,7 @@
 
   <ng-container
     *ngIf="candidate && candidate.candidate_job_search_status && !candidate.store_id && candidate.isProfileCompleted">
+
     <ion-item [disabled]="updatingJobSearchStatus" (click)="toggleJobSearchStatus('mark_as_not_looking')" tappable>
       <div tabindex="0"></div>
       <ion-spinner *ngIf="updatingJobSearchStatus"></ion-spinner>

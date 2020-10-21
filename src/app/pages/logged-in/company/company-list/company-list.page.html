@@ -6,20 +6,57 @@
     <ion-title>Select Company</ion-title>
   </ion-toolbar>
 
-  <ion-toolbar>
-    <ion-segment (ionChange)="segmentChanged($event)" [value]="segment">
-      <ion-segment-button value="1">
-        <ion-label>Active</ion-label>
-      </ion-segment-button>
-      <ion-segment-button value="0">
-        <ion-label>In Active</ion-label>
-      </ion-segment-button>
-    </ion-segment>
-  </ion-toolbar>
 </ion-header>
 
 <ion-content>
 
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Filter by</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-item>
+              <ion-label position="floating" color="primary">Name</ion-label>
+              <ion-input type="text" [(ngModel)]="filters.name"></ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col>
+            <ion-item>
+              <ion-label position="floating" color="primary">Common Name - English</ion-label>
+              <ion-input type="text" [(ngModel)]="filters.common_name_en"></ion-input>
+            </ion-item>
+          </ion-col>
+          
+          <ion-col>
+            <ion-item>
+              <ion-label position="floating" color="primary">Common Name - Arabic</ion-label>
+              <ion-input type="text" [(ngModel)]="filters.common_name_ar"></ion-input>
+            </ion-item>
+          </ion-col>
+
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+
+    <ion-card-header>
+      <ion-button (click)="loadData(1);">Submit</ion-button>
+      <ion-button (click)="resetFilter();" color="secondary">Reset</ion-button>
+    </ion-card-header>
+
+  </ion-card>
+
+  <ion-segment (ionChange)="segmentChanged($event)" [value]="segment">
+    <ion-segment-button value="1">
+      <ion-label>Active</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="0">
+      <ion-label>In Active</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+  
   <ion-list>
     <section>
 

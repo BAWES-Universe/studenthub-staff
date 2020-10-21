@@ -3,7 +3,7 @@ import { BrowserModule, BrowserTransferStateModule } from '@angular/platform-bro
 import { RouteReuseStrategy } from '@angular/router';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
-
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 // import {IonicStorageModule, Storage} from '@ionic/storage';
@@ -31,6 +31,10 @@ import {BrandFormPageModule} from './pages/logged-in/company/brand-form/brand-fo
 import {MallFormPageModule} from './pages/logged-in/mall/mall-form/mall-form.module';
 import { SelectiveLoadingStrategy } from './util/SelectiveLoadingStrategy';
 import { StoreManagerFormPageModule } from './pages/logged-in/store/store-manager-form/store-manager-form.module';
+import { CompanyRequestFormPageModule } from './pages/logged-in/company/company-request-form/company-request-form.module';
+import {CompanyContactListPageModule} from "./pages/logged-in/company/company-contact/company-contact-list/company-contact-list.module";
+import {RequestFormPageModule} from "./pages/logged-in/company/company-request-list/request-form/request-form.module";
+import {AllCompanyListPageModule} from "./pages/logged-in/company/company-request-list/all-company-list/all-company-list.module";
 
 export function startupServiceFactory(authService) {
   return () => authService.load();
@@ -63,16 +67,20 @@ export function createTranslateLoader(http: HttpClient) {
         }),
         UpdateAlertModule,
         ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.serviceWorker }),
+        CKEditorModule,
         SkillFormPageModule,
         ExperienceFormPageModule,
         UploadCvPageModule,
         UploadFilePageModule,
         CompanyNoteFormPageModule,
         CompanyContactFormPageModule,
+        CompanyRequestFormPageModule,
         StoreManagerFormPageModule,
         OptionPageModule,
         BrandFormPageModule,
-        MallFormPageModule
+        MallFormPageModule,
+        CompanyContactListPageModule,
+        AllCompanyListPageModule
     ],
   providers: [
     {
@@ -95,7 +103,7 @@ export function createTranslateLoader(http: HttpClient) {
   bootstrap: [AppComponent]
 })
 export class AppModule {
-  
+
   static injector: Injector;
 
   constructor(public injector: Injector) {

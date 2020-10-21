@@ -20,6 +20,7 @@ export class CandidateListPage implements OnInit {
   public currentPage: any = 1;
   public totalCount = 0;
   public pages: number[] = [];
+  
   public filters: {
     name: string,
     email: string,

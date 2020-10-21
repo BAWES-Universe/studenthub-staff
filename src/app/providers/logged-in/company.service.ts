@@ -18,10 +18,19 @@ export class CompanyService {
   /**
    * List of all companies
    * @param page
-   * @param status
+   * @param searchParams
    */
-  list(page, status = 0): Observable<any> {
-    return this._authhttp.getRaw(this._companyEndpoint + '?page=' + page + '&status=' + status + '&expand=subCompanies,subCompanies.stores,stores,subCompanies.stores.candidates,files,requests,notes');
+  list(page, searchParams): Observable<any> {
+    return this._authhttp.getRaw(this._companyEndpoint + '?page=' + page + searchParams + '&expand=subCompanies,subCompanies.stores,stores,subCompanies.stores.candidates,files,notes');
+  }
+
+  /**
+   * List of all companies
+   * @param page
+   * @param searchParams
+   */
+  listWithContact(page, searchParams): Observable<any> {
+    return this._authhttp.getRaw(this._companyEndpoint + '?page=' + page + searchParams + '&expand=subCompanies,companyContacts,companyContacts.companyContactEmails,companyContacts.companyContactPhones,subCompanies.companyContacts,subCompanies.companyContacts.companyContactEmails,subCompanies.companyContacts.companyContactPhones');
   }
 
   /**
@@ -38,7 +47,7 @@ export class CompanyService {
    * @param company_id
    */
   view(company_id) {
-    return this._authhttp.get(this._companyEndpoint + '/' + company_id + '?expand=brands,subCompanies,subCompanies.stores,stores,subCompanies.stores.candidates,files,requests,notes,brands,parentTransfers,parentTransfers.profit,parentTransfers.childTransfers,parentTransfers.childTransfers.company,parentTransfers.totalCandidateTransferTotal,parentTransfers.totalPaid,parentTransfers.paidTransferCandidates');
+    return this._authhttp.get(this._companyEndpoint + '/' + company_id + '?expand=brands,subCompanies,subCompanies.stores,subCompanies.stores.mall,stores,stores.mall,subCompanies.stores.candidates,files,requests,notes,brands,parentTransfers,parentTransfers.profit,parentTransfers.childTransfers,parentTransfers.childTransfers.company,parentTransfers.totalCandidateTransferTotal,parentTransfers.totalPaid,parentTransfers.paidTransferCandidates,malls');
   }
 
   /**

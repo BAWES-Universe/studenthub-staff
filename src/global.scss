@@ -25,6 +25,11 @@
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
 
+//text editor
+//@import '~quill/dist/quill.core.css';
+//@import '~quill/dist/quill.bubble.css';
+//@import '~quill/dist/quill.snow.css';
+
 .hidden {
     display: none;
 }
@@ -62,10 +67,17 @@
 .select_search_store_id {
 
   ion-label {
-    white-space: normal !important; 
+    white-space: normal !important;
   }
 
   .popover-content {
     min-width: 350px;
+  }
+}
+
+.editor-inactive {
+  .ck.ck-sticky-panel__content,
+  ion-item:last-child {
+    display: none;
   }
 }

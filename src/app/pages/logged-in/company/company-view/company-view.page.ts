@@ -2,6 +2,8 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Platform, ModalController, AlertController, ToastController } from '@ionic/angular';
 import { Chart } from 'chart.js';
+import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 // services
 import { StoreService } from 'src/app/providers/logged-in/store.service';
 import { CompanyService } from 'src/app/providers/logged-in/company.service';
@@ -26,6 +28,7 @@ import { CompanyRequestFormPage } from '../company-request-form/company-request-
 import { CompanyNoteFormPage } from '../company-note-form/company-note-form.page';
 import { BrandFormPage } from '../brand-form/brand-form.page';
 import { StoreFormPage } from '../../store/store-form/store-form.page';
+
 import NumberFormat = Intl.NumberFormat;
 
 
@@ -37,11 +40,25 @@ import NumberFormat = Intl.NumberFormat;
 export class CompanyViewPage implements OnInit {
 
   @ViewChild('statsChart') statsChart;
+
+  @ViewChild('ckeditor') ckeditor;
+
+  public editorFocused: boolean = false;
+
+  public Editor = ClassicEditor;
+
+  public editorConfig = {
+    placeholder: 'Click here to take notes...',
+    toolbar: [ 'Heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', '|', 'indent', 'outdent'],
+  };
+
   public company_id;
 
   public company: Company;
   public subCompanies: Company[] = [];
   public stores: Store[] = [];
+
+  public requests: Request[] = [];
 
   public companyContacts: CompanyContact[] = [];
 
@@ -51,18 +68,27 @@ export class CompanyViewPage implements OnInit {
   public loading = false;
   public updating = false;
 
+  public addingNote: boolean = false;
+
   public sendingNewPassword = false;
   public statsData: any[];
   public segment = 'info';
+
+  public noteForm: FormGroup;
+
   bars: any;
   colorArray: any;
+
   public legendDisplay = true;
+  public editNoteData: Note = new Note();
+
   constructor(
     public platform: Platform,
     public modalCtrl: ModalController,
     public toastCtrl: ToastController,
     public alertCtrl: AlertController,
     public router: Router,
+    private fb: FormBuilder,
     public activatedRoute: ActivatedRoute,
     public companyService: CompanyService,
     public authService: AuthService,
@@ -90,9 +116,13 @@ export class CompanyViewPage implements OnInit {
 
     this.loadData();
     this.loadContacts();
+    this.loadRequests();
+
     if (this.platform.is('mobile')) {
       this.legendDisplay = false;
     }
+
+    this.initNoteForm();
   }
 
   /**
@@ -123,15 +153,23 @@ export class CompanyViewPage implements OnInit {
       this.stores = response.stores;
 
       this.brands = response.brands;
+
       if (this.company && this.company.parentTransfers) {
         this.statsData = this.company.parentTransfers.reverse();
       }
+
       this.loadChartStats();
 
     }, () => {
       this.loading = false;
       this.deleting = false;
       this.updating = false;
+    });
+  }
+
+  loadRequests() {
+    this.requestService.list(this.company_id).subscribe(response => {
+      this.requests = response;
     });
   }
 
@@ -288,6 +326,17 @@ export class CompanyViewPage implements OnInit {
       }
     });
   }
+  /**
+   * open brand edit page
+   * @param mall
+   */
+  async mallSelected(mall) {
+    this.router.navigate(['mall-view', mall.mall_uuid], {
+      state: {
+        model: mall
+      }
+    });
+  }
 
   async editBrandSelected(event, brand) {
 
@@ -345,7 +394,75 @@ export class CompanyViewPage implements OnInit {
     modal.present();
   }
 
-  async addNote(note: Note) {
+  onEditorFocus() {
+    this.editorFocused = true;
+  }
+
+  /**
+   * on note editor change
+   * @param event
+   */
+  onChange(event) {
+
+    if(!event.editor) {
+      return event;
+    }
+
+    const data = event.editor.getData();
+
+    this.noteForm.controls.note.setValue(data);
+    this.noteForm.markAsDirty();
+    this.noteForm.updateValueAndValidity();
+  }
+
+  initNoteForm() {
+    this.noteForm = this.fb.group({
+      note: ['', Validators.required],
+    });
+  }
+
+  addNote() {
+    this.addingNote = true;
+
+    let model = new Note;
+    model.company_id = this.company_id;
+    model.note_text = this.noteForm.controls.note.value;
+
+    this.noteService.create(model).subscribe(async jsonResponse => {
+
+      this.addingNote = false;
+
+      // On Success
+      if (jsonResponse.operation == 'success') {
+
+        this.editorFocused = false;
+
+        this.noteForm.reset();
+
+        this.ckeditor.editorInstance.setData('');
+
+        this.loadData(false);
+      }
+
+      // On Failure
+      if (jsonResponse.operation == 'error') {
+        const prompt = await this.alertCtrl.create({
+          message: this.authService._processResponseMessage(jsonResponse),
+          buttons: ['Ok']
+        });
+        prompt.present();
+      }
+    }, () => {
+      this.editorFocused = false;
+      this.addingNote = false;
+    });
+  }
+
+  cancelAddNote() {
+    this.editorFocused = false;
+  }
+
+  async editNote(note: Note) {
     window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
     const modal = await this.modalCtrl.create({
@@ -595,6 +712,9 @@ export class CompanyViewPage implements OnInit {
     this.segment = $event.detail.value;
   }
 
+  /**
+   * upload company document to S3
+   */
   async uploadDocument() {
     window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
@@ -644,7 +764,7 @@ export class CompanyViewPage implements OnInit {
     const { data } = await modal.onWillDismiss();
 
     if (data && data.refresh) {
-      this.loadData();
+      this.loadRequests();
     }
   }
 
@@ -654,6 +774,10 @@ export class CompanyViewPage implements OnInit {
     const request = new Request;
 
     this.company.companyContacts = this.companyContacts;
+
+    if(this.company.companyContacts.length == 0) {
+      return this.addCompanyContact();
+    }
 
     const modal = await this.modalCtrl.create({
       component: CompanyRequestFormPage,
@@ -674,7 +798,7 @@ export class CompanyViewPage implements OnInit {
     const { data } = await modal.onWillDismiss();
 
     if (data && data.refresh) {
-      this.loadData();
+      this.loadRequests();
     }
   }
 
@@ -698,24 +822,59 @@ export class CompanyViewPage implements OnInit {
     });
   }
 
+
   cancelledRequest(event, request) {
 
     event.preventDefault();
     event.stopPropagation();
 
-    this.requestService.cancel(request).subscribe(async response => {
+    this.alertCtrl.create({
+      header: 'Please provide feedback',
+      inputs: [
+        {
+          name: 'feedback',
+          type: 'textarea',
+          placeholder: 'Feedback'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            console.log('Confirm Cancel');
+          }
+        }, {
+          text: 'Save',
+          handler: (data) => {
+            if (data.feedback) {
+              request.request_feedback = data.feedback;
+              this.requestService.cancel(request).subscribe(async response => {
 
-      if (response.operation == 'success') {
-        request.request_status = 'cancelled';
-      } else {
-        this.toastCtrl.create({
-          message: response.message,
-          buttons: ['Ok']
-        }).then(prompt => {
-          prompt.present();
-        });
-      }
-    });
+                if (response.operation == 'success') {
+                  request.request_status = 'cancelled';
+                } else {
+                  this.toastCtrl.create({
+                    message: response.message,
+                    buttons: ['Ok']
+                  }).then(prompt => {
+                    prompt.present();
+                  });
+                }
+              });
+            } else  {
+              this.alertCtrl.create({
+                message: 'Please provide feedback',
+                buttons: ['ok']
+              }).then(alert => {
+                alert.present();
+              });
+            }
+          }
+        }
+      ]
+    }).then( alert => { alert.present(); });
   }
 
   deliveredRequest(event, request) {
@@ -723,19 +882,55 @@ export class CompanyViewPage implements OnInit {
     event.preventDefault();
     event.stopPropagation();
 
-    this.requestService.deliver(request).subscribe(async response => {
 
-      if (response.operation == 'success') {
-        request.request_status = 'delivered';
-      } else {
-        this.toastCtrl.create({
-          message: response.message,
-          buttons: ['Ok']
-        }).then(prompt => {
-          prompt.present();
-        });
-      }
-    });
+    this.alertCtrl.create({
+      header: 'Please provide feedback',
+      inputs: [
+        {
+          name: 'feedback',
+          type: 'textarea',
+          placeholder: 'Feedback'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            console.log('Confirm Cancel');
+          }
+        }, {
+          text: 'Save',
+          handler: (data) => {
+            if (data.feedback) {
+              request.request_feedback = data.feedback;
+              this.requestService.deliver(request).subscribe(async response => {
+
+                if (response.operation == 'success') {
+                  request.request_status = 'delivered';
+                } else {
+                  this.toastCtrl.create({
+                    message: response.message,
+                    buttons: ['Ok']
+                  }).then(prompt => {
+                    prompt.present();
+                  });
+                }
+              });
+            } else  {
+              this.alertCtrl.create({
+                message: 'Please provide feedback',
+                buttons: ['ok']
+              }).then(alert => {
+                alert.present();
+              });
+            }
+          }
+        }
+      ]
+    }).then( alert => { alert.present(); });
+
   }
 
   loadLogo($event, company) {
@@ -1000,4 +1195,9 @@ export class CompanyViewPage implements OnInit {
           );
         }
     }
+
+  onEditorReady(event: any){
+    console.log('log');
+    // this.editorReady = event.editor;
+  }
 }

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { IonicModule } from '@ionic/angular';
 
 import { CompanyViewPageRoutingModule } from './company-view-routing.module';
@@ -14,9 +14,11 @@ import { PipesModule } from 'src/app/pipes/pipes.module';
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     LoadingModalModule,
     IonicModule,
     PipesModule,
+    CKEditorModule,
     CompanyViewPageRoutingModule
   ],
   declarations: [CompanyViewPage]

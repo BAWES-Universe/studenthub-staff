@@ -42,6 +42,7 @@ export class Candidate {
     experience: string;
     candidate_resume: string;
     candidate_video: string;
+    candidate_video_processed: any;
     candidate_created_at: string;
     candidate_updated_at: string;
 

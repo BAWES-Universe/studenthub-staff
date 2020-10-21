@@ -27,6 +27,16 @@ export class CompanyListPage implements OnInit {
   public activeCompanies: Company[] = [];
   public inActiveCompanies: Company[] = [];
 
+  public filters: {
+    name: string,
+    common_name_en: string,
+    common_name_ar: string
+  } = {
+    name: null,
+    common_name_en: null,
+    common_name_ar: null
+  };
+
   constructor(
     public navCtrl: NavController,
     public companyService: CompanyService,
@@ -38,8 +48,7 @@ export class CompanyListPage implements OnInit {
 
   ngOnInit() {
     this.eventService.reloadCandidateHistory$.subscribe(response => {
-      this.loadCompanyList(this.activeCurrentPage, this.active);
-      this.loadCompanyList(this.inActiveCurrentPage, this.inActive);
+      this.loadData(1);
     });
   }
 
@@ -52,28 +61,62 @@ export class CompanyListPage implements OnInit {
     // }
 
     if (!this.companies) {
-      this.loadCompanyList(this.activeCurrentPage, this.active);
-      this.loadCompanyList(this.inActiveCurrentPage, this.inActive);
+      this.loadData(1);
     }
   }
 
-  async loadCompanyList(page: number, status) {
+  /**
+   * Return url string to filter list
+   */
+  urlParams() {
+    let urlParams = '&status=' + this.segment;
+
+    if (this.filters.name) {
+      urlParams += '&name=' + this.filters.name;
+    }
+
+    if (this.filters.common_name_en) {
+      urlParams += '&common_name_en=' + this.filters.common_name_en;
+    }
+
+    if (this.filters.common_name_ar) {
+      urlParams += '&common_name_ar=' + this.filters.common_name_ar;
+    }
+
+    return urlParams;
+  }
+
+  /**
+   * Reset question filter
+   */
+  resetFilter() {
+    this.filters = {
+      name: null,
+      common_name_en: null,
+      common_name_ar: null
+    };
+    
+    this.loadData(1); // reload all result
+  }
+
+  async loadData(page: number) {
+
     // Load list of companies
     this.loading = true;
 
-    this.companyService.list(page, status).subscribe(response => {
-      if (status == this.active) {
+    let searchParams = this.urlParams();
+
+    this.companyService.list(page, searchParams).subscribe(response => {
+      if (this.segment == this.active) {
 
         this.activePageCount = response.headers.get('X-Pagination-Page-Count');
         this.activeCurrentPage = response.headers.get('X-Pagination-Current-Page');
         this.activeCompanies = response.body;
 
-      } else if (status == this.inActive) {
-
-        this.activePageCount = response.headers.get('X-Pagination-Page-Count');
-        this.activeCurrentPage = response.headers.get('X-Pagination-Current-Page');
+      } else {
+        this.inActivePageCount = response.headers.get('X-Pagination-Page-Count');
+        this.inActiveCurrentPage = response.headers.get('X-Pagination-Current-Page');
         this.inActiveCompanies = response.body;
-
       }
     },
       error => { },
@@ -110,7 +153,9 @@ export class CompanyListPage implements OnInit {
       this.inActiveCurrentPage++;
     }
 
-    this.companyService.list((status == this.active) ? this.activeCurrentPage : this.inActiveCurrentPage, status).subscribe(response => {
+    const urlParams = this.urlParams();
+
+    this.companyService.list((status == this.active) ? this.activeCurrentPage : this.inActiveCurrentPage, urlParams).subscribe(response => {
 
       if (status == this.active) {
 
@@ -123,7 +168,6 @@ export class CompanyListPage implements OnInit {
         this.inActiveCompanies = this.inActiveCompanies.concat(response.body);
         this.inActivePageCount = response.headers.get('X-Pagination-Page-Count');
         this.inActiveCurrentPage = response.headers.get('X-Pagination-Current-Page');
-
       }
     },
       error => { },

@@ -75,7 +75,7 @@ export class CountryListPage implements OnInit {
     this.countryService.list(this.currentPage).subscribe(response => {
 
         this.pageCount = response.headers.get('X-Pagination-Page-Count');
-        this.currentPage = response.headers.get('X-Pagination-Current-Page');
+        // this.currentPage = response.headers.get('X-Pagination-Current-Page');
 
         this.countries = this.countries.concat(response.body);
       },

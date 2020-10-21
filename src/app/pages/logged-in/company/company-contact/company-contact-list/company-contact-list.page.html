@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Client List</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-searchbar (ionChange)="filter($event)" debounce="100"></ion-searchbar>
+  <ion-list class="contact-list">
+    <ion-item-sliding *ngFor="let companyContact of contactList">
+      <ion-item tappable (click)="onContactSelected(companyContact)">
+        <div tabindex="0"></div>
+
+        <ion-label>
+          <h4>{{ companyContact.contact_name }}</h4>
+          <p>
+            {{ companyContact.contact_position }}
+          </p>
+          <small>{{ companyContact.contact_note }}</small>
+          <p>
+            <a (click)="doNothing($event)"
+               *ngFor="let companyContactEmail of companyContact.companyContactEmails">
+              <ion-icon name="mail-outline"></ion-icon> {{ companyContactEmail.email_address }}
+            </a>
+          </p>
+          <p>
+            <a (click)="doNothing($event)"
+               *ngFor="let companyContactPhone of companyContact.companyContactPhones">
+              <ion-icon name="call-outline"></ion-icon> {{ companyContactPhone.phone_number }}
+            </a>
+          </p>
+        </ion-label>
+      </ion-item>
+    </ion-item-sliding>
+  </ion-list>
+</ion-content>

@@ -1,11 +1,10 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ModalController, AlertController } from '@ionic/angular';
 import { CompanyNoteService } from 'src/app/providers/logged-in/company-note.service';
 import {Note} from 'src/app/models/note';
 import {AuthService} from "../../../../providers/auth.service";
-
-
+import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 @Component({
   selector: 'app-company-note-form',
   templateUrl: './company-note-form.page.html',
@@ -18,6 +17,15 @@ export class CompanyNoteFormPage implements OnInit {
   @Input() note;
   public model: Note = new Note();
   public operation: string;
+  @ViewChild('ckeditor', { static: false }) ckeditor: ClassicEditor;
+
+  public Editor = ClassicEditor;
+
+  public editorConfig = {
+    placeholder: 'Click here to take notes...',
+    toolbar: [ 'Heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', '|', 'indent', 'outdent'],
+  };
+
 
   public form: FormGroup;
 
@@ -30,9 +38,7 @@ export class CompanyNoteFormPage implements OnInit {
   ) {
 
   }
-
   ngOnInit() {
-
     if (this.note) {
       this.model = this.note;
     }
@@ -41,6 +47,14 @@ export class CompanyNoteFormPage implements OnInit {
       note: [(this.model && this.model.note_uuid) ? this.model.note_text : '', Validators.required],
     });
     this.operation  = (this.model && this.model.note_uuid) ? 'Update' : 'Create';
+  }
+
+  ionViewDidEnter() {
+      console.log(this.model, this.ckeditor);
+      if (this.model && this.ckeditor) {
+        this.ckeditor.editorInstance.setData(this.model.note_text);
+        setTimeout(() => this.ckeditor.editorInstance.editing.view.focus(), 1000);
+      }
   }
 
   /**
@@ -69,6 +83,7 @@ export class CompanyNoteFormPage implements OnInit {
     this.updateModelDataFromForm();
 
     let action;
+
     if (!this.model.note_uuid) {
       // Create
       action = this.noteService.create(this.model);
@@ -101,5 +116,21 @@ export class CompanyNoteFormPage implements OnInit {
       this.saving = false;
 
     });
+  }
+  /**
+   * on note editor change
+   * @param event
+   */
+  onChange(event) {
+
+    if (!event.editor) {
+      return event;
+    }
+
+    const data = event.editor.getData();
+
+    this.form.controls.note.setValue(data);
+    this.form.markAsDirty();
+    this.form.updateValueAndValidity();
   }
 }

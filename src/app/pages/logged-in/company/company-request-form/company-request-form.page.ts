@@ -1,11 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ModalController, AlertController } from '@ionic/angular';
-//services
+import {ModalController, AlertController, PopoverController} from '@ionic/angular';
+// services
 import { CompanyRequestService } from 'src/app/providers/logged-in/company-request.service';
-//models
+// models
 import { Request } from 'src/app/models/request';
 import {AuthService} from "../../../../providers/auth.service";
+import {CompanyContactListPage} from "../company-contact/company-contact-list/company-contact-list.page";
 
 
 @Component({
@@ -30,7 +31,8 @@ export class CompanyRequestFormPage implements OnInit {
     private fb: FormBuilder,
     private modalCtrl: ModalController,
     private alertCtrl: AlertController,
-    private authService: AuthService
+    private authService: AuthService,
+    private popoverCtrl: PopoverController
   ) {
   }
 
@@ -41,6 +43,7 @@ export class CompanyRequestFormPage implements OnInit {
     }
 
     this.form = this.fb.group({
+      contact_name: [(this.model.contact) ? this.model.contact.contact_name : '', Validators.required],
       contact_uuid: [this.model.contact_uuid, Validators.required],
       position_type: [this.model.request_position_type + '', Validators.required],
       position_title: [this.model.request_position_title, Validators.required],
@@ -113,5 +116,21 @@ export class CompanyRequestFormPage implements OnInit {
       this.saving = false;
 
     });
+  }
+  async openClient(e) {
+    const popover = await this.popoverCtrl.create({
+      component: CompanyContactListPage,
+      event: e,
+      componentProps: {
+        contacts : this.company.companyContacts
+      }
+    });
+    popover.onDidDismiss().then((_) => {
+      if (_ && _.data) {
+        this.form.controls.contact_name.setValue(_.data.companyContact.contact_name);
+        this.form.controls.contact_uuid.setValue(_.data.companyContact.contact_uuid);
+      }
+    });
+    popover.present();
   }
 }

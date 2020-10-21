@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-//services
+// services
 import { AuthHttpService } from './authhttp.service';
-//models
+// models
 import { Request } from 'src/app/models/request';
 
 
@@ -14,6 +14,26 @@ export class CompanyRequestService {
   private companyRequestEndpoint = '/requests';
 
   constructor(private authhttp: AuthHttpService) { }
+
+  /**
+   * List all requests
+   * @returns {Observable<any>}
+   */
+  list(companyID: number): Observable<any> {
+    const url = this.companyRequestEndpoint + '?company_id=' + companyID +
+      '&expand=requestCreatedBy,requestUpdatedBy,contact';
+    return this.authhttp.get(url);
+  }
+
+  /**
+   * List all requests with page
+   * @returns {Observable<any>}
+   */
+  listWithPagination(page: number): Observable<any> {
+    const url = this.companyRequestEndpoint + '?page=' + page +
+      '&expand=requestCreatedBy,requestUpdatedBy,contact,company,company.companyContact';
+    return this.authhttp.getRaw(url);
+  }
 
   /**
    * create request
@@ -82,5 +102,15 @@ export class CompanyRequestService {
    */
   delete(model: Request): Observable<any> {
     return this.authhttp.delete(`${this.companyRequestEndpoint}/${model.request_uuid}`);
+  }
+
+  /**
+   * view request
+   * @param id
+   */
+  view(id): Observable<any> {
+    const url = this.companyRequestEndpoint + '/' + id +
+      '?expand=requestCreatedBy,requestUpdatedBy,contact,company,company.companyContact';
+    return this.authhttp.get(url);
   }
 }

@@ -122,7 +122,8 @@ const routes: Routes = [
     loadChildren: () => import('./pages/logged-in/store/store-view/store-view.module').then(m => m.StoreViewPageModule),
     canActivate: [AuthService],
     data: {
-      name: 'StoreViewPage'
+      name: 'StoreViewPage',
+      navDisable: true,
     }
   },
   {
@@ -269,13 +270,37 @@ const routes: Routes = [
     }
   },
   {
-    path: '**',
-    redirectTo: 'not-found'
-  },  {
     path: 'store-manager-form',
     loadChildren: () => import('./pages/logged-in/store/store-manager-form/store-manager-form.module').then( m => m.StoreManagerFormPageModule)
+  },
+  {
+    path: 'company-request-list',
+    loadChildren: () => import('./pages/logged-in/company/company-request-list/company-request-list.module').then(m => m.CompanyRequestListPageModule),
+    canActivate: [AuthService],
+    data: {
+      name: 'CompanyRequestListPage',
+    }
+  },
+  {
+    path: 'request-form',
+    loadChildren: () => import('./pages/logged-in/company/company-request-list/request-form/request-form.module').then(m => m.RequestFormPageModule),
+    canActivate: [AuthService],
+    data: {
+      name: 'RequestFormPage',
+    }
+  },
+  // {
+  //   path: 'all-company-list',
+  //   loadChildren: () => import('./pages/logged-in/company/company-request-list/all-company-list/all-company-list.module').then(m => m.AllCompanyListPageModule),
+  //   canActivate: [AuthService],
+  //   data: {
+  //     name: 'AllCompanyListPage',
+  //   }
+  // },
+  {
+    path: '**',
+    redirectTo: 'not-found'
   }
-
 ];
 
 @NgModule({

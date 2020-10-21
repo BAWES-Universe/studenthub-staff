@@ -1,0 +1,84 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button (click)="dismiss()"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Select Company</ion-title>
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Filter by</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-item>
+              <ion-label position="floating" color="primary">Name</ion-label>
+              <ion-input type="text" [(ngModel)]="filters.name"></ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col>
+            <ion-item>
+              <ion-label position="floating" color="primary">Common Name - English</ion-label>
+              <ion-input type="text" [(ngModel)]="filters.common_name_en"></ion-input>
+            </ion-item>
+          </ion-col>
+
+          <ion-col>
+            <ion-item>
+              <ion-label position="floating" color="primary">Common Name - Arabic</ion-label>
+              <ion-input type="text" [(ngModel)]="filters.common_name_ar"></ion-input>
+            </ion-item>
+          </ion-col>
+
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+
+    <ion-card-header>
+      <ion-button (click)="loadData(1);">Submit</ion-button>
+      <ion-button (click)="resetFilter();" color="secondary">Reset</ion-button>
+    </ion-card-header>
+
+  </ion-card>
+
+  <ion-list>
+    <section>
+        <div tappable *ngFor="let company of companies">
+          <ion-item tappable (click)="showSub(company)">
+            <ion-label>
+              <strong>{{ company.company_name }}</strong>
+            </ion-label>
+            <ion-icon slot="end" *ngIf = "selectedCompany != company.company_id" name="arrow-down-outline"></ion-icon>
+            <ion-icon slot="end" *ngIf = "selectedCompany == company.company_id" name="arrow-up-outline"></ion-icon>
+          </ion-item>
+          <div *ngIf = "selectedCompany == company.company_id">
+            <ion-item tappable (click)="rowSelected(company)">
+              <ion-label>
+                {{ company.company_name }}
+              </ion-label>
+            </ion-item>
+            <ion-item tappable *ngFor="let sub of company.subCompanies" (click)="rowSelected(company)">
+                <ion-label>
+                  {{ sub.company_name }}
+                </ion-label>
+            </ion-item>
+          </div>
+        </div>
+
+
+    </section>
+  </ion-list>
+
+  <loading-modal [loading]="loading || loadingMore" type="text-list"></loading-modal>
+
+  <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

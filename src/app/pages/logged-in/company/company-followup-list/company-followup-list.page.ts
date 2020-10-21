@@ -54,7 +54,7 @@ export class CompanyFollowupListPage implements OnInit {
     this.loading = true;
     this.currentPage++;
 
-    this.companyService.list(this.currentPage).subscribe(response => {
+    this.companyService.listFollowups(this.currentPage).subscribe(response => {
 
         this.pageCount = response.headers.get('X-Pagination-Page-Count');
         this.currentPage = response.headers.get('X-Pagination-Current-Page');

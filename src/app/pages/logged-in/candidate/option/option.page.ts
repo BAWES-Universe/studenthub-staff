@@ -282,10 +282,12 @@ export class OptionPage implements OnInit {
               candidate_id: this.candidate.candidate_id,
               job_search_status: this.candidate.candidate_job_search_status == 1 ? 0 : 1
             };
+
             this.candidateService.updateJobSearchStatus(params).subscribe(async data => {
 
               this.updatingJobSearchStatus = false;
               this.dismiss();
+              
               if (data.operation == 'success') {
                 this.candidate.candidate_job_search_status = this.candidate.candidate_job_search_status == 1 ? 0 : 1;
                 this.eventService.reloadCandiate$.next();
