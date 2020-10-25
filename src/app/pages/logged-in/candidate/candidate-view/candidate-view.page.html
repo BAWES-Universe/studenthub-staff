@@ -267,7 +267,7 @@
         <ion-label>
           <h5>Candidate CV</h5>
           <a target="_blank" *ngIf="candidate.candidate_resume"
-            href="{{ aws.urlResume }}{{ candidate.candidate_resume }}">
+            href="{{ getResumeUrl(candidate) }}">
             {{ candidate.candidate_resume }}
           </a>
           <span *ngIf="!candidate.candidate_resume">-</span>

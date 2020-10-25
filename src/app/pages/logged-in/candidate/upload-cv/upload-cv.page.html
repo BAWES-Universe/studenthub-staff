@@ -22,7 +22,7 @@
                 <div class="fileName">{{ candidate.candidate_resume }}</div>
 
                 <a target="_blank" (click)="$event.stopPropagation()" *ngIf="!candidate.tempLocation"
-                    href="{{ awsService.permanentBucketUrl }}candidate-resume/{{ candidate.candidate_resume }}">
+                    href="getResumeUrl(candidate)">
                     <ion-icon src="assets/images/md-arrow-down.svg"></ion-icon>
                 </a>
 
