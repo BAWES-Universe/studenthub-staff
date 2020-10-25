@@ -278,4 +278,8 @@ export class UploadCvPage implements OnInit, OnDestroy {
       return a[a.length - 1];
     }
   }
+
+  getResumeUrl(candidate) {
+    return this.awsService.permanentBucketUrl + 'candidate-resume/' + encodeURIComponent(candidate.candidate_resume);
+  }
 }

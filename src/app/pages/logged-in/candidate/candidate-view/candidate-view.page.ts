@@ -326,4 +326,8 @@ export class CandidateViewPage implements OnInit {
       ]
     }).then(alert => { alert.present(); });
   }
+
+  getResumeUrl(candidate) {
+    return this.aws.permanentBucketUrl + 'candidate-resume/' + encodeURIComponent(candidate.candidate_resume);
+  }
 }
