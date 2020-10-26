@@ -15,7 +15,7 @@
 
   <div *ngIf="statistics && !loading">
 
-    <ion-card class="danger stats" [class.clickable]="pendingRequests.length > 0"  (click)="pendingRequests.length > 0 && scrollToPending()">
+    <ion-card class="danger stats" *ngIf="statistics.totalPendingRequests > 0" tappable (click)="scrollToPending()">
       <ion-card-content>
         <div class="count">{{ statistics.totalPendingRequests }}</div>
         <div class="message">
@@ -24,7 +24,7 @@
       </ion-card-content>
     </ion-card>
 
-    <ion-card (click)="showExpiredIDs()" tappable class="danger stats">
+    <ion-card (click)="showExpiredIDs()" *ngIf="statistics.totalExpiredCards > 0" tappable class="danger stats">
       <ion-card-content>
         <div class="count">{{ statistics.totalExpiredCards }}</div>
         <div class="message">
@@ -33,7 +33,7 @@
       </ion-card-content>
     </ion-card>
 
-    <ion-card class="stats" tappable [class.clickable]="activeRequests.length > 0"  (click)="activeRequests.length > 0 && scrollToActive()">
+    <ion-card class="stats" tappable *ngIf="statistics.activeRequests > 0"  (click)="scrollToActive()">
       <ion-card-content>
         <div class="count success">{{ statistics.activeRequests }}</div>
         <div class="message">
@@ -42,7 +42,7 @@
       </ion-card-content>
     </ion-card>
 
-    <ion-card class="stats" tappable routerLink="/company-followup-list">
+    <ion-card class="stats" tappable *ngIf="statistics.requireFollowup > 0" routerLink="/company-followup-list">
       <ion-card-content>
         <div class="count success">{{ statistics.requireFollowup }}</div>
         <div class="message">
@@ -51,7 +51,7 @@
       </ion-card-content>
     </ion-card>
 
-    <ion-card class="stats" routerLink="/candidate-bank-info-list" tappable>
+    <ion-card class="stats" *ngIf="statistics.missingBankInfo > 0" routerLink="/candidate-bank-info-list" tappable>
       <ion-card-content>
         <div class="count success">{{ statistics.missingBankInfo }}</div>
         <div class="message">
@@ -60,7 +60,7 @@
       </ion-card-content>
     </ion-card>
 
-    <ion-card class="stats" tappable routerLink="/incomplete-candidate-list">
+    <ion-card class="stats" *ngIf="statistics.incompleteAssignedToWork > 0" tappable routerLink="/incomplete-candidate-list">
       <ion-card-content>
         <div class="count success">{{ statistics.incompleteAssignedToWork }}</div>
         <div class="message">
@@ -69,7 +69,7 @@
       </ion-card-content>
     </ion-card>
 
-    <ion-card class="stats" tappable routerLink="/candidate-review-list">
+    <ion-card class="stats" tappable *ngIf="statistics.profileApprovalRequire > 0" routerLink="/candidate-review-list">
       <ion-card-content>
         <div class="count warning">{{ statistics.profileApprovalRequire }}</div>
         <div class="message">

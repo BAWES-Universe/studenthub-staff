@@ -50,11 +50,6 @@ h2 {
   margin-bottom: 14px;
 }
 
-ion-card.danger {
-    background-color: #eb5757;
-    color: #ffffff;            
-}
-
 ion-card.stats {
     border-radius: 5px;
     margin: 0 0 9px 0;
@@ -63,6 +58,7 @@ ion-card.stats {
     ion-card-content {
         padding-inline-start: 0;
         display: flex;
+        color: #000;
 
         .count {
             width: 76px;
@@ -96,6 +92,21 @@ ion-card.stats {
             text-align: left;
             width: calc(100% - 92px);
         }
+    }
+}
+
+@media only screen and (min-device-width: 768px) {
+    .message {
+        line-height: 1.90;
+    }
+}
+
+ion-card.danger {
+    background-color: #eb5757;
+    color: #ffffff;    
+    
+    ion-card-content {
+        color: #ffffff;
     }
 }
 
