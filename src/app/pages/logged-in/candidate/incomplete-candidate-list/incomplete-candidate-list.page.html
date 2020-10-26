@@ -6,7 +6,8 @@
       <ion-back-button defaultHref="/"></ion-back-button>
      
     </ion-buttons>
-    <ion-title>Assigned Incomplete Candidates <span *ngIf="!loading && totalCount">({{totalCount}})</span></ion-title>
+    <ion-title>Assigned Incomplete Candidates 
+      <span *ngIf="!loading && totalCount">({{totalCount}})</span></ion-title>
 
 <!--    <ion-buttons slot="end">-->
 <!--      <ion-button color="primary" [disabled]="candidateIdCardService.candidates.length == 0 || downloading" (click)="generate()">-->
@@ -38,7 +39,7 @@
 
   </ion-list>
 
-  <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event , 'assigned')">
+  <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
     <ion-infinite-scroll-content></ion-infinite-scroll-content>
   </ion-infinite-scroll>
 </ion-content>

@@ -94,9 +94,9 @@ export class IncompleteCandidateListPage implements OnInit {
     this.loading = true;
     this.candidateService.listAssigned(search, page, 1).subscribe(response => {
 
-      this.totalCount = response.headers.get('X-Pagination-Total-Count');
-      this.pageCount = response.headers.get('X-Pagination-Page-Count');
-      this.currentPage = response.headers.get('X-Pagination-Current-Page');
+      this.totalCount = parseInt(response.headers.get('X-Pagination-Total-Count'));
+      this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
+      this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
 
       this.candidates = response.body;
     },
@@ -112,14 +112,18 @@ export class IncompleteCandidateListPage implements OnInit {
     this.navCtrl.navigateForward('candidate-form');
   }
 
-  doInfinite(event, type) {
+  doInfinite(event) {
+    
     this.paginationLoading = true;
+    
     this.currentPage ++;
+
     this.candidateService.listAssigned(this.SearchBar, this.currentPage, 1).subscribe(response => {
+
         this.paginationLoading = false;
-        this.totalCount = response.headers.get('X-Pagination-Total-Count');
-        this.pageCount = response.headers.get('X-Pagination-Page-Count');
-        this.currentPage = response.headers.get('X-Pagination-Current-Page');
+        this.totalCount = parseInt(response.headers.get('X-Pagination-Total-Count'));
+        this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
+        this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
 
         this.candidates = this.candidates.concat(response.body);
       },

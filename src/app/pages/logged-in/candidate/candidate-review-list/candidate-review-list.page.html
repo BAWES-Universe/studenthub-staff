@@ -11,7 +11,7 @@
      
     </ion-buttons>
 
-    <ion-title>Candidates Requiring Review</ion-title>
+    <ion-title>Candidates Requiring Review <span *ngIf="total > 0">({{ total }})</span></ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -27,7 +27,7 @@
   <section>
     <ion-list>
       <candidate [candidate]="candidate" type="review" *ngFor="let candidate of candidates"></candidate>
-      <loading-modal type="review-list" [loading]="loading"></loading-modal>
+      <loading-modal type="candidate-list" [loading]="loading"></loading-modal>
     </ion-list>
 
     <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">

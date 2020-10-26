@@ -84,8 +84,8 @@ export class AllCompanyListPage implements OnInit {
     let searchParams = this.urlParams();
 
     this.companyService.listWithContact(page, searchParams).subscribe(response => {
-        this.pageCount = response.headers.get('X-Pagination-Page-Count');
-        this.currentPage = response.headers.get('X-Pagination-Current-Page');
+        this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
+        this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
         this.companies = response.body;
     },
       error => { },
@@ -124,8 +124,8 @@ export class AllCompanyListPage implements OnInit {
 
     this.companyService.listWithContact(this.currentPage, urlParams).subscribe(response => {
 
-        this.pageCount = response.headers.get('X-Pagination-Page-Count');
-        this.currentPage = response.headers.get('X-Pagination-Current-Page');
+        this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
+        this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
         this.companies = this.companies.concat(response.body);
     },
       error => { },

@@ -5,7 +5,8 @@ import { AlertController, NavController, ToastController } from '@ionic/angular'
 import { CandidateService } from 'src/app/providers/logged-in/candidate.service';
 import { AwsService } from 'src/app/providers/aws.service';
 import { CandidateIdCardService } from 'src/app/providers/logged-in/candidate.id.card.service';
-import {TransferCandidate} from 'src/app/models/transfer-candidate';
+//models
+import { TransferCandidate } from 'src/app/models/transfer-candidate';
 
 
 @Component({
@@ -52,7 +53,7 @@ export class CandidateBankInfoListPage implements OnInit {
   }
 
   loadData(page: number) {
-      this.loadAssigned(page, this.searchBar);
+    this.loadAssigned(page, this.searchBar);
   }
 
   /**
@@ -69,9 +70,9 @@ export class CandidateBankInfoListPage implements OnInit {
 
     this.candidateService.listWithoutBank(search, page).subscribe(response => {
 
-      this.totalCount = response.headers.get('X-Pagination-Total-Count');
-      this.pageCount = response.headers.get('X-Pagination-Page-Count');
-      this.currentPage = response.headers.get('X-Pagination-Current-Page');
+      this.totalCount = parseInt(response.headers.get('X-Pagination-Total-Count'));
+      this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
+      this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
 
       this.transferCandidate = response.body;
     },
@@ -98,18 +99,18 @@ export class CandidateBankInfoListPage implements OnInit {
   doInfinite(event) {
     this.paginationLoading = true;
 
-    this.currentPage ++;
+    this.currentPage++;
 
     this.candidateService.listWithoutBank(this.searchBar, this.currentPage).subscribe(response => {
 
-        this.paginationLoading = false;
+      this.paginationLoading = false;
 
-        this.totalCount = response.headers.get('X-Pagination-Total-Count');
-        this.pageCount = response.headers.get('X-Pagination-Page-Count');
-        this.currentPage = response.headers.get('X-Pagination-Current-Page');
+      this.totalCount = parseInt(response.headers.get('X-Pagination-Total-Count'));
+      this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
+      this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
 
-        this.transferCandidate = this.transferCandidate.concat(response.body);
-      },
+      this.transferCandidate = this.transferCandidate.concat(response.body);
+    },
       error => { },
       () => { event.target.complete(); }
     );

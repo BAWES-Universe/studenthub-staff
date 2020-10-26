@@ -16,6 +16,7 @@ export class CandidateReviewListPage implements OnInit {
 
   public loading = false;
 
+  public total = 0;
   public pageCount = 0;
   public currentPage = 1;
 
@@ -43,8 +44,9 @@ export class CandidateReviewListPage implements OnInit {
 
       this.loading = false;
 
-      this.pageCount = response.headers.get('X-Pagination-Page-Count');
-      this.currentPage = response.headers.get('X-Pagination-Current-Page');
+      this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
+      this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
+      this.total = parseInt(response.headers.get('X-Pagination-Total-Count'));
 
       this.candidates = response.body;
     }, () => {
@@ -66,9 +68,9 @@ export class CandidateReviewListPage implements OnInit {
 
       this.loading = false;
 
-      this.pageCount = response.headers.get('X-Pagination-Page-Count');
-      this.currentPage = response.headers.get('X-Pagination-Current-Page');
-
+      this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
+      this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
+      
       this.candidates = this.candidates.concat(response.body);
 
       event.target.complete();

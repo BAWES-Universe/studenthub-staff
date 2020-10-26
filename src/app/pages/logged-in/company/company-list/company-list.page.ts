@@ -109,13 +109,13 @@ export class CompanyListPage implements OnInit {
     this.companyService.list(page, searchParams).subscribe(response => {
       if (this.segment == this.active) {
 
-        this.activePageCount = response.headers.get('X-Pagination-Page-Count');
-        this.activeCurrentPage = response.headers.get('X-Pagination-Current-Page');
+        this.activePageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
+        this.activeCurrentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
         this.activeCompanies = response.body;
 
       } else {
-        this.inActivePageCount = response.headers.get('X-Pagination-Page-Count');
-        this.inActiveCurrentPage = response.headers.get('X-Pagination-Current-Page');
+        this.inActivePageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
+        this.inActiveCurrentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
         this.inActiveCompanies = response.body;
       }
     },
@@ -159,15 +159,15 @@ export class CompanyListPage implements OnInit {
 
       if (status == this.active) {
 
-        this.activePageCount = response.headers.get('X-Pagination-Page-Count');
-        this.activeCurrentPage = response.headers.get('X-Pagination-Current-Page');
+        this.activePageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
+        this.activeCurrentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
         this.activeCompanies = this.activeCompanies.concat(response.body);
 
       } else if (status == this.inActive) {
 
         this.inActiveCompanies = this.inActiveCompanies.concat(response.body);
-        this.inActivePageCount = response.headers.get('X-Pagination-Page-Count');
-        this.inActiveCurrentPage = response.headers.get('X-Pagination-Current-Page');
+        this.inActivePageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
+        this.inActiveCurrentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
       }
     },
       error => { },

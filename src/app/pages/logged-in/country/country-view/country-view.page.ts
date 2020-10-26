@@ -62,13 +62,20 @@ export class CountryViewPage implements OnInit {
     this.loadData(1);
   }
 
+  /**
+   * load country detail
+   * @param page 
+   */
   async loadData(page: number) {
+    
     // Load list of candidates
+    
     this.loading = true;
+
     this.candidateService.listByCountry(this.country, page).subscribe(response => {
 
-      this.pageCount = response.headers.get('X-Pagination-Page-Count');
-      this.currentPage = response.headers.get('X-Pagination-Current-Page');
+      this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
+      this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
 
       this.pages = [];
 

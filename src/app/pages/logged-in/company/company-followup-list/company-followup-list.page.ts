@@ -39,8 +39,8 @@ export class CompanyFollowupListPage implements OnInit {
 
     this.companyService.listFollowups(page).subscribe(response => {
 
-        this.pageCount = response.headers.get('X-Pagination-Page-Count');
-        this.currentPage = response.headers.get('X-Pagination-Current-Page');
+        this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
+        this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
 
         this.companies = response.body;
       },
@@ -56,8 +56,8 @@ export class CompanyFollowupListPage implements OnInit {
 
     this.companyService.listFollowups(this.currentPage).subscribe(response => {
 
-        this.pageCount = response.headers.get('X-Pagination-Page-Count');
-        this.currentPage = response.headers.get('X-Pagination-Current-Page');
+        this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
+        this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
 
         this.companies = this.companies.concat(response.body);
       },

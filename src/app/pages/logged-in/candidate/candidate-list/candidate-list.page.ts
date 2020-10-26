@@ -20,18 +20,18 @@ export class CandidateListPage implements OnInit {
   public currentPage: any = 1;
   public totalCount = 0;
   public pages: number[] = [];
-  
+
   public filters: {
     name: string,
     email: string,
     phone: number,
     type: string
   } = {
-    name: null,
-    email: null,
-    phone: null,
-    type: null
-  };
+      name: null,
+      email: null,
+      phone: null,
+      type: null
+    };
   public searchName = null;
   public searchEmail = null;
   public searchPhone = null;
@@ -91,11 +91,11 @@ export class CandidateListPage implements OnInit {
    */
   resetFilter() {
     this.filters = {
-        name: null,
-        email: null,
-        phone: null,
-        type: null
-      };
+      name: null,
+      email: null,
+      phone: null,
+      type: null
+    };
     this.loadData(1); // reload all result
   }
   /**
@@ -103,8 +103,7 @@ export class CandidateListPage implements OnInit {
    */
   async generate() {
 
-    if (this.candidateIdCardService.candidates.length == 0)
-    {
+    if (this.candidateIdCardService.candidates.length == 0) {
       const prompt = await this.alertCtrl.create({
         message: 'Please select candidate(s)',
         buttons: ['Ok']
@@ -141,12 +140,12 @@ export class CandidateListPage implements OnInit {
     this.loading = true;
     this.candidateService.listFilter(search, page).subscribe(response => {
 
-        this.totalCount = response.headers.get('X-Pagination-Total-Count');
-        this.pageCount = response.headers.get('X-Pagination-Page-Count');
-        this.currentPage = response.headers.get('X-Pagination-Current-Page');
+      this.totalCount = parseInt(response.headers.get('X-Pagination-Total-Count'));
+      this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
+      this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
 
-        this.candidates = response.body;
-      },
+      this.candidates = response.body;
+    },
       error => { },
       () => { this.loading = false; }
     );
@@ -161,20 +160,26 @@ export class CandidateListPage implements OnInit {
 
 
   doInfinite(event) {
-  const search = this.urlParams();
-  this.paginationLoading = true;
-  this.currentPage ++;
-  this.candidateService.listFilter(search, this.currentPage).subscribe(response => {
+    
+    const search = this.urlParams();
+    
+    this.paginationLoading = true;
+    
+    this.currentPage++;
+
+    this.candidateService.listFilter(search, this.currentPage).subscribe(response => {
+
       this.paginationLoading = false;
-      this.totalCount = response.headers.get('X-Pagination-Total-Count');
-      this.pageCount = response.headers.get('X-Pagination-Page-Count');
-      this.currentPage = response.headers.get('X-Pagination-Current-Page');
+
+      this.totalCount = parseInt(response.headers.get('X-Pagination-Total-Count'));
+      this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
+      this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
 
       this.candidates = this.candidates.concat(response.body);
     },
-    error => { },
-    () => { event.target.complete(); }
-  );
+      error => { },
+      () => { event.target.complete(); }
+    );
   }
 }
 

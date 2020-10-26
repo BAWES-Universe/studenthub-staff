@@ -33,10 +33,11 @@ export class UniversityListPage implements OnInit {
   async loadData(page: number) {
     // Load list of university
     this.loading = true;
+
     this.universityService.list(page).subscribe(response => {
 
-        this.pageCount = response.headers.get('X-Pagination-Page-Count');
-        this.currentPage = response.headers.get('X-Pagination-Current-Page');
+        this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
+        this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
 
         this.pages = [];
 
@@ -82,8 +83,8 @@ export class UniversityListPage implements OnInit {
     this.currentPage++;
     this.universityService.list(this.currentPage).subscribe(response => {
 
-          this.pageCount = response.headers.get('X-Pagination-Page-Count');
-          this.currentPage = response.headers.get('X-Pagination-Current-Page');
+          this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
+          this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
 
           this.universities = this.universities.concat(response.body);
         },
