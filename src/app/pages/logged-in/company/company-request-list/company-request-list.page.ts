@@ -101,6 +101,8 @@ export class CompanyRequestListPage implements OnInit {
   }
 
   async editRequest($event, request) {
+    $event.preventDefault();
+    $event.stopPropagation();
     this.router.navigate(['request-form', request.request_uuid], {
       state: {
         model: request
