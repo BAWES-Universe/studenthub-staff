@@ -52,7 +52,9 @@
     <section>
         <div tappable *ngFor="let company of companies">
           <ion-item tappable (click)="showSub(company)">
+            <div tabindex="0"></div>
             <ion-label>
+              <div tabindex="0"></div>
               <strong>{{ company.company_name }}</strong>
             </ion-label>
             <ion-icon slot="end" *ngIf = "selectedCompany != company.company_id" name="arrow-down-outline"></ion-icon>
@@ -60,12 +62,16 @@
           </ion-item>
           <div *ngIf = "selectedCompany == company.company_id">
             <ion-item tappable (click)="rowSelected(company)">
+              <div tabindex="0"></div>
               <ion-label>
+                <div tabindex="0"></div>
                 {{ company.company_name }}
               </ion-label>
             </ion-item>
             <ion-item tappable *ngFor="let sub of company.subCompanies" (click)="rowSelected(company)">
+              <div tabindex="0"></div>
                 <ion-label>
+                  <div tabindex="0"></div>
                   {{ sub.company_name }}
                 </ion-label>
             </ion-item>
