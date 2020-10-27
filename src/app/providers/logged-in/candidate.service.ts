@@ -68,7 +68,7 @@ export class CandidateService {
    */
   listWithoutBank(candidate_name: string, page: number): Observable<any> {
     const url = this._candidateEndpoint + '/without-bank?candidate_name=' + candidate_name + '&page=' + page
-     + '&expand=candidate.store,candidate.company,candidate,candidate.candidateSkills,candidate.candidateExperiences';
+     + '&expand=store,company,candidateSkills,candidateExperiences';
     return this._authhttp.getRaw(url);
   }
 
@@ -284,7 +284,7 @@ export class CandidateService {
   expired(model: Candidate): Observable<any>{
     return this._authhttp.patch(`${this._candidateEndpoint}/expire-card/${model.candidate_id}`, {});
   }
-  
+
   /**
    * update candidate hourly rate
    * @param model

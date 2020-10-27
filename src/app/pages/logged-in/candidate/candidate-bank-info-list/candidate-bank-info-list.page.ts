@@ -5,8 +5,8 @@ import { AlertController, NavController, ToastController } from '@ionic/angular'
 import { CandidateService } from 'src/app/providers/logged-in/candidate.service';
 import { AwsService } from 'src/app/providers/aws.service';
 import { CandidateIdCardService } from 'src/app/providers/logged-in/candidate.id.card.service';
-//models
-import { TransferCandidate } from 'src/app/models/transfer-candidate';
+// models
+import {Candidate} from 'src/app/models/candidate';
 
 
 @Component({
@@ -21,7 +21,7 @@ export class CandidateBankInfoListPage implements OnInit {
   public totalCount = 0;
 
   public searchBar = '';
-  public transferCandidate: TransferCandidate[];
+  public candidates: Candidate[];
 
   public loading = false;
   public paginationLoading = false;
@@ -74,7 +74,7 @@ export class CandidateBankInfoListPage implements OnInit {
       this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
       this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
 
-      this.transferCandidate = response.body;
+      this.candidates = response.body;
     },
       error => { },
       () => { this.loading = false; }
@@ -85,9 +85,9 @@ export class CandidateBankInfoListPage implements OnInit {
    * get candidate detail from transfer candidate record
    * @param transferCandidate
    */
-  getCandidateDetail(transferCandidate) {
-    return { store: transferCandidate.store, company: transferCandidate.company, ...transferCandidate.candidate };
-  }
+  // getCandidateDetail(transferCandidate) {
+  //   return { store: transferCandidate.store, company: transferCandidate.company, ...transferCandidate.candidate };
+  // }
 
   /**
    * Loads the create page
@@ -109,7 +109,7 @@ export class CandidateBankInfoListPage implements OnInit {
       this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
       this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
 
-      this.transferCandidate = this.transferCandidate.concat(response.body);
+      this.candidates = this.candidates.concat(response.body);
     },
       error => { },
       () => { event.target.complete(); }

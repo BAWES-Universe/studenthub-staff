@@ -4,7 +4,7 @@
       <ion-menu-button></ion-menu-button>
 
       <ion-back-button defaultHref="/"></ion-back-button>
-     
+
     </ion-buttons>
     <ion-title>Candidates Missing Bank Info</ion-title>
   </ion-toolbar>
@@ -13,7 +13,7 @@
 <ion-content>
   <ion-searchbar
     [(ngModel)]="searchBar"
-    *ngIf="transferCandidate"
+    *ngIf="candidates"
     animated
     debounce="200"
     (ionChange)="search()">
@@ -21,10 +21,10 @@
 
   <ion-list>
     <ng-container *ngIf="!loading">
-      <candidate [candidate]="getCandidateDetail(transfer)" (refresh)="search()" *ngFor="let transfer of transferCandidate"></candidate>
+      <candidate [candidate]="candidates" (refresh)="search()" *ngFor="let candidates of candidates"></candidate>
     </ng-container>
 
-    <no-items *ngIf="!loading && transferCandidate && transferCandidate.length == 0" message="No candidate data available"></no-items>
+    <no-items *ngIf="!loading && candidates && candidates.length == 0" message="No candidate data available"></no-items>
 
     <loading-modal [loading]="loading" type="candidate-list"></loading-modal>
 
