@@ -13,10 +13,9 @@ import {
 import { AuthService } from 'src/app/providers/auth.service';
 import { RequestActivityService } from 'src/app/providers/logged-in/request.activity.service';
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
-import {CompanyRequestService} from 'src/app/providers/logged-in/company-request.service';
+import { CompanyRequestService } from 'src/app/providers/logged-in/company-request.service';
 // models
 import { Request } from 'src/app/models/request';
-import { Staff } from 'src/app/models/staff';
 import { RequestActivity } from 'src/app/models/request.activity';
 
 
@@ -206,9 +205,9 @@ export class CompanyRequestViewPage implements OnInit {
     this.modalCtrl.getTop().then(overlay => {
       if (overlay) {
         overlay.dismiss();
-      } else if (state && state.from == 'company-request-list' ) {
+      } else if (state && state.from == 'company-request-list') {
         this.navCtrl.navigateBack('/company-request-list');
-      } else if (state && state.from == 'client' ) {
+      } else if (state && state.from == 'client') {
         this.navCtrl.navigateBack('/client');
       } else {
         this.navCtrl.navigateBack('/default');
@@ -296,7 +295,7 @@ export class CompanyRequestViewPage implements OnInit {
       }, {
         text: 'Ok',
         handler: (data) => {
-          if(!data.activity) return null;
+          if (!data.activity) return null;
 
           this.txtActivity = data.activity;
           this.addActivity();
@@ -314,7 +313,7 @@ export class CompanyRequestViewPage implements OnInit {
 
 
   logScrolling(e) {
-  //   this.borderLimit = (e.detail.scrollTop > 0) ?  true : false;
+    //   this.borderLimit = (e.detail.scrollTop > 0) ?  true : false;
   }
 
 
@@ -361,40 +360,43 @@ export class CompanyRequestViewPage implements OnInit {
         }, {
           text: 'Save',
           handler: (data) => {
-            if (data.feedback) {
-              request.request_feedback = data.feedback;
-              this.requestService.cancel(request).subscribe(async response => {
 
-                if (response.operation == 'success') {
-                  request.request_status = 'cancelled';
-                } else {
-                  this.toastCtrl.create({
-                    message: response.message,
-                    buttons: ['Ok']
-                  }).then(prompt => {
-                    prompt.present();
-                  });
-                }
-              });
-            } else  {
+            if (!data.feedback) {
               this.alertCtrl.create({
                 message: 'Please provide feedback',
-                buttons: ['ok']
+                buttons: ['Okay']
               }).then(alert => {
                 alert.present();
               });
             }
+
+            request.request_feedback = data.feedback;
+            
+            this.requestService.cancel(request).subscribe(async response => {
+
+              if (response.operation == 'success') {
+                request.request_status = 'cancelled';
+                this.loadRequestActivities();
+              } else {
+                this.toastCtrl.create({
+                  message: response.message,
+                  buttons: ['Okay']
+                }).then(prompt => {
+                  prompt.present();
+                });
+              }
+            });
+            
           }
         }
       ]
-    }).then( alert => { alert.present(); });
+    }).then(alert => { alert.present(); });
   }
 
   deliveredRequest(event, request) {
 
     event.preventDefault();
     event.stopPropagation();
-
 
     this.alertCtrl.create({
       header: 'Please provide feedback',
@@ -409,40 +411,40 @@ export class CompanyRequestViewPage implements OnInit {
         {
           text: 'Cancel',
           role: 'cancel',
-          cssClass: 'secondary',
-          handler: () => {
-            console.log('Confirm Cancel');
-          }
+          cssClass: 'secondary'
         }, {
           text: 'Save',
           handler: (data) => {
-            if (data.feedback) {
-              request.request_feedback = data.feedback;
-              this.requestService.deliver(request).subscribe(async response => {
 
-                if (response.operation == 'success') {
-                  request.request_status = 'delivered';
-                } else {
-                  this.toastCtrl.create({
-                    message: response.message,
-                    buttons: ['Ok']
-                  }).then(prompt => {
-                    prompt.present();
-                  });
-                }
-              });
-            } else  {
+            if (!data.feedback) {
               this.alertCtrl.create({
                 message: 'Please provide feedback',
-                buttons: ['ok']
+                buttons: ['Okay']
               }).then(alert => {
                 alert.present();
               });
             }
+
+            request.request_feedback = data.feedback;
+
+            this.requestService.deliver(request).subscribe(async response => {
+
+              if (response.operation == 'success') {
+                request.request_status = 'delivered';
+                this.loadRequestActivities();
+              } else {
+                this.toastCtrl.create({
+                  message: response.message,
+                  buttons: ['Ok']
+                }).then(prompt => {
+                  prompt.present();
+                });
+              }
+            });
           }
         }
       ]
-    }).then( alert => { alert.present(); });
+    }).then(alert => { alert.present(); });
 
   }
 }

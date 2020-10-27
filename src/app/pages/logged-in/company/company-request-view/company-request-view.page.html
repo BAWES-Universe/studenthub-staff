@@ -60,39 +60,12 @@
     </ion-grid>
 
     <ion-grid class="grid-invoice">
-      <!-- for mobile-->
-      <ion-row *ngIf="requestActivities && requestActivities.length > 0 && platform.width() < 750">
-
-
+      <ion-row *ngIf="requestActivities && requestActivities.length > 0">
         <ion-col size="12" size-md="6">
           <h4 class="txt-invoice activity">Activity</h4>
           <ng-container *ngIf="requestActivities.length > 0">
             <app-recent-activity [activity]="requestActivity" *ngFor="let requestActivity of requestActivities"></app-recent-activity>
           </ng-container>
-          <app-recent-activity [request]="request"></app-recent-activity>
-        </ion-col>
-      </ion-row>
-
-      <!-- for desktop-->
-
-      <ion-row *ngIf="requestActivities && requestActivities.length > 0 && platform.width() > 750">
-        <ion-col size="12" size-md="6">
-          <h4 class="txt-invoice activity">Activity</h4>
-          <ng-container *ngIf="requestActivities.length > 0">
-            <app-recent-activity [activity]="requestActivity" *ngFor="let requestActivity of requestActivities"></app-recent-activity>
-          </ng-container>
-
-          <app-recent-activity [request]="request"></app-recent-activity>
-        </ion-col>
-      </ion-row>
-
-      <ion-row *ngIf="requestActivities && requestActivities.length == 0">
-        <ion-col size="12" size-md="12">
-          <h4 class="txt-invoice activity">Activity</h4>
-          <ng-container *ngIf="requestActivities.length > 0">
-            <app-recent-activity [activity]="requestActivity" *ngFor="let requestActivity of requestActivities"></app-recent-activity>
-          </ng-container>
-          <app-recent-activity [request]="request"></app-recent-activity>
         </ion-col>
       </ion-row>
     </ion-grid>
