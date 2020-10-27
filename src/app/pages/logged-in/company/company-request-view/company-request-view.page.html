@@ -60,8 +60,9 @@
     </ion-grid>
 
     <ion-grid class="grid-invoice">
+
       <ion-row *ngIf="requestActivities && requestActivities.length > 0">
-        <ion-col size="12" size-md="6">
+        <ion-col size="12" size-md="12">
           <h4 class="txt-invoice activity">Activity</h4>
           <ng-container *ngIf="requestActivities.length > 0">
             <app-recent-activity [activity]="requestActivity" *ngFor="let requestActivity of requestActivities"></app-recent-activity>
