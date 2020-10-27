@@ -69,6 +69,7 @@ export class IncompleteCandidateListPage implements OnInit {
   }
 
   ionViewWillEnter() {
+    this.currentPage = 1;
     this.loadData(this.currentPage);
   }
 
@@ -113,9 +114,9 @@ export class IncompleteCandidateListPage implements OnInit {
   }
 
   doInfinite(event) {
-    
+
     this.paginationLoading = true;
-    
+
     this.currentPage ++;
 
     this.candidateService.listAssigned(this.SearchBar, this.currentPage, 1).subscribe(response => {
