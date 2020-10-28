@@ -1,18 +1,28 @@
-<ion-header>
+<ion-header *ngIf="!company">
   <ion-toolbar>
+
+    <ion-buttons slot="start">
+      <ion-back-button (click)="dismiss()"></ion-back-button>
+    </ion-buttons>
+
     <ion-title>Client List</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
-  <ion-searchbar (ionChange)="filter($event)" debounce="100"></ion-searchbar>
+
+  <ion-searchbar [(ngModel)]="query" (ionChange)="filter($event)" placeholder="Search by name / phone / email" debounce="100"></ion-searchbar>
+
   <ion-list class="contact-list">
     <ion-item-sliding *ngFor="let companyContact of contactList">
-      <ion-item tappable (click)="onContactSelected(companyContact)">
+      <ion-item tappable (click)="dismiss(companyContact)">
         <div tabindex="0"></div>
 
         <ion-label>
           <h4>{{ companyContact.contact_name }}</h4>
+          <h5 *ngIf="companyContact.company">
+            {{ companyContact.company.company_common_name_en? companyContact.company.company_common_name_en: companyContact.company.company_name }}
+          </h5>
           <p>
             {{ companyContact.contact_position }}
           </p>
@@ -33,4 +43,8 @@
       </ion-item>
     </ion-item-sliding>
   </ion-list>
+
+  <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>
