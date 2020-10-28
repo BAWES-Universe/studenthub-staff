@@ -19,11 +19,12 @@
   <form [formGroup]="form" *ngIf="form">
 
     <ion-list>
-      <ion-item (click)="openClient($event)">
+      <ion-item tappable (click)="openClient($event)">
         <ion-label position="floating">Contact</ion-label>
         <ion-input type="text" formControlName="contact_name" readonly></ion-input>
       </ion-item>
     </ion-list>
+    
     <ion-list>
       <ion-radio-group  formControlName="position_type">
         <ion-row>
@@ -43,7 +44,7 @@
         </ion-row>
       </ion-radio-group>
     </ion-list>
-    
+
     <ion-list>
       <ion-item>
         <ion-label position="floating">Position title</ion-label>

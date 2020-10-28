@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {PopoverController} from "@ionic/angular";
+import { ModalController, PopoverController } from "@ionic/angular";
+//models
+import { Company } from 'src/app/models/company';
+//services
+import { CompanyContactService } from 'src/app/providers/logged-in/company-contact.service';
+
 
 @Component({
   selector: 'app-company-contact-list',
@@ -8,34 +13,124 @@ import {PopoverController} from "@ionic/angular";
 })
 export class CompanyContactListPage implements OnInit {
 
+  public company: Company;
+
   public contacts;
+
   public contactList = [];
+
+  public currentPage: number;
+
+  public pageCount: number;
+
+  public loading: boolean = false;
+
+  public query: string = '';
+
   constructor(
-    public popupCtrl: PopoverController
+    public companyContactService: CompanyContactService,
+    public popupCtrl: PopoverController,
+    public modalCtrl: ModalController
   ) {
   }
 
   ngOnInit() {
-    this.contactList = this.contacts;
+    if (this.company) {
+      this.contactList = this.company.companyContacts;
+    } else {
+      this.loadData();
+    }
   }
+
+  /**
+   * load all contacts 
+   */
+  loadData() {
+    this.loading = true;
+
+    this.currentPage = 1;
+
+    this.contactList = [];
+
+    this.companyContactService.list(this.currentPage, this.query).subscribe(response => {
+
+      this.loading = false;
+      this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
+      this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
+
+      this.contactList = response.body;
+    },
+    () => { 
+      this.loading = false;
+    });
+  }
+
+  /**
+   * infinite loader on scroll 
+   * @param event 
+   */
+  doInfinite(event) {
+    this.loading = true;
+
+    this.currentPage++;
+
+    this.companyContactService.list(this.currentPage, this.query).subscribe(response => {
+
+      this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
+      this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
+
+      this.contactList = this.contactList.concat(response.body);
+    },
+    error => { },
+    () => {
+      this.loading = false;
+      event.target.complete();
+    });
+  }
+
   doNothing(event) {
     event.stopPropagation();
   }
 
-  onContactSelected(companyContact){
-    this.popupCtrl.dismiss({companyContact});
+  /**
+   * close popup on selection
+   * @param companyContact 
+   */
+  dismiss(companyContact = null) {
+
+    this.popupCtrl.getTop().then(overlay => {
+      if(overlay) {
+        this.popupCtrl.dismiss({ companyContact });
+      } else {
+        this.modalCtrl.dismiss({ companyContact });
+      }
+    });
   }
 
-  filter(ev){
-    if (ev.target.value) {
-      this.contactList = this.contacts.filter(item => {
-        return (
-          item.contact_name.toLowerCase().indexOf(ev.target.value.toLowerCase()) > -1 ||
-          item.contact_name.toLowerCase().indexOf(ev.target.value.toLowerCase()) > -1
-        );
-      });
-    } else {
-      this.contactList = this.contacts;
+  /**
+   * filter contacts 
+   * @param ev 
+   */
+  filter(ev) {
+    
+    //filter from all companies
+
+    if(!this.company) {
+      return this.loadData();
     }
+
+    //filter from given company 
+
+    this.loading = true;
+
+    this.contactList = [];
+
+    this.companyContactService.companyContacts(this.company.company_id, this.query).subscribe(response => {
+      this.loading = false;
+
+      this.contactList = response;
+    }, () => {
+      this.loading = false;
+    });
   }
 }

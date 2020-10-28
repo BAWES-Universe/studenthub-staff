@@ -76,7 +76,7 @@ export class RequestFormPage implements OnInit {
    * Update Model Data based on Form Input
    */
   updateModelDataFromForm() {
-    this.model.company_id = this.company.company_id;
+    this.model.company_id = this.form.value.company_id;
     this.model.contact_uuid = this.form.value.contact_uuid;
     this.model.request_position_type = this.form.value.position_type;
     this.model.request_position_title = this.form.value.position_title;
@@ -100,7 +100,9 @@ export class RequestFormPage implements OnInit {
     this.saving = true;
 
     this.updateModelDataFromForm();
+    
     let action;
+
     if (!this.model.request_uuid) {
       // Create
       action = this.requestService.create(this.model);
@@ -134,18 +136,44 @@ export class RequestFormPage implements OnInit {
 
     });
   }
+
+  /**
+   * open popup to select contact
+   * @param e 
+   */
   async openContact(e) {
-    const popover = await this.popoverCtrl.create({
-      component: CompanyContactListPage,
-      event: e,
-      componentProps: {
-        contacts : this.company.companyContacts
-      }
-    });
+    
+    let popover;
+    
+    if(this.company) {
+      popover = await this.popoverCtrl.create({
+        component: CompanyContactListPage,
+        event: e,
+        componentProps: {
+          company: this.company
+        }
+      });
+    } else {
+      popover = await this.modalCtrl.create({
+        component: CompanyContactListPage
+      });
+    }
+
     popover.onDidDismiss().then((_) => {
       if (_ && _.data) {
-        this.form.controls.contact_name.setValue(_.data.companyContact.contact_name);
+
+        let contact = _.data.companyContact.contact_name;
+
+        if (!this.company || !this.company.company_id) {
+          this.form.controls.company_name.setValue(_.data.companyContact.company.company_name);
+          this.form.controls.company_id.setValue(_.data.companyContact.company.company_id);
+
+          contact += ' @ ' + _.data.companyContact.company.company_name;
+        }
+
+        this.form.controls.contact_name.setValue(contact);
         this.form.controls.contact_uuid.setValue(_.data.companyContact.contact_uuid);
+
       }
     });
     popover.present();
