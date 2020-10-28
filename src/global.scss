@@ -109,3 +109,6 @@ ion-header.add-border:after {
 .clear-header ion-toolbar {
   --border-width: 0 !important;
 }
+.candidate_name {
+  text-transform: capitalize;
+}
