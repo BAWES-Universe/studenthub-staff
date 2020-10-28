@@ -25,13 +25,13 @@
           <p *ngIf="request.request_feedback">FeedBack: {{ request.request_feedback }} </p>
 
           <p class="date">
-            Created at {{ toDate(request.request_created_datetime) | date}} By
-            {{ request.requestCreatedBy.staff_name  }}
+            Created at {{ toDate(request.request_created_datetime) | date}} 
+            <span *ngIf="request.requestCreatedBy">By {{ request.requestCreatedBy.staff_name }}</span>
           </p>
 
           <p class="date" *ngIf="request.request_created_datetime != request.request_updated_datetime">
-            Updated at {{ toDate(request.request_updated_datetime) | date}} By
-            {{ request.requestUpdatedBy.staff_name  }}
+            Updated at {{ toDate(request.request_updated_datetime) | date}} 
+            <span *ngIf="request.requestUpdatedBy">By {{ request.requestUpdatedBy.staff_name }}</span>
           </p>
 
         </ion-label>
