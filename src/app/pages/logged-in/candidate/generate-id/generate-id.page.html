@@ -44,13 +44,12 @@
         <ion-checkbox [(ngModel)]="candidates[i]" [ngModelOptions]="{standalone: true}"></ion-checkbox>
       </ion-item>
     </ion-list>
+
     <no-items *ngIf="!loading && candidatelistData && candidatelistData.length == 0" message="No data available"></no-items>
-    <ion-row class="ion-text-center"  *ngIf="!loading">
-      <div class="pagination-wrapper">
-        <ion-button *ngFor="let page of pages" size="small" color="{{ pageLinkColor(page) }}" (click)="loadData(page)">
-          {{ page }}
-        </ion-button>
-      </div>
-    </ion-row>
+    
+    <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
+      <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+
   </form>
 </ion-content>

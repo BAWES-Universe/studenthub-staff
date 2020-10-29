@@ -297,14 +297,10 @@ const routes: Routes = [
       name: 'CompanyRequestViewPage',
     }
   },
-  // {
-  //   path: 'all-company-list',
-  //   loadChildren: () => import('./pages/logged-in/company/company-request-list/all-company-list/all-company-list.module').then(m => m.AllCompanyListPageModule),
-  //   canActivate: [AuthService],
-  //   data: {
-  //     name: 'AllCompanyListPage',
-  //   }
-  // },
+  {
+    path: 'assigned-expired-civil',
+    loadChildren: () => import('./pages/logged-in/candidate/assigned-expired-civil/assigned-expired-civil.module').then( m => m.AssignedExpiredCivilPageModule)
+  },
   {
     path: '**',
     redirectTo: 'not-found'

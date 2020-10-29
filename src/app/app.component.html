@@ -73,6 +73,15 @@
             </ion-item>
           </ion-menu-toggle>
 
+          <ion-menu-toggle auto-hide="false" *ngIf="assignedExpiredCivilID > 0">
+            <ion-item routerDirection="root" routerLink="/assigned-expired-civil" routerLinkActive="active" detail="false">
+              <div tabindex="0"></div>
+              <ion-icon slot="start" name="person-outline"></ion-icon>
+              <ion-label>Assigned & Expired Civil ID</ion-label>
+              <ion-badge color="danger">{{ assignedExpiredCivilID }}</ion-badge>
+            </ion-item>
+          </ion-menu-toggle>
+
           <ion-menu-toggle auto-hide="false" *ngIf="assignedIncompleteCandidates > 0">
             <ion-item routerDirection="root" routerLink="/incomplete-candidate-list" routerLinkActive="active" detail="false">
               <div tabindex="0"></div>

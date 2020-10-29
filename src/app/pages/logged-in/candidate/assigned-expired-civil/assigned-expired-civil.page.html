@@ -1,0 +1,58 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+
+      <ion-back-button defaultHref="/"></ion-back-button>
+
+    </ion-buttons>
+
+    <ion-title>Assigned & Expired Civil ID</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button color="primary" [disabled]="!form.valid" (click)="renew()">
+        <span *ngIf="!renewLoader">Renew Cards</span>
+        <ion-spinner *ngIf="renewLoader"></ion-spinner>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-searchbar [(ngModel)]="searchBar" (ionChange)="loadData(this.currentPage)" debounce="200" animated>
+  </ion-searchbar>
+  <ion-button fill="clear" (click)="selectAll()">
+    <span *ngIf="!checkAll">Select All</span>
+    <span *ngIf="checkAll">UnSelect All</span>
+  </ion-button>
+
+  <div class="clearfix">
+    <form [formGroup]="form">
+      <ion-grid>
+        <ion-list *ngIf="candidatelistData && candidatelistData.length > 0">
+          <ion-row *ngFor="let obj of candidatelistData; let i= index">
+            <ion-col tappable size="11" (click)="detail(obj)">
+              <ion-label class="candidate_name">{{ obj.candidate_name? obj.candidate_name: obj.candidate_name_ar }}
+              </ion-label>
+            </ion-col>
+            <ion-col size="1">
+              <ion-checkbox [value]="obj.candidate_id" [checked]="checkAll" (ionChange)="onCandidateToggle($event)">
+              </ion-checkbox>
+            </ion-col>
+          </ion-row>
+        </ion-list>
+      </ion-grid>
+
+      <loading-modal [loading]="loading" type="text-list"></loading-modal>
+
+      <no-items *ngIf="!loading && candidatelistData && candidatelistData.length == 0" message="No Expired ID">
+      </no-items>
+
+      <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
+        <ion-infinite-scroll-content></ion-infinite-scroll-content>
+      </ion-infinite-scroll>
+
+    </form>
+  </div>
+</ion-content>

@@ -20,7 +20,7 @@ export class CountryViewPage implements OnInit {
 
   public pageCount = 0;
   public currentPage = 1;
-  public pages: number[] = [];
+ 
   public loading = true;
   public loadingDetail = false;
   public deletingCandidate = false;
@@ -76,18 +76,6 @@ export class CountryViewPage implements OnInit {
 
       this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
       this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
-
-      this.pages = [];
-
-      for (let i = 1; i <= this.pageCount; i++){
-        this.pages.push(i);
-      }
-
-      // hide if no page = 1
-
-      if (this.pageCount == 1) {
-        this.pages = [];
-      }
 
       this.candidates = response.body;
 
@@ -157,19 +145,6 @@ export class CountryViewPage implements OnInit {
       ]
     });
     confirm.present();
-  }
-
-  /**
-   * pagination
-   * @param page
-   */
-  pageLinkColor(page: number) {
-
-    if (page == this.currentPage) {
-      return 'light';
-    }
-
-    return '';
   }
 
   /**
