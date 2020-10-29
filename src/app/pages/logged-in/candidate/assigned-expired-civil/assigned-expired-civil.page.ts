@@ -7,11 +7,11 @@ import { EventService } from 'src/app/providers/event.service';
 
 
 @Component({
-  selector: 'app-expired-id',
-  templateUrl: './expired-id.page.html',
-  styleUrls: ['./expired-id.page.scss'],
+  selector: 'app-assigned-expired-civil',
+  templateUrl: './assigned-expired-civil.page.html',
+  styleUrls: ['./assigned-expired-civil.page.scss'],
 })
-export class ExpiredIdPage implements OnInit {
+export class AssignedExpiredCivilPage implements OnInit {
 
   public pageCount = 0;
   public currentPage = 1; 
@@ -96,28 +96,33 @@ export class ExpiredIdPage implements OnInit {
    */
   async loadData(page) {
 
-    // Load list of candidates
     if (!this.renewLoader)
       this.loading = true;
 
-    this.candidateIdCardService.listExpiredIds(this.searchBar, page).subscribe(response => {
+    this.candidateIdCardService.listAssignedExpiredIds(this.searchBar, page).subscribe(response => {
+
       this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
       this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
 
       this.candidatelistData = response.body;
     },
-      error => { },
-      () => {
-        this.renewLoader = false;
-        this.loading = false;
-      });
+    error => { },
+    () => {
+      this.renewLoader = false;
+      this.loading = false;
+    });
   }
 
+  /**
+   * load more data on scroll to bottom 
+   * @param event 
+   */
   doInfinite(event) {
     this.loading = true;
 
     this.currentPage++;
-    this.candidateIdCardService.listExpiredIds(this.searchBar, this.currentPage).subscribe(response => {
+
+    this.candidateIdCardService.listAssignedExpiredIds(this.searchBar, this.currentPage).subscribe(response => {
 
         this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
         this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));

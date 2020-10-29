@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import {Country} from 'src/app/models/country';
-import {LoadingController, NavController} from '@ionic/angular';
-import {CountryService} from 'src/app/providers/logged-in/country.service';
-import {ActivatedRoute} from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
+import { NavController } from '@ionic/angular';
+//models
+import { Country } from 'src/app/models/country';
+//services
+import { CountryService } from 'src/app/providers/logged-in/country.service';
+
 
 @Component({
   selector: 'app-country-list',
@@ -13,58 +16,52 @@ export class CountryListPage implements OnInit {
 
   public pageCount = 0;
   public currentPage = 1;
-  public pages: number[] = [];
+
   public loading = false;
   public countries: Country[];
   public country_id = null;
+
   constructor(
     public navCtrl: NavController,
     public countryService: CountryService,
     public activatedRoute: ActivatedRoute
   ) {
-    this.country_id = this.activatedRoute.snapshot.paramMap.get('id');
   }
 
   ngOnInit() {
+    this.country_id = this.activatedRoute.snapshot.paramMap.get('id');
+
     this.loadData(this.currentPage);
   }
 
+  /**
+   *  Load list of country
+   * @param page 
+   */
   async loadData(page: number) {
-    // Load list of country
+  
     this.loading = true;
 
     this.countryService.list(page).subscribe(response => {
 
-        this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
-        this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
+      this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
+      this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
 
-        this.pages = [];
+      this.countries = response.body;
 
-        for (let i = 1; i <= this.pageCount; i++){
-          this.pages.push(i);
-        }
-
-        // hide if no page = 1
-
-        if (this.pageCount == 1) {
-          this.pages = [];
-        }
-
-        this.countries = response.body;
-
-      },
-      error => {},
-      () => {this.loading = false; }
+    },
+      error => { },
+      () => { this.loading = false; }
     );
   }
 
   /**
    * When its selected
    */
-  rowSelected(model){
+  rowSelected(model) {
     // Load Detail Page
     this.navCtrl.navigateForward('country-view/' + model.country_id, {
-      state : {
+      state: {
         model
       }
     });
@@ -75,12 +72,12 @@ export class CountryListPage implements OnInit {
     this.currentPage++;
     this.countryService.list(this.currentPage).subscribe(response => {
 
-        this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
-        // this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
+      this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
+      // this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
 
-        this.countries = this.countries.concat(response.body);
-      },
-      error => {},
+      this.countries = this.countries.concat(response.body);
+    },
+      error => { },
       () => {
         this.loading = false;
         event.target.complete();

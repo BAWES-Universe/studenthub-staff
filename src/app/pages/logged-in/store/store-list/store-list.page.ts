@@ -27,8 +27,6 @@ export class StoreListPage implements OnInit {
 
   public currentPage = 1;
 
-  public pages: number[] = [];
-
   public loading = false;
 
   public deleting = false;
@@ -111,18 +109,6 @@ export class StoreListPage implements OnInit {
 
       this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
       this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
-
-      this.pages = [];
-
-      for (let i = 1; i <= this.pageCount; i++) {
-        this.pages.push(i);
-      }
-
-      // hide if no page = 1
-
-      if (this.pageCount == 1) {
-        this.pages = [];
-      }
 
       this.stores = response.body;
     },
