@@ -13,7 +13,7 @@ export class GenerateIdPage implements OnInit {
 
   public pageCount = 0;
   public currentPage = 1;
-  public pages: number[] = [];
+ 
   public loading = false;
   public downloading = false;
   public searchBar = '';
@@ -82,23 +82,13 @@ export class GenerateIdPage implements OnInit {
     }
   }
 
-  pageLinkColor(page: number) {
-
-    if (page == this.currentPage) {
-      return 'light';
-    }
-
-    return '';
-  }
-
   /**
    * Load candidates whose ID not generated
    */
-  async loadNotGenerated(page: number) {
+  async loadNotGenerated(page: number, event = null) {
 
     this.currentPage = page;
 
-    // Load list of candidates
     this.loading = true;
 
     this.candidateIdCardService.listCandidates(this.searchBar, page).subscribe(response => {
@@ -106,19 +96,11 @@ export class GenerateIdPage implements OnInit {
         this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
         this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
 
-        this.pages = [];
-
-        for (let i = 1; i <= this.pageCount; i++){
-          this.pages.push(i);
+        if(this.currentPage == 1) {
+          this.candidatelistData = response.body;
+        } else {
+          this.candidatelistData = this.candidatelistData.concat(response.body);
         }
-
-        // hide if no page = 1
-
-        if (this.pageCount == 1) {
-          this.pages = [];
-        }
-
-        this.candidatelistData = response.body;
 
         this.candidates = [];
 
@@ -128,18 +110,21 @@ export class GenerateIdPage implements OnInit {
 
       },
       error => {},
-      () => {this.loading = false; }
-    );
+      () => {
+        if(event)
+          event.target.complete();
+        
+        this.loading = false; 
+      });
   }
 
   /**
    * Load candidates whose ID generated
    */
-  async loadGenerated(page: number) {
+  async loadGenerated(page: number, event = null) {
 
     this.currentPage = page;
 
-    // Load list of candidates
     this.loading = true;
 
     this.candidateIdCardService.listCandidateIds(this.searchBar, page).subscribe(response => {
@@ -147,19 +132,11 @@ export class GenerateIdPage implements OnInit {
         this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
         this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
 
-        this.pages = [];
-
-        for (let i = 1; i <= this.pageCount; i++){
-          this.pages.push(i);
+        if(this.currentPage == 1) {
+          this.candidatelistData = response.body;
+        } else {
+          this.candidatelistData = this.candidatelistData.concat(response.body);
         }
-
-        // hide if no page = 1
-
-        if (this.pageCount == 1) {
-          this.pages = [];
-        }
-
-        this.candidatelistData = response.body;
 
         this.candidates = [];
 
@@ -169,8 +146,12 @@ export class GenerateIdPage implements OnInit {
 
       },
       error => {},
-      () => {this.loading = false; }
-    );
+      () => {
+        if(event)
+          event.target.complete();
+
+        this.loading = false; 
+      });
   }
 
   segmentChanged($ev) {
@@ -178,6 +159,21 @@ export class GenerateIdPage implements OnInit {
       this.loadNotGenerated(1);
     } else  {
       this.loadGenerated(1);
+    }
+  }
+
+  /**
+   * load more data on scroll to bottom
+   * @param event 
+   */
+  doInfinite(event) {
+
+    this.currentPage++;
+
+    if (this.cndSegment == 'not-generated') {
+      this.loadNotGenerated(this.currentPage, event);
+    } else {
+      this.loadGenerated(this.currentPage, event);
     }
   }
 }

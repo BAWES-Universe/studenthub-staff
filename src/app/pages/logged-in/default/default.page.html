@@ -60,6 +60,15 @@
       </ion-card-content>
     </ion-card>
 
+    <ion-card class="stats" *ngIf="statistics.assignedExpiredCivilID > 0" routerLink="/assigned-expired-civil" tappable>
+      <ion-card-content>
+        <div class="count success">{{ statistics.assignedExpiredCivilID }}</div>
+        <div class="message">
+          Candidates are assigned to work but have <b>expired civil id.</b>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
     <ion-card class="stats" *ngIf="statistics.incompleteAssignedToWork > 0" tappable routerLink="/incomplete-candidate-list">
       <ion-card-content>
         <div class="count success">{{ statistics.incompleteAssignedToWork }}</div>

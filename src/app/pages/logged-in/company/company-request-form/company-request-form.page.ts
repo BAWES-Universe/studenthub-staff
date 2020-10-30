@@ -1,12 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import {ModalController, AlertController, PopoverController} from '@ionic/angular';
+import { ModalController, AlertController, PopoverController } from '@ionic/angular';
 // services
 import { CompanyRequestService } from 'src/app/providers/logged-in/company-request.service';
 // models
 import { Request } from 'src/app/models/request';
-import {AuthService} from "../../../../providers/auth.service";
-import {CompanyContactListPage} from "../company-contact/company-contact-list/company-contact-list.page";
+import { AuthService } from "../../../../providers/auth.service";
+//pages
+import { CompanyContactListPage } from "../company-contact/company-contact-list/company-contact-list.page";
 
 
 @Component({
@@ -43,6 +44,7 @@ export class CompanyRequestFormPage implements OnInit {
     }
 
     this.form = this.fb.group({
+      company_id: [this.company? this.company.company_id: null, Validators.required],
       contact_name: [(this.model.contact) ? this.model.contact.contact_name : '', Validators.required],
       contact_uuid: [this.model.contact_uuid, Validators.required],
       position_type: [this.model.request_position_type + '', Validators.required],
@@ -58,7 +60,7 @@ export class CompanyRequestFormPage implements OnInit {
    * Update Model Data based on Form Input
    */
   updateModelDataFromForm() {
-    this.model.company_id = this.company.company_id;
+    this.model.company_id = this.form.value.company_id;
     this.model.contact_uuid = this.form.value.contact_uuid;
     this.model.request_position_type = this.form.value.position_type;
     this.model.request_position_title = this.form.value.position_title;
@@ -117,18 +119,34 @@ export class CompanyRequestFormPage implements OnInit {
 
     });
   }
+  
   async openClient(e) {
-    const popover = await this.popoverCtrl.create({
-      component: CompanyContactListPage,
-      event: e,
-      componentProps: {
-        contacts : this.company.companyContacts
-      }
-    });
+
+    let popover;
+    
+    if(this.company) {
+      popover = await this.popoverCtrl.create({
+        component: CompanyContactListPage,
+        event: e,
+        componentProps: {
+          company: this.company
+        }
+      });
+    } else {
+      popover = await this.modalCtrl.create({
+        component: CompanyContactListPage
+      });
+    }
+
     popover.onDidDismiss().then((_) => {
       if (_ && _.data) {
         this.form.controls.contact_name.setValue(_.data.companyContact.contact_name);
         this.form.controls.contact_uuid.setValue(_.data.companyContact.contact_uuid);
+
+        if (!this.company || !this.company.company_id) {
+          this.form.controls.company_id.setValue(_.data.companyContact.company.company_id);
+        }
+
       }
     });
     popover.present();

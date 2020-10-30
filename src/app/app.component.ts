@@ -27,6 +27,8 @@ export class AppComponent implements OnInit {
   
   public expiredIdCount = 0;
 
+  public assignedExpiredCivilID = 0;
+
   public totalCandidateToReview = null;
 
   public assignedIncompleteCandidates = null;
@@ -136,11 +138,16 @@ export class AppComponent implements OnInit {
       }
     });
 
-    this.eventService.expiredIdCard$.subscribe((userEventData: number) => {
-      this.expiredIdCount = userEventData;
+    this.eventService.expiredIdCard$.subscribe((data: { expiredIdCount: number, assignedExpiredCivilID: number } = null) => {
+      if(!data) {
+        return this.loadStats();
+      }
+      
+      this.expiredIdCount = data.expiredIdCount;
+      this.assignedExpiredCivilID = data.assignedExpiredCivilID;
     }); 
 
-    this.eventService.reviewRequired$.subscribe((userEventData) => {
+    this.eventService.reviewRequired$.subscribe(() => {
       this.loadStats();
     });
   }
@@ -246,6 +253,7 @@ export class AppComponent implements OnInit {
       this.candidateBankInfo = response.missingBankInfo;
       this.totalCandidateToReview = response.profileApprovalRequire;
       this.companyFollowUp = response.requireFollowup;
+      this.assignedExpiredCivilID = response.assignedExpiredCivilID;
     },
       error => { },
       () => { }

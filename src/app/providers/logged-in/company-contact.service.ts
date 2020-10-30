@@ -16,11 +16,20 @@ export class CompanyContactService {
   constructor(private _authhttp: AuthHttpService) { }
 
   /**
-   * get company contacts
+   * get all company contacts
    * @param company_id 
    */
-  companyContacts(company_id) : Observable<any>{
-    const url = `${this._companyContactEndpoint}?expand=companyContactEmails,companyContactPhones&company_id=${company_id}`;
+  list(page, query = '') : Observable<any>{
+    const url = `${this._companyContactEndpoint}?expand=companyContactEmails,companyContactPhones,company&page=${page}&query=${query}`;
+    return this._authhttp.getRaw(url);
+  }
+
+  /**
+   * get given company contacts
+   * @param company_id 
+   */
+  companyContacts(company_id, query = '') : Observable<any>{
+    const url = `${this._companyContactEndpoint}?expand=companyContactEmails,companyContactPhones&company_id=${company_id}&query=${query}`;
     return this._authhttp.get(url);
   }
 

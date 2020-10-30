@@ -4,8 +4,14 @@
       <ion-back-button defaultHref="/company-request-list"></ion-back-button>
     </ion-buttons>
 
-    <ion-title>{{ operation }} Request</ion-title>
+    <ion-title>
+      {{ operation }} Request 
+    </ion-title>
 
+    <ion-title size="small" *ngIf="company">
+      for {{ company.company_common_name_en? company.company_common_name_en: company.company_name }}
+    </ion-title>
+    
     <ion-buttons slot="end">
       <ion-button color="primary" [disabled]="form && !form.valid" (click)="save()">
         <span *ngIf="!saving">Save</span>
@@ -18,12 +24,14 @@
 <ion-content class="ion-padding">
   <form [formGroup]="form" *ngIf="form">
 
+    <!--
     <ion-list>
       <ion-item (click)="openClient($event)">
         <ion-label position="floating">Company Name</ion-label>
         <ion-input type="text" formControlName="company_name" readonly></ion-input>
       </ion-item>
-    </ion-list>
+    </ion-list>-->
+
     <ion-list>
       <ion-item (click)="openContact($event)">
         <ion-label position="floating">Contact</ion-label>

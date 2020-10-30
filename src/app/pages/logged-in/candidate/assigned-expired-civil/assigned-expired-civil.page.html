@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+
+      <ion-back-button defaultHref="/"></ion-back-button>
+
+    </ion-buttons>
+
+    <ion-title>Assigned & Expired Civil ID</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-searchbar [(ngModel)]="searchBar" (ionChange)="loadData(this.currentPage)" debounce="200" animated>
+  </ion-searchbar>
+
+  <ion-list *ngIf="candidatelistData && candidatelistData.length > 0">
+    <ion-item [routerLink]="'candidate-view/' + obj.candidate_id" *ngFor="let obj of candidatelistData">
+      <div tabindex="0"></div>
+      <ion-label>
+        {{ obj.candidate_name? obj.candidate_name: obj.candidate_name_ar }}
+      </ion-label>
+    </ion-item>
+  </ion-list> 
+
+  <loading-modal [loading]="loading" type="text-list"></loading-modal>
+
+  <no-items *ngIf="!loading && candidatelistData && candidatelistData.length == 0" message="No Expired ID">
+  </no-items>
+
+  <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+ 
+</ion-content>

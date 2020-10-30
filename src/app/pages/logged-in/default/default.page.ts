@@ -20,6 +20,7 @@ export class DefaultPage implements OnInit {
   public statistics: {
     totalPendingRequests: any;
     totalExpiredCards: any;
+    assignedExpiredCivilID: any;
     activeRequests: any;
     requireFollowup: any;
     missingBankInfo: any;
@@ -81,7 +82,10 @@ export class DefaultPage implements OnInit {
     this.statisticService.get().subscribe(response => {
       this.statistics = response;
 
-      this._events.expiredIdCard$.next(response.totalExpiredCards);
+      this._events.expiredIdCard$.next({
+        assignedExpiredCivilID: response.assignedExpiredCivilID, 
+        expiredIdCount: response.totalExpiredCards
+      });
 
       this._events.reviewRequired$.next(this.statistics.profileApprovalRequire);
     },
