@@ -48,15 +48,6 @@ export class CandidateIdCardService {
   }
 
   /**
-   * List of all candidates whose card not generated, to generate card
-   * @returns {Observable<any>}
-   */
-  listAssignedExpiredIds(candidate_name: string, page: number): Observable<any> {
-    let url = this._candidateEndpoint + '/list-expired?assigned=1&candidate_name=' + candidate_name + '&page=' + page;
-    return this._authhttp.getRaw(url);
-  }
-
-  /**
    * Total candidates whose card not generated, to generate card
    * @returns {Observable<any>}
    */

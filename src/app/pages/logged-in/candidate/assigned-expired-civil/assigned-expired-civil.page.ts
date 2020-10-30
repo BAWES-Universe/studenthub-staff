@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import {AlertController, LoadingController, NavController} from '@ionic/angular';
+import { FormGroup } from '@angular/forms';
 // services
-import { CandidateIdCardService } from 'src/app/providers/logged-in/candidate.id.card.service';
-import { EventService } from 'src/app/providers/event.service';
+import { CandidateService } from 'src/app/providers/logged-in/candidate.service';
 
 
 @Component({
@@ -29,65 +27,12 @@ export class AssignedExpiredCivilPage implements OnInit {
   public checkAll = null;
 
   constructor(
-    public candidateIdCardService: CandidateIdCardService,
-    private _fb: FormBuilder,
-    private _alertCtrl: AlertController,
-    private _events: EventService,
-    private _nav: NavController
+    public candidateService: CandidateService
   ) {
   }
 
   ngOnInit() {
-
-    this.form = this._fb.group({
-      candidates: [],
-    });
-
     this.loadData(1);
-
-    this._events.reloadCandidateHistory$.subscribe(e => {
-      this.loadData(1);
-    });
-  }
-
-  /**
-   * Renew id cards
-   */
-  async renew() {
-
-    if (this.candidates.length == 0) {
-      const prompt = await this._alertCtrl.create({
-        message: 'Please select candidate(s)',
-        buttons: ['Ok']
-      });
-      prompt.present();
-      return false;
-    }
-
-    this.renewLoader = true;
-
-    this.candidateIdCardService.renew(this.candidates).subscribe(jsonResponse => {
-
-      this.candidates = [];
-
-      // refresh list
-      this.currentPage = 1;
-      this.loadData(this.currentPage);
-
-      this._events.expiredIdCard$.next();
-    }, () => {
-      this.renewLoader = false;
-    });
-  }
-
-  onCandidateToggle(event) {
-    let candidate_id = event.target.value;
-
-    if(event.detail.checked) {
-      this.candidates.push(candidate_id);
-    } else {
-      this.candidates = this.candidates.filter(c => c != candidate_id);
-    }
   }
 
   /**
@@ -99,7 +44,7 @@ export class AssignedExpiredCivilPage implements OnInit {
     if (!this.renewLoader)
       this.loading = true;
 
-    this.candidateIdCardService.listAssignedExpiredIds(this.searchBar, page).subscribe(response => {
+    this.candidateService.listAssignedExpiredIds(this.searchBar, page).subscribe(response => {
 
       this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
       this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
@@ -122,7 +67,7 @@ export class AssignedExpiredCivilPage implements OnInit {
 
     this.currentPage++;
 
-    this.candidateIdCardService.listAssignedExpiredIds(this.searchBar, this.currentPage).subscribe(response => {
+    this.candidateService.listAssignedExpiredIds(this.searchBar, this.currentPage).subscribe(response => {
 
         this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
         this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
@@ -136,13 +81,5 @@ export class AssignedExpiredCivilPage implements OnInit {
         event.target.complete();
       }
     );
-  }
-
-  detail(obj) {
-    this._nav.navigateForward('candidate-view/' + obj.candidate_id);
-  }
-
-  selectAll() {
-    this.checkAll = !(this.checkAll);
   }
 }

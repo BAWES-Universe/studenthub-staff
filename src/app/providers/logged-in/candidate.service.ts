@@ -19,6 +19,15 @@ export class CandidateService {
   constructor(private _authhttp: AuthHttpService) { }
 
   /**
+   * List of all candidates whose civil id got expired
+   * @returns {Observable<any>}
+   */
+  listAssignedExpiredIds(candidate_name: string, page: number): Observable<any> {
+    let url = this._candidateEndpoint + '/expired-civil-id?candidate_name=' + candidate_name + '&page=' + page;
+    return this._authhttp.getRaw(url);
+  }
+
+  /**
    * candidate detail
    * @returns {Observable<any>}
    */

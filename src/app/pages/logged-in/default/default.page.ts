@@ -20,6 +20,7 @@ export class DefaultPage implements OnInit {
   public statistics: {
     totalPendingRequests: any;
     totalExpiredCards: any;
+    assignedExpiredCivilID: any;
     activeRequests: any;
     requireFollowup: any;
     missingBankInfo: any;
