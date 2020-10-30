@@ -12,6 +12,8 @@ import { Country } from 'src/app/models/country';
 })
 export class CandidateService {
 
+  public candidates = [];
+
   public algoliaConfig;
 
   private _candidateEndpoint = '/candidates';
@@ -163,6 +165,19 @@ export class CandidateService {
     };
 
     return this._authhttp.patch(url, params);
+  }
+
+  /**
+   * merge 2 account
+   * @param source 
+   * @param destination 
+   */
+  merge(source, destination): Observable<any> {
+    const url = `${this._candidateEndpoint}/merge`;
+    return this._authhttp.patch(url, {
+      source: source,
+      destination: destination
+    });
   }
 
   /**

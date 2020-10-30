@@ -17,8 +17,11 @@ import { CandidateIdCardService } from 'src/app/providers/logged-in/candidate.id
 export class CandidateListPage implements OnInit {
 
   public pageCount = 0;
+  
   public currentPage: any = 1;
+  
   public totalCount = 0;
+
   public pages: number[] = [];
 
   public filters: {
@@ -32,6 +35,7 @@ export class CandidateListPage implements OnInit {
       phone: null,
       type: null
     };
+
   public searchName = null;
   public searchEmail = null;
   public searchPhone = null;
@@ -42,10 +46,12 @@ export class CandidateListPage implements OnInit {
   public cndSegment = 'assigned';
   public candidates: Candidate[];
 
-  public loading = false;
-  public paginationLoading = false;
+  public loading: boolean = false;
+  public paginationLoading: boolean = false;
 
-  public downloading = false;
+  public downloading: boolean = false;
+
+  public merging: boolean = false; 
 
   constructor(
     public navCtrl: NavController,
@@ -98,6 +104,7 @@ export class CandidateListPage implements OnInit {
     };
     this.loadData(1); // reload all result
   }
+
   /**
    * Generate id cards
    */
@@ -123,6 +130,71 @@ export class CandidateListPage implements OnInit {
     });
   }
 
+  /**
+   * Merge to account
+   */
+  async merge() {
+
+    if (this.candidateIdCardService.candidates.length != 2) {
+      const prompt = await this.alertCtrl.create({
+        message: 'Please select any 2 candidates',
+        buttons: ['Okay']
+      });
+      prompt.present();
+
+      return false;
+    }
+
+    let source, destinatin;
+
+    const alert = await this.alertCtrl.create({
+      header: 'Select which one will remain',
+      inputs: [
+        {
+          name: 'destination',
+          type: 'radio',
+          label: this.candidateService.candidates[0].candidate_name,
+          value: this.candidateService.candidates[0].candidate_id,
+          checked: true
+        },
+        {
+          name: 'destination',
+          type: 'radio',
+          label: this.candidateService.candidates[1].candidate_name,
+          value: this.candidateService.candidates[1].candidate_id,
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+        }, {
+          text: 'Confirm',
+          handler: (e) => {
+            destinatin = e;
+
+            if(destinatin == this.candidateService.candidates[1].candidate_id) {
+              source = this.candidateService.candidates[0].candidate_id;
+            } else {
+              source = this.candidateService.candidates[1].candidate_id;
+            }
+
+            this.merging = true;
+
+            this.candidateService.merge(source, destinatin).subscribe(response => {
+            }, (err) => {
+            }, () => {
+              this.merging = false;
+              this.candidateIdCardService.candidates = [];
+            });
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
   ionViewWillEnter() {
     this.loadData(1);
   }
@@ -132,12 +204,18 @@ export class CandidateListPage implements OnInit {
     this.loadData(this.currentPage);
   }
 
+  /**
+   * Load list of candidates
+   * @param page 
+   */
   loadData(page: number) {
     const search = this.urlParams();
     this.currentPage = page;
 
-    // Load list of candidates
     this.loading = true;
+
+    this.candidates = [];
+
     this.candidateService.listFilter(search, page).subscribe(response => {
 
       this.totalCount = parseInt(response.headers.get('X-Pagination-Total-Count'));

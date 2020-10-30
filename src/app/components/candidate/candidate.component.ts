@@ -117,7 +117,20 @@ export class CandidateComponent implements OnInit {
 
     const candidate_id = parseInt(event.target.value);
 
+    //for candidate operations 
+
     if(event.detail.checked) {//on check
+      this.candidateService.candidates.push(this.candidate);
+    } else {//on uncheck
+      this.candidateService.candidates = this.candidateService.candidates.filter((c) => c.candidate_id != candidate_id);
+    }
+
+    //for candidate id operations 
+
+    if(!this.candidate.store) 
+      return false; 
+
+    if(event.detail.checked) {//on check 
       this.candidateIdCardService.candidates.push(candidate_id);
     } else {//on uncheck
       this.candidateIdCardService.candidates = this.candidateIdCardService.candidates.filter((c) => c != candidate_id);

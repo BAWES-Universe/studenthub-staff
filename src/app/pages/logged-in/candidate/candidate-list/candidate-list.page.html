@@ -6,10 +6,18 @@
     <ion-title>Candidates <span *ngIf="!loading && totalCount">({{totalCount}})</span></ion-title>
 
     <ion-buttons slot="end">
-      <ion-button color="primary" [disabled]="candidateIdCardService.candidates.length == 0 || downloading" (click)="generate()">
+      <ion-button color="primary" [disabled]="candidateIdCardService.candidates.length == 0 || downloading"
+        (click)="generate()">
         <span *ngIf="!downloading">Download Zip</span>
         <ion-spinner *ngIf="downloading"></ion-spinner>
       </ion-button>
+      
+      <ion-button color="primary" [disabled]="candidateService.candidates.length != 2 || merging"
+        (click)="merge()">
+        <span *ngIf="!merging">Merge</span>
+        <ion-spinner *ngIf="merging"></ion-spinner>
+      </ion-button>
+
     </ion-buttons>
 
   </ion-toolbar>
@@ -63,9 +71,9 @@
   </ion-card>
 
   <ion-list>
-    <ng-container *ngIf="!loading">
-      <candidate [candidate]="candidate" type='candidate' (refresh)="search()" *ngFor="let candidate of candidates"></candidate>
-    </ng-container>
+
+    <candidate [candidate]="candidate" type='candidate' (refresh)="search()" *ngFor="let candidate of candidates">
+    </candidate>
 
     <no-items *ngIf="!loading && candidates && candidates.length == 0" message="No candidate data available"></no-items>
 
@@ -73,9 +81,9 @@
 
   </ion-list>
 
-    <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
-      <ion-infinite-scroll-content></ion-infinite-scroll-content>
-    </ion-infinite-scroll>
+  <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>
 
 <ion-footer *ngIf="!loading">
