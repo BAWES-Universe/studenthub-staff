@@ -12,6 +12,11 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 export class ChangePasswordPage implements OnInit {
 
   public form: FormGroup;
+
+  public oldType: string = 'password';
+  
+  public type: string = 'password';
+
   public loading = false;
 
   constructor(
@@ -62,5 +67,13 @@ export class ChangePasswordPage implements OnInit {
     }, () => {
       this.loading = false;
     });
+  }
+
+  toggleOldPasswordVisibility() {
+    this.oldType = this.oldType == 'password'? 'text': 'password';
+  }
+
+  togglePasswordVisibility() {
+    this.type = this.type == 'password'? 'text': 'password';
   }
 }

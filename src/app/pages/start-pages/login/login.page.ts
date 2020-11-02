@@ -23,6 +23,8 @@ export class LoginPage implements OnInit {
   // Store number of invalid password attempts to suggest reset password
   private _numberOfLoginAttempts = 0;
 
+  public type: string = 'password';
+
   constructor(
     private _fb: FormBuilder,
     private _auth: AuthService,
@@ -34,13 +36,14 @@ export class LoginPage implements OnInit {
       password: ['', Validators.required]
     });
   }
+
   ngOnInit() {
   }
 
   /**
    * Attempts to login with the provided email and password
    */
-  onSubmit(){
+  onSubmit() {
     this.isLoading = true;
 
     const email = this.oldEmailInput = this.loginForm.value.email;
@@ -97,5 +100,9 @@ export class LoginPage implements OnInit {
         alert.present();
       }
     });
+  }
+
+  togglePasswordVisibility() {
+    this.type = this.type == 'password'? 'text': 'password';
   }
 }
