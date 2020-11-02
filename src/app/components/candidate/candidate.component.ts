@@ -40,8 +40,7 @@ export class CandidateComponent implements OnInit {
   /**
    * When its selected
    */
-  rowSelected(model) {
-    // Load Detail Page
+  rowSelected(model) { 
     this.navCtrl.navigateForward('candidate-view/' + model.candidate_id, {
       state: {
         model

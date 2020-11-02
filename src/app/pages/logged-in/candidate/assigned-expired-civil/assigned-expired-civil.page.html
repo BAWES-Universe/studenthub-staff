@@ -6,7 +6,6 @@
       <ion-back-button defaultHref="/"></ion-back-button>
 
     </ion-buttons>
-
     <ion-title>Assigned & Expired Civil ID</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -16,13 +15,8 @@
   <ion-searchbar [(ngModel)]="searchBar" (ionChange)="loadData(this.currentPage)" debounce="200" animated>
   </ion-searchbar>
 
-  <ion-list *ngIf="candidatelistData && candidatelistData.length > 0">
-    <ion-item [routerLink]="'candidate-view/' + obj.candidate_id" *ngFor="let obj of candidatelistData">
-      <div tabindex="0"></div>
-      <ion-label>
-        {{ obj.candidate_name? obj.candidate_name: obj.candidate_name_ar }}
-      </ion-label>
-    </ion-item>
+  <ion-list>
+    <candidate [candidate]="candidate" (refresh)="loadData(1)" *ngFor="let candidate of candidatelistData"></candidate>
   </ion-list> 
 
   <loading-modal [loading]="loading" type="text-list"></loading-modal>

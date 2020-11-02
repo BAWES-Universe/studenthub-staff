@@ -9,15 +9,26 @@
       <!-- Login Form -->
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" (keyup.enter)="onSubmit()" class="classicInput" novalidate>
 
-        <ion-input type="email" #emailInput
-                   formControlName="email"
-                   placeholder="Your Email Address">
-        </ion-input>
+        <ion-item lines="none">
+          <ion-input type="email" #emailInput
+                  formControlName="email"
+                  placeholder="Your Email Address">
+          </ion-input>
+        </ion-item> 
 
-        <ion-input type="password" #passwordInput
-                   formControlName="password"
-                   placeholder="Your Password">
-        </ion-input>
+        <ion-item lines="none" class="field-password">
+
+          <ion-input type="{{ type }}" #passwordInput
+                    formControlName="password"
+                    placeholder="Your Password">
+          </ion-input>
+
+          <ion-button class="btn-password" fill="clear" (click)="togglePasswordVisibility()">
+            <ion-icon *ngIf="type == 'password'" name="eye"></ion-icon>
+            <ion-icon *ngIf="type != 'password'" name="eye-off"></ion-icon>
+          </ion-button>
+
+        </ion-item>
 
         <div class="ion-text-center">
           <ion-button expand="block" class="login-btn" type="submit"

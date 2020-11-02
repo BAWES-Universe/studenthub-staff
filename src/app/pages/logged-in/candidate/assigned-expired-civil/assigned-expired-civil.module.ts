@@ -9,6 +9,7 @@ import { AssignedExpiredCivilPageRoutingModule } from './assigned-expired-civil-
 import { AssignedExpiredCivilPage } from './assigned-expired-civil.page';
 import { LoadingModalModule } from 'src/app/components/loading-modal/loading-modal.module';
 import { NoItemsModule } from 'src/app/components/no-items/no-items.module';
+import { CandidateModule } from 'src/app/components/candidate/candidate.module';
 
 @NgModule({
   imports: [
@@ -18,6 +19,7 @@ import { NoItemsModule } from 'src/app/components/no-items/no-items.module';
     ReactiveFormsModule,
     LoadingModalModule,
     NoItemsModule,
+    CandidateModule,
     AssignedExpiredCivilPageRoutingModule
   ],
   declarations: [AssignedExpiredCivilPage]
