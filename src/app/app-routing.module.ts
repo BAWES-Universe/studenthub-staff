@@ -299,7 +299,19 @@ const routes: Routes = [
   },
   {
     path: 'assigned-expired-civil',
-    loadChildren: () => import('./pages/logged-in/candidate/assigned-expired-civil/assigned-expired-civil.module').then( m => m.AssignedExpiredCivilPageModule)
+    loadChildren: () => import('./pages/logged-in/candidate/assigned-expired-civil/assigned-expired-civil.module').then( m => m.AssignedExpiredCivilPageModule),
+    canActivate: [AuthService],
+    data: {
+      name: 'AssignedExpiredCivilPage',
+    }
+  },
+  {
+    path: 'assigned-idle-candidates',
+    loadChildren: () => import('./pages/logged-in/candidate/assigned-idle-candidates/assigned-idle-candidates.module').then( m => m.AssignedIdleCandidatesPageModule),
+    canActivate: [AuthService],
+    data: {
+      name: 'AssignedIdleCandidatesPage',
+    }
   },
   {
     path: '**',

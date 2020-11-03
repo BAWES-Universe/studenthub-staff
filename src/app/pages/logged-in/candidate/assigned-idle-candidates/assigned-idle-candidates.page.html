@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+
+      <ion-back-button defaultHref="/"></ion-back-button>
+
+    </ion-buttons>
+    <ion-title>Assigned Idle Candidates
+      <span *ngIf="!loading && totalCount">({{totalCount}})</span></ion-title>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-searchbar
+    [(ngModel)]="SearchBar"
+    animated
+    debounce="200"
+    (ionChange)="search()">
+  </ion-searchbar>
+
+  <ion-list>
+    <ng-container *ngIf="!loading">
+      <candidate [candidate]="candidate" (refresh)="search()" *ngFor="let candidate of candidates"></candidate>
+    </ng-container>
+
+    <no-items *ngIf="!loading && candidates && candidates.length == 0" message="No candidate data available"></no-items>
+
+    <loading-modal [loading]="loading || paginationLoading" type="candidate-list"></loading-modal>
+
+  </ion-list>
+
+  <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

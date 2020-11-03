@@ -91,6 +91,15 @@
             </ion-item>
           </ion-menu-toggle>
 
+          <ion-menu-toggle auto-hide="false" *ngIf="assignedIncompleteCandidates > 0">
+            <ion-item routerDirection="root" routerLink="/assigned-idle-candidates" routerLinkActive="active" detail="false">
+              <div tabindex="0"></div>
+              <ion-icon slot="start" name="person-outline"></ion-icon>
+              <ion-label>Assigned Idle Candidates</ion-label>
+              <ion-badge color="danger">{{assignedIncompleteCandidates}}</ion-badge>
+            </ion-item>
+          </ion-menu-toggle>
+
           <ion-menu-toggle auto-hide="false" *ngIf="candidateBankInfo > 0">
             <ion-item routerDirection="root" routerLink="/candidate-bank-info-list" routerLinkActive="active" detail="false">
               <div tabindex="0"></div>

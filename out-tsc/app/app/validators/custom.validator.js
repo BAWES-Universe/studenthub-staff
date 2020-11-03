@@ -1,0 +1,34 @@
+export class CustomValidator {
+    /**
+     * Validates Email Input
+     * @param  {AbstractControl} control
+     * @returns any
+     */
+    static emailValidator(control) {
+        const emailReg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return !control.value || emailReg.test(control.value) ? null : { 'emailValidation': 'email is invalid.' };
+    }
+    /**
+     * Validates negative number input
+     * @param  {AbstractControl} control
+     * @returns any
+     */
+    static negativeNumberValidator(control) {
+        if (!control.value)
+            return null;
+        return Number(control.value) >= 0 ? null : { 'negativeNumberValidation': 'Negative number not allowed.' };
+    }
+    /**
+     * Factory Method
+     * Takes a forbidden name and returns a validator function to be used
+     * @param  {string} nameRe
+     * @returns ValidatorFn
+     */
+    static forbiddenNameValidator(nameRe) {
+        return (control) => {
+            const name = control.value;
+            return name == nameRe ? { 'forbiddenName': { name } } : null;
+        };
+    }
+}
+//# sourceMappingURL=custom.validator.js.map

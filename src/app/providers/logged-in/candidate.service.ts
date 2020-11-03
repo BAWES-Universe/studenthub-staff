@@ -169,8 +169,8 @@ export class CandidateService {
 
   /**
    * merge 2 account
-   * @param source 
-   * @param destination 
+   * @param source
+   * @param destination
    */
   merge(source, destination): Observable<any> {
     const url = `${this._candidateEndpoint}/merge`;
@@ -316,5 +316,15 @@ export class CandidateService {
    */
   exportCV(model: Candidate): Observable<any>{
     return this._authhttp.pdfget(`${this._candidateEndpoint}/candidate-resume-pdf/${model.candidate_id}`, model.candidate_name + '-cv');
+  }
+
+  /**
+   * Assigned Idle Candidates
+   * @param candidateName
+   * @param page
+   */
+  assignedIdleCandidate(candidateName: string, page: number): Observable<any>{
+    const url = this._candidateEndpoint + '/assigned-idle-candidate?candidate_name=' + candidateName + '&page=' + page;
+    return this._authhttp.getRaw(url);
   }
 }

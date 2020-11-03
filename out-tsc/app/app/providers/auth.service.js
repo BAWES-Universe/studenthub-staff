@@ -1,0 +1,268 @@
+import { __awaiter, __decorate } from "tslib";
+import { Injectable } from '@angular/core';
+import { EMPTY, throwError } from 'rxjs';
+import { first, map, retryWhen } from 'rxjs/operators';
+import { HttpHeaders } from '@angular/common/http';
+import { genericRetryStrategy } from '../util/genericRetryStrategy';
+import { environment } from '../../environments/environment';
+import { Plugins } from '@capacitor/core';
+const { Storage } = Plugins;
+let AuthService = class AuthService {
+    constructor(_http, router, eventService, rendererFactory) {
+        this._http = _http;
+        this.router = router;
+        this.eventService = eventService;
+        this.rendererFactory = rendererFactory;
+        this.navEnable = true;
+        this.currency_pref = 'USD';
+        this.isLogged = false;
+        this.displayCookieMessage = '0';
+        this.showOneSignalPrompt = false;
+        this._urlBasicAuth = '/auth/login';
+        this._urlUpdatePass = '/auth/update-password';
+        this.renderer = this.rendererFactory.createRenderer(null, null);
+    }
+    canActivate(route, state) {
+        /**
+         * new router changes don't wait for startup service
+         * https://github.com/angular/angular/issues/14615
+         */
+        return new Promise((resolve) => __awaiter(this, void 0, void 0, function* () {
+            this.navEnable = true;
+            if (route.data.navDisable) {
+                this.navEnable = false;
+            }
+            if (this.isLogged) {
+                resolve(true);
+            }
+            const ret = yield Storage.get({ key: 'loggedInStaff' });
+            const user = JSON.parse(ret.value);
+            if (user) {
+                this.isLogged = true;
+                this._accessToken = user.token;
+                this.staff_id = user.staff_id;
+                this.email = user.email;
+                this.name = user.name;
+                this.theme = user.theme;
+                resolve(true);
+            }
+            else {
+                resolve(false);
+                this.logout('invalid access');
+            }
+        }));
+    }
+    /**
+     * set app theme
+     * @param theme
+     */
+    setTheme(theme) {
+        Storage.set({
+            key: 'theme',
+            value: theme
+        });
+        this.theme = theme;
+        if (theme == 'night') {
+            this.renderer.removeClass(document.body, 'day');
+            this.renderer.addClass(document.body, 'night');
+        }
+        else {
+            this.renderer.addClass(document.body, 'day');
+            this.renderer.removeClass(document.body, 'night');
+        }
+    }
+    /**
+     * Save user data in storage
+     */
+    saveInStorage() {
+        Storage.set({
+            key: 'loggedInStaff',
+            value: JSON.stringify({
+                token: this._accessToken,
+                staff_id: this.staff_id,
+                name: this.name,
+                email: this.email
+            })
+        });
+    }
+    /**
+     * Logs a user out by setting logged in to false and clearing token from storage
+     * @param {string} [reason]
+     * @param {boolean} [silent]
+     */
+    logout(reason, silent = false) {
+        this.isLogged = false;
+        // Remove from Storage then process logout
+        this._accessToken = null;
+        this.staff_id = null;
+        this.name = null;
+        this.email = null;
+        Storage.clear();
+        if (!silent) {
+            this.eventService.userLoggedOut$.next(reason ? reason : false);
+        }
+        Storage.set({
+            key: 'cookieMessageWasApproved',
+            value: (this.displayCookieMessage == '0') ? '1' : '0'
+        });
+    }
+    /**
+     * Set the access token
+     */
+    setAccessToken(response, redirect = false) {
+        this._accessToken = response.token;
+        this.staff_id = response.staff_id;
+        this.name = response.name;
+        this.email = response.email;
+        // Save to Storage
+        this.saveInStorage();
+        if (this._accessToken) {
+            this.isLogged = true;
+            this.eventService.userLogined$.next({ redirect });
+        }
+    }
+    // This is the method you want to call at bootstrap
+    load() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const ret = yield Storage.get({ key: 'loggedInStaff' });
+            const staff = JSON.parse(ret.value);
+            if (staff && staff.token) {
+                return this.setAccessToken(staff);
+            }
+            else {
+                // return this.logout('error with store variables',true);
+            }
+            const { value } = yield Storage.get({ key: 'theme' });
+            if (value) {
+                this.setTheme(value);
+            }
+        });
+    }
+    /**
+     * Get Access Token from Service or Cookie
+     * @returns {string} token
+     */
+    getAccessToken(redirect = false) {
+        // Return Access Token if set already
+        if (this._accessToken) {
+            return this._accessToken;
+        }
+        Storage.get({ key: 'loggedInStaff' }).then(ret => {
+            const user = JSON.parse(ret.value);
+            if (user) {
+                this.setAccessToken(user, redirect);
+                this._accessToken = user.token;
+            }
+        });
+        return this._accessToken;
+    }
+    /**
+     * Basic auth, exchanges access details for a bearer access token to use in
+     * subsequent requests.
+     * @param  {string} email
+     * @param  {string} password
+     */
+    basicAuth(email, password) {
+        // Add Basic Auth Header with Base64 encoded email and password
+        const authHeader = new HttpHeaders({
+            Authorization: 'Basic ' + btoa(unescape(encodeURIComponent(`${email}:${password}`)))
+        });
+        const url = environment.apiEndpoint + this._urlBasicAuth;
+        return this._http.get(url, {
+            headers: authHeader,
+        }).pipe(retryWhen(genericRetryStrategy()), first(), map((res) => res));
+    }
+    /**
+     * json to string error message
+     * @param message
+     */
+    errorMessage(message) {
+        if (message.length) {
+            return message + '';
+        }
+        const a = [];
+        for (const i in message) {
+            if (!Array.isArray(message[i])) {
+                a.push(message[i]);
+                continue;
+            }
+            for (const j of message[i]) {
+                a.push(j);
+            }
+        }
+        return a.join('<br />');
+    }
+    /**
+     * Change password by password reset token
+     * @param token
+     * @param newPassword
+     */
+    // changePassword(token: string, newPassword: string): Observable<any>{
+    //
+    //   const url = this._config.apiBaseUrl + '/auth/update-password';
+    //
+    //   return this._http.patch(url, {
+    //     token: token,
+    //     newPassword: newPassword
+    //   })
+    //     .first()
+    //     .map((res: Response) => res.json());
+    // }
+    /**
+     * Handles Caught Errors from All Authorized Requests Made to Server
+     * @returns {Observable}
+     */
+    _handleError(error) {
+        const errMsg = (error.message) ? error.message :
+            error.status ? `${error.status} - ${error.statusText}` : 'Server error';
+        // Handle Bad Requests
+        // This error usually appears when agent attempts to handle an
+        // account that he's been removed from assigning
+        if (error.status === 400) {
+            this.eventService.accountAssignmentRemoved$.next();
+            return EMPTY;
+        }
+        // Handle No Internet Connection Error /service worker timeout
+        if (error.status === 0 || error.status === 504) {
+            this.eventService.internetOffline$.next();
+            return EMPTY;
+        }
+        if (!navigator.onLine) {
+            this.eventService.internetOffline$.next();
+            return EMPTY;
+        }
+        // Handle Expired Session Error
+        if (error.status === 401) {
+            this.logout('Session expired, please log back in.');
+            return EMPTY;
+        }
+        // Handle internal server error - 500
+        if (error.status === 500) {
+            this.eventService.error500$.next();
+            return EMPTY;
+        }
+        // Handle page not found - 404 error
+        if (error.status === 404) {
+            this.eventService.error404$.next();
+            return EMPTY;
+        }
+        console.log('Error: ' + errMsg);
+        return throwError(errMsg);
+    }
+    _processResponseMessage(response) {
+        let html = '';
+        for (const i in response.message) {
+            for (const j of response.message[i]) {
+                html += j + '<br />';
+            }
+        }
+        return html;
+    }
+};
+AuthService = __decorate([
+    Injectable({
+        providedIn: 'root'
+    })
+], AuthService);
+export { AuthService };
+//# sourceMappingURL=auth.service.js.map

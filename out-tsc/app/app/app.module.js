@@ -1,0 +1,111 @@
+var AppModule_1;
+import { __decorate } from "tslib";
+import { APP_INITIALIZER, ErrorHandler, NgModule } from '@angular/core';
+import { BrowserModule, BrowserTransferStateModule } from '@angular/platform-browser';
+import { RouteReuseStrategy } from '@angular/router';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { AppComponent } from './app.component';
+import { AppRoutingModule } from './app-routing.module';
+// import {IonicStorageModule, Storage} from '@ionic/storage';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { UpdateAlertModule } from './components/update-alert/update-alert.module';
+import { ServiceWorkerModule, SwUpdate } from '@angular/service-worker';
+import { AuthService } from './providers/auth.service';
+import { environment } from '../environments/environment';
+import { SentryErrorhandlerService } from './providers/sentry.errorhandler.service';
+import { TranslateLabelService } from './providers/translate-label.service';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { FileChooser } from '@ionic-native/file-chooser/ngx';
+import { FilePath } from '@ionic-native/file-path/ngx';
+import { IOSFilePicker } from '@ionic-native/file-picker/ngx';
+import { File } from '@ionic-native/file/ngx';
+import { SkillFormPageModule } from './pages/logged-in/candidate/skill-form/skill-form.module';
+import { ExperienceFormPageModule } from './pages/logged-in/candidate/experience-form/experience-form.module';
+import { UploadCvPageModule } from './pages/logged-in/candidate/upload-cv/upload-cv.module';
+import { UploadFilePageModule } from './pages/logged-in/company/upload-file/upload-file.module';
+import { CompanyNoteFormPageModule } from './pages/logged-in/company/company-note-form/company-note-form.module';
+import { CompanyContactFormPageModule } from './pages/logged-in/company/company-contact-form/company-contact-form.module';
+import { OptionPageModule } from './pages/logged-in/candidate/option/option.module';
+import { BrandFormPageModule } from './pages/logged-in/company/brand-form/brand-form.module';
+import { MallFormPageModule } from './pages/logged-in/mall/mall-form/mall-form.module';
+import { SelectiveLoadingStrategy } from './util/SelectiveLoadingStrategy';
+import { StoreManagerFormPageModule } from './pages/logged-in/store/store-manager-form/store-manager-form.module';
+import { CompanyRequestFormPageModule } from './pages/logged-in/company/company-request-form/company-request-form.module';
+import { CompanyContactListPageModule } from "./pages/logged-in/company/company-contact/company-contact-list/company-contact-list.module";
+import { AllCompanyListPageModule } from "./pages/logged-in/company/company-request-list/all-company-list/all-company-list.module";
+export function startupServiceFactory(authService) {
+    return () => authService.load();
+}
+export function createTranslateLoader(http) {
+    return new TranslateHttpLoader(http, './assets/i18n/');
+}
+let AppModule = AppModule_1 = class AppModule {
+    constructor(injector) {
+        this.injector = injector;
+        AppModule_1.injector = injector;
+    }
+};
+AppModule = AppModule_1 = __decorate([
+    NgModule({
+        declarations: [AppComponent],
+        entryComponents: [],
+        imports: [
+            BrowserModule,
+            IonicModule.forRoot(),
+            AppRoutingModule,
+            HttpClientModule,
+            BrowserTransferStateModule,
+            // IonicStorageModule.forRoot({
+            //     name: '__payroll_staff',
+            //     version: 3
+            //     // driverOrder: ['sqlite', 'indexeddb', 'websql', 'localstorage']
+            // }),
+            TranslateModule.forRoot({
+                loader: {
+                    provide: TranslateLoader,
+                    useFactory: (createTranslateLoader),
+                    deps: [HttpClient]
+                }
+            }),
+            UpdateAlertModule,
+            ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.serviceWorker }),
+            CKEditorModule,
+            SkillFormPageModule,
+            ExperienceFormPageModule,
+            UploadCvPageModule,
+            UploadFilePageModule,
+            CompanyNoteFormPageModule,
+            CompanyContactFormPageModule,
+            CompanyRequestFormPageModule,
+            StoreManagerFormPageModule,
+            OptionPageModule,
+            BrandFormPageModule,
+            MallFormPageModule,
+            CompanyContactListPageModule,
+            AllCompanyListPageModule
+        ],
+        providers: [
+            {
+                // Provider for APP_INITIALIZER
+                provide: APP_INITIALIZER,
+                useFactory: startupServiceFactory,
+                deps: [AuthService],
+                multi: true
+            },
+            File,
+            FileChooser,
+            FilePath,
+            IOSFilePicker,
+            SwUpdate,
+            TranslateLabelService,
+            SelectiveLoadingStrategy,
+            { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+            { provide: ErrorHandler, useClass: SentryErrorhandlerService }
+        ],
+        bootstrap: [AppComponent]
+    })
+], AppModule);
+export { AppModule };
+//# sourceMappingURL=app.module.js.map
