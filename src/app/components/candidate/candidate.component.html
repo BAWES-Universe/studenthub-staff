@@ -29,10 +29,10 @@
       </ion-badge>
     </ion-label>
 
-    <ion-checkbox *ngIf="type == 'candidate'"
+    <ion-checkbox *ngIf="type == 'candidate'" #checkbox 
       (click)="$event.preventDefault();$event.stopPropagation();" slot="end"
-      [checked]="candidateIdCardService.candidates.indexOf(candidate.candidate_id) > -1"
-      (ionChange)="onCandidateSelected($event)" [value]="candidate.candidate_id"></ion-checkbox>
+      (ionChange)="onCandidateSelected($event)" 
+      [value]="candidate.candidate_id"></ion-checkbox>
 
   </ion-item>
 

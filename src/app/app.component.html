@@ -16,14 +16,14 @@
         <ion-list class="labels-list">
 
           <ion-menu-toggle auto-hide="false">
-            <ion-item class="item-candidate-selection" *ngIf="candidateIdCardService.candidates.length > 0">
+            <ion-item class="item-candidate-selection" *ngIf="candidateService.candidates.length > 0">
               <div tabindex="0"></div>
               <ion-label>
-                <span *ngIf="candidateIdCardService.candidates.length == 1">
-                  <span class="count">{{ candidateIdCardService.candidates.length }}</span> Candidate selected
+                <span *ngIf="candidateService.candidates.length == 1">
+                  <span class="count">{{ candidateService.candidates.length }}</span> Candidate selected
                 </span>
-                <span *ngIf="candidateIdCardService.candidates.length > 1">
-                  <span class="count">{{ candidateIdCardService.candidates.length }}</span> Candidates selected
+                <span *ngIf="candidateService.candidates.length > 1">
+                  <span class="count">{{ candidateService.candidates.length }}</span> Candidates selected
                 </span>
               </ion-label>
 

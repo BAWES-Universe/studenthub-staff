@@ -161,9 +161,15 @@ export class AppComponent implements OnInit {
     });
   }
 
+  /**
+   * remove candidate selection 
+   */
   clearCandidateSelection() {
+    this.candidateService.candidates = [];
     this.candidateIdCardService.candidates = [];
-  }
+
+    this.eventService.clearCandidateSelection$.next();
+  } 
 
   /**
    * change theme

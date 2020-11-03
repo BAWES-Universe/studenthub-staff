@@ -1,9 +1,10 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { AlertController, ToastController, NavController, Platform } from '@ionic/angular';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
+import { AlertController, ToastController, NavController, Platform, IonCheckbox } from '@ionic/angular';
 //models
 import { Candidate } from 'src/app/models/candidate';
 //services
 import { AwsService } from 'src/app/providers/aws.service';
+import { EventService } from 'src/app/providers/event.service';
 import { CandidateIdCardService } from 'src/app/providers/logged-in/candidate.id.card.service';
 import { CandidateService } from 'src/app/providers/logged-in/candidate.service';
 
@@ -22,12 +23,15 @@ export class CandidateComponent implements OnInit {
 
   public deleting: boolean = false;
 
+  @ViewChild('checkbox') checkbox: IonCheckbox;
+
   constructor(
     public platform: Platform,
     public alertCtrl: AlertController,
     public toastCtrl: ToastController,
     public navCtrl: NavController,
     public candidateService: CandidateService,
+    public eventService: EventService,
     public candidateIdCardService: CandidateIdCardService,
     public aws: AwsService
   ) {
@@ -35,6 +39,11 @@ export class CandidateComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.eventService.clearCandidateSelection$.subscribe(() => {
+      if(this.checkbox) {
+        this.checkbox.checked = false;
+      } 
+    });
   }
 
   /**
