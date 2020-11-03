@@ -24,10 +24,11 @@ const { SplashScreen } = Plugins;
 export class AppComponent implements OnInit {
 
   public updatesAvailable = false;
-  
+
   public expiredIdCount = 0;
 
   public assignedExpiredCivilID = 0;
+  public assignedIdleCandidates = 0;
 
   public totalCandidateToReview = null;
 
@@ -142,10 +143,10 @@ export class AppComponent implements OnInit {
       if(!data) {
         return this.loadStats();
       }
-      
+
       this.expiredIdCount = data.expiredIdCount;
       this.assignedExpiredCivilID = data.assignedExpiredCivilID;
-    }); 
+    });
 
     this.eventService.reviewRequired$.subscribe(() => {
       this.loadStats();
@@ -246,7 +247,7 @@ export class AppComponent implements OnInit {
   async loadStats() {
 
     this.statisticService.get().subscribe(response => {
-     
+
       this.expiredIdCount = response.totalExpiredCards;
 
       this.assignedIncompleteCandidates = response.incompleteAssignedToWork;
@@ -254,6 +255,7 @@ export class AppComponent implements OnInit {
       this.totalCandidateToReview = response.profileApprovalRequire;
       this.companyFollowUp = response.requireFollowup;
       this.assignedExpiredCivilID = response.assignedExpiredCivilID;
+      this.assignedIdleCandidates = response.assignedIdleCandidates;
     },
       error => { },
       () => { }
