@@ -16,7 +16,7 @@ import { StatisticService } from 'src/app/providers/logged-in/statistic.service'
 export class DefaultPage implements OnInit {
 
   public borderLimit = false;
-  
+
   public statistics: {
     totalPendingRequests: any;
     totalExpiredCards: any;
@@ -26,6 +26,7 @@ export class DefaultPage implements OnInit {
     missingBankInfo: any;
     incompleteAssignedToWork: any;
     profileApprovalRequire: any;
+    assignedIdleCandidates: any;
   };
 
   public loading = false;
@@ -76,14 +77,14 @@ export class DefaultPage implements OnInit {
    * load current data
    */
   async loadData() {
-   
+
     this.loading = true;
 
     this.statisticService.get().subscribe(response => {
       this.statistics = response;
 
       this._events.expiredIdCard$.next({
-        assignedExpiredCivilID: response.assignedExpiredCivilID, 
+        assignedExpiredCivilID: response.assignedExpiredCivilID,
         expiredIdCount: response.totalExpiredCards
       });
 

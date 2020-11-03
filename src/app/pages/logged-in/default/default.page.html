@@ -69,6 +69,15 @@
       </ion-card-content>
     </ion-card>
 
+   <ion-card class="stats" *ngIf="statistics.assignedIdleCandidates > 0" routerLink="/assigned-idle-candidates" tappable>
+      <ion-card-content>
+        <div class="count success">{{ statistics.assignedIdleCandidates }}</div>
+        <div class="message">
+          Candidates are assigned to work but have <b>not received any payments in the past two months.</b>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
     <ion-card class="stats" *ngIf="statistics.incompleteAssignedToWork > 0" tappable routerLink="/incomplete-candidate-list">
       <ion-card-content>
         <div class="count success">{{ statistics.incompleteAssignedToWork }}</div>
@@ -97,11 +106,11 @@
 
   <request-listing *ngFor="let request of myRequests" tappable [routerLink]="'/request-view/' + request.request_uuid"
                        [request]="request" [showStatus]="false"></request-listing>
-                       
+
   <h2 class="heading-request" id="heading-active-request" *ngIf="activeRequests.length > 0">Active Requests</h2>
 
   <request-listing *ngFor="let request of activeRequests" tappable [routerLink]="'/request-view/' + request.request_uuid"
                        [request]="request" [showStatus]="false"></request-listing>
-  
+
   <loading-modal [loading]="loading" type="stats"></loading-modal>
 </ion-content>
