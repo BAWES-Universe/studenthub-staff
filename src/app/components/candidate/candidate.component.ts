@@ -48,7 +48,6 @@ export class CandidateComponent implements OnInit {
     });
   }
 
-
   /**
    * Delete the provided model
    */
@@ -111,9 +110,18 @@ export class CandidateComponent implements OnInit {
    * @param event
    */
   onCandidateSelected(event) {
+
     event.preventDefault();
     event.stopPropagation();
 
+    if(!this.candidateService.candidates) {
+      this.candidateService.candidates = [];
+    }
+
+    if(!this.candidateIdCardService.candidates) {
+      this.candidateIdCardService.candidates = [];
+    }
+    
     const candidate_id = parseInt(event.target.value);
 
     //for candidate operations 
