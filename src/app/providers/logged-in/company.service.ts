@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { AuthHttpService } from './authhttp.service';
 //models
 import { File } from "../../models/file";
+import { Company } from 'src/app/models/company';
 
 
 @Injectable({
@@ -31,6 +32,31 @@ export class CompanyService {
    */
   listWithContact(page, searchParams): Observable<any> {
     return this._authhttp.getRaw(this._companyEndpoint + '?page=' + page + searchParams + '&expand=subCompanies,companyContacts,companyContacts.companyContactEmails,companyContacts.companyContactPhones,subCompanies.companyContacts,subCompanies.companyContacts.companyContactEmails,subCompanies.companyContacts.companyContactPhones');
+  }
+
+  /**
+   * update follow up
+   * @param model 
+   */
+  updateFollowup(model: Company): Observable<any>{
+    const url = `${this._companyEndpoint}/update-followup/${model.company_id}`;
+    const params = {
+      followup: model.company_followup
+    };
+    return this._authhttp.patch(url, params);
+  }
+
+  /**
+   * update follow up interval in weeks
+   * @param company_id 
+   * @param company_followup_interval_weeks 
+   */
+  updateFollowupInterval(company_id, company_followup_interval_weeks): Observable<any>{
+    const url = `${this._companyEndpoint}/update-followup-interval/${company_id}`;
+    const params = {
+      followup_interval_weeks: company_followup_interval_weeks
+    };
+    return this._authhttp.patch(url, params);
   }
 
   /**

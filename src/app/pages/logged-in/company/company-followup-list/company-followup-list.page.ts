@@ -5,6 +5,7 @@ import { Company } from 'src/app/models/company';
 //services
 import { CompanyService } from 'src/app/providers/logged-in/company.service';
 import { AwsService } from 'src/app/providers/aws.service';
+import { EventService } from 'src/app/providers/event.service';
 
 
 @Component({
@@ -25,16 +26,25 @@ export class CompanyFollowupListPage implements OnInit {
   constructor(
     public navCtrl: NavController,
     public platform: Platform,
+    public eventService: EventService,
     public companyService: CompanyService,
     public aws: AwsService
   ) { }
 
   ngOnInit() {
     this.loadCompanyList(1);
+
+    this.eventService.reloadFollowupList$.subscribe(() => {
+      this.loadCompanyList(1);
+    });
   }
 
+  /**
+   * load company list 
+   * @param page 
+   */
   async loadCompanyList(page: number) {
-    // Load list of companies
+  
     this.loading = true;
 
     this.companyService.listFollowups(page).subscribe(response => {
@@ -49,6 +59,10 @@ export class CompanyFollowupListPage implements OnInit {
     );
   }
 
+  /**
+   * load more followups on scroll to bottom 
+   * @param event 
+   */
   doInfinite(event) {
 
     this.loading = true;
@@ -69,6 +83,10 @@ export class CompanyFollowupListPage implements OnInit {
     );
   }
 
+  /**
+   * open detail page 
+   * @param model 
+   */
   rowSelected(model: Company) {
     this.navCtrl.navigateForward('company-view/' + model.company_id, {
       state: {
@@ -86,6 +104,10 @@ export class CompanyFollowupListPage implements OnInit {
       return new Date(date.replace(/-/g, '/'));
   }
 
+  /**
+   * reset logo on error
+   * @param company 
+   */
   loadLogo(company) {
     company.company_logo = null;
   }
