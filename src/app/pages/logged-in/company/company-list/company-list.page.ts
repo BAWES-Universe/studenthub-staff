@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController, Platform } from '@ionic/angular';
+import {ModalController, NavController, Platform} from '@ionic/angular';
 // model
 import { Company } from 'src/app/models/company';
 // service
 import { CompanyService } from 'src/app/providers/logged-in/company.service';
 import { AwsService } from '../../../../providers/aws.service';
 import { EventService } from 'src/app/providers/event.service';
+import {CompanyFormPage} from 'src/app/pages/logged-in/company/company-form/company-form.page';
 
 @Component({
   selector: 'app-company-list',
@@ -42,7 +43,8 @@ export class CompanyListPage implements OnInit {
     public companyService: CompanyService,
     public platform: Platform,
     public aws: AwsService,
-    public eventService: EventService
+    public eventService: EventService,
+    public _modalCtrl: ModalController
   ) {
   }
 
@@ -95,7 +97,7 @@ export class CompanyListPage implements OnInit {
       common_name_en: null,
       common_name_ar: null
     };
-    
+
     this.loadData(1); // reload all result
   }
 
@@ -176,6 +178,34 @@ export class CompanyListPage implements OnInit {
         event.target.complete();
       }
     );
+  }
+
+  /**
+   * Loads the create page
+   */
+  async create() {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
+    const modal = await this._modalCtrl.create({
+      component: CompanyFormPage,
+      componentProps: {
+        model: new Company(),
+        subcompany: 0
+      }
+    });
+    // Refresh List if required
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+
+      if (e && e.data && e.data.refresh) {
+        this.loadData(1);
+      }
+    });
+    modal.present();
   }
 }
 

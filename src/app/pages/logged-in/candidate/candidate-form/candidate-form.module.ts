@@ -7,10 +7,9 @@ import { IonicModule } from '@ionic/angular';
 import { CandidateFormPageRoutingModule } from './candidate-form-routing.module';
 
 import { CandidateFormPage } from './candidate-form.page';
-import {ImageUploadComponent} from "src/app/components/image-upload/image-upload.component";
-import {SelectSearchModule} from "src/app/components/select-search/select-search.module";
-import {LoadingModalModule} from "../../../../components/loading-modal/loading-modal.module";
-
+import {SelectSearchModule} from 'src/app/components/select-search/select-search.module';
+import {LoadingModalModule} from 'src/app/components/loading-modal/loading-modal.module';
+import {ImageUploadModule} from 'src/app/components/image-upload/image-upload.module';
 @NgModule({
     imports: [
         CommonModule,
@@ -18,8 +17,9 @@ import {LoadingModalModule} from "../../../../components/loading-modal/loading-m
         IonicModule,
         CandidateFormPageRoutingModule,
         SelectSearchModule,
-        LoadingModalModule
+        LoadingModalModule,
+        ImageUploadModule
     ],
-  declarations: [CandidateFormPage, ImageUploadComponent]
+  declarations: [CandidateFormPage]
 })
 export class CandidateFormPageModule {}

@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-//services
+// services
 import { AuthHttpService } from './authhttp.service';
-//models
-import { File } from "../../models/file";
+// models
+import { File } from '../../models/file';
+import {Company} from 'src/app/models/company';
 
 
 @Injectable({
@@ -66,7 +67,7 @@ export class CompanyService {
   addFollowupNote(note: string, company_id: number): Observable<any> {
     const url = `${this._companyEndpoint}/add-followup-note/${company_id}`;
     const params = {
-      note: note
+      note
     };
     return this._authhttp.post(url, params);
   }
@@ -87,4 +88,61 @@ export class CompanyService {
     return this._authhttp.post(url, params);
   }
 
+
+  /**
+   * Create company
+   * @param {Company} model
+   * @returns {Observable<any>}
+   */
+  create(model: Company): Observable<any>{
+    const postUrl = `${this._companyEndpoint}`;
+    const params = {
+      parent: model.parent_company_id,
+      name: model.company_name,
+      email: model.company_email,
+      password: model.company_password_hash,
+      bonus_commission: model.company_bonus_commission,
+      hourly_rate: model.company_hourly_rate,
+      common_name_en : model.company_common_name_en,
+      common_name_ar : model.company_common_name_ar,
+      description_en : model.company_description_en,
+      description_ar : model.company_description_ar,
+      website : model.company_website,
+      logo : model.company_logo,
+    };
+
+    return this._authhttp.post(postUrl, params);
+  }
+
+  /**
+   * Update company
+   * @param {Company} model
+   * @returns {Observable<any>}
+   */
+  update(model: Company): Observable<any>{
+    const params = {
+      parent: model.parent_company_id,
+      name: model.company_name,
+      email: model.company_email,
+      bonus_commission: model.company_bonus_commission,
+      hourly_rate: model.company_hourly_rate,
+      common_name_en : model.company_common_name_en,
+      common_name_ar : model.company_common_name_ar,
+      description_en : model.company_description_en,
+      description_ar : model.company_description_ar,
+      website : model.company_website,
+      logo : model.company_logo,
+    };
+
+    return this._authhttp.patch(`${this._companyEndpoint}/${model.company_id}`, params);
+  }
+  /**
+   * Reset Password
+   * @param {Company} model
+   * @returns {Observable<any>}
+   */
+  resetPassword(model: Company): Observable<any> {
+    const url = `${this._companyEndpoint}/reset-password/${model.company_id}`;
+    return this._authhttp.patch(url, {});
+  }
 }

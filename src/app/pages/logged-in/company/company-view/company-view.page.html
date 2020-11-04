@@ -7,6 +7,11 @@
     <ion-title *ngIf="company">
       {{ company.company_name }}
     </ion-title>
+    <ion-buttons slot="end" *ngIf="!loading && company">
+      <ion-button (click)="update()">
+        Update
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 
   <ion-toolbar>
@@ -681,3 +686,9 @@
   <loading-modal [loading]="loading" type="university-view"></loading-modal>
 
 </ion-content>
+
+<ion-footer *ngIf="!loading && company">
+  <ion-button expand="full" *ngIf="!stores || stores.length == 0" (click)="create(company.company_id, true)">
+    Create Sub Company
+  </ion-button>
+</ion-footer>

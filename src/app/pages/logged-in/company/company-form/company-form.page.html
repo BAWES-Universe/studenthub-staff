@@ -1,0 +1,84 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button (click)="close()"></ion-back-button>
+    </ion-buttons>
+
+    <ion-title>{{ operation }}</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button clear color="primary"
+        [disabled]="!form.valid"
+        (click)="save()">
+        <span *ngIf="!saving">Save</span>
+        <ion-spinner *ngIf="saving"></ion-spinner>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form [formGroup]="form" *ngIf="form">
+    <ion-list>
+        <app-image-upload
+                label="Company Logo" icon="person-outline" prefix="logo"
+                formControlName="logo"
+        ></app-image-upload>
+
+        <ion-item>
+          <ion-label position="floating">Company name as per license</ion-label>
+          <ion-input type="text" formControlName="name"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Common Name en</ion-label>
+          <ion-input type="text" formControlName="common_name_en"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Common Name ar</ion-label>
+          <ion-input type="text" formControlName="common_name_ar"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Description - English</ion-label>
+          <ion-input type="text" formControlName="description_en"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Description - Arabic</ion-label>
+          <ion-input type="text" formControlName="description_ar"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Website</ion-label>
+          <ion-input type="text" formControlName="website"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Hourly Rate</ion-label>
+          <ion-input type="text" formControlName="hourly_rate"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Bonus Commission(%)</ion-label>
+          <ion-input type="text" formControlName="bonus_commission"></ion-input>
+        </ion-item>
+
+        <ion-item *ngIf="!isSubCompany">
+          <ion-label position="floating">Email</ion-label>
+          <ion-input type="text" formControlName="email"></ion-input>
+        </ion-item>
+
+        <ion-item class="field-password" *ngIf="!isSubCompany">
+          <ion-label position="floating">Password</ion-label>
+          <ion-input type="{{ type }}" formControlName="password"></ion-input>
+
+          <ion-button class="btn-password" fill="clear" (click)="togglePasswordVisibility()">
+            <ion-icon *ngIf="type == 'password'" name="eye"></ion-icon>
+            <ion-icon *ngIf="type != 'password'" name="eye-off"></ion-icon>
+          </ion-button>
+        </ion-item>
+    </ion-list>
+  </form>
+</ion-content>

@@ -28,6 +28,7 @@ import { CompanyRequestFormPage } from '../company-request-form/company-request-
 import { CompanyNoteFormPage } from '../company-note-form/company-note-form.page';
 import { BrandFormPage } from '../brand-form/brand-form.page';
 import { StoreFormPage } from '../../store/store-form/store-form.page';
+import {CompanyFormPage} from 'src/app/pages/logged-in/company/company-form/company-form.page';
 
 import NumberFormat = Intl.NumberFormat;
 
@@ -43,7 +44,7 @@ export class CompanyViewPage implements OnInit {
 
   @ViewChild('ckeditor') ckeditor;
 
-  public editorFocused: boolean = false;
+  public editorFocused = false;
 
   public Editor = ClassicEditor;
 
@@ -68,7 +69,7 @@ export class CompanyViewPage implements OnInit {
   public loading = false;
   public updating = false;
 
-  public addingNote: boolean = false;
+  public addingNote = false;
 
   public sendingNewPassword = false;
   public statsData: any[];
@@ -404,7 +405,7 @@ export class CompanyViewPage implements OnInit {
    */
   onChange(event) {
 
-    if(!event.editor) {
+    if (!event.editor) {
       return event;
     }
 
@@ -424,7 +425,7 @@ export class CompanyViewPage implements OnInit {
   addNote() {
     this.addingNote = true;
 
-    let model = new Note;
+    const model = new Note;
     model.company_id = this.company_id;
     model.note_text = this.noteForm.controls.note.value;
 
@@ -775,7 +776,7 @@ export class CompanyViewPage implements OnInit {
 
     this.company.companyContacts = this.companyContacts;
 
-    if(this.company.companyContacts.length == 0) {
+    if (this.company.companyContacts.length == 0) {
       return this.addCompanyContact();
     }
 
@@ -1200,4 +1201,69 @@ export class CompanyViewPage implements OnInit {
     console.log('log');
     // this.editorReady = event.editor;
   }
+
+  /**
+   * Create a new company
+   * @param parent_company_id
+   * @param isSubcompany
+   */
+  async create(parent_company_id: number, isSubcompany: boolean = false) {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
+    const company = new Company();
+
+    company.parent_company_id = parent_company_id;
+
+    const modal = await this.modalCtrl.create({
+      component: CompanyFormPage,
+      componentProps: {
+        model: company,
+        company_id: company.company_id,
+        subcompany : isSubcompany
+      }
+    });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+
+      if (e && e.data && e.data.refresh) {
+        this.loadData(true);
+      }
+    });
+    modal.present();
+  }
+
+
+  /**
+   * Loads Form in modal to update
+   */
+  async update() {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
+    const modal = await this.modalCtrl.create({
+      component: CompanyFormPage,
+      componentProps: {
+        model: this.company,
+        company_id: this.company_id,
+        subcompany: 0
+      }
+    });
+    // Refresh List if required
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+
+      if (e && e.data && e.data.refresh) {
+        this.loadData(true);
+      }
+    });
+    modal.present();
+  }
+
 }
