@@ -14,6 +14,7 @@ export class Company {
     company_description_ar: string;
     company_website: string;
     company_email: string;
+    company_password_hash: string;
     company_logo: string;
     company_status: number;
     total_candidates: number;
@@ -21,6 +22,7 @@ export class Company {
     company_bonus_commission: number;
     company_followup: any;
     company_last_followup_datetime: any;
+    company_followup_interval_weeks: any;
     currency_pref: number;
     subcompanies: Company[];
     subCompanies: Company[];

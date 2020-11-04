@@ -29,7 +29,7 @@
               <ion-input type="text" [(ngModel)]="filters.common_name_en"></ion-input>
             </ion-item>
           </ion-col>
-          
+
           <ion-col>
             <ion-item>
               <ion-label position="floating" color="primary">Common Name - Arabic</ion-label>
@@ -56,7 +56,7 @@
       <ion-label>In Active</ion-label>
     </ion-segment-button>
   </ion-segment>
-  
+
   <ion-list>
     <section>
 
@@ -102,7 +102,7 @@
 
       <ng-container *ngIf="segment == 0">
         <no-items *ngIf="!loading && inActiveCompanies && inActiveCompanies.length == 0" message="no inactive company right now"></no-items>
-        
+
         <ion-item tappable *ngFor="let company of inActiveCompanies" (click)="rowSelected(company)">
           <div tabindex="0"></div>
           <ion-avatar slot="start">
@@ -157,3 +157,9 @@
   </ion-infinite-scroll>
 
 </ion-content>
+
+<ion-footer>
+  <ion-button expand="full" (click)="create()">
+    Create
+  </ion-button>
+</ion-footer>

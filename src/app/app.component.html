@@ -16,14 +16,14 @@
         <ion-list class="labels-list">
 
           <ion-menu-toggle auto-hide="false">
-            <ion-item class="item-candidate-selection" *ngIf="candidateIdCardService.candidates.length > 0">
+            <ion-item class="item-candidate-selection" *ngIf="candidateService.candidates.length > 0">
               <div tabindex="0"></div>
               <ion-label>
-                <span *ngIf="candidateIdCardService.candidates.length == 1">
-                  <span class="count">{{ candidateIdCardService.candidates.length }}</span> Candidate selected
+                <span *ngIf="candidateService.candidates.length == 1">
+                  <span class="count">{{ candidateService.candidates.length }}</span> Candidate selected
                 </span>
-                <span *ngIf="candidateIdCardService.candidates.length > 1">
-                  <span class="count">{{ candidateIdCardService.candidates.length }}</span> Candidates selected
+                <span *ngIf="candidateService.candidates.length > 1">
+                  <span class="count">{{ candidateService.candidates.length }}</span> Candidates selected
                 </span>
               </ion-label>
 
@@ -88,6 +88,15 @@
               <ion-icon slot="start" name="person-outline"></ion-icon>
               <ion-label>Assigned Incomplete Candidates</ion-label>
               <ion-badge color="danger">{{assignedIncompleteCandidates}}</ion-badge>
+            </ion-item>
+          </ion-menu-toggle>
+
+          <ion-menu-toggle auto-hide="false" *ngIf="assignedIdleCandidates > 0">
+            <ion-item routerDirection="root" routerLink="/assigned-idle-candidates" routerLinkActive="active" detail="false">
+              <div tabindex="0"></div>
+              <ion-icon slot="start" name="person-outline"></ion-icon>
+              <ion-label>Assigned Idle Candidates</ion-label>
+              <ion-badge color="danger">{{assignedIdleCandidates}}</ion-badge>
             </ion-item>
           </ion-menu-toggle>
 

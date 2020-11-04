@@ -7,6 +7,11 @@
     <ion-title *ngIf="company">
       {{ company.company_name }}
     </ion-title>
+    <ion-buttons slot="end" *ngIf="!loading && company">
+      <ion-button (click)="update()">
+        Update
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 
   <ion-toolbar>
@@ -39,12 +44,14 @@
       <ion-segment-button value="malls" *ngIf="company && company.malls && company.malls.length > 0">
         <ion-label>Malls</ion-label>
       </ion-segment-button>
-      <ion-segment-button value="transfer" *ngIf="company && company.parentTransfers && company.parentTransfers.length > 0">
+      <ion-segment-button value="transfer"
+        *ngIf="company && company.parentTransfers && company.parentTransfers.length > 0">
         <ion-label>Transfer</ion-label>
       </ion-segment-button>
     </ion-segment>
 
-    <ion-select *ngIf="platform.is('mobile')" interface="popover" (ionChange)="segmentChanged($event)" [value]="segment">
+    <ion-select *ngIf="platform.is('mobile')" interface="popover" (ionChange)="segmentChanged($event)"
+      [value]="segment">
       <ion-select-option value="info">
         <ion-label>Info</ion-label>
       </ion-select-option>
@@ -73,7 +80,8 @@
       <ion-select-option value="malls" *ngIf="company && company.malls && company.malls.length > 0">
         <ion-label>Malls</ion-label>
       </ion-select-option>
-      <ion-select-option value="transfer" *ngIf="company && company.parentTransfers && company.parentTransfers.length > 0">
+      <ion-select-option value="transfer"
+        *ngIf="company && company.parentTransfers && company.parentTransfers.length > 0">
         <ion-label>Transfer</ion-label>
       </ion-select-option>
     </ion-select>
@@ -86,12 +94,13 @@
 
 <ion-content>
 
-<!--  </ion-list>-->
+  <!--  </ion-list>-->
   <section *ngIf="segment == 'info'">
 
     <ion-card class="welcome-card" [hidden]="!legendDisplay || (statsData && !statsData.length)">
       <ion-card-header>
-        <ion-card-title> Completed / Received / InProgress Transfer/ Profit, Total Candidates, Total Paid Candidate, Candidate Average Payment,Average Profit/Candidate</ion-card-title>
+        <ion-card-title> Completed / Received / InProgress Transfer/ Profit, Total Candidates, Total Paid Candidate,
+          Candidate Average Payment,Average Profit/Candidate</ion-card-title>
       </ion-card-header>
       <ion-card-content>
         <canvas #statsChart></canvas>
@@ -99,40 +108,50 @@
     </ion-card>
 
     <div class="ion-text-center ion-padding">
-        <img *ngIf="company.company_logo" src="{{ awsService.cloudinaryUrl + company.company_logo }}"
-           (error)="loadLogo($event,company)" width="80"/>
-        <img *ngIf="!company.company_logo" src="/assets/icon/icon.png"  width="80"/>
-      <br/>
+      <img *ngIf="company.company_logo" src="{{ awsService.cloudinaryUrl + company.company_logo }}"
+        (error)="loadLogo($event,company)" width="80" />
+      <img *ngIf="!company.company_logo" src="/assets/icon/icon.png" width="80" />
+      <br />
 
     </div>
 
-      <ion-item lines="none">
-        <div tabindex="0"></div>
-        <ion-label>
-          <h3>Followup</h3>
-          <ion-chip color="primary" *ngIf="company.company_followup">
-            Yes
-          </ion-chip>
-          <ion-chip color="light" *ngIf="!company.company_followup">
-            No
-          </ion-chip>
-        </ion-label>
-      </ion-item>
+    <ion-item *ngIf="company && !company.parent_company_id">
+      <div tabindex="0"></div>
+      <ion-label>Followup</ion-label>
+      <ion-toggle [checked]="followup" (ionChange)="toggleFollowup($event)">
+      </ion-toggle>
+    </ion-item>
 
-        <ion-item *ngIf="company.company_followup">
-          <div tabindex="0"></div>
-          <ion-button (click)="addFollowupNote()">
-            I have followed up with this company
-          </ion-button>
-        </ion-item>
+    <ion-item *ngIf="company.company_followup">
+      <div tabindex="0"></div>
+      <ion-label>
+        <h3>Followup interval</h3>
+        <p>
+          {{ company.company_followup_interval_weeks }} weeks
+        </p>
+      </ion-label>
 
-        <ion-item lines="none">
-          <div tabindex="0"></div>
-          <ion-label>
-            <h3>Last Followup</h3>
-            <p>@ {{ toDate(company.company_last_followup_datetime) | date: 'MMM d, y, h:mm:ss a' }}</p>
-          </ion-label>
-        </ion-item>
+      <ion-buttons slot="end">
+        <ion-button (click)="updateFollowupInterval()">
+          <ion-icon name="pencil-outline"></ion-icon> Change
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+
+    <ion-item *ngIf="company.company_followup">
+      <div tabindex="0"></div>
+      <ion-button (click)="addFollowupNote()">
+        I have followed up with this company
+      </ion-button>
+    </ion-item>
+
+    <ion-item lines="none">
+      <div tabindex="0"></div>
+      <ion-label>
+        <h3>Last Followup</h3>
+        <p>@ {{ toDate(company.company_last_followup_datetime) | date: 'MMM d, y, h:mm:ss a' }}</p>
+      </ion-label>
+    </ion-item>
 
     <!-- If Main Company -->
     <section>
@@ -334,7 +353,12 @@
           <ion-label>
             <h5>{{ store.store_name }}</h5>
             <p>
-              <ion-badge *ngIf="store.store_location" class="icon-location"><ion-icon name="location-outline"></ion-icon> {{ store.store_location }}</ion-badge><ion-badge *ngIf="store && store.mall"><ion-icon name="business-outline"></ion-icon> {{ store.mall.mall_name_en }}</ion-badge>
+              <ion-badge *ngIf="store.store_location" class="icon-location">
+                <ion-icon name="location-outline"></ion-icon> {{ store.store_location }}
+              </ion-badge>
+              <ion-badge *ngIf="store && store.mall">
+                <ion-icon name="business-outline"></ion-icon> {{ store.mall.mall_name_en }}
+              </ion-badge>
             </p>
           </ion-label>
 
@@ -376,17 +400,17 @@
   <section *ngIf="segment == 'malls'">
 
     <ion-list>
-        <ion-item tappable (click)="mallSelected(mall)"  *ngFor="let mall of company.malls">
-          <div tabindex="0"></div>
-          <ion-label>
-            <h5>{{ mall.mall_name_en }}</h5>
-            <p>{{ mall.mall_name_ar }}</p>
-          </ion-label>
+      <ion-item tappable (click)="mallSelected(mall)" *ngFor="let mall of company.malls">
+        <div tabindex="0"></div>
+        <ion-label>
+          <h5>{{ mall.mall_name_en }}</h5>
+          <p>{{ mall.mall_name_ar }}</p>
+        </ion-label>
 
-          <ion-badge slot="end" *ngIf="mall.candidate_count > 0">
-            {{ mall.candidate_count }}
-          </ion-badge>
-          </ion-item>
+        <ion-badge slot="end" *ngIf="mall.candidate_count > 0">
+          {{ mall.candidate_count }}
+        </ion-badge>
+      </ion-item>
     </ion-list>
 
   </section>
@@ -445,7 +469,7 @@
 
   <section *ngIf="segment == 'requests'">
     <ion-list>
-      <ion-item-sliding  [disabled]="platform.width() > 768" *ngFor="let request of requests">
+      <ion-item-sliding [disabled]="platform.width() > 768" *ngFor="let request of requests">
         <ion-item tappable (click)="editRequest(request)">
           <div tabindex="0"></div>
           <ion-label>
@@ -528,11 +552,13 @@
 
   <section *ngIf="segment == 'notes'">
 
-    <form [formGroup]="noteForm" [class.editor-inactive]="!editorFocused" [class.editor-focused]="editorFocused" *ngIf="noteForm">
+    <form [formGroup]="noteForm" [class.editor-inactive]="!editorFocused" [class.editor-focused]="editorFocused"
+      *ngIf="noteForm">
       <ion-item lines="none">
         <div tabindex="0"></div>
 
-        <ckeditor [config]="editorConfig" #ckeditor [editor]="Editor" (focus)="onEditorFocus()" (change)="onChange($event)"></ckeditor>
+        <ckeditor [config]="editorConfig" #ckeditor [editor]="Editor" (focus)="onEditorFocus()"
+          (change)="onChange($event)"></ckeditor>
 
       </ion-item>
       <ion-item lines="none">
@@ -667,10 +693,14 @@
           <p>
             <strong>Status: </strong>
             <span class="status status_{{transfer.transfer_status}}" *ngIf="transfer.transfer_status==10"> Draft </span>
-            <span class="status status_{{transfer.transfer_status}}" *ngIf="transfer.transfer_status==5"> Locked, Pending Payment </span>
-            <span class="status status_{{transfer.transfer_status}}" *ngIf="transfer.transfer_status==1"> Payment Sent, Confirm Received </span>
-            <span class="status status_{{transfer.transfer_status}}" *ngIf="transfer.transfer_status==3"> Received & Distribution in Progress </span>
-            <span class="status status_{{transfer.transfer_status}}" *ngIf="transfer.transfer_status==4"> Completed </span>
+            <span class="status status_{{transfer.transfer_status}}" *ngIf="transfer.transfer_status==5"> Locked,
+              Pending Payment </span>
+            <span class="status status_{{transfer.transfer_status}}" *ngIf="transfer.transfer_status==1"> Payment Sent,
+              Confirm Received </span>
+            <span class="status status_{{transfer.transfer_status}}" *ngIf="transfer.transfer_status==3"> Received &
+              Distribution in Progress </span>
+            <span class="status status_{{transfer.transfer_status}}" *ngIf="transfer.transfer_status==4"> Completed
+            </span>
           </p>
           <p><strong>Created on: </strong> {{transfer.transfer_created_at}}</p>
         </ion-card-content>
@@ -681,3 +711,9 @@
   <loading-modal [loading]="loading" type="university-view"></loading-modal>
 
 </ion-content>
+
+<ion-footer *ngIf="!loading && company">
+  <ion-button expand="full" *ngIf="!stores || stores.length == 0" (click)="create(company.company_id, true)">
+    Create Sub Company
+  </ion-button>
+</ion-footer>

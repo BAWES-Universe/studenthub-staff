@@ -1,8 +1,11 @@
-ion-menu{
-  .logo{width:120px;}
+ion-menu {
+  .logo {
+    width:120px;
+  }
 }
-ion-header{
-  ion-toolbar{
+
+ion-header {
+  ion-toolbar {
     background: #231f20;
     --background: #231f20;
   }
@@ -26,6 +29,7 @@ ion-header{
     height: 21px;
     line-height: 21px;
     text-align: center;
+    margin-right: 5px;
   }
 }
 

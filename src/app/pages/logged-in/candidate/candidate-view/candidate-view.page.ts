@@ -95,6 +95,7 @@ export class CandidateViewPage implements OnInit {
     this.loadingSalaryTransfers = true;
 
     this.candidateService.transfers(this.candidate_id).subscribe(response => {
+      
       this.loadingSalaryTransfers = false;
 
       this.salaryTransfers = response;
@@ -138,6 +139,7 @@ export class CandidateViewPage implements OnInit {
    * @param {number} store_id
    */
   async assignCandidateToStore(store_id: number) {
+
     this.assigning = true;
 
     this.candidateService.assignCandidateToStore(this.candidate, store_id).subscribe(async response => {
@@ -292,6 +294,10 @@ export class CandidateViewPage implements OnInit {
     this.sections = $e.detail.value;
   }
 
+  /**
+   * update candidate hourly rate 
+   * @param $e 
+   */
   updateRate($e) {
     this.alertCtrl.create({
       header: 'Set hourly rate',
@@ -337,6 +343,10 @@ export class CandidateViewPage implements OnInit {
     }).then(alert => { alert.present(); });
   }
 
+  /**
+   * get candidate resume url 
+   * @param candidate 
+   */
   getResumeUrl(candidate) {
     return this.aws.permanentBucketUrl + 'candidate-resume/' + encodeURIComponent(candidate.candidate_resume);
   }

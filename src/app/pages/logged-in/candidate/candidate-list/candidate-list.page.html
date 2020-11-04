@@ -6,13 +6,14 @@
     <ion-title>Candidates <span *ngIf="!loading && totalCount">({{totalCount}})</span></ion-title>
 
     <ion-buttons slot="end">
-      <ion-button color="primary" [disabled]="candidateIdCardService.candidates.length == 0 || downloading"
+      
+      <ion-button color="primary" [disabled]="candidateIdCardService.candidates.length == 0 || merging || downloading"
         (click)="generate()">
         <span *ngIf="!downloading">Download Zip</span>
         <ion-spinner *ngIf="downloading"></ion-spinner>
       </ion-button>
       
-      <ion-button color="primary" [disabled]="candidateService.candidates.length != 2 || merging"
+      <ion-button color="primary" [disabled]="candidateService.candidates.length != 2 || merging || downloading"
         (click)="merge()">
         <span *ngIf="!merging">Merge</span>
         <ion-spinner *ngIf="merging"></ion-spinner>
