@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Platform, ModalController, AlertController, ToastController } from '@ionic/angular';
 import { Chart } from 'chart.js';
@@ -13,6 +13,7 @@ import { AuthService } from 'src/app/providers/auth.service';
 import { CompanyRequestService } from 'src/app/providers/logged-in/company-request.service';
 import { CompanyNoteService } from 'src/app/providers/logged-in/company-note.service';
 import { BrandService } from 'src/app/providers/logged-in/brand.service';
+import { EventService } from 'src/app/providers/event.service';
 // models
 import { CompanyContact } from 'src/app/models/company-contact';
 import { Company } from 'src/app/models/company';
@@ -43,13 +44,15 @@ export class CompanyViewPage implements OnInit {
 
   @ViewChild('ckeditor') ckeditor;
 
+  public followup = false;
+
   public editorFocused: boolean = false;
 
   public Editor = ClassicEditor;
 
   public editorConfig = {
     placeholder: 'Click here to take notes...',
-    toolbar: [ 'Heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', '|', 'indent', 'outdent'],
+    toolbar: ['Heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', '|', 'indent', 'outdent'],
   };
 
   public company_id;
@@ -91,6 +94,7 @@ export class CompanyViewPage implements OnInit {
     private fb: FormBuilder,
     public activatedRoute: ActivatedRoute,
     public companyService: CompanyService,
+    public eventService: EventService,
     public authService: AuthService,
     public requestService: CompanyRequestService,
     public brandService: BrandService,
@@ -136,6 +140,8 @@ export class CompanyViewPage implements OnInit {
       this.updating = true;
     }
 
+    this.followup = !!(this.company && this.company.company_followup);
+
     if (!this.company) {
       this.company = new Company;
       this.company.company_id = this.company_id;
@@ -148,6 +154,8 @@ export class CompanyViewPage implements OnInit {
       this.updating = false;
 
       this.company = response;
+
+      this.followup = !!(this.company.company_followup);
 
       this.subCompanies = response.subCompanies;
       this.stores = response.stores;
@@ -200,6 +208,86 @@ export class CompanyViewPage implements OnInit {
       }
     });
     return await modal.present();
+  }
+
+  /**
+   * toggle followup status
+   * @param $event 
+   */
+  toggleFollowup($event) {
+
+    this.followup = $event.detail.checked;
+    this.company.company_followup = $event.detail.checked;
+
+    this.updating = true;
+
+    this.companyService.updateFollowup(this.company).subscribe(async response => {
+
+      this.updating = false;
+
+      if (response && response.operation == 'success') {
+        const toast = await this.toastCtrl.create({
+          message: response.message,
+          duration: 3000
+        });
+        toast.present();
+
+        this.eventService.reloadFollowupList$.next();
+      }
+
+    }, () => {
+      this.updating = false;
+    });
+  }
+
+  /**
+   * update company follow up interval in week
+   */
+  async updateFollowupInterval() {
+    const alert = await this.alertCtrl.create({
+      header: 'Follow up',
+      inputs: [
+        {
+          name: 'interval',
+          type: 'number',
+          value: this.company.company_followup_interval_weeks,
+          placeholder: 'Enter interval in weeks'
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel'
+        },
+        {
+          text: 'Submit',
+          handler: (data) => {
+
+            this.updating = true;
+
+            this.companyService.updateFollowupInterval(this.company_id, data.interval).subscribe(async resp => {
+              this.updating = false;
+
+              if (resp.operation != 'success') {
+                const prompt = await this.alertCtrl.create({
+                  header: 'Error!',
+                  message: resp.message,
+                  buttons: ['Ok']
+                });
+                prompt.present();
+              }
+              else {
+                this.company.company_followup_interval_weeks = data.interval;
+              }
+
+            }, () => {
+              this.updating = false;
+            });
+          }
+        }
+      ]
+    });
+    alert.present();
   }
 
   /**
@@ -404,7 +492,7 @@ export class CompanyViewPage implements OnInit {
    */
   onChange(event) {
 
-    if(!event.editor) {
+    if (!event.editor) {
       return event;
     }
 
@@ -678,12 +766,10 @@ export class CompanyViewPage implements OnInit {
 
               this.deleting = false;
 
-              if (response.operation == 'success')
-              {
+              if (response.operation == 'success') {
                 this.companyContacts = this.companyContacts.filter(e => e.contact_uuid != companyContact.contact_uuid);
               }
-              else
-              {
+              else {
                 const prompt = await this.alertCtrl.create({
                   message: this.authService.errorMessage(response.message),
                   buttons: ['Ok']
@@ -775,7 +861,7 @@ export class CompanyViewPage implements OnInit {
 
     this.company.companyContacts = this.companyContacts;
 
-    if(this.company.companyContacts.length == 0) {
+    if (this.company.companyContacts.length == 0) {
       return this.addCompanyContact();
     }
 
@@ -863,7 +949,7 @@ export class CompanyViewPage implements OnInit {
                   });
                 }
               });
-            } else  {
+            } else {
               this.alertCtrl.create({
                 message: 'Please provide feedback',
                 buttons: ['ok']
@@ -874,7 +960,7 @@ export class CompanyViewPage implements OnInit {
           }
         }
       ]
-    }).then( alert => { alert.present(); });
+    }).then(alert => { alert.present(); });
   }
 
   deliveredRequest(event, request) {
@@ -918,7 +1004,7 @@ export class CompanyViewPage implements OnInit {
                   });
                 }
               });
-            } else  {
+            } else {
               this.alertCtrl.create({
                 message: 'Please provide feedback',
                 buttons: ['ok']
@@ -929,7 +1015,7 @@ export class CompanyViewPage implements OnInit {
           }
         }
       ]
-    }).then( alert => { alert.present(); });
+    }).then(alert => { alert.present(); });
 
   }
 
@@ -1027,9 +1113,9 @@ export class CompanyViewPage implements OnInit {
         },
         options: {
           legend: {
-              display: this.legendDisplay,
-              position: 'bottom'
-            },
+            display: this.legendDisplay,
+            position: 'bottom'
+          },
           scales: {
             xAxes: [{
               // display: false,
@@ -1184,19 +1270,19 @@ export class CompanyViewPage implements OnInit {
           xAxis.push(transfer.transfer_created_at_unix);
         }
       }
-        // console.log(complete);
+      // console.log(complete);
       this.createStatsChart(
-            xAxis, complete, paymentReceived,
-            inprogress, profit, totalCandidates,
-            totalCandidatePaid, canAvgPayment,
-            averageProfitPerCandidate,
-            allTransfers,
-            pointBackgroundColors
-          );
-        }
+        xAxis, complete, paymentReceived,
+        inprogress, profit, totalCandidates,
+        totalCandidatePaid, canAvgPayment,
+        averageProfitPerCandidate,
+        allTransfers,
+        pointBackgroundColors
+      );
     }
+  }
 
-  onEditorReady(event: any){
+  onEditorReady(event: any) {
     console.log('log');
     // this.editorReady = event.editor;
   }
