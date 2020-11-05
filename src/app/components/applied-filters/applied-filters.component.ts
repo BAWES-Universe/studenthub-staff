@@ -162,6 +162,10 @@ export class AppliedFiltersComponent extends BaseWidget {
 
             let refinements = b.refinements;
 
+            if (b.attribute == 'candidate_committed') {
+                refinements = this.committedTransformItems(b.refinements);
+            }
+
             if (b.attribute == 'have_video') {
                 refinements = this.haveVideoTransformItems(b.refinements);
             }
@@ -189,6 +193,18 @@ export class AppliedFiltersComponent extends BaseWidget {
 
         return buttons;
     }
+
+    committedTransformItems = (items) => {
+
+        return items.map(item => {
+            if (item.name == "Yes" || item.label == "Yes")
+                item.label = item.highlighted = item.name = this._translateService.transform('Committed');
+            else if (item.name == "No" || item.label == "No")
+                item.label = item.highlighted = item.name = this._translateService.transform('Not committed');
+        
+            return item;
+        });
+    };
 
     haveVideoTransformItems = (items) => {
 
