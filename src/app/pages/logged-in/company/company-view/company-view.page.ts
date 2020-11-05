@@ -339,12 +339,7 @@ export class CompanyViewPage implements OnInit {
           }
         },
         {
-          text: 'No',
-          handler: () => {
-            // this.loadData(this.currentPage);
-            // loader.dismiss();
-            console.log('no');
-          }
+          text: 'No'
         }
       ]
     });
@@ -928,10 +923,7 @@ export class CompanyViewPage implements OnInit {
         {
           text: 'Cancel',
           role: 'cancel',
-          cssClass: 'secondary',
-          handler: () => {
-            console.log('Confirm Cancel');
-          }
+          cssClass: 'secondary'
         }, {
           text: 'Save',
           handler: (data) => {
@@ -983,10 +975,7 @@ export class CompanyViewPage implements OnInit {
         {
           text: 'Cancel',
           role: 'cancel',
-          cssClass: 'secondary',
-          handler: () => {
-            console.log('Confirm Cancel');
-          }
+          cssClass: 'secondary'
         }, {
           text: 'Save',
           handler: (data) => {
@@ -1138,9 +1127,7 @@ export class CompanyViewPage implements OnInit {
           tooltips: {
             callbacks: {
               label: (context) => {
-
-                // console.log(context);
-                // console.log(this.statsChart);
+ 
                 let label = '';
                 // let label = context.label || '';Complete/payment received/inprogress
                 if (context.datasetIndex == 0) {
@@ -1183,8 +1170,7 @@ export class CompanyViewPage implements OnInit {
     }
   }
 
-  loadChartStats() {
-    // console.log(this.statsData);
+  loadChartStats() { 
     const allTransfers = [];
     const complete = [];
     const paymentReceived = [];
@@ -1271,7 +1257,7 @@ export class CompanyViewPage implements OnInit {
           xAxis.push(transfer.transfer_created_at_unix);
         }
       }
-      // console.log(complete);
+ 
       this.createStatsChart(
         xAxis, complete, paymentReceived,
         inprogress, profit, totalCandidates,
@@ -1283,8 +1269,7 @@ export class CompanyViewPage implements OnInit {
     }
   }
 
-  onEditorReady(event: any) {
-    console.log('log');
+  onEditorReady(event: any) { 
     // this.editorReady = event.editor;
   }
 

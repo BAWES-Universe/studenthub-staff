@@ -37,6 +37,18 @@ export class CandidateNoteService {
   }
 
   /**
+   * toggle committed
+   * @param model 
+   */
+  toggleCommitted(model: CandidateNote): Observable<any>{
+    const url = `${this.candidateNoteEndpoint}/toggle-committed`;
+    return this.authhttp.patch(url, {
+      candidate_id: model.candidate_id,
+      note: model.note_text,
+    });
+  }
+
+  /**
    * delete note
    * @param model
    */

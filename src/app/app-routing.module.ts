@@ -316,6 +316,10 @@ const routes: Routes = [
   {
     path: '**',
     redirectTo: 'not-found'
+  },
+  {
+    path: 'candidate-committed-form',
+    loadChildren: () => import('./pages/logged-in/candidate/candidate-committed-form/candidate-committed-form.module').then( m => m.CandidateCommittedFormPageModule)
   }
 ];
 

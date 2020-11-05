@@ -201,7 +201,7 @@ export class CompanyRequestViewPage implements OnInit {
   dismiss() {
 
     const state = window.history.state;
-    console.log(state);
+ 
     this.modalCtrl.getTop().then(overlay => {
       if (overlay) {
         overlay.dismiss();
@@ -353,10 +353,7 @@ export class CompanyRequestViewPage implements OnInit {
         {
           text: 'Cancel',
           role: 'cancel',
-          cssClass: 'secondary',
-          handler: () => {
-            console.log('Confirm Cancel');
-          }
+          cssClass: 'secondary'
         }, {
           text: 'Save',
           handler: (data) => {
