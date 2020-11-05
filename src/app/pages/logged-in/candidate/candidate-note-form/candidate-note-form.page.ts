@@ -1,11 +1,14 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ModalController, AlertController } from '@ionic/angular';
-
-import {AuthService} from '../../../../providers/auth.service';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import {CandidateNoteService} from '../../../../providers/logged-in/candidate-note.service';
-import {CandidateNote} from '../../../../models/candidate.note';
+//services
+import { AuthService } from '../../../../providers/auth.service';
+import { CandidateNoteService } from '../../../../providers/logged-in/candidate-note.service';
+//models
+import { CandidateNote } from '../../../../models/candidate.note';
+
+
 @Component({
   selector: 'app-candidate-note-form',
   templateUrl: './candidate-note-form.page.html',
@@ -13,20 +16,24 @@ import {CandidateNote} from '../../../../models/candidate.note';
 })
 export class CandidateNoteFormPage implements OnInit {
 
-  public saving = false;
   @Input() candidate;
+  
   @Input() note;
-  public model: CandidateNote = new CandidateNote();
-  public operation: string;
+
   @ViewChild('ckeditor', { static: false }) ckeditor: ClassicEditor;
 
+  public model: CandidateNote = new CandidateNote();
+
+  public operation: string;
+  
   public Editor = ClassicEditor;
+
+  public saving = false;
 
   public editorConfig = {
     placeholder: 'Click here to take notes...',
-    toolbar: [ 'Heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', '|', 'indent', 'outdent'],
+    toolbar: ['Heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', '|', 'indent', 'outdent'],
   };
-
 
   public form: FormGroup;
 
@@ -47,14 +54,14 @@ export class CandidateNoteFormPage implements OnInit {
     this.form = this.fb.group({
       note: [(this.model && this.model.candidate_note_uuid) ? this.model.note_text : '', Validators.required],
     });
-    this.operation  = (this.model && this.model.candidate_note_uuid) ? 'Update' : 'Create';
+    this.operation = (this.model && this.model.candidate_note_uuid) ? 'Update' : 'Create';
   }
 
   ionViewDidEnter() {
-      if (this.model && this.ckeditor) {
-        this.ckeditor.editorInstance.setData(this.model.note_text);
-        setTimeout(() => this.ckeditor.editorInstance.editing.view.focus(), 1000);
-      }
+    if (this.model && this.ckeditor) {
+      this.ckeditor.editorInstance.setData(this.model.note_text);
+      setTimeout(() => this.ckeditor.editorInstance.editing.view.focus(), 1000);
+    }
   }
 
   /**

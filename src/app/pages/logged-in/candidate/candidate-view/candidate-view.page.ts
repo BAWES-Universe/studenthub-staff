@@ -24,6 +24,7 @@ import {CandidateNoteService} from '../../../../providers/logged-in/candidate-no
 import {CandidateNote} from "../../../../models/candidate.note";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {CandidateNoteFormPage} from "../candidate-note-form/candidate-note-form.page";
+import { CandidateCommittedFormPage } from '../candidate-committed-form/candidate-committed-form.page';
 
 
 @Component({
@@ -342,10 +343,6 @@ export class CandidateViewPage implements OnInit {
         {
           text: 'Cancel',
           role: 'cancel',
-          cssClass: 'secondary',
-          handler: () => {
-            console.log('Confirm Cancel');
-          }
         }, {
           text: 'Save',
           handler: (data) => {
@@ -381,11 +378,44 @@ export class CandidateViewPage implements OnInit {
     return this.aws.permanentBucketUrl + 'candidate-resume/' + encodeURIComponent(candidate.candidate_resume);
   }
 
-
   cancelAddNote() {
     this.editorFocused = false;
   }
 
+  /**
+   * toggle candidate committed status 
+   */
+  async toggleCommitted() {
+    
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
+    const modal = await this.modalCtrl.create({
+      component: CandidateCommittedFormPage,
+      componentProps: {
+        candidate: this.candidate
+      }
+    });
+    modal.present();
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      } 
+    });
+
+    const { data } = await modal.onWillDismiss(); 
+
+    if (data && data.refresh) {
+      this.loadCandidateNotes(false);
+      this.candidate.candidate_committed = data.candidate_committed; 
+    }
+  }
+
+  /**
+   * edit note 
+   * @param note 
+   */
   async editNote(note: CandidateNote) {
     window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
@@ -463,17 +493,26 @@ export class CandidateViewPage implements OnInit {
     confirm.present();
   }
 
+  /**
+   * display editor on input focused for note
+   */
   onEditorFocus() {
     this.editorFocused = true;
   }
 
-  loadCandidateNotes(loading = true){
+  /**
+   * load candidate notes 
+   * @param loading 
+   */
+  loadCandidateNotes(loading = true) {
     this.candidateNoteService.list().subscribe(async jsonResponse => {
       this.candidate.notes = jsonResponse.body;
     });
   }
 
-
+  /**
+   * add new note for candidate
+   */
   addNote() {
     this.addingNote = true;
 
@@ -511,7 +550,6 @@ export class CandidateViewPage implements OnInit {
     });
   }
 
-
   /**
    * on note editor change
    * @param event
@@ -529,6 +567,9 @@ export class CandidateViewPage implements OnInit {
     this.noteForm.updateValueAndValidity();
   }
 
+  /**
+   * init form to add note
+   */
   initNoteForm() {
     this.noteForm = this.fb.group({
       note: ['', Validators.required],
