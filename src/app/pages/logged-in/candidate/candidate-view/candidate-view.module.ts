@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {CKEditorModule} from '@ckeditor/ckeditor5-angular';
 
 import { IonicModule } from '@ionic/angular';
 
@@ -14,10 +15,12 @@ import { NoItemsModule } from 'src/app/components/no-items/no-items.module';
     imports: [
         CommonModule,
         FormsModule,
+        ReactiveFormsModule,
         IonicModule,
         CandidateViewPageRoutingModule,
         SelectSearchModule,
         NoItemsModule,
+        CKEditorModule,
         LoadingModalModule
     ],
   declarations: [CandidateViewPage]

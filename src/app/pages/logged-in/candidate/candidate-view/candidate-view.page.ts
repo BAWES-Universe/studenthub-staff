@@ -1,6 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { AlertController, NavController, Platform, PopoverController, ToastController } from '@ionic/angular';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {
+  AlertController,
+  ModalController,
+  NavController,
+  Platform,
+  PopoverController,
+  ToastController
+} from '@ionic/angular';
 import { ActivatedRoute, Router } from '@angular/router';
+import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 // models
 import { Store } from 'src/app/models/store';
 import { Candidate } from 'src/app/models/candidate';
@@ -8,10 +16,14 @@ import { Candidate } from 'src/app/models/candidate';
 import { StoreService } from 'src/app/providers/logged-in/store.service';
 import { CandidateService } from 'src/app/providers/logged-in/candidate.service';
 import { AwsService } from 'src/app/providers/aws.service';
-import { EventService } from "../../../../providers/event.service";
-import { AuthService } from "../../../../providers/auth.service";
-//pages
-import { OptionPage } from "../option/option.page";
+import { EventService } from '../../../../providers/event.service';
+import { AuthService } from '../../../../providers/auth.service';
+// pages
+import { OptionPage } from '../option/option.page';
+import {CandidateNoteService} from '../../../../providers/logged-in/candidate-note.service';
+import {CandidateNote} from "../../../../models/candidate.note";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {CandidateNoteFormPage} from "../candidate-note-form/candidate-note-form.page";
 
 
 @Component({
@@ -31,19 +43,32 @@ export class CandidateViewPage implements OnInit {
 
   public candidate_id;
 
-  public loadingSalaryTransfers: boolean = false; 
-  public sendingPassword: boolean = false;
-  public assigning: boolean = false;
-  public unassinging: boolean = false;
+  public loadingSalaryTransfers = false;
+  public sendingPassword = false;
+  public assigning = false;
+  public unassinging = false;
 
-  public loading: boolean = false;
-  public approving: boolean = false;
-  public unapproving: boolean = false;
+  public loading = false;
+  public approving = false;
+  public unapproving = false;
 
   public sections = 'personal';
   public processing = null;
 
-  public updatingJobSearchStatus: boolean = false;
+  public updatingJobSearchStatus = false;
+
+  public editorFocused = false;
+  public deletingNote = false;
+  public editNoteData: CandidateNote = new CandidateNote();
+
+  public editorConfig = {
+    placeholder: 'Click here to take notes...',
+    toolbar: ['Heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', '|', 'indent', 'outdent'],
+  };
+  public Editor = ClassicEditor;
+  public addingNote = false;
+  public noteForm: FormGroup;
+  @ViewChild('ckeditor') ckeditor;
 
   constructor(
     public navCtrl: NavController,
@@ -58,6 +83,9 @@ export class CandidateViewPage implements OnInit {
     public eventService: EventService,
     public authService: AuthService,
     public popoverCtrl: PopoverController,
+    public candidateNoteService: CandidateNoteService,
+    public modalCtrl: ModalController,
+    private fb: FormBuilder,
   ) {
     this.candidate_id = this.activatedRoute.snapshot.paramMap.get('id');
   }
@@ -72,6 +100,8 @@ export class CandidateViewPage implements OnInit {
     this.eventService.reloadCandiate$.subscribe((res) => {
       this.loadCandidateDetail();
     });
+
+    this.initNoteForm();
   }
 
   ionViewDidEnter() {
@@ -95,7 +125,7 @@ export class CandidateViewPage implements OnInit {
     this.loadingSalaryTransfers = true;
 
     this.candidateService.transfers(this.candidate_id).subscribe(response => {
-      
+
       this.loadingSalaryTransfers = false;
 
       this.salaryTransfers = response;
@@ -108,12 +138,12 @@ export class CandidateViewPage implements OnInit {
    * Make date readable by Safari
    * @param date
    */
-  toDate(date) {  
+  toDate(date) {
     if (date) {
       return new Date(date.replace(/-/g, '/'));
     }
   }
-  
+
   /**
    * Load list of all stores then set store name and id as per candidate data
    */
@@ -295,8 +325,8 @@ export class CandidateViewPage implements OnInit {
   }
 
   /**
-   * update candidate hourly rate 
-   * @param $e 
+   * update candidate hourly rate
+   * @param $e
    */
   updateRate($e) {
     this.alertCtrl.create({
@@ -344,10 +374,164 @@ export class CandidateViewPage implements OnInit {
   }
 
   /**
-   * get candidate resume url 
-   * @param candidate 
+   * get candidate resume url
+   * @param candidate
    */
   getResumeUrl(candidate) {
     return this.aws.permanentBucketUrl + 'candidate-resume/' + encodeURIComponent(candidate.candidate_resume);
+  }
+
+
+  cancelAddNote() {
+    this.editorFocused = false;
+  }
+
+  async editNote(note: CandidateNote) {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
+    const modal = await this.modalCtrl.create({
+      component: CandidateNoteFormPage,
+      componentProps: {
+        candidate: this.candidate,
+        note,
+      }
+    });
+    modal.present();
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
+
+    const { data } = await modal.onWillDismiss();
+
+    if (data && data.refresh) {
+      this.loadCandidateNotes(false);
+    }
+  }
+
+  /**
+   * removing note
+   * @param event
+   * @param note
+   */
+  async removeNote(event, note) {
+
+    event.preventDefault();
+    event.stopPropagation();
+
+    const confirm = await this.alertCtrl.create({
+      header: 'Delete Note',
+      message: 'Do you want to delete this note?',
+      buttons: [
+        {
+          text: 'Yes',
+          handler: () => {
+
+            this.deletingNote = true;
+
+            this.candidateNoteService.delete(note).subscribe(async response => {
+
+              this.deletingNote = false;
+
+              if (response.operation == 'success') {
+                this.loadCandidateNotes(true);
+              } else {
+
+                this.deletingNote = false;
+
+                // failer text
+                const prompt = await this.alertCtrl.create({
+                  header: 'Deletion Error!',
+                  message: response.message,
+                  buttons: ['Ok']
+                });
+                prompt.present();
+              }
+            }, () => {
+              this.deletingNote = false;
+            });
+          }
+        },
+        {
+          text: 'No'
+        }
+      ]
+    });
+    confirm.present();
+  }
+
+  onEditorFocus() {
+    this.editorFocused = true;
+  }
+
+  loadCandidateNotes(loading = true){
+    this.candidateNoteService.list().subscribe(async jsonResponse => {
+      this.candidate.notes = jsonResponse.body;
+    });
+  }
+
+
+  addNote() {
+    this.addingNote = true;
+
+    const model = new CandidateNote();
+    model.candidate_id = this.candidate_id;
+    model.note_text = this.noteForm.controls.note.value;
+
+    this.candidateNoteService.create(model).subscribe(async jsonResponse => {
+
+      this.addingNote = false;
+
+      // On Success
+      if (jsonResponse.operation == 'success') {
+
+        this.editorFocused = false;
+
+        this.noteForm.reset();
+
+        this.ckeditor.editorInstance.setData('');
+
+        this.loadCandidateNotes(false);
+      }
+
+      // On Failure
+      if (jsonResponse.operation == 'error') {
+        const prompt = await this.alertCtrl.create({
+          message: this.authService._processResponseMessage(jsonResponse),
+          buttons: ['Ok']
+        });
+        prompt.present();
+      }
+    }, () => {
+      this.editorFocused = false;
+      this.addingNote = false;
+    });
+  }
+
+
+  /**
+   * on note editor change
+   * @param event
+   */
+  onChange(event) {
+
+    if (!event.editor) {
+      return event;
+    }
+
+    const data = event.editor.getData();
+
+    this.noteForm.controls.note.setValue(data);
+    this.noteForm.markAsDirty();
+    this.noteForm.updateValueAndValidity();
+  }
+
+  initNoteForm() {
+    this.noteForm = this.fb.group({
+      note: ['', Validators.required],
+    });
   }
 }

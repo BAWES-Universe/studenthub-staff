@@ -5,6 +5,7 @@ import { University } from './university';
 import { Country } from './country';
 import { Area } from './area';
 import { CandidateIdCard } from './candidate-id-card';
+import {CandidateNote} from "./candidate.note";
 
 export class Candidate {
     employee_id: number;
@@ -56,4 +57,5 @@ export class Candidate {
     candidateExperiences: any;
     candidateSkills: any;
     candidateIdCard: CandidateIdCard;
+    notes: CandidateNote[];
 }

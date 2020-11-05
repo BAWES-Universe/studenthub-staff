@@ -36,6 +36,7 @@ import {CompanyContactListPageModule} from './pages/logged-in/company/company-co
 import {AllCompanyListPageModule} from './pages/logged-in/company/company-request-list/all-company-list/all-company-list.module';
 import {CompanyFormPageModule} from './pages/logged-in/company/company-form/company-form.module';
 import {ImageUploadModule} from './components/image-upload/image-upload.module';
+import {CandidateNoteFormPageModule} from './pages/logged-in/candidate/candidate-note-form/candidate-note-form.module';
 
 export function startupServiceFactory(authService) {
   return () => authService.load();
@@ -83,7 +84,8 @@ export function createTranslateLoader(http: HttpClient) {
         CompanyContactListPageModule,
         AllCompanyListPageModule,
         CompanyFormPageModule,
-        ImageUploadModule
+        ImageUploadModule,
+        CandidateNoteFormPageModule
     ],
   providers: [
     {
