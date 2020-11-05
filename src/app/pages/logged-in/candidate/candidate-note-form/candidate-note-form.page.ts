@@ -1,36 +1,44 @@
-import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ModalController, AlertController } from '@ionic/angular';
-import { CompanyNoteService } from 'src/app/providers/logged-in/company-note.service';
-import {Note} from 'src/app/models/note';
-import {AuthService} from "../../../../providers/auth.service";
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-@Component({
-  selector: 'app-company-note-form',
-  templateUrl: './company-note-form.page.html',
-  styleUrls: ['./company-note-form.page.scss'],
-})
-export class CompanyNoteFormPage implements OnInit {
+//services
+import { AuthService } from '../../../../providers/auth.service';
+import { CandidateNoteService } from '../../../../providers/logged-in/candidate-note.service';
+//models
+import { CandidateNote } from '../../../../models/candidate.note';
 
-  public saving = false;
-  @Input() company;
+
+@Component({
+  selector: 'app-candidate-note-form',
+  templateUrl: './candidate-note-form.page.html',
+  styleUrls: ['./candidate-note-form.page.scss'],
+})
+export class CandidateNoteFormPage implements OnInit {
+
+  @Input() candidate;
+  
   @Input() note;
-  public model: Note = new Note();
-  public operation: string;
+
   @ViewChild('ckeditor', { static: false }) ckeditor: ClassicEditor;
 
+  public model: CandidateNote = new CandidateNote();
+
+  public operation: string;
+  
   public Editor = ClassicEditor;
+
+  public saving = false;
 
   public editorConfig = {
     placeholder: 'Click here to take notes...',
-    toolbar: [ 'Heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', '|', 'indent', 'outdent'],
+    toolbar: ['Heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', '|', 'indent', 'outdent'],
   };
-
 
   public form: FormGroup;
 
   constructor(
-    public noteService: CompanyNoteService,
+    public noteService: CandidateNoteService,
     private fb: FormBuilder,
     private modalCtrl: ModalController,
     private alertCtrl: AlertController,
@@ -44,16 +52,16 @@ export class CompanyNoteFormPage implements OnInit {
     }
 
     this.form = this.fb.group({
-      note: [(this.model && this.model.note_uuid) ? this.model.note_text : '', Validators.required],
+      note: [(this.model && this.model.candidate_note_uuid) ? this.model.note_text : '', Validators.required],
     });
-    this.operation  = (this.model && this.model.note_uuid) ? 'Update' : 'Create';
+    this.operation = (this.model && this.model.candidate_note_uuid) ? 'Update' : 'Create';
   }
 
-  ionViewDidEnter() { 
-      if (this.model && this.ckeditor) {
-        this.ckeditor.editorInstance.setData(this.model.note_text);
-        setTimeout(() => this.ckeditor.editorInstance.editing.view.focus(), 1000);
-      }
+  ionViewDidEnter() {
+    if (this.model && this.ckeditor) {
+      this.ckeditor.editorInstance.setData(this.model.note_text);
+      setTimeout(() => this.ckeditor.editorInstance.editing.view.focus(), 1000);
+    }
   }
 
   /**
@@ -61,7 +69,7 @@ export class CompanyNoteFormPage implements OnInit {
    */
   updateModelDataFromForm() {
     this.model.note_text = this.form.value.note;
-    this.model.company_id = this.company.company_id;
+    this.model.candidate_id = this.candidate.candidate_id;
   }
 
   /**
@@ -83,7 +91,7 @@ export class CompanyNoteFormPage implements OnInit {
 
     let action;
 
-    if (!this.model.note_uuid) {
+    if (!this.model.candidate_note_uuid) {
       // Create
       action = this.noteService.create(this.model);
     } else {

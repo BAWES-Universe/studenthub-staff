@@ -76,7 +76,7 @@ export class StoreFormPage implements OnInit {
 
   formInit() {
     // Init Form
-    console.log(this.model);
+ 
     if (!this.model.store_id){ // Show Create Form
       this.operation = 'Create';
       this.form = this._fb.group({

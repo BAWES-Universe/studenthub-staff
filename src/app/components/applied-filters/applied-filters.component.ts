@@ -162,6 +162,18 @@ export class AppliedFiltersComponent extends BaseWidget {
 
             let refinements = b.refinements;
 
+            if (b.attribute == 'candidate_committed') {
+                refinements = this.committedTransformItems(b.refinements);
+            }
+
+            if (b.attribute == 'have_video') {
+                refinements = this.haveVideoTransformItems(b.refinements);
+            }
+
+            if (b.attribute == 'have_resume') {
+                refinements = this.haveResumeTransformItems(b.refinements);
+            }
+            
             if (b.attribute == 'candidate_driving_license') {
                 refinements = this.licenseTransformItems(b.refinements);
             }
@@ -181,6 +193,42 @@ export class AppliedFiltersComponent extends BaseWidget {
 
         return buttons;
     }
+
+    committedTransformItems = (items) => {
+
+        return items.map(item => {
+            if (item.name == "Yes" || item.label == "Yes")
+                item.label = item.highlighted = item.name = this._translateService.transform('Committed');
+            else if (item.name == "No" || item.label == "No")
+                item.label = item.highlighted = item.name = this._translateService.transform('Not committed');
+        
+            return item;
+        });
+    };
+
+    haveVideoTransformItems = (items) => {
+
+        return items.map(item => {
+            if (item.name == "Yes" || item.label == "Yes")
+                item.label = item.highlighted = item.name = this._translateService.transform('Have video');
+            else if (item.name == "No" || item.label == "No")
+                item.label = item.highlighted = item.name = this._translateService.transform('Not have video');
+        
+            return item;
+        });
+    };
+
+    haveResumeTransformItems = (items) => {
+
+        return items.map(item => {
+            if (item.name == "Yes" || item.label == "Yes")
+                item.label = item.highlighted = item.name = this._translateService.transform('Have resume');
+            else if (item.name == "No" || item.label == "No")
+                item.label = item.highlighted = item.name = this._translateService.transform('Not have resume');
+           
+            return item;
+        });
+    };
 
     licenseTransformItems = (items) => {
 

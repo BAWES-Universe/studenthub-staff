@@ -152,10 +152,6 @@ export class CompanyRequestListPage implements OnInit {
         {
           text: 'Cancel',
           role: 'cancel',
-          cssClass: 'secondary',
-          handler: () => {
-            console.log('Confirm Cancel');
-          }
         }, {
           text: 'Save',
           handler: (data) => {
@@ -207,10 +203,7 @@ export class CompanyRequestListPage implements OnInit {
         {
           text: 'Cancel',
           role: 'cancel',
-          cssClass: 'secondary',
-          handler: () => {
-            console.log('Confirm Cancel');
-          }
+          cssClass: 'secondary'
         }, {
           text: 'Save',
           handler: (data) => {

@@ -59,67 +59,6 @@
             </ion-item>
           </ion-menu-toggle>
 
-          <ion-menu-toggle auto-hide="false">
-            <ion-item routerDirection="root" *ngIf="totalCandidateToReview > 0" routerLink="/candidate-review-list" routerLinkActive="active" detail="false">
-              <div tabindex="0"></div>
-              <ion-icon name="person-outline" slot="start"></ion-icon>
-              <ion-label>
-                Candidates Requiring Review
-              </ion-label>
-
-              <ion-badge slot="end">
-                {{ totalCandidateToReview }}
-              </ion-badge>
-            </ion-item>
-          </ion-menu-toggle>
-
-          <ion-menu-toggle auto-hide="false" *ngIf="assignedExpiredCivilID > 0">
-            <ion-item routerDirection="root" routerLink="/assigned-expired-civil" routerLinkActive="active" detail="false">
-              <div tabindex="0"></div>
-              <ion-icon slot="start" name="person-outline"></ion-icon>
-              <ion-label>Assigned & Expired Civil ID</ion-label>
-              <ion-badge color="danger">{{ assignedExpiredCivilID }}</ion-badge>
-            </ion-item>
-          </ion-menu-toggle>
-
-          <ion-menu-toggle auto-hide="false" *ngIf="assignedIncompleteCandidates > 0">
-            <ion-item routerDirection="root" routerLink="/incomplete-candidate-list" routerLinkActive="active" detail="false">
-              <div tabindex="0"></div>
-              <ion-icon slot="start" name="person-outline"></ion-icon>
-              <ion-label>Assigned Incomplete Candidates</ion-label>
-              <ion-badge color="danger">{{assignedIncompleteCandidates}}</ion-badge>
-            </ion-item>
-          </ion-menu-toggle>
-
-          <ion-menu-toggle auto-hide="false" *ngIf="assignedIdleCandidates > 0">
-            <ion-item routerDirection="root" routerLink="/assigned-idle-candidates" routerLinkActive="active" detail="false">
-              <div tabindex="0"></div>
-              <ion-icon slot="start" name="person-outline"></ion-icon>
-              <ion-label>Assigned Idle Candidates</ion-label>
-              <ion-badge color="danger">{{assignedIdleCandidates}}</ion-badge>
-            </ion-item>
-          </ion-menu-toggle>
-
-          <ion-menu-toggle auto-hide="false" *ngIf="candidateBankInfo > 0">
-            <ion-item routerDirection="root" routerLink="/candidate-bank-info-list" routerLinkActive="active" detail="false">
-              <div tabindex="0"></div>
-              <ion-icon slot="start" name="person-outline"></ion-icon>
-              <ion-label>Candidates Missing Bank Info</ion-label>
-              <ion-badge color="danger">{{candidateBankInfo}}</ion-badge>
-            </ion-item>
-          </ion-menu-toggle>
-
-          <ion-menu-toggle auto-hide="false" *ngIf="expiredIdCount && (expiredIdCount > 0)">
-            <ion-item routerDirection="root" routerLink="/expired-id" routerLinkActive="active" detail="false">
-              <div tabindex="0"></div>
-              <ion-icon name="repeat-outline" slot="start"></ion-icon>
-              Renew Expired ID
-              <ion-badge slot="end" *ngIf="expiredIdCount && (expiredIdCount > 0)">
-                {{ expiredIdCount }}
-              </ion-badge>
-            </ion-item>
-          </ion-menu-toggle>
-
         </ion-list>
         <ion-list class="labels-list">
           <ion-list-header>Client Management</ion-list-header>

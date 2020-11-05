@@ -26,8 +26,7 @@ export class StoreManagerFormPage implements OnInit {
     public comapnyContactService: CompanyContactService
   ) { }
 
-  ngOnInit() {
-    console.log(this.company);
+  ngOnInit() { 
     this.loadData();
   }
 

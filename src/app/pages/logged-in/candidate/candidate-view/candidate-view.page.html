@@ -106,6 +106,9 @@
         <ion-segment-button value="civil">
           <ion-label>Civil ID</ion-label>
         </ion-segment-button>
+        <ion-segment-button value="notes">
+          <ion-label>Notes</ion-label>
+        </ion-segment-button>
         <ion-segment-button value="salary" *ngIf="salaryTransfers.length > 0">
           <ion-label>Salary Transfers</ion-label>
         </ion-segment-button>
@@ -117,6 +120,9 @@
         </ion-select-option>
         <ion-select-option value="bank">
           <ion-label>Bank Info</ion-label>
+        </ion-select-option>
+        <ion-select-option value="notes">
+          <ion-label>Notes</ion-label>
         </ion-select-option>
         <ion-select-option value="civil">
           <ion-label>Civil ID</ion-label>
@@ -153,6 +159,19 @@
     </ng-container>
 
     <ng-container *ngIf="sections == 'personal'">
+
+      <ion-item>
+        <div tabindex="0"></div>
+        <ion-label> 
+          <h5>Committed?</h5>
+          <p *ngIf="candidate.candidate_committed">Yes, committed</p>
+          <p *ngIf="!candidate.candidate_committed">Not committed</p>
+        </ion-label>
+        <ion-button (click)="toggleCommitted()" slot="end">
+          <span *ngIf="candidate.candidate_committed">Mark candidate as not committed</span>
+          <span *ngIf="!candidate.candidate_committed">Mark candidate as committed</span>
+        </ion-button>
+      </ion-item>
 
       <ion-item [class.pending]="!candidate.candidate_hourly_rate">
         <div tabindex="0"></div>
@@ -386,6 +405,78 @@
       </ion-item>
     </ng-container>
 
+    <ng-container *ngIf="sections == 'notes'">
+      <!-- note -->
+
+      <section>
+
+        <form [formGroup]="noteForm" [class.editor-inactive]="!editorFocused" [class.editor-focused]="editorFocused"
+              *ngIf="noteForm">
+          <ion-item lines="none">
+            <div tabindex="0"></div>
+
+            <ckeditor [config]="editorConfig" #ckeditor [editor]="Editor" (focus)="onEditorFocus()"
+                      (change)="onChange($event)"></ckeditor>
+
+          </ion-item>
+          <ion-item lines="none">
+            <div tabindex="0"></div>
+
+            <ion-buttons slot="start">
+
+              <ion-button [disabled]="addingNote || !noteForm.valid" (click)="addNote()">
+                <span *ngIf="!addingNote">Submit</span>
+                <ion-spinner *ngIf="addingNote"></ion-spinner>
+              </ion-button>
+
+              <ion-button color="danger" (click)="cancelAddNote()">
+                <span>Cancel</span>
+              </ion-button>
+
+            </ion-buttons>
+          </ion-item>
+        </form>
+
+        <ion-list>
+          <ion-item-sliding *ngFor="let note of candidate.notes" [disabled]="platform.width() > 768">
+            <ion-item tappable (click)="editNote(note)">
+              <div tabindex="0"></div>
+
+              <ion-label>
+                <div [innerHTML]="note.note_text"></div>
+                <small>{{ toDate(note.note_created_datetime) | date}}</small>
+              </ion-label>
+
+              <ion-buttons slot="end" *ngIf="platform.width() > 768">
+                <ion-button color="default">
+                  <ion-icon slot="start" name="pencil-outline"></ion-icon>
+                  Edit
+                </ion-button>
+
+                <ion-button color="danger" (click)="removeNote($event, note)">
+                  <ion-icon slot="start" name="trash-outline"></ion-icon>
+                  Delete
+                </ion-button>
+              </ion-buttons>
+
+            </ion-item>
+            <ion-item-options side="end">
+              <ion-button (click)="editNote(note)">
+                <ion-icon slot="start" name="pencil-outline"></ion-icon>
+                Edit
+              </ion-button>
+
+              <ion-button color="danger" (click)="removeNote($event, note)">
+                <ion-icon slot="start" name="trash-outline"></ion-icon>
+                Delete
+              </ion-button>
+            </ion-item-options>
+          </ion-item-sliding>
+
+        </ion-list>
+      </section>
+
+    </ng-container>
   </ion-list>
 </ion-content>
 <ion-footer *ngIf="candidate && candidate.isProfileCompleted">

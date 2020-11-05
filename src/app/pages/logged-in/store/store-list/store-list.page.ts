@@ -260,12 +260,7 @@ export class StoreListPage implements OnInit {
           }
         },
         {
-          text: 'No',
-          handler: () => {
-            // this.loadData(this.currentPage);
-            // loader.dismiss();
-            console.log('no');
-          }
+          text: 'No'
         }
       ]
     });

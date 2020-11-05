@@ -134,10 +134,7 @@ export class MallListPage implements OnInit {
           }
         },
         {
-          text: 'No',
-          handler: () => {
-            console.log('no');
-          }
+          text: 'No'
         }
       ]
     });
