@@ -141,7 +141,10 @@ export class CompanyViewPage implements OnInit {
       this.updating = true;
     }
 
-    this.followup = !!(this.company && this.company.company_followup);
+    setTimeout(_=>{
+      this.followup = !!(this.company && this.company.company_followup);
+    },500);
+
 
     if (!this.company) {
       this.company = new Company;
@@ -156,7 +159,9 @@ export class CompanyViewPage implements OnInit {
 
       this.company = response;
 
-      this.followup = !!(this.company.company_followup);
+      setTimeout(_=>{
+        this.followup = !!(this.company.company_followup);
+      },500);
 
       this.subCompanies = response.subCompanies;
       this.stores = response.stores;
@@ -216,6 +221,10 @@ export class CompanyViewPage implements OnInit {
    * @param $event
    */
   toggleFollowup($event) {
+    // if same value then do nothing
+    if (this.followup == $event.detail.checked){
+      return;
+    }
 
     this.followup = $event.detail.checked;
     this.company.company_followup = $event.detail.checked;
@@ -1127,7 +1136,7 @@ export class CompanyViewPage implements OnInit {
           tooltips: {
             callbacks: {
               label: (context) => {
- 
+
                 let label = '';
                 // let label = context.label || '';Complete/payment received/inprogress
                 if (context.datasetIndex == 0) {
@@ -1170,7 +1179,7 @@ export class CompanyViewPage implements OnInit {
     }
   }
 
-  loadChartStats() { 
+  loadChartStats() {
     const allTransfers = [];
     const complete = [];
     const paymentReceived = [];
@@ -1257,7 +1266,7 @@ export class CompanyViewPage implements OnInit {
           xAxis.push(transfer.transfer_created_at_unix);
         }
       }
- 
+
       this.createStatsChart(
         xAxis, complete, paymentReceived,
         inprogress, profit, totalCandidates,
@@ -1269,7 +1278,7 @@ export class CompanyViewPage implements OnInit {
     }
   }
 
-  onEditorReady(event: any) { 
+  onEditorReady(event: any) {
     // this.editorReady = event.editor;
   }
 
