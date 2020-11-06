@@ -17,7 +17,7 @@ import { CandidateNote } from '../../../../models/candidate.note';
 export class CandidateNoteFormPage implements OnInit {
 
   @Input() candidate;
-  
+
   @Input() note;
 
   @ViewChild('ckeditor', { static: false }) ckeditor: ClassicEditor;
@@ -25,7 +25,7 @@ export class CandidateNoteFormPage implements OnInit {
   public model: CandidateNote = new CandidateNote();
 
   public operation: string;
-  
+
   public Editor = ClassicEditor;
 
   public saving = false;
@@ -58,9 +58,9 @@ export class CandidateNoteFormPage implements OnInit {
   }
 
   ionViewDidEnter() {
-    if (this.model && this.ckeditor) {
+    if (this.model && this.ckeditor && this.ckeditor.editorInstance && this.ckeditor.editorInstance.editing) {
       this.ckeditor.editorInstance.setData(this.model.note_text);
-      setTimeout(() => this.ckeditor.editorInstance.editing.view.focus(), 1000);
+      // setTimeout(() => this.ckeditor.editorInstance.editing.view.focus(), 500);
     }
   }
 

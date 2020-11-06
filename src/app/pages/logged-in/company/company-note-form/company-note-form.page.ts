@@ -49,10 +49,10 @@ export class CompanyNoteFormPage implements OnInit {
     this.operation  = (this.model && this.model.note_uuid) ? 'Update' : 'Create';
   }
 
-  ionViewDidEnter() { 
+  ionViewDidEnter() {
       if (this.model && this.ckeditor) {
         this.ckeditor.editorInstance.setData(this.model.note_text);
-        setTimeout(() => this.ckeditor.editorInstance.editing.view.focus(), 1000);
+        // setTimeout(() => this.ckeditor.editorInstance.editing.view.focus(), 1000);
       }
   }
 

@@ -383,10 +383,10 @@ export class CandidateViewPage implements OnInit {
   }
 
   /**
-   * toggle candidate committed status 
+   * toggle candidate committed status
    */
   async toggleCommitted() {
-    
+
     window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
     const modal = await this.modalCtrl.create({
@@ -401,20 +401,20 @@ export class CandidateViewPage implements OnInit {
       if (!e.data || e.data.from != 'native-back-btn') {
         window['history-back-from'] = 'onDidDismiss';
         window.history.back();
-      } 
+      }
     });
 
-    const { data } = await modal.onWillDismiss(); 
+    const { data } = await modal.onWillDismiss();
 
     if (data && data.refresh) {
       this.loadCandidateNotes(false);
-      this.candidate.candidate_committed = data.candidate_committed; 
+      this.candidate.candidate_committed = data.candidate_committed;
     }
   }
 
   /**
-   * edit note 
-   * @param note 
+   * edit note
+   * @param note
    */
   async editNote(note: CandidateNote) {
     window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
@@ -501,8 +501,8 @@ export class CandidateViewPage implements OnInit {
   }
 
   /**
-   * load candidate notes 
-   * @param loading 
+   * load candidate notes
+   * @param loading
    */
   loadCandidateNotes(loading = true) {
     this.candidateNoteService.list().subscribe(async jsonResponse => {
