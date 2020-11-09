@@ -19,9 +19,10 @@ export class EventService {
   public accountAssignmentRemoved$ = new Subject();
   public reloadCandidateHistory$ = new Subject();
   public reloadCandiate$ = new Subject();
+  public reloadCompanyList$ = new Subject();
 
   public clearCandidateSelection$ = new Subject();
-  
+
   public filterCollapse$ = new Subject();
 
   public expiredIdCard$ = new Subject();

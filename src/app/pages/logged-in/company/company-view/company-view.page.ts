@@ -141,10 +141,10 @@ export class CompanyViewPage implements OnInit {
       this.updating = true;
     }
 
-    setTimeout(_=>{
+    setTimeout(_ => {
       this.companyStatus = !!(this.company && this.company.company_status);
       this.followup = !!(this.company && this.company.company_followup);
-    },500);
+    }, 500);
 
 
     if (!this.company) {
@@ -1352,13 +1352,27 @@ export class CompanyViewPage implements OnInit {
    * change company status
    * @param $event
    */
-  changeStatus($event) {
+  async changeStatus($event) {
 
     this.companyStatus = $event.detail.checked;
 
     this.updating = true;
 
     const status = ($event.detail.checked) ? 10 : 0;
+
+    if (status == this.company.company_status) {
+      return;
+    }
+
+
+    if (!status) {
+      const prompt = await this.alertCtrl.create({
+        header: 'Attention!',
+        message: 'Please unassign all staff from this company before making client inactive',
+        buttons: ['Ok']
+      });
+      prompt.present();
+    }
 
     this.companyService.changeStatus(this.company, status).subscribe(async response => {
 
@@ -1367,8 +1381,8 @@ export class CompanyViewPage implements OnInit {
       if (response && response.operation == 'success') {
 
         this.eventService.reloadCompanyList$.next();
-
-        const toast = await this._toastCtrl.create({
+        this.company.company_status = status;
+        const toast = await this.toastCtrl.create({
           message: response.message,
           duration: 3000
         });

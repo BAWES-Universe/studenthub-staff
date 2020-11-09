@@ -22,7 +22,7 @@ export class CompanyListPage implements OnInit {
   public loading = false;
   public loadingMore = false;
   public active = 1;
-  public inActive = 2;
+  public inActive = 0;
   public companies: Company[];
   public segment = 1;
   public activeCompanies: Company[] = [];
@@ -50,6 +50,10 @@ export class CompanyListPage implements OnInit {
 
   ngOnInit() {
     this.eventService.reloadCandidateHistory$.subscribe(response => {
+      this.loadData(1);
+    });
+
+    this.eventService.reloadCompanyList$.subscribe(response => {
       this.loadData(1);
     });
   }
