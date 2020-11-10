@@ -44,11 +44,12 @@
 
           <ion-col size-md="6" size-xs="12" size-lg="3">
               <ion-item>
-                <ion-label color="primary" position="floating">Status</ion-label>
+                <ion-label color="primary" position="floating">Filter By</ion-label>
                 <ion-select [(ngModel)]="filters.status">
-                  <ion-select-option value="0">All</ion-select-option>
+                  <ion-select-option value="4">All</ion-select-option>
                   <ion-select-option value="1">Active</ion-select-option>
                   <ion-select-option value="2">In-Active</ion-select-option>
+                  <ion-select-option value="3">active+40 days passed without payment</ion-select-option>
                 </ion-select>
               </ion-item>
           </ion-col>
