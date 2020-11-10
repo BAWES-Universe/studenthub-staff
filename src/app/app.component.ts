@@ -201,19 +201,22 @@ export class AppComponent implements OnInit {
 
       // Allow the app to stabilize first, before starting polling for updates with `interval()`.
       const appIsStable$ = this.appRef.isStable.pipe(first(isStable => isStable === true));
-      const updateInterval$ = interval(5 * 1000); // every minute
+      const updateInterval$ = interval(60 * 1000); // every minute
       const updateIntervalOnceAppIsStable$ = concat(appIsStable$, updateInterval$);
 
       updateIntervalOnceAppIsStable$.subscribe(() => {
         this.updates.checkForUpdate().then((e) => {
+          console.log('checking for update');
         });
       });
 
       this.updates.available.subscribe((e) => {
+        console.log('updates available');
         this.updatesAvailable = true;
       });
 
       this.updates.activated.subscribe((e) => {
+        console.log('update activated');
         this.updatesAvailable = false;
       }, reason => {
         console.error('service worker update activation failed', reason);
