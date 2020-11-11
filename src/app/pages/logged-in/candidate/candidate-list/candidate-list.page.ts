@@ -186,6 +186,7 @@ export class CandidateListPage implements OnInit {
             }, () => {
               this.merging = false;
               this.candidateIdCardService.candidates = [];
+              this.loadData(this.currentPage);
             });
           }
         }
