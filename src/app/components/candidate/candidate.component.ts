@@ -131,7 +131,6 @@ export class CandidateComponent implements OnInit {
       this.candidateIdCardService.candidates = [];
     }
 
-
     const candidate_id = parseInt(event.target.value);
 
     // for candidate operations
@@ -141,19 +140,17 @@ export class CandidateComponent implements OnInit {
     } else { // on uncheck
       this.candidateService.candidates = this.candidateService.candidates.filter((c) => c.candidate_id != candidate_id);
     }
-    // removing store check as its not allowing to merge two account.
-    // https://www.pivotaltracker.com/story/show/175331075
+
     // for candidate id operations
 
-    // if (!this.candidate.store) {
-    //   return false;
-    // }
+    if (!this.candidate.store) {
+      return false;
+    }
 
     if (event.detail.checked) { // on check
       this.candidateIdCardService.candidates.push(candidate_id);
     } else { // on uncheck
       this.candidateIdCardService.candidates = this.candidateIdCardService.candidates.filter((c) => c != candidate_id);
     }
-    console.log(this.candidateIdCardService.candidates);
   }
 }

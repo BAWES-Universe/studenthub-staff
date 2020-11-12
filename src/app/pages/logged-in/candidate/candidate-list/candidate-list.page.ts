@@ -135,7 +135,7 @@ export class CandidateListPage implements OnInit {
    */
   async merge() {
 
-    if (this.candidateIdCardService.candidates.length != 2) {
+    if (this.candidateService.candidates.length != 2) {
       const prompt = await this.alertCtrl.create({
         message: 'Please select any 2 candidates',
         buttons: ['Okay']
