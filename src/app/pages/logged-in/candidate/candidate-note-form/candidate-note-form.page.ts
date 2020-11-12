@@ -32,6 +32,7 @@ export class CandidateNoteFormPage implements OnInit {
 
   public editorConfig = {
     placeholder: 'Click here to take notes...',
+    startupFocus : true,
     toolbar: ['Heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', '|', 'indent', 'outdent'],
   };
 
@@ -46,6 +47,7 @@ export class CandidateNoteFormPage implements OnInit {
   ) {
 
   }
+
   ngOnInit() {
     if (this.note) {
       this.model = this.note;
@@ -54,13 +56,15 @@ export class CandidateNoteFormPage implements OnInit {
     this.form = this.fb.group({
       note: [(this.model && this.model.candidate_note_uuid) ? this.model.note_text : '', Validators.required],
     });
+
     this.operation = (this.model && this.model.candidate_note_uuid) ? 'Update' : 'Create';
+
+    setTimeout(() => this.ckeditor.editorInstance.editing.view.focus(), 1000);
   }
 
   ionViewDidEnter() {
     if (this.model && this.ckeditor && this.ckeditor.editorInstance && this.ckeditor.editorInstance.editing) {
       this.ckeditor.editorInstance.setData(this.model.note_text);
-      // setTimeout(() => this.ckeditor.editorInstance.editing.view.focus(), 500);
     }
   }
 
