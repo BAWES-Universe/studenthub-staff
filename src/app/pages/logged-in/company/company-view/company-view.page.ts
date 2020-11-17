@@ -29,7 +29,7 @@ import { CompanyRequestFormPage } from '../company-request-form/company-request-
 import { CompanyNoteFormPage } from '../company-note-form/company-note-form.page';
 import { BrandFormPage } from '../brand-form/brand-form.page';
 import { StoreFormPage } from '../../store/store-form/store-form.page';
-import {CompanyFormPage} from 'src/app/pages/logged-in/company/company-form/company-form.page';
+import { CompanyFormPage } from 'src/app/pages/logged-in/company/company-form/company-form.page';
 
 import NumberFormat = Intl.NumberFormat;
 
@@ -86,6 +86,7 @@ export class CompanyViewPage implements OnInit {
   public legendDisplay = true;
   public editNoteData: Note = new Note();
   public companyStatus = false;
+
   constructor(
     public platform: Platform,
     public modalCtrl: ModalController,
@@ -136,18 +137,15 @@ export class CompanyViewPage implements OnInit {
   async loadData(silent = false) {
 
     if (!silent) {
-      setTimeout(_ => {
-        this.loading = true;
-      }, 500);
+      this.loading = true;
     } else {
-      this.updating = false;
+      this.updating = true;
     }
 
     setTimeout(_ => {
       this.companyStatus = !!(this.company && this.company.company_status);
       this.followup = !!(this.company && this.company.company_followup);
     }, 500);
-
 
     if (!this.company) {
       this.company = new Company;
@@ -1358,14 +1356,11 @@ export class CompanyViewPage implements OnInit {
 
     this.companyStatus = $event.detail.checked;
 
-    this.updating = true;
-
     const status = ($event.detail.checked) ? 10 : 0;
 
     if (status == this.company.company_status) {
       return;
     }
-
 
     if (!status) {
       const prompt = await this.alertCtrl.create({
@@ -1375,6 +1370,8 @@ export class CompanyViewPage implements OnInit {
       });
       prompt.present();
     }
+
+    this.updating = true;
 
     this.companyService.changeStatus(this.company, status).subscribe(async response => {
 
@@ -1394,5 +1391,4 @@ export class CompanyViewPage implements OnInit {
       this.updating = false;
     });
   }
-
 }
