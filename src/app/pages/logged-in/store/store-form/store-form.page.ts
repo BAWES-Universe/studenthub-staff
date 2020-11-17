@@ -28,6 +28,8 @@ export class StoreFormPage implements OnInit {
   public form: FormGroup;
   public loading = false;
 
+  public borderLimit = false;
+  
   constructor(
     public activatedRoute: ActivatedRoute,
     public storeService: StoreService,
@@ -149,5 +151,9 @@ export class StoreFormPage implements OnInit {
         prompt.present();
       }
     });
+  }
+  
+  logScrolling(e) {
+    this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
   }
 }

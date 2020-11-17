@@ -39,6 +39,8 @@ export class CandidateFilterPage implements OnInit {
 
   @ViewChild('instantSearch', { static: false }) instantSearch;
 
+  public borderLimit = false;
+
   public loading: boolean;
 
   public noCandidateList: boolean;
@@ -483,5 +485,9 @@ export class CandidateFilterPage implements OnInit {
     } else {
       this.location.back();
     }
+  }
+  
+  logScrolling(e) {
+    this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
   }
 }

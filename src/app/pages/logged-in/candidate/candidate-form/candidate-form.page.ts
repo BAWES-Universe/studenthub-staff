@@ -36,6 +36,9 @@ export class CandidateFormPage implements OnInit {
   public maxBirthDate;
   public loading = false;
   public saving = false;
+
+  public borderLimit = false;
+
   constructor(
     public activatedRoute: ActivatedRoute,
     public navCtrl: NavController,
@@ -375,5 +378,9 @@ export class CandidateFormPage implements OnInit {
       this.form.controls.resume.markAsDirty();
       this.model.candidate_resume = data.resume;
     }
+  }
+  
+  logScrolling(e) {
+    this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
   }
 }

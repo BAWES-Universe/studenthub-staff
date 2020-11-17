@@ -14,6 +14,8 @@ import { CountryService } from 'src/app/providers/logged-in/country.service';
 })
 export class CountryListPage implements OnInit {
 
+  public borderLimit = false;
+
   public pageCount = 0;
   public currentPage = 1;
 
@@ -67,6 +69,10 @@ export class CountryListPage implements OnInit {
     });
   }
 
+  /**
+   * load more countries on scroll to bottom
+   * @param event 
+   */
   doInfinite(event) {
     this.loading = true;
     this.currentPage++;
@@ -83,5 +89,9 @@ export class CountryListPage implements OnInit {
         event.target.complete();
       }
     );
+  }
+  
+  logScrolling(e) {
+    this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
   }
 }

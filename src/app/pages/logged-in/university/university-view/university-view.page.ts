@@ -12,9 +12,12 @@ import {UniversityService} from '../../../../providers/logged-in/university.serv
 })
 export class UniversityViewPage implements OnInit {
 
+  public borderLimit = false; 
+  
   public university: University;
   public university_id;
   public loading = false;
+
   constructor(
     public activatedRoute: ActivatedRoute,
     public universityService: UniversityService
@@ -38,6 +41,10 @@ export class UniversityViewPage implements OnInit {
       this.loading = false;
       this.university = response;
     });
+  }
+
+  logScrolling(e) {
+    this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
   }
 }
 

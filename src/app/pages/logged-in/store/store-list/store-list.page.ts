@@ -41,6 +41,8 @@ export class StoreListPage implements OnInit {
 
   private company_id;
 
+  public borderLimit = false; 
+
   constructor(
     public platform: Platform,
     public activatedRoute: ActivatedRoute,
@@ -286,5 +288,9 @@ export class StoreListPage implements OnInit {
         event.target.complete();
       }
     );
+  }
+  
+  logScrolling(e) {
+    this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
   }
 }

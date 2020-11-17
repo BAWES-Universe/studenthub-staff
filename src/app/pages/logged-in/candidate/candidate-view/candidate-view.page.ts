@@ -66,9 +66,15 @@ export class CandidateViewPage implements OnInit {
     placeholder: 'Click here to take notes...',
     toolbar: ['Heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', '|', 'indent', 'outdent'],
   };
+  
   public Editor = ClassicEditor;
+  
   public addingNote = false;
+  
   public noteForm: FormGroup;
+
+  public borderLimit = false;
+
   @ViewChild('ckeditor') ckeditor;
 
   constructor(
@@ -574,5 +580,9 @@ export class CandidateViewPage implements OnInit {
     this.noteForm = this.fb.group({
       note: ['', Validators.required],
     });
+  }
+  
+  logScrolling(e) {
+    this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
   }
 }

@@ -23,6 +23,8 @@ export class CompanyContactFormPage implements OnInit {
 
   public form: FormGroup;
 
+  public borderLimit = false;
+
   constructor(
     public companyContactService: CompanyContactService,
     private _fb: FormBuilder,
@@ -209,5 +211,9 @@ export class CompanyContactFormPage implements OnInit {
       this.saving = false;
 
     });
+  }
+  
+  logScrolling(e) {
+    this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
   }
 }

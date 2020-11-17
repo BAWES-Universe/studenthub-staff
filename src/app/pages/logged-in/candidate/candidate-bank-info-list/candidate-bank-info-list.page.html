@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header [class.add-border]="borderLimit" class="ion-no-border">
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/"></ion-back-button>
@@ -7,7 +7,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content scrollEvents="true" (ionScroll)="logScrolling($event)" class="ion-padding">
   <ion-searchbar
     [(ngModel)]="searchBar"
     *ngIf="candidates"

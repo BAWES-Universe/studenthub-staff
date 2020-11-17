@@ -1,4 +1,4 @@
-<ion-header [attr.dir]="translateService.direction()">
+<ion-header [class.add-border]="borderLimit" class="ion-no-border" [attr.dir]="translateService.direction()">
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/"></ion-back-button>
@@ -14,7 +14,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content #container class="source-browser-page" [attr.dir]="translateService.direction()">
+<ion-content #container scrollEvents="true" (ionScroll)="logScrolling($event)" class="source-browser-page" [attr.dir]="translateService.direction()">
 
   <!-- loader when config not available -->
 

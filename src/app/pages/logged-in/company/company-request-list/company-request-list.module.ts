@@ -8,6 +8,7 @@ import { CompanyRequestListPageRoutingModule } from './company-request-list-rout
 
 import { CompanyRequestListPage } from './company-request-list.page';
 import { LoadingModalModule } from 'src/app/components/loading-modal/loading-modal.module';
+import { DateDropdownModule } from 'src/app/components/date-dropdown/date-dropdown.module';
 import { PipesModule } from 'src/app/pipes/pipes.module';
 
 @NgModule({
@@ -17,6 +18,7 @@ import { PipesModule } from 'src/app/pipes/pipes.module';
     IonicModule,
     LoadingModalModule,
     PipesModule,
+    DateDropdownModule,
     CompanyRequestListPageRoutingModule
   ],
   declarations: [CompanyRequestListPage]

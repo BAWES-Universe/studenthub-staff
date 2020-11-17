@@ -16,6 +16,8 @@ export class UniversityListPage implements OnInit {
   public loading = false;
   public universities: University[];
 
+  public borderLimit = false; 
+  
   constructor(
     public navCtrl: NavController,
     public universityService: UniversityService
@@ -24,7 +26,6 @@ export class UniversityListPage implements OnInit {
   ngOnInit() {
     this.loadData(this.currentPage);
   }
-
 
   /**
    * load university data
@@ -59,6 +60,10 @@ export class UniversityListPage implements OnInit {
     });
   }
 
+  /**
+   * load more on scroll to bottom
+   * @param event 
+   */
   doInfinite(event) {
     this.loading = true;
     this.currentPage++;
@@ -75,5 +80,9 @@ export class UniversityListPage implements OnInit {
           event.target.complete();
         }
     );
+  }
+  
+  logScrolling(e) {
+    this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
   }
 }

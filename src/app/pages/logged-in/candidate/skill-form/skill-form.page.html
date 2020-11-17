@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header [class.add-border]="borderLimit" class="ion-no-border">
   <ion-toolbar>
     <ion-buttons slot="start" (click)="dismiss()">
       <ion-back-button></ion-back-button>
@@ -6,7 +6,7 @@
     <ion-title>{{ "Skills" }}</ion-title>
   </ion-toolbar>
 </ion-header>
-<ion-content>
+<ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
 
   <div class="max-width">
       <ion-list class="candidateSkills" *ngIf="skillList">

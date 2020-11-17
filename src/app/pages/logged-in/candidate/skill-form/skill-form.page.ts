@@ -20,6 +20,8 @@ export class SkillFormPage implements OnInit {
   public query;
   public maxSkillsAllowed = 40;
 
+  public borderLimit = false;
+
   constructor(
     public alertCtrl: AlertController,
     public toastCtrl: ToastController,
@@ -242,5 +244,9 @@ export class SkillFormPage implements OnInit {
       //     this.loading = false;
       //   });
     }
+  }
+
+  logScrolling(e) {
+    this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
   }
 }

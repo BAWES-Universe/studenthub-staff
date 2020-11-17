@@ -15,6 +15,8 @@ import { EventService } from 'src/app/providers/event.service';
 })
 export class CompanyFollowupListPage implements OnInit {
 
+  public borderLimit = false;
+  
   public companies: Company[] = [];
 
   public loading: boolean = false; 
@@ -102,6 +104,10 @@ export class CompanyFollowupListPage implements OnInit {
   toDate(date) {
     if (date)
       return new Date(date.replace(/-/g, '/'));
+  }
+
+  logScrolling(e) {
+    this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
   }
 
   /**

@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {AlertController, ModalController, NavController, Platform, ToastController} from '@ionic/angular';
-import {Router} from '@angular/router';
-
+import { AlertController, ModalController, NavController, Platform, ToastController } from '@ionic/angular';
+import { Router } from '@angular/router';
 // models
 import { Company } from 'src/app/models/company';
 import { Request } from 'src/app/models/request';
-
 // services
 import { CompanyService } from 'src/app/providers/logged-in/company.service';
 import { AwsService } from 'src/app/providers/aws.service';
@@ -27,6 +25,23 @@ export class CompanyRequestListPage implements OnInit {
   public pages: number[] = [];
   public requests: Request[] = [];
 
+  public filters: {
+    companyName: string,
+    requestStatus: string,
+    startDate: string
+    endDate: string
+  } = {
+      companyName: null,
+      requestStatus: null,
+      startDate: null,
+      endDate: null
+    };
+
+  public min; // min date
+  public max; // max date
+
+  public borderLimit = false;
+  
   constructor(
     public navCtrl: NavController,
     public platform: Platform,
@@ -39,46 +54,88 @@ export class CompanyRequestListPage implements OnInit {
     public router: Router
   ) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.min = '1930/01/01';
+
+    const d = new Date();
+    this.max = (this.platform.is('mobile')) ? d.getFullYear() + '-12-12' : d;
+  }
 
   ionViewWillEnter() {
     this.list(this.currentPage);
   }
 
+  /**
+   * list all requests
+   * @param page 
+   */
   async list(page: number) {
-    // Load list of companies
+
     this.loading = true;
 
-    this.requestService.listWithPagination(page).subscribe(response => {
+    const urlParams = this.urlParams();
 
-        this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
-        this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
+    this.requestService.listWithPagination(page, urlParams).subscribe(response => {
 
-        this.requests = response.body;
-      },
-      error => {},
-      () => {this.loading = false; }
+      this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
+      this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
+
+      this.requests = response.body;
+    },
+      error => { },
+      () => { this.loading = false; }
     );
   }
 
+  /**
+   * load more on scroll to bottom
+   * @param event 
+   */
   doInfinite(event) {
 
     this.loading = true;
+
     this.currentPage++;
 
-    this.requestService.listWithPagination(this.currentPage).subscribe(response => {
+    const urlParams = this.urlParams();
 
-        this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
-        this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
+    this.requestService.listWithPagination(this.currentPage, urlParams).subscribe(response => {
 
-        this.requests = this.requests.concat(response.body);
-      },
-      error => {},
+      this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
+      this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
+
+      this.requests = this.requests.concat(response.body);
+    },
+      error => { },
       () => {
         this.loading = false;
         event.target.complete();
       }
     );
+  }
+
+  /**
+   * Return url string to filter list
+   */
+  urlParams() {
+    let urlParams = '';
+
+    if (this.filters.companyName) {
+      urlParams += '&company_name=' + this.filters.companyName;
+    }
+
+    if (this.filters.requestStatus) {
+      urlParams += '&request_status=' + this.filters.requestStatus;
+    }
+
+    if (this.filters.startDate) {
+      urlParams += '&start_date=' + this.filters.startDate;
+    }
+    if (this.filters.endDate) {
+      urlParams += '&end_date=' + this.filters.endDate;
+    }
+
+    return urlParams;
   }
 
   /**
@@ -91,6 +148,20 @@ export class CompanyRequestListPage implements OnInit {
     }
   }
 
+  resetFilter() {
+    this.filters = {
+      companyName: null,
+      requestStatus: null,
+      startDate: null,
+      endDate: null
+    };
+  }
+
+  /**
+   * open request detail page
+   * @param $event 
+   * @param request 
+   */
   async viewRequest($event, request) {
     this.router.navigate(['request-view', request.request_uuid], {
       state: {
@@ -100,6 +171,11 @@ export class CompanyRequestListPage implements OnInit {
     });
   }
 
+  /**
+   * open request form to edit
+   * @param $event 
+   * @param request 
+   */
   async editRequest($event, request) {
     $event.preventDefault();
     $event.stopPropagation();
@@ -110,10 +186,11 @@ export class CompanyRequestListPage implements OnInit {
     });
   }
 
-  async addRequest($event) {
-    this.router.navigate(['request-form']);
-  }
-
+  /**
+   * mark request as started
+   * @param event 
+   * @param request 
+   */
   startRequest(event, request) {
 
     event.preventDefault();
@@ -134,6 +211,11 @@ export class CompanyRequestListPage implements OnInit {
     });
   }
 
+  /**
+   * mark request as cancelled
+   * @param event 
+   * @param request 
+   */
   cancelledRequest(event, request) {
 
     event.preventDefault();
@@ -170,7 +252,7 @@ export class CompanyRequestListPage implements OnInit {
                   });
                 }
               });
-            } else  {
+            } else {
               this.alertCtrl.create({
                 message: 'Please provide feedback',
                 buttons: ['ok']
@@ -181,14 +263,18 @@ export class CompanyRequestListPage implements OnInit {
           }
         }
       ]
-    }).then( alert => { alert.present(); });
+    }).then(alert => { alert.present(); });
   }
 
+  /**
+   * mark request as delivered
+   * @param event 
+   * @param request 
+   */
   deliveredRequest(event, request) {
 
     event.preventDefault();
     event.stopPropagation();
-
 
     this.alertCtrl.create({
       header: 'Please provide feedback',
@@ -222,7 +308,7 @@ export class CompanyRequestListPage implements OnInit {
                   });
                 }
               });
-            } else  {
+            } else {
               this.alertCtrl.create({
                 message: 'Please provide feedback',
                 buttons: ['ok']
@@ -233,11 +319,10 @@ export class CompanyRequestListPage implements OnInit {
           }
         }
       ]
-    }).then( alert => { alert.present(); });
-
+    }).then(alert => { alert.present(); });
   }
-
-  loadLogo($event, company) {
-    company.company_logo = null;
+  
+  logScrolling(e) {
+    this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
   }
 }

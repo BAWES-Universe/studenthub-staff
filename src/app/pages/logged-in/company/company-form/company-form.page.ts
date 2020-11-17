@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AlertController, ToastController, ModalController } from '@ionic/angular';
+import { ActivatedRoute } from '@angular/router';
+//validators
 import { CustomValidator } from 'src/app/validators/custom.validator';
 // services
 import { AuthService } from 'src/app/providers/auth.service';
 import { CompanyService } from 'src/app/providers/logged-in/company.service';
 // models
 import { Company } from 'src/app/models/company';
-import { ActivatedRoute } from '@angular/router';
-
 
 
 @Component({
@@ -17,6 +17,8 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./company-form.page.scss'],
 })
 export class CompanyFormPage implements OnInit {
+
+  public borderLimit = false;
 
   public loading = false;
 
@@ -229,5 +231,9 @@ export class CompanyFormPage implements OnInit {
 
   togglePasswordVisibility() {
     this.type = this.type == 'password'? 'text': 'password';
+  }
+  
+  logScrolling(e) {
+    this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
   }
 }

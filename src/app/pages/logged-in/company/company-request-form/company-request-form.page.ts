@@ -27,6 +27,8 @@ export class CompanyRequestFormPage implements OnInit {
 
   public form: FormGroup;
 
+  public borderLimit = false;
+
   constructor(
     public requestService: CompanyRequestService,
     private fb: FormBuilder,
@@ -150,5 +152,9 @@ export class CompanyRequestFormPage implements OnInit {
       }
     });
     popover.present();
+  }
+  
+  logScrolling(e) {
+    this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
   }
 }

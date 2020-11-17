@@ -28,6 +28,8 @@ export class ExpiredIdPage implements OnInit {
   
   public checkAll = null;
 
+  public borderLimit: boolean = false;
+
   constructor(
     public candidateIdCardService: CandidateIdCardService,
     private _fb: FormBuilder,
@@ -139,5 +141,9 @@ export class ExpiredIdPage implements OnInit {
 
   selectAll() {
     this.checkAll = !(this.checkAll);
+  }
+  
+  logScrolling(e) {
+    this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
   }
 }

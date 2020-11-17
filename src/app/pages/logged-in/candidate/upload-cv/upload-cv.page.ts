@@ -1,7 +1,6 @@
 import {Component, OnInit, ViewChild, ElementRef, OnDestroy} from '@angular/core';
 import { Subscription } from 'rxjs';
 import { AlertController, ModalController, Platform } from '@ionic/angular';
-
 // services
 import { SentryErrorhandlerService } from 'src/app/providers/sentry.errorhandler.service';
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
@@ -28,6 +27,8 @@ export class UploadCvPage implements OnInit, OnDestroy {
   public dirty = false;
 
   public currentTarget;
+
+  public borderLimit = false;
 
   public filePickSubscription: Subscription;
   public browserUploadSubscription: Subscription;
@@ -281,5 +282,9 @@ export class UploadCvPage implements OnInit, OnDestroy {
 
   getResumeUrl(candidate) {
     return this.awsService.permanentBucketUrl + 'candidate-resume/' + encodeURIComponent(candidate.candidate_resume);
+  }
+  
+  logScrolling(e) {
+    this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
   }
 }

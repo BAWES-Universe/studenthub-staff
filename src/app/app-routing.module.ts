@@ -314,12 +314,16 @@ const routes: Routes = [
     }
   },
   {
-    path: '**',
-    redirectTo: 'not-found'
-  },
-  {
     path: 'candidate-committed-form',
     loadChildren: () => import('./pages/logged-in/candidate/candidate-committed-form/candidate-committed-form.module').then( m => m.CandidateCommittedFormPageModule)
+  },
+  {
+    path: 'company-request-dashboard',
+    loadChildren: () => import('./pages/logged-in/company/company-request-dashboard/company-request-dashboard.module').then( m => m.CompanyRequestDashboardPageModule)
+  },
+  {
+    path: '**',
+    redirectTo: 'not-found'
   }
 ];
 

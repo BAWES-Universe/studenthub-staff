@@ -1,10 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NavController } from '@ionic/angular';
-import { Request } from 'src/app/models/request';
 // services
 import { AuthService } from 'src/app/providers/auth.service';
 import { EventService } from 'src/app/providers/event.service';
-import { CompanyRequestService } from 'src/app/providers/logged-in/company-request.service';
 import { StatisticService } from 'src/app/providers/logged-in/statistic.service';
 
 
@@ -31,46 +29,15 @@ export class DefaultPage implements OnInit {
 
   public loading = false;
 
-  public pendingRequests: Request[] = [];
-
-  public myRequests: Request[] = [];
-
-  public activeRequests: Request[] = [];
-
   constructor(
     public navCtrl: NavController,
     public authService: AuthService,
-    public requestService: CompanyRequestService,
     public statisticService: StatisticService,
     private _events: EventService,
   ) { }
 
   ngOnInit() {
     this.loadData();
-  }
-
-  ionViewDidEnter() {
-    this.loadActiveRequests();
-    this.loadPendingRequests();
-    this.loadMyRequests();
-  }
-
-  loadActiveRequests() {
-    this.requestService.listActiveRequests().subscribe(data => {
-      this.activeRequests = data;
-    });
-  }
-
-  loadPendingRequests() {
-    this.requestService.listPendingRequests().subscribe(data => {
-      this.pendingRequests = data;
-    });
-  }
-
-  loadMyRequests() {
-    this.requestService.listMyRequests().subscribe(data => {
-      this.myRequests = data;
-    });
   }
 
   /**

@@ -1,16 +1,17 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import {ModalController, AlertController, PopoverController} from '@ionic/angular';
+import { ModalController, AlertController, PopoverController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 // services
+import { EventService } from '../../../../../providers/event.service';
 import { CompanyRequestService } from 'src/app/providers/logged-in/company-request.service';
+import { AuthService } from 'src/app/providers/auth.service';
 // models
 import { Request } from 'src/app/models/request';
-import { AuthService } from 'src/app/providers/auth.service';
+//pages
 import { CompanyContactListPage } from '../../company-contact/company-contact-list/company-contact-list.page';
-import {AllCompanyListPage} from '../all-company-list/all-company-list.page';
-import {Location} from '@angular/common';
-import {EventService} from '../../../../../providers/event.service';
+import { AllCompanyListPage } from '../all-company-list/all-company-list.page';
 
 
 @Component({
@@ -28,7 +29,11 @@ export class RequestFormPage implements OnInit {
   public operation: string;
 
   public form: FormGroup;
+
   public requestID = null;
+
+  public borderLimit = false;
+
   constructor(
     public requestService: CompanyRequestService,
     private fb: FormBuilder,
@@ -39,10 +44,10 @@ export class RequestFormPage implements OnInit {
     private location: Location,
     private eventService: EventService,
     private route: ActivatedRoute
-) {
+  ) {
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   ionViewWillEnter() {
     this.requestID = this.route.snapshot.paramMap.get('id');
@@ -51,12 +56,12 @@ export class RequestFormPage implements OnInit {
       this.loadForm();
     } else if (this.requestID) {
       this.detail(this.requestID);
-    } else  {
+    } else {
       this.loadForm();
     }
   }
 
-  loadForm(){
+  loadForm() {
     this.company = this.model.company;
     this.form = this.fb.group({
       company_name: [(this.model.company) ? this.model.company.company_name : '', Validators.required],
@@ -100,7 +105,7 @@ export class RequestFormPage implements OnInit {
     this.saving = true;
 
     this.updateModelDataFromForm();
-    
+
     let action;
 
     if (!this.model.request_uuid) {
@@ -142,10 +147,10 @@ export class RequestFormPage implements OnInit {
    * @param e 
    */
   async openContact(e) {
-    
+
     let popover;
-    
-    if(this.company) {
+
+    if (this.company) {
       popover = await this.popoverCtrl.create({
         component: CompanyContactListPage,
         event: e,
@@ -208,5 +213,9 @@ export class RequestFormPage implements OnInit {
       this.model = data;
       this.loadForm();
     });
+  }
+
+  logScrolling(e) {
+    this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
   }
 }

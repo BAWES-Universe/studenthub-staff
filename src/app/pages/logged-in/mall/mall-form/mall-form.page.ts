@@ -23,6 +23,8 @@ export class MallFormPage implements OnInit {
   public form: FormGroup;
   public loading = false;
 
+  public borderLimit = false;
+
   constructor(
     public activatedRoute: ActivatedRoute,
     public mallService: MallService,
@@ -114,4 +116,7 @@ export class MallFormPage implements OnInit {
     });
   }
 
+  logScrolling(e) {
+    this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
+  }
 }

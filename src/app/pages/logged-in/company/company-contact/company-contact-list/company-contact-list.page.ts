@@ -27,6 +27,8 @@ export class CompanyContactListPage implements OnInit {
 
   public query: string = '';
 
+  public borderLimit = false;
+
   constructor(
     public companyContactService: CompanyContactService,
     public popupCtrl: PopoverController,
@@ -132,5 +134,9 @@ export class CompanyContactListPage implements OnInit {
     }, () => {
       this.loading = false;
     });
+  }
+  
+  logScrolling(e) {
+    this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
   }
 }

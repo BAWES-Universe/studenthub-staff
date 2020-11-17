@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import {ModalController, NavController} from "@ionic/angular";
-import {ActivatedRoute} from '@angular/router';
+import { ModalController, NavController } from "@ionic/angular";
+import { ActivatedRoute } from '@angular/router';
+//services
+import { MallService } from 'src/app/providers/logged-in/mall.service';
+//models
+import { Mall } from 'src/app/models/mall';
+//pages
+import { MallFormPage } from "../mall-form/mall-form.page";
 
-import {MallService} from 'src/app/providers/logged-in/mall.service';
-
-import {Mall} from 'src/app/models/mall';
-
-import {MallFormPage} from "../mall-form/mall-form.page";
-import {Candidate} from "../../../../models/candidate";
 
 @Component({
   selector: 'app-mall-view',
@@ -15,6 +15,8 @@ import {Candidate} from "../../../../models/candidate";
   styleUrls: ['./mall-view.page.scss'],
 })
 export class MallViewPage implements OnInit {
+
+  public borderLimit = false;
 
   public mallUUID: string;
   public mall: Mall;
@@ -32,7 +34,7 @@ export class MallViewPage implements OnInit {
     this.loadData();
   }
 
-  loadData(){
+  loadData() {
     this.loading = true;
     this.mallService.view(this.mallUUID).subscribe(res => {
       this.loading = false;
@@ -72,5 +74,9 @@ export class MallViewPage implements OnInit {
    */
   rowSelected(store) {
     this.navCtrl.navigateForward('store-view/' + store.store_id);
+  }
+
+  logScrolling(e) {
+    this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
   }
 }

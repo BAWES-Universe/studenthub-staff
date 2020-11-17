@@ -33,6 +33,8 @@ export class CandidateCommittedFormPage implements OnInit {
 
   public form: FormGroup;
 
+  public borderLimit = false;
+
   constructor(
     public noteService: CandidateNoteService,
     private fb: FormBuilder,
@@ -122,5 +124,9 @@ export class CandidateCommittedFormPage implements OnInit {
     this.form.controls.note.setValue(data);
     this.form.markAsDirty();
     this.form.updateValueAndValidity();
+  }
+  
+  logScrolling(e) {
+    this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
   }
 }

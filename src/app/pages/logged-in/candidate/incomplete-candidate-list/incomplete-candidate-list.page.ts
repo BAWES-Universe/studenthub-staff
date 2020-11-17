@@ -28,6 +28,8 @@ export class IncompleteCandidateListPage implements OnInit {
   public paginationLoading = false;
   public downloading: boolean = false;
 
+  public borderLimit = false;
+
   constructor(
     public navCtrl: NavController,
     public activatedRoute: ActivatedRoute,
@@ -131,6 +133,10 @@ export class IncompleteCandidateListPage implements OnInit {
       error => { },
       () => { event.target.complete(); }
     );
+  }
+  
+  logScrolling(e) {
+    this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
   }
 }
 

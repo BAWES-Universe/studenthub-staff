@@ -9,11 +9,11 @@ import { StoreFormPage } from "../store-form/store-form.page";
 //service
 import { StoreService } from "../../../../providers/logged-in/store.service";
 import { AwsService } from 'src/app/providers/aws.service';
-import {EventService} from "../../../../providers/event.service";
-import {MallService} from "../../../../providers/logged-in/mall.service";
-import {Mall} from "../../../../models/mall";
+import { EventService } from "../../../../providers/event.service";
+import { MallService } from "../../../../providers/logged-in/mall.service";
+import { Mall } from "../../../../models/mall";
 import { StoreManagerFormPage } from '../store-manager-form/store-manager-form.page';
-import {AuthService} from "../../../../providers/auth.service";
+import { AuthService } from "../../../../providers/auth.service";
 
 
 @Component({
@@ -28,6 +28,8 @@ export class StoreViewPage implements OnInit {
   public loading = false;
   public malls: Mall[];
 
+  public borderLimit = false; 
+  
   public updating: boolean = false;
 
   constructor(
@@ -176,5 +178,9 @@ export class StoreViewPage implements OnInit {
     this.mallService.fullList().subscribe(response => {
       this.malls = response;
     });
+  }
+  
+  logScrolling(e) {
+    this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
   }
 }

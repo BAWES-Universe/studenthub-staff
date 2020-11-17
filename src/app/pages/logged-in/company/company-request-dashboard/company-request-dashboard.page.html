@@ -1,0 +1,39 @@
+<ion-header [class.add-border]="borderLimit" class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Requests</ion-title>
+    <ion-buttons slot="end">
+      <ion-button routerLink="/company-request-list">View Older</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content scrollEvents="true" (ionScroll)="logScrolling($event)" class="ion-padding">
+
+  <h2 class="heading-request" id="heading-pending-request" *ngIf="pendingRequests.length > 0">Pending Requests</h2>
+
+  <request-listing *ngFor="let request of pendingRequests" tappable [routerLink]="'/request-view/' + request.request_uuid"
+                       [request]="request" [showStatus]="false"></request-listing>
+
+  <h2 class="heading-request" *ngIf="myRequests.length > 0">Requests you are currently handling</h2>
+
+  <request-listing *ngFor="let request of myRequests" tappable [routerLink]="'/request-view/' + request.request_uuid"
+                       [request]="request" [showStatus]="false"></request-listing>
+
+  <h2 class="heading-request" id="heading-active-request" *ngIf="activeRequests.length > 0">Active Requests</h2>
+
+  <request-listing *ngFor="let request of activeRequests" tappable [routerLink]="'/request-view/' + request.request_uuid"
+                       [request]="request" [showStatus]="false"></request-listing>
+           
+  <!--                   
+  <loading-modal [loading]="loading" type="request-dashboard"></loading-modal>
+      -->  
+</ion-content>
+
+<ion-footer>
+  <ion-button routerLink="/request-form">
+    <span>Create new request</span>
+  </ion-button>
+</ion-footer>

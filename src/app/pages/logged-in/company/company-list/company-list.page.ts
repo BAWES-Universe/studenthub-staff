@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import {ModalController, NavController, Platform} from '@ionic/angular';
+import { ModalController, NavController, Platform } from '@ionic/angular';
 // model
 import { Company } from 'src/app/models/company';
 // service
 import { CompanyService } from 'src/app/providers/logged-in/company.service';
 import { AwsService } from '../../../../providers/aws.service';
 import { EventService } from 'src/app/providers/event.service';
-import {CompanyFormPage} from 'src/app/pages/logged-in/company/company-form/company-form.page';
+//pages
+import { CompanyFormPage } from 'src/app/pages/logged-in/company/company-form/company-form.page';
+
 
 @Component({
   selector: 'app-company-list',
@@ -14,6 +16,8 @@ import {CompanyFormPage} from 'src/app/pages/logged-in/company/company-form/comp
   styleUrls: ['./company-list.page.scss'],
 })
 export class CompanyListPage implements OnInit {
+
+  public borderLimit = false;
 
   public pageCount = 0;
   public currentPage = 1;
@@ -30,11 +34,11 @@ export class CompanyListPage implements OnInit {
     common_name_ar: string
     status: string
   } = {
-    name: null,
-    common_name_en: null,
-    common_name_ar: null,
-    status: null
-  };
+      name: null,
+      common_name_en: null,
+      common_name_ar: null,
+      status: null
+    };
 
   constructor(
     public navCtrl: NavController,
@@ -114,9 +118,9 @@ export class CompanyListPage implements OnInit {
     const searchParams = this.urlParams();
 
     this.companyService.list(page, searchParams).subscribe(response => {
-        this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
-        this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
-        this.companies = response.body;
+      this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
+      this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
+      this.companies = response.body;
     },
       error => { },
       () => { this.loading = false; }
@@ -151,9 +155,9 @@ export class CompanyListPage implements OnInit {
 
     this.companyService.list(this.currentPage, urlParams).subscribe(response => {
 
-        this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
-        this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
-        this.companies = this.companies.concat(response.body);
+      this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
+      this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
+      this.companies = this.companies.concat(response.body);
     },
       error => { },
       () => {
@@ -189,6 +193,10 @@ export class CompanyListPage implements OnInit {
       }
     });
     modal.present();
+  }
+  
+  logScrolling(e) {
+    this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
   }
 }
 

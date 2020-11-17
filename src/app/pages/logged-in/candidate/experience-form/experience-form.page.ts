@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController, ToastController, AlertController } from '@ionic/angular';
 
+
 @Component({
   selector: 'app-experience-form',
   templateUrl: './experience-form.page.html',
@@ -17,6 +18,8 @@ export class ExperienceFormPage implements OnInit {
   public count = 1;
   public candidate;
   public query;
+
+  public borderLimit = false;
 
   public maxExperiencesAllowed = 40;
 
@@ -224,5 +227,9 @@ export class ExperienceFormPage implements OnInit {
 
       this.dismiss(params);
     }
+  }
+
+  logScrolling(e) {
+    this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
   }
 }

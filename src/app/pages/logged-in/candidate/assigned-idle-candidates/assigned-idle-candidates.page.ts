@@ -28,6 +28,8 @@ export class AssignedIdleCandidatesPage implements OnInit {
   public paginationLoading = false;
   public downloading: boolean = false;
 
+  public borderLimit = false;
+
   constructor(
     public navCtrl: NavController,
     public activatedRoute: ActivatedRoute,
@@ -41,7 +43,6 @@ export class AssignedIdleCandidatesPage implements OnInit {
 
   ngOnInit() {
   }
-
 
   ionViewWillEnter() {
     this.currentPage = 1;
@@ -99,6 +100,10 @@ export class AssignedIdleCandidatesPage implements OnInit {
       error => { },
       () => { event.target.complete(); }
     );
+  }
+
+  logScrolling(e) {
+    this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
   }
 }
 

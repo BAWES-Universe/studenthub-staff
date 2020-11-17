@@ -28,6 +28,8 @@ export class CandidateBankInfoListPage implements OnInit {
 
   public downloading = false;
 
+  public borderLimit = false;
+
   constructor(
     public navCtrl: NavController,
     public activatedRoute: ActivatedRoute,
@@ -37,7 +39,6 @@ export class CandidateBankInfoListPage implements OnInit {
     public toastCtrl: ToastController,
     public alertCtrl: AlertController,
   ) {
-
   }
 
   ngOnInit() {
@@ -96,6 +97,10 @@ export class CandidateBankInfoListPage implements OnInit {
     this.navCtrl.navigateForward('candidate-form');
   }
 
+  /**
+   * load more on scroll to bottom
+   * @param event 
+   */
   doInfinite(event) {
     this.paginationLoading = true;
 
@@ -114,6 +119,10 @@ export class CandidateBankInfoListPage implements OnInit {
       error => { },
       () => { event.target.complete(); }
     );
+  }
+  
+  logScrolling(e) {
+    this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
   }
 }
 

@@ -9,7 +9,7 @@ import { AuthService } from 'src/app/providers/auth.service';
 import { BrandService } from 'src/app/providers/logged-in/brand.service';
 import { AwsService } from 'src/app/providers/aws.service';
 import { SentryErrorhandlerService } from 'src/app/providers/sentry.errorhandler.service';
-import {CameraService} from 'src/app/providers/camera.service';
+import { CameraService } from 'src/app/providers/camera.service';
 
 
 @Component({
@@ -36,6 +36,8 @@ export class BrandFormPage implements OnInit {
   public operation: string;
 
   public form: FormGroup;
+
+  public borderLimit = false;
 
   constructor(
     public platform: Platform,
@@ -409,5 +411,9 @@ export class BrandFormPage implements OnInit {
     this.progress = null;
 
     this.currentTarget.abort();
+  }
+  
+  logScrolling(e) {
+    this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
   }
 }

@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header [class.add-border]="borderLimit" class="ion-no-border">
     <ion-toolbar>
         <ion-buttons slot="start">
             <ion-button fill="clear" (click)="dismiss()" class="btn-close">
@@ -18,7 +18,7 @@
         </ion-buttons>
     </ion-toolbar>
 </ion-header>
-<ion-content>
+<ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
     <div class="">
         <form [formGroup]="form" *ngIf="form">
             <ion-list>

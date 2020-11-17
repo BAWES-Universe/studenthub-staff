@@ -1,15 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController, NavController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
-
 // model
 import { Candidate } from 'src/app/models/candidate';
-import {Brand} from 'src/app/models/brand';
-import {Store} from 'src/app/models/store';
-
+import { Brand } from 'src/app/models/brand';
+import { Store } from 'src/app/models/store';
 // service
 import { AwsService } from 'src/app/providers/aws.service';
-import {BrandService} from 'src/app/providers/logged-in/brand.service';
+import { BrandService } from 'src/app/providers/logged-in/brand.service';
+
 
 @Component({
   selector: 'app-brand-view',
@@ -21,6 +20,8 @@ export class BrandViewPage implements OnInit {
   public brand: Brand;
   public brandID = null;
   public loading = false;
+
+  public borderLimit = false;
 
   constructor(
     public navCtrl: NavController,
@@ -68,5 +69,9 @@ export class BrandViewPage implements OnInit {
       this.loading = false;
       this.brand = response;
     });
+  }
+
+  logScrolling(e) {
+    this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
   }
 }

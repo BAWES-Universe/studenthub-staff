@@ -14,6 +14,8 @@ import {MallFormPage} from '../mall-form/mall-form.page';
 })
 export class MallListPage implements OnInit {
 
+  public borderLimit = false;
+
   public pageCount = 0;
   public currentPage = 1;
   public loading = false;
@@ -165,5 +167,7 @@ export class MallListPage implements OnInit {
     );
   }
 
-
+  logScrolling(e) {
+    this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
+  }
 }

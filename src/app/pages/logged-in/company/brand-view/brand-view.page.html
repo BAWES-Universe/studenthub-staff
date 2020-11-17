@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header [class.add-border]="borderLimit" class="ion-no-border">
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/company-list"></ion-back-button>
@@ -7,7 +7,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
   <ion-list *ngIf="brand">
 
     <ion-item-divider color="light">

@@ -87,6 +87,8 @@ export class CompanyViewPage implements OnInit {
   public editNoteData: Note = new Note();
   public companyStatus = false;
 
+  public borderLimit = false;
+
   constructor(
     public platform: Platform,
     public modalCtrl: ModalController,
@@ -1401,5 +1403,9 @@ export class CompanyViewPage implements OnInit {
     }, () => {
       this.updating = false;
     });
+  }
+  
+  logScrolling(e) {
+    this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
   }
 }

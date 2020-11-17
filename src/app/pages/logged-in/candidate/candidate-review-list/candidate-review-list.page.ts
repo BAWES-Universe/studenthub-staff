@@ -22,6 +22,8 @@ export class CandidateReviewListPage implements OnInit {
 
   public candidates: Candidate[] = [];
 
+  public borderLimit = false;
+
   constructor(
     public router: Router,
     public aws: AwsService,
@@ -99,5 +101,9 @@ export class CandidateReviewListPage implements OnInit {
    */
   loadLogo($event, candidate) {
     candidate.candidate_personal_photo = null;
+  }
+  
+  logScrolling(e) {
+    this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
   }
 }

@@ -22,6 +22,8 @@ export class UploadFilePage implements OnInit, OnDestroy {
 
   @Input() file;
   
+  public borderLimit = false;
+
   public fileModel: File = new File();
   public company;
   
@@ -326,5 +328,9 @@ export class UploadFilePage implements OnInit, OnDestroy {
         prompt.present();
       }
     });
+  }
+  
+  logScrolling(e) {
+    this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
   }
 }

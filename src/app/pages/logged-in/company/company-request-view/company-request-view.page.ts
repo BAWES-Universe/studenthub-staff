@@ -205,6 +205,8 @@ export class CompanyRequestViewPage implements OnInit {
     this.modalCtrl.getTop().then(overlay => {
       if (overlay) {
         overlay.dismiss();
+      } else if (state && state.from == 'company-request-dashboard') {
+        this.navCtrl.navigateBack('/company-request-dashboard');
       } else if (state && state.from == 'company-request-list') {
         this.navCtrl.navigateBack('/company-request-list');
       } else if (state && state.from == 'client') {

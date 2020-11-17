@@ -112,3 +112,45 @@ ion-header.add-border:after {
 .candidate_name {
   text-transform: capitalize;
 }
+
+ion-router-outlet {
+
+  ion-header ion-buttons[slot="end"] ion-button {
+    font-family: Effra;
+    font-size: 18px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: left;
+    color: #2f80ed;
+    text-transform: none;
+  }
+
+  ion-toolbar,
+  ion-content {
+      --background: #fafafa;
+  }
+
+  ion-title,
+  ion-header {
+      padding-left: 10px;
+      padding-right: 10px;
+  }
+
+  ion-title {
+      font-size: 18px;
+      font-weight: bold;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: normal;
+      letter-spacing: normal;
+      color: #000000;
+  }
+
+  ion-content.ion-padding {
+    --padding-start: 27px !important;
+    --padding-end: 27px !important;
+  }
+}

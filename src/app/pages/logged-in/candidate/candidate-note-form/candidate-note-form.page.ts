@@ -30,6 +30,8 @@ export class CandidateNoteFormPage implements OnInit {
 
   public saving = false;
 
+  public borderLimit = false;
+
   public editorConfig = {
     placeholder: 'Click here to take notes...',
     startupFocus : true,
@@ -143,5 +145,9 @@ export class CandidateNoteFormPage implements OnInit {
     this.form.controls.note.setValue(data);
     this.form.markAsDirty();
     this.form.updateValueAndValidity();
+  }
+  
+  logScrolling(e) {
+    this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
   }
 }

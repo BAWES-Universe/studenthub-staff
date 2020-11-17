@@ -19,6 +19,7 @@ export class AllCompanyListPage implements OnInit {
   public loadingMore = false;
   public companies: Company[] = [];
   public selectedCompany = null;
+
   public filters: {
     name: string,
     common_name_en: string,
@@ -28,6 +29,8 @@ export class AllCompanyListPage implements OnInit {
     common_name_en: null,
     common_name_ar: null
   };
+
+  public borderLimit = false;
 
   constructor(
     public navCtrl: NavController,
@@ -103,6 +106,7 @@ export class AllCompanyListPage implements OnInit {
       this.selectedCompany = model.company_id;
     }
   }
+  
   /**
    * When its selected
    */
@@ -110,11 +114,19 @@ export class AllCompanyListPage implements OnInit {
     this.dismiss(model);
   }
 
-
+  /**
+   * hide logo on image load error
+   * @param $event 
+   * @param company 
+   */
   loadLogo($event, company) {
     company.company_logo = null;
   }
 
+  /**
+   * load more on scroll to bottom
+   * @param event 
+   */
   doInfinite(event) {
 
     this.loadingMore = true;
@@ -135,8 +147,17 @@ export class AllCompanyListPage implements OnInit {
       }
     );
   }
+
+  /**
+   * close page
+   * @param data 
+   */
   dismiss(data = null) {
     this.modalCtrl.dismiss(data);
+  }
+  
+  logScrolling(e) {
+    this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
   }
 }
 

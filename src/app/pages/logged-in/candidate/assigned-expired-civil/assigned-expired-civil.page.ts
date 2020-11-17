@@ -10,6 +10,8 @@ import { CandidateService } from 'src/app/providers/logged-in/candidate.service'
   styleUrls: ['./assigned-expired-civil.page.scss'],
 })
 export class AssignedExpiredCivilPage implements OnInit {
+  
+  public borderLimit = false;
 
   public pageCount = 0;
   public currentPage = 1; 
@@ -81,5 +83,9 @@ export class AssignedExpiredCivilPage implements OnInit {
         event.target.complete();
       }
     );
+  }
+  
+  logScrolling(e) {
+    this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
   }
 }

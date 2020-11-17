@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header [class.add-border]="borderLimit" class="ion-no-border">
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/university-list"></ion-back-button>
@@ -7,9 +7,8 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
-  <loading-modal [loading]="loading" type="text-list-view"></loading-modal>
-
+<ion-content scrollEvents="true" (ionScroll)="logScrolling($event)" class="ion-padding">
+  
   <ion-list *ngIf="university">
     <ion-item>
       <div tabindex="0"></div>
@@ -34,5 +33,7 @@
       </ion-label>
     </ion-item>
   </ion-list>
+
+  <loading-modal [loading]="loading" type="text-list-view"></loading-modal>
 
 </ion-content>

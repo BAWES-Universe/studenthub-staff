@@ -29,8 +29,8 @@ export class CompanyRequestService {
    * List all requests with page
    * @returns {Observable<any>}
    */
-  listWithPagination(page: number): Observable<any> {
-    const url = this.companyRequestEndpoint + '?page=' + page +
+  listWithPagination(page: number, urlParams: string = ''): Observable<any> {
+    const url = this.companyRequestEndpoint + '?page=' + page + urlParams +
       '&expand=requestCreatedBy,requestUpdatedBy,contact,company,company.companyContact,requestActivities,requestActivities.staff';
     return this.authhttp.getRaw(url);
   }

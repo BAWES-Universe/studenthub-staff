@@ -23,6 +23,8 @@ export class GenerateIdPage implements OnInit {
   public form: FormGroup;
   public candidatelistData;
 
+  public borderLimit = false;
+
   constructor(
     public candidateIdCardService: CandidateIdCardService,
     private _fb: FormBuilder,
@@ -175,5 +177,9 @@ export class GenerateIdPage implements OnInit {
     } else {
       this.loadGenerated(this.currentPage, event);
     }
+  }
+  
+  logScrolling(e) {
+    this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
   }
 }

@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header [class.add-border]="borderLimit" class="ion-no-border">
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/candidate-list"></ion-back-button>
@@ -13,7 +13,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
 
   <loading-modal [loading]="loading" type="candidate-form"></loading-modal>
 

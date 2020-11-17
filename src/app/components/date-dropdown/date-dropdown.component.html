@@ -1,0 +1,33 @@
+<div *ngIf="!platform.is('mobile')" [class]="position">
+
+  <select  class="native-select" (change)="onDayChange($event)"
+    *ngIf="pickerFormat && pickerFormat.indexOf('D') !== -1">
+    <option value="" disabled selected>{{'DD'}}</option>
+    <option [value]="row.day" [selected]="selectedDate == row.day"  *ngFor="let row of days"
+      [disabled]="!row.isSelectable">
+      {{ row.day }}
+    </option>
+  </select>
+
+  <select class="native-select month" (change)="onMonthChange($event)"
+    *ngIf="pickerFormat && pickerFormat.indexOf('M') !== -1">
+    <option value="" disabled selected>{{'MM'}}</option>
+    <option [value]="row.month" [selected]="selectedMonth == row.month" *ngFor="let row of months" [disabled]="!row.isSelectable">
+      {{ row.month }}
+    </option>
+  </select>
+
+  <select class="native-select country" (change)="onYearChange($event)">
+    <option value="" disabled selected>{{'YYYY'}}</option>
+    <option [value]="row.year" [selected]="selectedYear == row.year" *ngFor="let row of years">
+      {{ row.year }}
+    </option>
+  </select>
+</div>
+
+<div *ngIf="platform.is('mobile')" >
+  <ion-datetime [min]="minDateString" [max]="maxDateString"
+    doneText="{{ 'Done'}}" cancelText="{{ 'Cancel'}}" placeholder="{{ placeholder }}"
+    pickerFormat="{{ pickerFormat }}" displayFormat="{{ displayFormat }}" [value]="value"
+    (ionChange)="onDateChange($event)"></ion-datetime>
+</div>

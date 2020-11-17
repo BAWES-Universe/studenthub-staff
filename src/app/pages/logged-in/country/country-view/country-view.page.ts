@@ -1,15 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import {AlertController, NavController, ToastController} from '@ionic/angular';
 import {ActivatedRoute} from '@angular/router';
-
 // service
 import {CandidateService} from 'src/app/providers/logged-in/candidate.service';
 import {CountryService} from 'src/app/providers/logged-in/country.service';
 import {AwsService} from 'src/app/providers/aws.service';
-
 // models
 import {Country} from 'src/app/models/country';
 import {Candidate} from 'src/app/models/candidate';
+
 
 @Component({
   selector: 'app-country-view',
@@ -18,6 +17,8 @@ import {Candidate} from 'src/app/models/candidate';
 })
 export class CountryViewPage implements OnInit {
 
+  public borderLimit = false; 
+  
   public pageCount = 0;
   public currentPage = 1;
  
@@ -166,5 +167,9 @@ export class CountryViewPage implements OnInit {
    */
   loadLogo($event, candidate) {
     candidate.candidate_personal_photo = null;
+  }
+  
+  logScrolling(e) {
+    this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
   }
 }
