@@ -1367,14 +1367,14 @@ export class CompanyViewPage implements OnInit {
     }
 
 
-    if (!status) {
-      const prompt = await this.alertCtrl.create({
-        header: 'Attention!',
-        message: 'Please unassign all staff from this company before making client inactive',
-        buttons: ['Ok']
-      });
-      prompt.present();
-    }
+    // if (!status) {
+    //   const prompt = await this.alertCtrl.create({
+    //     header: 'Attention!',
+    //     message: 'Please unassign all staff from this company before making client inactive',
+    //     buttons: ['Ok']
+    //   });
+    //   prompt.present();
+    // }
 
     this.companyService.changeStatus(this.company, status).subscribe(async response => {
 
@@ -1389,6 +1389,14 @@ export class CompanyViewPage implements OnInit {
           duration: 3000
         });
         toast.present();
+      } else if (response.operation != 'success') {
+        this.companyStatus = !$event.detail.checked;
+        const prompt = await this.alertCtrl.create({
+          header: 'Error!',
+          message: response.message,
+          buttons: ['Ok']
+        });
+        prompt.present();
       }
     }, () => {
       this.updating = false;
