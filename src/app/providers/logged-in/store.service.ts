@@ -41,7 +41,8 @@ export class StoreService {
    * @returns {Observable<any>}
    */
   getStoresBelongingToCompany(companyId: number, page): Observable<any>{
-    return this._authhttp.getRaw(`${this._storeEndpoint}?companyId=${companyId}&page=${page}&expand=candidates`);
+    const url = `${this._storeEndpoint}?companyId=${companyId}&page=${page}&expand=candidates,storeManager`;
+    return this._authhttp.getRaw(url);
   }
 
   /**
@@ -88,9 +89,19 @@ export class StoreService {
    * @param companyContact 
    */
   updateStoreManager(model: Store, companyContact: CompanyContact): Observable<any>{
-    return this._authhttp.patch(`${this._storeEndpoint}/update-manager/${model.store_id}`, {
+    const url = `${this._storeEndpoint}/update-manager/${model.store_id}`;
+    return this._authhttp.patch(url, {
       contact_uuid: companyContact.contact_uuid
     });
+  }
+
+  /**
+   * remove store manager from store
+   * @param model 
+   */
+  removeStoreManager(model: Store): Observable<any>{
+    const url = `${this._storeEndpoint}/remove-manager/${model.store_id}`;
+    return this._authhttp.delete(url);
   }
 
   /**

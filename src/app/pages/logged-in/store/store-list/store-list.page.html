@@ -31,7 +31,7 @@
 
         <ion-buttons slot="end" *ngIf="platform.width() > 768">
             
-          <ion-button (click)="selectStoreManager($event, store)">
+          <ion-button *ngIf="!store.storeManager" (click)="selectStoreManager($event, store)">
             <ion-icon name="call-outline"></ion-icon>
             Select store manager
           </ion-button>
@@ -46,7 +46,7 @@
 
       <ion-item-options side="end">
 
-        <ion-button color="primary" (click)="selectStoreManager($event, store)">
+        <ion-button *ngIf="!store.storeManager" color="primary" (click)="selectStoreManager($event, store)">
           <ion-icon name="call-outline"></ion-icon>
           Select store manager
         </ion-button>

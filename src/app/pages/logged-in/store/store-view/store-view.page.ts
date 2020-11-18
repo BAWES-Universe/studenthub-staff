@@ -101,6 +101,40 @@ export class StoreViewPage implements OnInit {
     return await modal.present();
   }
 
+  /**
+   * remove store manager
+   */
+  removeStoreManager() {
+
+    this.updating = true;
+
+    this.storeService.removeStoreManager(this.store).subscribe(async data => {
+      
+      this.updating = false;
+
+      if (data.operation == 'success') {
+        this.store.storeManager = null;
+        this.store.store_manager_uuid = null;
+      }
+
+      if (data.operation == 'error') {
+        const alert = await this.alertCtrl.create({
+          header: 'Selection Error!',
+          subHeader: this.authService.errorMessage(data.message),
+          buttons: ['Okay']
+        });
+        alert.present();
+      }
+    }, () => {
+      this.updating = false;
+    });
+  }
+
+  /**
+   * open popup to select store manager
+   * @param event 
+   * @param store 
+   */
   async selectStoreManager() {
 
     window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
@@ -134,6 +168,7 @@ export class StoreViewPage implements OnInit {
     this.updating = true;
 
     this.storeService.updateStoreManager(this.store, storeManager).subscribe(async data => {
+
       this.updating = false;
 
       if (data.operation == 'success') {

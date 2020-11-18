@@ -105,8 +105,9 @@ export class StoreListPage implements OnInit {
    * @param page
    */
   async loadData(page: number) {
-    // Load list of ALL stores
+ 
     this.loading = true;
+
     this.storeService.getStoresBelongingToCompany(this.company_id, this.currentPage).subscribe(response => {
 
       this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
@@ -134,6 +135,11 @@ export class StoreListPage implements OnInit {
     });
   }
 
+  /**
+   * open popup to select store manager
+   * @param event 
+   * @param store 
+   */
   async selectStoreManager(event, store) {
     window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 

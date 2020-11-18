@@ -51,7 +51,8 @@
     </ion-item>
 
     <ion-item>
-      
+      <div tabindex="0"></div>
+
       <ion-button *ngIf="!store.storeManager" (click)="selectStoreManager()">
         Select store manager
       </ion-button>
@@ -63,9 +64,17 @@
         </p>
       </ion-label>
 
-      <ion-button slot="end" *ngIf="store.storeManager" (click)="selectStoreManager()">
-        <ion-icon name="pencil-outline"></ion-icon>
-      </ion-button>
+      <ion-buttons slot="end" *ngIf="store.storeManager">
+
+        <ion-button color="primary" (click)="selectStoreManager()">
+          <ion-icon name="pencil-outline"></ion-icon>
+        </ion-button>
+        
+        <ion-button color="danger" (click)="removeStoreManager()">
+          <ion-icon name="trash-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+
     </ion-item>
   </section>
 
