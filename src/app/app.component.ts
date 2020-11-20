@@ -37,6 +37,7 @@ export class AppComponent implements OnInit {
   public candidateBankInfo = null;
 
   public companyFollowUp: any = 0;
+  public totalRequest: any = 0;
 
   constructor(
     public updates: SwUpdate,
@@ -164,14 +165,14 @@ export class AppComponent implements OnInit {
   }
 
   /**
-   * remove candidate selection 
+   * remove candidate selection
    */
   clearCandidateSelection() {
     this.candidateService.candidates = [];
     this.candidateIdCardService.candidates = [];
 
     this.eventService.clearCandidateSelection$.next();
-  } 
+  }
 
   /**
    * change theme
@@ -192,8 +193,8 @@ export class AppComponent implements OnInit {
     // service worker watcher
 
     if (
-      !this.platform.is('capacitor') && 'serviceWorker' in navigator && 
-      environment.serviceWorker && 
+      !this.platform.is('capacitor') && 'serviceWorker' in navigator &&
+      environment.serviceWorker &&
       window.location.hostname != 'localhost'
     ) {
 
@@ -221,7 +222,7 @@ export class AppComponent implements OnInit {
       }, reason => {
         console.error('service worker update activation failed', reason);
       });
-    } 
+    }
   }
 
   /**
@@ -269,6 +270,7 @@ export class AppComponent implements OnInit {
       this.companyFollowUp = response.requireFollowup;
       this.assignedExpiredCivilID = response.assignedExpiredCivilID;
       this.assignedIdleCandidates = response.assignedIdleCandidates;
+      this.totalRequest = parseInt(response.totalPendingRequests) + parseInt(response.activeRequests);
     },
       error => { },
       () => { }
