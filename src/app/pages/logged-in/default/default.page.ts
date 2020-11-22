@@ -95,15 +95,13 @@ export class DefaultPage implements OnInit {
   }
 
   scrollToActive() {
-    let el = document.getElementById('heading-active-request');
-    el.scrollIntoView();
+    this.navCtrl.navigateForward('/company-request-dashboard');
   }
 
   /**
    * scroll to pending request
    */
   scrollToPending() {
-    let el = document.getElementById('heading-pending-request');
-    el.scrollIntoView();
+    this.navCtrl.navigateForward('/company-request-dashboard');
   }
 }

@@ -90,10 +90,17 @@
               <ion-label>
                 Requests
               </ion-label>
+              <ion-badge slot="end">
+                {{ totalRequest }}
+              </ion-badge>
             </ion-item>
           </ion-menu-toggle>
 
-         <ion-menu-toggle auto-hide="false">
+        </ion-list>
+        <ion-list class="labels-list">
+          <ion-list-header>Reports</ion-list-header>
+
+          <ion-menu-toggle auto-hide="false">
             <ion-item routerDirection="root" routerLink="/mall-list" routerLinkActive="active" detail="false">
               <div tabindex="0"></div>
               <ion-icon slot="start" name="business-outline"></ion-icon>
@@ -103,9 +110,6 @@
             </ion-item>
           </ion-menu-toggle>
 
-        </ion-list>
-        <ion-list class="labels-list">
-          <ion-list-header>Reports</ion-list-header>
           <ion-menu-toggle auto-hide="false">
             <ion-item routerDirection="root" routerLink="/university-list" routerLinkActive="active" detail="false">
               <div tabindex="0"></div>
