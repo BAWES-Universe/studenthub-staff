@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Platform, ModalController, AlertController, ToastController } from '@ionic/angular';
+import { Platform, ModalController, AlertController, ToastController, IonContent } from '@ionic/angular';
 import { Chart } from 'chart.js';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -44,6 +44,8 @@ export class CompanyViewPage implements OnInit {
   @ViewChild('statsChart') statsChart;
 
   @ViewChild('ckeditor') ckeditor;
+
+  @ViewChild(IonContent, { static: true }) content: IonContent;
 
   public followup = false;
 
@@ -247,6 +249,27 @@ export class CompanyViewPage implements OnInit {
     }, () => {
       this.updating = false;
     });
+  }
+
+  isFollowUpIntervalPassed() {
+  
+    if(this.company.company_followup_interval_weeks == 0) {
+      return true;
+    }
+
+    let followup_datetime = new Date(this.company.company_last_followup_datetime.replace(/-/g, '/') + ' UTC');
+
+    //date to follow 
+
+    followup_datetime.setDate(followup_datetime.getDate() + this.company.company_followup_interval_weeks * 7);
+    followup_datetime.setHours(0, 0, 0, 0);
+
+    //current date 
+
+    const currentDate = new Date(); 
+    currentDate.setHours(0, 0, 0, 0);
+
+    return followup_datetime.getTime() <= currentDate.getTime();
   }
 
   /**
@@ -652,7 +675,12 @@ export class CompanyViewPage implements OnInit {
 
       if (e && e.data && e.data.company_last_followup_datetime && this.company) {
         this.company.company_last_followup_datetime = e.data.company_last_followup_datetime;
-        this.loadData(true);
+        
+        //to update view 
+
+        this.content.scrollToPoint(0, 1);
+
+        //this.loadData(true);
       }
     });
     modal.present();

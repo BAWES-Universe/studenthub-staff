@@ -80,8 +80,6 @@ export class CandidateCommittedFormPage implements OnInit {
 
     this.noteService.toggleCommitted(this.model).subscribe(async jsonResponse => {
 
-      console.log(jsonResponse);
-
       this.saving = false;
 
       // On Success
