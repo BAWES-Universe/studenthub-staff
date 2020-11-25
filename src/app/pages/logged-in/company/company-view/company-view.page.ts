@@ -70,7 +70,7 @@ export class CompanyViewPage implements OnInit {
 
   public deleting = false;
   public loading = false;
-  public updating = false;
+  public updating = null;
 
   public addingNote = false;
 
@@ -138,13 +138,8 @@ export class CompanyViewPage implements OnInit {
    */
   async loadData(silent = false) {
 
-    if (!silent) {
-      this.loading = true;
-    } else {
-      this.updating = true;
-    }
-
     setTimeout(_ => {
+      this.loading = (!silent)
       this.companyStatus = !!(this.company && this.company.company_status);
       this.followup = !!(this.company && this.company.company_followup);
     }, 500);
@@ -1358,14 +1353,12 @@ export class CompanyViewPage implements OnInit {
 
     this.companyStatus = $event.detail.checked;
 
-    this.updating = true;
-
     const status = ($event.detail.checked) ? 10 : 0;
 
     if (status == this.company.company_status) {
       return;
     }
-
+    this.updating = true;
 
     // if (!status) {
     //   const prompt = await this.alertCtrl.create({
@@ -1404,8 +1397,8 @@ export class CompanyViewPage implements OnInit {
       this.updating = false;
     });
   }
-  
+
   logScrolling(e) {
-    this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
+    this.borderLimit = (e.detail.scrollTop > 20);
   }
 }
