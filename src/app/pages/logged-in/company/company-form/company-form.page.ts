@@ -98,7 +98,7 @@ export class CompanyFormPage implements OnInit {
       if (this.isSubCompany) {
         this.form = this._fb.group({
           name: ['', Validators.required],
-          bonus_commission: [''],
+          bonus_commission: ['', Validators.required],
           hourly_rate: ['', Validators.required],
           logo: [''],
           common_name_en: [''],
@@ -117,7 +117,7 @@ export class CompanyFormPage implements OnInit {
           website: ['', Validators.required],
           email: ['', [Validators.required, CustomValidator.emailValidator]],
           password: ['', Validators.required],
-          bonus_commission: [''],
+          bonus_commission: ['', Validators.required],
           hourly_rate: ['', Validators.required],
           logo: [''],
         });
