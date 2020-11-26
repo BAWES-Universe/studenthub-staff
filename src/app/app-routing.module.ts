@@ -322,6 +322,22 @@ const routes: Routes = [
     loadChildren: () => import('./pages/logged-in/company/company-request-dashboard/company-request-dashboard.module').then( m => m.CompanyRequestDashboardPageModule)
   },
   {
+    path: 'team-list',
+    loadChildren: () => import('./pages/logged-in/team/team-list/team-list.module').then( m => m.TeamListPageModule),
+    canActivate: [AuthService],
+    data: {
+      name: 'TeamListPage'
+    }
+  },
+  {
+    path: 'team-view',
+    loadChildren: () => import('./pages/logged-in/team/team-view/team-view.module').then( m => m.TeamViewPageModule),
+    canActivate: [AuthService],
+    data: {
+      name: 'TeamViewPage'
+    }
+  },
+  {
     path: '**',
     redirectTo: 'not-found'
   }
