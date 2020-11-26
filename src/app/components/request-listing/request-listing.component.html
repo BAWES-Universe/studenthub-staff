@@ -28,7 +28,7 @@
 
       <p>“{{ request.lastActivity.note_text }}”</p>
       
-      <p class="time">{{ request.lastActivity.staff.staff_name  }} - {{ request.lastActivity.note_created_datetime | timeAgo }} </p>
+      <p class="time">{{ request.lastActivity.createdBy.staff_name  }} - {{ request.lastActivity.note_created_datetime | timeAgo }} </p>
     </div>
     
   </ion-card-content>

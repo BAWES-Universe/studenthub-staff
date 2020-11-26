@@ -39,7 +39,7 @@ export class CompanyRequestService {
    * load pending requests 
    */
   listPendingRequests() : Observable<any> {
-    const url = this.companyRequestEndpoint + '/pending?expand=staff,lastActivity,lastActivity.staff,company';
+    const url = this.companyRequestEndpoint + '/pending?expand=staff,lastActivity,lastActivity.createdBy,company';
     return this.authhttp.get(url);
   }
   
@@ -47,7 +47,7 @@ export class CompanyRequestService {
    * requests managed by current user 
    */
   listMyRequests() : Observable<any> {
-    const url = this.companyRequestEndpoint + '/my?expand=staff,lastActivity,lastActivity.staff,company';
+    const url = this.companyRequestEndpoint + '/my?expand=staff,lastActivity,lastActivity.createdBy,company';
     return this.authhttp.get(url);
   }
 
@@ -55,7 +55,7 @@ export class CompanyRequestService {
    * requests started/active but not by login user
    */
   listActiveRequests() : Observable<any> {
-    const url = this.companyRequestEndpoint + '/active?expand=staff,lastActivity,lastActivity.staff,company';
+    const url = this.companyRequestEndpoint + '/active?expand=staff,lastActivity,lastActivity.createdBy,company';
     return this.authhttp.get(url);
   }
 
