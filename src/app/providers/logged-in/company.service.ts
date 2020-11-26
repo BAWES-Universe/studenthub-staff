@@ -23,7 +23,7 @@ export class CompanyService {
    * @param searchParams
    */
   list(page, searchParams): Observable<any> {
-    return this._authhttp.getRaw(this._companyEndpoint + '?page=' + page + searchParams + '&expand=subCompanies,subCompanies.stores,stores,subCompanies.stores.candidates,files,notes');
+    return this._authhttp.getRaw(this._companyEndpoint + '?page=' + page + searchParams + '&expand=subCompanies,stores,transferInLast40Days');
   }
 
   /**
