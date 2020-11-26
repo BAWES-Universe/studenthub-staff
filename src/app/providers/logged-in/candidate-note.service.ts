@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 // Services
 import { AuthHttpService } from './authhttp.service';
 // Models
-import {CandidateNote} from 'src/app/models/candidate.note';
+import { Note } from 'src/app/models/note';
 
 
 @Injectable({
@@ -19,7 +19,7 @@ export class CandidateNoteService {
    * create note
    * @param model
    */
-  create(model: CandidateNote): Observable<any>{
+  create(model: Note): Observable<any>{
     return this.authhttp.post(this.candidateNoteEndpoint, {
       candidate_id: model.candidate_id,
       note: model.note_text,
@@ -30,8 +30,8 @@ export class CandidateNoteService {
    * update note
    * @param model
    */
-  update(model: CandidateNote): Observable<any>{
-    return this.authhttp.patch(`${this.candidateNoteEndpoint}/${model.candidate_note_uuid}`, {
+  update(model: Note): Observable<any>{
+    return this.authhttp.patch(`${this.candidateNoteEndpoint}/${model.note_uuid}`, {
       note: model.note_text,
     });
   }
@@ -40,7 +40,7 @@ export class CandidateNoteService {
    * toggle committed
    * @param model
    */
-  toggleCommitted(model: CandidateNote): Observable<any>{
+  toggleCommitted(model: Note): Observable<any>{
     const url = `${this.candidateNoteEndpoint}/toggle-committed`;
     return this.authhttp.patch(url, {
       candidate_id: model.candidate_id,
@@ -52,8 +52,8 @@ export class CandidateNoteService {
    * delete note
    * @param model
    */
-  delete(model: CandidateNote): Observable<any>{
-    return this.authhttp.delete(`${this.candidateNoteEndpoint}/${model.candidate_note_uuid}`);
+  delete(model: Note): Observable<any>{
+    return this.authhttp.delete(`${this.candidateNoteEndpoint}/${model.note_uuid}`);
   }
 
   /**

@@ -16,7 +16,7 @@ import { TranslateLabelService } from 'src/app/providers/translate-label.service
 import { CompanyRequestService } from 'src/app/providers/logged-in/company-request.service';
 // models
 import { Request } from 'src/app/models/request';
-import { RequestActivity } from 'src/app/models/request.activity';
+import { Note } from 'src/app/models/note';
 
 
 @Component({
@@ -27,7 +27,7 @@ import { RequestActivity } from 'src/app/models/request.activity';
 export class CompanyRequestViewPage implements OnInit {
 
   public request: Request;
-  public requestActivities: RequestActivity[] = [];
+  public requestActivities: Note[] = [];
 
   public request_uuid;
   public loading = false;

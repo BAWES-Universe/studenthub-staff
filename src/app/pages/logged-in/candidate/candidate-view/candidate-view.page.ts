@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import {
   AlertController,
   ModalController,
@@ -9,21 +9,21 @@ import {
 } from '@ionic/angular';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 // models
 import { Store } from 'src/app/models/store';
 import { Candidate } from 'src/app/models/candidate';
+import { Note } from 'src/app/models/note';
 // service
 import { StoreService } from 'src/app/providers/logged-in/store.service';
 import { CandidateService } from 'src/app/providers/logged-in/candidate.service';
 import { AwsService } from 'src/app/providers/aws.service';
 import { EventService } from '../../../../providers/event.service';
+import { CandidateNoteService } from '../../../../providers/logged-in/candidate-note.service';
 import { AuthService } from '../../../../providers/auth.service';
 // pages
 import { OptionPage } from '../option/option.page';
-import {CandidateNoteService} from '../../../../providers/logged-in/candidate-note.service';
-import {CandidateNote} from "../../../../models/candidate.note";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {CandidateNoteFormPage} from "../candidate-note-form/candidate-note-form.page";
+import { CandidateNoteFormPage } from "../candidate-note-form/candidate-note-form.page";
 import { CandidateCommittedFormPage } from '../candidate-committed-form/candidate-committed-form.page';
 
 
@@ -60,17 +60,17 @@ export class CandidateViewPage implements OnInit {
 
   public editorFocused = false;
   public deletingNote = false;
-  public editNoteData: CandidateNote = new CandidateNote();
+  public editNoteData: Note = new Note();
 
   public editorConfig = {
     placeholder: 'Click here to take notes...',
     toolbar: ['Heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', '|', 'indent', 'outdent'],
   };
-  
+
   public Editor = ClassicEditor;
-  
+
   public addingNote = false;
-  
+
   public noteForm: FormGroup;
 
   public borderLimit = false;
@@ -422,7 +422,7 @@ export class CandidateViewPage implements OnInit {
    * edit note
    * @param note
    */
-  async editNote(note: CandidateNote) {
+  async editNote(note: Note) {
     window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
     const modal = await this.modalCtrl.create({
@@ -522,7 +522,7 @@ export class CandidateViewPage implements OnInit {
   addNote() {
     this.addingNote = true;
 
-    const model = new CandidateNote();
+    const model = new Note();
     model.candidate_id = this.candidate_id;
     model.note_text = this.noteForm.controls.note.value;
 
@@ -581,7 +581,7 @@ export class CandidateViewPage implements OnInit {
       note: ['', Validators.required],
     });
   }
-  
+
   logScrolling(e) {
     this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
   }

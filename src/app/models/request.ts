@@ -1,7 +1,8 @@
 import { Staff } from './staff';
 import { CompanyContact } from './company-contact';
 import { Company } from './company';
-import { RequestActivity } from './request-activity';
+import { Note } from './note';
+
 
 export class Request {
     request_uuid: string;
@@ -23,7 +24,7 @@ export class Request {
     staff: Staff;
     contact: CompanyContact;
     company: Company;
-    lastActivity: RequestActivity;
+    lastActivity: Note;
 }
 /*
 enum Status {
