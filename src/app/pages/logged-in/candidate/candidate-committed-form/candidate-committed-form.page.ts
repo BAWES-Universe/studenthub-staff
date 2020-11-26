@@ -48,6 +48,7 @@ export class CandidateCommittedFormPage implements OnInit {
   ngOnInit() { 
     this.form = this.fb.group({
       note: ['', Validators.required],
+      type: ['Internal Note', Validators.required],
     });
 
     setTimeout(() => {
@@ -62,6 +63,7 @@ export class CandidateCommittedFormPage implements OnInit {
   updateModelDataFromForm() {
     this.model = new Note;
     this.model.note_text = this.form.value.note;
+    this.model.note_type = this.form.value.type;
     this.model.candidate_id = this.candidate.candidate_id;
   }
 

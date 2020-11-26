@@ -533,15 +533,20 @@ export class CompanyViewPage implements OnInit {
   initNoteForm() {
     this.noteForm = this.fb.group({
       note: ['', Validators.required],
+      type: ['Internal Note', Validators.required],
     });
   }
 
+  /**
+   * add note
+   */
   addNote() {
     this.addingNote = true;
 
     const model = new Note;
     model.company_id = this.company_id;
     model.note_text = this.noteForm.controls.note.value;
+    model.note_type = this.noteForm.controls.type.value;
 
     this.noteService.create(model).subscribe(async jsonResponse => {
 
@@ -552,7 +557,7 @@ export class CompanyViewPage implements OnInit {
 
         this.editorFocused = false;
 
-        this.noteForm.reset();
+        this.noteForm.controls.note.reset();
 
         this.ckeditor.editorInstance.setData('');
 

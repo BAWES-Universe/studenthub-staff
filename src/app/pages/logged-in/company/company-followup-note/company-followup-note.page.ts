@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalController, AlertController } from '@ionic/angular';
+//models
+import { Note } from 'src/app/models/note';
 //services
 import { CompanyService } from 'src/app/providers/logged-in/company.service';
 
@@ -15,21 +18,44 @@ export class CompanyFollowupNotePage implements OnInit {
 
   public saving: boolean = false; 
 
-  public note: string = '';
+  public form: FormGroup;
+
+  public model: Note = new Note();
 
   constructor(
+    private fb: FormBuilder,
     public modalCtrl: ModalController,
     public alertCtrl: AlertController,
     public companyService: CompanyService
   ) { }
 
   ngOnInit() {
+
+    this.form = this.fb.group({
+      note: ['', Validators.required],
+      type: ['Internal Note', Validators.required],
+    });
   }
 
+  /**
+   * Update Model Data based on Form Input
+   */
+  updateModelDataFromForm() {
+    this.model.note_text = this.form.value.note;
+    this.model.note_type = this.form.value.type;
+    this.model.company_id = this.company_id;
+  }
+
+  /**
+   * add follow up note for company
+   */
   save() {
+    
+    this.updateModelDataFromForm();
+
     this.saving = true; 
 
-    this.companyService.addFollowupNote(this.note, this.company_id).subscribe(async jsonResponse => {
+    this.companyService.addFollowupNote(this.model).subscribe(async jsonResponse => {
 
       this.saving = false; 
 
@@ -54,6 +80,9 @@ export class CompanyFollowupNotePage implements OnInit {
     });
   }
 
+  /**
+   * dismiss popup 
+   */
   close() {
     this.modalCtrl.dismiss();
   }
