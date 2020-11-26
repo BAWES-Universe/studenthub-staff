@@ -1,0 +1,31 @@
+<ion-header [class.add-border]="borderLimit" class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Team List</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
+  <ion-list *ngIf="!loading">
+    <section>
+      <ion-item tappable *ngFor="let staff of staffs" (click)="rowSelected(staff)">
+        <div tabindex="0"></div>
+        <ion-label>
+          {{ staff.staff_name }}<br/>
+          <small>{{ staff.staff_email }}</small><br/>
+        </ion-label>
+        <ion-badge class="company_status_badge" slot="end" color="danger" *ngIf="!staff.staff_status">
+          Inactive
+        </ion-badge>
+        <ion-badge class="company_status_badge" slot="end" color="success" *ngIf="staff.staff_status">
+          Active
+        </ion-badge>
+      </ion-item>
+    </section>
+  </ion-list>
+  <loading-modal [loading]="loading || loadMore" type="text-list"></loading-modal>
+  <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

@@ -1,3 +1,5 @@
+import {Staff} from "./staff";
+
 export class Note {
     note_uuid: string;
     company_id: number;
@@ -8,4 +10,5 @@ export class Note {
     note_text: string;
     note_created_datetime: string;
     note_updated_datetime: string;
+    staff: Staff;
 }
