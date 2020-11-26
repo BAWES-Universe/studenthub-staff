@@ -49,6 +49,20 @@ export class CandidateFilterComponent {
         }).filter(item => ['Assigned', 'Not Assigned'].indexOf(item.label) > -1);
     }
 
+    kuwaitiMomTransformItems = (items) => {
+
+        return items.map(item => {
+            if (item.name == '1' || item.label == '1') {
+                item.label = item.highlighted = item.name = this.translateLabel.transform('Yes');
+            }
+            else if (item.name == '2' || item.label == '2') {
+                item.label = item.highlighted = item.name = this.translateLabel.transform('No');
+            }
+
+            return item;
+        }).filter(item => ['Yes', 'No'].indexOf(item.label) > -1);
+    }
+
     booleanTransformItems = (items) => {
 
         return items.map(item => {
