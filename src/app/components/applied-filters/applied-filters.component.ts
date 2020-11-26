@@ -173,13 +173,17 @@ export class AppliedFiltersComponent extends BaseWidget {
             if (b.attribute == 'have_resume') {
                 refinements = this.haveResumeTransformItems(b.refinements);
             }
-            
+
             if (b.attribute == 'candidate_driving_license') {
                 refinements = this.licenseTransformItems(b.refinements);
             }
 
             if (b.attribute == 'assigned') {
                 refinements = this.assignedTransformItems(b.refinements);
+            }
+
+            if (b.attribute == 'candidate_mom_kuwaiti') {
+                refinements = this.kuwaitiMomTransformItems(b.refinements);
             }
 
             for (let c of refinements) {
@@ -201,7 +205,7 @@ export class AppliedFiltersComponent extends BaseWidget {
                 item.label = item.highlighted = item.name = this._translateService.transform('Committed');
             else if (item.name == "No" || item.label == "No")
                 item.label = item.highlighted = item.name = this._translateService.transform('Not committed');
-        
+
             return item;
         });
     };
@@ -213,7 +217,7 @@ export class AppliedFiltersComponent extends BaseWidget {
                 item.label = item.highlighted = item.name = this._translateService.transform('Have video');
             else if (item.name == "No" || item.label == "No")
                 item.label = item.highlighted = item.name = this._translateService.transform('Not have video');
-        
+
             return item;
         });
     };
@@ -225,7 +229,7 @@ export class AppliedFiltersComponent extends BaseWidget {
                 item.label = item.highlighted = item.name = this._translateService.transform('Have resume');
             else if (item.name == "No" || item.label == "No")
                 item.label = item.highlighted = item.name = this._translateService.transform('Not have resume');
-           
+
             return item;
         });
     };
@@ -257,4 +261,18 @@ export class AppliedFiltersComponent extends BaseWidget {
         return item;
       });
     };
+
+    kuwaitiMomTransformItems = (items) => {
+
+      return items.map(item => {
+        if (item.name == '1' || item.label == '1') {
+          item.label = item.highlighted = item.name = this._translateService.transform('Mom Kuwaiti');
+        }
+        else if (item.name == '2' || item.label == '2') {
+          item.label = item.highlighted = item.name = this._translateService.transform('Mom Not Kuwaiti');
+        }
+
+        return item;
+      });
+    }
 }

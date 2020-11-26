@@ -1,7 +1,7 @@
 <ion-item-sliding  [disabled]="platform.width() > 768">
   <ion-item tappable (click)="rowSelected(candidate)">
     <div tabindex="0"></div>
-    
+
     <ion-avatar slot="start">
       <img *ngIf="candidate.candidate_personal_photo"
         src="{{ aws.cloudinaryUrl + 'candidate-photo/' + candidate.candidate_personal_photo }}" onerror="this.src='/assets/icon/icon.png';">
@@ -13,7 +13,9 @@
 
       <p *ngIf="candidate.store">
         {{ candidate.store.store_name }}
-        <span *ngIf="candidate.company">@ {{ candidate.company.company_name }}</span>
+        <span *ngIf="candidate.company">@ {{ candidate.company.company_name }} </span>
+        <br/>
+        <small *ngIf="latestWorkStartedOn"> Latest Work Started on {{ toDate(latestWorkStartedOn) | date }} </small>
       </p>
 
       <ion-badge *ngIf="candidate.approved == 0 && candidate.isProfileCompleted == true" color="warning">
@@ -29,9 +31,9 @@
       </ion-badge>
     </ion-label>
 
-    <ion-checkbox *ngIf="type == 'candidate'" #checkbox 
+    <ion-checkbox *ngIf="type == 'candidate'" #checkbox
       (click)="$event.preventDefault();$event.stopPropagation();" slot="end"
-      (ionChange)="onCandidateSelected($event)" 
+      (ionChange)="onCandidateSelected($event)"
       [value]="candidate.candidate_id"></ion-checkbox>
 
   </ion-item>

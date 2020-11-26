@@ -324,7 +324,7 @@ export class CandidateService {
    * @param page
    */
   assignedIdleCandidate(candidateName: string, page: number): Observable<any>{
-    const url = this._candidateEndpoint + '/assigned-idle-candidate?candidate_name=' + candidateName + '&page=' + page + '&expand=store,company';
+    const url = this._candidateEndpoint + '/assigned-idle-candidate?candidate_name=' + candidateName + '&page=' + page + '&expand=store,company,workHistory';
     return this._authhttp.getRaw(url);
   }
 }

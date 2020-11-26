@@ -178,14 +178,14 @@
         <ion-label>
           <h5>Job search status</h5>
           <p *ngIf="candidate.candidate_job_search_status">
-            Actively looking for job 
+            Actively looking for job
           </p>
           <p *ngIf="!candidate.candidate_job_search_status">
-            Not looking for job 
+            Not looking for job
           </p>
         </ion-label>
       </ion-item>
-      
+
       <ion-item [class.pending]="!candidate.candidate_hourly_rate">
         <div tabindex="0"></div>
         <ion-label>
@@ -217,6 +217,16 @@
               {{ candidate.country.country_name_en }}
             </span>
           </p>
+        </ion-label>
+      </ion-item>
+
+      <ion-item [class.pending]="!candidate.candidate_mom_kuwaiti" *ngIf="candidate.nationality.country_name_en != 'Kuwait' && candidate.country.country_name_en == 'Kuwait'">
+        <div tabindex="0"></div>
+        <ion-label>
+          <h5>Mom Kuwaiti</h5>
+          <p *ngIf="candidate.candidate_mom_kuwaiti == 1">Yes</p>
+          <p *ngIf="candidate.candidate_mom_kuwaiti == 2">No</p>
+          <p *ngIf="!candidate.candidate_mom_kuwaiti">-</p>
         </ion-label>
       </ion-item>
 

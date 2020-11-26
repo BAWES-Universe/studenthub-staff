@@ -48,7 +48,7 @@ export class Candidate {
     candidate_created_at: string;
     candidate_updated_at: string;
     candidate_mom_kuwaiti: any;
-
+    workHistory: any;
     store: Store;
     company: Company;
     university: University;

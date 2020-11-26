@@ -22,7 +22,7 @@ export class CandidateComponent implements OnInit {
   @Output() refresh: EventEmitter<any> = new EventEmitter();
 
   public deleting: boolean = false;
-
+  public latestWorkStartedOn = null;
   @ViewChild('checkbox') checkbox: IonCheckbox;
 
   constructor(
@@ -44,6 +44,7 @@ export class CandidateComponent implements OnInit {
         this.checkbox.checked = false;
       }
     });
+    this.getLatestWorkTime();
   }
 
   /**
@@ -151,6 +152,26 @@ export class CandidateComponent implements OnInit {
       this.candidateIdCardService.candidates.push(candidate_id);
     } else { // on uncheck
       this.candidateIdCardService.candidates = this.candidateIdCardService.candidates.filter((c) => c != candidate_id);
+    }
+  }
+
+  /**
+   * Make date readable by Safari
+   * @param date
+   */
+  toDate(date) {
+    if (date) {
+      return new Date(date.replace(/-/g, '/'));
+    }
+  }
+
+  getLatestWorkTime() {
+    if (this.candidate.workHistory && this.candidate.workHistory.length > 0) {
+      this.candidate.workHistory.map(history => {
+          if (history.start_date && !history.end_date) {
+            this.latestWorkStartedOn = history.start_date;
+          }
+      });
     }
   }
 }

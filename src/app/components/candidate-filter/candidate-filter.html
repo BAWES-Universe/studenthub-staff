@@ -12,17 +12,17 @@
             attribute="candidate_driving_license"></refinement-list>
 
         <refinement-list data-sort-order="4" [class.is-refined]="arrRefined && arrRefined['have_video']"
-            label="{{ 'Have Video?' | translate }}" operator="or"  
+            label="{{ 'Have Video?' | translate }}" operator="or"
             attribute="have_video"></refinement-list>
-        
+
         <refinement-list data-sort-order="5" [class.is-refined]="arrRefined && arrRefined['have_resume']"
-            label="{{ 'Have Resume?' | translate }}" operator="or"  
+            label="{{ 'Have Resume?' | translate }}" operator="or"
             attribute="have_resume"></refinement-list>
-            
+
         <refinement-list data-sort-order="6" [class.is-refined]="arrRefined && arrRefined['candidate_committed']"
-            label="{{ 'Committed?' | translate }}" operator="or"  
+            label="{{ 'Committed?' | translate }}" operator="or"
             attribute="candidate_committed"></refinement-list>
-             
+
         <refinement-list label="{{ 'Bank' | translate }}" [searchable]="true"
             data-sort-order="7" [class.is-refined]="arrRefined['bank.bank_name']"
             searchPlaceholder="{{ 'Search here...' | translate }}" showMoreLabel="{{ 'Show more' | translate }}"
@@ -34,12 +34,15 @@
             searchPlaceholder="{{ 'Search here...' | translate }}" showMoreLabel="{{ 'Show more' | translate }}"
             showLessLabel="{{ 'Show less' | translate }}" showMoreLimit="15" operator="or"
             attribute="currentLocations.en"></refinement-list>
-            
+
         <refinement-list label="{{ 'Nationality' | translate }}" [searchable]="true"
             data-sort-order="9" [class.is-refined]="arrRefined['country.country_name_en']"
             searchPlaceholder="{{ 'Search here...' | translate }}" showMoreLabel="{{ 'Show more' | translate }}"
             showLessLabel="{{ 'Show less' | translate }}" showMoreLimit="15" operator="or"
             attribute="country.country_name_en"></refinement-list>
+
+        <refinement-list label="{{ 'Mom Kuwaiti' | translate }}" data-sort-order="9" [class.is-refined]="arrRefined['candidate_mom_kuwaiti']"
+            attribute="candidate_mom_kuwaiti" [transformItems]="kuwaitiMomTransformItems"></refinement-list>
     </div>
 
     <h4 class="filter-group-name">{{ "Education" | translate }}</h4>

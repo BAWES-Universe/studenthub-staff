@@ -29,7 +29,6 @@ export class AssignedIdleCandidatesPage implements OnInit {
   public downloading: boolean = false;
 
   public borderLimit = false;
-
   constructor(
     public navCtrl: NavController,
     public activatedRoute: ActivatedRoute,
@@ -103,7 +102,7 @@ export class AssignedIdleCandidatesPage implements OnInit {
   }
 
   logScrolling(e) {
-    this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
+    this.borderLimit = (e.detail.scrollTop > 20);
   }
 }
 
