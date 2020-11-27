@@ -12,7 +12,7 @@ import { CompanyRequestService } from 'src/app/providers/logged-in/company-reque
 })
 export class CompanyRequestDashboardPage implements OnInit {
 
-  public loading: boolean = false; 
+  public loading: boolean = false;
 
   public borderLimit = false;
 
@@ -30,13 +30,13 @@ export class CompanyRequestDashboardPage implements OnInit {
   }
 
   ionViewDidEnter() {
-    
+
     if(
-      this.pendingRequests.length == 0 && 
-      this.myRequests.length == 0 && 
+      this.pendingRequests.length == 0 &&
+      this.myRequests.length == 0 &&
       this.activeRequests.length == 0
     ) {
-      this.loading = true; 
+      this.loading = true;
     }
 
     this.loadActiveRequests();
@@ -47,25 +47,25 @@ export class CompanyRequestDashboardPage implements OnInit {
   loadActiveRequests() {
     this.requestService.listActiveRequests().subscribe(data => {
       this.activeRequests = data;
-      this.loading = false; 
+      this.loading = false;
     });
   }
 
   loadPendingRequests() {
     this.requestService.listPendingRequests().subscribe(data => {
       this.pendingRequests = data;
-      this.loading = false; 
+      this.loading = false;
     });
   }
 
   loadMyRequests() {
     this.requestService.listMyRequests().subscribe(data => {
       this.myRequests = data;
-      this.loading = false; 
+      this.loading = false;
     });
   }
 
   logScrolling(e) {
-    this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
+    this.borderLimit = (e.detail.scrollTop > 20);
   }
 }

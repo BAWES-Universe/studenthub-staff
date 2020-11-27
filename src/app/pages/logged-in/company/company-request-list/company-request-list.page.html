@@ -1,7 +1,6 @@
 <ion-header [class.add-border]="borderLimit" class="ion-no-border">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
       <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-title>Company Request List</ion-title>
@@ -78,12 +77,12 @@
           <p *ngIf="request.request_feedback">FeedBack: {{ request.request_feedback }} </p>
 
           <p class="date">
-            Created at {{ toDate(request.request_created_datetime) | date}} 
+            Created at {{ toDate(request.request_created_datetime) | date}}
             <span *ngIf="request.requestCreatedBy">By {{ request.requestCreatedBy.staff_name }}</span>
           </p>
 
           <p class="date" *ngIf="request.request_created_datetime != request.request_updated_datetime">
-            Updated at {{ toDate(request.request_updated_datetime) | date}} 
+            Updated at {{ toDate(request.request_updated_datetime) | date}}
             <span *ngIf="request.requestUpdatedBy">By {{ request.requestUpdatedBy.staff_name }}</span>
           </p>
 

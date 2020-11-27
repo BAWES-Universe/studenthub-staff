@@ -48,8 +48,11 @@ ion-card {
     }
 
     ion-card-content {
+        position: relative;
+        border-radius: 5px;
+        background-color: #ffffff;
         border: solid 1px #bdbdbd;
-        border-radius: 0 0 5px 5px;
+
         font-size: 16px;
         font-weight: normal;
         font-stretch: normal;
@@ -58,40 +61,94 @@ ion-card {
         letter-spacing: normal;
         text-align: left;
         color: #000;
-        padding: 0 24px;
-
-        .txt-additional-info {
-            margin: 20px 0;
-        }
-
-        h5 {
-            font-size: 16px;
+        padding: 17px 24px 70px 24px;
+        .content-footer {
+          position: absolute;
+          bottom: 0;
+          width: 100%;
+          left: 0;
+          padding:9px;
+          p {
+            font-size: 12px;
             font-weight: bold;
             font-stretch: normal;
             font-style: normal;
-            line-height: 1.65;
+            line-height: 1.43;
             letter-spacing: normal;
-            text-align: left;
-            color: #000;
-            margin-top: 40px;
-            margin-bottom: 10px;
+            text-align: center;
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
+          }
+        }
+
+        .txt-additional-info {
+          margin: 8px 0 9px;
+          font-family: EffraLight;
+          font-size: 14px;
+          font-weight: normal;
+          font-stretch: normal;
+          font-style: normal;
+          line-height: 1.65;
+          letter-spacing: normal;
+          text-align: left;
+        }
+
+        h1 {
+          font-size: 18px;
+          font-weight: bold;
+          font-stretch: normal;
+          font-style: normal;
+          line-height: 1.65;
+          letter-spacing: normal;
+          text-align: left;
+          color: #000000;
+        }
+        h3 {
+          font-size: 16px;
+          font-weight: normal;
+          font-stretch: normal;
+          font-style: normal;
+          line-height: 1.65;
+          letter-spacing: normal;
+          text-align: left;
+        }
+        h5 {
+          font-size: 16px;
+          font-weight: bold;
+          font-stretch: normal;
+          font-style: normal;
+          line-height: 1.65;
+          letter-spacing: normal;
+          text-align: left;
+          color: #000;
+          margin-top: 40px;
+          margin-bottom: 10px;
         }
 
         .time {
-            font-size: 14px;
-            font-weight: normal;
-            font-stretch: normal;
-            font-style: normal;
-            line-height: 1.65;
-            letter-spacing: normal;
-            text-align: left;
-            color: #000;
-            margin-top: 10px;
-            margin-bottom: 21px;
+          font-size: 14px;
+          font-weight: normal;
+          font-stretch: normal;
+          font-style: normal;
+          line-height: 1.65;
+          letter-spacing: normal;
+          text-align: left;
+          color: #000;
         }
     }
 }
 
 .pending ion-card-header {
     background-color: #f2994a;
+}
+.background-red {
+  background: #eb5757
+}
+.background-green {
+  background: #219653
+}
+
+.pending-request {
+  padding: 17px 24px 52px 24px!important;
 }

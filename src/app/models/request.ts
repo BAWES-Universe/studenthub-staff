@@ -6,6 +6,7 @@ import { Note } from './note';
 
 export class Request {
     request_uuid: string;
+    staff_id: number;
     company_id: number;
     contact_uuid: string;
     request_created_by: number;

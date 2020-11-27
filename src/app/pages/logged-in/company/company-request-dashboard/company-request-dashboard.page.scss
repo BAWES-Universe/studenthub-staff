@@ -17,10 +17,13 @@
     margin-bottom: 31px;
 }
 
-ion-footer ion-button {
+ion-footer {
+  box-shadow: 0 -4px 4px 0 rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  ion-button {
     height: 53px;
     --border-radius: 22px;
-    --background: #219653;
+    --background: #333333;
     width: calc(100% - 24px);
     font-family: Effra;
     font-size: 16px;
@@ -33,4 +36,5 @@ ion-footer ion-button {
     --color: #ffffff;
     text-transform: none;
     margin: 12px 10px;
+  }
 }

@@ -2,7 +2,7 @@ import {IonicModule} from '@ionic/angular';
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {RequestListingComponent} from './request-listing.component';
-import {PipesModule} from "../../pipes/pipes.module";
+import {PipesModule} from 'src/app/pipes/pipes.module';
 
 
 @NgModule({

@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import { AuthService } from 'src/app/providers/auth.service';
 import {Request} from '../../models/request';
 
@@ -7,18 +7,12 @@ import {Request} from '../../models/request';
   templateUrl: './request-listing.component.html',
   styleUrls: ['./request-listing.component.scss'],
 })
-export class RequestListingComponent implements OnInit {
+export class RequestListingComponent {
 
   @Input() request: Request;
   @Input() showStatus = true;
 
-  constructor(
-    public authService: AuthService
-  ) {
-  }
-
-  ngOnInit() {
-  }
+  constructor(public authService: AuthService) {}
 
   /**
    * Make date readable by Safari
@@ -28,5 +22,34 @@ export class RequestListingComponent implements OnInit {
     if (date) {
       return new Date(date.replace(/-/g, '/'));
     }
+  }
+
+  /**
+   * Last updated bg color at bottom should change color to red if request is active
+   * but last updated is longer than 24 hours ago, otherwise can use green color
+   * if completed or active but had update made today.
+   */
+  getColorGreen() {
+    const time = this.getHours(this.request.request_updated_datetime);
+    return (((this.request.staff_id) && (time < 24)) || (this.request.request_status == 'delivered'));
+  }
+
+  toHours(date) {
+    if (date) {
+      const d = new Date(date.replace(/-/g, '/'));
+      return d.getHours();
+    }
+  }
+
+  /**
+   * function created to display color on bottom button
+   * @param date
+   */
+  getHours(date) {
+    const d = (date) ? new Date(date.replace(/-/g, '/') + ' UTC') : new Date();
+    const now = new Date();
+    const seconds = Math.round(Math.abs((now.getTime() - d.getTime()) / 1000));
+    const minutes = Math.round(Math.abs(seconds / 60));
+    return Math.round(Math.abs(minutes / 60));
   }
 }
