@@ -199,22 +199,22 @@ export class CompanyRequestViewPage implements OnInit {
    * close this modal
    */
   dismiss() {
-
-    const state = window.history.state;
- 
-    this.modalCtrl.getTop().then(overlay => {
-      if (overlay) {
-        overlay.dismiss();
-      } else if (state && state.from == 'company-request-dashboard') {
-        this.navCtrl.navigateBack('/company-request-dashboard');
-      } else if (state && state.from == 'company-request-list') {
-        this.navCtrl.navigateBack('/company-request-list');
-      } else if (state && state.from == 'client') {
-        this.navCtrl.navigateBack('/client');
-      } else {
-        this.navCtrl.navigateBack('/default');
-      }
-    });
+    this.navCtrl.navigateBack('/company-request-dashboard');
+    // const state = window.history.state;
+    //
+    // this.modalCtrl.getTop().then(overlay => {
+    //   if (overlay) {
+    //     overlay.dismiss();
+    //   } else if (state && state.from == 'company-request-dashboard') {
+    //     this.navCtrl.navigateBack('/company-request-dashboard');
+    //   } else if (state && state.from == 'company-request-list') {
+    //     this.navCtrl.navigateBack('/company-request-list');
+    //   } else if (state && state.from == 'client') {
+    //     this.navCtrl.navigateBack('/client');
+    //   } else {
+    //     this.navCtrl.navigateBack('/default');
+    //   }
+    // });
   }
 
   /**
@@ -370,7 +370,7 @@ export class CompanyRequestViewPage implements OnInit {
             }
 
             request.request_feedback = data.feedback;
-            
+
             this.requestService.cancel(request).subscribe(async response => {
 
               if (response.operation == 'success') {
@@ -385,7 +385,7 @@ export class CompanyRequestViewPage implements OnInit {
                 });
               }
             });
-            
+
           }
         }
       ]

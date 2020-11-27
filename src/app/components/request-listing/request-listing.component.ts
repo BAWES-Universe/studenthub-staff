@@ -11,8 +11,18 @@ export class RequestListingComponent {
 
   @Input() request: Request;
   @Input() showStatus = true;
-
-  constructor(public authService: AuthService) {}
+  public active = false;
+  constructor(public authService: AuthService) {
+    if (this.request) {
+      const time = this.getHours(this.request.request_updated_datetime);
+      /**
+       * Last updated bg color at bottom should change color to red if request is active
+       * but last updated is longer than 24 hours ago, otherwise can use green color
+       * if completed or active but had update made today.
+       */
+      this.active = (((this.request.staff_id) && (time < 24)) || (this.request.request_status == 'delivered'));
+    }
+  }
 
   /**
    * Make date readable by Safari
@@ -22,16 +32,6 @@ export class RequestListingComponent {
     if (date) {
       return new Date(date.replace(/-/g, '/'));
     }
-  }
-
-  /**
-   * Last updated bg color at bottom should change color to red if request is active
-   * but last updated is longer than 24 hours ago, otherwise can use green color
-   * if completed or active but had update made today.
-   */
-  getColorGreen() {
-    const time = this.getHours(this.request.request_updated_datetime);
-    return (((this.request.staff_id) && (time < 24)) || (this.request.request_status == 'delivered'));
   }
 
   toHours(date) {
