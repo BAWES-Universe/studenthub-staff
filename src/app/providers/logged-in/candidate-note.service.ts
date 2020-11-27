@@ -23,6 +23,7 @@ export class CandidateNoteService {
     return this.authhttp.post(this.candidateNoteEndpoint, {
       candidate_id: model.candidate_id,
       note: model.note_text,
+      type: model.note_type
     });
   }
 
@@ -33,6 +34,7 @@ export class CandidateNoteService {
   update(model: Note): Observable<any>{
     return this.authhttp.patch(`${this.candidateNoteEndpoint}/${model.note_uuid}`, {
       note: model.note_text,
+      type: model.note_type
     });
   }
 
@@ -45,6 +47,7 @@ export class CandidateNoteService {
     return this.authhttp.patch(url, {
       candidate_id: model.candidate_id,
       note: model.note_text,
+      type: model.note_type
     });
   }
 

@@ -4,7 +4,8 @@ import { Observable } from 'rxjs';
 import { AuthHttpService } from './authhttp.service';
 // models
 import { File } from '../../models/file';
-import {Company} from 'src/app/models/company';
+import { Company } from 'src/app/models/company';
+import { Note } from 'src/app/models/note';
 
 
 @Injectable({
@@ -22,7 +23,7 @@ export class CompanyService {
    * @param searchParams
    */
   list(page, searchParams): Observable<any> {
-    return this._authhttp.getRaw(this._companyEndpoint + '?page=' + page + searchParams + '&expand=subCompanies,subCompanies.stores,stores,subCompanies.stores.candidates,files,notes');
+    return this._authhttp.getRaw(this._companyEndpoint + '?page=' + page + searchParams + '&expand=subCompanies,stores,transferInLast40Days');
   }
 
   /**
@@ -38,7 +39,7 @@ export class CompanyService {
    * update follow up
    * @param model
    */
-  updateFollowup(model: Company): Observable<any>{
+  updateFollowup(model: Company): Observable<any> {
     const url = `${this._companyEndpoint}/update-followup/${model.company_id}`;
     const params = {
       followup: model.company_followup
@@ -51,7 +52,7 @@ export class CompanyService {
    * @param company_id
    * @param company_followup_interval_weeks
    */
-  updateFollowupInterval(company_id, company_followup_interval_weeks): Observable<any>{
+  updateFollowupInterval(company_id, company_followup_interval_weeks): Observable<any> {
     const url = `${this._companyEndpoint}/update-followup-interval/${company_id}`;
     const params = {
       followup_interval_weeks: company_followup_interval_weeks
@@ -87,12 +88,12 @@ export class CompanyService {
   /**
    * add followup note
    * @param note
-   * @param company_id
    */
-  addFollowupNote(note: string, company_id: number): Observable<any> {
-    const url = `${this._companyEndpoint}/add-followup-note/${company_id}`;
+  addFollowupNote(note: Note): Observable<any> {
+    const url = `${this._companyEndpoint}/add-followup-note/${note.company_id}`;
     const params = {
-      note: note
+      note: note.note_text,
+      type: note.note_type
     };
     return this._authhttp.post(url, params);
   }
@@ -119,7 +120,7 @@ export class CompanyService {
    * @param {Company} model
    * @returns {Observable<any>}
    */
-  create(model: Company): Observable<any>{
+  create(model: Company): Observable<any> {
     const postUrl = `${this._companyEndpoint}`;
     const params = {
       parent: model.parent_company_id,
@@ -128,12 +129,12 @@ export class CompanyService {
       password: model.company_password_hash,
       bonus_commission: model.company_bonus_commission,
       hourly_rate: model.company_hourly_rate,
-      common_name_en : model.company_common_name_en,
-      common_name_ar : model.company_common_name_ar,
-      description_en : model.company_description_en,
-      description_ar : model.company_description_ar,
-      website : model.company_website,
-      logo : model.company_logo,
+      common_name_en: model.company_common_name_en,
+      common_name_ar: model.company_common_name_ar,
+      description_en: model.company_description_en,
+      description_ar: model.company_description_ar,
+      website: model.company_website,
+      logo: model.company_logo,
     };
 
     return this._authhttp.post(postUrl, params);
@@ -144,19 +145,19 @@ export class CompanyService {
    * @param {Company} model
    * @returns {Observable<any>}
    */
-  update(model: Company): Observable<any>{
+  update(model: Company): Observable<any> {
     const params = {
       parent: model.parent_company_id,
       name: model.company_name,
       email: model.company_email,
       bonus_commission: model.company_bonus_commission,
       hourly_rate: model.company_hourly_rate,
-      common_name_en : model.company_common_name_en,
-      common_name_ar : model.company_common_name_ar,
-      description_en : model.company_description_en,
-      description_ar : model.company_description_ar,
-      website : model.company_website,
-      logo : model.company_logo,
+      common_name_en: model.company_common_name_en,
+      common_name_ar: model.company_common_name_ar,
+      description_en: model.company_description_en,
+      description_ar: model.company_description_ar,
+      website: model.company_website,
+      logo: model.company_logo,
     };
 
     return this._authhttp.patch(`${this._companyEndpoint}/${model.company_id}`, params);
@@ -179,6 +180,6 @@ export class CompanyService {
    */
   changeStatus(model: Company, status: number = 10): Observable<any> {
     const url = `${this._companyEndpoint}/change-status/${model.company_id}`;
-    return this._authhttp.patch(url, {status});
+    return this._authhttp.patch(url, { status });
   }
 }

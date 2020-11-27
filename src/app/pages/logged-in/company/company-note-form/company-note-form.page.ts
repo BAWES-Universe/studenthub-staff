@@ -50,6 +50,7 @@ export class CompanyNoteFormPage implements OnInit {
 
     this.form = this.fb.group({
       note: [(this.model && this.model.note_uuid) ? this.model.note_text : '', Validators.required],
+      type: [(this.model && this.model.note_uuid) ? this.model.note_type : '', Validators.required],
     });
 
     this.operation  = (this.model && this.model.note_uuid) ? 'Update' : 'Create';
@@ -69,6 +70,7 @@ export class CompanyNoteFormPage implements OnInit {
    */
   updateModelDataFromForm() {
     this.model.note_text = this.form.value.note;
+    this.model.note_type = this.form.value.type;
     this.model.company_id = this.company.company_id;
   }
 

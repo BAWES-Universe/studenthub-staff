@@ -10,7 +10,11 @@
       </ion-col>
       <ion-col size="9" class="detail-col">
         <b class="txt-staff">{{ activity.staff.staff_name }} {{ "@" }} {{ toDate(activity.note_created_datetime) | date:'h:mmaaaaa' }}m</b>
+        
+        <p>{{ activity.note_type }}</p>
+        
         <p>{{ activity.note_text }}</p>
+        
       </ion-col>
     </ion-row>
   </ion-grid>

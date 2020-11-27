@@ -7,7 +7,7 @@
     <ion-title>Add followup note</ion-title>
 
     <ion-buttons slot="end">
-      <ion-button clear color="primary" [disabled]="note && note.length == 0" (click)="save()">
+      <ion-button clear color="primary" [disabled]="form && !form.valid" (click)="save()">
         <span *ngIf="!saving">Save</span>
         <ion-spinner *ngIf="saving"></ion-spinner>
       </ion-button>
@@ -16,7 +16,22 @@
 </ion-header>
 
 <ion-content>
-  <ion-item>
-    <ion-textarea [(ngModel)]="note"></ion-textarea>
-  </ion-item>
+  <form [formGroup]="form" *ngIf="form">
+    <ion-item lines="none">
+      <div tabindex="0"></div>
+      <ion-select formControlName="type">
+        <ion-select-option>Internal Note</ion-select-option>
+        <ion-select-option>Phone Call</ion-select-option>
+        <ion-select-option>Email</ion-select-option>
+        <ion-select-option>Meeting</ion-select-option>
+        <ion-select-option>Interview</ion-select-option>
+        <ion-select-option>Task</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-textarea formControlName="note"></ion-textarea>
+    </ion-item>
+  </form>
+
 </ion-content>

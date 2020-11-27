@@ -525,6 +525,7 @@ export class CandidateViewPage implements OnInit {
     const model = new Note();
     model.candidate_id = this.candidate_id;
     model.note_text = this.noteForm.controls.note.value;
+    model.note_type = this.noteForm.controls.type.value;
 
     this.candidateNoteService.create(model).subscribe(async jsonResponse => {
 
@@ -535,10 +536,10 @@ export class CandidateViewPage implements OnInit {
 
         this.editorFocused = false;
 
-        this.noteForm.reset();
+        this.noteForm.controls.note.setValue('');
 
         this.ckeditor.editorInstance.setData('');
-
+        
         this.loadCandidateNotes(false);
       }
 
@@ -579,6 +580,7 @@ export class CandidateViewPage implements OnInit {
   initNoteForm() {
     this.noteForm = this.fb.group({
       note: ['', Validators.required],
+      type: ['Internal Note', Validators.required],
     });
   }
 

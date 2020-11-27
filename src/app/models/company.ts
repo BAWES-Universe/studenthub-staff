@@ -30,7 +30,7 @@ export class Company {
     files: any[];
     brands: any[];
     notes: any[];
-    last_40_days_transfer_count: number;
+    transferInLast40Days: number;
     malls: Mall[];
     companyContacts: CompanyContact[];
     requests: Request[];

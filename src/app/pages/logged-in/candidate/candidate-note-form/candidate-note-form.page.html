@@ -19,7 +19,21 @@
   <form [formGroup]="form" *ngIf="form">
     <ion-list>
 
+      <ion-item lines="none">
+        <div tabindex="0"></div>
+        <ion-label position="floating">Note Type</ion-label>
+        <ion-select formControlName="type">
+          <ion-select-option>Internal Note</ion-select-option>
+          <ion-select-option>Phone Call</ion-select-option>
+          <ion-select-option>Email</ion-select-option>
+          <ion-select-option>Meeting</ion-select-option>
+          <ion-select-option>Interview</ion-select-option>
+          <ion-select-option>Task</ion-select-option>
+        </ion-select>
+      </ion-item>
+
       <ion-item>
+        <div tabindex="0"></div>
         <ion-label position="floating">Note Text</ion-label>
         <ckeditor [config]="editorConfig" #ckeditor [editor]="Editor" (change)="onChange($event)"></ckeditor>
       </ion-item>

@@ -62,6 +62,7 @@ export class CompanyListPage implements OnInit {
 
   ionViewWillEnter() {
     const state = window.history.state;
+
     if (state.filter) {
       this.filters.status = state.value;
     }
@@ -120,6 +121,7 @@ export class CompanyListPage implements OnInit {
     const searchParams = this.urlParams();
 
     this.companyService.list(page, searchParams).subscribe(response => {
+      
       this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
       this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
       this.companies = response.body;
