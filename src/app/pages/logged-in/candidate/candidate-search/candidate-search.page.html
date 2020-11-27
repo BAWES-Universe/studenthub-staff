@@ -1,14 +1,15 @@
 <ion-header [class.add-border]="borderLimit" class="ion-no-border" [attr.dir]="translateService.direction()">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/"></ion-back-button>
+      <ion-back-button text="{{ 'Back' | translate }}" *ngIf="showFilter" (click)="dismiss()"></ion-back-button>
+      <ion-back-button text="{{ 'Back' | translate }}" *ngIf="!showFilter" defaultHref="/"></ion-back-button>
     </ion-buttons>
 
-    <ion-buttons slot="end" class="mobile-only">
-      <ion-button fill="clear" (click)="openFilter()" class="btn-filter skip-hover">
-        <span>
-          <img src="assets/images/ic-filter.svg"> {{ "Filter" | translate }}
-        </span>
+    <ion-buttons slot="end" *ngIf="!loading && nbHits > 0 && !showFilter" class="mobile-only">
+      <ion-button (click)="openFilter()" class="btn-filter skip-hover"  fill="clear">
+              <span>
+                  <img src="assets/images/ic-filter.svg"> {{ "Filter" | translate }}
+              </span>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
@@ -50,13 +51,27 @@
   <instant-search #instantSearch *ngIf="instantSearchConfig" [config]="instantSearchConfig" [searchParameters]="searchParameters">
     <ion-grid>
       <ion-row>
-        <ion-col size-xs="0" size-sm="0" size-md="0" size-lg="4" size-xl="4" class="desktop-only">
+
+        <ion-col [class.hidden]="!showFilter">
+<!--        <ion-col size-sm="12" size-md="12" size-lg="12" size-xs="12" [class.hidden]="!showFilter">-->
+          <div class="filter-wrapper mobile">
+            <candidate-filter [class.hidden]="loading && !nbHits"></candidate-filter>
+          </div>
+        </ion-col>
+        <ion-col size-sm="0" size-md="4" size-lg="4" class="desktop-only">
           <div class="filter-wrapper">
             <candidate-filter [class.hidden]="loading && !nbHits"></candidate-filter>
             <loading-modal [loading]="loading && !nbHits" type="candidate-filter"></loading-modal>
           </div>
         </ion-col>
-        <ion-col  size-xs="12" size-sm="12" size-md="12" size-lg="8" size-xl="8" class="employer-list-wrapper">
+
+<!--        <ion-col size-xs="0" size-sm="0" size-md="0" size-lg="4" size-xl="4" class="desktop-only">-->
+<!--          <div class="filter-wrapper">-->
+<!--            <candidate-filter [class.hidden]="loading && !nbHits"></candidate-filter>-->
+<!--            <loading-modal [loading]="loading && !nbHits" type="candidate-filter"></loading-modal>-->
+<!--          </div>-->
+<!--        </ion-col>-->
+        <ion-col  size-xs="12" size-sm="12" size-md="12" size-lg="8" size-xl="8" class="employer-list-wrapper"  [class.hidden]="showFilter">
 
           <is-infinite-hits class="cv-list">
             <ng-template let-results="results" let-showMore="showMore" let-hits="hits">
@@ -105,3 +120,15 @@
   </instant-search>
 
 </ion-content>
+<ion-footer class="mobile-only" [hidden]="!showFilter">
+  <ion-toolbar class="ion-no-padding">
+    <ion-button [disabled]="loading || nbHits == 0" (click)="dismiss()" expands="full"
+                class="btn-view-candidates">
+          <span *ngIf="!loading && instantSearchConfig">
+              <span *ngIf="nbHits == 0">{{ "No Candidate Found" | translate }}</span>
+              <span *ngIf="nbHits > 0">{{ 'txt_view_candidates' | translate : { value : nbHits } }}</span>
+          </span>
+      <ion-spinner *ngIf="loading || !instantSearchConfig"></ion-spinner>
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

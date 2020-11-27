@@ -55,6 +55,7 @@ export class CandidateSearchPage implements OnInit {
   public lastQueryId;
   public scrollPosition = 0;
   public borderLimit = false;
+  public showFilter = false;
 
   constructor(
     public httpClient: HttpClient,
@@ -136,17 +137,28 @@ export class CandidateSearchPage implements OnInit {
   }
 
   /**
-   * open filter page
+   * Open filter for mobile users
    */
   openFilter() {
 
-    this.updateAlgoliaState();
-
-    this.navCtrl.navigateForward('/candidate-filter', {
-      animated: false,
-      animationDirection: 'forward'
-    });
+    this.showFilter = true;
+    // this.updateAlgoliaState();
+    //
+    // this.router.navigate(['job-with-filter']);
   }
+  dismiss() {
+    this.showFilter = false;
+  }
+
+  // openFilter() {
+  //
+  //   this.updateAlgoliaState();
+  //
+  //   this.navCtrl.navigateForward('/candidate-filter', {
+  //     animated: false,
+  //     animationDirection: 'forward'
+  //   });
+  // }
 
   /**
    * update algolia state
@@ -191,7 +203,7 @@ export class CandidateSearchPage implements OnInit {
   }
 
   onSearch(event) {
-    if(this.instantSearch && this.instantSearch.instantSearchInstance) 
+    if(this.instantSearch && this.instantSearch.instantSearchInstance)
       this.instantSearch.instantSearchInstance.helper.setQuery(event.target.value).search();
   }
 
@@ -302,7 +314,7 @@ export class CandidateSearchPage implements OnInit {
             body: opts.body,
             observe: 'response'
           }).subscribe(resp => {
- 
+
             this.processResponse(resp, transferState, transferStateKey);
 
             resolve(this.resolveResponse(resp));
@@ -327,7 +339,7 @@ export class CandidateSearchPage implements OnInit {
   }
 
   resetKey(opts, rawUrl, resolve,  transferState, transferStateKey) {
- 
+
     this.algoliaService.getKey(true).then(response => {
 
       // update config
@@ -355,7 +367,7 @@ export class CandidateSearchPage implements OnInit {
    * @param transferStateKey
    */
   processResponse(resp, transferState = null, transferStateKey = null) {
- 
+
     if (transferState) {
       transferState.set(transferStateKey, JSON.stringify(resp));
     }
@@ -386,11 +398,11 @@ export class CandidateSearchPage implements OnInit {
     setTimeout(() => {
 
       this.showSearchBox = (
-        !this.noCandidateList || 
+        !this.noCandidateList ||
         (
-          this.instantSearch && 
-          this.instantSearch.instantSearchInstance && 
-          this.instantSearch.instantSearchInstance.helper.state.query && 
+          this.instantSearch &&
+          this.instantSearch.instantSearchInstance &&
+          this.instantSearch.instantSearchInstance.helper.state.query &&
           this.instantSearch.instantSearchInstance.helper.state.query.length > 0
         )
       );
@@ -482,7 +494,7 @@ export class CandidateSearchPage implements OnInit {
       })
     };
   }
-  
+
   logScrolling(e) {
     this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
   }

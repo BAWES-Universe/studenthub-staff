@@ -71,10 +71,10 @@ applied-filters {
     border-width: 1px;
     border-style: solid;
     border-color: #e32c69;
-    color: rgba(0, 0, 0, 1); 
+    color: rgba(0, 0, 0, 1);
     overflow: hidden;
     height: auto;
-    transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1), 
+    transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1),
     background-color 300ms cubic-bezier(0.4, 0, 0.2, 1), color 300ms cubic-bezier(0.4, 0, 0.2, 1), -webkit-box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
     width: calc(100% - 16px);
@@ -93,7 +93,7 @@ applied-filters {
 
 .hidden {
     display: none;
-} 
+}
 
 .scroll-content {
     contain: size style;
@@ -153,7 +153,7 @@ applied-filters {
         height: 48px;
         font-size: 18px;
         line-height: 1.33;
-        text-align: center; 
+        text-align: center;
     }
 
     .btn-create-job {
@@ -162,7 +162,7 @@ applied-filters {
         display: block;
         height: 50px;
         --border-radius: 4px;
-        border-radius: 4px; 
+        border-radius: 4px;
         font-size: 18px;
         font-weight: 500;
         text-align: center;
@@ -197,6 +197,10 @@ applied-filters {
     padding-bottom: 100px !important;
 }
 
+.filter-wrapper.mobile {
+    width: 100%;
+}
+
 .grid,
 .col {
     padding: 0 !important;
@@ -205,14 +209,14 @@ applied-filters {
 
 .filter-group-name {
     font-size: 16px;
-    font-weight: 500; 
+    font-weight: 500;
     margin: 20px 12px;
 }
 
 .btn-filter {
     --padding-bottom: 7px;
     font-size: 17px;
-    color: #f24459; 
+    color: #f24459;
     font-weight: 400;
     display: block;
 
@@ -257,7 +261,7 @@ applied-filters {
                 height: 26px;
             }
         }
- 
+
         .employer-list-wrapper {
             loading-modal {
                 margin: auto 30px;
@@ -283,7 +287,7 @@ applied-filters {
 
     .applied-filters-skeleton {
         display: block;
-        padding: 11px 15px 0; 
+        padding: 11px 15px 0;
         position: relative;
         z-index: 1;
         height: 52px;
@@ -331,9 +335,37 @@ applied-filters {
     font-stretch: normal;
     font-style: normal;
     line-height: normal;
-    letter-spacing: normal; 
+    letter-spacing: normal;
     margin: 73px auto auto auto;
     display: block;
     text-align: center;
     width: 232px;
+}
+ion-back-button {
+  display: inline-block;
+}
+
+.btn-view-candidates {
+  width: calc(100% - 24px);
+  height: 50px;
+  border-radius: 4px;
+  --border-radius: 4px;
+  background-color: #f24459;
+  font-size: 18px;
+  font-weight: 500;
+  color: #ffffff;
+  margin: 12px;
+  box-shadow: 0 -4px 4px 0 rgba(0, 0, 0, 0.1);
+  --background: #f24459;
+}
+
+.btn-view-candidates[disabled] {
+  background: #bdbdbd;
+  --color: #fff;
+  --opacity: 1;
+  --background: #bdbdbd;
+  --background-focused: #bdbdbd;
+  --background-hover: #bdbdbd;
+  border-radius: 4px;
+  --border-radius: 4px;
 }
