@@ -220,7 +220,7 @@
         </ion-label>
       </ion-item>
 
-      <ion-item [class.pending]="!candidate.candidate_mom_kuwaiti" *ngIf="candidate.nationality.country_name_en != 'Kuwait' && candidate.country.country_name_en == 'Kuwait'">
+      <ion-item [class.pending]="!candidate.candidate_mom_kuwaiti" *ngIf="((candidate && candidate.nationality && candidate.country) && candidate.nationality.country_name_en != 'Kuwait' && candidate.country.country_name_en == 'Kuwait')">
         <div tabindex="0"></div>
         <ion-label>
           <h5>Mom Kuwaiti</h5>
@@ -447,7 +447,7 @@
               <ion-select-option>Task</ion-select-option>
             </ion-select>
           </ion-item>
-          
+
           <ion-item lines="none">
             <div tabindex="0"></div>
 
