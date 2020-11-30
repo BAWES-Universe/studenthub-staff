@@ -13,9 +13,9 @@ import {ImageUploadModule} from 'src/app/components/image-upload/image-upload.mo
 @NgModule({
     imports: [
         CommonModule,
-        ReactiveFormsModule,
         IonicModule,
         CandidateFormPageRoutingModule,
+        ReactiveFormsModule,
         SelectSearchModule,
         LoadingModalModule,
         ImageUploadModule

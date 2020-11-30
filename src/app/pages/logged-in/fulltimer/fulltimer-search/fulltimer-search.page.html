@@ -1,0 +1,185 @@
+<ion-header [class.add-border]="borderLimit" class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+
+    <ion-buttons slot="end" class="mobile-only">
+      <ion-button fill="clear" (click)="openFilter()" class="btn-filter skip-hover">
+        <span>
+          <img src="assets/images/ic-filter.svg"> Filter
+        </span>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content #container scrollEvents="true" (ionScroll)="logScrolling($event)" class="source-browser-page">
+
+  <!-- loader when config not available -->
+
+  <ion-grid *ngIf="!instantSearchConfig" class="dummy">
+    <ion-row>
+      <ion-col  size-xs="0" size-sm="0" size-md="4" size-lg="4" class="desktop-only">
+        <div class="filter-wrapper">
+          <loading-modal [loading]="true" type="fulltimer-filter">
+          </loading-modal>
+        </div>
+      </ion-col>
+
+      <ion-col  size-xs="12" size-sm="12" size-md="8" size-lg="8" class="employer-list-wrapper">
+        <div class="cv-list">
+          <div class="list-header">
+            <div class="applied-filters-skeleton">
+              <ion-skeleton-text animated></ion-skeleton-text>
+            </div>
+
+            <div class="searchBox">
+              <ion-skeleton-text animated class="skelton-searchbar"></ion-skeleton-text>
+            </div>
+          </div>
+
+          <div class="loading-fulltimer">
+            <loading-modal [loading]="true" type="fulltimer"></loading-modal>
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <instant-search #instantSearch *ngIf="instantSearchConfig" [config]="instantSearchConfig" [searchParameters]="searchParameters">
+    <ion-grid>
+      <ion-row>
+
+        <ion-col size-sm="12" size-md="0" size-lg="0" size-xs="12" [class.hidden]="!showFilter">
+          <div class="filter-wrapper">
+            <fulltimer-filter [class.hidden]="loading && !nbHits"></fulltimer-filter>
+            <loading-modal [loading]="loading && !nbHits" type="fulltimer-filter"></loading-modal>
+          </div>
+        </ion-col>
+
+        <ion-col size-sm="0" size-md="4" size-lg="4" class="desktop-only">
+            <div class="filter-wrapper">
+              <fulltimer-filter [class.hidden]="loading && !nbHits"></fulltimer-filter>
+              <loading-modal [loading]="loading && !nbHits" type="fulltimer-filter"></loading-modal>
+            </div>
+        </ion-col>
+        
+        <ion-col size-sm="12" size-md="8" size-lg="8" [class.hidden]="showFilter" class="employer-list-wrapper">
+
+          <is-infinite-hits class="cv-list">
+            <ng-template let-results="results" let-showMore="showMore" let-hits="hits">
+
+              <div class="list-header" *ngIf="showSearchBox">
+
+                <div class="applied-filters-wrapper">
+                  <applied-filters [loading]="refreshingFulltimers" [labelWithoutFilter]="'Showing fulltimers'"
+                                   [labelWithFilter]="'Showing fulltimers for'">
+                  </applied-filters>
+                </div>
+                <div class="searchBox">
+                  <ion-searchbar (ionChange)="onSearch($event)" placeholder="Type to filter from these results"></ion-searchbar>
+                  <!-- <is-search-box [searchAsYouType]="true"
+                    placeholder="{{ 'Type to filter from these results' | translate }}">
+                  </is-search-box>-->
+                </div>
+
+              </div>
+
+              <div [class.hidden]="refreshingFulltimers" class="fulltimer-wrapper">
+                <!-- <fulltimer [fulltimer]="hit" *ngFor="let hit of hits"></fulltimer>-->
+
+                <ion-card [routerLink]="'/fulltimer/' + hit.objectID" *ngFor="let hit of hits">
+                  <ion-card-header>
+                    <ion-card-title>
+                      {{ hit.fulltimer_name }}
+                    </ion-card-title>
+                  </ion-card-header>
+                  <ion-card-content>
+                    
+                    <ion-item lines="none" *ngIf="hit.fulltimer_phone" href='tel:{{ hit.fulltimer_phone }}' target='_blank'>
+                      <div tabindex="0"></div>
+                      <ion-icon name="call" slot="start"></ion-icon>
+                      {{ hit.fulltimer_phone }}
+                    </ion-item>
+
+                    <ion-item lines="none" *ngIf="hit.fulltimer_phone"
+                      href='https://api.whatsapp.com/send?phone={{ hit.fulltimer_phone }}' target='_blank'>
+                      <div tabindex="0"></div>
+                      <ion-icon name="logo-whatsapp" slot="start"></ion-icon>
+                      Whats App Link
+                    </ion-item>
+
+                    <ion-item lines="none" *ngIf="hit.fulltimer_email" href='mailto:{{ hit.fulltimer_email }}'
+                      target='_blank'>
+                      <div tabindex="0"></div>
+                      <ion-icon name="mail" slot="start"></ion-icon>
+                      {{ hit.fulltimer_email }}
+                    </ion-item>
+                    
+                    <ion-item lines="none" *ngIf="hit.area && hit.country">
+                      <div tabindex="0"></div>
+                      <ion-icon name="globe" slot="start"></ion-icon>
+                      {{ hit.area.area_name_en }}, {{ hit.country.country_name_en }}
+                    </ion-item>
+
+                    <ion-item lines="none" *ngIf="hit.nationality">
+                      <div tabindex="0"></div>
+                      <ion-icon name="person" slot="start"></ion-icon>
+                      {{ hit.nationality.nationality_name_en }}
+                    </ion-item>
+
+                    <ion-item lines="none" *ngIf="hit.fulltimerTags && hit.fulltimerTags.length > 0">
+                      <div tabindex="0"></div>
+                      <ion-chip *ngFor="let fulltimerTag of hit.fulltimerTags">
+                        {{ fulltimerTag.tag }}
+                      </ion-chip>
+                    </ion-item>
+
+                  </ion-card-content>
+                </ion-card>
+               
+              </div>
+
+              <loading-modal [loading]="refreshingFulltimers || loading" type="fulltimer"></loading-modal>
+
+              <!-- to load more on scroll to bottom, usinng 0(zero) based pagination -->
+
+              <ion-infinite-scroll *ngIf="page + 1 < this.nbPages"
+                (ionInfinite)="doInfinite($event) && showMore($event)">
+                <ion-infinite-scroll-content loadingSpinner=""></ion-infinite-scroll-content>
+              </ion-infinite-scroll>
+
+            </ng-template>
+          </is-infinite-hits>
+
+          <!-- No results message -->
+
+          <p *ngIf="!loading && !refreshingFulltimers && noFulltimerList" class="no-fulltimer-on-filter">
+            No results found for your search
+          </p>
+
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </instant-search>
+
+</ion-content>
+<ion-footer>
+  <ion-toolbar class="ion-no-padding">
+
+      <ion-button [hidden]="!showFilter" [disabled]="loading || refreshingFulltimers || nbHits == 0" expand="full" (click)="dismiss()" class="btn-view-fulltimers skip-hover">
+          <span *ngIf="!loading || !refreshingFulltimers">
+              <span *ngIf="nbHits == 0">No Job Found</span>
+              <span *ngIf="nbHits > 0">View {{ nbHits }} fulltimers</span>
+          </span>
+          <ion-spinner *ngIf="loading || refreshingFulltimers || nbHits == null"></ion-spinner>
+      </ion-button>
+
+      <ion-button [hidden]="showFilter" expand="full" (click)="create($event)">
+        Add Fulltimer
+      </ion-button>
+
+  </ion-toolbar>
+
+</ion-footer>

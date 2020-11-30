@@ -1,0 +1,71 @@
+<ion-header [class.add-border]="borderLimit" class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/fulltimer-search"></ion-back-button>
+    </ion-buttons>
+    <ion-title *ngIf="fulltimer">{{ fulltimer.fulltimer_name }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="update()">
+        Update
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
+
+  <ion-list *ngIf="!loading">
+
+    <ion-item>
+      <ion-label>
+        <h5>Nationality</h5>
+        <p>{{ fulltimer.nationality.country_name_en }}</p>
+      </ion-label>
+    </ion-item>
+    
+    <ion-item>
+      <ion-label>
+        <h5>Area</h5>
+        <p>{{ fulltimer.area.area_name_en }}, {{ fulltimer.country.country_name_en }}</p>
+      </ion-label>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>
+        <h5>Email</h5>
+        <p>{{ fulltimer.fulltimer_email }}</p>
+      </ion-label>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>
+        <h5>Phone</h5>
+        <p>{{ fulltimer.fulltimer_phone }}</p>
+      </ion-label>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>
+        <h5>Resume</h5>
+        <a target="_blank" *ngIf="fulltimer.fulltimer_pdf_cv"
+            href="{{ getResumeUrl() }}">
+            {{ fulltimer.fulltimer_pdf_cv }}
+          </a>
+        <a href=""></a>
+      </ion-label>
+    </ion-item>
+
+    <ion-item *ngIf="fulltimer.fulltimerTags">
+      <ion-label>
+        <h5>Tags</h5>
+        <ion-chip *ngFor="let fulltimerTag of fulltimer.fulltimerTags">
+          {{ fulltimerTag.tag }}
+        </ion-chip>
+      </ion-label>
+    </ion-item>
+
+  </ion-list>
+
+  <loading-modal [loading]="loading" type="candidate-list"></loading-modal>
+
+</ion-content>

@@ -1,0 +1,32 @@
+<div class="filter-group-wrapper">
+    <h4 class="filter-group-name">{{ "Profile" | translate }}</h4>
+
+    <refinement-list data-sort-order="5" [class.is-refined]="arrRefined && arrRefined['have_resume']"
+        label="Have Resume?" operator="or"
+        attribute="have_resume"></refinement-list>
+
+    <refinement-list label="Home Location" [searchable]="true"
+        data-sort-order="8" [class.is-refined]="arrRefined['currentLocations.en']"
+        searchPlaceholder="Search here..." showMoreLabel="Show more"
+        showLessLabel="Show less" showMoreLimit="15" operator="or"
+        attribute="currentLocations.en"></refinement-list>
+
+    <refinement-list label="Nationality" [searchable]="true"
+        data-sort-order="9" [class.is-refined]="arrRefined['country.country_name_en']"
+        searchPlaceholder="Search here..." showMoreLabel="Show more"
+        showLessLabel="Show less" showMoreLimit="15" operator="or"
+        attribute="country.country_name_en"></refinement-list>
+
+    <!--
+    <refinement-list label="Mom Kuwaiti" data-sort-order="9" [class.is-refined]="arrRefined['fulltimer_mom_kuwaiti']"
+        attribute="fulltimer_mom_kuwaiti" [transformItems]="kuwaitiMomTransformItems"></refinement-list>
+    -->
+
+    <refinement-list label="Tags" [searchable]="true"
+        data-sort-order="1" [class.is-refined]="arrRefined['fulltimerTags.tag']"
+        searchPlaceholder="Search here..." showMoreLabel="Show more"
+        showLessLabel="Show less" showMoreLimit="15" operator="or"
+        attribute="fulltimerTags.tag"></refinement-list>
+
+</div>
+

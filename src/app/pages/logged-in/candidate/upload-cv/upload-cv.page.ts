@@ -221,7 +221,10 @@ export class UploadCvPage implements OnInit, OnDestroy {
       }
 
       this.dirty = true;
-      this.dismiss({resume: event.Key});
+      
+      this.dismiss({
+        resume: event.Key
+      });
       // this.uploadSubscription = this.accountService.updateResume(event.Key).subscribe(res => {
       //
       //   this.progress = false;

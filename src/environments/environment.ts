@@ -10,7 +10,9 @@ export const environment = {
   apiEndpoint: 'https://staff.api.dev.studenthub.co/v1',
   algoliaCacheDuration: 5 * 60 * 1000, // 5 min in millisecond
   algoliaCandidateIndex: 'dev_candidate_public',
+  algoliaFulltimerIndex: 'dev_fulltimer_public',
   environmentName: 'dev Server',
+  marker: null,//'assets/images/car.svg',
   serviceWorker: true
 };
 

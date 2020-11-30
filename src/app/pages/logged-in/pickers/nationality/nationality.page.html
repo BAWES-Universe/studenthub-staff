@@ -1,0 +1,39 @@
+<ion-content [attr.dir]="translateService.direction()" class="ion-padding">
+
+  <div class="max-width">
+    <ion-button fill="clear" (click)="dismiss()" class="btn-close">
+      <img src="assets/images/ic_cancel.svg" />
+    </ion-button>
+
+    <h3>What’s your nationality?</h3>
+
+    <ion-searchbar #inputToFocus mode="md" searchIcon="../assets/images/ic_searchbar.svg" 
+      class="no-shadow search-bar"
+      (ionChange)="onSearchInput($event)" [value]="query"
+      placeholder="Type to search">
+    </ion-searchbar>
+
+    <ion-list *ngIf="fulltimer">
+      
+      <ion-item *ngFor="let country of countries" tappable (click)="rowSelected(country)">
+        <div tabindex="0"></div>
+        {{ country.country_name_en }}
+        <!--
+        <ion-icon slot="end" name="checkmark" *ngIf="!saving && fulltimer.country_id == country.country_id">
+        </ion-icon>
+        <ion-spinner slot="end" *ngIf="saving && fulltimer.country_id == country.country_id"></ion-spinner>
+        -->
+      </ion-item>
+
+      <loading-modal [loading]="loading" type="text-list"></loading-modal>
+
+      <ion-infinite-scroll *ngIf="currentPage < totalPage" (ionInfinite)="doInfinite($event)">
+        <ion-infinite-scroll-content></ion-infinite-scroll-content>
+      </ion-infinite-scroll>
+
+      <h2 class="no-result-found" *ngIf="countries && countries.length == 0 && !loading && query">
+        No results found!
+      </h2>
+    </ion-list>
+  </div>
+</ion-content>

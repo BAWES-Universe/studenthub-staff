@@ -338,9 +338,17 @@ const routes: Routes = [
     }
   },
   {
+    path: 'fulltimer-search',
+    loadChildren: () => import('./pages/logged-in/fulltimer/fulltimer-search/fulltimer-search.module').then( m => m.FulltimerSearchPageModule)
+  },
+  {
+    path: 'fulltimer',
+    loadChildren: () => import('./pages/logged-in/fulltimer/fulltimer-view/fulltimer-view.module').then( m => m.FulltimerViewPageModule)
+  },
+  {
     path: '**',
     redirectTo: 'not-found'
-  }
+  },
 ];
 
 @NgModule({
