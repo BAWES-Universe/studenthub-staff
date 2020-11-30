@@ -413,7 +413,7 @@ export class CandidateViewPage implements OnInit {
     const { data } = await modal.onWillDismiss();
 
     if (data && data.refresh) {
-      this.loadCandidateNotes(false);
+      this.loadCandidateNotes(this.candidate_id, false);
       this.candidate.candidate_committed = data.candidate_committed;
     }
   }
@@ -444,7 +444,7 @@ export class CandidateViewPage implements OnInit {
     const { data } = await modal.onWillDismiss();
 
     if (data && data.refresh) {
-      this.loadCandidateNotes(false);
+      this.loadCandidateNotes(this.candidate_id, false);
     }
   }
 
@@ -473,7 +473,7 @@ export class CandidateViewPage implements OnInit {
               this.deletingNote = false;
 
               if (response.operation == 'success') {
-                this.loadCandidateNotes(true);
+                this.loadCandidateNotes(this.candidate_id, true);
               } else {
 
                 this.deletingNote = false;
@@ -508,10 +508,11 @@ export class CandidateViewPage implements OnInit {
 
   /**
    * load candidate notes
+   * @param candidateID
    * @param loading
    */
-  loadCandidateNotes(loading = true) {
-    this.candidateNoteService.list().subscribe(async jsonResponse => {
+  loadCandidateNotes(candidateID: number, loading = true) {
+    this.candidateNoteService.listById(candidateID).subscribe(async jsonResponse => {
       this.candidate.notes = jsonResponse.body;
     });
   }
@@ -539,8 +540,8 @@ export class CandidateViewPage implements OnInit {
         this.noteForm.controls.note.setValue('');
 
         this.ckeditor.editorInstance.setData('');
-        
-        this.loadCandidateNotes(false);
+
+        this.loadCandidateNotes(this.candidate_id, false);
       }
 
       // On Failure

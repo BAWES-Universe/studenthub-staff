@@ -65,4 +65,11 @@ export class CandidateNoteService {
   list(): Observable<any>{
     return this.authhttp.getRaw(`${this.candidateNoteEndpoint}?expand=createdBy,updatedBy`);
   }
+
+  /**
+   * list candidate note by id
+   */
+  listById(id: number): Observable<any>{
+    return this.authhttp.getRaw(`${this.candidateNoteEndpoint}/list-by-id/${id}?expand=createdBy,updatedBy`);
+  }
 }
