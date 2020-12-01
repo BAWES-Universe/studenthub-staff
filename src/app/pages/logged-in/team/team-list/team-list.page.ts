@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import {AlertController, ModalController, NavController, Platform, ToastController} from '@ionic/angular';
+import { NavController, Platform } from '@ionic/angular';
+//models
+import { Staff } from 'src/app/models/staff';
+//services
+import { StaffService } from 'src/app/providers/logged-in/staff.service';
+import { AuthService } from 'src/app/providers/auth.service';
 
-import {StaffService} from 'src/app/providers/logged-in/staff.service';
-
-import {Staff} from 'src/app/models/staff';
 
 @Component({
   selector: 'app-team-list',
@@ -22,15 +24,13 @@ export class TeamListPage implements OnInit {
   public staffs: Staff[] = [];
 
   constructor(
+    public authService: AuthService,
     private staffService: StaffService,
     private navCtrl: NavController,
-    private modalCtrl: ModalController,
-    private alertCtrl: AlertController,
     public platform: Platform,
-    private toastCtrl: ToastController
   ) { }
 
-  ngOnInit() {
+  ngOnInit() { 
     this.loadData(this.currentPage);
   }
 
@@ -45,10 +45,10 @@ export class TeamListPage implements OnInit {
 
     this.staffService.list(this.currentPage).subscribe(response => {
 
-        this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
-        this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
-        this.staffs = response.body;
-      },
+      this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
+      this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
+      this.staffs = response.body;
+    },
       error => {
       },
       () => {
@@ -79,11 +79,11 @@ export class TeamListPage implements OnInit {
     this.currentPage++;
     this.staffService.list(this.currentPage).subscribe(response => {
 
-        this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
-        this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
+      this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
+      this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
 
-        this.staffs = this.staffs.concat(response.body);
-      },
+      this.staffs = this.staffs.concat(response.body);
+    },
       error => {
       },
       () => {
