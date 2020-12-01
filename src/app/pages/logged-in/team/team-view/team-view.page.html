@@ -52,6 +52,7 @@
       </ion-item>
     </section>
   </ion-list>
+  
   <no-items message = "No notes yet!" *ngIf="!loading && !loadMore && notes.length == 0"></no-items>
 
   <loading-modal [loading]="loading || loadMore" type="text-list"></loading-modal>

@@ -316,10 +316,10 @@ export class CompanyViewPage implements OnInit {
 
   isFollowUpIntervalPassed() {
 
-    if(this.company.company_followup_interval_weeks == 0) {
+    if(this.company.company_followup_interval_weeks == 0 || !this.company.company_last_followup_datetime) {
       return true;
     }
-
+    
     let followup_datetime = new Date(this.company.company_last_followup_datetime.replace(/-/g, '/') + ' UTC');
 
     //date to follow

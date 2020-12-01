@@ -1,10 +1,10 @@
-<ion-header [class.add-border]="borderLimit" class="ion-no-border">
+<ion-header [class.add-border]="borderLimit" (click)="refreshFulltimers()" class="ion-no-border">
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/"></ion-back-button>
     </ion-buttons>
 
-    <ion-buttons slot="end" class="mobile-only">
+    <ion-buttons slot="end" class="mobile-only" *ngIf="showFilter">
       <ion-button fill="clear" (click)="openFilter()" class="btn-filter skip-hover">
         <span>
           <img src="assets/images/ic-filter.svg"> Filter
@@ -47,7 +47,8 @@
     </ion-row>
   </ion-grid>
 
-  <instant-search #instantSearch *ngIf="instantSearchConfig" [config]="instantSearchConfig" [searchParameters]="searchParameters">
+  <instant-search #instantSearch *ngIf="instantSearchConfig" [config]="instantSearchConfig" 
+    [searchParameters]="searchParameters">
     <ion-grid>
       <ion-row>
 
@@ -86,7 +87,8 @@
 
               </div>
 
-              <div [class.hidden]="refreshingFulltimers" class="fulltimer-wrapper">
+              <!-- [class.hidden] -->
+              <div *ngIf="!refreshingFulltimers" class="fulltimer-wrapper">
                 <!-- <fulltimer [fulltimer]="hit" *ngFor="let hit of hits"></fulltimer>-->
 
                 <ion-card [routerLink]="'/fulltimer/' + hit.objectID" *ngFor="let hit of hits">
