@@ -4,8 +4,9 @@ export class Note {
     note_uuid: string;
     company_id: number;
     candidate_id: number;
-    contact_uuid: number;
-    request_uuid: number;
+    contact_uuid: string;
+    fulltimer_uuid: string;
+    request_uuid: string;
     staff_id: number;
     note_type: any;
     note_text: string;

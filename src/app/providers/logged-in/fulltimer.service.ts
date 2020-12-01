@@ -22,7 +22,7 @@ export class FulltimerService {
    * @param fulltimer_uuid
    */
   view(fulltimer_uuid) {
-    const url = this._fulltimerEndpoint + '/' + fulltimer_uuid + '?expand=nationality,country,area,fulltimerTags';
+    const url = this._fulltimerEndpoint + '/' + fulltimer_uuid + '?expand=nationality,country,area,fulltimerTags,notes,notes.createdBy,notes.updatedBy';
     return this._authhttp.get(url);
   }
 
@@ -42,7 +42,7 @@ export class FulltimerService {
    */
   create(model: Fulltimer): Observable<any>{
     const postUrl = `${this._fulltimerEndpoint}`;
-    
+
     const params = {
       nationality_id: model.nationality_id,
       area_uuid: model.fulltimer_area_uuid,

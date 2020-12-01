@@ -14,57 +14,159 @@
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
 
-  <ion-list *ngIf="!loading">
 
-    <ion-item>
-      <ion-label>
-        <h5>Nationality</h5>
-        <p>{{ fulltimer.nationality.country_name_en }}</p>
-      </ion-label>
-    </ion-item>
-    
-    <ion-item>
-      <ion-label>
-        <h5>Area</h5>
-        <p>{{ fulltimer.area.area_name_en }}, {{ fulltimer.country.country_name_en }}</p>
-      </ion-label>
-    </ion-item>
+  <ion-segment (ionChange)="segmentChanged($event)" [value]="sections">
+    <ion-segment-button value="personal">
+      <ion-label>Personal</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="notes">
+      <ion-label>Notes</ion-label>
+    </ion-segment-button>
+  </ion-segment>
 
-    <ion-item>
-      <ion-label>
-        <h5>Email</h5>
-        <p>{{ fulltimer.fulltimer_email }}</p>
-      </ion-label>
-    </ion-item>
+  <ng-container *ngIf="sections == 'personal'">
+    <ion-list *ngIf="!loading">
 
-    <ion-item>
-      <ion-label>
-        <h5>Phone</h5>
-        <p>{{ fulltimer.fulltimer_phone }}</p>
-      </ion-label>
-    </ion-item>
+      <ion-item>
+        <ion-label>
+          <h5>Nationality</h5>
+          <p>{{ fulltimer.nationality.country_name_en }}</p>
+        </ion-label>
+      </ion-item>
 
-    <ion-item>
-      <ion-label>
-        <h5>Resume</h5>
-        <a target="_blank" *ngIf="fulltimer.fulltimer_pdf_cv"
-            href="{{ getResumeUrl() }}">
+      <ion-item>
+        <ion-label>
+          <h5>Area</h5>
+          <p>{{ fulltimer.area.area_name_en }}, {{ fulltimer.country.country_name_en }}</p>
+        </ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>
+          <h5>Email</h5>
+          <p>{{ fulltimer.fulltimer_email }}</p>
+        </ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>
+          <h5>Phone</h5>
+          <p>{{ fulltimer.fulltimer_phone }}</p>
+        </ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>
+          <h5>Resume</h5>
+          <a target="_blank" *ngIf="fulltimer.fulltimer_pdf_cv"
+             href="{{ getResumeUrl() }}">
             {{ fulltimer.fulltimer_pdf_cv }}
           </a>
-        <a href=""></a>
-      </ion-label>
-    </ion-item>
+          <a href=""></a>
+        </ion-label>
+      </ion-item>
 
-    <ion-item *ngIf="fulltimer.fulltimerTags">
-      <ion-label>
-        <h5>Tags</h5>
-        <ion-chip *ngFor="let fulltimerTag of fulltimer.fulltimerTags">
-          {{ fulltimerTag.tag }}
-        </ion-chip>
-      </ion-label>
-    </ion-item>
+      <ion-item *ngIf="fulltimer.fulltimerTags">
+        <ion-label>
+          <h5>Tags</h5>
+          <ion-chip *ngFor="let fulltimerTag of fulltimer.fulltimerTags">
+            {{ fulltimerTag.tag }}
+          </ion-chip>
+        </ion-label>
+      </ion-item>
 
-  </ion-list>
+    </ion-list>
+  </ng-container>
+  <ng-container *ngIf="sections == 'notes'">
+    <!-- note -->
+
+    <section>
+
+      <form [formGroup]="noteForm" [class.editor-inactive]="!editorFocused" [class.editor-focused]="editorFocused"
+            *ngIf="noteForm">
+
+        <ion-item lines="none">
+          <div tabindex="0"></div>
+          <ion-select formControlName="type">
+            <ion-select-option>Internal Note</ion-select-option>
+            <ion-select-option>Phone Call</ion-select-option>
+            <ion-select-option>Email</ion-select-option>
+            <ion-select-option>Meeting</ion-select-option>
+            <ion-select-option>Interview</ion-select-option>
+            <ion-select-option>Task</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item lines="none">
+          <div tabindex="0"></div>
+
+          <ckeditor [config]="editorConfig" #ckeditor [editor]="Editor" (focus)="onEditorFocus()"
+                    (change)="onChange($event)"></ckeditor>
+
+        </ion-item>
+        <ion-item lines="none">
+          <div tabindex="0"></div>
+
+          <ion-buttons slot="start">
+
+            <ion-button [disabled]="addingNote || !noteForm.valid" (click)="addNote()">
+              <span *ngIf="!addingNote">Submit</span>
+              <ion-spinner *ngIf="addingNote"></ion-spinner>
+            </ion-button>
+
+            <ion-button color="danger" (click)="cancelAddNote()">
+              <span>Cancel</span>
+            </ion-button>
+
+          </ion-buttons>
+        </ion-item>
+      </form>
+
+      <ion-list>
+        <ion-item-sliding *ngFor="let note of fulltimer.notes" [disabled]="platform.width() > 768">
+          <ion-item tappable (click)="editNote(note)">
+            <div tabindex="0"></div>
+
+            <ion-label>
+              <p>{{ note.note_type }}</p>
+              <div [innerHTML]="note.note_text"></div>
+              <p><small>Created On : {{ toDate(note.note_created_datetime) | date}} | </small>
+                <small>Updated On : {{ toDate(note.note_updated_datetime) | date}} </small></p>
+              <p><small>Created By : {{note.createdBy.staff_name}} | </small>
+                <small>Updated By : {{note.updatedBy.staff_name}} </small></p>
+            </ion-label>
+
+            <ion-buttons slot="end" *ngIf="platform.width() > 768">
+              <ion-button color="default">
+                <ion-icon slot="start" name="pencil-outline"></ion-icon>
+                Edit
+              </ion-button>
+
+              <ion-button color="danger" (click)="removeNote($event, note)">
+                <ion-icon slot="start" name="trash-outline"></ion-icon>
+                Delete
+              </ion-button>
+            </ion-buttons>
+
+          </ion-item>
+          <ion-item-options side="end">
+            <ion-button (click)="editNote(note)">
+              <ion-icon slot="start" name="pencil-outline"></ion-icon>
+              Edit
+            </ion-button>
+
+            <ion-button color="danger" (click)="removeNote($event, note)">
+              <ion-icon slot="start" name="trash-outline"></ion-icon>
+              Delete
+            </ion-button>
+          </ion-item-options>
+        </ion-item-sliding>
+
+      </ion-list>
+    </section>
+  </ng-container>
+
+
 
   <loading-modal [loading]="loading" type="candidate-list"></loading-modal>
 
