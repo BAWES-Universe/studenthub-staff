@@ -14,7 +14,9 @@ import { FulltimerService } from '../../../../providers/logged-in/fulltimer.serv
 import { TranslateLabelService } from '../../../../providers/translate-label.service';
 import { EventService } from '../../../../providers/event.service';
 import { AlgoliaService } from 'src/app/providers/logged-in/algolia.service';
+//models
 import { Fulltimer } from 'src/app/models/fulltimer';
+//pages
 import { FulltimerFormPage } from '../fulltimer-form/fulltimer-form.page';
 
 
@@ -141,6 +143,12 @@ export class FulltimerSearchPage implements OnInit {
 
     if (this.fulltimerService.algoliaConfig) {
       this.searchParameters = Object.assign({}, this.fulltimerService.algoliaConfig.searchParameters);
+    /*} else {
+      this.searchParameters = {
+        'getRankingInfo': true,
+        'aroundLatLngViaIP': true,
+        'aroundRadius': 'all'
+      };*/
     }
   }
 
@@ -252,7 +260,7 @@ export class FulltimerSearchPage implements OnInit {
 
       const transferStateKey = makeStateKey('pogi-source-ais(' + opts.body + ')');
 
-      if (transferState.hasKey(transferStateKey)) {
+      if (transferState.hasKey(transferStateKey) && !this.refreshingFulltimers) {
 
         // @type {?}
         let resp = JSON.parse(transferState.get(transferStateKey, {}));
@@ -276,7 +284,6 @@ export class FulltimerSearchPage implements OnInit {
       }
 
       this.lastQuery = opts.body;
-
 
       return new Promise((resolve, reject) => {
 
@@ -382,7 +389,7 @@ export class FulltimerSearchPage implements OnInit {
 
     if (resp.body && resp.body.results && resp.body.results[0]) {
       const results = resp.body.results[0];
-
+     
       setTimeout(() => {
         this.nbHits = results.nbHits;
         this.nbPages = results.nbPages;
@@ -411,7 +418,13 @@ export class FulltimerSearchPage implements OnInit {
         !(this.changeDetector as ViewRef).destroyed) {
         this.changeDetector.detectChanges();
       }
+      
+      //this.instantSearch.change.emit();
     });
+
+    setTimeout(() => {
+      this.changeDetector.detectChanges();
+    }, 1000);
   }
 
   /**
@@ -517,7 +530,13 @@ export class FulltimerSearchPage implements OnInit {
       }
 
       if (e.data && e.data.refresh) {
+
+        this.refreshingFulltimers = true;
+
         //refresh listing
+        setTimeout(() => {
+          this.refreshFulltimers();
+        }, 3000);//give time to backend to sync with algolia
       }
     });
     return await modal.present();
@@ -525,9 +544,9 @@ export class FulltimerSearchPage implements OnInit {
 
 
   /**
-   * Refresh job list
+   * Refresh fulltimer list
    */
-  async refreshJobs() {
+  async refreshFulltimers() {
     // clear old result
     if (!this.instantSearch) {
       return null;
@@ -535,20 +554,13 @@ export class FulltimerSearchPage implements OnInit {
 
     this.nbPages = 0;
     
-    /*
-    setTimeout(() => {
-      this.loading = true;
-      this.refreshingFulltimers = true;
-    });*/
-
-    this.instantSearch.instantSearchInstance.helper.setPage(0);
-    this.instantSearch.instantSearchInstance.helper.setQuery('');
-    this.instantSearch.instantSearchInstance.helper.refresh();
-
-    // refresh result to view jobs after user remove from hidden
-    //this.getSearchParameters().then(searchParameters => {
-    //  this.searchParameters = Object.assign({}, searchParameters);
-    //});
+    this.loading = true;
+    this.refreshingFulltimers = true;
+  
+   // this.instantSearch.refresh();
+   // this.instantSearch.change.emit();
+    //this.instantSearch.instantSearchInstance.helper.clearCache().setPage(0).setQuery('').search();
+    this.instantSearch.instantSearchInstance.mainHelper.clearCache().search();
   }
 
   logScrolling(e) {
