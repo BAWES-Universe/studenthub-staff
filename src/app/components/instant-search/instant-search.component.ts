@@ -71,7 +71,7 @@ export class InstantSearchComponent implements OnInit, AfterViewInit, OnDestroy 
     }
 
     addWidget(widget) {
-        this.instantSearchInstance.addWidget(widget);
+        this.instantSearchInstance.addWidgets([widget]);
     }
 
     removeWidget(widget) {
