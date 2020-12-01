@@ -39,6 +39,7 @@ import {ImageUploadModule} from './components/image-upload/image-upload.module';
 import {CandidateNoteFormPageModule} from './pages/logged-in/candidate/candidate-note-form/candidate-note-form.module';
 import { FulltimerLocationPageModule } from './pages/logged-in/fulltimer/fulltimer-location/fulltimer-location.module';
 import { NationalityPageModule } from './pages/logged-in/pickers/nationality/nationality.module';
+import {CompanyRequestListPopupPageModule} from './pages/logged-in/company/company-request-list/company-request-list-popup/company-request-list-popup.module';
 
 export function startupServiceFactory(authService) {
   return () => authService.load();
@@ -89,7 +90,8 @@ export function createTranslateLoader(http: HttpClient) {
         ImageUploadModule,
         CandidateNoteFormPageModule,
         FulltimerLocationPageModule,
-        NationalityPageModule
+        NationalityPageModule,
+        CompanyRequestListPopupPageModule
     ],
   providers: [
     {

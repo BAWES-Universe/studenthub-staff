@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {AlertController, ModalController, NavController, Platform} from '@ionic/angular';
+import {AlertController, ModalController, NavController, Platform, PopoverController} from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 // services
@@ -11,9 +11,11 @@ import { Fulltimer } from 'src/app/models/fulltimer';
 import { FulltimerFormPage } from '../fulltimer-form/fulltimer-form.page';
 import {Note} from 'src/app/models/note';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {NoteService} from "../../../../providers/logged-in/note.service";
-import {AuthService} from "../../../../providers/auth.service";
-import {CandidateNoteFormPage} from "../../candidate/candidate-note-form/candidate-note-form.page";
+import {NoteService} from '../../../../providers/logged-in/note.service';
+import {AuthService} from '../../../../providers/auth.service';
+import {CandidateNoteFormPage} from '../../candidate/candidate-note-form/candidate-note-form.page';
+import {AllCompanyListPage} from '../../company/company-request-list/all-company-list/all-company-list.page';
+import {CompanyRequestListPopupPage} from "../../company/company-request-list/company-request-list-popup/company-request-list-popup.page";
 
 
 @Component({
@@ -44,6 +46,7 @@ export class FulltimerViewPage implements OnInit {
   public noteForm: FormGroup;
 
   @ViewChild('ckeditor') ckeditor;
+  public company;
 
   constructor(
     public aws: AwsService,
@@ -55,7 +58,8 @@ export class FulltimerViewPage implements OnInit {
     public platform: Platform,
     public alertCtrl: AlertController,
     public noteService: NoteService,
-    public authService: AuthService
+    public authService: AuthService,
+    public popoverCtrl: PopoverController
   ) { }
 
   ngOnInit() {
@@ -152,6 +156,10 @@ export class FulltimerViewPage implements OnInit {
     this.noteForm = this.fb.group({
       note: ['', Validators.required],
       type: ['Internal Note', Validators.required],
+      company_name: [''],
+      company_id: [''],
+      request_uuid: [''],
+      request_name: [''],
     });
   }
 
@@ -236,6 +244,8 @@ export class FulltimerViewPage implements OnInit {
     model.fulltimer_uuid = this.fulltimer.fulltimer_uuid;
     model.note_text = this.noteForm.controls.note.value;
     model.note_type = this.noteForm.controls.type.value;
+    model.request_uuid = this.noteForm.controls.request_uuid.value;
+    model.company_id = this.noteForm.controls.company_id.value;
 
     this.noteService.create(model).subscribe(async jsonResponse => {
 
@@ -299,5 +309,59 @@ export class FulltimerViewPage implements OnInit {
     if (data && data.refresh) {
       this.loadNotes(false);
     }
+  }
+
+  async openClient(e) {
+    const popover = await this.modalCtrl.create({
+      component: AllCompanyListPage,
+    });
+    popover.onDidDismiss().then((_) => {
+
+      if (_ && _.data) {
+
+        this.company = _.data;
+        this.noteForm.controls.company_name.setValue(_.data.company_name);
+        this.noteForm.controls.company_id.setValue(_.data.company_id);
+        this.noteForm.controls.request_name.setValue(null);
+        this.noteForm.controls.request_uuid.setValue(null);
+      }
+    });
+    popover.present();
+  }
+
+  /**
+   * open popup to select contact
+   * @param e
+   */
+  async openRequest(e) {
+
+    let popover;
+
+    if (this.company) {
+      popover = await this.popoverCtrl.create({
+        component: CompanyRequestListPopupPage,
+        event: e,
+        componentProps: {
+          company: this.company
+        }
+      });
+    } else {
+      popover = await this.modalCtrl.create({
+        component: CompanyRequestListPopupPage
+      });
+    }
+
+    popover.onDidDismiss().then((_) => {
+      if (_ && _.data && _.data.data) {
+
+        if (!this.company || !this.company.company_id) {
+          this.noteForm.controls.company_name.setValue(_.data.data.company.company_name);
+          this.noteForm.controls.company_id.setValue(_.data.data.company.company_id);
+        }
+        this.noteForm.controls.request_name.setValue(_.data.data.request_position_title);
+        this.noteForm.controls.request_uuid.setValue(_.data.data.request_uuid);
+      }
+    });
+    popover.present();
   }
 }

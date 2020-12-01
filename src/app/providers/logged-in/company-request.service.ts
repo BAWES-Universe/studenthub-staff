@@ -36,15 +36,15 @@ export class CompanyRequestService {
   }
 
   /**
-   * load pending requests 
+   * load pending requests
    */
   listPendingRequests() : Observable<any> {
     const url = this.companyRequestEndpoint + '/pending?expand=staff,lastActivity,lastActivity.createdBy,company';
     return this.authhttp.get(url);
   }
-  
+
   /**
-   * requests managed by current user 
+   * requests managed by current user
    */
   listMyRequests() : Observable<any> {
     const url = this.companyRequestEndpoint + '/my?expand=staff,lastActivity,lastActivity.createdBy,company';

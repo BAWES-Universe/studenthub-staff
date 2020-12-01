@@ -45,10 +45,10 @@ export class NoteService {
     return this.authHttp.patch(`${this.noteEndpoint}/${model.note_uuid}`, {
       note: model.note_text,
       type: model.note_type,
-      company_id: (model.company_id) ? model.company_id : null,
-      request_uuid: (model.request_uuid) ? model.request_uuid : null,
-      contact_uuid: (model.contact_uuid) ? model.contact_uuid : null,
-      fulltimer_uuid: (model.fulltimer_uuid) ? model.fulltimer_uuid : null,
+      // company_id: (model.company_id) ? model.company_id : null,
+      // request_uuid: (model.request_uuid) ? model.request_uuid : null,
+      // contact_uuid: (model.contact_uuid) ? model.contact_uuid : null,
+      // fulltimer_uuid: (model.fulltimer_uuid) ? model.fulltimer_uuid : null,
     });
   }
 

@@ -32,7 +32,7 @@ export class CompanyService {
    * @param searchParams
    */
   listWithContact(page, searchParams): Observable<any> {
-    return this._authhttp.getRaw(this._companyEndpoint + '?page=' + page + searchParams + '&expand=subCompanies,companyContacts,companyContacts.companyContactEmails,companyContacts.companyContactPhones,subCompanies.companyContacts,subCompanies.companyContacts.companyContactEmails,subCompanies.companyContacts.companyContactPhones');
+    return this._authhttp.getRaw(this._companyEndpoint + '?page=' + page + searchParams + '&expand=subCompanies,companyContacts,companyContacts.companyContactEmails,companyContacts.companyContactPhones,subCompanies.companyContacts,subCompanies.companyContacts.companyContactEmails,subCompanies.companyContacts.companyContactPhones,requests');
   }
 
   /**
