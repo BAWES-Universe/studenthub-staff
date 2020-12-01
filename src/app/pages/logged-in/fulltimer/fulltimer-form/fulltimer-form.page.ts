@@ -12,6 +12,7 @@ import { FilepickerService } from 'src/app/providers/logged-in/filepicker.servic
 import { SentryErrorhandlerService } from 'src/app/providers/sentry.errorhandler.service';
 // model
 import { Fulltimer, FulltimerTag } from 'src/app/models/fulltimer';
+//pages
 import { FulltimerLocationPage } from '../fulltimer-location/fulltimer-location.page';
 import { NationalityPage } from '../../pickers/nationality/nationality.page';
 
@@ -43,8 +44,6 @@ export class FulltimerFormPage implements OnInit {
 
   public borderLimit = false;
 
-  public countrylistData = [];
-
   public filePickSubscription: Subscription;
   public browserUploadSubscription: Subscription;
   public uploadSubscription: Subscription;
@@ -72,8 +71,6 @@ export class FulltimerFormPage implements OnInit {
     if (state.model) {
       this.model = state.model;
     }
-
-    this.loadCountryList();
 
     this.formInit();
   }
@@ -149,15 +146,6 @@ export class FulltimerFormPage implements OnInit {
         tempPdfCVLocation: [''],
       });
     }
-  }
-
-  /**
-   * Load list of countries
-   */
-  loadCountryList() {
-    this.countryService.listAll().subscribe(response => {
-      this.countrylistData = response;
-    });
   }
 
   removeResume(event) {
