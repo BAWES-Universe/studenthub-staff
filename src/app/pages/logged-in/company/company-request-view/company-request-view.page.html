@@ -16,7 +16,6 @@
 
 <ion-content [scrollEvents]="true" (ionScroll)="logScrolling($event)">
 
-
   <loading-modal [loading]="loading" type="request-detail"></loading-modal>
 
   <div *ngIf="request && !loading">
@@ -69,7 +68,27 @@
           </ng-container>
         </ion-col>
       </ion-row>
+
     </ion-grid>
+
+    <div *ngIf="suggestedSuggestions.length > 0">
+      <h4>Suggestions <ion-badge color="primary">{{ suggestedSuggestions.length }}</ion-badge></h4>
+
+      <suggestion *ngFor="let suggestion of suggestedSuggestions" [model]="suggestion"></suggestion>
+    </div>
+    
+    <div *ngIf="acceptedSuggestions.length > 0">
+      <h4>Accepted Suggestions <ion-badge color="success">{{ acceptedSuggestions.length }}</ion-badge></h4>
+
+      <suggestion *ngFor="let suggestion of acceptedSuggestions" [model]="suggestion"></suggestion>
+    </div>
+    
+    <div *ngIf="rejectedSuggestions.length > 0">
+      <h4>Rejected Suggestions <ion-badge color="light">{{ rejectedSuggestions.length }}</ion-badge></h4>
+
+      <suggestion *ngFor="let suggestion of rejectedSuggestions" [model]="suggestion"></suggestion>
+    </div>
+
   </div>
 
 </ion-content>

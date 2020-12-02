@@ -34,7 +34,7 @@
         </ion-label>
       </ion-item>
 
-      <ion-item>
+      <ion-item *ngIf="fulltimer.area && fulltimer.country">
         <ion-label>
           <h5>Area</h5>
           <p>{{ fulltimer.area.area_name_en }}, {{ fulltimer.country.country_name_en }}</p>

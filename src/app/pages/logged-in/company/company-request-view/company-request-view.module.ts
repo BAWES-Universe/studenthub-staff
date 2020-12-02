@@ -10,6 +10,7 @@ import { CompanyRequestViewPage } from './company-request-view.page';
 import { LoadingModalModule } from 'src/app/components/loading-modal/loading-modal.module';
 import { PipesModule } from 'src/app/pipes/pipes.module';
 import { RecentActivityComponent } from 'src/app/components/recent-activity/recent-activity.component';
+import { SuggestionModule } from 'src/app/components/suggestion/suggestion.module';
 
 @NgModule({
   imports: [
@@ -17,6 +18,7 @@ import { RecentActivityComponent } from 'src/app/components/recent-activity/rece
     FormsModule,
     PipesModule,
     IonicModule,
+    SuggestionModule,
     LoadingModalModule,
     CompanyRequestViewRoutingModule
   ],
