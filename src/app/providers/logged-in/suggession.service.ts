@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { AuthHttpService } from './authhttp.service';
 
 
@@ -10,6 +11,15 @@ export class SuggessionService {
   private _endpoint = '/suggestions';
 
   constructor(private _authhttp: AuthHttpService) { }
+
+  /**
+   * List of all suggestions
+   * @returns {Observable<any>}
+   */
+  list(params: string = ''): Observable<any> {
+    let url = this._endpoint + '?expand=note,candidate,fulltimer' + params;
+    return this._authhttp.get(url);
+  }
 
   create(params) {
     return this._authhttp.post(this._endpoint, {

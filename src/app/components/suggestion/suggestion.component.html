@@ -1,0 +1,26 @@
+<ion-card (click)="openCandidatePage()">
+  <ion-card-header>
+    <ion-card-title>
+      {{ model.note.note_text }}
+    </ion-card-title>
+  </ion-card-header>
+  <ion-card-content>
+    
+    <ion-item lines="none" *ngIf="model.candidate">
+      <div tabindex="0"></div>
+      <ion-icon name="person" slot="start"></ion-icon>
+      {{ model.candidate.candidate_name }}
+      <span *ngIf="!model.candidate.candidate_name">
+        {{ model.candidate.candidate_name_ar }}
+      </span>  
+    </ion-item>
+
+    <ion-item lines="none" *ngIf="model.fulltimer">
+      <div tabindex="0"></div>
+      <ion-icon name="person" slot="start"></ion-icon>
+      {{ model.fulltimer.fulltimer_name }}
+    </ion-item>
+
+    <small>{{ toDate(model.suggestion_datetime) | date: 'MMM d, y, h:mm:ss a' }}</small>
+  </ion-card-content>
+</ion-card>
