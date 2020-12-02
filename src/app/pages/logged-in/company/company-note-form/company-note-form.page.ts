@@ -53,6 +53,7 @@ export class CompanyNoteFormPage implements OnInit {
       note: [(this.model && this.model.note_uuid) ? this.model.note_text : '', Validators.required],
       type: [(this.model && this.model.note_uuid) ? this.model.note_type : '', Validators.required],
       contact: [(this.model && this.model.contact_uuid) ? this.model.contact_uuid : ''],
+      request: [(this.model && this.model.request_uuid) ? this.model.request_uuid : ''],
     });
 
     this.operation  = (this.model && this.model.note_uuid) ? 'Update' : 'Create';
@@ -75,6 +76,7 @@ export class CompanyNoteFormPage implements OnInit {
     this.model.note_type = this.form.value.type;
     this.model.company_id = this.company.company_id;
     this.model.contact_uuid = this.form.value.contact;
+    this.model.request_uuid = this.form.value.request;
   }
 
   /**

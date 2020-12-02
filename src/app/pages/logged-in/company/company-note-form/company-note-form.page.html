@@ -40,6 +40,19 @@
         </ion-select>
       </ion-item>
       <ion-item>
+        <div tabindex="0"></div>
+        <ion-label position="floating">Request</ion-label>
+        <ion-select formControlName="request" interface="popover">
+          <ng-container *ngFor="let request of company.requests">
+            <ion-select-option value="{{ request.request_uuid }}" *ngIf="request.request_status == 'started'">
+              {{ request.request_position_title }} -
+              <span *ngIf="request.request_position_type == 1">Fulltime</span>
+              <span *ngIf="request.request_position_type == 2">Partime</span>
+            </ion-select-option>
+          </ng-container>
+        </ion-select>
+      </ion-item>
+      <ion-item>
         <ion-label position="floating">Note Text</ion-label>
         <ckeditor [config]="editorConfig" #ckeditor [editor]="Editor" (change)="onChange($event)"></ckeditor>
       </ion-item>

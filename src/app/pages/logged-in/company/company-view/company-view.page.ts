@@ -319,7 +319,7 @@ export class CompanyViewPage implements OnInit {
     if(this.company.company_followup_interval_weeks == 0 || !this.company.company_last_followup_datetime) {
       return true;
     }
-    
+
     let followup_datetime = new Date(this.company.company_last_followup_datetime.replace(/-/g, '/') + ' UTC');
 
     //date to follow
@@ -598,6 +598,7 @@ export class CompanyViewPage implements OnInit {
       note: ['', Validators.required],
       type: ['Internal Note', Validators.required],
       contact: [''],
+      request: [''],
     });
   }
 
@@ -612,6 +613,7 @@ export class CompanyViewPage implements OnInit {
     model.note_text = this.noteForm.controls.note.value;
     model.note_type = this.noteForm.controls.type.value;
     model.contact_uuid = this.noteForm.controls.contact.value;
+    model.request_uuid = this.noteForm.controls.request.value;
 
     this.noteService.create(model).subscribe(async jsonResponse => {
 

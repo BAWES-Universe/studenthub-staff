@@ -106,7 +106,7 @@ export class AllCompanyListPage implements OnInit {
       this.selectedCompany = model.company_id;
     }
   }
-  
+
   /**
    * When its selected
    */
@@ -116,8 +116,8 @@ export class AllCompanyListPage implements OnInit {
 
   /**
    * hide logo on image load error
-   * @param $event 
-   * @param company 
+   * @param $event
+   * @param company
    */
   loadLogo($event, company) {
     company.company_logo = null;
@@ -125,7 +125,7 @@ export class AllCompanyListPage implements OnInit {
 
   /**
    * load more on scroll to bottom
-   * @param event 
+   * @param event
    */
   doInfinite(event) {
 
@@ -150,12 +150,12 @@ export class AllCompanyListPage implements OnInit {
 
   /**
    * close page
-   * @param data 
+   * @param data
    */
   dismiss(data = null) {
     this.modalCtrl.dismiss(data);
   }
-  
+
   logScrolling(e) {
     this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
   }

@@ -571,7 +571,7 @@
       <ion-item>
         <div tabindex="0"></div>
         <ion-label position="floating">Note Type</ion-label>
-        <ion-select formControlName="type">
+        <ion-select formControlName="type" interface="popover">
           <ion-select-option>Internal Note</ion-select-option>
           <ion-select-option>Phone Call</ion-select-option>
           <ion-select-option>Email</ion-select-option>
@@ -583,8 +583,24 @@
       <ion-item>
         <div tabindex="0"></div>
         <ion-label position="floating">Contact</ion-label>
-        <ion-select formControlName="contact">
-          <ion-select-option value="{{ companyContact.contact_uuid }}" *ngFor="let companyContact of companyContacts">{{ companyContact.contact_name }}</ion-select-option>
+        <ion-select formControlName="contact" interface="popover">
+          <ion-select-option value="{{ companyContact.contact_uuid }}" *ngFor="let companyContact of companyContacts">
+            {{ companyContact.contact_name }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <div tabindex="0"></div>
+        <ion-label position="floating">Request</ion-label>
+        <ion-select formControlName="request" interface="popover">
+          <ng-container *ngFor="let request of requests">
+            <ion-select-option value="{{ request.request_uuid }}" *ngIf="request.request_status == 'started'">
+              {{ request.request_position_title }} -
+              <span *ngIf="request.request_position_type == 1">Fulltime</span>
+              <span *ngIf="request.request_position_type == 2">Partime</span>
+            </ion-select-option>
+          </ng-container>
         </ion-select>
       </ion-item>
       <ion-item lines="none">

@@ -34,7 +34,8 @@ export class CompanyNoteService {
       company_id: model.company_id,
       note: model.note_text,
       type: model.note_type,
-      contact_uuid: model.contact_uuid
+      contact_uuid: (model.contact_uuid) ? model.contact_uuid : null,
+      request_uuid: (model.request_uuid) ? model.request_uuid : null
     });
   }
 
