@@ -39,6 +39,8 @@ export class CandidateViewPage implements OnInit {
 
   public candidate: Candidate;
 
+  public notes: Note[] = [];
+
   public salaryTransfers: any[] = [];
 
   public stores: Store[];
@@ -79,6 +81,7 @@ export class CandidateViewPage implements OnInit {
   public borderLimit = false;
 
   @ViewChild('ckeditor') ckeditor;
+
   public company;
 
   constructor(
@@ -124,6 +127,7 @@ export class CandidateViewPage implements OnInit {
     // }
     this.loadCandidateDetail();
     this.loadWorkHistoryData();
+    this.loadCandidateNotes();
 
     this.loadStoreData();
     this.loadTransfersData();
@@ -237,7 +241,9 @@ export class CandidateViewPage implements OnInit {
 
   loadCandidateDetail(loading = true) {
     this.loading = loading;
+
     this.candidateService.detail(this.candidate_id).subscribe(response => {
+    
       this.loading = false;
       this.candidate = response;
     });
@@ -549,7 +555,7 @@ export class CandidateViewPage implements OnInit {
    */
   loadCandidateNotes() {
     this.candidateNoteService.listById(this.candidate_id).subscribe(async jsonResponse => {
-      this.candidate.notes = jsonResponse.body;
+      this.notes = jsonResponse.body;
     });
   }
 

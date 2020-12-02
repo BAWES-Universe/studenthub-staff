@@ -20,7 +20,8 @@ export class CandidateNoteService {
    * @param model
    */
   create(model: Note): Observable<any>{
-    return this.authhttp.post(this.candidateNoteEndpoint, {
+    const url = this.candidateNoteEndpoint;
+    return this.authhttp.post(url, {
       candidate_id: model.candidate_id,
       note: model.note_text,
       type: model.note_type,
@@ -36,7 +37,8 @@ export class CandidateNoteService {
    * @param model
    */
   update(model: Note): Observable<any>{
-    return this.authhttp.patch(`${this.candidateNoteEndpoint}/${model.note_uuid}`, {
+    const url = `${this.candidateNoteEndpoint}/${model.note_uuid}`;
+    return this.authhttp.patch(url, {
       note: model.note_text,
       type: model.note_type,
       company_id: (model.company_id) ? model.company_id : null,
@@ -64,20 +66,23 @@ export class CandidateNoteService {
    * @param model
    */
   delete(model: Note): Observable<any>{
-    return this.authhttp.delete(`${this.candidateNoteEndpoint}/${model.note_uuid}`);
+    const url = `${this.candidateNoteEndpoint}/${model.note_uuid}`;
+    return this.authhttp.delete(url);
   }
 
   /**
    * list candidate note
    */
   list(): Observable<any>{
-    return this.authhttp.getRaw(`${this.candidateNoteEndpoint}?expand=createdBy,updatedBy`);
+    const url = `${this.candidateNoteEndpoint}?expand=createdBy,updatedBy,company,request`;
+    return this.authhttp.getRaw(url);
   }
 
   /**
    * list candidate note by id
    */
   listById(id: number): Observable<any>{
-    return this.authhttp.getRaw(`${this.candidateNoteEndpoint}/list-by-id/${id}?expand=createdBy,updatedBy,company,request`);
+    const url = `${this.candidateNoteEndpoint}/list-by-id/${id}?expand=createdBy,updatedBy,company,request`;
+    return this.authhttp.getRaw(url);
   }
 }

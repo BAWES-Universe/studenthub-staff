@@ -141,7 +141,7 @@
       </form>
 
       <ion-list *ngIf="this.editNoteData && !this.editNoteData.note_uuid">
-        <ion-item-sliding *ngFor="let note of fulltimer.notes" [disabled]="platform.width() > 768">
+        <ion-item-sliding *ngFor="let note of notes" [disabled]="platform.width() > 768">
           <ion-item tappable (click)="editNote(note)">
             <div tabindex="0"></div>
 

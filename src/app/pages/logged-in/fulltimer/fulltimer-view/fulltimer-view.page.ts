@@ -35,6 +35,8 @@ export class FulltimerViewPage implements OnInit {
   public loading = false;
   public sections = 'personal';
 
+  public notes: Note[] = [];
+  
   public editorFocused = false;
   public deletingNote = false;
   public editNoteData: Note = new Note();
@@ -232,7 +234,7 @@ export class FulltimerViewPage implements OnInit {
    */
   loadNotes(loading = true) {
     this.noteService.listByTypeAndId('fulltimer', this.fulltimer.fulltimer_uuid).subscribe(async jsonResponse => {
-      this.fulltimer.notes = jsonResponse.body;
+      this.notes = jsonResponse.body;
     });
   }
 
