@@ -13,6 +13,9 @@ export class RequestListingComponent implements OnInit {
   @Input() showStatus = true;
   public active = false;
   constructor(public authService: AuthService) {
+
+  }
+  ngOnInit() {
     if (this.request) {
       const time = this.getHours(this.request.request_updated_datetime);
       /**
@@ -20,11 +23,8 @@ export class RequestListingComponent implements OnInit {
        * but last updated is longer than 24 hours ago, otherwise can use green color
        * if completed or active but had update made today.
        */
-      this.active = (((this.request.staff_id) && (time < 24)) || (this.request.request_status == 'delivered'));
+      this.active = ((this.request.request_status == 'delivered') || ((this.request.staff_id) && (time < 24)));
     }
-  }
-  ngOnInit() {
-    console.log(this.request);
   }
 
   /**

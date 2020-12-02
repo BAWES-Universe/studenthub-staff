@@ -442,6 +442,32 @@ export class CompanyRequestViewPage implements OnInit {
         }
       ]
     }).then(alert => { alert.present(); });
+  }
+
+  /**
+   * pickup the request
+   * @param event
+   * @param request
+   */
+  pickUpRequest(event, request) {
+
+    event.preventDefault();
+    event.stopPropagation();
+
+    this.requestService.pickup(request).subscribe(async response => {
+
+      if (response.operation == 'success') {
+        this.loadDetail();
+        this.loadRequestActivities();
+      } else {
+        this.toastCtrl.create({
+          message: response.message,
+          buttons: ['Ok']
+        }).then(prompt => {
+          prompt.present();
+        });
+      }
+    });
 
   }
 }

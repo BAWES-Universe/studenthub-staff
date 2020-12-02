@@ -78,17 +78,22 @@
     <ion-button  *ngIf="request.request_status == 'pending'" (click)="startRequest($event, request)">
       Start working on this request
     </ion-button>
-  <ng-container *ngIf="request.request_status == 'started' && request.request_created_by == authService.staff_id">
-    <ion-grid>
+  <ng-container>
+    <ion-grid *ngIf="request.request_status == 'started'">
       <ion-row>
         <ion-col size-xs="6">
           <ion-button (click)="showUpdateAlert()">
             Post an update
           </ion-button>
         </ion-col>
-        <ion-col size-xs="6">
+        <ion-col size-xs="6"  *ngIf="request.staff_id == authService.staff_id">
           <ion-button *ngIf="request.request_status == 'started'" (click)="deliveredRequest($event, request)">
             Mark delivered
+          </ion-button>
+        </ion-col>
+        <ion-col size-xs="6"  *ngIf="request.staff_id != authService.staff_id">
+          <ion-button *ngIf="request.request_status == 'started'" (click)="pickUpRequest($event, request)">
+            Pick up
           </ion-button>
         </ion-col>
       </ion-row>

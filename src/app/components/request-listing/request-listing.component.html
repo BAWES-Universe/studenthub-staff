@@ -14,7 +14,9 @@
       <p *ngIf="!request.staff">Please pick up</p>
       <ng-container *ngIf="request.staff">
         <p>{{ request.staff.staff_name  }} is handling it</p>
-        <p>Last updated {{ request.request_updated_datetime | timeAgo }} </p>
+        <p *ngIf="request.request_status == 'delivered'">Delivered {{ request.request_updated_datetime | timeAgo }} </p>
+        <p *ngIf="request.request_status == 'cancelled'">Cancelled {{ request.request_updated_datetime | timeAgo }} </p>
+        <p *ngIf="request.request_status == 'started'">Last updated {{ request.request_updated_datetime | timeAgo }} </p>
       </ng-container>
     </div>
   </ion-card-content>

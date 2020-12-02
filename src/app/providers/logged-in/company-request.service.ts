@@ -106,6 +106,15 @@ export class CompanyRequestService {
   }
 
   /**
+   * deliver request
+   * @param model
+   */
+  pickup(model: Request): Observable<any> {
+    const url = `${this.companyRequestEndpoint}/pick-up/${model.request_uuid}`;
+    return this.authhttp.patch(url, {});
+  }
+
+  /**
    * update request
    * @param model
    */
