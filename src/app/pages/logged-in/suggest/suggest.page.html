@@ -1,0 +1,69 @@
+<ion-header [class.add-border]="borderLimit" class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="close()">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  
+    <ion-title>Suggest this profile</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button color="primary"
+                  [disabled]="!form.dirty || !form.valid || loading"
+                  (click)="save()">
+        <span *ngIf="!loading">Save</span>
+        <ion-spinner *ngIf="loading"></ion-spinner>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content scrollEvents="true" (ionScroll)="logScrolling($event)" class="ion-padding">
+
+  <form [formGroup]="form" *ngIf="form">
+    <ion-list>
+
+      <h5>Select Request </h5>
+
+      <ion-item [class.selected]="form.controls.request_uuid.value == request.request_uuid" *ngFor="let request of activeRequests" tappable (click)="selectRequest(request)">
+        <div tabindex="0"></div>
+        <ion-label>
+          <h2>
+            <ion-note>{{ request.request_number_of_employees }}</ion-note> {{ request.request_position_title }} -
+            <span *ngIf="request.request_position_type == 1">Full-ttime</span>
+            <span *ngIf="request.request_position_type == 2">Part-time</span>
+          </h2>
+
+          <p *ngIf="request.request_additional_info">{{ request.request_additional_info }} </p>
+
+          <p *ngIf="request.request_feedback">FeedBack: {{ request.request_feedback }} </p>
+
+          <p class="date">
+            Created at {{ toDate(request.request_created_datetime) | date}}
+            <span *ngIf="request.requestCreatedBy">By {{ request.requestCreatedBy.staff_name }}</span>
+          </p>
+
+          <p class="date" *ngIf="request.request_created_datetime != request.request_updated_datetime">
+            Updated at {{ toDate(request.request_updated_datetime) | date}}
+            <span *ngIf="request.requestUpdatedBy">By {{ request.requestUpdatedBy.staff_name }}</span>
+          </p>
+
+        </ion-label>
+
+      </ion-item>
+
+      <h5>Reason for suggestion </h5>
+
+      <ion-item>
+        <div tabindex="0"></div>
+        <ion-textarea formControlName="suggestion"></ion-textarea>
+      </ion-item>
+
+    </ion-list>
+
+  </form>
+  
+</ion-content>
+

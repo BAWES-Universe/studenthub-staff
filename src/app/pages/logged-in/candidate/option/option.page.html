@@ -71,4 +71,9 @@
       Export CV as PDF
     </span>
   </ion-item>
+
+  <ion-item (click)="suggest()" tappable *ngIf="candidate">
+    Suggest this candidate
+  </ion-item>
+
 </ion-content>

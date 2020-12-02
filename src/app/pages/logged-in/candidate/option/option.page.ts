@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AlertController, PopoverController, ToastController } from '@ionic/angular';
+import { AlertController, ModalController, PopoverController, ToastController } from '@ionic/angular';
 // model
 import { Candidate } from 'src/app/models/candidate';
 // services
@@ -325,5 +325,12 @@ export class OptionPage implements OnInit {
     } else { html = response.message; }
 
     return html;
+  }
+
+  /**
+   * suggess this candidate 
+   */
+  async suggest() {
+    this.popoverCtrl.dismiss({ suggess: true });
   }
 }

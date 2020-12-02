@@ -6,6 +6,7 @@
       </ion-button>
     </ion-buttons>
     <ion-title>{{ operation }}</ion-title>
+    
     <ion-buttons slot="end">
       <ion-button color="primary"
                   [disabled]="!form.dirty || !form.valid || loading"
@@ -56,16 +57,6 @@
           * required
         </p>
       </div>
-
-      <!--
-      <app-select-search-input
-        *ngIf="countrylistData"
-        formControlName="nationality_id"
-        placeholder="Select Nationality"
-        [collection]="countrylistData"
-        valueAttr="nationality_id"
-        labelAttr="country_nationality_name_en">
-      </app-select-search-input>-->
 
       <ion-item (click)="selectNationality()">
         <ion-label position="floating">Nationality</ion-label>
