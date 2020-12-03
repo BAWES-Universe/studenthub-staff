@@ -15,7 +15,7 @@
 
         <p>{{ activity.note_type }}</p>
 
-        <p>{{ activity.note_text }}</p>
+        <p [innerHTML]="activity.note_text"></p>
 
       </ion-col>
     </ion-row>

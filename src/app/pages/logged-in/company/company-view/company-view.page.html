@@ -536,13 +536,10 @@
           </ng-container>
         </ion-select>
       </ion-item>
-      <ion-item lines="none">
-        <div tabindex="0"></div>
+    
+      <ckeditor [config]="editorConfig" #ckeditor [editor]="Editor" (focus)="onEditorFocus()"
+        (change)="onChange($event)"></ckeditor>
 
-        <ckeditor [config]="editorConfig" #ckeditor [editor]="Editor" (focus)="onEditorFocus()"
-          (change)="onChange($event)"></ckeditor>
-
-      </ion-item>
       <ion-item lines="none">
         <div tabindex="0"></div>
 

@@ -1,10 +1,15 @@
-import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ModalController, AlertController } from '@ionic/angular';
-import { CompanyNoteService } from 'src/app/providers/logged-in/company-note.service';
-import {Note} from 'src/app/models/note';
-import {AuthService} from "../../../../providers/auth.service";
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+//models
+import { Note } from 'src/app/models/note';
+//services
+import { CompanyNoteService } from 'src/app/providers/logged-in/company-note.service';
+import { AuthService } from "../../../../providers/auth.service";
+import { CompanyContactService } from 'src/app/providers/logged-in/company-contact.service';
+
+
 @Component({
   selector: 'app-company-note-form',
   templateUrl: './company-note-form.page.html',
@@ -28,14 +33,16 @@ export class CompanyNoteFormPage implements OnInit {
 
   public editorConfig = {
     placeholder: 'Click here to take notes...',
-    startupFocus : true,
-    toolbar: [ 'Heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', '|', 'indent', 'outdent'],
+    startupFocus: true,
+    width: '100%',
+    toolbar: ['Heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', '|', 'indent', 'outdent'],
   };
 
   public form: FormGroup;
 
   constructor(
     public noteService: CompanyNoteService,
+    public companyContactService: CompanyContactService,
     private fb: FormBuilder,
     private modalCtrl: ModalController,
     private alertCtrl: AlertController,
@@ -49,23 +56,42 @@ export class CompanyNoteFormPage implements OnInit {
       this.model = this.note;
     }
 
+    let company_id;
+
+    if (this.model && this.model.company_id) {
+      company_id = this.model.company_id;
+    } else if (this.company) {
+      company_id = this.company.company_id;
+    }
+
     this.form = this.fb.group({
       note: [(this.model && this.model.note_uuid) ? this.model.note_text : '', Validators.required],
       type: [(this.model && this.model.note_uuid) ? this.model.note_type : '', Validators.required],
       contact: [(this.model && this.model.contact_uuid) ? this.model.contact_uuid : ''],
       request: [(this.model && this.model.request_uuid) ? this.model.request_uuid : ''],
+      company_id: [company_id],
     });
 
-    this.operation  = (this.model && this.model.note_uuid) ? 'Update' : 'Create';
+    this.operation = (this.model && this.model.note_uuid) ? 'Update' : 'Post an update';
 
     // this is causing issue. https://www.pivotaltracker.com/story/show/175598774
     // setTimeout(() => this.ckeditor.editorInstance.editing.view.focus(), 1000);
+
+    if (!this.companyContacts && this.form.value.company_id) {
+      this.loadContacts();
+    }
+
+    setTimeout(() => {
+      if (this.model && this.ckeditor) {
+        this.ckeditor.editorInstance.setData(this.form.value.note);
+      }
+    }, 200);
   }
 
-  ionViewDidEnter() {
-    if (this.model && this.ckeditor) {
-      this.ckeditor.editorInstance.setData(this.model.note_text);
-    }
+  loadContacts() {
+    this.companyContactService.companyContacts(this.form.value.company_id).subscribe(data => {
+      this.companyContacts = data;
+    });
   }
 
   /**
@@ -74,7 +100,7 @@ export class CompanyNoteFormPage implements OnInit {
   updateModelDataFromForm() {
     this.model.note_text = this.form.value.note;
     this.model.note_type = this.form.value.type;
-    this.model.company_id = this.company.company_id;
+    this.model.company_id = this.form.value.company_id;
     this.model.contact_uuid = this.form.value.contact;
     this.model.request_uuid = this.form.value.request;
   }
@@ -113,7 +139,10 @@ export class CompanyNoteFormPage implements OnInit {
       // On Success
       if (jsonResponse.operation == 'success') {
         // Close the page
-        const data = { refresh: true };
+        const data = { 
+          request_updated_datetime: jsonResponse.request_updated_datetime, 
+          refresh: true 
+        };
         this.modalCtrl.dismiss(data);
       }
 
