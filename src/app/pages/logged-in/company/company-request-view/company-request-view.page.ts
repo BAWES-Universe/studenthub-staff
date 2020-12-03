@@ -18,7 +18,7 @@ import { CompanyRequestService } from 'src/app/providers/logged-in/company-reque
 // models
 import { Request } from 'src/app/models/request';
 import { Note } from 'src/app/models/note';
-import { SuggessionService } from 'src/app/providers/logged-in/suggession.service';
+import { SuggestionService } from 'src/app/providers/logged-in/suggestion.service';
 
 
 @Component({
@@ -60,7 +60,7 @@ export class CompanyRequestViewPage implements OnInit {
     public menuCtrl: MenuController,
     public navCtrl: NavController,
     public location: Location,
-    public suggessionService: SuggessionService,
+    public suggestionService: SuggestionService,
     public translateLabelService: TranslateLabelService,
     public platform: Platform
   ) {
@@ -271,7 +271,7 @@ export class CompanyRequestViewPage implements OnInit {
     this.requestService.view(this.request_uuid).subscribe(data => {
       this.request = data;
       this.loadRequestActivities();
-      this.loadSuggessions();
+      this.loadSuggestions();
     }, () => {
     }, () => {
       this.loading = false;
@@ -294,11 +294,11 @@ export class CompanyRequestViewPage implements OnInit {
   /**
    * load candidate suggestions for this request 
    */
-  loadSuggessions() {
+  loadSuggestions() {
 
     const params = '&request_uuid=' + this.request_uuid;
 
-    this.suggessionService.list().subscribe(data => {
+    this.suggestionService.list(params).subscribe(data => {
 
       this.suggestedSuggestions = [];
 
@@ -316,6 +316,10 @@ export class CompanyRequestViewPage implements OnInit {
         }
       });
     });
+  }
+
+  onSuggestionUpdate() {
+    this.loadSuggestions();
   }
 
   /**

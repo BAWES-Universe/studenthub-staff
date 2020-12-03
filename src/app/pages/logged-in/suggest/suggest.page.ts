@@ -7,7 +7,7 @@ import { Fulltimer } from 'src/app/models/fulltimer';
 import { Request } from 'src/app/models/request';
 import { AuthService } from 'src/app/providers/auth.service';
 import { EventService } from 'src/app/providers/event.service';
-import { SuggessionService } from 'src/app/providers/logged-in/suggession.service';
+import { SuggestionService } from 'src/app/providers/logged-in/suggestion.service';
 //services
 import { CompanyRequestService } from '../../../providers/logged-in/company-request.service';
 
@@ -39,7 +39,7 @@ export class SuggestPage implements OnInit {
     public alertCtrl: AlertController,
     public authService: AuthService,
     public eventService: EventService,
-    public suggessionService: SuggessionService,
+    public suggestionService: SuggestionService,
     public requestService: CompanyRequestService
   ) { }
 
@@ -87,12 +87,12 @@ export class SuggestPage implements OnInit {
   }
 
   /**
-   * save suggession
+   * save suggestion
    */
   save() {
     this.loading = true;
 
-    this.suggessionService.create(this.form.value).subscribe(async response => {
+    this.suggestionService.create(this.form.value).subscribe(async response => {
       this.loading = false;
 
       // On Success

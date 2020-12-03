@@ -23,4 +23,13 @@
 
     <small>{{ toDate(model.suggestion_datetime) | date: 'MMM d, y, h:mm:ss a' }}</small>
   </ion-card-content>
+  <ion-card-header *ngIf="model.suggestion_status == 1">
+    <ion-button (click)="acceptSuggestion($event)">
+      Accept
+    </ion-button>
+    <ion-button color="secondary" (click)="rejectSuggestion($event)">
+      Reject
+    </ion-button>
+  </ion-card-header>
+
 </ion-card>
