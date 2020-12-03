@@ -139,7 +139,7 @@ ion-router-outlet {
       padding-right: 10px;
   }
 
-  ion-title {
+  ion-title:not([size="small"]) {
       font-size: 18px;
       font-weight: bold;
       font-stretch: normal;
