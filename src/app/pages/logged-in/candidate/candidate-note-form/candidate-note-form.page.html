@@ -48,11 +48,8 @@
         </ion-item>
       </ion-list>
 
-      <ion-item>
-        <div tabindex="0"></div>
-        <ion-label position="floating">Note Text</ion-label>
-        <ckeditor [config]="editorConfig" #ckeditor [editor]="Editor" (change)="onChange($event)"></ckeditor>
-      </ion-item>
+      <ckeditor [config]="editorConfig" #ckeditor [editor]="Editor" (change)="onChange($event)"></ckeditor>
+    
     </ion-list>
   </form>
 </ion-content>
