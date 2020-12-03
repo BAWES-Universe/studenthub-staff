@@ -121,11 +121,11 @@ export class CompanyRequestFormPage implements OnInit {
 
     });
   }
-  
+
   async openClient(e) {
 
     let popover;
-    
+
     if(this.company) {
       popover = await this.popoverCtrl.create({
         component: CompanyContactListPage,
@@ -153,8 +153,18 @@ export class CompanyRequestFormPage implements OnInit {
     });
     popover.present();
   }
-  
+
   logScrolling(e) {
     this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
+  }
+
+
+  resetForm() {
+    this.form.controls.contact_name.setValue(null);
+    this.form.controls.contact_uuid.setValue(null);
+    this.form.controls.position_type.setValue(null);
+    this.form.controls.position_title.setValue(null);
+    this.form.controls.number_of_employees.setValue(null);
+    this.form.controls.additional_info.setValue(null);
   }
 }

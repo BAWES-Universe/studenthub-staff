@@ -1,4 +1,4 @@
-<ion-header [class.add-border]="borderLimit" class="ion-no-border"> 
+<ion-header [class.add-border]="borderLimit" class="ion-no-border">
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button (click)="close()"></ion-back-button>
@@ -24,7 +24,7 @@
         <ion-input type="text" formControlName="contact_name" readonly></ion-input>
       </ion-item>
     </ion-list>
-    
+
     <ion-list>
       <ion-radio-group  formControlName="position_type">
         <ion-row>
@@ -66,5 +66,10 @@
       </ion-item>
     </ion-list>
 
+    <ion-button color="primary" [disabled]="form && !form.valid" (click)="save()">
+      <span *ngIf="!saving">Save</span>
+      <ion-spinner *ngIf="saving"></ion-spinner>
+    </ion-button>
+    <ion-button (click)="resetForm();" color="secondary">Reset</ion-button>
   </form>
 </ion-content>

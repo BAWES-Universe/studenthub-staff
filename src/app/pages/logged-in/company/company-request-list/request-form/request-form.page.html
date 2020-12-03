@@ -79,6 +79,10 @@
         <ion-textarea formControlName="additional_info" placeholder="Female only, Lebanese Jordanian Syrian NO EGYPTIAN"></ion-textarea>
       </ion-item>
     </ion-list>
-
+    <ion-button color="primary" [disabled]="form && !form.valid" (click)="save()">
+      <span *ngIf="!saving">Save</span>
+      <ion-spinner *ngIf="saving"></ion-spinner>
+    </ion-button>
+    <ion-button (click)="resetForm();" color="secondary">Reset</ion-button>
   </form>
 </ion-content>
