@@ -16,10 +16,11 @@ import { AuthService } from 'src/app/providers/auth.service';
 import { RequestActivityService } from 'src/app/providers/logged-in/request.activity.service';
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 import { CompanyRequestService } from 'src/app/providers/logged-in/company-request.service';
+import { SuggestionService } from 'src/app/providers/logged-in/suggestion.service';
 // models
 import { Request } from 'src/app/models/request';
 import { Note } from 'src/app/models/note';
-import { SuggestionService } from 'src/app/providers/logged-in/suggestion.service';
+//pages
 import { CompanyNoteFormPage } from '../company-note-form/company-note-form.page';
 
 

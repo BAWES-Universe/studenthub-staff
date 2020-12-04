@@ -782,29 +782,6 @@ export class CompanyViewPage implements OnInit {
     });
   }
 
-  async onContactSelected(companyContact) {
-    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
-
-    const modal = await this.modalCtrl.create({
-      component: CompanyContactFormPage,
-      componentProps: {
-        model: companyContact
-      }
-    });
-    modal.onDidDismiss().then(e => {
-
-      if (!e.data || e.data.from != 'native-back-btn') {
-        window['history-back-from'] = 'onDidDismiss';
-        window.history.back();
-      }
-
-      if (e && e.data && e.data.refresh) {
-        this.loadContacts();
-      }
-    });
-    modal.present();
-  }
-
   async addCompanyContact() {
     window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
@@ -833,48 +810,6 @@ export class CompanyViewPage implements OnInit {
 
   doNothing(event) {
     event.stopPropagation();
-  }
-
-  async deleteContact(event, companyContact) {
-
-    event.preventDefault();
-    event.stopPropagation();
-
-    const confirm = await this.alertCtrl.create({
-      header: 'Delete Contact',
-      message: 'Do you want to delete this contact?',
-      buttons: [
-        {
-          text: 'Yes',
-          handler: () => {
-
-            this.deleting = true;
-
-            this.companyContactService.delete(companyContact).subscribe(async response => {
-
-              this.deleting = false;
-
-              if (response.operation == 'success') {
-                this.companyContacts = this.companyContacts.filter(e => e.contact_uuid != companyContact.contact_uuid);
-              }
-              else {
-                const prompt = await this.alertCtrl.create({
-                  message: this.authService.errorMessage(response.message),
-                  buttons: ['Ok']
-                });
-                prompt.present();
-              }
-            }, () => {
-              this.deleting = false;
-            });
-          },
-        },
-        {
-          text: 'No',
-        }
-      ]
-    });
-    confirm.present();
   }
 
   segmentChanged($event) {

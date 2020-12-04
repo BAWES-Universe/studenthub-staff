@@ -345,6 +345,11 @@ const routes: Routes = [
     path: 'fulltimer',
     loadChildren: () => import('./pages/logged-in/fulltimer/fulltimer-view/fulltimer-view.module').then( m => m.FulltimerViewPageModule)
   },
+
+  {
+    path: 'company-contact-view',
+    loadChildren: () => import('./pages/logged-in/company/company-contact/company-contact-view/company-contact-view.module').then( m => m.CompanyContactViewPageModule)
+  },
   {
     path: '**',
     redirectTo: 'not-found'
