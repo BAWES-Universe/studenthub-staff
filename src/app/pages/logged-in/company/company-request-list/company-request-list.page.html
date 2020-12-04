@@ -62,7 +62,7 @@
     </ion-card-header>
   </ion-card>
 
-  <ion-list>
+  <ion-list class="ion-padding">
     <request-listing *ngFor="let request of requests" tappable [routerLink]="'/request-view/' + request.request_uuid"
                      [request]="request" [showStatus]="false" [state]="{from: 'company-request-list'}"></request-listing>
   </ion-list>

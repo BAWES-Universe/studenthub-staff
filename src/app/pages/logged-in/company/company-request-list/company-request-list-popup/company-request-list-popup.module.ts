@@ -10,6 +10,7 @@ import { CompanyRequestListPopupPage } from './company-request-list-popup.page';
 import { LoadingModalModule } from 'src/app/components/loading-modal/loading-modal.module';
 import { DateDropdownModule } from 'src/app/components/date-dropdown/date-dropdown.module';
 import { PipesModule } from 'src/app/pipes/pipes.module';
+import { RequestListingModule } from 'src/app/components/request-listing/request-listing.module';
 
 @NgModule({
   imports: [
@@ -17,7 +18,8 @@ import { PipesModule } from 'src/app/pipes/pipes.module';
     FormsModule,
     IonicModule,
     LoadingModalModule,
-    PipesModule,
+    PipesModule, 
+    RequestListingModule,
     DateDropdownModule,
     CompanyRequestListPopupPageRoutingModule
   ],

@@ -23,7 +23,6 @@ import { CandidateNoteService } from '../../../../providers/logged-in/candidate-
 import { AuthService } from '../../../../providers/auth.service';
 // pages
 import { OptionPage } from '../option/option.page';
-import { CandidateNoteFormPage } from "../candidate-note-form/candidate-note-form.page";
 import { CandidateCommittedFormPage } from '../candidate-committed-form/candidate-committed-form.page';
 import { AllCompanyListPage } from "../../company/company-request-list/all-company-list/all-company-list.page";
 import { CompanyRequestListPopupPage } from "../../company/company-request-list/company-request-list-popup/company-request-list-popup.page";
@@ -36,6 +35,8 @@ import { SuggestPage } from '../../suggest/suggest.page';
   styleUrls: ['./candidate-view.page.scss'],
 })
 export class CandidateViewPage implements OnInit {
+
+  @ViewChild('ckeditor') ckeditor;
 
   public candidate: Candidate;
 
@@ -79,8 +80,6 @@ export class CandidateViewPage implements OnInit {
   public noteForm: FormGroup;
 
   public borderLimit = false;
-
-  @ViewChild('ckeditor') ckeditor;
 
   public company;
 
@@ -432,7 +431,7 @@ export class CandidateViewPage implements OnInit {
     this.ckeditor.editorInstance.setData('');
     this.editorFocused = false;
 
-    this.noteForm.controls.type.setValue('');
+    this.noteForm.controls.type.setValue('Internal Note');
     this.noteForm.controls.company_name.setValue('');
     this.noteForm.controls.company_id.setValue('');
     this.noteForm.controls.request_name.setValue('');

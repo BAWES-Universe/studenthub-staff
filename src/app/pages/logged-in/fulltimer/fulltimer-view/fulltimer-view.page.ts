@@ -284,7 +284,7 @@ export class FulltimerViewPage implements OnInit {
     this.ckeditor.editorInstance.setData('');
     this.editorFocused = false;
 
-    this.noteForm.controls.type.setValue('');
+    this.noteForm.controls.type.setValue('Internal Note');
     this.noteForm.controls.company_name.setValue('');
     this.noteForm.controls.company_id.setValue('');
     this.noteForm.controls.request_name.setValue('');

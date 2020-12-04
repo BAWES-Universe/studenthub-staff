@@ -436,10 +436,10 @@
 
       <section>
 
-        <form [formGroup]="noteForm" *ngIf="noteForm">
-          <ion-item lines="none">
+        <form [class.editor-inactive]="!editorFocused" [class.editor-focused]="editorFocused" [formGroup]="noteForm" *ngIf="noteForm">
+          <ion-item>
             <div tabindex="0"></div>
-            <ion-label position="stacked">Type</ion-label>
+            <ion-label position="floating">Type</ion-label>
             <ion-select formControlName="type">
               <ion-select-option>Internal Note</ion-select-option>
               <ion-select-option>Phone Call</ion-select-option>
@@ -450,18 +450,18 @@
             </ion-select>
           </ion-item>
 
-          <ion-list  lines="none">
+          <ion-list>
             <ion-item (click)="openClient($event)">
               <div tabindex="0"></div>
-              <ion-label position="stacked">Company Name</ion-label>
+              <ion-label position="floating">Company Name</ion-label>
               <ion-input type="text" formControlName="company_name" readonly></ion-input>
             </ion-item>
           </ion-list>
 
-          <ion-list  lines="none">
+          <ion-list>
             <ion-item (click)="openRequest($event)">
               <div tabindex="0"></div>
-              <ion-label position="stacked">Request</ion-label>
+              <ion-label position="floating">Request</ion-label>
               <ion-input type="text" formControlName="request_name" readonly></ion-input>
             </ion-item>
           </ion-list>

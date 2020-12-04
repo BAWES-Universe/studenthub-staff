@@ -7,35 +7,11 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
+<ion-content class="ion-padding" scrollEvents="true" (ionScroll)="logScrolling($event)">
 
   <ion-list>
-    <ion-item *ngFor="let request of requests">
-      <ion-item tappable (click)="rowSelected(request)">
-        <div tabindex="0"></div>
-        <ion-label>
-          <h2>
-            <ion-note>{{ request.request_number_of_employees }}</ion-note> {{ request.request_position_title }} -
-            <span *ngIf="request.request_position_type == 1">Full-ttime</span>
-            <span *ngIf="request.request_position_type == 2">Part-time</span>
-          </h2>
-          <p *ngIf="request.request_additional_info">{{ request.request_additional_info }} </p>
-
-          <p *ngIf="request.request_feedback">FeedBack: {{ request.request_feedback }} </p>
-
-          <p class="date">
-            Created at {{ toDate(request.request_created_datetime) | date}}
-            <span *ngIf="request.requestCreatedBy">By {{ request.requestCreatedBy.staff_name }}</span>
-          </p>
-
-          <p class="date" *ngIf="request.request_created_datetime != request.request_updated_datetime">
-            Updated at {{ toDate(request.request_updated_datetime) | date}}
-            <span *ngIf="request.requestUpdatedBy">By {{ request.requestUpdatedBy.staff_name }}</span>
-          </p>
-        </ion-label>
-      </ion-item>
-    </ion-item>
-
+    <request-listing *ngFor="let request of requests" (click)="rowSelected(request)"
+                     [request]="request" [showStatus]="false" [state]="{from: 'company-request-list'}"></request-listing>
 
   </ion-list>
 

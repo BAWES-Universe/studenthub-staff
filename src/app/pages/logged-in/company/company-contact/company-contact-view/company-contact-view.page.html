@@ -60,6 +60,100 @@
     </ion-item>
   </ion-list>
 
+  <ion-item-divider>
+    <ion-label>
+      Notes
+    </ion-label>
+  </ion-item-divider>
+
+  <form [class.editor-inactive]="!editorFocused" [class.editor-focused]="editorFocused" [formGroup]="noteForm" *ngIf="noteForm">
+    <ion-item>
+      <div tabindex="0"></div>
+      <ion-label position="floating">Type</ion-label>
+      <ion-select formControlName="type">
+        <ion-select-option>Internal Note</ion-select-option>
+        <ion-select-option>Phone Call</ion-select-option>
+        <ion-select-option>Email</ion-select-option>
+        <ion-select-option>Meeting</ion-select-option>
+        <ion-select-option>Interview</ion-select-option>
+        <ion-select-option>Task</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ckeditor [config]="editorConfig" #ckeditor [editor]="Editor" (focus)="onEditorFocus()"
+              (change)="onChange($event)"></ckeditor>
+
+    <ion-item>
+      <div tabindex="0"></div>
+
+      <ion-buttons slot="start">
+
+        <ion-button [disabled]="addingNote || !noteForm.valid" (click)="save()">
+          <span *ngIf="!addingNote">
+            <ng-container *ngIf="this.editNoteData && !this.editNoteData.note_uuid">Submit</ng-container>
+            <ng-container *ngIf="this.editNoteData && this.editNoteData.note_uuid">Update</ng-container>
+          </span>
+          <ion-spinner *ngIf="addingNote"></ion-spinner>
+        </ion-button>
+
+        <ion-button color="danger" (click)="resetNoteForm()">
+          <span>Cancel</span>
+        </ion-button>
+
+      </ion-buttons>
+    </ion-item>
+  </form>
+
+  <ion-list *ngIf="this.editNoteData && !this.editNoteData.note_uuid && notes.length > 0">
+    <ion-item-sliding *ngFor="let note of notes" [disabled]="platform.width() > 768">
+      <ion-item tappable (click)="editNote(note)">
+        <div tabindex="0"></div>
+
+        <ion-label>
+          <p>{{ note.note_type }}</p>
+          <div [innerHTML]="note.note_text"></div>
+          <p>
+            <small>{{ toDate(note.note_created_datetime) | date}}</small>
+            <small *ngIf="note.note_created_datetime != note.note_updated_datetime">
+              | Updated @ {{ toDate(note.note_updated_datetime) | date }} 
+            </small>
+          </p>
+          <p>
+            <small>By {{ note.createdBy.staff_name }}</small>
+            <small *ngIf="note.created_by != note.updated_by">
+              | Updated By {{ note.updatedBy.staff_name}} 
+            </small>
+          </p>
+        </ion-label>
+
+        <ion-buttons slot="end" *ngIf="platform.width() > 768">
+          <ion-button color="default">
+            <ion-icon slot="start" name="pencil-outline"></ion-icon>
+            Edit
+          </ion-button>
+
+          <ion-button color="danger" (click)="removeNote($event, note)">
+            <ion-icon slot="start" name="trash-outline"></ion-icon>
+            Delete
+          </ion-button>
+        </ion-buttons>
+
+      </ion-item>
+      <ion-item-options side="end">
+        <ion-button (click)="editNote(note)">
+          <ion-icon slot="start" name="pencil-outline"></ion-icon>
+          Edit
+        </ion-button>
+
+        <ion-button color="danger" (click)="removeNote($event, note)">
+          <ion-icon slot="start" name="trash-outline"></ion-icon>
+          Delete
+        </ion-button>
+      </ion-item-options>
+    </ion-item-sliding>
+
+  </ion-list>
+
   <loading-modal [loading]="loading" type="text-list"></loading-modal>
 
 </ion-content>
