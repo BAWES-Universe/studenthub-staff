@@ -32,6 +32,15 @@ export class CompanyContactService {
     const url = `${this._companyContactEndpoint}?expand=companyContactEmails,companyContactPhones&company_id=${company_id}&query=${query}`;
     return this._authhttp.get(url);
   }
+  
+  /**
+   * get company contact detail
+   * @param contact_uuid 
+   */
+  view(contact_uuid) : Observable<any>{
+    const url = `${this._companyContactEndpoint}/${contact_uuid}?expand=companyContactEmails,companyContactPhones`;
+    return this._authhttp.get(url);
+  }
 
   /**
    * Create university
