@@ -50,11 +50,12 @@ export class CandidateCommittedFormPage implements OnInit {
       note: ['', Validators.required],
       type: ['Internal Note', Validators.required],
     });
+  }
 
+  onEditorReady() {
     setTimeout(() => {
-      if(this.ckeditor.editorInstance) 
-        this.ckeditor.editorInstance.editing.view.focus()
-    }, 1000);
+      this.ckeditor.editorInstance.editing.view.focus();
+    }, 500);
   }
 
   /**
@@ -92,7 +93,7 @@ export class CandidateCommittedFormPage implements OnInit {
 
       if (jsonResponse.operation == 'success') {
         const data = { 
-          candidate_committted: jsonResponse.candidate_committed, 
+          candidate_committed: jsonResponse.candidate_committed, 
           refresh: true 
         };
         this.modalCtrl.dismiss(data);

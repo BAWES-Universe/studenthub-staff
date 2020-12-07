@@ -7,7 +7,7 @@
     <ion-title>Please specify reason</ion-title>
 
     <ion-buttons slot="end">
-      <ion-button color="primary" [disabled]="form && !form.valid" (click)="save()">
+      <ion-button color="primary" [disabled]="!form || !form.valid" (click)="save()">
         <span *ngIf="!saving">Save</span>
         <ion-spinner *ngIf="saving"></ion-spinner>
       </ion-button>
@@ -30,6 +30,6 @@
       </ion-select>
     </ion-item>
 
-    <ckeditor [config]="editorConfig" #ckeditor [editor]="Editor" (change)="onChange($event)"></ckeditor>
+    <ckeditor [config]="editorConfig" #ckeditor [editor]="Editor" (ready)="onEditorReady()" (change)="onChange($event)"></ckeditor>
   </form>
 </ion-content>

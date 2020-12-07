@@ -17,7 +17,6 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
     ReactiveFormsModule,
     IonicModule,
     CKEditorModule,
-    CandidateCommittedFormPageRoutingModule
   ],
   declarations: [CandidateCommittedFormPage]
 })
