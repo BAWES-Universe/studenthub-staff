@@ -37,12 +37,12 @@ export class SuggestionComponent implements OnInit {
 
   /**
    * accept suggestion
-   * @param event 
+   * @param event
    */
   acceptSuggestion(event) {
 
     event.preventDefault();
-    event.stopPropagation();;
+    event.stopPropagation();
 
     this.alertCtrl.create({
       header: 'Reason for acceptance',
@@ -95,7 +95,7 @@ export class SuggestionComponent implements OnInit {
 
   /**
    * reject suggestion
-   * @param event 
+   * @param event
    */
   rejectSuggestion(event) {
 
@@ -135,7 +135,7 @@ export class SuggestionComponent implements OnInit {
                 this.model.suggestion_status = 2;
 
                 this.onUpdate.emit();
-                
+
               } else {
                 this.toastCtrl.create({
                   message: response.message,

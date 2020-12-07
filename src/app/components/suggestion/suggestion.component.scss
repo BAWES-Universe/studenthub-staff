@@ -1,4 +1,95 @@
-ion-card {
-    margin-left: 0;
-    margin-right: 0;
+.activity-detail,
+.request-description {
+
+  b {
+    font-stretch: normal;
+    font-style: normal;
+    letter-spacing: normal;
+    font-weight: bold;
+    clear: both;
+    font-size: 14px;
+    line-height: 164.69%;
+    color: #000000;
+    display: block;
+  }
+
+  p {
+    font-size: 18px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.65;
+    letter-spacing: normal;
+    color: #000000;
+    margin-bottom: 24px;
+
+    .txt-staff {
+      font-weight: bold;
+      text-transform: capitalize;
+    }
+  }
+}
+
+.activity-detail {
+  margin-top: 5px;
+}
+
+.request-description {
+  margin-top: 10px;
+}
+
+.activity-detail {
+  overflow: hidden;
+  color:#000000;
+  border-radius: 22px;
+  border: solid 1px #000000;
+  margin-bottom: 14px;
+  .date-col {
+    background-color: #f2f2f2;
+    padding:15px;
+    .date-group {
+      width: 32px;
+      margin: 0 auto;
+      text-align: center;
+      .month {
+        display: inline-block;
+        font-size: 12px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        letter-spacing: normal;
+      }
+      .date {
+        display: inline-block;
+        font-size: 24px;
+        font-weight: bold;
+        font-stretch: normal;
+        font-style: normal;
+        letter-spacing: normal;
+      }
+      .year{
+        display: inline-block;
+        font-size: 12px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        letter-spacing: normal;
+      }
+    }
+  }
+  .detail-col {
+    padding:15px;
+    p {
+      font-size: 16px;
+      font-weight: normal;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: 1.65;
+      letter-spacing: normal;
+    }
+  }
+
+  ion-grid, ion-row,ion-col {
+    padding:0;
+  }
 }

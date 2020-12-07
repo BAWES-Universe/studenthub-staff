@@ -283,6 +283,7 @@ export class CompanyRequestViewPage implements OnInit {
 
   onSuggestionUpdate() {
     this.loadSuggestions();
+    this.loadRequestActivities();
     this.content.scrollToPoint(0, 0);
   }
 
