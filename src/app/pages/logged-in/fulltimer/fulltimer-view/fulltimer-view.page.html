@@ -100,7 +100,7 @@
     <section>
 
       <form [class.editor-inactive]="!editorFocused" [class.editor-focused]="editorFocused" [formGroup]="noteForm" *ngIf="noteForm">
-        <ion-item>
+        <ion-item *ngIf="['Suggested', 'Accepted', 'Rejected'].indexOf(noteForm.controls.type.value) == -1">
           <div tabindex="0"></div>
           <ion-label position="floating">Type</ion-label>
           <ion-select formControlName="type">

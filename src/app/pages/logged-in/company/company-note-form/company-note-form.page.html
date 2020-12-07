@@ -19,7 +19,7 @@
   <form [formGroup]="form" *ngIf="form">
     <ion-list>
 
-      <ion-item>
+      <ion-item *ngIf="['Suggested', 'Accepted', 'Rejected'].indexOf(form.controls.type.value) == -1">
         <div tabindex="0"></div>
         <ion-label position="floating">Note Type</ion-label>
         <ion-select formControlName="type">

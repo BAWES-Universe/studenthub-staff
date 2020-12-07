@@ -17,7 +17,7 @@
 
 <ion-content>
   <form [formGroup]="form" *ngIf="form">
-    <ion-item lines="none">
+    <ion-item lines="none" *ngIf="['Suggested', 'Accepted', 'Rejected'].indexOf(form.controls.type.value) == -1">
       <div tabindex="0"></div>
       <ion-select formControlName="type">
         <ion-select-option>Internal Note</ion-select-option>
