@@ -25,7 +25,9 @@ export class SuggestionComponent implements OnInit {
     public suggestionService: SuggestionService
   ) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log(this.model);
+  }
 
   openCandidatePage() {
     if(this.model.candidate) {
@@ -100,7 +102,7 @@ export class SuggestionComponent implements OnInit {
   rejectSuggestion(event) {
 
     event.preventDefault();
-    event.stopPropagation();;
+    event.stopPropagation();
 
     this.alertCtrl.create({
       header: 'Reason for rejection',
