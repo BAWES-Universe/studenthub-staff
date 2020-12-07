@@ -1,6 +1,6 @@
 <ion-card [class.pending]="request.request_status == 'pending'">
   <ion-card-content [class.pending-request]="!request.staff">
-    <h1>{{ request.company.company_common_name_en? request.company.company_common_name_en: request.company.company_name }}</h1>
+    <h1 *ngIf="request.company">{{ request.company.company_common_name_en? request.company.company_common_name_en: request.company.company_name }}</h1>
     <h3>
       Looking for <b>{{ request.request_number_of_employees }}
       <span *ngIf="request.request_position_type == 1">Full-time</span>
