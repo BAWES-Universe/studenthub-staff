@@ -337,6 +337,22 @@
       <ion-item>
         <div tabindex="0"></div>
         <ion-label>
+          <h5>Suggestion Acceptance Ratio</h5>
+          <p *ngIf="candidate.acceptanceRatio">{{candidate.acceptanceRatio}} %</p>
+          <p *ngIf="!candidate.acceptanceRatio">-</p>
+        </ion-label>
+      </ion-item>
+      <ion-item>
+        <div tabindex="0"></div>
+        <ion-label>
+          <h5>Suggestion Rejection Ratio</h5>
+          <p *ngIf="candidate.rejectionRatio">{{candidate.rejectionRatio}} %</p>
+          <p *ngIf="!candidate.rejectionRatio">-</p>
+        </ion-label>
+      </ion-item>
+      <ion-item>
+        <div tabindex="0"></div>
+        <ion-label>
           <h5>Created On</h5>
           <p>{{ toDate(candidate.candidate_created_at) | date}}</p>
         </ion-label>

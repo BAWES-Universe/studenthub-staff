@@ -22,7 +22,7 @@ export class FulltimerService {
    * @param fulltimer_uuid
    */
   view(fulltimer_uuid) {
-    const url = this._fulltimerEndpoint + '/' + fulltimer_uuid + '?expand=nationality,country,area,fulltimerTags';
+    const url = this._fulltimerEndpoint + '/' + fulltimer_uuid + '?expand=nationality,country,area,fulltimerTags,acceptanceRatio,rejectionRatio';
     return this._authhttp.get(url);
   }
 

@@ -21,6 +21,8 @@ export class Fulltimer {
     fulltimer_pdf_cv: string;
     fulltimer_created_datetime: string;
     fulltimer_updated_datetime: string;
+    rejectionRatio: any;
+    acceptanceRatio: any;
     fulltimerTags: FulltimerTag[];
     area: Area;
     country: Country;

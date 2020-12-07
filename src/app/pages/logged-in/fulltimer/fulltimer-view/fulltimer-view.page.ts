@@ -69,6 +69,7 @@ export class FulltimerViewPage implements OnInit {
   ngOnInit() {
     this.fulltimerUUID = this.activatedRoute.snapshot.paramMap.get('id');
     this.loadData();
+    this.loadNotes(false);
     this.initNoteForm();
   }
 
@@ -233,9 +234,11 @@ export class FulltimerViewPage implements OnInit {
    * @param loading
    */
   loadNotes(loading = true) {
-    this.noteService.listByTypeAndId('fulltimer', this.fulltimer.fulltimer_uuid, 1).subscribe(async jsonResponse => {
-      this.notes = jsonResponse.body;
-    });
+    if (this.fulltimerUUID) {
+      this.noteService.listByTypeAndId('fulltimer', this.fulltimerUUID, 1).subscribe(async jsonResponse => {
+        this.notes = jsonResponse.body;
+      });
+    }
   }
 
   /**

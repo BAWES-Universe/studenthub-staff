@@ -49,6 +49,8 @@ export class Candidate {
     candidate_updated_at: string;
     candidate_mom_kuwaiti: any;
     workHistory: any;
+    rejectionRatio: any;
+    acceptanceRatio: any;
     store: Store;
     company: Company;
     university: University;
