@@ -3,7 +3,6 @@ export class CompanyContact {
     company_id: number;
     contact_name: string;
     contact_position: string;
-    contact_note: string;
     contact_created_datetime: string;
     contact_updated_datetime: string;
     companyContactEmails: CompanyContactEmail[];

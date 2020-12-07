@@ -78,7 +78,6 @@ export class CompanyContactFormPage implements OnInit {
       this.form = this._fb.group({
         name: [this.model.contact_name, Validators.required],
         position: [this.model.contact_position, Validators.required],
-        note: [this.model.contact_note],
         emails: new FormArray(emailCtrls),
         phones: new FormArray(phoneCtrls),
       });
@@ -96,7 +95,6 @@ export class CompanyContactFormPage implements OnInit {
   updateModelDataFromForm() {
     this.model.contact_name = this.form.value.name;
     this.model.contact_position = this.form.value.position;
-    this.model.contact_note = this.form.value.note;
     this.model.companyContactEmails = this.form.value.emails;
     this.model.companyContactPhones = this.form.value.phones;
   }

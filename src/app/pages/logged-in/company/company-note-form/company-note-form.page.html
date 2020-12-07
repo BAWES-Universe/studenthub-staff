@@ -54,7 +54,14 @@
         </ion-select>
       </ion-item>
 
-      <ckeditor [config]="editorConfig" #ckeditor [editor]="Editor" (change)="onChange($event)"></ckeditor>
+      <ion-item-divider class="ckeditor-title">
+        <ion-label>
+          Candidate or fulltimer note is about
+        </ion-label>
+      </ion-item-divider>
+
+      <ckeditor [config]="editorConfig" #ckeditor [editor]="Editor" (change)="onChange($event)">
+      </ckeditor>
       
     </ion-list>
   </form>

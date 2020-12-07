@@ -54,7 +54,6 @@ export class CompanyContactService {
       "company_id": model.company_id,
       "name": model.contact_name,
       "position": model.contact_position,
-      "note": model.contact_note,
       "emails": model.companyContactEmails,
       "phones": model.companyContactPhones
     };
@@ -73,7 +72,6 @@ export class CompanyContactService {
       "company_id": model.company_id,
       "name": model.contact_name,
       "position": model.contact_position,
-      "note": model.contact_note,
       "emails": model.companyContactEmails,
       "phones": model.companyContactPhones
     };
