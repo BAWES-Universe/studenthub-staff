@@ -353,7 +353,11 @@ const routes: Routes = [
   {
     path: '**',
     redirectTo: 'not-found'
+  },  {
+    path: 'candidate-merge-select',
+    loadChildren: () => import('./pages/logged-in/candidate/candidate-merge-select/candidate-merge-select.module').then( m => m.CandidateMergeSelectPageModule)
   },
+
 ];
 
 @NgModule({

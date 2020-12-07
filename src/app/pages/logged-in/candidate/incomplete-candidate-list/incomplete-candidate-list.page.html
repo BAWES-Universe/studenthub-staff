@@ -28,7 +28,7 @@
 
   <ion-list>
     <ng-container *ngIf="!loading">
-      <candidate [candidate]="candidate" (refresh)="search()" *ngFor="let candidate of candidates"></candidate>
+      <candidate tappable (click)="rowSelected(candidate)" [candidate]="candidate" (refresh)="search()" *ngFor="let candidate of candidates"></candidate>
     </ng-container>
 
     <no-items *ngIf="!loading && candidates && candidates.length == 0" message="No candidate data available"></no-items>

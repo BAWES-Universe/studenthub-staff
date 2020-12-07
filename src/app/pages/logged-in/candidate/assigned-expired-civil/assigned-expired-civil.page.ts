@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { NavController } from '@ionic/angular';
 // services
 import { CandidateService } from 'src/app/providers/logged-in/candidate.service';
 
@@ -29,6 +30,7 @@ export class AssignedExpiredCivilPage implements OnInit {
   public checkAll = null;
 
   constructor(
+    public navCtrl: NavController,
     public candidateService: CandidateService
   ) {
   }
@@ -85,6 +87,17 @@ export class AssignedExpiredCivilPage implements OnInit {
     );
   }
   
+  /**
+   * When its selected
+   */
+  rowSelected(model) {
+    this.navCtrl.navigateForward('candidate-view/' + model.candidate_id, {
+      state: {
+        model
+      }
+    });
+  }
+
   logScrolling(e) {
     this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
   }

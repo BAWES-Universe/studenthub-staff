@@ -16,6 +16,8 @@ import { CandidateService } from 'src/app/providers/logged-in/candidate.service'
 })
 export class CandidateComponent implements OnInit {
 
+  @ViewChild('checkbox') checkbox: IonCheckbox;
+
   @Input() candidate: Candidate;
   @Input() type: any = null;
 
@@ -23,7 +25,6 @@ export class CandidateComponent implements OnInit {
 
   public deleting: boolean = false;
   public latestWorkStartedOn = null;
-  @ViewChild('checkbox') checkbox: IonCheckbox;
 
   constructor(
     public platform: Platform,
@@ -45,67 +46,6 @@ export class CandidateComponent implements OnInit {
       }
     });
     this.getLatestWorkTime();
-  }
-
-  /**
-   * When its selected
-   */
-  rowSelected(model) {
-    this.navCtrl.navigateForward('candidate-view/' + model.candidate_id, {
-      state: {
-        model
-      }
-    });
-  }
-
-  /**
-   * Delete the provided model
-   */
-  async delete(candidate: Candidate) {
-
-    const confirm = await this.alertCtrl.create({
-      header: 'Delete Candidate?',
-      message: 'Are you sure you want to delete this Candidate?',
-      buttons: [
-        {
-          text: 'Yes',
-          handler: async () => {
-
-            this.deleting = true;
-
-            this.candidateService.delete(candidate).subscribe(async jsonResp => {
-
-              this.deleting = false;
-
-              if (jsonResp.operation == 'error') {
-                const alert = await this.alertCtrl.create({
-                  header: 'Deletion Error!',
-                  subHeader: jsonResp.message,
-                  buttons: ['OK']
-                });
-                alert.present();
-              }
-
-              if (jsonResp.operation == 'success') {
-                const toast = await this.toastCtrl.create({
-                  message: jsonResp.message,
-                  duration: 3000
-                });
-                toast.present();
-
-                this.refresh.emit();
-              }
-            },() => {
-              this.deleting = false;
-            });
-          }
-        },
-        {
-          text: 'No'
-        }
-      ]
-    });
-    confirm.present();
   }
 
   /**

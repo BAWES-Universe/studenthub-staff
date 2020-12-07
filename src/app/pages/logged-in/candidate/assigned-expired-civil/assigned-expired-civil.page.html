@@ -16,7 +16,7 @@
   </ion-searchbar>
 
   <ion-list>
-    <candidate [candidate]="candidate" (refresh)="loadData(1)" *ngFor="let candidate of candidatelistData"></candidate>
+    <candidate [candidate]="candidate" tappable (click)="rowSelected(candidate)" (refresh)="loadData(1)" *ngFor="let candidate of candidatelistData"></candidate>
   </ion-list> 
 
   <loading-modal [loading]="loading" type="text-list"></loading-modal>

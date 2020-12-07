@@ -14,7 +14,7 @@
       </ion-button>
 
       <ion-button color="primary" [disabled]="candidateService.candidates.length != 2 || merging || downloading"
-        (click)="merge()">
+        (click)="merge($event)">
         <span *ngIf="!merging">Merge</span>
         <ion-spinner *ngIf="merging"></ion-spinner>
       </ion-button>
@@ -73,7 +73,7 @@
 
   <ion-list>
 
-    <candidate [candidate]="candidate" type='candidate' (refresh)="search()" *ngFor="let candidate of candidates">
+    <candidate tappable (click)="rowSelected(candidate)" [candidate]="candidate" type='candidate' (refresh)="search()" *ngFor="let candidate of candidates">
     </candidate>
 
     <no-items *ngIf="!loading && candidates && candidates.length == 0" message="No candidate data available"></no-items>

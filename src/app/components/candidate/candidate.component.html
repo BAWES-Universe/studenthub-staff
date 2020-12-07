@@ -1,5 +1,4 @@
-<ion-item-sliding  [disabled]="platform.width() > 768">
-  <ion-item tappable (click)="rowSelected(candidate)">
+  <ion-item>
     <div tabindex="0"></div>
 
     <ion-avatar slot="start">
@@ -37,11 +36,4 @@
       [value]="candidate.candidate_id"></ion-checkbox>
 
   </ion-item>
-
-  <ion-item-options side="end" *ngIf="!candidate.store">
-    <ion-button color="danger" (click)="delete(candidate)">
-      <ion-icon name="trash" slot="start"></ion-icon>
-      Delete
-    </ion-button>
-  </ion-item-options>
-</ion-item-sliding>
+ 

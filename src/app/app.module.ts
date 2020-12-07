@@ -41,6 +41,7 @@ import { FulltimerLocationPageModule } from './pages/logged-in/fulltimer/fulltim
 import { NationalityPageModule } from './pages/logged-in/pickers/nationality/nationality.module';
 import {CompanyRequestListPopupPageModule} from './pages/logged-in/company/company-request-list/company-request-list-popup/company-request-list-popup.module';
 import { CandidateCommittedFormPageModule } from './pages/logged-in/candidate/candidate-committed-form/candidate-committed-form.module';
+import { CandidateMergeSelectPageModule } from './pages/logged-in/candidate/candidate-merge-select/candidate-merge-select.module';
 
 export function startupServiceFactory(authService) {
   return () => authService.load();
@@ -93,7 +94,8 @@ export function createTranslateLoader(http: HttpClient) {
         FulltimerLocationPageModule,
         NationalityPageModule,
         CompanyRequestListPopupPageModule,
-        CandidateCommittedFormPageModule
+        CandidateCommittedFormPageModule,
+        CandidateMergeSelectPageModule
     ],
   providers: [
     {

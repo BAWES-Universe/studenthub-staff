@@ -93,7 +93,7 @@
               </div>
 
               <div [class.hidden]="refreshingCandidates" class="candidate-wrapper">
-                <candidate [candidate]="hit" *ngFor="let hit of hits"></candidate>
+                <candidate tappable (click)="rowSelected(candidate)" [candidate]="hit" *ngFor="let hit of hits"></candidate>
               </div>
 
               <loading-modal [loading]="refreshingCandidates || loading" type="candidate"></loading-modal>

@@ -201,17 +201,7 @@ export class CandidateService {
     const url = `${this._candidateEndpoint}/reset-password/${model.candidate_id}`;
     return this._authhttp.patch(url, {});
   }
-
-  /**
-   * Delete candidate
-   * @param {Candidate} model
-   * @returns {Observable<any>}
-   */
-  delete(model: Candidate): Observable<any> {
-    const url = `${this._candidateEndpoint}/${model.candidate_id}`;
-    return this._authhttp.delete(url);
-  }
-
+  
   /**
    * Removes Candidate from Assigned store
    * @param {any} candidate

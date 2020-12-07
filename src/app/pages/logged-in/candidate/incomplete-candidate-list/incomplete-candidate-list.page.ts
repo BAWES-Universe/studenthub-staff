@@ -135,6 +135,17 @@ export class IncompleteCandidateListPage implements OnInit {
     );
   }
   
+  /**
+   * When its selected
+   */
+  rowSelected(model) {
+    this.navCtrl.navigateForward('candidate-view/' + model.candidate_id, {
+      state: {
+        model
+      }
+    });
+  }
+  
   logScrolling(e) {
     this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
   }

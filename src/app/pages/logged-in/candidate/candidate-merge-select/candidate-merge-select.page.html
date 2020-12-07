@@ -1,0 +1,8 @@
+<ion-content>
+
+  <h5>Select which one will remain</h5>
+
+  <candidate (click)="dismiss($event, candidate)" [candidate]="candidate" *ngFor="let candidate of candidateService.candidates">
+  </candidate>
+
+</ion-content>

@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AlertController, NavController, ToastController } from '@ionic/angular';
+import { AlertController, NavController, PopoverController, ToastController } from '@ionic/angular';
 // models
 import { Candidate } from 'src/app/models/candidate';
 // service
 import { CandidateService } from 'src/app/providers/logged-in/candidate.service';
 import { AwsService } from 'src/app/providers/aws.service';
 import { CandidateIdCardService } from 'src/app/providers/logged-in/candidate.id.card.service';
+import { CandidateMergeSelectPage } from '../candidate-merge-select/candidate-merge-select.page';
 
 
 @Component({
@@ -56,13 +57,14 @@ export class CandidateListPage implements OnInit {
   public borderLimit = false;
 
   constructor(
+    public popoverCtrl: PopoverController,
+    public toastCtrl: ToastController,
+    public alertCtrl: AlertController,
     public navCtrl: NavController,
     public activatedRoute: ActivatedRoute,
     public aws: AwsService,
     public candidateIdCardService: CandidateIdCardService,
     public candidateService: CandidateService,
-    public toastCtrl: ToastController,
-    public alertCtrl: AlertController,
   ) {
   }
 
@@ -135,7 +137,7 @@ export class CandidateListPage implements OnInit {
   /**
    * Merge to account
    */
-  async merge() {
+  async merge(e) {
 
     if (this.candidateService.candidates.length != 2) {
       const prompt = await this.alertCtrl.create({
@@ -147,56 +149,38 @@ export class CandidateListPage implements OnInit {
       return false;
     }
 
-    let source, destinatin;
-
-    const alert = await this.alertCtrl.create({
-      header: 'Select which one will remain',
-      inputs: [
-        {
-          name: 'destination',
-          type: 'radio',
-          label: this.candidateService.candidates[0].candidate_name,
-          value: this.candidateService.candidates[0].candidate_id,
-          checked: true
-        },
-        {
-          name: 'destination',
-          type: 'radio',
-          label: this.candidateService.candidates[1].candidate_name,
-          value: this.candidateService.candidates[1].candidate_id,
-        },
-      ],
-      buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel',
-        }, {
-          text: 'Confirm',
-          handler: (e) => {
-            destinatin = e;
-
-            if(destinatin == this.candidateService.candidates[1].candidate_id) {
-              source = this.candidateService.candidates[0].candidate_id;
-            } else {
-              source = this.candidateService.candidates[1].candidate_id;
-            }
-
-            this.merging = true;
-
-            this.candidateService.merge(source, destinatin).subscribe(response => {
-            }, (err) => {
-            }, () => {
-              this.merging = false;
-              this.candidateService.candidates = [];
-              this.candidateIdCardService.candidates = [];
-              this.loadData(this.currentPage);
-            });
-          }
-        }
-      ]
+    const popover = await this.popoverCtrl.create({
+      component: CandidateMergeSelectPage,
+      event: e,
+      cssClass: 'candidate-merge-select'
     });
 
-    await alert.present();
+    popover.onDidDismiss().then(e => {
+      
+      if(!e.data || !e.data.candidate) {
+        return false;
+      }
+
+      let source;
+
+      if(e.data.candidate.candidate_id == this.candidateService.candidates[1].candidate_id) {
+        source = this.candidateService.candidates[0].candidate_id;
+      } else {
+        source = this.candidateService.candidates[1].candidate_id;
+      }
+
+      this.merging = true;
+
+      this.candidateService.merge(source, e.data.candidate.candidate_id).subscribe(response => {
+      }, (err) => {
+      }, () => {
+        this.merging = false;
+        this.candidateService.candidates = [];
+        this.candidateIdCardService.candidates = [];
+        this.loadData(this.currentPage);
+      });
+    });
+    popover.present();
   }
 
   ionViewWillEnter() {
@@ -262,6 +246,17 @@ export class CandidateListPage implements OnInit {
       error => { },
       () => { event.target.complete(); }
     );
+  }
+  
+  /**
+   * When its selected
+   */
+  rowSelected(model) {
+    this.navCtrl.navigateForward('candidate-view/' + model.candidate_id, {
+      state: {
+        model
+      }
+    });
   }
   
   logScrolling(e) {

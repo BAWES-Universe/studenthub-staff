@@ -56,7 +56,7 @@
  
   <ion-list *ngIf="!loading">
 
-    <candidate [candidate]="candidate" (refresh)="refresh()" *ngFor="let candidate of candidates"></candidate>
+    <candidate tappable (click)="candidateSelected(candidate)" [candidate]="candidate" (refresh)="refresh()" *ngFor="let candidate of candidates"></candidate>
 
   </ion-list>
 
