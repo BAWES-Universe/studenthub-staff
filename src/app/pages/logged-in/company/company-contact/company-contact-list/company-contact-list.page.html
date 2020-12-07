@@ -20,13 +20,15 @@
 
         <ion-label>
           <h4>{{ companyContact.contact_name }}</h4>
+          
           <h5 *ngIf="companyContact.company">
             {{ companyContact.company.company_common_name_en? companyContact.company.company_common_name_en: companyContact.company.company_name }}
           </h5>
+
           <p>
             {{ companyContact.contact_position }}
           </p>
-          <small>{{ companyContact.contact_note }}</small>
+         
           <p>
             <a (click)="doNothing($event)"
                *ngFor="let companyContactEmail of companyContact.companyContactEmails">
