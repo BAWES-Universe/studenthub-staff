@@ -22,6 +22,9 @@ import { SuggestionModule } from 'src/app/components/suggestion/suggestion.modul
     LoadingModalModule,
     CompanyRequestViewRoutingModule
   ],
-  declarations: [CompanyRequestViewPage, RecentActivityComponent]
+  declarations: [
+    CompanyRequestViewPage, 
+    RecentActivityComponent
+  ]
 })
 export class CompanyRequestViewPageModule { }

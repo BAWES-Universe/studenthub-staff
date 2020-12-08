@@ -1,11 +1,16 @@
-ion-header, ion-content, ion-toolbar ,ion-card,
-ion-list, ion-item,ion-card-content, ion-button,
-ion-footer
-{
+ion-header,
+ion-content,
+ion-toolbar,
+ion-card,
+ion-list,
+ion-item,
+ion-card-content,
+ion-button,
+ion-footer {
     --background: #ffffff;
     background: #ffffff;
-    --color:#000000;
-    color:#000000;
+    --color: #000000;
+    color: #000000;
 }
 
 ion-header {
@@ -47,20 +52,85 @@ h3 {
     line-height: 58px;
 }
 
-.user-name {
+.company-name {
+    margin: 23px 3px 0px;
     font-size: 36px;
     font-weight: bold;
     font-stretch: normal;
     font-style: normal;
-    line-height: 43px;
+    line-height: normal;
     letter-spacing: normal;
-    color: #000000;
-    text-decoration-line: underline;
-    text-transform: capitalize;
-    margin-top: 0;
-    margin-bottom: 17px;
-    display: block;
-    cursor: pointer;
+    color: #2f80ed;
+}
+
+.txt-looking {
+    margin: 5px 0 3px 6px;
+    font-size: 24px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #000;
+}
+
+.requirement {
+    margin: 0px 0 13px 6px;
+    font-size: 24px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #000;
+}
+
+.txt-additional-info {
+    margin: 20px 0 32px 6px;
+    font-size: 18px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #000;
+}
+
+.requested-by {
+    margin: 39px 39px 28px 6px;
+    font-size: 16px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #000;
+
+    .requested-by-staff {
+        color: #2f80ed;
+    }
+}
+
+.txt-activities {
+    margin: 32px 10px 17px 3px;
+    font-size: 24px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #000;
+}
+
+.txt-suggested-candidates {
+    margin: 49px 3px 21px;
+    font-size: 24px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #000;
 }
 
 .request-time {
@@ -73,205 +143,23 @@ h3 {
     color: #000000;
 }
 
-.btn-call {
-    width: 263px;
-    min-height: 79px;
-    border-radius: 25px;
-    border: solid 1px #000000;
-    display: block;
-    text-decoration: none;
-    padding: 12px 0 12px 76px;
-    position: relative;
-
-    ion-icon {
-        width: 27px;
-        height: 26px;
-        position: absolute;
-        left: 22px;
-        top: 25px;
-    }
-
-    b {
-        font-size: 24px;
-        font-weight: bold;
-        font-stretch: normal;
-        font-style: normal;
-        line-height: 1.22;
-        letter-spacing: normal;
-        color: #000000;
-        clear: both;
-        display: block;
-    }
-
-    span {
-        font-size: 18px;
-        font-weight: bold;
-        font-stretch: normal;
-        font-style: normal;
-        line-height: 1.22;
-        letter-spacing: normal;
-        color: #828282;
-    }
-}
-
-ion-item {
-    --padding-start: 0px;
-    --padding-end: 0px;
-    margin-bottom: 22px; 
-}
-
-.txt-updates {
-    font-size: 36px;
+.btn-view-notes {
+    margin: 0px 3px 0;
+    border-radius: 5px;
+    --box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08), 2px 0 4px 0 rgba(0, 0, 0, 0.12);
+    background-color: #ffffff;
+    font-size: 14px;
     font-weight: bold;
     font-stretch: normal;
     font-style: normal;
-    line-height: normal;
+    line-height: 1.65;
     letter-spacing: normal;
-    color: #000000;
-    margin-top: 48px;
-    margin-bottom: 32px;
+    text-align: center;
+    color: #000;
+    text-transform: none;
+    width: 100%;
+    height: 40px;
 }
-
-.txt-invoice {
-    font-style: normal;
-    font-weight: bold;
-    font-size: 36px;
-    line-height: 43px; 
-    margin-bottom: 25px;
-    margin-top: 44px;
-}
-
-ion-card {
-    border: 1px solid #000000;
-    box-sizing: border-box;
-    border-radius: 25px;
-    margin-left: 0;
-    margin-right: 0;
-    margin-top: 0;
-    box-shadow: none;
-    ion-card-content {
-        padding:20px;
-        ion-grid,ion-row,ion-col {
-            padding:0;
-        }
-        .btn-invoice {
-            font-size: 18px;
-            font-weight: bold;
-            color: #000000;
-            ---color: #000000;
-            height: 64px;
-            border-radius: 5px;
-            --border-radius: 5px;
-            background-color: #96c050;
-            --background: #96c050;
-            --box-shadow: none;
-            text-transform: none;
-            margin-top: 30px;
-        }
-        .cancelled {
-            --background: #eb5757;
-            --color: #000;
-            background: #eb5757;
-            color: #000;
-        }
-
-        h4 {
-            font-style: normal;
-            font-weight: bold;
-            font-size: 26px;
-            line-height: 121.69%;
-            color: #000000;
-            margin-top: 14px;
-            margin-bottom: 4px;
-        }
-
-        .invoice-draft {
-            color: #2D9CDB;
-        }
-        
-        .invoice-active {
-            color: #EB5757;
-        }
-
-        .invoice-cancelled {
-            color: #EB5757;
-        }
-
-        .invoice-done {
-            color: #79A336;
-        }
-
-        b {
-            font-style: normal;
-            font-weight: bold;
-            font-size: 24px;
-            line-height: 121.69%; 
-            color: #000000;
-            text-transform: capitalize;
-        }
-
-        .invoice-description {
-            margin-top: 15px;
-            display: block;
-        }
-
-        .invoice-attribute {
-            margin-top: 20px;
-
-            h5 {
-                font-size: 24px;
-                font-weight: bold;
-                font-stretch: normal;
-                font-style: normal;
-                line-height: 1.22;
-                letter-spacing: normal;
-                color: #000000;
-            }
-
-            label {
-                font-style: normal;
-                font-weight: bold;
-                font-size: 18px;
-                line-height: 121.69%; 
-                color: #828282;
-            }
-        }
-
-        .invoice-attribute:not(.service-provider) {
-            display: inline-block; 
-            min-width: 150px;
-        }
-
-        p {
-            font-style: normal;
-            font-weight: normal;
-            font-size: 18px;
-            line-height: 164.69%;
-            color: #000000;
-        }
-    }
-}
-
-.grid-invoice {
-    padding: 0;
-    margin: 0 -5px;
-}
-
-//@media (prefers-color-scheme: dark) {
-//
-//    h5,h3, b, p,
-//    .user-name,
-//    .invoice-description,
-//    .request-time,
-//    .request-description,
-//    .request-description b,
-//    .request-description h4,
-//    .request-description p,
-//    .activity-detail,
-//    .txt-updates {
-//        color: #fff!important;
-//    }
-//}
 
 ion-back-button {
     display: block;
@@ -307,7 +195,7 @@ ion-back-button {
 }
 
 .btn-cancel {
-    height: 30px; 
+    height: 30px;
     font-size: 18px;
     font-weight: bold;
     font-stretch: normal;
@@ -327,8 +215,8 @@ ion-footer {
         font-size: 18px;
         text-align: center;
         text-transform: none;
-        --color: #FFFFFF;
-        color: #FFFFFF;
+        --color: #ffffff;
+        color: #ffffff;
         --background: #000000;
         background: #000000;
         --border-radius: 4px;
@@ -346,7 +234,7 @@ ion-footer {
         background: #79a336;
         --background: #79a336;
     }
-    ion-grid{
+    ion-grid {
         box-shadow: 0 -4px 4px 0 rgba(0, 0, 0, 0.1);
     }
 }
@@ -363,15 +251,4 @@ ion-grid {
         margin: 0 !important;
         width: 100% !important;
     }
-}
-
-.issued-by {
-    height: 45px;
-    font-size: 18px;
-    font-weight: normal;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: 1.22;
-    letter-spacing: normal;
-    color: #000000;
 }

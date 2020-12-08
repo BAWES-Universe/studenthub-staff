@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AlertController, ToastController } from '@ionic/angular';
 //models
 import { Suggestion } from 'src/app/models/suggestion';
+import { AwsService } from 'src/app/providers/aws.service';
 //services
 import { SuggestionService } from 'src/app/providers/logged-in/suggestion.service';
 
@@ -22,6 +23,7 @@ export class SuggestionComponent implements OnInit {
     public toastCtrl: ToastController,
     public alertCtrl: AlertController,
     public router: Router,
+    public aws: AwsService,
     public suggestionService: SuggestionService
   ) { }
 

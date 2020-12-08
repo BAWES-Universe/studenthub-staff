@@ -1,41 +1,15 @@
-<div class="activity-detail" *ngIf="activity">
-  <ion-grid>
-    <ion-row>
-      <ion-col size="3" class="date-col">
-        <div class="date-group">
-          <span class="month">{{ toDate(activity.note_created_datetime) | date:'MMM' }}</span>
-          <span class="date">{{ toDate(activity.note_created_datetime) | date:'dd' }}</span>
-          <span  class="year">{{ toDate(activity.note_created_datetime) | date:'y' }}</span>
-        </div>
-      </ion-col>
-      <ion-col size="9" class="detail-col">
-        <b class="txt-staff">
-          <ng-container  *ngIf="activity && activity.updatedBy">{{ activity.updatedBy.staff_name }}</ng-container> {{ "@" }} {{ toDate(activity.note_created_datetime) | date:'h:mmaaaaa' }}
-        </b>
+<ion-card>
+  <ion-badge>
+    {{ activity.note_type }}
+  </ion-badge>
 
-        <p>{{ activity.note_type }}</p>
+  <p class="activity">
+    <b *ngIf="activity.updatedBy">{{ activity.updatedBy.staff_name }}:&nbsp;</b>
+    <span [innerHTML]="activity.note_text"></span>
+  </p>
 
-        <p [innerHTML]="activity.note_text"></p>
-
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-</div>
-
-<div class="activity-detail" *ngIf="request && request.request_feedback">
-  <ion-grid>
-    <ion-row>
-      <ion-col size="3" class="date-col">
-        <div class="date-group">
-          <span class="month">{{ toDate(request.request_created_datetime) | date:'MMM' }}</span>
-          <span class="date">{{ toDate(request.request_created_datetime) | date:'dd' }}</span>
-          <span  class="year">{{ toDate(request.request_created_datetime) | date:'y' }}</span>
-        </div>
-      </ion-col>
-      <ion-col size="9" class="detail-col">
-        <b class="txt-staff">{{ "You" }} {{ "@" }} {{ toDate(request.request_created_datetime) | date:'h:mmaaaaa' }}m</b>
-        <p>{{ request.request_feedback }}</p>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-</div>
+  <p class="txt-time">
+    {{ activity.note_updated_datetime | timeAgo }} on 
+    {{ toDate(activity.note_created_datetime) | date: 'MMM d, y' }}
+  </p>
+</ion-card>

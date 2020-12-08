@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { SuggestPageRoutingModule } from './suggest-routing.module';
 
 import { SuggestPage } from './suggest.page';
+
 import { RequestListingModule } from 'src/app/components/request-listing/request-listing.module';
 
 @NgModule({

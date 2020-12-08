@@ -32,60 +32,52 @@
       <span *ngIf="request.request_status == 'cancelled'">Cancelled</span>
     </h3>
 
-    <ion-grid>
-      <ion-row>
-        <ion-col size-md="4" size-sm="6" size-lg="3" size-xs="12">
-          <strong>Title</strong> : {{ request.request_position_title }}
-        </ion-col>
-        <ion-col size-md="4" size-sm="6" size-lg="3" size-xs="12">
-          <strong>Employees</strong> : {{ request.request_number_of_employees }}
-        </ion-col>
+    <h4 class="company-name">{{ request.company.company_name }}</h4>
+    
+    <p class="txt-looking">is looking for </p>
 
-        <ion-col size-md="4" size-sm="6" size-lg="3" size-xs="12">
-          <strong>Type</strong> :
-          <span *ngIf="request.request_position_type == 1">Fulltime</span>
-          <span *ngIf="request.request_position_type == 2">Partime</span>
-        </ion-col>
-        <ion-col size-md="4" size-sm="6" size-lg="3" size-xs="12">
-          <strong>Info</strong> :
-          <span *ngIf="request.request_additional_info">{{ request.request_additional_info }} </span>
-        </ion-col>
-        <ion-col size-md="4" size-sm="6" size-lg="3" size-xs="12">
-          <strong>Company</strong> : {{ request.company.company_name }}
-        </ion-col>
-        <ion-col size-md="4" size-sm="6" size-lg="3" size-xs="12">
-          <strong>Contact</strong> : {{ request.contact.contact_name }}
-        </ion-col>
-      </ion-row>
-    </ion-grid>
+    <b class="requirement">
+      {{ request.request_number_of_employees }}
+      <span *ngIf="request.request_position_type == 1">Full-time</span>
+      <span *ngIf="request.request_position_type == 2">Part-time</span>
+      {{ request.request_position_title }}
+    </b>
+    
+    <p class="txt-additional-info">{{ request.request_additional_info }}</p>
 
-    <ion-grid class="grid-invoice">
+    <div class="requested-by">
+      Requested by <span class="requested-by-staff">{{ request.contact.contact_name }}</span>
+      <div class="requested-by-time">on {{ toDate(request.request_created_datetime) | date: 'MMM d, y' }} </div>
+    </div>
 
-      <ion-row *ngIf="requestActivities && requestActivities.length > 0">
-        <ion-col size="12" size-md="12">
-          <h4 class="txt-invoice activity">Activity</h4>
-          <ng-container *ngIf="requestActivities.length > 0">
-            <app-recent-activity [activity]="requestActivity" *ngFor="let requestActivity of requestActivities"></app-recent-activity>
-          </ng-container>
-        </ion-col>
-      </ion-row>
+    <h4 class="txt-activities">Recent Activity</h4>
 
-    </ion-grid>
+    <div class="activity-container">
+
+      <ng-container *ngFor="let requestActivity of requestActivities;let i = index;">
+        <app-recent-activity [activity]="requestActivity" *ngIf="activityExpanded || i < 2"></app-recent-activity>
+      </ng-container>
+      
+      <ion-button class="btn-view-notes" *ngIf="requestActivities.length > 2" (click)="toggleActivityExpanded()">
+        <span *ngIf="!activityExpanded">View all {{ requestActivities.length }} notes</span>
+        <span *ngIf="activityExpanded">Collapse</span>
+      </ion-button>
+    </div>
 
     <div *ngIf="suggestedSuggestions.length > 0">
-      <h4>Suggestions <ion-badge color="primary">{{ suggestedSuggestions.length }}</ion-badge></h4>
+      <h4 class="txt-suggested-candidates">Suggested Candidates ({{ suggestedSuggestions.length }})</h4>
 
       <suggestion (onUpdate)="onSuggestionUpdate()" *ngFor="let suggestion of suggestedSuggestions" [model]="suggestion"></suggestion>
     </div>
 
     <div *ngIf="acceptedSuggestions.length > 0">
-      <h4>Accepted Suggestions <ion-badge color="success">{{ acceptedSuggestions.length }}</ion-badge></h4>
+      <h4 class="txt-suggested-candidates">Accepted ({{ acceptedSuggestions.length }})</h4>
 
       <suggestion (onUpdate)="onSuggestionUpdate()" *ngFor="let suggestion of acceptedSuggestions" [model]="suggestion"></suggestion>
     </div>
 
     <div *ngIf="rejectedSuggestions.length > 0">
-      <h4>Rejected Suggestions <ion-badge color="light">{{ rejectedSuggestions.length }}</ion-badge></h4>
+      <h4 class="txt-suggested-candidates">Rejected ({{ rejectedSuggestions.length }})</h4>
 
       <suggestion (onUpdate)="onSuggestionUpdate()" *ngFor="let suggestion of rejectedSuggestions" [model]="suggestion"></suggestion>
     </div>

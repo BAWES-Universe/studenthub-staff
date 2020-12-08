@@ -20,8 +20,8 @@ export class RequestActivityService {
    * List requests activity
    * @returns {Observable<any>}
    */
-  list(page = 1, uuid = null): Observable<any> {
-    const url = this.requestEndpoint + 'request-activities/' + uuid + '?page=' + page + '&expand=staff,updatedBy';
-    return this.authhttp.getRaw(url);
+  list(request_uuid = null): Observable<any> {
+    const url = this.requestEndpoint + 'request-activities/' + request_uuid + '?expand=staff,updatedBy';
+    return this.authhttp.get(url);
   }
 }

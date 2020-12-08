@@ -1,40 +1,58 @@
-<div class="activity-detail" *ngIf="model && model.note"  (click)="openCandidatePage()" tappable>
-  <ion-grid>
-    <ion-row>
-      <ion-col size="3" class="date-col">
-        <div class="date-group">
-          <span class="month">{{ toDate(model.suggestion_datetime) | date:'MMM' }}</span>
-          <span class="date">{{ toDate(model.suggestion_datetime) | date:'dd' }}</span>
-          <span  class="year">{{ toDate(model.suggestion_datetime) | date:'y' }}</span>
-        </div>
-      </ion-col>
-      <ion-col size="9" class="detail-col">
-        <b class="txt-staff">
-          <ng-container *ngIf="model.candidate">
-            {{ model.candidate.candidate_name }} {{ "@" }} {{ toDate(model.suggestion_datetime) | date:'h:mmaaaaa' }}
-          </ng-container>
-          <ng-container *ngIf="model.fulltimer">
-            {{ model.fulltimer.fulltimer_name }} {{ "@" }} {{ toDate(model.suggestion_datetime) | date:'h:mmaaaaa' }}
-          </ng-container>
-        </b>
+<ion-card (click)="openCandidatePage()" tappable>
+  <ion-badge *ngIf="model.suggestion_status == 1">
+    Suggested a candidate
+  </ion-badge>
+  <ion-badge *ngIf="model.suggestion_status == 3">
+    Accepted a candidate
+  </ion-badge>
+  <ion-badge *ngIf="model.suggestion_status == 2">
+    Rejected a candidate
+  </ion-badge>
 
-        <p>Suggestion</p>
+  <ion-item lines="none" *ngIf="model.candidate">
+    <div tabindex="0"></div>
+    
+    <ion-avatar slot="start">
+      <img *ngIf="model.candidate.candidate_personal_photo"
+        src="{{ aws.cloudinaryUrl + 'candidate-photo/' + model.candidate.candidate_personal_photo }}" onerror="this.src='/assets/icon/icon.png';">
+      <img *ngIf="!model.candidate.candidate_personal_photo" src="/assets/icon/icon.png">
+    </ion-avatar>
 
-        <p [innerHTML]="model.note.note_text"></p>
-      
-        <ng-container *ngIf="model.suggestion_status == 1">
-          <ion-button (click)="acceptSuggestion($event)">
-            Accept
-          </ion-button>
-          <ion-button color="secondary" (click)="rejectSuggestion($event)">
-            Reject
-          </ion-button>
-        </ng-container>
-        
-        <small *ngIf="model.request.staff">
-          Suggested by {{model.request.staff.staff_name}}
-        </small>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-</div>
+    <ion-label>
+      <h5>{{ model.candidate.candidate_name ?model.candidate.candidate_name : model.candidate.candidate_name_ar }}</h5>
+    </ion-label>
+  </ion-item>
+
+  <ion-item lines="none" *ngIf="model.fulltimer">
+    <div tabindex="0"></div>
+    
+    <ion-avatar slot="start">
+      <img src="/assets/icon/icon.png">
+    </ion-avatar>
+
+    <ion-label>
+      <h5>{{ model.fulltimer.fulltimer_name }} </h5>
+    </ion-label>
+  </ion-item>
+
+  <p class="activity">
+    <b *ngIf="model.updatedBy">{{ model.updatedBy.staff_name }}:&nbsp;</b>
+    <span [innerHTML]="model.note.note_text"></span>
+  </p>
+
+  <p class="txt-time">
+    {{ model.suggestion_datetime | timeAgo }} on 
+    {{ toDate(model.suggestion_datetime) | date: 'MMM d, y' }}
+  </p>
+</ion-card>
+
+<ng-container *ngIf="model.suggestion_status == 1">
+  <ion-button class="btn-accept" (click)="acceptSuggestion($event)">
+    Accepted
+  </ion-button>
+  <ion-button class="btn-reject" (click)="rejectSuggestion($event)">
+    Rejected
+  </ion-button>
+</ng-container>
+
+<div class="clearfix"></div>

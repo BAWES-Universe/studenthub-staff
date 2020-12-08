@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
+import { PipesModule } from 'src/app/pipes/pipes.module';
 import { SuggestionComponent } from './suggestion.component';
  
 
@@ -8,7 +9,8 @@ import { SuggestionComponent } from './suggestion.component';
     declarations: [SuggestionComponent],
     imports: [ 
         CommonModule,
-        IonicModule
+        IonicModule,
+        PipesModule
     ],
     exports: [SuggestionComponent]
 })

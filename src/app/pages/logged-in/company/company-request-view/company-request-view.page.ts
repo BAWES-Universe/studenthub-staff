@@ -50,6 +50,9 @@ export class CompanyRequestViewPage implements OnInit {
 
   public borderLimit = false;
   public backState = null;
+
+  public activityExpanded: boolean = false;
+
   constructor(
     public modalCtrl: ModalController,
     public alertCtrl: AlertController,
@@ -234,12 +237,19 @@ export class CompanyRequestViewPage implements OnInit {
   }
 
   /**
+   * toggle activity visiblities
+   */
+  toggleActivityExpanded() {
+    this.activityExpanded = !this.activityExpanded;
+  }
+
+  /**
    * load request detail
    */
   loadRequestActivities() {
     this.loadingActivities = true;
-    this.requestActivityService.list(1, this.request_uuid).subscribe(data => {
-      this.requestActivities = data.body;
+    this.requestActivityService.list(this.request_uuid).subscribe(data => {
+      this.requestActivities = data;
     }, () => {
     }, () => {
       this.loadingActivities = false;
@@ -279,6 +289,16 @@ export class CompanyRequestViewPage implements OnInit {
     this.content.scrollToPoint(0, 0);
   }
 
+  /**
+   * Make date readable by Safari
+   * @param date
+   */
+  toDate(date) {
+    if (date) {
+      return new Date(date.replace(/-/g, '/'));
+    }
+  }
+  
   /**
    * show alert to post update on request
    */
