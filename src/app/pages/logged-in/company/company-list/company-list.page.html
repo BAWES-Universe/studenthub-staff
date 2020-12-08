@@ -83,7 +83,7 @@
             <ion-badge class="company_status_badge" slot="start" color="success" *ngIf="company.company_status">
               Active
             </ion-badge>
-            <ion-badge slot="start" color="danger" *ngIf="this.candidateWorkHistoryByLast40Days(company)">
+            <ion-badge slot="start" color="danger" *ngIf="company.total_candidate && !company.transferInLast40Days">
               40 days passed without payment
             </ion-badge>
           </ion-label>
