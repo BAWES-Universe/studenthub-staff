@@ -1,14 +1,15 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import {ModalController, AlertController, PopoverController} from '@ionic/angular';
+import { ModalController, AlertController, PopoverController } from '@ionic/angular';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 //services
 import { AuthService } from '../../../../providers/auth.service';
 import { CandidateNoteService } from '../../../../providers/logged-in/candidate-note.service';
 //models
 import { Note } from '../../../../models/note';
-import {AllCompanyListPage} from "../../company/company-request-list/all-company-list/all-company-list.page";
-import {CompanyRequestListPopupPage} from "../../company/company-request-list/company-request-list-popup/company-request-list-popup.page";
+//pages
+import { AllCompanyListPage } from "../../company/company-request-list/all-company-list/all-company-list.page";
+import { CompanyRequestListPopupPage } from "../../company/company-request-list/company-request-list-popup/company-request-list-popup.page";
 
 
 @Component({
@@ -33,11 +34,11 @@ export class CandidateNoteFormPage implements OnInit {
   public saving = false;
 
   public borderLimit = false;
-  public company:any;
+  public company: any;
 
   public editorConfig = {
     placeholder: 'Click here to take notes...',
-    startupFocus : true,
+    startupFocus: true,
     toolbar: ['Heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', '|', 'indent', 'outdent'],
   };
 
@@ -71,8 +72,8 @@ export class CandidateNoteFormPage implements OnInit {
     this.operation = (this.model && this.model.note_uuid) ? 'Update' : 'Create';
 
     setTimeout(() => {
-      if(this.ckeditor.editorInstance)
-        this.ckeditor.editorInstance.editing.view.focus()
+      if (this.ckeditor.editorInstance)
+        this.ckeditor.editorInstance.editing.view.focus();
     }, 1000);
   }
 
@@ -196,13 +197,13 @@ export class CandidateNoteFormPage implements OnInit {
     let popover;
 
     // if (this.company) {
-      popover = await this.popoverCtrl.create({
-        component: CompanyRequestListPopupPage,
-        event: e,
-        componentProps: {
-          company: this.company
-        }
-      });
+    popover = await this.popoverCtrl.create({
+      component: CompanyRequestListPopupPage,
+      event: e,
+      componentProps: {
+        company: this.company
+      }
+    });
     // } else {
     //   popover = await this.modalCtrl.create({
     //     component: CompanyRequestListPopupPage
@@ -210,14 +211,14 @@ export class CandidateNoteFormPage implements OnInit {
     // }
 
     popover.onDidDismiss().then((_) => {
-      if (_ && _.data && _.data.data) {
+      if (_ && _.data && _.data) {
 
         if (!this.company || !this.company.company_id) {
-          this.form.controls.company_name.setValue(_.data.data.company.company_name);
-          this.form.controls.company_id.setValue(_.data.data.company.company_id);
+          this.form.controls.company_name.setValue(_.data.company.company_name);
+          this.form.controls.company_id.setValue(_.data.company.company_id);
         }
-        this.form.controls.request_name.setValue(_.data.data.request_position_title);
-        this.form.controls.request_uuid.setValue(_.data.data.request_uuid);
+        this.form.controls.request_name.setValue(_.data.request_position_title);
+        this.form.controls.request_uuid.setValue(_.data.request_uuid);
       }
     });
     popover.present();

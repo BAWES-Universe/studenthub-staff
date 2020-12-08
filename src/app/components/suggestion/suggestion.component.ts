@@ -26,7 +26,6 @@ export class SuggestionComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log(this.model);
   }
 
   openCandidatePage() {

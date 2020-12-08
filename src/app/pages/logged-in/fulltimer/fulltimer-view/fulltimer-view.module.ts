@@ -10,6 +10,7 @@ import { FulltimerViewPage } from './fulltimer-view.page';
 
 import { LoadingModalModule } from '../../../../components/loading-modal/loading-modal.module';
 import {CKEditorModule} from '@ckeditor/ckeditor5-angular';
+import { NoteModule } from 'src/app/components/note/note.module';
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import {CKEditorModule} from '@ckeditor/ckeditor5-angular';
     CKEditorModule,
     FormsModule,
     IonicModule,
+    NoteModule,
     FulltimerViewPageRoutingModule,
     LoadingModalModule
   ],

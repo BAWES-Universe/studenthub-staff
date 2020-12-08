@@ -126,7 +126,7 @@ export class CandidateViewPage implements OnInit {
     // }
     this.loadCandidateDetail();
     this.loadWorkHistoryData();
-    this.loadCandidateNotes();
+    this.loadNotes();
 
     this.loadStoreData();
     this.loadTransfersData();
@@ -361,7 +361,7 @@ export class CandidateViewPage implements OnInit {
       }
 
       if(e.data && e.data.refresh) {
-        this.loadCandidateNotes();
+        this.loadNotes();
       }
     });
     await modal.present();
@@ -463,7 +463,7 @@ export class CandidateViewPage implements OnInit {
     const { data } = await modal.onWillDismiss();
 
     if (data && data.refresh) {
-      this.loadCandidateNotes();
+      this.loadNotes();
       this.candidate.candidate_committed = data.candidate_committed;
     }
   }
@@ -516,7 +516,7 @@ export class CandidateViewPage implements OnInit {
               this.deletingNote = false;
 
               if (response.operation == 'success') {
-                this.loadCandidateNotes();
+                this.loadNotes();
               } else {
 
                 this.deletingNote = false;
@@ -552,7 +552,7 @@ export class CandidateViewPage implements OnInit {
   /**
    * load candidate notes
    */
-  loadCandidateNotes() {
+  loadNotes() {
     this.candidateNoteService.listById(this.candidate_id).subscribe(async jsonResponse => {
       this.notes = jsonResponse.body;
     });
@@ -578,6 +578,7 @@ export class CandidateViewPage implements OnInit {
     } else {
       response = this.candidateNoteService.create(model);
     }
+    
     response.subscribe(async jsonResponse => {
 
       this.addingNote = false;
@@ -586,7 +587,7 @@ export class CandidateViewPage implements OnInit {
       if (jsonResponse.operation == 'success') {
 
         this.cancelAddNote();
-        this.loadCandidateNotes();
+        this.loadNotes();
       }
 
       // On Failure
@@ -683,14 +684,14 @@ export class CandidateViewPage implements OnInit {
     }
 
     popover.onDidDismiss().then((_) => {
-      if (_ && _.data && _.data.data) {
+      if (_ && _.data && _.data) {
 
         if (!this.company || !this.company.company_id) {
-          this.noteForm.controls.company_name.setValue(_.data.data.company.company_name);
-          this.noteForm.controls.company_id.setValue(_.data.data.company.company_id);
+          this.noteForm.controls.company_name.setValue(_.data.company.company_name);
+          this.noteForm.controls.company_id.setValue(_.data.company.company_id);
         }
-        this.noteForm.controls.request_name.setValue(_.data.data.request_position_title);
-        this.noteForm.controls.request_uuid.setValue(_.data.data.request_uuid);
+        this.noteForm.controls.request_name.setValue(_.data.request_position_title);
+        this.noteForm.controls.request_uuid.setValue(_.data.request_uuid);
       }
     });
     popover.present();

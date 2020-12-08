@@ -7,7 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { CandidateNoteFormPageRoutingModule } from './candidate-note-form-routing.module';
 
 import { CandidateNoteFormPage } from './candidate-note-form.page';
-import {CKEditorModule} from '@ckeditor/ckeditor5-angular';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
 @NgModule({
   imports: [
@@ -20,4 +20,4 @@ import {CKEditorModule} from '@ckeditor/ckeditor5-angular';
   ],
   declarations: [CandidateNoteFormPage]
 })
-export class CandidateNoteFormPageModule {}
+export class CandidateNoteFormPageModule { }

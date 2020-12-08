@@ -42,6 +42,7 @@ import { NationalityPageModule } from './pages/logged-in/pickers/nationality/nat
 import {CompanyRequestListPopupPageModule} from './pages/logged-in/company/company-request-list/company-request-list-popup/company-request-list-popup.module';
 import { CandidateCommittedFormPageModule } from './pages/logged-in/candidate/candidate-committed-form/candidate-committed-form.module';
 import { CandidateMergeSelectPageModule } from './pages/logged-in/candidate/candidate-merge-select/candidate-merge-select.module';
+import { NoteModule } from './components/note/note.module';
 
 export function startupServiceFactory(authService) {
   return () => authService.load();
@@ -95,7 +96,8 @@ export function createTranslateLoader(http: HttpClient) {
         NationalityPageModule,
         CompanyRequestListPopupPageModule,
         CandidateCommittedFormPageModule,
-        CandidateMergeSelectPageModule
+        CandidateMergeSelectPageModule,
+        NoteModule
     ],
   providers: [
     {

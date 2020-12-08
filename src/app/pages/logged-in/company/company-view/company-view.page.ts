@@ -643,7 +643,7 @@ export class CompanyViewPage implements OnInit {
    * @param note
    */
   async editNote(note: Note) {
-    console.log(note);
+  
     this.editNoteData = note;
     this.noteForm.controls.note.setValue(note.note_text);
     this.ckeditor.editorInstance.setData(note.note_text);

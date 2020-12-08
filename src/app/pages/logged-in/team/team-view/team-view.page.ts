@@ -47,7 +47,7 @@ export class TeamViewPage implements OnInit {
 
   ionViewWillEnter() {
     if (this.staffID) {
-      this.loadNoteData(1);
+      this.loadNotes(1);
     }
   }
 
@@ -68,7 +68,7 @@ export class TeamViewPage implements OnInit {
    * @param page
    * @param loading
    */
-  async loadNoteData(page: number, loading = true) {
+  async loadNotes(page: number, loading = true) {
 
     this.loading = loading;
 

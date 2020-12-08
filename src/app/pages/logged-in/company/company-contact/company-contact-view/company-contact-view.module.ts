@@ -10,6 +10,7 @@ import { CompanyContactViewPage } from './company-contact-view.page';
 import { LoadingModalModule } from 'src/app/components/loading-modal/loading-modal.module';
 import { PipesModule } from 'src/app/pipes/pipes.module';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { NoteModule } from 'src/app/components/note/note.module';
 
 @NgModule({
   imports: [
@@ -20,6 +21,7 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
     PipesModule,
     CKEditorModule,
     LoadingModalModule,
+    NoteModule,
     CompanyContactViewPageRoutingModule
   ],
   declarations: [CompanyContactViewPage]

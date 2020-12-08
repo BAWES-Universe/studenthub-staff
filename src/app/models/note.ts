@@ -1,6 +1,9 @@
 import { Staff } from './staff';
 import {Company} from './company';
 import {Request} from './request';
+import { CompanyContact } from './company-contact';
+import { Fulltimer } from './fulltimer';
+import { Candidate } from './candidate';
 
 export class Note {
     note_uuid: string;
@@ -17,6 +20,9 @@ export class Note {
     note_created_datetime: string;
     note_updated_datetime: string;
 
+    companyContact: CompanyContact;
+    candidate: Candidate;
+    fulltimer: Fulltimer;
     company: Company;
     request: Request;
     createdBy: Staff;

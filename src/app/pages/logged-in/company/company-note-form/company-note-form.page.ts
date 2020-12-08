@@ -1,13 +1,17 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ModalController, AlertController } from '@ionic/angular';
+import { ModalController, AlertController, PopoverController } from '@ionic/angular';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 //models
 import { Note } from 'src/app/models/note';
+import { Company } from 'src/app/models/company';
 //services
 import { CompanyNoteService } from 'src/app/providers/logged-in/company-note.service';
 import { AuthService } from "../../../../providers/auth.service";
-import { CompanyContactService } from 'src/app/providers/logged-in/company-contact.service';
+//pages
+import { AllCompanyListPage } from '../company-request-list/all-company-list/all-company-list.page';
+import { CompanyRequestListPopupPage } from '../company-request-list/company-request-list-popup/company-request-list-popup.page';
+import { CompanyContactListPage } from '../company-contact/company-contact-list/company-contact-list.page';
 
 
 @Component({
@@ -19,13 +23,11 @@ export class CompanyNoteFormPage implements OnInit {
 
   @ViewChild('ckeditor', { static: false }) ckeditor: ClassicEditor;
 
-  @Input() company;
   @Input() note;
-  @Input() companyContacts;
 
-  public saving = false;
+  public saving: boolean = false;
 
-  public model: Note = new Note();
+  public loading: boolean = false; 
 
   public operation: string;
 
@@ -42,55 +44,68 @@ export class CompanyNoteFormPage implements OnInit {
 
   constructor(
     public noteService: CompanyNoteService,
-    public companyContactService: CompanyContactService,
     private fb: FormBuilder,
     private modalCtrl: ModalController,
     private alertCtrl: AlertController,
+    public popoverCtrl: PopoverController,
     private authService: AuthService
   ) {
 
   }
 
   ngOnInit() {
-    if (this.note) {
-      this.model = this.note;
-    }
 
-    let company_id;
-
-    if (this.model && this.model.company_id) {
-      company_id = this.model.company_id;
-    } else if (this.company) {
-      company_id = this.company.company_id;
+    if(this.note.note_uuid) {
+      this.loadData();
+    } else {
+      this.initForm();
     }
+  }
+
+  initForm() {  
 
     this.form = this.fb.group({
-      note: [(this.model && this.model.note_uuid) ? this.model.note_text : '', Validators.required],
-      type: [(this.model && this.model.note_uuid) ? this.model.note_type : '', Validators.required],
-      contact: [(this.model && this.model.contact_uuid) ? this.model.contact_uuid : ''],
-      request: [(this.model && this.model.request_uuid) ? this.model.request_uuid : ''],
-      company_id: [company_id],
+      note: [this.note.note_text, Validators.required],
+      type: [this.note.note_type, Validators.required],
+    
+      contact_uuid: [this.note.contact_uuid],
+      contact_name: [this.note.companyContact ? this.note.companyContact.contact_name : ''],
+    
+      request_uuid: [this.note.request_uuid],
+      request_name: [this.note.request ? this.note.request.request_position_title : ''],
+    
+      fulltimer_uuid: [this.note.fulltimer_uuid],
+      candidate_id: [this.note.candidate_id],
+    
+      company_id: [this.note.company_id],
+      company_name: [this.note.company ? this.note.company.company_name : ''],
     });
 
-    this.operation = (this.model && this.model.note_uuid) ? 'Update' : 'Post an update';
+    this.operation = (this.note && this.note.note_uuid) ? 'Update' : 'Post an update';
+  }
 
-    // this is causing issue. https://www.pivotaltracker.com/story/show/175598774
-    // setTimeout(() => this.ckeditor.editorInstance.editing.view.focus(), 1000);
-
-    if (!this.companyContacts && this.form.value.company_id) {
-      this.loadContacts();
-    }
-
-    setTimeout(() => {
-      if (this.model && this.ckeditor) {
+  onEditorReady() {
+    const interval = setInterval(() => {
+      if (this.ckeditor.editorInstance) {
         this.ckeditor.editorInstance.setData(this.form.value.note);
+        //this.ckeditor.editorInstance.editing.view.focus();
+        clearInterval(interval);
       }
     }, 200);
   }
 
-  loadContacts() {
-    this.companyContactService.companyContacts(this.form.value.company_id).subscribe(data => {
-      this.companyContacts = data;
+  /**
+   * load note detail
+   */
+  loadData() {
+    this.loading = true;
+
+    this.noteService.view(this.note).subscribe(data => {
+      this.note = data;
+
+      this.initForm();
+
+      this.loading = false;
     });
   }
 
@@ -98,11 +113,13 @@ export class CompanyNoteFormPage implements OnInit {
    * Update Model Data based on Form Input
    */
   updateModelDataFromForm() {
-    this.model.note_text = this.form.value.note;
-    this.model.note_type = this.form.value.type;
-    this.model.company_id = this.form.value.company_id;
-    this.model.contact_uuid = this.form.value.contact;
-    this.model.request_uuid = this.form.value.request;
+    this.note.note_text = this.form.value.note;
+    this.note.note_type = this.form.value.type;
+    this.note.company_id = this.form.value.company_id;
+    this.note.contact_uuid = this.form.value.contact_uuid;
+    this.note.request_uuid = this.form.value.request_uuid;
+    this.note.fulltimer_uuid = this.form.value.fulltimer_uuid;
+    this.note.candidate_id = this.form.value.candidate_id;
   }
 
   /**
@@ -111,6 +128,106 @@ export class CompanyNoteFormPage implements OnInit {
   close() {
     const data = { refresh: false };
     this.modalCtrl.dismiss(data);
+  }
+
+  /**
+   * open popup to select contact
+   * @param e 
+   */
+  async openContact(e) {
+
+    const company = new Company;
+
+    if(this.form.controls.company_id.value) {
+      company.company_id = this.form.controls.company_id.value;
+    }
+
+    const popover = await this.modalCtrl.create({
+      component: CompanyContactListPage,
+      componentProps: {
+        company: company
+      }
+    });
+    popover.onDidDismiss().then(e => {
+     
+      if (!e.data) {
+        return null;
+      }
+    
+      if (!this.form.controls.company_id.value) {
+        this.form.controls.company_name.setValue(e.data.companyContact.company.company_name);
+        this.form.controls.company_id.setValue(e.data.companyContact.company.company_id);
+      }
+      
+      this.form.controls.contact_uuid.setValue(e.data.companyContact.contact_uuid);
+      this.form.controls.contact_name.setValue(e.data.companyContact.contact_name);
+    
+    });
+    popover.present();
+  }
+
+  /**
+   * open popup to select company
+   * @param e 
+   */
+  async openClient(e) {
+
+    const popover = await this.modalCtrl.create({
+      component: AllCompanyListPage,
+    });
+    popover.onDidDismiss().then(e => {
+
+      if (!e.data || this.form.controls.company_id.value == e.data.company_id) {
+        return null;
+      }
+
+      this.form.controls.company_name.setValue(e.data.company_name);
+      this.form.controls.company_id.setValue(e.data.company_id);
+      
+      this.form.controls.request_uuid.setValue(null);
+      this.form.controls.request_name.setValue(null);
+
+      this.form.controls.contact_uuid.setValue(null);
+      this.form.controls.contact_name.setValue(null);
+    
+    });
+    popover.present();
+  }
+
+  /**
+   * open popup to select contact
+   * @param e
+   */
+  async openRequest(e) {
+
+    const company = new Company;
+
+    if(this.form.controls.company_id.value) {
+      company.company_id = this.form.controls.company_id.value;
+    }
+
+    let popover = await this.popoverCtrl.create({
+      component: CompanyRequestListPopupPage,
+      event: e,
+      componentProps: {
+        company: company
+      }
+    });
+    popover.onDidDismiss().then(e => {
+      if (!e.data) {
+        return null;
+      }
+
+      if (!this.form.controls.company_id.value) {
+        this.form.controls.company_name.setValue(e.data.company.company_name);
+        this.form.controls.company_id.setValue(e.data.company.company_id);
+      }
+
+      this.form.controls.request_name.setValue(e.data.request_position_title);
+      this.form.controls.request_uuid.setValue(e.data.request_uuid);
+    
+    });
+    popover.present();
   }
 
   /**
@@ -124,12 +241,12 @@ export class CompanyNoteFormPage implements OnInit {
 
     let action;
 
-    if (!this.model.note_uuid) {
+    if (!this.note.note_uuid) {
       // Create
-      action = this.noteService.create(this.model);
+      action = this.noteService.create(this.note);
     } else {
       // Update
-      action = this.noteService.update(this.model);
+      action = this.noteService.update(this.note);
     }
 
     action.subscribe(async jsonResponse => {

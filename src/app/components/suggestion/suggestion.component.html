@@ -21,14 +21,16 @@
         <p>Suggestion</p>
 
         <p [innerHTML]="model.note.note_text"></p>
-          <ng-container *ngIf="model.suggestion_status == 1">
-            <ion-button (click)="acceptSuggestion($event)">
-              Accept
-            </ion-button>
-            <ion-button color="secondary" (click)="rejectSuggestion($event)">
-              Reject
-            </ion-button>
-          </ng-container>
+      
+        <ng-container *ngIf="model.suggestion_status == 1">
+          <ion-button (click)="acceptSuggestion($event)">
+            Accept
+          </ion-button>
+          <ion-button color="secondary" (click)="rejectSuggestion($event)">
+            Reject
+          </ion-button>
+        </ng-container>
+        
         <small *ngIf="model.request.staff">
           Suggested by {{model.request.staff.staff_name}}
         </small>

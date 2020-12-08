@@ -68,8 +68,8 @@ export class SelectSearchInputComponent implements ControlValueAccessor {
     });
     selectPage.onDidDismiss()
       .then((data) => {
-        if (data && data.data){
-          const selection = data.data;
+        if (data && data){
+          const selection = data;
           this.value = selection[this.valueAttr];
           this.selectedItem = selection;
 

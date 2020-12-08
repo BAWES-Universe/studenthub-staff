@@ -28,34 +28,21 @@
       </ion-item>
     </section>
   </ion-list>
+  
   <ion-list-header>
     <ion-label>List Notes</ion-label>
   </ion-list-header>
+  
   <ion-list *ngIf="!loading">
     <section>
-      <ion-item tappable *ngFor="let note of notes">
-        <div tabindex="0"></div>
-        <ion-label class="ion-text-wrap">
-          <p [innerHTML]="note.note_text"></p>
-          <ion-badge class="company_status_badge" slot="start" color="light">
-            {{note.note_type}}
-          </ion-badge>
-          <ion-badge class="company_status_badge" slot="start" color="warning" *ngIf="note.candidate_id">
-            Candidate
-          </ion-badge>
-          <ion-badge class="company_status_badge" slot="start" color="primary" *ngIf="note.company_id">
-            Company
-          </ion-badge>
-          <br/>
-          <small>{{note.note_created_datetime | date}}</small>
-        </ion-label>
-      </ion-item>
+      <note *ngFor="let note of notes" [note]="note" (onChange)="loadNotes()" (onDelete)="loadNotes()"></note>
     </section>
   </ion-list>
   
   <no-items message = "No notes yet!" *ngIf="!loading && !loadMore && notes.length == 0"></no-items>
 
   <loading-modal [loading]="loading || loadMore" type="text-list"></loading-modal>
+
   <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
     <ion-infinite-scroll-content></ion-infinite-scroll-content>
   </ion-infinite-scroll>

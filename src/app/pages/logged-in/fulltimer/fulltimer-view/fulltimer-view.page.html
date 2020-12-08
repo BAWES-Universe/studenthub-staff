@@ -154,45 +154,7 @@
       </form>
 
       <ion-list *ngIf="this.editNoteData && !this.editNoteData.note_uuid">
-        <ion-item-sliding *ngFor="let note of notes" [disabled]="platform.width() > 768">
-          <ion-item tappable (click)="editNote(note)">
-            <div tabindex="0"></div>
-
-            <ion-label>
-              <p>{{ note.note_type }}</p>
-              <div [innerHTML]="note.note_text"></div>
-              <p><small>Created On : {{ toDate(note.note_created_datetime) | date}} | </small>
-                <small>Updated On : {{ toDate(note.note_updated_datetime) | date}} </small></p>
-              <p><small>Created By : {{note.createdBy.staff_name}} | </small>
-                <small>Updated By : {{note.updatedBy.staff_name}} </small></p>
-            </ion-label>
-
-            <ion-buttons slot="end" *ngIf="platform.width() > 768">
-              <ion-button color="default">
-                <ion-icon slot="start" name="pencil-outline"></ion-icon>
-                Edit
-              </ion-button>
-
-              <ion-button color="danger" (click)="removeNote($event, note)">
-                <ion-icon slot="start" name="trash-outline"></ion-icon>
-                Delete
-              </ion-button>
-            </ion-buttons>
-
-          </ion-item>
-          <ion-item-options side="end">
-            <ion-button (click)="editNote(note)">
-              <ion-icon slot="start" name="pencil-outline"></ion-icon>
-              Edit
-            </ion-button>
-
-            <ion-button color="danger" (click)="removeNote($event, note)">
-              <ion-icon slot="start" name="trash-outline"></ion-icon>
-              Delete
-            </ion-button>
-          </ion-item-options>
-        </ion-item-sliding>
-
+        <note *ngFor="let note of notes" [note]="note" (onChange)="loadNotes()" (onDelete)="loadNotes()"></note>
       </ion-list>
     </section>
   </ng-container>

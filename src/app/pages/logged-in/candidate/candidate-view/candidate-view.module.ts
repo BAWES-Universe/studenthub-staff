@@ -11,6 +11,8 @@ import { CandidateViewPage } from './candidate-view.page';
 import {SelectSearchModule} from 'src/app/components/select-search/select-search.module';
 import {LoadingModalModule} from '../../../../components/loading-modal/loading-modal.module';
 import { NoItemsModule } from 'src/app/components/no-items/no-items.module';
+import { NoteModule } from 'src/app/components/note/note.module';
+
 @NgModule({
     imports: [
         CommonModule,
@@ -21,6 +23,7 @@ import { NoItemsModule } from 'src/app/components/no-items/no-items.module';
         SelectSearchModule,
         NoItemsModule,
         CKEditorModule,
+        NoteModule,
         LoadingModalModule
     ],
   declarations: [CandidateViewPage]

@@ -10,6 +10,7 @@ import { CompanyViewPage } from './company-view.page';
 import { LoadingModalModule } from 'src/app/components/loading-modal/loading-modal.module';
 import { PipesModule } from 'src/app/pipes/pipes.module';
 import {RequestListingModule} from "../../../../components/request-listing/request-listing.module";
+import { NoteModule } from 'src/app/components/note/note.module';
 
 @NgModule({
   imports: [
@@ -21,6 +22,7 @@ import {RequestListingModule} from "../../../../components/request-listing/reque
     PipesModule,
     CKEditorModule,
     RequestListingModule,
+    NoteModule,
     CompanyViewPageRoutingModule
   ],
   declarations: [CompanyViewPage]

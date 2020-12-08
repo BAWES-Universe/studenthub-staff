@@ -179,57 +179,6 @@ export class FulltimerViewPage implements OnInit {
   }
 
   /**
-  * removing note
-  * @param event
-  * @param note
-  */
-  async removeNote(event, note) {
-
-    event.preventDefault();
-    event.stopPropagation();
-
-    const confirm = await this.alertCtrl.create({
-      header: 'Delete Note',
-      message: 'Do you want to delete this note?',
-      buttons: [
-        {
-          text: 'Yes',
-          handler: () => {
-
-            this.deletingNote = true;
-
-            this.noteService.delete(note).subscribe(async response => {
-
-              this.deletingNote = false;
-
-              if (response.operation == 'success') {
-                this.loadNotes(true);
-              } else {
-
-                this.deletingNote = false;
-
-                // failer text
-                const prompt = await this.alertCtrl.create({
-                  header: 'Deletion Error!',
-                  message: response.message,
-                  buttons: ['Ok']
-                });
-                prompt.present();
-              }
-            }, () => {
-              this.deletingNote = false;
-            });
-          }
-        },
-        {
-          text: 'No'
-        }
-      ]
-    });
-    confirm.present();
-  }
-
-  /**
    * load notes
    * @param loading
    */
@@ -358,14 +307,14 @@ export class FulltimerViewPage implements OnInit {
     }
 
     popover.onDidDismiss().then((_) => {
-      if (_ && _.data && _.data.data) {
+      if (_ && _.data && _.data) {
 
         if (!this.company || !this.company.company_id) {
-          this.noteForm.controls.company_name.setValue(_.data.data.company.company_name);
-          this.noteForm.controls.company_id.setValue(_.data.data.company.company_id);
+          this.noteForm.controls.company_name.setValue(_.data.company.company_name);
+          this.noteForm.controls.company_id.setValue(_.data.company.company_id);
         }
-        this.noteForm.controls.request_name.setValue(_.data.data.request_position_title);
-        this.noteForm.controls.request_uuid.setValue(_.data.data.request_uuid);
+        this.noteForm.controls.request_name.setValue(_.data.request_position_title);
+        this.noteForm.controls.request_uuid.setValue(_.data.request_uuid);
       }
     });
     popover.present();

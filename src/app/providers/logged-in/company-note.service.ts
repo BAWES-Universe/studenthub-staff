@@ -21,8 +21,17 @@ export class CompanyNoteService {
    * @param searchParams
    */
   list(page, searchParams = ''): Observable<any> {
-    const url = this.companyNoteEndpoint + '?page=' + page + searchParams + '&expand=createdBy,updatedBy';
+    const url = this.companyNoteEndpoint + '?page=' + page + searchParams + '&expand=companyContact,request,company,createdBy,updatedBy';
     return this.authhttp.getRaw(url);
+  }
+
+  /**
+   * Return note detail 
+   * @param note
+   */
+  view(note): Observable<any> {
+    const url = this.companyNoteEndpoint + '/' + note.note_uuid + '?expand=companyContact,request,company,createdBy,updatedBy';
+    return this.authhttp.get(url);
   }
 
   /**
@@ -34,8 +43,10 @@ export class CompanyNoteService {
       company_id: model.company_id,
       note: model.note_text,
       type: model.note_type,
-      contact_uuid: (model.contact_uuid) ? model.contact_uuid : null,
-      request_uuid: (model.request_uuid) ? model.request_uuid : null
+      contact_uuid: model.contact_uuid,
+      request_uuid: model.request_uuid,
+      fulltimer_uuid: model.fulltimer_uuid,
+      candidate_id: model.candidate_id
     });
   }
 
@@ -48,8 +59,10 @@ export class CompanyNoteService {
       note: model.note_text,
       type: model.note_type,
       company_id: model.company_id,
-      contact_uuid: (model.contact_uuid) ? model.contact_uuid : null,
-      request_uuid: (model.request_uuid) ? model.request_uuid : null
+      contact_uuid: model.contact_uuid,
+      request_uuid: model.request_uuid,
+      fulltimer_uuid: model.fulltimer_uuid,
+      candidate_id: model.candidate_id
     });
   }
 

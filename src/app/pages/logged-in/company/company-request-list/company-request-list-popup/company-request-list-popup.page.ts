@@ -15,6 +15,7 @@ import { CompanyService } from 'src/app/providers/logged-in/company.service';
 import { AwsService } from 'src/app/providers/aws.service';
 import { CompanyRequestService } from 'src/app/providers/logged-in/company-request.service';
 
+
 @Component({
   selector: 'app-company-request-list-popup',
   templateUrl: './company-request-list-popup.page.html',
@@ -198,9 +199,9 @@ export class CompanyRequestListPopupPage implements OnInit {
 
     this.popupCtrl.getTop().then(overlay => {
       if(overlay) {
-        this.popupCtrl.dismiss({ data });
+        this.popupCtrl.dismiss(data);
       } else {
-        this.modalCtrl.dismiss({ data });
+        this.modalCtrl.dismiss(data);
       }
     });
   }
