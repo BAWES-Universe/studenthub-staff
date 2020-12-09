@@ -183,11 +183,11 @@ export class FulltimerViewPage implements OnInit {
    * @param loading
    */
   loadNotes(loading = true) {
-    if (this.fulltimerUUID) {
-      this.noteService.listByTypeAndId('fulltimer', this.fulltimerUUID, 1).subscribe(async jsonResponse => {
-        this.notes = jsonResponse.body;
-      });
-    }
+    const params = '&fulltimer_uuid=' + this.fulltimerUUID;
+
+    this.noteService.list(params).subscribe(async jsonResponse => {
+      this.notes = jsonResponse.body;
+    });
   }
 
   /**

@@ -6,7 +6,7 @@ import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { Note } from 'src/app/models/note';
 import { Company } from 'src/app/models/company';
 //services
-import { CompanyNoteService } from 'src/app/providers/logged-in/company-note.service';
+import { NoteService } from 'src/app/providers/logged-in/note.service';
 import { AuthService } from "../../../../providers/auth.service";
 //pages
 import { AllCompanyListPage } from '../company-request-list/all-company-list/all-company-list.page';
@@ -44,7 +44,7 @@ export class CompanyNoteFormPage implements OnInit {
   public form: FormGroup;
 
   constructor(
-    public noteService: CompanyNoteService,
+    public noteService: NoteService,
     private fb: FormBuilder,
     private modalCtrl: ModalController,
     private alertCtrl: AlertController,

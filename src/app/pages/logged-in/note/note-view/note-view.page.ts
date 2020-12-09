@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 //models
 import { Note } from 'src/app/models/note';
 //services
-import { CompanyNoteService } from 'src/app/providers/logged-in/company-note.service';
+import { NoteService } from 'src/app/providers/logged-in/note.service';
 
 
 @Component({
@@ -21,7 +21,7 @@ export class NoteViewPage implements OnInit {
 
   constructor(
     public route: ActivatedRoute,
-    public noteService: CompanyNoteService
+    public noteService: NoteService
   ) { }
 
   ngOnInit() {

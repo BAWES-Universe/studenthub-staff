@@ -4,7 +4,7 @@ import { ModalController, AlertController, PopoverController } from '@ionic/angu
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 //services
 import { AuthService } from '../../../../providers/auth.service';
-import { CandidateNoteService } from '../../../../providers/logged-in/candidate-note.service';
+import { NoteService } from '../../../../providers/logged-in/note.service';
 //models
 import { Note } from '../../../../models/note';
 //pages
@@ -45,12 +45,12 @@ export class CandidateNoteFormPage implements OnInit {
   public form: FormGroup;
 
   constructor(
-    public noteService: CandidateNoteService,
     private fb: FormBuilder,
     private modalCtrl: ModalController,
+    private popoverCtrl: PopoverController,
     private alertCtrl: AlertController,
+    public noteService: NoteService,
     private authService: AuthService,
-    private popoverCtrl: PopoverController
   ) {
 
   }

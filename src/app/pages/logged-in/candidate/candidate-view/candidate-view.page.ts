@@ -19,7 +19,7 @@ import { StoreService } from 'src/app/providers/logged-in/store.service';
 import { CandidateService } from 'src/app/providers/logged-in/candidate.service';
 import { AwsService } from 'src/app/providers/aws.service';
 import { EventService } from '../../../../providers/event.service';
-import { CandidateNoteService } from '../../../../providers/logged-in/candidate-note.service';
+import { NoteService } from '../../../../providers/logged-in/note.service';
 import { AuthService } from '../../../../providers/auth.service';
 // pages
 import { OptionPage } from '../option/option.page';
@@ -96,7 +96,7 @@ export class CandidateViewPage implements OnInit {
     public eventService: EventService,
     public authService: AuthService,
     public popoverCtrl: PopoverController,
-    public candidateNoteService: CandidateNoteService,
+    public noteService: NoteService,
     public modalCtrl: ModalController,
     private fb: FormBuilder,
   ) {
@@ -511,7 +511,7 @@ export class CandidateViewPage implements OnInit {
 
             this.deletingNote = true;
 
-            this.candidateNoteService.delete(note).subscribe(async response => {
+            this.noteService.delete(note).subscribe(async response => {
 
               this.deletingNote = false;
 
@@ -550,10 +550,12 @@ export class CandidateViewPage implements OnInit {
   }
 
   /**
-   * load candidate notes
+   * load candidate notes without pagination
    */
   loadNotes() {
-    this.candidateNoteService.listById(this.candidate_id).subscribe(async jsonResponse => {
+    const params = '&candidate_id=' + this.candidate_id;
+
+    this.noteService.list(params).subscribe(async jsonResponse => {
       this.notes = jsonResponse.body;
     });
   }
@@ -574,9 +576,9 @@ export class CandidateViewPage implements OnInit {
     let response = null;
     if (this.editNoteData && this.editNoteData.note_uuid) {
       model.note_uuid = this.editNoteData.note_uuid;
-      response = this.candidateNoteService.update(model);
+      response = this.noteService.update(model);
     } else {
-      response = this.candidateNoteService.create(model);
+      response = this.noteService.create(model);
     }
 
     response.subscribe(async jsonResponse => {

@@ -5,6 +5,7 @@ import { AuthHttpService } from './authhttp.service';
 // model
 import { Candidate } from 'src/app/models/candidate';
 import { Country } from 'src/app/models/country';
+import { Note } from 'src/app/models/note';
 
 
 @Injectable({
@@ -27,6 +28,19 @@ export class CandidateService {
   listAssignedExpiredIds(candidate_name: string, page: number): Observable<any> {
     let url = this._candidateEndpoint + '/expired-civil-id?candidate_name=' + candidate_name + '&page=' + page;
     return this._authhttp.getRaw(url);
+  }
+
+  /**
+   * toggle committed
+   * @param model
+   */
+  toggleCommitted(model: Note): Observable<any>{
+    const url = `${this._candidateEndpoint}/toggle-committed`;
+    return this._authhttp.patch(url, {
+      candidate_id: model.candidate_id,
+      note: model.note_text,
+      type: model.note_type
+    });
   }
 
   /**

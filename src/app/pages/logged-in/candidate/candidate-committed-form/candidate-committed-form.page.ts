@@ -4,7 +4,7 @@ import { ModalController, AlertController } from '@ionic/angular';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 //services
 import { AuthService } from '../../../../providers/auth.service';
-import { CandidateNoteService } from '../../../../providers/logged-in/candidate-note.service';
+import { CandidateService } from 'src/app/providers/logged-in/candidate.service';
 //models
 import { Note } from 'src/app/models/note';
 
@@ -37,10 +37,10 @@ export class CandidateCommittedFormPage implements OnInit {
   public borderLimit = false;
 
   constructor(
-    public noteService: CandidateNoteService,
     private fb: FormBuilder,
     private modalCtrl: ModalController,
     private alertCtrl: AlertController,
+    public candidateService: CandidateService,
     private authService: AuthService
   ) {
   }
@@ -85,7 +85,7 @@ export class CandidateCommittedFormPage implements OnInit {
 
     this.updateModelDataFromForm();
 
-    this.noteService.toggleCommitted(this.model).subscribe(async jsonResponse => {
+    this.candidateService.toggleCommitted(this.model).subscribe(async jsonResponse => {
 
       this.saving = false;
 

@@ -197,7 +197,9 @@ export class CompanyViewPage implements OnInit {
   loadNotes() {
     this.loadingNotes = true;
 
-    this.noteService.listByTypeAndId('company', this.company_id, 1).subscribe(response => {
+    const params = '&company_id=' + this.company_id;
+
+    this.noteService.list(params, 1).subscribe(response => {
 
       this.loadingNotes = false;
 
@@ -220,7 +222,9 @@ export class CompanyViewPage implements OnInit {
 
     this.currentNotePage++;
 
-    this.noteService.listByTypeAndId('company', this.company_id, this.currentNotePage).subscribe(response => {
+    const params = '&company_id=' + this.company_id;
+
+    this.noteService.list(params, this.currentNotePage).subscribe(response => {
 
       this.notePageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
       this.currentNotePage = parseInt(response.headers.get('X-Pagination-Current-Page'));

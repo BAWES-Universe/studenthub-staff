@@ -10,7 +10,7 @@ import { Note } from 'src/app/models/note';
 import { AuthService } from 'src/app/providers/auth.service';
 //services
 import { CompanyContactService } from 'src/app/providers/logged-in/company-contact.service';
-import { CompanyNoteService } from 'src/app/providers/logged-in/company-note.service';
+import { NoteService } from 'src/app/providers/logged-in/note.service';
 import { CompanyContactFormPage } from '../../company-contact-form/company-contact-form.page';
 
 
@@ -62,7 +62,7 @@ export class CompanyContactViewPage implements OnInit {
     public alertCtrl: AlertController,
     public modalCtrl: ModalController,
     public authService: AuthService,
-    public noteService: CompanyNoteService,
+    public noteService: NoteService,
     public companyContactService: CompanyContactService
   ) { }
 
@@ -262,7 +262,7 @@ export class CompanyContactViewPage implements OnInit {
   loadNotes() {
     const searchParams = this.urlParams();
 
-    this.noteService.list(1, searchParams).subscribe(async response => {
+    this.noteService.list(searchParams, 1).subscribe(async response => {
 
       this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
       this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
@@ -281,7 +281,7 @@ export class CompanyContactViewPage implements OnInit {
 
     this.currentPage++;
 
-    this.noteService.list(this.currentPage, searchParams).subscribe(response => {
+    this.noteService.list(searchParams, this.currentPage).subscribe(response => {
 
       this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
       this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
