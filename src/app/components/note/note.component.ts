@@ -44,10 +44,18 @@ export class NoteComponent implements OnInit {
     }
   }
 
+  doNothing(event) {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+
   /**
    * open popup to update modal
    */
-  async editNote() {
+  async edit(event) {
+
+    event.preventDefault();
+    event.stopPropagation();
 
     window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
@@ -80,7 +88,7 @@ export class NoteComponent implements OnInit {
   * removing note
   * @param event
   */
-  async removeNote(event) {
+  async delete(event) {
 
     event.preventDefault();
     event.stopPropagation();

@@ -563,7 +563,7 @@
     </form>
 
     <ion-list *ngIf="this.editNoteData && !this.editNoteData.note_uuid">
-      <note *ngFor="let note of notes" from="company-view" [note]="note" (onChange)="loadNotes()" (onDelete)="loadNotes()"></note>
+      <note *ngFor="let note of notes" [routerLink]="'/note-view/' + note.note_uuid" from="company-view" [note]="note" (onChange)="loadNotes()" (onDelete)="loadNotes()"></note>
     </ion-list>
 
     <loading-modal [loading]="loadingNotes" type="university-view"></loading-modal>

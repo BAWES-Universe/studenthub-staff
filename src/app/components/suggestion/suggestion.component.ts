@@ -30,6 +30,11 @@ export class SuggestionComponent implements OnInit {
   ngOnInit() {
   }
 
+  doNothing(event) {
+    //event.preventDefault();
+    event.stopPropagation();
+  }
+
   openCandidatePage() {
     if(this.model.candidate) {
       this.router.navigate(['/candidate-view', this.model.candidate_id]);

@@ -507,7 +507,7 @@
         </form>
 
         <ion-list *ngIf="this.editNoteData && !this.editNoteData.note_uuid">
-          <note *ngFor="let note of notes" from="candidate-view" [note]="note" (onChange)="loadNotes()" (onDelete)="loadNotes()"></note>
+          <note *ngFor="let note of notes" [routerLink]="'/note-view/' + note.note_uuid "from="candidate-view" [note]="note" (onChange)="loadNotes()" (onDelete)="loadNotes()"></note>
         </ion-list>
       </section>
 

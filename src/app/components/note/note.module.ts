@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
+import { PipesModule } from 'src/app/pipes/pipes.module';
  
 import { NoteComponent } from './note.component';
 
@@ -9,7 +10,8 @@ import { NoteComponent } from './note.component';
     declarations: [NoteComponent],
     imports: [ 
         CommonModule,
-        IonicModule
+        IonicModule,
+        PipesModule
     ],
     exports: [NoteComponent]
 })

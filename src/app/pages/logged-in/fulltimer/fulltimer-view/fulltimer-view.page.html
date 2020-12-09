@@ -154,7 +154,7 @@
       </form>
 
       <ion-list *ngIf="this.editNoteData && !this.editNoteData.note_uuid">
-        <note *ngFor="let note of notes" [note]="note" (onChange)="loadNotes()" (onDelete)="loadNotes()"></note>
+        <note *ngFor="let note of notes" [routerLink]="'/note-view/' + note.note_uuid" [note]="note" (onChange)="loadNotes()" (onDelete)="loadNotes()"></note>
       </ion-list>
     </section>
   </ng-container>

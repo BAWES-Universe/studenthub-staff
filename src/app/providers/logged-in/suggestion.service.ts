@@ -22,6 +22,15 @@ export class SuggestionService {
   }
 
   /**
+   * get suggestion details
+   * @returns {Observable<any>}
+   */
+  view(suggestion_uuid): Observable<any> {
+    let url = this._endpoint + '/' + suggestion_uuid + '?expand=note,candidate,fulltimer,updatedBy';
+    return this._authhttp.get(url);
+  }
+
+  /**
    * create new suggestion for request with note
    * @param params
    */

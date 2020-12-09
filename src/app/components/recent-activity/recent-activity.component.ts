@@ -8,10 +8,17 @@ import {Component, Input, OnInit} from '@angular/core';
 export class RecentActivityComponent implements OnInit {
 
   @Input() activity;
+  
   @Input() request;
+
   constructor() { }
 
   ngOnInit() {}
+
+  doNothing(event) {
+    event.preventDefault();
+    event.stopPropagation();
+  }
 
   /**
    * format date for safari
@@ -22,5 +29,4 @@ export class RecentActivityComponent implements OnInit {
 
     return new Date(value.replace(/-/g, '/') + ' UTC');
   }
-
 }

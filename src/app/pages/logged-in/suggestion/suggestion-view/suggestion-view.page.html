@@ -1,0 +1,72 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+
+    <ion-title>Suggestion</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-card *ngIf="suggestion">
+    <ion-badge *ngIf="suggestion.suggestion_status == 1">
+      Suggested a candidate
+    </ion-badge>
+    <ion-badge *ngIf="suggestion.suggestion_status == 3">
+      Accepted a candidate
+    </ion-badge>
+    <ion-badge *ngIf="suggestion.suggestion_status == 2">
+      Rejected a candidate
+    </ion-badge>
+
+    <ion-item lines="none" [routerLink]="'/candidate-view/' + suggestion.candidate_id" *ngIf="suggestion.candidate">
+      <div tabindex="0"></div>
+
+      <ion-avatar slot="start">
+        <img *ngIf="suggestion.candidate.candidate_personal_photo"
+          src="{{ aws.cloudinaryUrl + 'candidate-photo/' + suggestion.candidate.candidate_personal_photo }}"
+          onerror="this.src='/assets/icon/icon.png';">
+        <img *ngIf="!suggestion.candidate.candidate_personal_photo" src="/assets/icon/icon.png">
+      </ion-avatar>
+
+      <ion-label>
+        <h5>{{ suggestion.candidate.candidate_name ?suggestion.candidate.candidate_name : suggestion.candidate.candidate_name_ar }}
+        </h5>
+      </ion-label>
+    </ion-item>
+
+    <ion-item lines="none" [routerLink]="'/fulltimer/' + suggestion.fulltimer_uuid" *ngIf="suggestion.fulltimer">
+      <div tabindex="0"></div>
+
+      <ion-avatar slot="start">
+        <img src="/assets/icon/icon.png">
+      </ion-avatar>
+
+      <ion-label>
+        <h5>{{ suggestion.fulltimer.fulltimer_name }} </h5>
+      </ion-label>
+    </ion-item>
+
+    <p class="activity">
+      <b *ngIf="suggestion.updatedBy" [routerLink]="'/team-view/' + suggestion.updatedBy.staff_id">{{ suggestion.updatedBy.staff_name }}:&nbsp;</b>
+      I
+      <span *ngIf="suggestion.suggestion_status == 1">Suggested</span>&nbsp;
+      <span *ngIf="suggestion.suggestion_status == 3">Accepted</span>&nbsp;
+      <span *ngIf="suggestion.suggestion_status == 2">Rejected</span>&nbsp;
+      <span
+        *ngIf="suggestion.candidate" [routerLink]="'/candidate-view/' + suggestion.candidate_id">{{ suggestion.candidate.candidate_name ?suggestion.candidate.candidate_name : suggestion.candidate.candidate_name_ar }}</span>
+      <span *ngIf="suggestion.fulltimer" [routerLink]="'/fulltimer/' + suggestion.fulltimer_uuid">{{ suggestion.fulltimer.fulltimer_name }}</span>
+      because <span [innerHTML]="suggestion.note.note_text"></span>
+    </p>
+
+    <p class="txt-time">
+      {{ suggestion.suggestion_datetime | timeAgo }} on
+      {{ toDate(suggestion.suggestion_datetime) | date: 'MMM d, y' }}
+    </p>
+  </ion-card>
+
+  <loading-modal [loading]="loading" type="text-list"></loading-modal>
+
+</ion-content>

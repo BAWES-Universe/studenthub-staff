@@ -32,7 +32,7 @@
       <span *ngIf="request.request_status == 'cancelled'">Cancelled</span>
     </h3>
 
-    <h4 class="company-name">{{ request.company.company_name }}</h4>
+    <h4 class="company-name" [routerLink]="'/company-view/' + request.company_id">{{ request.company.company_name }}</h4>
     
     <p class="txt-looking">is looking for </p>
 
@@ -46,7 +46,7 @@
     <p class="txt-additional-info">{{ request.request_additional_info }}</p>
 
     <div class="requested-by">
-      Requested by <span class="requested-by-staff">{{ request.contact.contact_name }}</span>
+      Requested by <span class="requested-by-staff" [routerLink]="'/company-contact-view/' + request.contact_uuid">{{ request.contact.contact_name }}</span>
       <div class="requested-by-time">on {{ toDate(request.request_created_datetime) | date: 'MMM d, y' }} </div>
     </div>
 
@@ -55,7 +55,7 @@
     <div class="activity-container">
 
       <ng-container *ngFor="let requestActivity of requestActivities;let i = index;">
-        <app-recent-activity [activity]="requestActivity" *ngIf="activityExpanded || i < 2"></app-recent-activity>
+        <app-recent-activity [routerLink]="'/note-view/' + requestActivity.note_uuid" [activity]="requestActivity" *ngIf="activityExpanded || i < 2"></app-recent-activity>
       </ng-container>
       
       <ion-button class="btn-view-notes" *ngIf="requestActivities.length > 2" (click)="toggleActivityExpanded()">
@@ -67,19 +67,19 @@
     <div *ngIf="suggestedSuggestions.length > 0">
       <h4 class="txt-suggested-candidates">Suggested Candidates ({{ suggestedSuggestions.length }})</h4>
 
-      <suggestion (onUpdate)="onSuggestionUpdate()" *ngFor="let suggestion of suggestedSuggestions" [model]="suggestion"></suggestion>
+      <suggestion [routerLink]="'/suggestion-view/' + suggestion.suggestion_uuid" (onUpdate)="onSuggestionUpdate()" *ngFor="let suggestion of suggestedSuggestions" [model]="suggestion"></suggestion>
     </div>
 
     <div *ngIf="acceptedSuggestions.length > 0">
       <h4 class="txt-suggested-candidates">Accepted ({{ acceptedSuggestions.length }})</h4>
 
-      <suggestion (onUpdate)="onSuggestionUpdate()" *ngFor="let suggestion of acceptedSuggestions" [model]="suggestion"></suggestion>
+      <suggestion [routerLink]="'/suggestion-view/' + suggestion.suggestion_uuid" (onUpdate)="onSuggestionUpdate()" *ngFor="let suggestion of acceptedSuggestions" [model]="suggestion"></suggestion>
     </div>
 
     <div *ngIf="rejectedSuggestions.length > 0">
       <h4 class="txt-suggested-candidates">Rejected ({{ rejectedSuggestions.length }})</h4>
 
-      <suggestion (onUpdate)="onSuggestionUpdate()" *ngFor="let suggestion of rejectedSuggestions" [model]="suggestion"></suggestion>
+      <suggestion [routerLink]="'/suggestion-view/' + suggestion.suggestion_uuid" (onUpdate)="onSuggestionUpdate()" *ngFor="let suggestion of rejectedSuggestions" [model]="suggestion"></suggestion>
     </div>
 
   </div>

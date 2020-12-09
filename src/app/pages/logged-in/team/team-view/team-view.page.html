@@ -35,7 +35,7 @@
   
   <ion-list *ngIf="!loading">
     <section>
-      <note *ngFor="let note of notes" [note]="note" (onChange)="loadNotes()" (onDelete)="loadNotes()"></note>
+      <note *ngFor="let note of notes" [routerLink]="'/note-view/' + note.note_uuid" [note]="note" (onChange)="loadNotes()" (onDelete)="loadNotes()"></note>
     </section>
   </ion-list>
   

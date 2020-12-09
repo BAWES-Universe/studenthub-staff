@@ -37,7 +37,13 @@
 
   <p class="activity">
     <b *ngIf="model.updatedBy">{{ model.updatedBy.staff_name }}:&nbsp;</b>
-    <span [innerHTML]="model.note.note_text"></span>
+    I
+    <span *ngIf="model.suggestion_status == 1">Suggested</span>
+    <span *ngIf="model.suggestion_status == 3">Accepted</span>
+    <span *ngIf="model.suggestion_status == 2">Rejected</span>
+    <span *ngIf="model.candidate">{{ model.candidate.candidate_name ?model.candidate.candidate_name : model.candidate.candidate_name_ar }}</span>
+    <span *ngIf="model.fulltimer">{{ model.fulltimer.fulltimer_name }}</span>
+    because <span [innerHTML]="model.note.note_text"></span>
   </p>
 
   <p class="txt-time">
@@ -55,4 +61,4 @@
   </ion-button>
 </ng-container>
 
-<div class="clearfix"></div>
+<div class="clearfix"></div> 

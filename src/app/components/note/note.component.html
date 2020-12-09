@@ -1,66 +1,26 @@
 
 
-<ion-item-sliding  [disabled]="platform.width() > 768">
-  <ion-item tappable (click)="editNote()">
-    <div tabindex="0"></div>
-    <ion-label>
+<ion-card>
+  <ion-badge>
+    {{ note.note_type }}
+  </ion-badge>
 
-      <div [innerHTML]="note.note_text"></div>
-      <p>
-        <!--
-        <small>Created By {{note.createdBy.staff_name}} @ {{ toDate(note.note_created_datetime) | date }} </small>
-        -->
-        <small>
-          <span *ngIf="note.updatedBy">By {{note.updatedBy.staff_name}}</span>
-          @ {{ toDate(note.note_updated_datetime) | date }}
-        </small>
-      </p>
+  <p class="note">
+    <b *ngIf="note.updatedBy">{{ note.updatedBy.staff_name }}:&nbsp;</b>
+    <span [innerHTML]="note.note_text"></span>
+  </p>
 
-      <ion-badge class="company_status_badge" slot="start" color="light">
-        {{note.note_type}}
-      </ion-badge>
+  <p class="txt-time">
+    {{ note.note_updated_datetime | timeAgo }} on 
+    {{ toDate(note.note_created_datetime) | date: 'MMM d, y' }}
+  </p>
+</ion-card>
 
-      <ion-badge class="company_status_badge" slot="start" color="warning" *ngIf="note.fulltimer_uuid">
-        Fulltimer
-      </ion-badge>
+<ion-button class="btn-accept" (click)="edit($event)">
+  Edit
+</ion-button>
+<ion-button class="btn-reject" (click)="delete($event)">
+  Delete
+</ion-button>
 
-      <ion-badge class="company_status_badge" slot="start" color="warning" *ngIf="note.candidate_id">
-        Candidate
-      </ion-badge>
-
-      <ion-badge class="company_status_badge" slot="start" color="primary" *ngIf="note.company_id">
-        Company
-      </ion-badge>
-
-      <ion-badge class="company_status_badge" slot="start" color="success" *ngIf="note.request_uuid">
-        Request
-      </ion-badge>
-
-    </ion-label>
-
-    <ion-buttons slot="end" *ngIf="platform.width() > 768">
-
-      <ion-button color="default">
-        <ion-icon slot="start" name="pencil-outline"></ion-icon>
-        Edit
-      </ion-button>
-
-      <ion-button color="danger" (click)="removeNote($event)">
-        <ion-icon slot="start" name="trash-outline"></ion-icon>
-        Delete
-      </ion-button>
-    </ion-buttons>
-
-  </ion-item>
-  <ion-item-options side="end">
-    <ion-button (click)="editNote()">
-      <ion-icon slot="start" name="pencil-outline"></ion-icon>
-      Edit
-    </ion-button>
-
-    <ion-button color="danger" (click)="removeNote($event)">
-      <ion-icon slot="start" name="trash-outline"></ion-icon>
-      Delete
-    </ion-button>
-  </ion-item-options>
-</ion-item-sliding>
+<div class="clearfix"></div>

@@ -350,14 +350,19 @@ const routes: Routes = [
     path: 'company-contact-view',
     loadChildren: () => import('./pages/logged-in/company/company-contact/company-contact-view/company-contact-view.module').then( m => m.CompanyContactViewPageModule)
   },
+  
+  {
+    path: 'note-view',
+    loadChildren: () => import('./pages/logged-in/note/note-view/note-view.module').then( m => m.NoteViewPageModule)
+  },
+  {
+    path: 'suggestion-view',
+    loadChildren: () => import('./pages/logged-in/suggestion/suggestion-view/suggestion-view.module').then( m => m.SuggestionViewPageModule)
+  },
   {
     path: '**',
     redirectTo: 'not-found'
-  },  {
-    path: 'candidate-merge-select',
-    loadChildren: () => import('./pages/logged-in/candidate/candidate-merge-select/candidate-merge-select.module').then( m => m.CandidateMergeSelectPageModule)
-  },
-
+  }
 ];
 
 @NgModule({

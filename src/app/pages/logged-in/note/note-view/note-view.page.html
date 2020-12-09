@@ -1,0 +1,62 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+
+    <ion-title>Note</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div *ngIf="note">
+    <ion-card>
+      <ion-badge>
+        {{ note.note_type }}
+      </ion-badge>
+    
+      <p class="note">
+        <b *ngIf="note.updatedBy" [routerLink]="'/team-view/' + note.updatedBy.staff_id">{{ note.updatedBy.staff_name }}:&nbsp;</b>
+        <span [innerHTML]="note.note_text"></span>
+      </p>
+    
+      <p class="txt-time">
+        {{ note.note_updated_datetime | timeAgo }} on 
+        {{ toDate(note.note_created_datetime) | date: 'MMM d, y' }}
+      </p>
+    </ion-card>
+
+    <ion-item *ngIf="note.companyContact" [routerLink]="'/company-contact-view/' + note.contact_uuid">
+      <div tabindex="0"></div>
+      <ion-label>
+        <h5>Company Contact</h5>
+        <p>{{ note.companyContact.contact_name }}</p>
+      </ion-label>
+    </ion-item>
+
+    <ion-item *ngIf="note.company" [routerLink]="'/company-view/' + note.company_id">
+      <div tabindex="0"></div>
+      <ion-label>
+        <h5>Company</h5>
+        <p>{{ note.company.company_name }}</p>
+      </ion-label>
+    </ion-item>
+    
+    <ion-item *ngIf="note.request" [routerLink]="'/request-view/' + note.request_uuid">
+      <div tabindex="0"></div>
+      <ion-label>
+        <h5>Request</h5>
+        <p>
+          {{ note.request.request_number_of_employees }}
+          <span *ngIf="note.request.request_position_type == 1">Full-time</span>
+          <span *ngIf="note.request.request_position_type == 2">Part-time</span>
+          {{ note.request.request_position_title }}
+        </p>
+      </ion-label>
+    </ion-item>
+
+  </div>
+
+  <loading-modal [loading]="loading" type="text-list"></loading-modal>
+
+</ion-content>
