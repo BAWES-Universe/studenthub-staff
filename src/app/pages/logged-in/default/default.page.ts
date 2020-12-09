@@ -21,6 +21,7 @@ export class DefaultPage implements OnInit {
     assignedExpiredCivilID: any;
     activeRequests: any;
     requireFollowup: any;
+    last40daysNoRequest: any;
     missingBankInfo: any;
     incompleteAssignedToWork: any;
     profileApprovalRequire: any;

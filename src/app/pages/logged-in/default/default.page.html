@@ -46,7 +46,8 @@
       <ion-card-content>
         <div class="count success">{{ statistics.activeRequests }}</div>
         <div class="message">
-          <b>Active requests</b> from companies our team is working on.
+
+          <b>Active requests that need an update.</b> These active requests haven't received an update in a while.
         </div>
       </ion-card-content>
     </ion-card>
@@ -56,6 +57,15 @@
         <div class="count success">{{ statistics.requireFollowup }}</div>
         <div class="message">
           <b>Clients requiring followup.</b> We need to collect feedback and try to up-sell additional services.
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card class="stats" tappable *ngIf="statistics.last40daysNoRequest > 0" routerLink="/company-list">
+      <ion-card-content>
+        <div class="count success">{{ statistics.last40daysNoRequest }}</div>
+        <div class="message">
+          <b>Active clients which haven't made a request in over 40 days.</b> Why aren't they making requests?
         </div>
       </ion-card-content>
     </ion-card>
