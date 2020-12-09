@@ -298,7 +298,7 @@ export class CompanyRequestViewPage implements OnInit {
       return new Date(date.replace(/-/g, '/'));
     }
   }
-  
+
   /**
    * show alert to post update on request
    */
@@ -306,14 +306,16 @@ export class CompanyRequestViewPage implements OnInit {
 
     window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
-    const note = new Note;
+    const note = new Note();
     note.request_uuid = this.request_uuid;
     note.company_id = this.request.company_id;
+    note.contact_uuid = this.request.contact_uuid;
 
     const modal = await this.modalCtrl.create({
       component: CompanyNoteFormPage,
       componentProps: {
-        note,
+        note: note,
+        from: 'post-update'
       }
     });
     modal.present();
@@ -347,6 +349,7 @@ export class CompanyRequestViewPage implements OnInit {
 
       if (response.operation == 'success') {
         request.request_status = 'started';
+        request.staff_id = this.authService.staff_id;
         this.loadRequestActivities();
       } else {
         this.toastCtrl.create({

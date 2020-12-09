@@ -15,6 +15,7 @@ import { NoteService } from 'src/app/providers/logged-in/note.service';
 export class NoteComponent implements OnInit {
 
   @Input() note: Note;
+  @Input() from;
 
   @Output() onEdit: EventEmitter<any> = new EventEmitter();
   @Output() onChange: EventEmitter<any> = new EventEmitter();
@@ -29,7 +30,9 @@ export class NoteComponent implements OnInit {
     public noteService: NoteService
   ) { }
 
-  ngOnInit() { }
+  ngOnInit() {
+
+  }
 
   /**
    * Make date readable by Safari
@@ -42,7 +45,7 @@ export class NoteComponent implements OnInit {
   }
 
   /**
-   * open popup to update modal 
+   * open popup to update modal
    */
   async editNote() {
 
@@ -52,6 +55,7 @@ export class NoteComponent implements OnInit {
       component: CompanyNoteFormPage,
       componentProps: {
         note: this.note,
+        from: this.from,
       }
     });
     modal.present();
@@ -96,7 +100,7 @@ export class NoteComponent implements OnInit {
               this.deletingNote = false;
 
               if (response.operation == 'success') {
-                
+
                 this.onDelete.emit();
 
               } else {

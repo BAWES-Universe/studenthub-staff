@@ -31,24 +31,25 @@
           <ion-select-option>Task</ion-select-option>
         </ion-select>
       </ion-item>
+      <ng-container *ngIf="this.from !='post-update'">
+        <ion-item (click)="openClient($event)" *ngIf="this.from !='company-view'">
+          <div tabindex="0"></div>
+          <ion-label position="floating">Company Name</ion-label>
+          <ion-input type="text" formControlName="company_name" readonly></ion-input>
+        </ion-item>
 
-      <ion-item (click)="openClient($event)">
-        <div tabindex="0"></div>
-        <ion-label position="floating">Company Name</ion-label>
-        <ion-input type="text" formControlName="company_name" readonly></ion-input>
-      </ion-item>
-    
-      <ion-item (click)="openContact($event)">
-        <div tabindex="0"></div>
-        <ion-label position="floating">Contact</ion-label>
-        <ion-input type="text" formControlName="contact_name" readonly></ion-input>
-      </ion-item>
-    
-      <ion-item (click)="openRequest($event)">
-        <div tabindex="0"></div>
-        <ion-label position="floating">Request</ion-label>
-        <ion-input type="text" formControlName="request_name" readonly></ion-input>
-      </ion-item> 
+        <ion-item (click)="openContact($event)">
+          <div tabindex="0"></div>
+          <ion-label position="floating">Contact</ion-label>
+          <ion-input type="text" formControlName="contact_name" readonly></ion-input>
+        </ion-item>
+
+        <ion-item (click)="openRequest($event)">
+          <div tabindex="0"></div>
+          <ion-label position="floating">Request</ion-label>
+          <ion-input type="text" formControlName="request_name" readonly></ion-input>
+        </ion-item>
+      </ng-container>
 
       <ion-item-divider class="ckeditor-title">
         <ion-label>
@@ -58,7 +59,7 @@
 
       <ckeditor [config]="editorConfig" #ckeditor [editor]="Editor" (ready)="onEditorReady()" (change)="onChange($event)">
       </ckeditor>
-      
+
     </ion-list>
   </form>
 </ion-content>

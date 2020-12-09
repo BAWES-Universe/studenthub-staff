@@ -242,7 +242,7 @@ export class CandidateViewPage implements OnInit {
     this.loading = loading;
 
     this.candidateService.detail(this.candidate_id).subscribe(response => {
-    
+
       this.loading = false;
       this.candidate = response;
     });
@@ -578,7 +578,7 @@ export class CandidateViewPage implements OnInit {
     } else {
       response = this.candidateNoteService.create(model);
     }
-    
+
     response.subscribe(async jsonResponse => {
 
       this.addingNote = false;
@@ -670,9 +670,8 @@ export class CandidateViewPage implements OnInit {
     let popover;
 
     if (this.company) {
-      popover = await this.popoverCtrl.create({
+      popover = await this.modalCtrl.create({
         component: CompanyRequestListPopupPage,
-        event: e,
         componentProps: {
           company: this.company
         }

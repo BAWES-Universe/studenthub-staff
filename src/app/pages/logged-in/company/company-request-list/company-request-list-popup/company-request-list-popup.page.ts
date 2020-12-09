@@ -48,9 +48,6 @@ export class CompanyRequestListPopupPage implements OnInit {
       endDate: null
     };
 
-  public min; // min date
-  public max; // max date
-
   public borderLimit = false;
 
   constructor(
@@ -67,18 +64,16 @@ export class CompanyRequestListPopupPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.min = '1930/01/01';
-
-    const d = new Date();
-    this.max = (this.platform.is('mobile')) ? d.getFullYear() + '-12-12' : d;
   }
 
   ionViewWillEnter() {
     if (this.company && this.company.company_id) {
+      console.log('test');
       this.filters.companyID = this.company.company_id;
       this.requests = this.company.requests;
     }
-    if (this.requests.length == 0) {
+
+    if (!this.requests || (this.requests && this.requests.length == 0)) {
       this.list(this.currentPage);
     }
   }

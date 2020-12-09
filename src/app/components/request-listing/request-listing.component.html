@@ -1,4 +1,4 @@
-<ion-card [class.pending]="request.request_status == 'pending'">
+<ion-card [class.pending]="request.request_status == 'pending'" tappable>
   <ion-card-content [class.pending-request]="!request.staff">
     <h1 *ngIf="request.company">{{ request.company.company_common_name_en? request.company.company_common_name_en: request.company.company_name }}</h1>
     <h3>

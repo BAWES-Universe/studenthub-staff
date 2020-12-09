@@ -4,7 +4,7 @@
   <ion-item tappable (click)="editNote()">
     <div tabindex="0"></div>
     <ion-label>
-      
+
       <div [innerHTML]="note.note_text"></div>
       <p>
         <!--
@@ -23,7 +23,7 @@
       <ion-badge class="company_status_badge" slot="start" color="warning" *ngIf="note.fulltimer_uuid">
         Fulltimer
       </ion-badge>
-      
+
       <ion-badge class="company_status_badge" slot="start" color="warning" *ngIf="note.candidate_id">
         Candidate
       </ion-badge>
@@ -37,7 +37,7 @@
       </ion-badge>
 
     </ion-label>
-    
+
     <ion-buttons slot="end" *ngIf="platform.width() > 768">
 
       <ion-button color="default">

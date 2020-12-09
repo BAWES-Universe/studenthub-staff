@@ -1,7 +1,7 @@
 <ion-header [class.add-border]="borderLimit" class="ion-no-border">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
+      <ion-back-button (click)="dismiss()"></ion-back-button>
     </ion-buttons>
     <ion-title>Company Request List</ion-title>
   </ion-toolbar>
@@ -12,8 +12,8 @@
   <ion-list>
     <request-listing *ngFor="let request of requests" (click)="rowSelected(request)"
                      [request]="request" [showStatus]="false"></request-listing>
-
   </ion-list>
+  <loading-modal type="text-list" [loading]="loading"></loading-modal>
 
   <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
     <ion-infinite-scroll-content></ion-infinite-scroll-content>

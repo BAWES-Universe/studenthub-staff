@@ -4,7 +4,7 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="company-list"></ion-back-button>
     </ion-buttons>
-    
+
     <ion-title *ngIf="company">
       {{ company.company_name }}
     </ion-title>
@@ -563,7 +563,7 @@
     </form>
 
     <ion-list *ngIf="this.editNoteData && !this.editNoteData.note_uuid">
-      <note *ngFor="let note of notes" [note]="note" (onChange)="loadNotes()" (onDelete)="loadNotes()"></note>
+      <note *ngFor="let note of notes" from="company-view" [note]="note" (onChange)="loadNotes()" (onDelete)="loadNotes()"></note>
     </ion-list>
 
     <loading-modal [loading]="loadingNotes" type="university-view"></loading-modal>
@@ -587,7 +587,7 @@
           <p>
             {{ companyContact.contact_position }}
           </p>
-       
+
           <p>
             <a href="mailto:{{ companyContactEmail.email_address }}" (click)="doNothing($event)"
               *ngFor="let companyContactEmail of companyContact.companyContactEmails">

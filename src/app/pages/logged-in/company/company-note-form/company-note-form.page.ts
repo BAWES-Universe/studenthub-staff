@@ -24,10 +24,11 @@ export class CompanyNoteFormPage implements OnInit {
   @ViewChild('ckeditor', { static: false }) ckeditor: ClassicEditor;
 
   @Input() note;
+  @Input() from;
 
   public saving: boolean = false;
 
-  public loading: boolean = false; 
+  public loading: boolean = false;
 
   public operation: string;
 
@@ -50,33 +51,32 @@ export class CompanyNoteFormPage implements OnInit {
     public popoverCtrl: PopoverController,
     private authService: AuthService
   ) {
-
   }
 
   ngOnInit() {
-
-    if(this.note.note_uuid) {
+    console.log(this.from, this.note);
+    if (this.note.note_uuid) {
       this.loadData();
     } else {
       this.initForm();
     }
   }
 
-  initForm() {  
+  initForm() {
 
     this.form = this.fb.group({
       note: [this.note.note_text, Validators.required],
       type: [this.note.note_type, Validators.required],
-    
+
       contact_uuid: [this.note.contact_uuid],
       contact_name: [this.note.companyContact ? this.note.companyContact.contact_name : ''],
-    
+
       request_uuid: [this.note.request_uuid],
       request_name: [this.note.request ? this.note.request.request_position_title : ''],
-    
+
       fulltimer_uuid: [this.note.fulltimer_uuid],
       candidate_id: [this.note.candidate_id],
-    
+
       company_id: [this.note.company_id],
       company_name: [this.note.company ? this.note.company.company_name : ''],
     });
@@ -85,11 +85,11 @@ export class CompanyNoteFormPage implements OnInit {
   }
 
   onEditorReady() {
-    const interval = setInterval(() => {
-      if (this.ckeditor.editorInstance) {
+    const interval = setTimeout(() => {
+      if (this.ckeditor.editorInstance && this.form.value.note) {
         this.ckeditor.editorInstance.setData(this.form.value.note);
-        //this.ckeditor.editorInstance.editing.view.focus();
-        clearInterval(interval);
+        // this.ckeditor.editorInstance.editing.view.focus();
+        // clearInterval(interval);
       }
     }, 200);
   }
@@ -132,7 +132,7 @@ export class CompanyNoteFormPage implements OnInit {
 
   /**
    * open popup to select contact
-   * @param e 
+   * @param e
    */
   async openContact(e) {
 
@@ -149,26 +149,26 @@ export class CompanyNoteFormPage implements OnInit {
       }
     });
     popover.onDidDismiss().then(e => {
-     
+
       if (!e.data) {
         return null;
       }
-    
+
       if (!this.form.controls.company_id.value) {
         this.form.controls.company_name.setValue(e.data.companyContact.company.company_name);
         this.form.controls.company_id.setValue(e.data.companyContact.company.company_id);
       }
-      
+
       this.form.controls.contact_uuid.setValue(e.data.companyContact.contact_uuid);
       this.form.controls.contact_name.setValue(e.data.companyContact.contact_name);
-    
+
     });
     popover.present();
   }
 
   /**
    * open popup to select company
-   * @param e 
+   * @param e
    */
   async openClient(e) {
 
@@ -183,13 +183,13 @@ export class CompanyNoteFormPage implements OnInit {
 
       this.form.controls.company_name.setValue(e.data.company_name);
       this.form.controls.company_id.setValue(e.data.company_id);
-      
+
       this.form.controls.request_uuid.setValue(null);
       this.form.controls.request_name.setValue(null);
 
       this.form.controls.contact_uuid.setValue(null);
       this.form.controls.contact_name.setValue(null);
-    
+
     });
     popover.present();
   }
@@ -200,17 +200,16 @@ export class CompanyNoteFormPage implements OnInit {
    */
   async openRequest(e) {
 
-    const company = new Company;
+    const company = new Company();
 
-    if(this.form.controls.company_id.value) {
+    if (this.form.controls.company_id.value) {
       company.company_id = this.form.controls.company_id.value;
     }
 
-    let popover = await this.popoverCtrl.create({
+    const popover = await this.modalCtrl.create({
       component: CompanyRequestListPopupPage,
-      event: e,
       componentProps: {
-        company: company
+        company
       }
     });
     popover.onDidDismiss().then(e => {
@@ -225,7 +224,7 @@ export class CompanyNoteFormPage implements OnInit {
 
       this.form.controls.request_name.setValue(e.data.request_position_title);
       this.form.controls.request_uuid.setValue(e.data.request_uuid);
-    
+
     });
     popover.present();
   }
@@ -256,9 +255,9 @@ export class CompanyNoteFormPage implements OnInit {
       // On Success
       if (jsonResponse.operation == 'success') {
         // Close the page
-        const data = { 
-          request_updated_datetime: jsonResponse.request_updated_datetime, 
-          refresh: true 
+        const data = {
+          request_updated_datetime: jsonResponse.request_updated_datetime,
+          refresh: true
         };
         this.modalCtrl.dismiss(data);
       }

@@ -1,4 +1,4 @@
-<ion-header [class.add-border]="borderLimit" class="ion-no-border" *ngIf="!company">
+<ion-header [class.add-border]="borderLimit" class="ion-no-border">
   <ion-toolbar>
 
     <ion-buttons slot="start">
@@ -10,7 +10,6 @@
 </ion-header>
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)" class="ion-padding">
-
   <ion-searchbar [(ngModel)]="query" (ionChange)="filter($event)" placeholder="Search by name / phone / email" debounce="100"></ion-searchbar>
 
   <ion-list class="contact-list">
@@ -20,7 +19,7 @@
 
         <ion-label>
           <h4>{{ companyContact.contact_name }}</h4>
-          
+
           <h5 *ngIf="companyContact.company">
             {{ companyContact.company.company_common_name_en? companyContact.company.company_common_name_en: companyContact.company.company_name }}
           </h5>
@@ -28,7 +27,7 @@
           <p>
             {{ companyContact.contact_position }}
           </p>
-         
+
           <p>
             <a (click)="doNothing($event)"
                *ngFor="let companyContactEmail of companyContact.companyContactEmails">
