@@ -271,7 +271,7 @@ export class AppComponent implements OnInit {
       this.companyFollowUp = response.requireFollowup;
       this.assignedExpiredCivilID = response.assignedExpiredCivilID;
       this.assignedIdleCandidates = response.assignedIdleCandidates;
-      this.totalRequest = parseInt(response.totalPendingRequests) + parseInt(response.activeRequests);
+      this.totalRequest = response.totalRequests;
       this.companyMoreThen40DaysWithoutPayment = response.companyMoreThen40DaysWithoutPayment;
     },
       error => { },
