@@ -70,6 +70,10 @@ ion-card {
   }
 }
 
+.note-tpye {
+  text-transform: lowercase;
+}
+
 ion-button {
   --border-radius: 5px;
   --box-shadow: none;
@@ -95,6 +99,7 @@ ion-button {
   --background: #eb5757;
   margin: 0;
 }
+
 .candidate_name {
   font-weight: bold;
 }

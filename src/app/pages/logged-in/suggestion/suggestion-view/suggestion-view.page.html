@@ -49,21 +49,33 @@
       </ion-label>
     </ion-item>
 
-    <p class="activity">
+    <!-- for old data -->
+
+    <p class="activity" *ngIf="suggestion.feedbacks.length == 0">
       <b *ngIf="suggestion.updatedBy" [routerLink]="'/team-view/' + suggestion.updatedBy.staff_id">{{ suggestion.updatedBy.staff_name }}:&nbsp;</b>
-      I
-      <span *ngIf="suggestion.suggestion_status == 1">Suggested</span>&nbsp;
-      <span *ngIf="suggestion.suggestion_status == 3">Accepted</span>&nbsp;
-      <span *ngIf="suggestion.suggestion_status == 2">Rejected</span>&nbsp;
-      <span
-        *ngIf="suggestion.candidate" [routerLink]="'/candidate-view/' + suggestion.candidate_id">{{ suggestion.candidate.candidate_name ?suggestion.candidate.candidate_name : suggestion.candidate.candidate_name_ar }}</span>
-      <span *ngIf="suggestion.fulltimer" [routerLink]="'/fulltimer/' + suggestion.fulltimer_uuid">{{ suggestion.fulltimer.fulltimer_name }}</span>
+      Client <span *ngIf="suggestion.suggestion_status == 1">suggested&nbsp;</span>
+      <span *ngIf="suggestion.suggestion_status == 3">accepted&nbsp;</span>
+      <span *ngIf="suggestion.suggestion_status == 2">rejected&nbsp;</span>
+      <span class="candidate_name" *ngIf="suggestion.candidate" [routerLink]="'/candidate-view/' + suggestion.candidate_id">{{ suggestion.candidate.candidate_name ?suggestion.candidate.candidate_name : suggestion.candidate.candidate_name_ar }}</span>
+      <span class="candidate_name" *ngIf="suggestion.fulltimer" [routerLink]="'/fulltimer/' + suggestion.fulltimer_uuid">{{ suggestion.fulltimer.fulltimer_name }}</span>
       because <span [innerHTML]="suggestion.note.note_text"></span>
     </p>
 
     <p class="txt-time">
       {{ suggestion.suggestion_datetime | timeAgo }} on
       {{ toDate(suggestion.suggestion_datetime) | date: 'MMM d, y' }}
+    </p>
+  </ion-card>
+
+  <!-- all activity on suggestion -->
+
+  <ion-card *ngIf="suggestion && suggestion.feedbacks.length > 0">
+    <p class="activity" *ngFor="let feedback of suggestion.feedbacks">
+      <b *ngIf="feedback.updatedBy" tappable [routerLink]="'/team-view/' + feedback.updatedBy.staff_id">{{ feedback.updatedBy.staff_name }}:&nbsp;</b>
+      Client <span class="note-tpye">{{ feedback.note_type }}&nbsp;</span>
+      <span class="candidate_name" *ngIf="suggestion.candidate" tappable [routerLink]="'/candidate-view/' + suggestion.candidate_id">{{ suggestion.candidate.candidate_name ?suggestion.candidate.candidate_name : suggestion.candidate.candidate_name_ar }}</span>
+      <span class="candidate_name" *ngIf="suggestion.fulltimer" tappable [routerLink]="'/fulltimer/' + suggestion.fulltimer_uuid">{{ suggestion.fulltimer.fulltimer_name }}</span>
+      because <span [innerHTML]="feedback.note_text"></span>
     </p>
   </ion-card>
 

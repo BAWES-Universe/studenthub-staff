@@ -36,14 +36,24 @@
     </ion-label>
   </ion-item>
 
-  <p class="activity">
-    <b *ngIf="model.updatedBy">{{ model.updatedBy.staff_name }}:&nbsp;</b>
+  <!-- for old data -->
+
+  <p class="activity" *ngIf="!model.feedback">
+    <b *ngIf="model.updatedBy" [routerLink]="'/team-view/' + model.updatedBy.staff_id">{{ model.updatedBy.staff_name }}:&nbsp;</b>
     Client
     <span *ngIf="model.suggestion_status == 1">suggested</span>
     <span *ngIf="model.suggestion_status == 3">accepted</span>
     <span *ngIf="model.suggestion_status == 2">rejected</span>
     <span class="candidate_name" *ngIf="model.candidate">&nbsp;{{ model.candidate.candidate_name ?model.candidate.candidate_name : model.candidate.candidate_name_ar }}</span>
-    <span *ngIf="model.fulltimer">{{ model.fulltimer.fulltimer_name }}</span>
+    <span class="candidate_name" *ngIf="model.fulltimer">&nbsp;{{ model.fulltimer.fulltimer_name }}</span>
+    because <span [innerHTML]="model.note.note_text"></span>
+  </p>
+
+  <p class="activity" *ngIf="model.feedback">
+    <b *ngIf="model.feedback.updatedBy">{{ model.feedback.updatedBy.staff_name }}:&nbsp;</b>
+    Client <span class="note-tpye">{{ model.feedback.note_type }}</span> 
+    <span class="candidate_name" *ngIf="model.candidate">&nbsp;{{ model.candidate.candidate_name ?model.candidate.candidate_name : model.candidate.candidate_name_ar }}</span>
+    <span class="candidate_name" *ngIf="model.fulltimer">&nbsp;{{ model.fulltimer.fulltimer_name }}</span>
     because <span [innerHTML]="model.feedback.note_text"></span>
   </p>
 
