@@ -11,12 +11,12 @@
     <section>
 
       <ion-item-sliding *ngFor="let mall of malls" [disabled]="platform.width() > 768">
-        <ion-item tappable (click)="rowSelected(mall)">
+        <ion-item tappable (click)="rowSelected(mall)" lines="none">
           <div tabindex="0"></div>
-          {{ mall.mall_name_en }}
+          <h3>{{ mall.mall_name_en }}</h3>
 
-          <ion-badge slot="end">
-            <ion-icon name="person"></ion-icon> {{ mall.candidate_count }}
+          <ion-badge slot="end" color="light" *ngIf="mall.candidate_count > 0">
+            {{ mall.candidate_count }} staff
           </ion-badge>
 
           <ion-buttons slot="end" *ngIf="platform.width() > 768">

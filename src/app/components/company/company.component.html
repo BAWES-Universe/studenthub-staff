@@ -1,0 +1,36 @@
+<ion-item tappable lines="none">
+  <div tabindex="0"></div>
+  <ion-avatar slot="start" *ngIf="company.company_logo">
+    <img *ngIf="company.company_logo" src="{{ aws.cloudinaryUrl + company.company_logo }}"
+         (error)="loadLogo($event,company)">
+    <img *ngIf="!company.company_logo" src="/assets/icon/icon.png">
+  </ion-avatar>
+
+  <ion-label class="ion-text-wrap">
+    <h2>{{ company.company_name }}</h2>
+    <div class="small-detail">
+      <p>
+        {{company.company_hourly_rate}} KD per hour<br/>
+        {{company.company_bonus_commission}}% commission
+      </p>
+    </div>
+    <ion-badge class="company_status_badge danger" slot="start" *ngIf="!company.company_status">
+      Inactive
+    </ion-badge>
+    <ion-badge class="company_status_badge success" slot="start" *ngIf="company.company_status">
+      Active
+    </ion-badge>
+    <ion-badge slot="start" color="light" *ngIf="company.total_candidate > 0">
+      {{ company.total_candidate }} candidates
+    </ion-badge>
+    <ion-badge slot="start" color="light" *ngIf="company.subCompanies && company.subCompanies.length > 0">
+      {{ company.subCompanies.length }} sub-companies
+    </ion-badge>
+    <ion-badge slot="start" color="light" *ngIf="company.stores.length > 0">
+      {{ company.stores.length }} stores
+    </ion-badge>
+    <ion-badge slot="start" color="light" *ngIf="company.total_candidate && !company.transferInLast40Days">
+      40 days passed without payment
+    </ion-badge>
+  </ion-label>
+</ion-item>

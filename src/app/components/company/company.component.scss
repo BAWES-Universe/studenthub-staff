@@ -1,0 +1,70 @@
+//background: #fcfcfc;
+
+ion-item {
+  margin: 7px 12px 12px;
+  //padding: 17px 15px 17px 21px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08), 2px 0 4px 0 rgba(0, 0, 0, 0.12);
+  background-color: #ffffff;
+  position: relative;
+}
+ion-badge {
+  font-size: 12px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: #000;
+  margin-right: 10px;
+  border-radius: 2px;
+}
+h2 {
+  font-size: 16px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.65;
+  letter-spacing: normal;
+  text-align: left;
+  color: #000;
+  width: 117px;
+}
+p {
+  margin: 5px 48px 8px 0;
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.34;
+  letter-spacing: normal;
+  text-align: left;
+  color: var(--black);
+}
+.small-detail {
+  margin-bottom: 8px;
+}
+.company_status_badge {
+  position: absolute;
+  top: 17px;
+  right: 15px;
+}
+.company_status_badge {
+  margin-right: 12px;
+  font-size: 12px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: #ffffff;
+  padding: 6px 16px;
+}
+ion-badge.success {
+  --background: #219653;
+}
+ion-badge.danger {
+  --background: #eb5757;
+}

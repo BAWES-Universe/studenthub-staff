@@ -1,10 +1,11 @@
 <ion-header mode="md" [class.add-border]="borderLimit" class="clear-header">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button icon="assets/images/ic_cancel.svg" defaultHref="/company-request-dashboard" *ngIf="backState && !backState.from"></ion-back-button>
-      <ion-button fill="clear" (click)="dismiss()" class="btn-close" *ngIf="backState && backState.from">
-        <ion-icon src="assets/images/ic_cancel.svg"></ion-icon>
-      </ion-button>
+      <ion-back-button icon="assets/images/ic_cancel.svg" defaultHref="/default"></ion-back-button>
+<!--      <ion-back-button icon="assets/images/ic_cancel.svg" defaultHref="/default" *ngIf="backState && !backState.from"></ion-back-button>-->
+<!--      <ion-button fill="clear" (click)="dismiss()" class="btn-close" *ngIf="backState && backState.from">-->
+<!--        <ion-icon src="assets/images/ic_cancel.svg"></ion-icon>-->
+<!--      </ion-button>-->
     </ion-buttons>
 
     <ion-button fill="clear" (click)="cancelledRequest($event, request)" slot="end" class="btn-cancel"
@@ -32,8 +33,8 @@
       <span *ngIf="request.request_status == 'cancelled'">Cancelled</span>
     </h3>
 
-    <h4 class="company-name" [routerLink]="'/company-view/' + request.company_id">{{ request.company.company_name }}</h4>
-    
+    <h4 class="company-name" tappable [routerLink]="'/company-view/' + request.company_id">{{ request.company.company_name }}</h4>
+
     <p class="txt-looking">is looking for </p>
 
     <b class="requirement">
@@ -42,11 +43,11 @@
       <span *ngIf="request.request_position_type == 2">Part-time</span>
       {{ request.request_position_title }}
     </b>
-    
+
     <p class="txt-additional-info">{{ request.request_additional_info }}</p>
 
     <div class="requested-by">
-      Requested by <span class="requested-by-staff" [routerLink]="'/company-contact-view/' + request.contact_uuid">{{ request.contact.contact_name }}</span>
+      Requested by <span class="requested-by-staff" tappable [routerLink]="'/company-contact-view/' + request.contact_uuid">{{ request.contact.contact_name }}</span>
       <div class="requested-by-time">on {{ toDate(request.request_created_datetime) | date: 'MMM d, y' }} </div>
     </div>
 
@@ -57,7 +58,7 @@
       <ng-container *ngFor="let requestActivity of requestActivities;let i = index;">
         <app-recent-activity [routerLink]="'/note-view/' + requestActivity.note_uuid" [activity]="requestActivity" *ngIf="activityExpanded || i < 2"></app-recent-activity>
       </ng-container>
-      
+
       <ion-button class="btn-view-notes" *ngIf="requestActivities.length > 2" (click)="toggleActivityExpanded()">
         <span *ngIf="!activityExpanded">View all {{ requestActivities.length }} notes</span>
         <span *ngIf="activityExpanded">Collapse</span>

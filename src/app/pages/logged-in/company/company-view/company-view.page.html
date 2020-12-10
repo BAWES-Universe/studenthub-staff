@@ -320,41 +320,7 @@
         Companies under this company
       </ion-label>
     </ion-item-divider>
-
-    <ion-item tappable *ngFor="let company of subCompanies" (click)="rowSelected(company)">
-      <div tabindex="0"></div>
-
-      <ion-label>
-        {{ company.company_name }}
-      </ion-label>
-
-      <ng-container *ngIf="platform.width() > 450">
-        <ion-badge slot="end" *ngIf="company.total_candidate > 0">
-          {{ company.total_candidate }} candidates
-        </ion-badge>
-        <ion-badge slot="end" *ngIf="company.subCompanies && company.subCompanies.length > 0">
-          {{ company.subCompanies.length }} sub-companies
-        </ion-badge>
-        <ion-badge slot="end" *ngIf="stores.length > 0">
-          {{ stores.length }} stores
-        </ion-badge>
-      </ng-container>
-
-      <ng-container *ngIf="platform.width() <= 449">
-        <div slot="end" class="end">
-          <ion-badge *ngIf="company.total_candidate > 0">
-            {{ company.total_candidate }} candidates
-          </ion-badge>
-          <ion-badge *ngIf="company.subCompanies && company.subCompanies.length > 0">
-            {{ company.subCompanies.length }} sub-companies
-          </ion-badge>
-          <ion-badge *ngIf="stores.length > 0">
-            {{ stores.length }} stores
-          </ion-badge>
-        </div>
-      </ng-container>
-
-    </ion-item>
+    <app-company [company]="company" *ngFor="let company of subCompanies" (click)="rowSelected(company)"></app-company>
   </section>
 
   <!-- Store List -->
@@ -412,18 +378,17 @@
 
   <!-- malls List -->
 
-  <section *ngIf="segment == 'malls'">
+  <section *ngIf="segment == 'malls'" class="mall">
 
     <ion-list>
-      <ion-item tappable (click)="mallSelected(mall)" *ngFor="let mall of company.malls">
+      <ion-item tappable (click)="mallSelected(mall)" *ngFor="let mall of company.malls" lines="none">
         <div tabindex="0"></div>
         <ion-label>
           <h5>{{ mall.mall_name_en }}</h5>
-          <p>{{ mall.mall_name_ar }}</p>
+<!--          <p>{{ mall.mall_name_ar }}</p>-->
         </ion-label>
-
-        <ion-badge slot="end" *ngIf="mall.candidate_count > 0">
-          {{ mall.candidate_count }}
+        <ion-badge slot="end" color="light" *ngIf="mall.candidate_count > 0">
+          {{ mall.candidate_count }} staff
         </ion-badge>
       </ion-item>
     </ion-list>
@@ -432,21 +397,21 @@
 
   <!-- Brand List -->
 
-  <section *ngIf="segment == 'brands'">
+  <section *ngIf="segment == 'brands'" Class="brand">
 
     <ion-list>
       <ion-item-sliding *ngFor="let brand of brands" [disabled]="platform.width() > 768">
-        <ion-item tappable (click)="brandSelected(brand)">
+        <ion-item tappable (click)="brandSelected(brand)" lines="none">
           <div tabindex="0"></div>
-          <ion-thumbnail slot="start">
+          <ion-thumbnail slot="start" *ngIf="brand.brand_logo">
             <ion-img *ngIf="brand.brand_logo" [src]="awsService.cloudinaryUrl + 'company-brand/' + brand.brand_logo">
             </ion-img>
             <ion-img *ngIf="!brand.brand_logo" src="assets/images/placeholder.png"></ion-img>
           </ion-thumbnail>
           <ion-label>
-            {{ brand.brand_name_en }}
+            <h2>{{ brand.brand_name_en }}</h2>
           </ion-label>
-          <ion-badge slot="end">{{brand.candidate_count}}</ion-badge>
+          <ion-badge slot="end" color="light" *ngIf="brand.candidate_count > 0">{{brand.candidate_count}} staff</ion-badge>
           <ion-buttons slot="end" *ngIf="platform.width() > 768">
             <ion-button color="primary" (click)="editBrandSelected($event, brand)">
               <ion-icon slot="start" name="pencil-outline"></ion-icon>
@@ -471,12 +436,9 @@
           </ion-button>
         </ion-item-options>
       </ion-item-sliding>
-
-      <ion-item lines="none">
         <ion-button (click)="addBrand()">
           Add New Brand
         </ion-button>
-      </ion-item>
     </ion-list>
   </section>
 
