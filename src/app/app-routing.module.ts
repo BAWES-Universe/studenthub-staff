@@ -339,25 +339,45 @@ const routes: Routes = [
   },
   {
     path: 'fulltimer-search',
-    loadChildren: () => import('./pages/logged-in/fulltimer/fulltimer-search/fulltimer-search.module').then( m => m.FulltimerSearchPageModule)
+    loadChildren: () => import('./pages/logged-in/fulltimer/fulltimer-search/fulltimer-search.module').then( m => m.FulltimerSearchPageModule),
+    canActivate: [AuthService],
+    data: {
+      name: 'FulltimerSearchPage'
+    }
   },
   {
     path: 'fulltimer',
-    loadChildren: () => import('./pages/logged-in/fulltimer/fulltimer-view/fulltimer-view.module').then( m => m.FulltimerViewPageModule)
+    loadChildren: () => import('./pages/logged-in/fulltimer/fulltimer-view/fulltimer-view.module').then( m => m.FulltimerViewPageModule),
+    canActivate: [AuthService],
+    data: {
+      name: 'FulltimerViewPage'
+    }
   },
 
   {
     path: 'company-contact-view',
-    loadChildren: () => import('./pages/logged-in/company/company-contact/company-contact-view/company-contact-view.module').then( m => m.CompanyContactViewPageModule)
+    loadChildren: () => import('./pages/logged-in/company/company-contact/company-contact-view/company-contact-view.module').then( m => m.CompanyContactViewPageModule),
+    canActivate: [AuthService],
+    data: {
+      name: 'CompanyContactViewPage'
+    }
   },
-  
+
   {
     path: 'note-view',
-    loadChildren: () => import('./pages/logged-in/note/note-view/note-view.module').then( m => m.NoteViewPageModule)
+    loadChildren: () => import('./pages/logged-in/note/note-view/note-view.module').then( m => m.NoteViewPageModule),
+    canActivate: [AuthService],
+    data: {
+      name: 'NoteViewPage'
+    }
   },
   {
     path: 'suggestion-view',
-    loadChildren: () => import('./pages/logged-in/suggestion/suggestion-view/suggestion-view.module').then( m => m.SuggestionViewPageModule)
+    loadChildren: () => import('./pages/logged-in/suggestion/suggestion-view/suggestion-view.module').then( m => m.SuggestionViewPageModule),
+    canActivate: [AuthService],
+    data: {
+      name: 'SuggestionViewPage'
+    }
   },
   {
     path: '**',
