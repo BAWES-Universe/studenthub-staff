@@ -290,18 +290,25 @@
   </section>
 
   <section *ngIf="segment == 'documents'">
-    <ion-item *ngFor="let file of company.files">
-      <div tabindex="0"></div>
-      <ion-label>
+
+    <ion-card class="document" *ngFor="let file of company.files">
+      <ion-card-content>
+
         <a target="_blank" (click)="$event.stopPropagation()"
           href="{{ awsService.permanentBucketUrl }}{{ file.file_s3_path }}">
-          {{file.file_title}}
+          <img src="assets/images/ic_save.svg" />
         </a>
-        <p class="meta-data">{{ file.file_size | filesize }} {{ file.file_type }}</p>
-        <p>{{file.file_description}}</p>
-        <p class="date">{{ toDate(file.file_created_datetime) | date: 'MMM d, y, h:mm:ss a' }}</p>
-      </ion-label>
-    </ion-item>
+        
+        <span class="meta-data">{{ getFileType(file.file_type) }}</span>
+        <span class="meta-data">{{ file.file_size | filesize }}</span>
+
+        <h5>{{ file.file_title }}</h5>
+
+        <p class="document-detail">{{file.file_description}}</p>
+
+        <p class="date">Uploaded on {{ toDate(file.file_created_datetime) | date: 'MMM d, y' }}</p>
+      </ion-card-content>
+    </ion-card>
 
     <ion-item lines="none">
       <div tabindex="0"></div>

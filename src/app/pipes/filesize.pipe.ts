@@ -10,10 +10,10 @@ export class FileSizePipe implements PipeTransform {
         return (size / (1024 * 1024)).toFixed(2) + ' MB';
     }
 
-    if(size > 1023) { 
+    //if(size > 1023) { 
         return (size / 1024).toFixed(2) + ' KB';
-    }
+    //}
 
-    return size + ' Byte';
+    //return size + ' Byte';
   }
 }

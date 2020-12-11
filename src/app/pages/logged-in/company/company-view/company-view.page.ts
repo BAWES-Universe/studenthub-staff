@@ -323,6 +323,17 @@ export class CompanyViewPage implements OnInit {
       this.updating = false;
     });
   }
+  
+  /**
+   * retrun type name from mime type 
+   * @param file_type 
+   */
+  getFileType(file_type) {
+    const types = file_type.split('/');
+
+    if(types.length > 1)
+      return types[1];
+  }
 
   isFollowUpIntervalPassed() {
 
