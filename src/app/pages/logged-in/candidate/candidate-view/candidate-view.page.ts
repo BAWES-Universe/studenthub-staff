@@ -114,6 +114,12 @@ export class CandidateViewPage implements OnInit {
       this.loadCandidateDetail();
     });
 
+    this.eventService.noteUpdated$.subscribe((data: any) => {
+      if(data.candidate_id == this.candidate_id) {
+        this.loadNotes();
+      }
+    });
+
     this.initNoteForm();
   }
 

@@ -32,4 +32,6 @@ export class EventService {
   public companyRequestUpdate$ = new Subject();
 
   public reloadFollowupList$ = new Subject();
+
+  public noteUpdated$ = new Subject();
 }

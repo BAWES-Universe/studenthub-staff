@@ -22,6 +22,7 @@ import { Request } from 'src/app/models/request';
 import { Note } from 'src/app/models/note';
 // pages
 import { CompanyNoteFormPage } from '../company-note-form/company-note-form.page';
+import { EventService } from 'src/app/providers/event.service';
 
 
 @Component({
@@ -66,6 +67,7 @@ export class CompanyRequestViewPage implements OnInit {
     public navCtrl: NavController,
     public location: Location,
     public suggestionService: SuggestionService,
+    public eventService: EventService,
     public translateLabelService: TranslateLabelService,
     public platform: Platform
   ) {
@@ -77,6 +79,18 @@ export class CompanyRequestViewPage implements OnInit {
     const model = window.history.state.model;
     this.loadDetail();
     // this.loadInvoice();
+
+    this.eventService.companyRequestUpdate$.subscribe((data: any) => {
+      if(data && data.request_uuid == this.request_uuid) {
+        this.request.request_updated_datetime = data.request_updated_datetime;
+      }
+    });
+
+    this.eventService.noteUpdated$.subscribe((data: any) => {
+      if(data && data.request_uuid == this.request_uuid) {
+        this.loadRequestActivities();
+      }
+    });
   }
 
   /**
