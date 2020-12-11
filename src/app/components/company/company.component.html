@@ -11,8 +11,12 @@
     <div class="small-detail">
       <p>
         {{company.company_hourly_rate}} KD per hour<br/>
-        {{company.company_bonus_commission}}% commission
+        <span>{{company.company_bonus_commission | number }} </span>% commission
       </p>
+      <ng-container *ngIf="page =='follow'">
+        <p>@ {{ toDate(company.company_last_followup_datetime) | date: 'MMM d, y, h:mm:ss a' }}</p>
+        <p>{{ company.company_last_followup_datetime | timeAgo }}</p>
+      </ng-container>
     </div>
     <ion-badge class="company_status_badge danger" slot="start" *ngIf="!company.company_status">
       Inactive

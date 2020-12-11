@@ -9,6 +9,7 @@ import { CompanyFollowupListPageRoutingModule } from './company-followup-list-ro
 import { CompanyFollowupListPage } from './company-followup-list.page';
 import { LoadingModalModule } from 'src/app/components/loading-modal/loading-modal.module';
 import { PipesModule } from 'src/app/pipes/pipes.module';
+import {CompanyModule} from "src/app/components/company/company.module";
 
 @NgModule({
   imports: [
@@ -17,7 +18,8 @@ import { PipesModule } from 'src/app/pipes/pipes.module';
     IonicModule,
     LoadingModalModule,
     PipesModule,
-    CompanyFollowupListPageRoutingModule
+    CompanyFollowupListPageRoutingModule,
+    CompanyModule
   ],
   declarations: [CompanyFollowupListPage]
 })

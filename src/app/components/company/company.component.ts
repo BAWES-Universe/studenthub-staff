@@ -17,6 +17,7 @@ export class CompanyComponent implements OnInit {
   @Output() onUpdate: EventEmitter<any> = new EventEmitter();
 
   @Input() company: Company;
+  @Input() page = null;
 
   constructor(
     public router: Router,
