@@ -5,6 +5,19 @@
     </ion-buttons>
 
     <ion-title>Note</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button (click)="edit()">
+        <ion-icon slot="start" name="pencil-outline"></ion-icon>
+        Edit
+      </ion-button>
+      
+      <ion-button (click)="delete()">
+        <ion-icon slot="start" name="trash-outline"></ion-icon>
+        Delete
+      </ion-button>
+    </ion-buttons>
+    
   </ion-toolbar>
 </ion-header>
 

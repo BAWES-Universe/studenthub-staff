@@ -54,7 +54,7 @@ export class CompanyNoteFormPage implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.from, this.note);
+
     if (this.note.note_uuid) {
       this.loadData();
     } else {

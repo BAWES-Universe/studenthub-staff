@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import {Router, ActivatedRoute, NavigationCancel} from '@angular/router';
-import {Platform, ModalController, AlertController, ToastController, IonContent, NavController} from '@ionic/angular';
+import { Router, ActivatedRoute, NavigationCancel } from '@angular/router';
+import { Platform, ModalController, AlertController, ToastController, IonContent, NavController } from '@ionic/angular';
 import { Chart } from 'chart.js';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -13,7 +13,7 @@ import { AuthService } from 'src/app/providers/auth.service';
 import { CompanyRequestService } from 'src/app/providers/logged-in/company-request.service';
 import { BrandService } from 'src/app/providers/logged-in/brand.service';
 import { EventService } from 'src/app/providers/event.service';
-import {NoteService} from "../../../../providers/logged-in/note.service";
+import { NoteService } from "../../../../providers/logged-in/note.service";
 // models
 import { CompanyContact } from 'src/app/models/company-contact';
 import { Company } from 'src/app/models/company';
@@ -31,7 +31,6 @@ import { StoreFormPage } from '../../store/store-form/store-form.page';
 import { CompanyFormPage } from 'src/app/pages/logged-in/company/company-form/company-form.page';
 
 import NumberFormat = Intl.NumberFormat;
-
 
 
 @Component({
@@ -142,9 +141,16 @@ export class CompanyViewPage implements OnInit {
     }
 
     this.initNoteForm();
-    this.eventService.reloadBrand$.subscribe( res => {
+
+    this.eventService.reloadBrand$.subscribe(res => {
       console.log('reload');
       this.loadBrand();
+    });
+
+    this.eventService.noteUpdated$.subscribe((data: any) => {
+      if (data.company_id == this.company_id) {
+        this.loadNotes();
+      }
     });
   }
 
@@ -172,10 +178,10 @@ export class CompanyViewPage implements OnInit {
 
       this.company = response;
 
-      setTimeout(_=>{
+      setTimeout(_ => {
         this.companyStatus = !!(this.company.company_status);
         this.followup = !!(this.company.company_followup);
-      },500);
+      }, 500);
 
       this.subCompanies = response.subCompanies;
       this.stores = response.stores;
@@ -245,13 +251,13 @@ export class CompanyViewPage implements OnInit {
 
   loadRequests() {
     this.requestService.list(this.company_id).subscribe(response => {
-        this.requests = response;
+      this.requests = response;
     });
   }
 
   loadBrand() {
     this.brandService.listByCompany(this.company_id).subscribe(response => {
-        this.brands = response;
+      this.brands = response;
     });
   }
 
@@ -290,7 +296,7 @@ export class CompanyViewPage implements OnInit {
    */
   toggleFollowup($event) {
     // if same value then do nothing
-    if (this.followup == $event.detail.checked){
+    if (this.followup == $event.detail.checked) {
       return;
     }
 
@@ -320,7 +326,7 @@ export class CompanyViewPage implements OnInit {
 
   isFollowUpIntervalPassed() {
 
-    if(this.company.company_followup_interval_weeks == 0 || !this.company.company_last_followup_datetime) {
+    if (this.company.company_followup_interval_weeks == 0 || !this.company.company_last_followup_datetime) {
       return true;
     }
 
@@ -1251,7 +1257,7 @@ export class CompanyViewPage implements OnInit {
       componentProps: {
         model: company,
         company_id: company.company_id,
-        subcompany : isSubcompany
+        subcompany: isSubcompany
       }
     });
     modal.onDidDismiss().then(e => {
