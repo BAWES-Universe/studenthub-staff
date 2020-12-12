@@ -1,19 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { PipesModule } from 'src/app/pipes/pipes.module';
-import { SuggestionComponent } from './suggestion.component';
- 
+import { CompanyComponent } from './company.component';
+
 
 @NgModule({
-    declarations: [SuggestionComponent],
-    imports: [ 
+    declarations: [CompanyComponent],
+    imports: [
         CommonModule,
         IonicModule,
-        RouterModule,
         PipesModule
     ],
-    exports: [SuggestionComponent]
+    exports: [CompanyComponent]
 })
-export class SuggestionModule { }
+export class CompanyModule { }

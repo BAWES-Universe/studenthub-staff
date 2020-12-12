@@ -44,6 +44,8 @@ import { CandidateCommittedFormPageModule } from './pages/logged-in/candidate/ca
 import { CandidateMergeSelectPageModule } from './pages/logged-in/candidate/candidate-merge-select/candidate-merge-select.module';
 import { NoteModule } from './components/note/note.module';
 import { SuggestPageModule } from './pages/logged-in/suggest/suggest.module';
+import { FulltimerFormPageModule } from './pages/logged-in/fulltimer/fulltimer-form/fulltimer-form.module';
+import {CompanyModule} from "./components/company/company.module";
 
 export function startupServiceFactory(authService) {
   return () => authService.load();
@@ -94,12 +96,14 @@ export function createTranslateLoader(http: HttpClient) {
         ImageUploadModule,
         CandidateNoteFormPageModule,
         FulltimerLocationPageModule,
+        FulltimerFormPageModule,
         NationalityPageModule,
         CompanyRequestListPopupPageModule,
         CandidateCommittedFormPageModule,
         CandidateMergeSelectPageModule,
         NoteModule,
-        SuggestPageModule
+        SuggestPageModule,
+        CompanyModule
     ],
   providers: [
     {

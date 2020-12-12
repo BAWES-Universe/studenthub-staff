@@ -4,6 +4,11 @@
       <ion-back-button defaultHref="/company-list"></ion-back-button>
     </ion-buttons>
     <ion-title *ngIf="brand">{{ brand.brand_name_en }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button color="dark" (click)="editBrandSelected($event, brand)">
+        Update
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -33,5 +38,9 @@
   </ion-list>
 
   <loading-modal [loading]="loading" type="candidate-list"></loading-modal>
-
 </ion-content>
+<ion-footer>
+  <ion-button expand="full" color="dark" (click)="deleteBrand($event, brand)">
+    Delete
+  </ion-button>
+</ion-footer>

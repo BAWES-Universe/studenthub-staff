@@ -13,6 +13,8 @@ export class Suggestion {
     suggestion_status: number;
     suggestion_datetime: string;
     note: Note;
+    feedback: Note;
+    feedbacks: Note[];
     candidate: Candidate;
     fulltimer: Fulltimer;
     request: Request;

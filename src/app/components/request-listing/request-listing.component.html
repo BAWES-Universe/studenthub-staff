@@ -13,9 +13,9 @@
     <div *ngIf="request" class="content-footer" [class.background-red]="!this.active" [class.background-green]="this.active">
       <p *ngIf="!request.staff">Please pick up</p>
       <ng-container *ngIf="request.staff">
-        <p>{{ request.staff.staff_name  }} is handling it</p>
-        <p *ngIf="request.request_status == 'delivered'">Delivered {{ request.request_updated_datetime | timeAgo }} </p>
-        <p *ngIf="request.request_status == 'cancelled'">Cancelled {{ request.request_updated_datetime | timeAgo }} </p>
+        <p *ngIf="request.request_status == 'started'">{{ request.staff.staff_name  }} is handling it</p>
+        <p *ngIf="request.request_status == 'delivered'">Delivered {{ request.request_updated_datetime | timeAgo }} by {{request.staff.staff_name}} </p>
+        <p *ngIf="request.request_status == 'cancelled'">Cancelled {{ request.request_updated_datetime | timeAgo }} by {{request.staff.staff_name}} </p>
         <p *ngIf="request.request_status == 'started'">Last updated {{ request.request_updated_datetime | timeAgo }} </p>
       </ng-container>
     </div>

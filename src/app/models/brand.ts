@@ -8,6 +8,7 @@ export class Brand {
     brand_name_ar: string;
     brand_logo: string;
     candidate_count: number;
+    store_count: number;
     brand_created_datetime: string;
     brand_updated_datetime: string;
     candidates: Candidate[];

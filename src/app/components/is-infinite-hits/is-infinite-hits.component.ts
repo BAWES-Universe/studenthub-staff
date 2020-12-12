@@ -45,7 +45,7 @@ export class IsInfiniteHitsComponent extends BaseWidget {
             results: []
         };
 
-        /*this.updateState = (state, isFirstRendering) => {
+        this.updateState = (state, isFirstRendering) => {
  
             if (isFirstRendering)
                 return;
@@ -68,7 +68,7 @@ export class IsInfiniteHitsComponent extends BaseWidget {
                 results: state['results'], 
                 hits: hits
             });
-        };*/
+        };
     }
 
     /**

@@ -378,10 +378,6 @@ export class FulltimerSearchPage implements OnInit {
       transferState.set(transferStateKey, JSON.stringify(resp));
     }
 
-    if (this.eleInfinite) {
-      this.eleInfinite.complete();
-    }
-
     setTimeout(() => {
       this.loading = false;
       this.refreshingFulltimers = false;
@@ -419,12 +415,10 @@ export class FulltimerSearchPage implements OnInit {
         this.changeDetector.detectChanges();
       }
       
-      //this.instantSearch.change.emit();
+      if (this.eleInfinite) {
+        this.eleInfinite.complete();
+      }
     });
-
-    setTimeout(() => {
-      this.changeDetector.detectChanges();
-    }, 1000);
   }
 
   /**
@@ -534,9 +528,10 @@ export class FulltimerSearchPage implements OnInit {
         this.refreshingFulltimers = true;
 
         //refresh listing
+        
         setTimeout(() => {
           this.refreshFulltimers();
-        }, 3000);//give time to backend to sync with algolia
+        }, 2000);//give time to backend to sync with algolia
       }
     });
     return await modal.present();
@@ -547,7 +542,7 @@ export class FulltimerSearchPage implements OnInit {
    * Refresh fulltimer list
    */
   async refreshFulltimers() {
-    // clear old result
+    
     if (!this.instantSearch) {
       return null;
     }
@@ -557,10 +552,7 @@ export class FulltimerSearchPage implements OnInit {
     this.loading = true;
     this.refreshingFulltimers = true;
   
-   // this.instantSearch.refresh();
-   // this.instantSearch.change.emit();
-    //this.instantSearch.instantSearchInstance.helper.clearCache().setPage(0).setQuery('').search();
-    this.instantSearch.instantSearchInstance.mainHelper.clearCache().search();
+    this.instantSearch.instantSearchInstance.helper.clearCache().setPage(0).setQuery('').search();
   }
 
   logScrolling(e) {

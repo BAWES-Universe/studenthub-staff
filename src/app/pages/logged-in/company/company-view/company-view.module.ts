@@ -11,6 +11,7 @@ import { LoadingModalModule } from 'src/app/components/loading-modal/loading-mod
 import { PipesModule } from 'src/app/pipes/pipes.module';
 import {RequestListingModule} from "../../../../components/request-listing/request-listing.module";
 import { NoteModule } from 'src/app/components/note/note.module';
+import {CompanyModule} from "../../../../components/company/company.module";
 
 @NgModule({
   imports: [
@@ -23,7 +24,8 @@ import { NoteModule } from 'src/app/components/note/note.module';
     CKEditorModule,
     RequestListingModule,
     NoteModule,
-    CompanyViewPageRoutingModule
+    CompanyViewPageRoutingModule,
+    CompanyModule
   ],
   declarations: [CompanyViewPage]
 })

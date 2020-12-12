@@ -8,6 +8,7 @@ export class Mall {
     mall_created_datetime: string;
     mall_updated_datetime: string;
     candidate_count: number;
+    store_count: number;
     candidates: Candidate[];
     stores: Store[];
 }

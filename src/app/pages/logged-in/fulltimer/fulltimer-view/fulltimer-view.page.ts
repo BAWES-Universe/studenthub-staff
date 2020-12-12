@@ -8,12 +8,12 @@ import { FulltimerService } from 'src/app/providers/logged-in/fulltimer.service'
 import { AwsService } from 'src/app/providers/aws.service';
 import { NoteService } from '../../../../providers/logged-in/note.service';
 import { AuthService } from '../../../../providers/auth.service';
+import { EventService } from 'src/app/providers/event.service';
 // models
 import { Fulltimer } from 'src/app/models/fulltimer';
 import { Note } from 'src/app/models/note';
 // pages
 import { FulltimerFormPage } from '../fulltimer-form/fulltimer-form.page';
-import { CandidateNoteFormPage } from '../../candidate/candidate-note-form/candidate-note-form.page';
 import { AllCompanyListPage } from '../../company/company-request-list/all-company-list/all-company-list.page';
 import { CompanyRequestListPopupPage } from "../../company/company-request-list/company-request-list-popup/company-request-list-popup.page";
 import { SuggestPage } from "../../suggest/suggest.page";
@@ -30,7 +30,7 @@ export class FulltimerViewPage implements OnInit {
 
   public borderLimit = false;
 
-  public fulltimerUUID: string;
+  public fulltimer_uuid: string;
   public fulltimer: Fulltimer;
   public loading = false;
   public sections = 'personal';
@@ -63,19 +63,27 @@ export class FulltimerViewPage implements OnInit {
     public alertCtrl: AlertController,
     public noteService: NoteService,
     public authService: AuthService,
+    public eventService: EventService,
     public popoverCtrl: PopoverController
   ) { }
 
   ngOnInit() {
-    this.fulltimerUUID = this.activatedRoute.snapshot.paramMap.get('id');
+    this.fulltimer_uuid = this.activatedRoute.snapshot.paramMap.get('id');
+
     this.loadData();
     this.loadNotes(false);
     this.initNoteForm();
+
+    this.eventService.noteUpdated$.subscribe((data: any) => {
+      if(data.fulltimer_uuid == this.fulltimer_uuid) {
+        this.loadNotes();
+      }
+    });
   }
 
   loadData() {
     this.loading = true;
-    this.fulltimerService.view(this.fulltimerUUID).subscribe(res => {
+    this.fulltimerService.view(this.fulltimer_uuid).subscribe(res => {
       this.loading = false;
       this.fulltimer = res;
     });
@@ -183,7 +191,7 @@ export class FulltimerViewPage implements OnInit {
    * @param loading
    */
   loadNotes(loading = true) {
-    const params = '&fulltimer_uuid=' + this.fulltimerUUID;
+    const params = '&fulltimer_uuid=' + this.fulltimer_uuid;
 
     this.noteService.list(params).subscribe(async jsonResponse => {
       this.notes = jsonResponse.body;

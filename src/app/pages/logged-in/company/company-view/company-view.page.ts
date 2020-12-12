@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import {Router, ActivatedRoute, NavigationCancel} from '@angular/router';
-import {Platform, ModalController, AlertController, ToastController, IonContent, NavController} from '@ionic/angular';
+import { Router, ActivatedRoute, NavigationCancel } from '@angular/router';
+import { Platform, ModalController, AlertController, ToastController, IonContent, NavController } from '@ionic/angular';
 import { Chart } from 'chart.js';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -13,7 +13,7 @@ import { AuthService } from 'src/app/providers/auth.service';
 import { CompanyRequestService } from 'src/app/providers/logged-in/company-request.service';
 import { BrandService } from 'src/app/providers/logged-in/brand.service';
 import { EventService } from 'src/app/providers/event.service';
-import {NoteService} from "../../../../providers/logged-in/note.service";
+import { NoteService } from "../../../../providers/logged-in/note.service";
 // models
 import { CompanyContact } from 'src/app/models/company-contact';
 import { Company } from 'src/app/models/company';
@@ -31,7 +31,6 @@ import { StoreFormPage } from '../../store/store-form/store-form.page';
 import { CompanyFormPage } from 'src/app/pages/logged-in/company/company-form/company-form.page';
 
 import NumberFormat = Intl.NumberFormat;
-
 
 
 @Component({
@@ -142,6 +141,17 @@ export class CompanyViewPage implements OnInit {
     }
 
     this.initNoteForm();
+
+    this.eventService.reloadBrand$.subscribe(res => {
+      console.log('reload');
+      this.loadBrand();
+    });
+
+    this.eventService.noteUpdated$.subscribe((data: any) => {
+      if (data.company_id == this.company_id) {
+        this.loadNotes();
+      }
+    });
   }
 
   /**
@@ -168,10 +178,10 @@ export class CompanyViewPage implements OnInit {
 
       this.company = response;
 
-      setTimeout(_=>{
+      setTimeout(_ => {
         this.companyStatus = !!(this.company.company_status);
         this.followup = !!(this.company.company_followup);
-      },500);
+      }, 500);
 
       this.subCompanies = response.subCompanies;
       this.stores = response.stores;
@@ -241,7 +251,13 @@ export class CompanyViewPage implements OnInit {
 
   loadRequests() {
     this.requestService.list(this.company_id).subscribe(response => {
-        this.requests = response;
+      this.requests = response;
+    });
+  }
+
+  loadBrand() {
+    this.brandService.listByCompany(this.company_id).subscribe(response => {
+      this.brands = response;
     });
   }
 
@@ -280,7 +296,7 @@ export class CompanyViewPage implements OnInit {
    */
   toggleFollowup($event) {
     // if same value then do nothing
-    if (this.followup == $event.detail.checked){
+    if (this.followup == $event.detail.checked) {
       return;
     }
 
@@ -307,10 +323,21 @@ export class CompanyViewPage implements OnInit {
       this.updating = false;
     });
   }
+  
+  /**
+   * retrun type name from mime type 
+   * @param file_type 
+   */
+  getFileType(file_type) {
+    const types = file_type.split('/');
+
+    if(types.length > 1)
+      return types[1];
+  }
 
   isFollowUpIntervalPassed() {
 
-    if(this.company.company_followup_interval_weeks == 0 || !this.company.company_last_followup_datetime) {
+    if (this.company.company_followup_interval_weeks == 0 || !this.company.company_last_followup_datetime) {
       return true;
     }
 
@@ -434,59 +461,6 @@ export class CompanyViewPage implements OnInit {
     confirm.present();
   }
 
-  async deleteBrand(event, brand) {
-
-    event.preventDefault();
-    event.stopPropagation();
-
-    const confirm = await this.alertCtrl.create({
-      header: 'Delete Brand',
-      message: 'Do you want to delete this brand?',
-      buttons: [
-        {
-          text: 'Yes',
-          handler: () => {
-
-            this.deleting = true;
-
-            this.brandService.delete(brand).subscribe(async jsonResp => {
-
-              // On Success
-              if (jsonResp.operation == 'success') {
-                const toast = await this.toastCtrl.create({
-                  message: jsonResp.message,
-                  duration: 3000
-                });
-                toast.present();
-
-                this.loadData(true);
-              }
-
-              // On Failure
-              if (jsonResp.operation == 'error') {
-
-                this.deleting = false;
-
-                // failer text
-                const prompt = await this.alertCtrl.create({
-                  header: 'Deletion Error!',
-                  message: jsonResp.message,
-                  buttons: ['Ok']
-                });
-                prompt.present();
-              }
-
-            });
-          }
-        },
-        {
-          text: 'No'
-        }
-      ]
-    });
-    confirm.present();
-  }
-
   /**
    * open brand edit page
    * @param brand
@@ -510,40 +484,13 @@ export class CompanyViewPage implements OnInit {
     });
   }
 
-  async editBrandSelected(event, brand) {
-
-    event.preventDefault();
-    event.stopPropagation();
-
-    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
-
-    const modal = await this.modalCtrl.create({
-      component: BrandFormPage,
-      componentProps: {
-        model: brand
-      }
-    });
-    modal.onDidDismiss().then(e => {
-
-      if (!e.data || e.data.from != 'native-back-btn') {
-        window['history-back-from'] = 'onDidDismiss';
-        window.history.back();
-      }
-
-      if (e && e.data && e.data.refresh) {
-        this.loadData(true);
-      }
-    });
-    modal.present();
-  }
-
   /**
    * form to add new brand
    */
   async addBrand() {
     window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
-    const brand = new Brand;
+    const brand = new Brand();
     brand.company_id = this.company_id;
 
     const modal = await this.modalCtrl.create({
@@ -647,7 +594,7 @@ export class CompanyViewPage implements OnInit {
    * @param note
    */
   async editNote(note: Note) {
-  
+
     this.editNoteData = note;
     this.noteForm.controls.note.setValue(note.note_text);
     this.ckeditor.editorInstance.setData(note.note_text);
@@ -1321,7 +1268,7 @@ export class CompanyViewPage implements OnInit {
       componentProps: {
         model: company,
         company_id: company.company_id,
-        subcompany : isSubcompany
+        subcompany: isSubcompany
       }
     });
     modal.onDidDismiss().then(e => {

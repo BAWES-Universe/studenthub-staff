@@ -3,11 +3,10 @@ import { ActivatedRoute } from '@angular/router';
 // services
 import { StaffService } from 'src/app/providers/logged-in/staff.service';
 import { NoteService } from 'src/app/providers/logged-in/note.service';
-
+import { EventService } from 'src/app/providers/event.service';
 // models
 import { Staff } from 'src/app/models/staff';
 import { Note } from 'src/app/models/note';
-
 
 
 @Component({
@@ -19,7 +18,7 @@ export class TeamViewPage implements OnInit {
 
   public borderLimit = false;
 
-  public staffID: any;
+  public staff_id: any;
   public staff: Staff;
   public loading = false;
   public loadMore = false;
@@ -32,28 +31,39 @@ export class TeamViewPage implements OnInit {
     private activatedRoute: ActivatedRoute,
     private staffService: StaffService,
     private noteService: NoteService,
+    public eventService: EventService
   ) { }
 
   ngOnInit() {
-    this.staffID = this.activatedRoute.snapshot.paramMap.get('id');
+
+    this.staff_id = this.activatedRoute.snapshot.paramMap.get('id');
+    
     const state = window.history.state;
+    
     if (state.model) {
       this.staff = state.model;
     }
+
     if (!this.staff) {
       this.loadData();
     }
+
+    this.eventService.noteUpdated$.subscribe((data: any) => {
+      if(data.staff_id == this.staff_id) {
+        this.loadNotes();
+      }
+    });
   }
 
   ionViewWillEnter() {
-    if (this.staffID) {
+    if (this.staff_id) {
       this.loadNotes();
     }
   }
 
   loadData() {
     this.loading = true;
-    this.staffService.detail(this.staffID).subscribe(res => {
+    this.staffService.detail(this.staff_id).subscribe(res => {
       this.loading = false;
       this.staff = res;
     });
@@ -71,7 +81,7 @@ export class TeamViewPage implements OnInit {
 
     this.loading = loading;
 
-    const params = '&staff_id=' + this.staffID;
+    const params = '&staff_id=' + this.staff_id;
 
     this.noteService.list(params, 1).subscribe(response => {
 
@@ -96,7 +106,7 @@ export class TeamViewPage implements OnInit {
 
     this.currentPage++;
 
-    const params = '&staff_id=' + this.staffID;
+    const params = '&staff_id=' + this.staff_id;
 
     this.noteService.list(params, this.currentPage).subscribe(response => {
 

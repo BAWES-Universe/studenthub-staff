@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController, NavController } from '@ionic/angular';
+import {Location} from '@angular/common';
+import {AlertController, ModalController, NavController, ToastController} from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 // model
 import { Candidate } from 'src/app/models/candidate';
@@ -8,6 +9,8 @@ import { Store } from 'src/app/models/store';
 // service
 import { AwsService } from 'src/app/providers/aws.service';
 import { BrandService } from 'src/app/providers/logged-in/brand.service';
+import { EventService } from 'src/app/providers/event.service';
+import { BrandFormPage } from '../brand-form/brand-form.page';
 
 
 @Component({
@@ -20,6 +23,7 @@ export class BrandViewPage implements OnInit {
   public brand: Brand;
   public brandID = null;
   public loading = false;
+  public deleting = false;
 
   public borderLimit = false;
 
@@ -29,6 +33,10 @@ export class BrandViewPage implements OnInit {
     private activatedRoute: ActivatedRoute,
     public aws: AwsService,
     private brandService: BrandService,
+    private alertCtrl: AlertController,
+    private toastCtrl: ToastController,
+    private location: Location,
+    private eventService: EventService,
   ) {
   }
 
@@ -81,8 +89,83 @@ export class BrandViewPage implements OnInit {
       }
     });
   }
-  
+
   logScrolling(e) {
-    this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
+    this.borderLimit = (e.detail.scrollTop > 20);
+  }
+
+  async deleteBrand(event, brand) {
+
+    event.preventDefault();
+    event.stopPropagation();
+
+    const confirm = await this.alertCtrl.create({
+      header: 'Delete Brand',
+      message: 'Do you want to delete this brand?',
+      buttons: [
+        {
+          text: 'Yes',
+          handler: () => {
+
+            this.deleting = true;
+
+            this.brandService.delete(brand).subscribe(async jsonResp => {
+              this.eventService.reloadBrand$.next();
+              // On Success
+              if (jsonResp.operation == 'success') {
+                this.location.back();
+              }
+
+              // On Failure
+              if (jsonResp.operation == 'error') {
+
+                this.deleting = false;
+
+                // failer text
+                const prompt = await this.alertCtrl.create({
+                  header: 'Deletion Error!',
+                  message: jsonResp.message,
+                  buttons: ['Ok']
+                });
+                prompt.present();
+              }
+
+            });
+          }
+        },
+        {
+          text: 'No'
+        }
+      ]
+    });
+    confirm.present();
+  }
+
+
+  async editBrandSelected(event, brand) {
+
+    event.preventDefault();
+    event.stopPropagation();
+
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
+    const modal = await this.modalCtrl.create({
+      component: BrandFormPage,
+      componentProps: {
+        model: brand
+      }
+    });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+
+      if (e && e.data && e.data.refresh) {
+        this.loadData();
+      }
+    });
+    modal.present();
   }
 }

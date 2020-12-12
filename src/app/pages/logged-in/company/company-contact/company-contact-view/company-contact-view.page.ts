@@ -11,6 +11,8 @@ import { AuthService } from 'src/app/providers/auth.service';
 //services
 import { CompanyContactService } from 'src/app/providers/logged-in/company-contact.service';
 import { NoteService } from 'src/app/providers/logged-in/note.service';
+import { EventService } from 'src/app/providers/event.service';
+//pages
 import { CompanyContactFormPage } from '../../company-contact-form/company-contact-form.page';
 
 
@@ -63,6 +65,7 @@ export class CompanyContactViewPage implements OnInit {
     public modalCtrl: ModalController,
     public authService: AuthService,
     public noteService: NoteService,
+    public eventService: EventService,
     public companyContactService: CompanyContactService
   ) { }
 
@@ -80,6 +83,12 @@ export class CompanyContactViewPage implements OnInit {
     if(!this.companyContact) {
       this.loadDetail();
     }
+
+    this.eventService.noteUpdated$.subscribe((data: any) => {
+      if(data.contact_uuid == this.contact_uuid) {
+        this.loadNotes();
+      }
+    });
   }
 
   /**

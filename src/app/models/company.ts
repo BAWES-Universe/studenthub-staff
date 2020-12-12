@@ -24,6 +24,7 @@ export class Company {
     company_last_followup_datetime: any;
     company_followup_interval_weeks: any;
     currency_pref: number;
+    total_candidate: number;
     subcompanies: Company[];
     subCompanies: Company[];
     stores: Store[];

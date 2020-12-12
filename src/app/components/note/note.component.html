@@ -15,12 +15,3 @@
     {{ toDate(note.note_created_datetime) | date: 'MMM d, y' }}
   </p>
 </ion-card>
-
-<ion-button class="btn-accept" (click)="edit($event)">
-  Edit
-</ion-button>
-<ion-button class="btn-reject" (click)="delete($event)">
-  Delete
-</ion-button>
-
-<div class="clearfix"></div>

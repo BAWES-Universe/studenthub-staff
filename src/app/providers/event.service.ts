@@ -20,6 +20,7 @@ export class EventService {
   public reloadCandidateHistory$ = new Subject();
   public reloadCandiate$ = new Subject();
   public reloadCompanyList$ = new Subject();
+  public reloadBrand$ = new Subject();
 
   public clearCandidateSelection$ = new Subject();
 
@@ -31,4 +32,6 @@ export class EventService {
   public companyRequestUpdate$ = new Subject();
 
   public reloadFollowupList$ = new Subject();
+
+  public noteUpdated$ = new Subject();
 }

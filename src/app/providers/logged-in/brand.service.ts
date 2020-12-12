@@ -37,6 +37,15 @@ export class BrandService {
   }
 
   /**
+   * List of all staff
+   * @returns {Observable<any>}
+   */
+  listByCompany(id: number): Observable<any>{
+    const url = this._brandEndpoint + '/company/' + id;
+    return this._authhttp.get(url);
+  }
+
+  /**
    * Create Brand
    * @param {Brand} model
    * @returns {Observable<any>}
