@@ -22,7 +22,7 @@
           Stores
         </ion-label>
       </ion-item-divider>
-      
+
       <ion-item tappable (click)="rowSelected(store)" *ngFor="let store of mall.stores">
         <div tabindex="0"></div>
         <ion-label>
@@ -44,3 +44,9 @@
   <loading-modal [loading]="loading" type="candidate-list"></loading-modal>
 
 </ion-content>
+<ion-footer>
+  <ion-button expand="full" (click)="delete($event, mall)">
+    Delete
+  </ion-button>
+</ion-footer>
+

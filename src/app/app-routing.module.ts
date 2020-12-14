@@ -380,6 +380,30 @@ const routes: Routes = [
     }
   },
   {
+    path: 'import-transfer-form',
+    loadChildren: () => import('./pages/logged-in/transfer/import-transfer-form/import-transfer-form.module').then(m => m.ImportTransferFormPageModule),
+    canActivate: [AuthService],
+    data: {
+      name: 'ImportTransferFormPage'
+    }
+  },
+  {
+    path: 'transfer-form',
+    loadChildren: () => import('./pages/logged-in/transfer/transfer-form/transfer-form.module').then(m => m.TransferFormPageModule),
+    canActivate: [AuthService],
+    data: {
+      name: 'TransferFormPage'
+    }
+  },
+  {
+    path: 'transfer-view',
+    loadChildren: () => import('./pages/logged-in/transfer/transfer-view/transfer-view.module').then(m => m.TransferViewPageModule),
+    canActivate: [AuthService],
+    data: {
+      name: 'TransferViewPage'
+    }
+  },
+  {
     path: '**',
     redirectTo: 'not-found'
   }

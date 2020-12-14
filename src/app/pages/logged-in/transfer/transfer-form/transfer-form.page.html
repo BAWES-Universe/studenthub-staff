@@ -1,0 +1,99 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ pageTitle }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button
+              color="primary"
+              [disabled]="!form.valid || (total <= 0)"
+              (click)="validate()">
+        Save
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="form" *ngIf="ready">
+
+    <ion-card class="ion-padding">
+      <h4>I am transferring for work done in the following time period:</h4>
+      <ion-button (click)="openCalendar()">Please select the date Range</ion-button>
+      <p *ngIf="this.transfer.start_date && this.transfer.end_date">
+        From <span *ngIf="this.transfer.start_date">{{this.transfer.start_date | date}}</span> - To
+        <span *ngIf="this.transfer.end_date">{{this.transfer.end_date | date}}</span>
+      </p>
+    </ion-card>
+    <!-- store_id pipe returns the transferCandidates grouped by store as object of following format: -->
+    <!-- {name: string, resources: TransferCandidate[]} -->
+    <ion-item-group *ngFor="let group of transfer.transferCandidates | store_name">
+
+      <ion-item-divider><b>{{ group.name }}</b></ion-item-divider>
+
+      <ion-card
+              *ngFor="let transferCandidateRecord of group.resources"
+              id="candidate_{{ transferCandidateRecord.candidate.candidate_id }}">
+
+        <ion-item>
+          <div tabindex="0"></div>
+          <ion-avatar slot="start">
+            <ion-img *ngIf="!transferCandidateRecord.candidate.candidate_personal_photo" src="/assets/icon/icon.png"></ion-img>
+            <ion-img (ionError)="onImageError(transferCandidateRecord.candidate)" *ngIf="transferCandidateRecord.candidate.candidate_personal_photo" src="{{ aws.cloudinaryUrl + transferCandidateRecord.candidate.candidate_personal_photo }}"></ion-img>
+          </ion-avatar>
+          <h2 class="candidate_name">{{ transferCandidateRecord.candidate.candidate_name? transferCandidateRecord.candidate.candidate_name: transferCandidateRecord.candidate.candidate_name_ar }}</h2>
+        </ion-item>
+
+        <ion-grid>
+          <ion-row>
+            <!-- Hours Input Column -->
+            <ion-col size-lg="4" size-md="4" size-sm="12" size-xs="12">
+              <ion-item>
+
+                <ion-label position="floating">
+                  Hours Worked
+                  <span class="error" *ngIf="parseNumber(transferCandidateRecord.hours) < 0">Invalid value</span>
+                </ion-label>
+                <ion-input type="number" inputmode="decimal" min="0" (ionChange)="calculateTotal()"
+                           [(ngModel)]="transferCandidateRecord.hours"
+                           formControlName="hours[{{transferCandidateRecord.candidate.candidate_id}}]">
+                </ion-input>
+              </ion-item>
+            </ion-col>
+
+            <!-- Bonus Input Column -->
+            <ion-col size-lg="4" size-md="4" size-sm="12" size-xs="12">
+              <ion-item>
+                <ion-label position="floating">
+                  Bonus (KWD)
+                  <span class="error" *ngIf="parseNumber(transferCandidateRecord.bonus) < 0">Invalid value</span>
+                </ion-label>
+                <ion-input type="number" min="0" inputmode="decimal" (ionChange)="calculateTotal()"
+                           [(ngModel)]="transferCandidateRecord.bonus"
+                           formControlName="bonus[{{transferCandidateRecord.candidate.candidate_id}}]">
+                </ion-input>
+              </ion-item>
+            </ion-col>
+
+            <!-- Total Calculation Column -->
+            <ion-col size-lg="4" size-md="4" size-sm="12" size-xs="12" *ngIf="parseNumber(transferCandidateRecord.hours) > 0">
+              <ion-item>
+                <div tabindex="0"></div>
+                Subtotal: KWD {{ (parseNumber(transferCandidateRecord.hours) * transferCandidateRecord.candidate.company.company_hourly_rate) + parseNumber(transferCandidateRecord.bonus) | number:'1.0-3' }}
+              </ion-item>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card>
+    </ion-item-group>
+  </form>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar class="ion-text-center">
+    <ion-title>
+      Total KWD {{ total | number:'1.0-3' }}
+    </ion-title>
+  </ion-toolbar>
+</ion-footer>

@@ -78,6 +78,15 @@ export class CompanyService {
   }
 
   /**
+   * detail with all candidates
+   * @returns {Observable<any>}
+   */
+  getWithCandidates(company_id): Observable<any> {
+    let url = `${this._companyEndpoint}/${company_id}?expand=candidates,candidates.store,candidates.company`;
+    return this._authhttp.get(url);
+  }
+
+  /**
    * model detail
    * @param id
    */

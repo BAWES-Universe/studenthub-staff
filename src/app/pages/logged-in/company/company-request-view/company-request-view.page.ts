@@ -230,7 +230,6 @@ export class CompanyRequestViewPage implements OnInit {
    * close this modal
    */
   dismiss() {
-    console.log('dismiss');
     this.location.back();
   }
 

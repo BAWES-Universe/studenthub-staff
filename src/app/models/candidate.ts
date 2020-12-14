@@ -9,7 +9,7 @@ import { Note } from "./note";
 
 export class Candidate {
     employee_id: number;
-    candidate_id: string;
+    candidate_id: number;
     candidate_uid: string;
     candidate_area_uuid: string;
     store_id: number;

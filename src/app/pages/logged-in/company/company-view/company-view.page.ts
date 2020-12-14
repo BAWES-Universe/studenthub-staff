@@ -143,7 +143,6 @@ export class CompanyViewPage implements OnInit {
     this.initNoteForm();
 
     this.eventService.reloadBrand$.subscribe(res => {
-      console.log('reload');
       this.loadBrand();
     });
 
@@ -160,13 +159,16 @@ export class CompanyViewPage implements OnInit {
   async loadData(silent = false) {
 
     setTimeout(_ => {
-      this.loading = (!silent)
       this.companyStatus = !!(this.company && this.company.company_status);
       this.followup = !!(this.company && this.company.company_followup);
     }, 500);
 
+    setTimeout(_ => {
+      this.loading = (!silent);
+    });
+
     if (!this.company) {
-      this.company = new Company;
+      this.company = new Company();
       this.company.company_id = this.company_id;
     }
 
@@ -175,7 +177,6 @@ export class CompanyViewPage implements OnInit {
       this.loading = false;
       this.deleting = false;
       this.updating = false;
-
       this.company = response;
 
       setTimeout(_ => {
@@ -323,16 +324,55 @@ export class CompanyViewPage implements OnInit {
       this.updating = false;
     });
   }
-  
+
   /**
-   * retrun type name from mime type 
-   * @param file_type 
+   * retrun type name from mime type
+   * @param file_type
    */
   getFileType(file_type) {
     const types = file_type.split('/');
 
     if(types.length > 1)
       return types[1];
+  }
+
+  /**
+   * Loads form to initiate a new transfer
+   */
+  createNewTransfer() {
+    this.navCtrl.navigateForward('transfer-form/' + this.company_id);
+  }
+
+  /**
+   * Loads form to initiate a new transfer
+   */
+  importTransfer() {
+    this.navCtrl.navigateForward('import-transfer-form/' + this.company_id);
+  }
+
+  /**
+   * Present action sheet to create a new transfer
+   */
+  async presentActionSheetForNewTransfer() {
+    const actionSheet = await this.alertCtrl.create({
+      header: 'How do you wish to create your transfer?',
+      buttons: [
+        {
+          text: 'Manual input of hours',
+          handler: () => {
+            this.createNewTransfer();
+          }
+        },
+        {
+          text: 'Excel sheet upload',
+          handler: () => {
+            this.importTransfer();
+          }
+        }
+      ]
+    });
+
+    actionSheet.present();
   }
 
   isFollowUpIntervalPassed() {

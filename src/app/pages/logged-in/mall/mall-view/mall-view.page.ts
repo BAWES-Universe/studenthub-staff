@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController, NavController } from "@ionic/angular";
+import {AlertController, ModalController, NavController, ToastController} from "@ionic/angular";
 import { ActivatedRoute } from '@angular/router';
 //services
 import { MallService } from 'src/app/providers/logged-in/mall.service';
@@ -26,7 +26,9 @@ export class MallViewPage implements OnInit {
     private activatedRoute: ActivatedRoute,
     private mallService: MallService,
     private modalCtrl: ModalController,
-    private navCtrl: NavController
+    private navCtrl: NavController,
+    private alertCtrl: AlertController,
+    private toastCtrl: ToastController
   ) { }
 
   ngOnInit() {
@@ -77,6 +79,50 @@ export class MallViewPage implements OnInit {
   }
 
   logScrolling(e) {
-    this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
+    this.borderLimit = (e.detail.scrollTop > 20);
   }
+
+  async delete(event, mall: Mall) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const confirm = await this.alertCtrl.create({
+      header: 'Delete Mall?',
+      message: 'Are you sure you want to delete this Mall?',
+      buttons: [
+        {
+          text: 'Yes',
+          handler: () => {
+            this.loading = true;
+            this.mallService.delete(mall).subscribe(async jsonResp => {
+              this.loading = false;
+
+              if (jsonResp.operation == 'error') {
+                const alert = await this.alertCtrl.create({
+                  header: 'Deletion Error!',
+                  subHeader: jsonResp.message,
+                  buttons: ['OK']
+                });
+                alert.present();
+              }
+
+              if (jsonResp.operation == 'success') {
+                const toast = await this.toastCtrl.create({
+                  message: jsonResp.message,
+                  duration: 3000
+                });
+                toast.present();
+              }
+              this.navCtrl.navigateBack('/mall-list');
+            });
+          }
+        },
+        {
+          text: 'No'
+        }
+      ]
+    });
+    confirm.present();
+  }
+
 }

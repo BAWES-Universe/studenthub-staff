@@ -8,7 +8,7 @@
     <ion-title *ngIf="company">
       {{ company.company_name }}
     </ion-title>
-    <ion-buttons slot="end" *ngIf="!loading && company">
+    <ion-buttons slot="end" *ngIf="company && !loading">
       <ion-button (click)="update()">
         Update
       </ion-button>
@@ -291,13 +291,10 @@
 
   <section *ngIf="segment == 'documents'">
 
-    <ion-card class="document" *ngFor="let file of company.files">
+    <ion-card class="document" target="_blank" href="{{ awsService.permanentBucketUrl }}{{ file.file_s3_path }}" *ngFor="let file of company.files">
       <ion-card-content>
 
-        <a target="_blank" (click)="$event.stopPropagation()"
-          href="{{ awsService.permanentBucketUrl }}{{ file.file_s3_path }}">
-          <img src="assets/images/ic_save.svg" />
-        </a>
+        <img class="icon" src="assets/images/ic_save.svg" />
         
         <span class="meta-data">{{ getFileType(file.file_type) }}</span>
         <span class="meta-data">{{ file.file_size | filesize }}</span>
@@ -564,7 +561,7 @@
   <!--    Transfer List-->
   <section *ngIf="segment == 'transfer'">
     <ion-list *ngIf="company.parentTransfers">
-      <ion-card *ngFor="let transfer of company.parentTransfers">
+      <ion-card *ngFor="let transfer of company.parentTransfers" tappable [routerLink]="'/transfer-view/' + transfer.transfer_id">
         <ion-card-content>
           <p><strong>Transfer #{{ transfer.transfer_id}}</strong></p>
           <h2><strong>KWD {{ transfer.company_total | number:'1.3-3' }}</strong></h2>
@@ -591,7 +588,18 @@
 </ion-content>
 
 <ion-footer *ngIf="!loading && company">
-  <ion-button expand="full" *ngIf="!stores || stores.length == 0" (click)="create(company.company_id, true)">
-    Create Sub Company
-  </ion-button>
+  <ion-grid>
+    <ion-row>
+      <ion-col *ngIf="!stores || stores.length == 0" >
+        <ion-button (click)="create(company.company_id, true)">
+          Create Sub Company
+        </ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button (click)="presentActionSheetForNewTransfer()">
+          Create New <br/> Transfer
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-footer>

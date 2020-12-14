@@ -1,0 +1,47 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ pageTitle }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding ion-text-center">
+  <!-- Instructions for Create -->
+  <section *ngIf="scenario == 'create'">
+    <ion-button fill="outline" color="primary" (click)="downloadTemplate()">
+      Step 1: Download Excel template
+    </ion-button>
+
+    <h4>Step 2: Fill out the number of hours worked and the bonus amount to be sent in KWD</h4>
+
+    <h4>Step 3: Fill Start and End Date</h4>
+
+
+    <h4>Step 4: Upload the updated Excel file</h4>
+  </section>
+
+  <h4>I am transferring for work done in the following time period:</h4>
+  <ion-button (click)="openCalendar()">Please select the date Range</ion-button>
+  <p *ngIf="this.start_date && this.end_date">
+    From <span *ngIf="this.start_date">{{this.start_date | date}}</span> - To
+    <span *ngIf="this.end_date">{{this.end_date | date}}</span>
+  </p>
+
+  <br/>
+
+  <!-- Instructions for Update -->
+  <section *ngIf="scenario == 'update'">
+    <h4>Upload the updated Excel file</h4>
+  </section>
+
+  <!-- Upload Form -->
+  <input type='file' #fileInput (change)="browserUpload($event)" accept=".xlsx,.xls"/>
+
+  <ion-button (click)="upload()" [disabled]="uploading || !start_date || !end_date">
+    <span *ngIf="!uploading">Upload</span>
+    <ion-spinner *ngIf="uploading">Uploading...</ion-spinner>
+  </ion-button>
+
+</ion-content>

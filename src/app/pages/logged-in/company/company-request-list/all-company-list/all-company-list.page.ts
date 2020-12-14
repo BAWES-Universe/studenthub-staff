@@ -49,7 +49,8 @@ export class AllCompanyListPage implements OnInit {
    * Return url string to filter list
    */
   urlParams() {
-    let urlParams = '&status=1';
+    let urlParams = '';
+    // let urlParams = '&status=1';
 
     if (this.filters.name) {
       urlParams += '&name=' + this.filters.name;

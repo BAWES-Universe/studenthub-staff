@@ -68,7 +68,6 @@ export class CompanyRequestListPopupPage implements OnInit {
 
   ionViewWillEnter() {
     if (this.company && this.company.company_id) {
-      console.log('test');
       this.filters.companyID = this.company.company_id;
       this.requests = this.company.requests;
     }
