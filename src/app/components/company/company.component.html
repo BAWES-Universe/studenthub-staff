@@ -7,7 +7,8 @@
   </ion-avatar>
 
   <ion-label class="ion-text-wrap">
-    <h2>{{ company.company_name }}</h2>
+    <h2 *ngIf="company.company_common_name_en">{{ company.company_common_name_en }}</h2>
+    <h2 *ngIf="!company.company_common_name_en">{{ company.company_name }}</h2>
     <div class="small-detail">
       <p>
         {{company.company_hourly_rate}} KD per hour<br/>
