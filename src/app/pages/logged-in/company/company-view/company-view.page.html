@@ -291,14 +291,11 @@
 
   <section *ngIf="segment == 'documents'">
 
-    <ion-card class="document" *ngFor="let file of company.files">
+    <ion-card class="document" target="_blank" href="{{ awsService.permanentBucketUrl }}{{ file.file_s3_path }}" *ngFor="let file of company.files">
       <ion-card-content>
 
-        <a target="_blank" (click)="$event.stopPropagation()"
-          href="{{ awsService.permanentBucketUrl }}{{ file.file_s3_path }}">
-          <img src="assets/images/ic_save.svg" />
-        </a>
-
+        <img class="icon" src="assets/images/ic_save.svg" />
+        
         <span class="meta-data">{{ getFileType(file.file_type) }}</span>
         <span class="meta-data">{{ file.file_size | filesize }}</span>
 

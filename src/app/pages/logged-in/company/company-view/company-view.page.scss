@@ -140,7 +140,7 @@ ckeditor {
     --padding-start: 21px;
   }
 
-  a {
+  .icon {
     width: 24px;
     height: 24px;
     margin: 3px 120px 8px 0;
@@ -160,7 +160,7 @@ ckeditor {
     letter-spacing: normal;
     text-align: center;
     color: #000;
-    text-transform: capitalize;
+    text-transform: uppercase;
     float: right;
     margin-left: 6px;
   }
