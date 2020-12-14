@@ -165,7 +165,7 @@ export class RequestFormPage implements OnInit {
     }
 
     popover.onDidDismiss().then((_) => {
-      if (_ && _.data) {
+      if (_ && _.data && _.data.companyContact) {
 
         let contact = _.data.companyContact.contact_name;
 
