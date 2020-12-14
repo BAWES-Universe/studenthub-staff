@@ -159,13 +159,16 @@ export class CompanyViewPage implements OnInit {
   async loadData(silent = false) {
 
     setTimeout(_ => {
-      this.loading = (!silent)
       this.companyStatus = !!(this.company && this.company.company_status);
       this.followup = !!(this.company && this.company.company_followup);
     }, 500);
 
+    setTimeout(_ => {
+      this.loading = (!silent);
+    });
+
     if (!this.company) {
-      this.company = new Company;
+      this.company = new Company();
       this.company.company_id = this.company_id;
     }
 
@@ -174,7 +177,6 @@ export class CompanyViewPage implements OnInit {
       this.loading = false;
       this.deleting = false;
       this.updating = false;
-
       this.company = response;
 
       setTimeout(_ => {
@@ -322,10 +324,10 @@ export class CompanyViewPage implements OnInit {
       this.updating = false;
     });
   }
-  
+
   /**
-   * retrun type name from mime type 
-   * @param file_type 
+   * retrun type name from mime type
+   * @param file_type
    */
   getFileType(file_type) {
     const types = file_type.split('/');

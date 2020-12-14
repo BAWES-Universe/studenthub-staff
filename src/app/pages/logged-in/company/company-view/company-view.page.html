@@ -8,7 +8,7 @@
     <ion-title *ngIf="company">
       {{ company.company_name }}
     </ion-title>
-    <ion-buttons slot="end" *ngIf="!loading && company">
+    <ion-buttons slot="end" *ngIf="company && !loading">
       <ion-button (click)="update()">
         Update
       </ion-button>
@@ -298,7 +298,7 @@
           href="{{ awsService.permanentBucketUrl }}{{ file.file_s3_path }}">
           <img src="assets/images/ic_save.svg" />
         </a>
-        
+
         <span class="meta-data">{{ getFileType(file.file_type) }}</span>
         <span class="meta-data">{{ file.file_size | filesize }}</span>
 
