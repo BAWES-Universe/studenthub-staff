@@ -27,14 +27,15 @@ export class CompanyFormPage implements OnInit {
   public company_id;
 
   public model: Company;
-  
+
   public operation: string;
-  
+
   public isSubCompany = 0;
 
   public form: FormGroup;
 
   public type: string = 'password';
+  public followup = false;
 
   constructor(
     public activateRoute: ActivatedRoute,
@@ -120,6 +121,8 @@ export class CompanyFormPage implements OnInit {
           bonus_commission: ['', Validators.required],
           hourly_rate: ['', Validators.required],
           logo: [''],
+          followup_interval_weeks: [''],
+          followup: [0]
         });
       }
     } else { // Show Update Form
@@ -149,6 +152,8 @@ export class CompanyFormPage implements OnInit {
             description_ar: [this.model.company_description_ar],
             website: [this.model.company_website],
             logo: [this.model.company_logo],
+            followup_interval_weeks: [this.model.company_followup_interval_weeks],
+            followup: [this.model.company_followup]
         });
       }
     }
@@ -168,7 +173,8 @@ export class CompanyFormPage implements OnInit {
     this.model.company_description_en = this.form.value.description_en;
     this.model.company_description_ar = this.form.value.description_ar;
     this.model.company_website = this.form.value.website;
-    this.model.company_logo = this.form.value.logo;
+    this.model.company_followup_interval_weeks = this.form.value.followup_interval_weeks;
+    this.model.company_followup = this.form.value.followup;
   }
 
   /**
@@ -230,10 +236,40 @@ export class CompanyFormPage implements OnInit {
   }
 
   togglePasswordVisibility() {
-    this.type = this.type == 'password'? 'text': 'password';
+    this.type = (this.type == 'password') ? 'text' : 'password';
   }
-  
+
   logScrolling(e) {
-    this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
+    this.borderLimit = (e.detail.scrollTop > 20);
+  }
+
+  toggleFollowup($event) {
+    // if same value then do nothing
+    if (this.followup == $event.detail.checked) {
+      return;
+    }
+
+    this.followup = $event.detail.checked;
+    this.company.company_followup = $event.detail.checked;
+
+    this.updating = true;
+
+    this.companyService.updateFollowup(this.company).subscribe(async response => {
+
+      this.updating = false;
+
+      if (response && response.operation == 'success') {
+        const toast = await this.toastCtrl.create({
+          message: response.message,
+          duration: 3000
+        });
+        toast.present();
+
+        this.eventService.reloadFollowupList$.next();
+      }
+
+    }, () => {
+      this.updating = false;
+    });
   }
 }

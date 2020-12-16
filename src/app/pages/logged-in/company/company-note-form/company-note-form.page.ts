@@ -80,7 +80,10 @@ export class CompanyNoteFormPage implements OnInit {
       company_id: [this.note.company_id],
       company_name: [this.note.company ? this.note.company.company_name : ''],
     });
-
+    //https://www.pivotaltracker.com/story/show/175926516
+    if (this.from == 'post-update') {
+      this.form.controls.type.setValue('Internal Note');
+    }
     this.operation = (this.note && this.note.note_uuid) ? 'Update' : 'Post an update';
   }
 

@@ -65,6 +65,20 @@
           <ion-input type="text" formControlName="bonus_commission"></ion-input>
         </ion-item>
 
+      <ion-item *ngIf="!isSubCompany">
+        <ion-label position="floating">Followup interval</ion-label>
+        <ion-input type="text" formControlName="followup_interval_weeks"></ion-input>
+      </ion-item>
+
+      <ion-item *ngIf="!isSubCompany">
+        <div tabindex="0"></div>
+        <ion-label>Followup</ion-label>
+        <ion-toggle formControlName="followup" (ionChange)="toggleFollowup($event)">
+<!--        <ion-toggle formControlName="followup" [checked]="followup" (ionChange)="toggleFollowup($event)">-->
+        </ion-toggle>
+      </ion-item>
+
+
         <ion-item *ngIf="!isSubCompany">
           <ion-label position="floating">Email</ion-label>
           <ion-input type="text" formControlName="email"></ion-input>

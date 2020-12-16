@@ -350,7 +350,7 @@ export class CompanyRequestViewPage implements OnInit {
   }
 
   logScrolling(e) {
-    this.borderLimit = (e.detail.scrollTop > 0) ?  true : false;
+    this.borderLimit = (e.detail.scrollTop > 0);
   }
 
   startRequest(event, request) {
@@ -377,6 +377,15 @@ export class CompanyRequestViewPage implements OnInit {
 
   cancelledRequest(event, request) {
 
+    if (this.suggestedSuggestions.length > 0) {
+      this.toastCtrl.create({
+        message: 'Please clear all suggestions by accepting or rejecting before being able to proceed with mark delivered / cancellation',
+        buttons: ['Okay']
+      }).then(prompt => {
+        prompt.present();
+      });
+      return false;
+    }
     this.alertCtrl.create({
       header: 'Please provide feedback',
       inputs: [
@@ -428,6 +437,16 @@ export class CompanyRequestViewPage implements OnInit {
   }
 
   deliveredRequest(event, request) {
+
+    if (this.suggestedSuggestions.length > 0) {
+      this.toastCtrl.create({
+        message: 'Please clear all suggestions by accepting or rejecting before being able to proceed with mark delivered / cancellation',
+        buttons: ['Okay']
+      }).then(prompt => {
+        prompt.present();
+      });
+      return false;
+    }
 
     event.preventDefault();
     event.stopPropagation();
@@ -505,6 +524,5 @@ export class CompanyRequestViewPage implements OnInit {
         });
       }
     });
-
   }
 }

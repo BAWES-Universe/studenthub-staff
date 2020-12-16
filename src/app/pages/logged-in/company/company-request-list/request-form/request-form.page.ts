@@ -160,7 +160,10 @@ export class RequestFormPage implements OnInit {
     //   });
     // } else {
       popover = await this.modalCtrl.create({
-        component: CompanyContactListPage
+        component: CompanyContactListPage,
+        componentProps: {
+          company: this.company
+        }
       });
     // }
 
@@ -220,6 +223,7 @@ export class RequestFormPage implements OnInit {
   }
 
   resetForm() {
+    this.company = null;
     this.form.controls.company_id.setValue(null);
     this.form.controls.contact_name.setValue(null);
     this.form.controls.contact_uuid.setValue(null);

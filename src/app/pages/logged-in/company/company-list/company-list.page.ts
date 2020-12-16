@@ -29,14 +29,10 @@ export class CompanyListPage implements OnInit {
   public segment = 1;
 
   public filters: {
-    name: string,
-    common_name_en: string,
-    common_name_ar: string
+    name: string
     status: string
   } = {
       name: null,
-      common_name_en: null,
-      common_name_ar: null,
       status: null
     };
 
@@ -85,13 +81,6 @@ export class CompanyListPage implements OnInit {
       urlParams += '&name=' + this.filters.name;
     }
 
-    if (this.filters.common_name_en) {
-      urlParams += '&common_name_en=' + this.filters.common_name_en;
-    }
-
-    if (this.filters.common_name_ar) {
-      urlParams += '&common_name_ar=' + this.filters.common_name_ar;
-    }
     if (this.filters.status) {
       urlParams += '&status=' + this.filters.status;
     }
@@ -105,8 +94,6 @@ export class CompanyListPage implements OnInit {
   resetFilter() {
     this.filters = {
       name: null,
-      common_name_en: null,
-      common_name_ar: null,
       status: null
     };
 
