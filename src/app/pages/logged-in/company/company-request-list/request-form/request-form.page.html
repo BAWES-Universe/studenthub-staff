@@ -6,10 +6,9 @@
 
     <ion-title>
       {{ operation }} Request
-    </ion-title>
-
-    <ion-title size="small" *ngIf="company">
-      for {{ company.company_common_name_en? company.company_common_name_en: company.company_name }}
+      <small size="small" *ngIf="company">
+        for <br/>{{ company.company_common_name_en? company.company_common_name_en: company.company_name }}
+      </small>
     </ion-title>
 
     <ion-buttons slot="end">
@@ -37,7 +36,7 @@
         <ion-input type="text" formControlName="contact_name" readonly></ion-input>
       </ion-item>
     </ion-list>
-    
+
     <ion-list>
       <ion-radio-group  formControlName="position_type">
         <ion-row>
@@ -80,10 +79,20 @@
         <ion-textarea formControlName="additional_info" placeholder="Female only, Lebanese Jordanian Syrian NO EGYPTIAN"></ion-textarea>
       </ion-item>
     </ion-list>
-    <ion-button color="primary" [disabled]="form && !form.valid" (click)="save()">
-      <span *ngIf="!saving">Save</span>
-      <ion-spinner *ngIf="saving"></ion-spinner>
-    </ion-button>
-    <ion-button (click)="resetForm();" color="secondary">Reset</ion-button>
   </form>
 </ion-content>
+<ion-footer>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-button [disabled]="form && !form.valid" (click)="save()">
+          <span *ngIf="!saving">Save</span>
+          <ion-spinner *ngIf="saving"></ion-spinner>
+        </ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button (click)="resetForm();">Reset</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-footer>

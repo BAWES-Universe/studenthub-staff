@@ -8,20 +8,21 @@ import { Pipe, PipeTransform, NgZone, ChangeDetectorRef, OnDestroy } from "@angu
 export class TimeAgoPipe implements PipeTransform, OnDestroy {
 
     public timer: number;
-    
+
     constructor(
-        public changeDetectorRef: ChangeDetectorRef, 
+        public changeDetectorRef: ChangeDetectorRef,
         public ngZone: NgZone
     ) {}
-    
+
 	transform(value: string) {
 		this.removeTimer();
+    let GMTDate = new Date();
 
-		let d = (value) ? new Date(value.replace(/-/g, '/') + ' UTC'):new Date();
+		let d = (value) ? new Date(value.replace(/-/g, '/') + ' GMT') : GMTDate['toGMTString']();
 		let now = new Date();
 		let seconds = Math.round(Math.abs((now.getTime() - d.getTime())/1000));
 		let timeToUpdate = (Number.isNaN(seconds)) ? 1000 : this.getSecondsUntilUpdate(seconds) * 1000;
-        
+
         this.timer = this.ngZone.runOutsideAngular(() => {
 			if (typeof window !== 'undefined') {
 				return window.setTimeout(() => {
@@ -30,13 +31,13 @@ export class TimeAgoPipe implements PipeTransform, OnDestroy {
 			}
 			return null;
         });
-        
+
 		let minutes = Math.round(Math.abs(seconds / 60));
 		let hours = Math.round(Math.abs(minutes / 60));
 		let days = Math.round(Math.abs(hours / 24));
 		let months = Math.round(Math.abs(days/30.416));
 		let years = Math.round(Math.abs(days/365));
-		
+
 		if (Number.isNaN(seconds)){
 			return '';
 		} else if (seconds <= 45) {
@@ -63,18 +64,18 @@ export class TimeAgoPipe implements PipeTransform, OnDestroy {
 			return years + ' years ago';
 		}
     }
-    
+
 	ngOnDestroy(): void {
 		this.removeTimer();
     }
-    
+
 	public removeTimer() {
 		if (this.timer) {
 			window.clearTimeout(this.timer);
 			this.timer = null;
 		}
     }
-    
+
 	public getSecondsUntilUpdate(seconds:number) {
 		let min = 60;
 		let hr = min * 60;

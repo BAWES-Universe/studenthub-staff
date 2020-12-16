@@ -51,11 +51,12 @@
 
     <!-- for old data -->
 
+
     <p class="activity" *ngIf="suggestion.feedbacks.length == 0">
       <span class="staff-name" *ngIf="suggestion.updatedBy" [routerLink]="'/team-view/' + suggestion.updatedBy.staff_id">{{ suggestion.updatedBy.staff_name }}:&nbsp;</span>
-      Client <span *ngIf="suggestion.suggestion_status == 1">suggested&nbsp;</span>
-      <span *ngIf="suggestion.suggestion_status == 3">accepted&nbsp;</span>
-      <span *ngIf="suggestion.suggestion_status == 2">rejected&nbsp;</span>
+      <span *ngIf="suggestion.suggestion_status == 1">I suggested&nbsp;</span>
+      <span *ngIf="suggestion.suggestion_status == 3">Client accepted&nbsp;</span>
+      <span *ngIf="suggestion.suggestion_status == 2">Client rejected&nbsp;</span>
       <span class="candidate_name" *ngIf="suggestion.candidate" [routerLink]="'/candidate-view/' + suggestion.candidate_id">{{ suggestion.candidate.candidate_name ?suggestion.candidate.candidate_name : suggestion.candidate.candidate_name_ar }}</span>
       <span class="candidate_name" *ngIf="suggestion.fulltimer" [routerLink]="'/fulltimer/' + suggestion.fulltimer_uuid">{{ suggestion.fulltimer.fulltimer_name }}</span>
       because <span [innerHTML]="suggestion.note.note_text"></span>
@@ -69,15 +70,22 @@
 
   <!-- all activity on suggestion -->
 
-  <ion-card *ngIf="suggestion && suggestion.feedbacks.length > 0">
-    <p class="activity" *ngFor="let feedback of suggestion.feedbacks">
-      <span class="staff-name" *ngIf="feedback.updatedBy" tappable [routerLink]="'/team-view/' + feedback.updatedBy.staff_id">{{ feedback.updatedBy.staff_name }}:&nbsp;</span>
-      Client <span class="note-tpye">{{ feedback.note_type }}&nbsp;</span>
-      <span class="candidate_name" *ngIf="suggestion.candidate" tappable [routerLink]="'/candidate-view/' + suggestion.candidate_id">{{ suggestion.candidate.candidate_name ?suggestion.candidate.candidate_name : suggestion.candidate.candidate_name_ar }}</span>
-      <span class="candidate_name" *ngIf="suggestion.fulltimer" tappable [routerLink]="'/fulltimer/' + suggestion.fulltimer_uuid">{{ suggestion.fulltimer.fulltimer_name }}</span>
-      because <span [innerHTML]="feedback.note_text"></span>
-    </p>
-  </ion-card>
+  <ng-container *ngIf="suggestion && suggestion.feedbacks.length > 0">
+    <ion-card *ngFor="let feedback of suggestion.feedbacks">
+      <p class="activity">
+        <span class="staff-name" *ngIf="feedback.updatedBy" tappable [routerLink]="'/team-view/' + feedback.updatedBy.staff_id">{{ feedback.updatedBy.staff_name }}:&nbsp;</span>
+        <ng-container *ngIf="feedback.note_type == 'Suggested'" > I <span class="note-tpye"> {{ feedback.note_type }}&nbsp;</span></ng-container>
+        <ng-container *ngIf="feedback.note_type != 'Suggested'" > Client <span class="note-tpye">  {{ feedback.note_type }}&nbsp;</span></ng-container>
+        <span class="candidate_name" *ngIf="suggestion.candidate" tappable [routerLink]="'/candidate-view/' + suggestion.candidate_id">{{ suggestion.candidate.candidate_name ?suggestion.candidate.candidate_name : suggestion.candidate.candidate_name_ar }}</span>
+        <span class="candidate_name" *ngIf="suggestion.fulltimer" tappable [routerLink]="'/fulltimer/' + suggestion.fulltimer_uuid">{{ suggestion.fulltimer.fulltimer_name }}</span>
+        because <span [innerHTML]="feedback.note_text"></span>
+      </p>
+      <p class="txt-time">
+        {{ feedback.note_created_datetime | timeAgo }} on
+        {{ toDate(feedback.note_created_datetime) | date: 'MMM d, y' }}
+      </p>
+    </ion-card>
+  </ng-container>
 
   <loading-modal [loading]="loading" type="text-list"></loading-modal>
 

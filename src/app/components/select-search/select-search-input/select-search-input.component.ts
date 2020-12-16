@@ -22,6 +22,8 @@ export class SelectSearchInputComponent implements ControlValueAccessor {
   public selectedItem: any;
 
   // Input placeholder
+  @Input() title = null;
+
   @Input() placeholder = 'Select a value';
   // Attribute for "Value" within collection array objects
   @Input() valueAttr: string;

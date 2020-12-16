@@ -40,10 +40,9 @@
 
   <p class="activity" *ngIf="!model.feedback">
     <span class="staff-name" *ngIf="model.updatedBy" [routerLink]="'/team-view/' + model.updatedBy.staff_id">{{ model.updatedBy.staff_name }}:&nbsp;</span>
-    Client
-    <span *ngIf="model.suggestion_status == 1">suggested</span>
-    <span *ngIf="model.suggestion_status == 3">accepted</span>
-    <span *ngIf="model.suggestion_status == 2">rejected</span>
+    <span *ngIf="model.suggestion_status == 1">I suggested&nbsp;</span>
+    <span *ngIf="model.suggestion_status == 3">Client accepted&nbsp;</span>
+    <span *ngIf="model.suggestion_status == 2">Client rejected&nbsp;</span>
     <span class="candidate_name" *ngIf="model.candidate">&nbsp;{{ model.candidate.candidate_name ?model.candidate.candidate_name : model.candidate.candidate_name_ar }}</span>
     <span class="candidate_name" *ngIf="model.fulltimer">&nbsp;{{ model.fulltimer.fulltimer_name }}</span>
     because <span [innerHTML]="model.note.note_text"></span>
@@ -51,7 +50,8 @@
 
   <p class="activity" *ngIf="model.feedback">
     <span class="staff-name" *ngIf="model.feedback.updatedBy">{{ model.feedback.updatedBy.staff_name }}:&nbsp;</span>
-    Client <span class="note-tpye">{{ model.feedback.note_type }}</span> 
+    <ng-container *ngIf="model.feedback.note_type == 'Suggested'" > I <span class="note-tpye"> {{ model.feedback.note_type }}&nbsp;</span></ng-container>
+    <ng-container *ngIf="model.feedback.note_type != 'Suggested'" > Client <span class="note-tpye">  {{ model.feedback.note_type }}&nbsp;</span></ng-container>
     <span class="candidate_name" *ngIf="model.candidate">&nbsp;{{ model.candidate.candidate_name ?model.candidate.candidate_name : model.candidate.candidate_name_ar }}</span>
     <span class="candidate_name" *ngIf="model.fulltimer">&nbsp;{{ model.fulltimer.fulltimer_name }}</span>
     because <span [innerHTML]="model.feedback.note_text"></span>

@@ -46,6 +46,7 @@ import { NoteModule } from './components/note/note.module';
 import { SuggestPageModule } from './pages/logged-in/suggest/suggest.module';
 import { FulltimerFormPageModule } from './pages/logged-in/fulltimer/fulltimer-form/fulltimer-form.module';
 import {CompanyModule} from "./components/company/company.module";
+import {LocationPageModule} from "./pages/logged-in/candidate/location/location.module";
 import { CalendarModule } from 'ion2-calendar';
 
 export function startupServiceFactory(authService) {
@@ -105,7 +106,8 @@ export function createTranslateLoader(http: HttpClient) {
         NoteModule,
         SuggestPageModule,
         CompanyModule,
-        CalendarModule
+        CalendarModule,
+        LocationPageModule
     ],
   providers: [
     {

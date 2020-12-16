@@ -18,7 +18,7 @@
 <ion-content class="ion-padding">
   <form [formGroup]="form" *ngIf="form">
     <ion-list>
-
+      <ng-container *ngIf="this.from !='post-update'">
       <ion-item *ngIf="['Suggested', 'Accepted', 'Rejected'].indexOf(form.controls.type.value) == -1">
         <div tabindex="0"></div>
         <ion-label position="floating">Note Type</ion-label>
@@ -31,8 +31,7 @@
           <ion-select-option>Task</ion-select-option>
         </ion-select>
       </ion-item>
-      
-      <ng-container *ngIf="this.from !='post-update'">
+
         <ion-item (click)="openClient($event)" *ngIf="this.from !='company-view'">
           <div tabindex="0"></div>
           <ion-label position="floating">Company Name</ion-label>

@@ -342,7 +342,8 @@ const routes: Routes = [
     loadChildren: () => import('./pages/logged-in/fulltimer/fulltimer-search/fulltimer-search.module').then( m => m.FulltimerSearchPageModule),
     canActivate: [AuthService],
     data: {
-      name: 'FulltimerSearchPage'
+      name: 'FulltimerSearchPage',
+      navDisable: true
     }
   },
   {
@@ -350,7 +351,8 @@ const routes: Routes = [
     loadChildren: () => import('./pages/logged-in/fulltimer/fulltimer-view/fulltimer-view.module').then( m => m.FulltimerViewPageModule),
     canActivate: [AuthService],
     data: {
-      name: 'FulltimerViewPage'
+      name: 'FulltimerViewPage',
+      navDisable: true
     }
   },
 

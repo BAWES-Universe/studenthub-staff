@@ -5,11 +5,12 @@
 
   <p class="activity">
     <b *ngIf="activity.updatedBy">{{ activity.updatedBy.staff_name }}:&nbsp;</b>
-    <span [innerHTML]="activity.note_text"></span>
+    <ng-container *ngIf="activity.note_text.length > 100"><span [innerHTML]="activity.note_text | slice:0:100"></span>...</ng-container>
+    <ng-container *ngIf="activity.note_text.length < 100"><span [innerHTML]="activity.note_text"></span></ng-container>
   </p>
 
   <p class="txt-time">
-    {{ activity.note_updated_datetime | timeAgo }} on 
+    {{ activity.note_updated_datetime | timeAgo }} on
     {{ toDate(activity.note_created_datetime) | date: 'MMM d, y' }}
   </p>
 </ion-card>

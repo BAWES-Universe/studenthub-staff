@@ -9,10 +9,11 @@ import { UniversityService } from 'src/app/providers/logged-in/university.servic
 import { CountryService } from 'src/app/providers/logged-in/country.service';
 // model
 import { Candidate } from 'src/app/models/candidate';
-//pages
+// pages
 import { SkillFormPage } from '../skill-form/skill-form.page';
 import { ExperienceFormPage } from '../experience-form/experience-form.page';
 import { UploadCvPage } from '../upload-cv/upload-cv.page';
+import {LocationPage} from '../location/location.page';
 
 
 @Component({
@@ -102,6 +103,11 @@ export class CandidateFormPage implements OnInit {
     this.model.candidate_civil_photo_front = this.form.value.civilfront;
     this.model.candidate_civil_photo_back = this.form.value.civilback;
     this.model.candidate_objective = this.form.value.objective;
+
+    this.model.candidate_latitude = this.form.value.latitude;
+    this.model.candidate_longitude = this.form.value.longitude;
+    this.model.candidate_area_uuid = this.form.value.area_uuid;
+    this.model.candidate_mom_kuwaiti = this.form.value.candidate_mom_kuwait;
   }
 
   /**
@@ -131,8 +137,8 @@ export class CandidateFormPage implements OnInit {
         // open view page
         this.navCtrl.navigateForward('candidate-view/' + jsonResponse.candidate.candidate_id);
 
-        const candidate_name = this.model.candidate_name? this.model.candidate_name: this.model.candidate_name_ar;
-        
+        const candidate_name = this.model.candidate_name ? this.model.candidate_name : this.model.candidate_name_ar;
+
         const toast = await this._toastCtrl.create({
           message: candidate_name + '\'s account saved successfully',
           duration: 3000
@@ -231,7 +237,11 @@ export class CandidateFormPage implements OnInit {
         license: ['', Validators.required],
         skills: ['', Validators.required],
         experiences: [''],
-        resume: ['']
+        resume: [''],
+        latitude: [''],
+        longitude: [''],
+        area_uuid: [''],
+        candidate_mom_kuwait: ['']
       });
     } else { // Show Update Form
       this.operation = 'Update';
@@ -256,7 +266,11 @@ export class CandidateFormPage implements OnInit {
         license: [this.model.candidate_driving_license, Validators.required],
         skills: [this.model.skill, Validators.required],
         experiences: [this.model.experience],
-        resume: [this.model.candidate_resume]
+        resume: [this.model.candidate_resume],
+        latitude: [this.model.candidate_latitude],
+        longitude: [this.model.candidate_longitude],
+        area_uuid: [this.model.candidate_area_uuid],
+        candidate_mom_kuwait: [this.model.candidate_mom_kuwaiti]
       });
       this.loadExp();
       this.loadSkill();
@@ -267,6 +281,12 @@ export class CandidateFormPage implements OnInit {
     this.form.controls.gender.setValue(value);
     this.form.controls.gender.markAsDirty();
     this.model.candidate_gender = value;
+  }
+
+  setKuwaitiMomStatus(value) {
+    this.form.controls.candidate_mom_kuwait.setValue(value);
+    this.form.controls.candidate_mom_kuwait.markAsDirty();
+    this.model.candidate_mom_kuwaiti = value;
   }
 
   setLicenseOption(value) {
@@ -321,7 +341,7 @@ export class CandidateFormPage implements OnInit {
         window.history.back();
       }
     });
-    
+
     const { data } = await modal.onWillDismiss();
 
     if (data && data.experiences) {
@@ -370,7 +390,7 @@ export class CandidateFormPage implements OnInit {
         window.history.back();
       }
     });
-    
+
     const { data } = await modal.onWillDismiss();
 
     if (data && data.resume) {
@@ -379,8 +399,45 @@ export class CandidateFormPage implements OnInit {
       this.model.candidate_resume = data.resume;
     }
   }
-  
+
   logScrolling(e) {
-    this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
+    this.borderLimit = (e.detail.scrollTop > 20);
+  }
+
+  /**
+   * select fulltimer location
+   */
+  async updateLocation() {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
+    const modal = await this.modalCtrl.create({
+      component: LocationPage,
+      componentProps: {
+        candidate: this.model,
+      }
+    });
+    modal.present();
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
+
+    const { data } = await modal.onWillDismiss();
+
+    if (data && data.area_uuid) {
+      this.form.controls.area_uuid.setValue(data.area_uuid);
+      this.form.controls.area_uuid.markAsDirty();
+
+      this.form.controls.country_id.setValue(data.country_id);
+      this.form.controls.country_id.markAsDirty();
+
+      this.model.area = data.area;
+      this.model.country = data.country;
+
+      this.form.updateValueAndValidity();
+    }
   }
 }

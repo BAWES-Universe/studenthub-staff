@@ -9,45 +9,7 @@
 </ion-header>
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
-
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Filter by</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <ion-grid>
-        <ion-row>
-          <ion-col>
-            <ion-item>
-              <ion-label position="floating" color="primary">Name</ion-label>
-              <ion-input type="text" [(ngModel)]="filters.name"></ion-input>
-            </ion-item>
-          </ion-col>
-          <ion-col>
-            <ion-item>
-              <ion-label position="floating" color="primary">Common Name - English</ion-label>
-              <ion-input type="text" [(ngModel)]="filters.common_name_en"></ion-input>
-            </ion-item>
-          </ion-col>
-
-          <ion-col>
-            <ion-item>
-              <ion-label position="floating" color="primary">Common Name - Arabic</ion-label>
-              <ion-input type="text" [(ngModel)]="filters.common_name_ar"></ion-input>
-            </ion-item>
-          </ion-col>
-
-        </ion-row>
-      </ion-grid>
-    </ion-card-content>
-
-    <ion-card-header>
-      <ion-button (click)="loadData(1);">Submit</ion-button>
-      <ion-button (click)="resetFilter();" color="secondary">Reset</ion-button>
-    </ion-card-header>
-
-  </ion-card>
-
+  <ion-searchbar debounce="200" (ionChange) = "search($event)"></ion-searchbar>
   <ion-list>
     <section>
         <div tappable *ngFor="let company of companies">

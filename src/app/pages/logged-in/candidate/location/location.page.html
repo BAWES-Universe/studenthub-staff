@@ -1,0 +1,55 @@
+<ion-content [attr.dir]="translateService.direction()">
+
+  <ion-progress-bar *ngIf="isLoading || updating" [reversed]="translateService.currentLang =='ar' ? true: false" type="indeterminate"></ion-progress-bar>
+
+  <div class="max-width">
+    <ion-button fill="clear" (click)="dismiss()" class="btn-close">
+      <img src="assets/images/ic_cancel.svg" />
+    </ion-button>
+
+    <h3 *ngIf="!query">{{ "In which area does candidate currently live?" | translate }}</h3>
+
+    <ng-container *ngIf="!selected">
+
+      <ion-item lines="none" [class.country-wrapper]="!country_name">
+        <div tabindex="0"></div>
+        <ion-select #select [(ngModel)]="country_name" placeholder="{{ 'Select country' | translate }}"
+          cancelText ="{{'Cancel' | translate}}" okText="{{'Okay' | translate}}" (ionChange)="onCountryChange($event)" interface="popover">
+          <ion-select-option value="Kuwait">{{ translateService.langContent('Kuwait', 'الكويت') }}</ion-select-option>
+          <ion-select-option value="Bahrain">{{ translateService.langContent('Bahrain', 'البحرين') }}</ion-select-option>
+          <ion-select-option value="Saudi Arabia">{{ translateService.langContent('Saudi Arabia', 'المملكة العربية السعودية') }}</ion-select-option>
+          <ion-select-option value="United Arab Emirates">{{ translateService.langContent('United Arab Emirates', 'الإمارات العربية المتحدة') }}</ion-select-option>
+          <ion-select-option value="Qatar">{{ translateService.langContent('Qatar', 'دولة قطر') }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item lines="none" *ngIf="country_name">
+        <div tabindex="0"></div>
+        <ion-searchbar mode="md" debounce="100" placeholder="{{ placeholders[country_name] | translate }}"  #searchInput [value]="query" (ionChange)="getItems($event)"></ion-searchbar>
+      </ion-item>
+
+    </ng-container>
+
+    <ng-container *ngIf="selected">
+      <ion-item *ngIf="area && country && area.area_name_en && country.country_name_en" class="selected_area" lines="none">
+        <div tabindex="0"></div>
+        <ion-label>
+            {{ translateService.langContent(area.area_name_en, area.area_name_ar) }}<span *ngIf="country.country_name_en">, {{ translateService.langContent(country.country_name_en, country.country_name_ar) }}</span>
+        </ion-label>
+        <ion-icon tappable slot="end" name="close-outline" (click)="reset()"></ion-icon>
+      </ion-item>
+    </ng-container>
+    <loading-modal [loading]="loading" type="text-list"></loading-modal>
+    <ion-list class="places-wrapper" *ngIf="query && !loading">
+
+      <ion-item class="item" *ngFor="let place of this.places" tappable (click)="placeSelected(place)">
+        <div tabindex="0"></div>
+        <ion-label>
+          <div class="location"> <ion-icon src="assets/images/ic_location.svg" ></ion-icon>&nbsp;&nbsp;{{ place.structured_formatting.main_text }} <small class="country">{{ place.structured_formatting.secondary_text }}</small></div>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+
+  </div>
+
+</ion-content>

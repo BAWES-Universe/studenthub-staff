@@ -1,0 +1,142 @@
+ion-content {
+    --padding-start: 30px;
+    --padding-end: 30px;
+    --padding-top: 25px;
+    --padding-bottom: 26px;
+}
+
+ion-progress-bar {
+    top: 0;
+    left: 0;
+}
+
+.btn-close {
+    --padding-bottom: 0;
+    --padding-start: 0;
+    --padding-end: 0;
+    --padding-top: 0;
+    margin: 0;
+    height: auto;
+    margin-bottom: 16px;
+}
+
+h3 {
+    font-size: 42px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #000000;
+    margin-bottom: 55px;
+}
+
+ion-input {
+    height: 73px;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.65;
+    letter-spacing: normal;
+    color: #000;
+    border: 4px solid #BDBDBD;
+    border-radius: 10px;
+    --padding-top: 24px;
+    --padding-start: 18px;
+    --padding-end: 18px;
+    --placeholder-color: #828282;
+    --background: #fff;
+    background: #fff;
+    --padding-bottom: 24px;
+    margin-bottom: 17px;
+}
+
+.btn-submit {
+    width: 100%;
+    height: 53px;
+    text-transform: none;
+    font-size: 16px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.65;
+    letter-spacing: normal;
+    --background: #000000;
+    color: #fff;
+    margin-top: 25px;
+    margin-bottom: 24px;
+    border-radius: 22px;
+    --border-radius: 22px;
+    --box-shadow: none;
+}
+
+.btn-submit[disabled] {
+    --background: #6B6B6B;
+    color: #B4B4B4
+}
+
+p {
+    font-size: 22px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #000000;
+}
+
+.location {
+    font-size: 16px;
+    font-weight: bold;
+    color: #4f4f4f;
+
+    small {
+        font-weight:normal;
+        font-size: 14px;
+        color: #bdbdbd;
+    }
+}
+
+.country-wrapper,
+ion-searchbar {
+    border-radius: 10px;
+    border: solid 4px #bdbdbd;
+    background-color: #ffffff;
+    --height: 106x;
+    padding: -2px;
+    --box-shadow: none;
+    --padding-start: none;
+    margin-right: 0;
+    -webkit-padding-end: 0;
+    padding-inline-end: 0;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    letter-spacing: normal;
+    color: #333333;
+}
+.selected_area {
+        width: 214px;
+        height: 20px;
+        font-size: 14px;
+        font-weight: bold;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.44;
+        letter-spacing: normal;
+        color: #292f38;
+    span{
+        font-weight: normal;
+    }
+}
+
+.selected_area {
+    width: 100%;
+    height: 60px;
+    border-radius: 10px;
+    border: solid 1px #bdbdbd;
+    background-color: #ffffff;
+    padding-top: 4px;
+}

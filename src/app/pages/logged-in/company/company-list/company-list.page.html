@@ -22,27 +22,13 @@
     <ion-card-content>
       <ion-grid>
         <ion-row>
-          <ion-col size-md="6" size-xs="12" size-lg="3">
+          <ion-col size-md="6" size-xs="12" size-lg="6">
             <ion-item>
               <ion-label position="floating" color="primary">Name</ion-label>
               <ion-input type="text" [(ngModel)]="filters.name"></ion-input>
             </ion-item>
           </ion-col>
-          <ion-col size-md="6" size-xs="12" size-lg="3">
-            <ion-item>
-              <ion-label position="floating" color="primary">Common Name - English</ion-label>
-              <ion-input type="text" [(ngModel)]="filters.common_name_en"></ion-input>
-            </ion-item>
-          </ion-col>
-
-          <ion-col size-md="6" size-xs="12" size-lg="3">
-            <ion-item>
-              <ion-label position="floating" color="primary">Common Name - Arabic</ion-label>
-              <ion-input type="text" [(ngModel)]="filters.common_name_ar"></ion-input>
-            </ion-item>
-          </ion-col>
-
-          <ion-col size-md="6" size-xs="12" size-lg="3">
+          <ion-col size-md="6" size-xs="12" size-lg="6">
               <ion-item>
                 <ion-label color="primary" position="floating">Filter By</ion-label>
                 <ion-select [(ngModel)]="filters.status">

@@ -126,11 +126,11 @@
             * required
           </p>
         </div>
-
         <app-select-search-input
           *ngIf="countrylistData"
           formControlName="country_id"
           placeholder="Select Nationality"
+          title="Nationality"
           [collection]="countrylistData"
           valueAttr="country_id"
           labelAttr="country_nationality_name_en">
@@ -142,11 +142,42 @@
           </p>
         </div>
 
+        <ion-item (click)="updateLocation()" tappable>
+          <ion-label position="stacked">Area candidate live in</ion-label>
+          <p>
+            <span *ngIf="model.area && model.country">
+            {{ model.area.area_name_en }}
+              <span *ngIf="model.country">,
+              {{ model.country.country_name_en}}
+              </span>
+          </span>
+          </p>
+        </ion-item>
+
+<!--        <ion-item *ngIf="-->
+<!--          model.country && model.nationality &&-->
+<!--          model.country.country_nationality_name_en == 'Kuwaiti' &&-->
+<!--          model.nationality.country_nationality_name_en != 'Kuwaiti'-->
+<!--        ">-->
+          <ion-item >
+          <div tabindex="0"></div>
+          <ion-label>Candidate mother a Kuwaiti national?</ion-label>
+          <ion-chip (click)="setKuwaitiMomStatus(1)" [class.active]="model.candidate_mom_kuwaiti == 1">Yes</ion-chip>
+          <ion-chip (click)="setKuwaitiMomStatus(2)" [class.active]="model.candidate_mom_kuwaiti == 2">No</ion-chip>
+        </ion-item>
+
+        <div class="error-wrapper" *ngIf="!form.controls.gender.pristine">
+          <p class="error" *ngIf="form.controls.gender.errors && form.controls.gender.errors.required">
+            * required
+          </p>
+        </div>
+
         <app-select-search-input
           *ngIf="universitylistData"
           formControlName="university_id"
           placeholder="Select University"
           [collection]="universitylistData"
+          title="University"
           valueAttr="university_id"
           labelAttr="university_name_en"
           altLabelAttr="university_name_ar"

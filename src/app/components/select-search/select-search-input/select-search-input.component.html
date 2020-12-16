@@ -1,5 +1,6 @@
 <ion-item (click)="onClick($event)" tappable [class.no-value-selected]="!value">
   <div tabindex="0"></div>
-  {{ selectedItem? selectedItem[labelAttr] : placeholder }}
+  <ion-label position="stacked" *ngIf="title">{{title}}</ion-label>
+  <div>{{ selectedItem? selectedItem[labelAttr] : placeholder }}</div>
   <ion-icon name="arrow-down-outline" slot="end"></ion-icon>
 </ion-item>

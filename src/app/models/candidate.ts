@@ -51,6 +51,8 @@ export class Candidate {
     workHistory: any;
     rejectionRatio: any;
     acceptanceRatio: any;
+    candidate_latitude: any;
+    candidate_longitude: any;
     store: Store;
     company: Company;
     university: University;

@@ -144,6 +144,8 @@ export class CompanyService {
       description_ar: model.company_description_ar,
       website: model.company_website,
       logo: model.company_logo,
+      followup_interval_weeks: model.company_followup_interval_weeks,
+      followup: model.company_followup
     };
 
     return this._authhttp.post(postUrl, params);
@@ -167,6 +169,8 @@ export class CompanyService {
       description_ar: model.company_description_ar,
       website: model.company_website,
       logo: model.company_logo,
+      followup_interval_weeks: model.company_followup_interval_weeks,
+      followup: model.company_followup
     };
 
     return this._authhttp.patch(`${this._companyEndpoint}/${model.company_id}`, params);

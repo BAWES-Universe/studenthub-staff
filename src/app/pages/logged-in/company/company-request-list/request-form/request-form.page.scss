@@ -2,3 +2,30 @@ ion-back-button {
     display: block;
 }
 
+ion-footer {
+  ion-button {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 18px;
+    text-align: center;
+    text-transform: none;
+    --color: #ffffff;
+    color: #ffffff;
+    --background: #000000;
+    background: #000000;
+    --border-radius: 4px;
+    border-radius: 4px;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    display: block;
+  }
+
+  ion-button.mark-complete-btn {
+    background: #79a336;
+    --background: #79a336;
+  }
+  ion-grid {
+    box-shadow: 0 -4px 4px 0 rgba(0, 0, 0, 0.1);
+  }
+}

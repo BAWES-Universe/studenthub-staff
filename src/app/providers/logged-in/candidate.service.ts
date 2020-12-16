@@ -138,7 +138,11 @@ export class CandidateService {
       candidate_driving_license: model.candidate_driving_license,
       skill: model.skill,
       experience: model.experience,
-      resume: model.candidate_resume
+      resume: model.candidate_resume,
+      latitude: model.candidate_latitude,
+      longitude: model.candidate_longitude,
+      area_uuid: model.candidate_area_uuid,
+      mom_kuwait: model.candidate_mom_kuwaiti
     };
     return this._authhttp.post(postUrl, params);
   }
@@ -175,7 +179,11 @@ export class CandidateService {
       candidate_driving_license: model.candidate_driving_license,
       skill: model.skill,
       experience: model.experience,
-      resume: model.candidate_resume
+      resume: model.candidate_resume,
+      latitude: model.candidate_latitude,
+      longitude: model.candidate_longitude,
+      area_uuid: model.candidate_area_uuid,
+      mom_kuwait: model.candidate_mom_kuwaiti,
     };
 
     return this._authhttp.patch(url, params);
@@ -215,7 +223,7 @@ export class CandidateService {
     const url = `${this._candidateEndpoint}/reset-password/${model.candidate_id}`;
     return this._authhttp.patch(url, {});
   }
-  
+
   /**
    * Removes Candidate from Assigned store
    * @param {any} candidate

@@ -21,13 +21,9 @@ export class AllCompanyListPage implements OnInit {
   public selectedCompany = null;
 
   public filters: {
-    name: string,
-    common_name_en: string,
-    common_name_ar: string
+    name: string
   } = {
-    name: null,
-    common_name_en: null,
-    common_name_ar: null
+    name: null
   };
 
   public borderLimit = false;
@@ -56,14 +52,6 @@ export class AllCompanyListPage implements OnInit {
       urlParams += '&name=' + this.filters.name;
     }
 
-    if (this.filters.common_name_en) {
-      urlParams += '&common_name_en=' + this.filters.common_name_en;
-    }
-
-    if (this.filters.common_name_ar) {
-      urlParams += '&common_name_ar=' + this.filters.common_name_ar;
-    }
-
     return urlParams;
   }
 
@@ -72,9 +60,7 @@ export class AllCompanyListPage implements OnInit {
    */
   resetFilter() {
     this.filters = {
-      name: null,
-      common_name_en: null,
-      common_name_ar: null
+      name: null
     };
 
     this.loadData(1); // reload all result
@@ -158,7 +144,12 @@ export class AllCompanyListPage implements OnInit {
   }
 
   logScrolling(e) {
-    this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
+    this.borderLimit = (e.detail.scrollTop > 20);
+  }
+
+  search($event) {
+    this.filters.name = $event.detail.value;
+    this.loadData(1);
   }
 }
 
