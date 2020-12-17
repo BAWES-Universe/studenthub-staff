@@ -107,7 +107,6 @@ export function createTranslateLoader(http: HttpClient) {
         NoteModule,
         SuggestPageModule,
         CompanyModule,
-        TransferChartPageModule,
         CalendarModule,
         LocationPageModule
     ],

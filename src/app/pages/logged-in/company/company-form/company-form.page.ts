@@ -175,6 +175,7 @@ export class CompanyFormPage implements OnInit {
     this.model.company_website = this.form.value.website;
     this.model.company_followup_interval_weeks = this.form.value.followup_interval_weeks;
     this.model.company_followup = this.form.value.followup;
+    this.model.company_logo = this.form.value.logo;
   }
 
   /**
