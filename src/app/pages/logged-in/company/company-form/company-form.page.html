@@ -20,6 +20,7 @@
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)" class="ion-padding">
   <form [formGroup]="form" *ngIf="form">
     <ion-list>
+      
         <app-image-upload
                 label="Company Logo" icon="person-outline" prefix="logo"
                 formControlName="logo"

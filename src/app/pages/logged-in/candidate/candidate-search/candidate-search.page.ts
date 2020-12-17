@@ -150,16 +150,6 @@ export class CandidateSearchPage implements OnInit {
     this.showFilter = false;
   }
 
-  // openFilter() {
-  //
-  //   this.updateAlgoliaState();
-  //
-  //   this.navCtrl.navigateForward('/candidate-filter', {
-  //     animated: false,
-  //     animationDirection: 'forward'
-  //   });
-  // }
-
   /**
    * update algolia state
    */
