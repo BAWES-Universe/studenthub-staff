@@ -7,10 +7,17 @@
 </ion-header>
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
-  <app-company [company]="company" *ngFor="let company of company.subCompanies" (click)="rowSelected(company)"></app-company>
+
+  <ng-container *ngIf="company && company.subCompanies">
+    <app-company [company]="company" *ngFor="let company of company.subCompanies" (click)="rowSelected(company)">
+    </app-company>
+  </ng-container>
+
+  <loading-modal [loading]="loading" type="text-list"></loading-modal>
+
 </ion-content>
 <ion-footer>
-  <ion-button (click)="create(company.company_id, true)">
+  <ion-button (click)="create()">
     Create Sub Company
   </ion-button>
 </ion-footer>

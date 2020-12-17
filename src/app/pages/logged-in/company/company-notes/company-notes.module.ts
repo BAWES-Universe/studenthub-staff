@@ -7,12 +7,14 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { CompanyNotesPageRoutingModule } from './company-notes-routing.module';
 
 import { CompanyNotesPage } from './company-notes.page';
+import { LoadingModalModule } from 'src/app/components/loading-modal/loading-modal.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     CKEditorModule,
+    LoadingModalModule,
     NoteModule,
     IonicModule,
     CompanyNotesPageRoutingModule

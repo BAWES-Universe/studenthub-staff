@@ -63,23 +63,20 @@ export class CompanySubcompaniesPage implements OnInit {
   }
   
   /**
-   * Create a new company
-   * @param parent_company_id
-   * @param isSubcompany
+   * Create a new sub company
    */
-  async create(parent_company_id: number, isSubcompany: boolean = false) {
+  async create() {
     window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
     const company = new Company();
-
-    company.parent_company_id = parent_company_id;
+    company.parent_company_id = this.company_id;
 
     const modal = await this.modalCtrl.create({
       component: CompanyFormPage,
       componentProps: {
         model: company,
         company_id: company.company_id,
-        subcompany: isSubcompany
+        subcompany: true
       }
     });
     modal.onDidDismiss().then(e => {

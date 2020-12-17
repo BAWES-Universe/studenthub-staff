@@ -57,7 +57,8 @@
 
     <h5>Last Activity</h5>
     
-    <note *ngIf="noteExpanded || i < 1" *ngFor="let note of notes" [routerLink]="'/note-view/' + note.note_uuid" from="company-view" [note]="note" (onChange)="loadNotes()" (onDelete)="loadNotes()"></note>
+    <note *ngIf="notes.length > 0" [routerLink]="'/note-view/' + note.note_uuid" from="company-view" [note]="notes[0]" 
+      (onChange)="loadNotes()" (onDelete)="loadNotes()"></note>
     
     <ion-button class="btn-view-notes" *ngIf="notes.length > 1" (click)="openNotes()">
       View all {{ notes.length }} notes
@@ -67,42 +68,42 @@
 
     <ion-item tappable (click)="openRequests()">
       <ion-label>Requests</ion-label>
-      <ion-note slot="end">{{ company.requests.length }}</ion-note>
+      <ion-note slot="end">{{ company.requests?.length }}</ion-note>
     </ion-item>
 
-    <ion-item tappable (click)="openStores()" *ngIf="subCompanies.length == 0">
+    <ion-item tappable (click)="openStores()" *ngIf="company.subCompanies?.length == 0">
       <ion-label>Stores</ion-label>
-      <ion-note slot="end">{{ company.subCompanies.length }}</ion-note>
+      <ion-note slot="end">{{ company.subCompanies?.length }}</ion-note>
     </ion-item>
     
-    <ion-item tappable (click)="openSubcompanies()" *ngIf="stores.length == 0">
+    <ion-item tappable (click)="openSubcompanies()" *ngIf="company.stores?.length == 0">
       <ion-label>Subcompanies</ion-label>
-      <ion-note slot="end">{{ company.stores.length }}</ion-note>
+      <ion-note slot="end">{{ company.stores?.length }}</ion-note>
     </ion-item>
     
     <ion-item tappable (click)="openContacts()">
       <ion-label>Contacts</ion-label>
-      <ion-note slot="end">{{ company.companyContacts.length }}</ion-note>
+      <ion-note slot="end">{{ company.companyContacts?.length }}</ion-note>
     </ion-item>
 
     <ion-item tappable (click)="openBrands()">
       <ion-label>Brands</ion-label>
-      <ion-note slot="end">{{ company.brands.length }}</ion-note>
+      <ion-note slot="end">{{ company.brands?.length }}</ion-note>
     </ion-item>
 
     <ion-item tappable (click)="openMalls()">
       <ion-label>Malls present in</ion-label>
-      <ion-note slot="end">{{ company.malls.length }}</ion-note>
+      <ion-note slot="end">{{ company.malls?.length }}</ion-note>
     </ion-item>
    
     <ion-item tappable (click)="openDocuments()">
       <ion-label>Documents</ion-label>
-      <ion-note slot="end">{{ company.files.length }}</ion-note>
+      <ion-note slot="end">{{ company.files?.length }}</ion-note>
     </ion-item>
 
     <ion-item tappable (click)="openTransfers()">
       <ion-label>Transfers</ion-label>
-      <ion-note slot="end">{{ company.parentTransfers.length }}</ion-note>
+      <ion-note slot="end">{{ company.parentTransfers?.length }}</ion-note>
     </ion-item>
 
     <ion-item tappable (click)="openChart()">

@@ -7,7 +7,7 @@ import { NoteService } from 'src/app/providers/logged-in/note.service';
 import { EventService } from 'src/app/providers/event.service';
 // models
 import { Company } from 'src/app/models/company';
-import { Note } from 'src/app/models/note';]
+import { Note } from 'src/app/models/note';
 // pages
 import { CompanyFollowupNotePage } from '../company-followup-note/company-followup-note.page';
 import { CompanyFormPage } from 'src/app/pages/logged-in/company/company-form/company-form.page';

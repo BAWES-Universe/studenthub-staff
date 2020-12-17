@@ -405,10 +405,8 @@ const routes: Routes = [
       name: 'TransferViewPage'
     }
   },
+  
   {
-    path: '**',
-    redirectTo: 'not-found'
-  },  {
     path: 'transfer-chart',
     loadChildren: () => import('./pages/logged-in/transfer/transfer-chart/transfer-chart.module').then( m => m.TransferChartPageModule)
   },
@@ -442,13 +440,12 @@ const routes: Routes = [
   },
   {
     path: 'company-notes',
-    loadChildren: () => import('./pages/logged-n/company/company-notes/company-notes.module').then( m => m.CompanyNotesPageModule)
+    loadChildren: () => import('./pages/logged-in/company/company-notes/company-notes.module').then( m => m.CompanyNotesPageModule)
   },
   {
-    path: 'company-notes',
-    loadChildren: () => import('./pages/logged-in/company/company-notes/company-notes.module').then( m => m.CompanyNotesPageModule)
+    path: '**',
+    redirectTo: 'not-found'
   }
-
 ];
 
 @NgModule({

@@ -9,11 +9,13 @@ import { CompanySubcompaniesPageRoutingModule } from './company-subcompanies-rou
 import { CompanySubcompaniesPage } from './company-subcompanies.page';
 
 import {CompanyModule} from "../../../../components/company/company.module";
+import { LoadingModalModule } from 'src/app/components/loading-modal/loading-modal.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
+    LoadingModalModule,
     IonicModule,
     CompanyModule,
     CompanySubcompaniesPageRoutingModule

@@ -44,10 +44,13 @@
 
   </ion-item-sliding>
 
-  <ion-item lines="none">
-    <div tabindex="0"></div>
+  <loading-modal [loading]="loading" type="text-list"></loading-modal>
+</ion-content>
+<ion-footer>
+ 
     <ion-button (click)="addStore()">
       Add a store
     </ion-button>
-  </ion-item>
-</ion-content>
+</ion-footer>
+
+

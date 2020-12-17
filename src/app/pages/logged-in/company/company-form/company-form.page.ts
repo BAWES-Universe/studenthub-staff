@@ -242,7 +242,7 @@ export class CompanyFormPage implements OnInit {
   logScrolling(e) {
     this.borderLimit = (e.detail.scrollTop > 20);
   }
-
+  /*
   toggleFollowup($event) {
     // if same value then do nothing
     if (this.followup == $event.detail.checked) {
@@ -259,6 +259,7 @@ export class CompanyFormPage implements OnInit {
       this.updating = false;
 
       if (response && response.operation == 'success') {
+
         const toast = await this.toastCtrl.create({
           message: response.message,
           duration: 3000
@@ -271,5 +272,5 @@ export class CompanyFormPage implements OnInit {
     }, () => {
       this.updating = false;
     });
-  }
+  }*/
 }

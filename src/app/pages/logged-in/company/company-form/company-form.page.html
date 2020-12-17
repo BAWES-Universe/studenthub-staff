@@ -73,8 +73,7 @@
       <ion-item *ngIf="!isSubCompany">
         <div tabindex="0"></div>
         <ion-label>Followup</ion-label>
-        <ion-toggle formControlName="followup" (ionChange)="toggleFollowup($event)">
-<!--        <ion-toggle formControlName="followup" [checked]="followup" (ionChange)="toggleFollowup($event)">-->
+        <ion-toggle formControlName="followup">
         </ion-toggle>
       </ion-item>
 
