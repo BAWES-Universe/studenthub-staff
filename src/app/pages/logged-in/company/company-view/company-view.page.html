@@ -17,11 +17,12 @@
 
   <div *ngIf="company">
 
-    <ion-thumbnail *ngIf="company.company_logo">
-      <img src="{{ aws.cloudinaryUrl + company.company_logo }}" (error)="imageError()">
-    </ion-thumbnail>
-    
     <h3 class="company-name">
+
+      <ion-thumbnail *ngIf="company.company_logo">
+        <img src="{{ aws.cloudinaryUrl + company.company_logo }}" (error)="imageError()">
+      </ion-thumbnail>
+      
       {{ company.company_name }}
     </h3>
 

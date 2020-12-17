@@ -2,6 +2,12 @@ ion-content {
     --padding-start: 30px;
     --padding-end: 30px;
 
+    ion-thumbnail {
+        max-height: 71px;
+        margin-bottom: 7px;
+        margin-top: -12px;
+    }
+
     h3 {
         margin: 23px 0px 0 0px;
         font-size: 36px;
