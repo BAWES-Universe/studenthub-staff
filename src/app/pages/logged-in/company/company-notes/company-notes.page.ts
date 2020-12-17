@@ -6,9 +6,11 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 //models
 import { Company } from 'src/app/models/company';
 import { Note } from 'src/app/models/note';
+import { CompanyContact } from 'src/app/models/company-contact';
 //services
 import { NoteService } from 'src/app/providers/logged-in/note.service';
 import { AuthService } from 'src/app/providers/auth.service';
+import { CompanyContactService } from 'src/app/providers/logged-in/company-contact.service';
 
 
 @Component({
@@ -25,6 +27,8 @@ export class CompanyNotesPage implements OnInit {
   public company: Company;
 
   public notes: Note[] = [];
+  
+  public companyContacts: CompanyContact[] = [];
 
   public loadingNotes: boolean = false;
   
@@ -53,6 +57,8 @@ export class CompanyNotesPage implements OnInit {
     public alertCtrl: AlertController,
     public modalCtrl: ModalController,
     public noteService: NoteService,
+
+    public companyContactService: CompanyContactService,
     public authService: AuthService
   ) { }
 
@@ -68,6 +74,19 @@ export class CompanyNotesPage implements OnInit {
 
     this.initNoteForm();
     this.loadNotes();
+    this.loadContacts();
+  }
+
+  loadRequests() {
+   // this.request
+    //requests
+
+  }
+  
+  loadContacts() {
+    this.companyContactService.companyContacts(this.company_id).subscribe(data => {
+      this.companyContacts = data;
+    });
   }
 
   /**

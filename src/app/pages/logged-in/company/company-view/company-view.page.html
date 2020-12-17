@@ -57,7 +57,7 @@
 
     <h5>Last Activity</h5>
     
-    <note *ngIf="notes.length > 0" [routerLink]="'/note-view/' + note.note_uuid" from="company-view" [note]="notes[0]" 
+    <note *ngIf="notes.length > 0" [routerLink]="'/note-view/' + notes[0].note_uuid" from="company-view" [note]="notes[0]" 
       (onChange)="loadNotes()" (onDelete)="loadNotes()"></note>
     
     <ion-button class="btn-view-notes" *ngIf="notes.length > 1" (click)="openNotes()">
@@ -76,7 +76,7 @@
       <ion-note slot="end">{{ company.subCompanies?.length }}</ion-note>
     </ion-item>
     
-    <ion-item tappable (click)="openSubcompanies()" *ngIf="company.stores?.length == 0">
+    <ion-item tappable (click)="openSubCompanies()" *ngIf="company.stores?.length == 0">
       <ion-label>Subcompanies</ion-label>
       <ion-note slot="end">{{ company.stores?.length }}</ion-note>
     </ion-item>

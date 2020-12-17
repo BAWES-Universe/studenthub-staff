@@ -90,4 +90,8 @@ export class TransferListPage implements OnInit {
   importTransfer() {
     this.router.navigateByUrl('/import-transfer-form/' + this.company_id);
   }
+  
+  logScrolling(e) {
+    this.borderLimit = (e.detail.scrollTop > 20);
+  }
 }

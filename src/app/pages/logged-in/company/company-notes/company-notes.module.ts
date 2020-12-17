@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NoteModule } from 'src/app/components/note/note.module';
 import { IonicModule } from '@ionic/angular';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
@@ -12,6 +12,7 @@ import { LoadingModalModule } from 'src/app/components/loading-modal/loading-mod
 @NgModule({
   imports: [
     CommonModule,
+    ReactiveFormsModule,
     FormsModule,
     CKEditorModule,
     LoadingModalModule,

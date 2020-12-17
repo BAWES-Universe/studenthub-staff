@@ -32,6 +32,7 @@
       </ion-select>
     </ion-item>
 
+    <!--
     <ion-item>
       <div tabindex="0"></div>
       <ion-label position="floating">Request</ion-label>
@@ -44,7 +45,7 @@
           </ion-select-option>
         </ng-container>
       </ion-select>
-    </ion-item>
+    </ion-item>-->
 
     <ckeditor [config]="editorConfig" #ckeditor [editor]="Editor" (focus)="onEditorFocus()"
       (change)="onChange($event)"></ckeditor>
@@ -75,9 +76,5 @@
   </ion-list>
 
   <loading-modal [loading]="loadingNotes" type="university-view"></loading-modal>
-
-  <ion-infinite-scroll *ngIf="currentNotePage < notePageCount" (ionInfinite)="doInfiniteNoteLoading($event)">
-    <ion-infinite-scroll-content></ion-infinite-scroll-content>
-  </ion-infinite-scroll>
 
 </ion-content>
