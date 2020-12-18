@@ -1,24 +1,24 @@
 
 
 <ion-card>
-  <ion-badge *ngIf="salary.status == 'Paid'">Paid</ion-badge>
-  <ion-badge *ngIf="salary.status =='Unpaid'">In Progress</ion-badge>
+  <ion-badge *ngIf="transferCandidate.status == 'Paid'">Paid</ion-badge>
+  <ion-badge *ngIf="transferCandidate.status =='Unpaid'">In Progress</ion-badge>
 
   <div class="salary">
-    <b>KWD {{salary.total | number:'1.3-3' }}</b>
-    <p *ngIf="salary.bonus > 0">Base {{ salary.total | number:'1.3-3' }} KWD + Bonus KWD {{salary.candidate_bonus | number:'1.3-3' }}</p>
+    <b>KWD {{transferCandidate.total | number:'1.3-3' }}</b>
+    <p *ngIf="transferCandidate.bonus > 0">Base {{ transferCandidate.total | number:'1.3-3' }} KWD + Bonus KWD {{transferCandidate.candidate_bonus | number:'1.3-3' }}</p>
   </div>
   
-  <p>Confirmation #{{ salary.transfer_confirmation_id }}</p>
+  <p *ngIf="transferCandidate.transfer_confirmation_id">Confirmation #{{ transferCandidate.transfer_confirmation_id }}</p>
 
-  <p>{{ salary.transfer_benef_name }}</p>
+  <p>{{ transferCandidate.transfer_benef_name }}</p>
 
-  <p *ngIf="salary.bank">{{ salary.bank.bank_name }}</p>
+  <p *ngIf="transferCandidate.bank">{{ transferCandidate.bank.bank_name }}</p>
 
-  <p>{{ salary.transfer_benef_iban }}</p>
+  <p>{{ transferCandidate.transfer_benef_iban }}</p>
 
   <p class="txt-time">
-    {{ salary.tc_created_at | timeAgo }} on 
-    {{ toDate(salary.tc_created_at) | date: 'MMM d, y' }}
+    {{ transferCandidate.tc_created_at | timeAgo }} on 
+    {{ toDate(transferCandidate.tc_created_at) | date: 'MMM d, y' }}
   </p>
 </ion-card>

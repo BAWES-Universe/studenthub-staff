@@ -4,6 +4,7 @@ ion-card {
     border-radius: 4px;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08), 2px 0 4px 0 rgba(0, 0, 0, 0.12);
     background-color: #ffffff;
+    color: #000;
 
     ion-badge {
         height: 25px;
@@ -17,6 +18,12 @@ ion-card {
         text-align: center;
         color: #000;
         background-color: #f2f2f2;
+        border-radius: 0;
+    }
+
+    .salary {
+        margin-top: 6px;
+        margin-bottom: 17px;
     }
 
     .activity {
@@ -32,7 +39,7 @@ ion-card {
     }
 
     .txt-time {
-        margin: 6px 0 5px 0px;
+        margin: 15px 0 2px 0px;
         font-size: 12px;
         font-weight: normal;
         font-stretch: normal;
@@ -44,5 +51,6 @@ ion-card {
 
     p {
         color: #000;
+        margin: 0;
     }
 }
