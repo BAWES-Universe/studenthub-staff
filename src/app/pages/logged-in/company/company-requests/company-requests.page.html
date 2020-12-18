@@ -23,7 +23,7 @@
                          [request]="request" [showStatus]="false"></request-listing>
     <no-items *ngIf="!loading && requests.length ==0" message="~ No request data ~"></no-items>
   </section>
-  <loading-modal [loading]="loading" type="request-dashboard"></loading-modal>
+  <loading-modal [loading]="loading" type="request-list"></loading-modal>
 
   <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
     <ion-infinite-scroll-content></ion-infinite-scroll-content>
