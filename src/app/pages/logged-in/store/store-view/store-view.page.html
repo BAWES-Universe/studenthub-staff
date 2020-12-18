@@ -10,7 +10,7 @@
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
-  
+
   <ion-progress-bar type="indeterminate" *ngIf="updating"></ion-progress-bar>
 
 </ion-header>
@@ -25,7 +25,7 @@
         <p>{{ store.store_name }}</p>
       </ion-label>
     </ion-item>
-    
+
     <ion-item>
       <div tabindex="0"></div>
       <ion-label>
@@ -69,7 +69,7 @@
         <ion-button color="primary" (click)="selectStoreManager()">
           <ion-icon name="pencil-outline"></ion-icon>
         </ion-button>
-        
+
         <ion-button color="danger" (click)="removeStoreManager()">
           <ion-icon name="trash-outline"></ion-icon>
         </ion-button>
@@ -93,3 +93,8 @@
   <loading-modal [loading]="loading" type="candidate-list"></loading-modal>
 
 </ion-content>
+<ion-footer>
+  <ion-button expand="full" color="dark" (click)="deleteStore($event, store)">
+    Delete
+  </ion-button>
+</ion-footer>
