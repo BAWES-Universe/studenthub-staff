@@ -122,7 +122,7 @@ export class ImportTransferFormPage implements OnInit {
 
     this.uploading = true;
 
-    this.browserUploadSubscription = this.awsService.uploadFile('transfer_', fileList[0]).subscribe(event => {
+    this.browserUploadSubscription = this.awsService.uploadFile(fileList[0]).subscribe(event => {
 
       this._handleUpload(event);
 

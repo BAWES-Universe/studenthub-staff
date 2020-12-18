@@ -137,7 +137,7 @@ export class ImageUploadComponent implements ControlValueAccessor, OnInit {
       const file = fileList.item(0);
 
       // Upload The File
-      const uploadObservable = this._awsService.uploadFile(this.prefix, file);
+      const uploadObservable = this._awsService.uploadFile(file);
       this.processFileUpload(uploadObservable);
     }
   }
@@ -246,6 +246,4 @@ export class ImageUploadComponent implements ControlValueAccessor, OnInit {
    * Called on touch/ element blur
    */
   registerOnTouched() {}
-
-
 }
