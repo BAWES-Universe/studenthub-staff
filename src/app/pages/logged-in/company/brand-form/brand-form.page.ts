@@ -318,7 +318,7 @@ export class BrandFormPage implements OnInit {
     {
       this.progress = 1;
 
-      this.uploadFileSubscription = this.awsService.uploadFile('_', fileList[0]).subscribe(event => {
+      this.uploadFileSubscription = this.awsService.uploadFile(fileList[0]).subscribe(event => {
         this._handleFileSuccess(event);
       }, async err => {
 

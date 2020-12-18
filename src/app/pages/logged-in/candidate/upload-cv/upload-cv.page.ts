@@ -176,7 +176,7 @@ export class UploadCvPage implements OnInit, OnDestroy {
 
     this.progress = 1; // show loader
 
-    this.browserUploadSubscription = this.awsService.uploadFile('_', fileList[0]).subscribe(event => {
+    this.browserUploadSubscription = this.awsService.uploadFile(fileList[0]).subscribe(event => {
       this._handleFileSuccess(event);
     },
       async err => {
