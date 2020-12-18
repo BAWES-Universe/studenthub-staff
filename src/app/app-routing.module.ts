@@ -274,6 +274,14 @@ const routes: Routes = [
     }
   },
   {
+    path: 'company-requests',
+    loadChildren: () => import('./pages/logged-in/company/company-requests/company-requests.module').then(m => m.CompanyRequestsPageModule),
+    canActivate: [AuthService],
+    data: {
+      name: 'CompanyRequestsPage',
+    }
+  },
+  {
     path: 'request-form',
     loadChildren: () => import('./pages/logged-in/company/company-request-list/request-form/request-form.module').then(m => m.RequestFormPageModule),
     canActivate: [AuthService],
@@ -397,7 +405,7 @@ const routes: Routes = [
       name: 'TransferViewPage'
     }
   },
-  
+
   {
     path: 'transfer-chart',
     loadChildren: () => import('./pages/logged-in/transfer/transfer-chart/transfer-chart.module').then( m => m.TransferChartPageModule)

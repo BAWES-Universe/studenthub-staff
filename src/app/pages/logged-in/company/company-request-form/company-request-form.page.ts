@@ -40,7 +40,6 @@ export class CompanyRequestFormPage implements OnInit {
   }
 
   ngOnInit() {
-
     if (this.request) {
       this.model = this.request;
     }
@@ -141,7 +140,7 @@ export class CompanyRequestFormPage implements OnInit {
     }
 
     popover.onDidDismiss().then((_) => {
-      if (_ && _.data) {
+      if (_ && _.data && _.data.companyContact) {
         this.form.controls.contact_name.setValue(_.data.companyContact.contact_name);
         this.form.controls.contact_uuid.setValue(_.data.companyContact.contact_uuid);
 
@@ -155,7 +154,7 @@ export class CompanyRequestFormPage implements OnInit {
   }
 
   logScrolling(e) {
-    this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
+    this.borderLimit = (e.detail.scrollTop > 20);
   }
 
 
