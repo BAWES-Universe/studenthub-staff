@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController, ModalController, NavController } from "@ionic/angular";
+import {AlertController, ModalController, NavController, ToastController} from "@ionic/angular";
 import { ActivatedRoute } from "@angular/router";
 //model
 import { Store } from "../../../../models/store";
@@ -25,11 +25,12 @@ export class StoreViewPage implements OnInit {
 
   public store: Store;
   public store_id = null;
+  public company_id = null;
   public loading = false;
   public malls: Mall[];
 
-  public borderLimit = false; 
-  
+  public borderLimit = false;
+
   public updating: boolean = false;
 
   constructor(
@@ -41,7 +42,8 @@ export class StoreViewPage implements OnInit {
     private storeService: StoreService,
     private eventService: EventService,
     private mallService: MallService,
-    private authService: AuthService
+    private authService: AuthService,
+    private toastCtrl: ToastController
   ) {
   }
 
@@ -109,7 +111,7 @@ export class StoreViewPage implements OnInit {
     this.updating = true;
 
     this.storeService.removeStoreManager(this.store).subscribe(async data => {
-      
+
       this.updating = false;
 
       if (data.operation == 'success') {
@@ -132,8 +134,8 @@ export class StoreViewPage implements OnInit {
 
   /**
    * open popup to select store manager
-   * @param event 
-   * @param store 
+   * @param event
+   * @param store
    */
   async selectStoreManager() {
 
@@ -195,6 +197,7 @@ export class StoreViewPage implements OnInit {
     this.storeService.detail(this.store_id).subscribe(response => {
       this.loading = false;
       this.store = response;
+      this.company_id = response.company_id;
     });
   }
 
@@ -214,8 +217,62 @@ export class StoreViewPage implements OnInit {
       this.malls = response;
     });
   }
-  
+
   logScrolling(e) {
-    this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
+    this.borderLimit = (e.detail.scrollTop > 20);
   }
+
+  /**
+   * Delete the provided model
+   */
+  async deleteStore(event, store: Store) {
+
+    event.preventDefault();
+    event.stopPropagation();
+
+    const confirm = await this.alertCtrl.create({
+      header: 'Delete Store',
+      message: 'Are you sure you want to delete this Store?',
+      buttons: [
+        {
+          text: 'Yes',
+          handler: () => {
+
+            this.updating = true;
+
+            this.storeService.delete(store).subscribe(async jsonResp => {
+
+              this.updating = false;
+
+              if (jsonResp.operation == 'error') {
+                const alert = await this.alertCtrl.create({
+                  header: 'Deletion Error!',
+                  subHeader: jsonResp.message,
+                  buttons: ['OK']
+                });
+                alert.present();
+              }
+
+              if (jsonResp.operation == 'success') {
+                const toast = await this.toastCtrl.create({
+                  message: jsonResp.message,
+                  duration: 3000
+                });
+                toast.present();
+
+                this.navCtrl.navigateBack('company-stores/' + this.company_id);
+              }
+            }, () => {
+              this.updating = false;
+            });
+          }
+        },
+        {
+          text: 'No'
+        }
+      ]
+    });
+    confirm.present();
+  }
+
 }

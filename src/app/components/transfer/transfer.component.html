@@ -1,0 +1,24 @@
+
+
+<ion-card>
+  <ion-badge *ngIf="transferCandidate.status == 'Paid'">Paid</ion-badge>
+  <ion-badge *ngIf="transferCandidate.status =='Unpaid'">In Progress</ion-badge>
+
+  <div class="salary">
+    <b>KWD {{transferCandidate.total | number:'1.3-3' }}</b>
+    <p *ngIf="transferCandidate.bonus > 0">Base {{ transferCandidate.total | number:'1.3-3' }} KWD + Bonus KWD {{transferCandidate.candidate_bonus | number:'1.3-3' }}</p>
+  </div>
+  
+  <p *ngIf="transferCandidate.transfer_confirmation_id">Confirmation #{{ transferCandidate.transfer_confirmation_id }}</p>
+
+  <p>{{ transferCandidate.transfer_benef_name }}</p>
+
+  <p *ngIf="transferCandidate.bank">{{ transferCandidate.bank.bank_name }}</p>
+
+  <p>{{ transferCandidate.transfer_benef_iban }}</p>
+
+  <p class="txt-time">
+    {{ transferCandidate.tc_created_at | timeAgo }} on 
+    {{ toDate(transferCandidate.tc_created_at) | date: 'MMM d, y' }}
+  </p>
+</ion-card>

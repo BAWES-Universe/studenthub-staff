@@ -7,13 +7,6 @@
       <ion-spinner *ngIf="sendingPassword"></ion-spinner>
     </ion-item>
 
-    <ng-container *ngIf="candidate && candidate.store_id && candidate.store && !assigning">
-      <ion-item *ngIf="!unassinging && candidate.store" (click)="unassignCandidateFromStore()" tappable>
-        <div tabindex="0"></div>
-        Unassign candidate from {{ candidate.store.store_name }}
-      </ion-item>
-      <ion-spinner *ngIf="unassinging"></ion-spinner>
-    </ng-container>
   </ion-list>
 
   <ng-container *ngIf="candidate && !candidate.candidate_job_search_status && candidate.isProfileCompleted">
@@ -62,18 +55,6 @@
     <span *ngIf="!generating">
       Generate ID Card
     </span>
-  </ion-item>
-
-  <ion-item (click)="exportCV()" tappable *ngIf="candidate">
-    <div tabindex="0"></div>
-    <ion-spinner *ngIf="exportingCV"></ion-spinner>
-    <span *ngIf="!exportingCV">
-      Export CV as PDF
-    </span>
-  </ion-item>
-
-  <ion-item (click)="suggest()" tappable *ngIf="candidate">
-    Suggest this candidate
   </ion-item>
 
 </ion-content>

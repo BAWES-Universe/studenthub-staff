@@ -11,6 +11,7 @@ import { CompanyContact } from 'src/app/models/company-contact';
 import { NoteService } from 'src/app/providers/logged-in/note.service';
 import { AuthService } from 'src/app/providers/auth.service';
 import { CompanyContactService } from 'src/app/providers/logged-in/company-contact.service';
+import {CompanyService} from "../../../../providers/logged-in/company.service";
 
 
 @Component({
@@ -19,7 +20,7 @@ import { CompanyContactService } from 'src/app/providers/logged-in/company-conta
   styleUrls: ['./company-notes.page.scss'],
 })
 export class CompanyNotesPage implements OnInit {
-  
+
   @ViewChild('ckeditor') ckeditor;
 
   public company_id;
@@ -27,14 +28,16 @@ export class CompanyNotesPage implements OnInit {
   public company: Company;
 
   public notes: Note[] = [];
-  
+
   public companyContacts: CompanyContact[] = [];
 
   public loadingNotes: boolean = false;
-  
+
   public deleting: boolean = false;
 
   public addingNote = false;
+
+  public addNewNote = false;
 
   public editNoteData;
 
@@ -57,6 +60,7 @@ export class CompanyNotesPage implements OnInit {
     public alertCtrl: AlertController,
     public modalCtrl: ModalController,
     public noteService: NoteService,
+    public companyService: CompanyService,
 
     public companyContactService: CompanyContactService,
     public authService: AuthService
@@ -65,30 +69,30 @@ export class CompanyNotesPage implements OnInit {
   ngOnInit() {
 
     this.company_id = this.activatedRoute.snapshot.paramMap.get('company_id');
-    
+
     const state = window.history.state;
 
     if(state.company) {
       this.company = state.company;
-    } 
+    }
 
     this.initNoteForm();
     this.loadNotes();
     this.loadContacts();
+    this.loadCompany();
   }
 
-  loadRequests() {
-   // this.request
-    //requests
-
-  }
-  
   loadContacts() {
     this.companyContactService.companyContacts(this.company_id).subscribe(data => {
       this.companyContacts = data;
     });
   }
 
+  loadCompany() {
+    this.companyService.companyDetail(this.company_id).subscribe(data => {
+      this.company = data;
+    });
+  }
   /**
    * load company notes
    */
@@ -106,7 +110,7 @@ export class CompanyNotesPage implements OnInit {
       this.loadingNotes = false;
     });
   }
-  
+
   onEditorFocus() {
     this.editorFocused = true;
   }
@@ -121,6 +125,7 @@ export class CompanyNotesPage implements OnInit {
     this.noteForm.controls.type.reset();
     this.noteForm.controls.contact.reset();
     this.noteForm.controls.request.reset();
+    this.addNewNote = false;
   }
 
   /**
@@ -160,7 +165,9 @@ export class CompanyNotesPage implements OnInit {
     model.note_text = this.noteForm.controls.note.value;
     model.note_type = this.noteForm.controls.type.value;
     model.contact_uuid = this.noteForm.controls.contact.value;
-    model.request_uuid = this.noteForm.controls.request.value;
+    if (this.noteForm.controls.request.value) {
+      model.request_uuid = this.noteForm.controls.request.value;
+    }
 
     let response = null;
     if (this.editNoteData && this.editNoteData.note_uuid) {
@@ -190,6 +197,7 @@ export class CompanyNotesPage implements OnInit {
         prompt.present();
       }
     }, () => {
+      this.addNewNote = false;
       this.editorFocused = false;
       this.addingNote = false;
     });
@@ -273,5 +281,10 @@ export class CompanyNotesPage implements OnInit {
 
   logScrolling(e) {
     this.borderLimit = (e.detail.scrollTop > 20);
+  }
+
+  addNoteShow() {
+    this.addNewNote = true;
+    this.onEditorFocus();
   }
 }

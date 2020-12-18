@@ -1,0 +1,65 @@
+
+#heading-pending-request {
+    margin-top: 15px;
+    margin-bottom: 16px;
+}
+
+.heading-request {
+    font-size: 24px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: left;
+    color: #000;
+    margin-top: 40px;
+    margin-bottom: 31px;
+}
+
+ion-footer {
+  box-shadow: 0 -4px 4px 0 rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  ion-button {
+    height: 53px;
+    --border-radius: 22px;
+    --background: #333333;
+    width: calc(100% - 24px);
+    font-family: Effra;
+    font-size: 16px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.65;
+    letter-spacing: normal;
+    text-align: center;
+    --color: #ffffff;
+    text-transform: none;
+    margin: 12px 10px;
+  }
+}
+.request-title {
+  margin: 0 0 3px 3px;
+
+  font-size: 36px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: left;
+  color: #000;
+}
+
+.company-name {
+  margin: 3px 0 29px 3px;
+  font-size: 27px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: left;
+  color: #000;
+}
+

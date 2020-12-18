@@ -1,27 +1,485 @@
-.pending ion-label {
-  border-left: 6px solid red;
-  padding-left: 9px;
-}
-.pending-image ion-avatar{
-  border: 3px solid red;
-}
-.phone-number ,
-.phone-number-whatsapp {
-  font-size: 15px;
-}
-.phone-number-whatsapp a ion-icon{
-  color:#52c550;
-  font-size: 20px;
-}
-ckeditor {
-  width: 100%;
-  margin-top: 15px;
-}
-.icon-location {
-  margin-right: 12px;
+ion-content {
+  --padding-start: 30px;
+  --padding-end: 30px;
 }
 
-note {
-  display: block;
-  margin: 0 5px 20px;
+ion-thumbnail {
+  width: 136px;
+  height: 136px;
+  --border-radius: 100%;
+  margin: 38px 0 32px 0;
+}
+
+h2.candidate-name {
+  margin: 32px 0 3px 0;
+  font-family: Effra;
+  font-size: 48px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: black;
+  text-transform: capitalize;
+}
+
+h4.candidate-name {
+  margin: 5px 0 5px 0;
+  font-family: 'Droid Arabic Kufi', 'effra', sans-serif !important;
+  --ion-font-family: 'Droid Arabic Kufi', 'effra', sans-serif !important;
+  font-size: 24px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: black;
+}
+
+.hourly-rate {
+  font-size: 21px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #000;
+  margin: 3px 0 4px 0;
+}
+
+.birth-date {
+  margin: 0px 0 12px 0;
+  font-size: 14px;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.5;
+  letter-spacing: normal;
+  color: black;
+
+  b {
+      font-size: 18px;
+      line-height: 1.5;
+  }    
+
+  .txt-born-on {
+      line-height: 21px;
+      font-size: 14px;
+  }
+}
+
+.job-status {
+  font-size: 12px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: center;
+  width: 165px;
+  height: 25px;
+  margin: 0 0 17px 0px;
+  padding: 5px 9px 2px;
+  border-radius: 0;
+}
+
+.interested { 
+  color: #000;
+  background-color: #6fcf97;
+}
+
+.not-interested {
+  color: #fff;
+  background-color: #eb5757;
+}
+
+.objective {
+  margin: 0 0 12px 0;
+  font-size: 18px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: black;
+}
+
+.details ion-item {
+  --inner-border-width: 0;
+  --padding-start: 58px;
+  margin-bottom: 5px;
+
+  ion-label {
+      white-space: normal;
+      margin-bottom: 5px;
+      font-size: 14px;
+  }
+
+  h5 {
+      margin: 0 0 7px 0;
+      font-size: 16px;
+      font-weight: bold;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: normal;
+      letter-spacing: normal;
+      color: black;
+  }
+
+  p {
+      margin: 3px 0 13px 0;
+      font-size: 14px;
+      font-weight: normal;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: normal;
+      letter-spacing: normal;
+      color: black;
+  }
+
+  .hint {
+      font-family: EffraLight;
+      margin: 7px 0 11px 0;
+      font-size: 14px;
+      font-weight: normal;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: normal;
+      letter-spacing: normal;
+      text-align: left;
+      color: var(--black);
+  }
+}
+
+.work-history-wrapper ion-item,
+.phone,
+.email,
+.whatsapp {
+  --padding-start: 46px;
+  --inner-border-width: 0;
+  --padding-start: 58px;
+  margin-bottom: 5px;
+
+  ion-label {
+      white-space: normal;
+      margin-bottom: 0;
+      font-size: 14px;
+  }
+
+  h5 {
+      margin: 0;
+      font-size: 16px;
+      font-weight: bold;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: normal;
+      letter-spacing: normal;
+      color: black;
+  }
+
+  p {
+      margin: 3px 0 0 0;
+      font-size: 14px;
+      font-weight: normal;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: normal;
+      letter-spacing: normal;
+      color: black;
+  }
+}
+
+.work-history-wrapper {
+
+  .heading {
+    margin: 30px 0 14px 0;
+    font-size: 21px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #000;
+  }
+
+  ion-item {
+    --padding-start: 0;
+    --background: none;
+  }
+}
+
+.note-wrapper,
+.suggestion-wrapper {
+  .heading {
+    margin: 22px 0 24px 0;
+    font-size: 21px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: left;
+    color: #000;
+  }
+
+  note {
+    margin: 0 0 9px;
+  }
+
+  .btn-view-notes {
+    border-radius: 5px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08), 2px 0 4px 0 rgba(0, 0, 0, 0.12);
+    background-color: #ffffff;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.65;
+    letter-spacing: normal;
+    text-align: center;
+    color: #000;
+    width: 100%;
+    height: 41px;
+    text-transform: none;
+    margin: 0;
+    --background: none;
+    --box-shadow: none;
+  }
+
+  ion-item {
+    --inner-border-width: 0;
+    --padding-top: 3px;
+    --padding-end: 0px;
+    --padding-bottom: 3px;
+    --padding-start: 21px;
+    --background: none;
+    margin-bottom: 9px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08), 2px 0 4px 0 rgba(0, 0, 0, 0.12);
+
+    ion-label {
+        font-size: 14px;
+        font-weight: bold;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.65;
+        letter-spacing: normal;
+        text-align: left;
+        color: #000;
+    }
+
+    ion-note {
+        font-weight: bold;
+        font-size: 12px;
+        text-align: center;
+        width: 34px;
+        height: 25px;
+        margin: 13px 0 0;
+        padding: 5px 9px 2px;
+        background-color: #f2f2f2;
+    }
+
+    ion-note.accepted {
+      color: #fff;
+      background: #219653;
+    }
+    
+    ion-note.rejected {
+      color: #fff;
+      background: #eb5757;
+    }
+  }
+}
+
+.note-wrapper {
+  margin-bottom: 23px;
+
+  .heading {
+    margin-top: 32px;
+  }
+}
+
+.skills,
+.experiences {
+  p {
+      margin-top: 10px;
+  }
+
+  span {
+      clear: both;
+      display: block;
+  }
+}
+
+.no-logo {
+  border: 1px solid #57CCC6;
+}
+
+.video {
+  --background: url('src/assets/images/ic_video.svg') no-repeat 0px 11px;
+
+  img {
+      width: 90px;
+      margin-top: 5px;
+  }
+}
+
+.resume {
+  --background: url('src/assets/images/ic_ad.svg') no-repeat 0px 11px;
+}
+
+.skills {
+  --background: url('src/assets/images/ic_food_tools.svg') no-repeat 0px 11px;
+}
+
+.experiences {
+  --background: url('src/assets/images/ic_suitcase.svg') no-repeat 0px 11px;
+}
+
+.area {
+  --background: url('src/assets/images/ic_home_2.svg') no-repeat 0px 11px;
+}
+
+.phone {
+  --background: url('src/assets/images/ic_phone.svg') no-repeat 0px 15px;
+}
+
+.whatsapp {
+  --background: url('src/assets/images/whatsapp.png') no-repeat 0px 15px;
+}
+
+.email {
+  --background: url('src/assets/images/ic_message.svg') no-repeat 0px 15px;
+}
+
+.nationality {
+  --background: url('src/assets/images/ic_globe.svg') no-repeat 0px 15px;
+}
+
+.gender {
+  --background: url('src/assets/images/ic_swipe.svg') no-repeat 0px 15px;
+}
+
+.university {
+  --background: url('src/assets/images/md-school.svg') no-repeat 0px 15px;
+}
+
+.driving-license {
+  --background: url('src/assets/images/ic_car.svg') no-repeat 0px 15px;
+}
+
+.mother-nationality {
+  --background: url('src/assets/images/ic_username.svg') no-repeat 0px 15px;
+}
+
+.id-number {
+  --background: url('src/assets/images/ic_feed.svg') no-repeat 0px 15px;
+}
+
+.civil-front,
+.civil-back {
+  --background: url('src/assets/images/ic_profile_info.svg') no-repeat 0px 15px;
+
+  p {
+      margin-bottom: 7px;
+  }
+}
+
+.bank {
+  --background: url('src/assets/images/ic_bank.svg') no-repeat 0px 15px;
+
+  h5, p {
+    margin-bottom: 0 !important
+  }
+}
+
+.created-at {
+  --background: url('src/assets/images/ic_timer.svg') no-repeat 0px 15px;
+
+  p {
+    margin-bottom: 0 !important;
+  }
+}
+
+.required {
+  color: #eb5757 !important;
+
+  h5, p {
+    color: #eb5757 !important;
+  }
+}
+
+.area,
+.phone,
+.email,
+.nationality,
+.gender,
+.university,
+.driving-license,
+.mother-nationality,
+.id-number,
+.civil-front,
+.civil-back {
+  margin-bottom: 5px;
+}
+
+.txt-expiring-on {
+  color: #333333;
+  font-size: 14px; 
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  opacity: 0.85;
+}
+
+@media only screen and (min-width: 750px) {
+  .max-width {
+      max-width: 700px;
+      margin: 0 auto;
+  }
+}
+
+@media only screen and (max-width: 750px) {
+  ion-content .max-width {
+      padding: 30px;
+  }
+  
+  ion-thumbnail {
+      margin: 8px 0 32px 0;
+  }
+}
+
+ion-footer {
+  ion-button {
+    width: calc(100% - 28px);
+    height: 53px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.65;
+    letter-spacing: normal;
+    text-align: center;
+    text-transform: none;
+    display: block;
+    margin: 10px 14px;
+    --box-shadow: none;
+  }
+
+  .btn-suggest {
+    --background: #219653;
+  }
+
+  .btn-hourly-rate,
+  .btn-store,
+  .btn-export-cv {
+    --background: #333333;
+    color: #ffffff;
+  }
+
+  .btn-unassign {
+    --background: #eb5757;
+    color: #ffffff;
+  }
 }

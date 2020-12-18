@@ -194,7 +194,7 @@ export class FulltimerViewPage implements OnInit {
     const params = '&fulltimer_uuid=' + this.fulltimer_uuid;
 
     this.noteService.list(params).subscribe(async jsonResponse => {
-      this.notes = jsonResponse.body;
+      this.notes = jsonResponse;
     });
   }
 

@@ -3,12 +3,23 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/company-view/{{ this.company_id }}"></ion-back-button>
     </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="addBrand()">Add Brand</ion-button>
+    </ion-buttons>
+
   </ion-toolbar>
 </ion-header>
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
 
   <ion-list>
+    <h3 class="title">
+      Brands
+    </h3>
+    <h4 class="company-name" *ngIf="company">
+      {{ (company.company_common_name_en) ?  company.company_common_name_en:company.company_name }}
+    </h4>
+
     <ion-item tappable (click)="brandSelected(brand)" lines="none" class="ion-text-wrap" *ngFor="let brand of brands">
       <div tabindex="0"></div>
       <ion-thumbnail slot="start" *ngIf="brand.brand_logo">
@@ -17,15 +28,11 @@
         <ion-img *ngIf="!brand.brand_logo" src="assets/images/placeholder.png"></ion-img>
       </ion-thumbnail>
       <ion-label  class="ion-text-wrap">
-        <h2>{{ brand.brand_name_en }}</h2>
+        <h5>{{ brand.brand_name_en }}</h5>
       </ion-label>
       <ion-badge slot="end" color="light" *ngIf="brand.store_count > 0">{{brand.store_count}} stores</ion-badge>
       <ion-badge slot="end" color="light" *ngIf="brand.candidate_count > 0">{{brand.candidate_count}} staff</ion-badge>
     </ion-item>
   </ion-list>
+  <no-items *ngIf="!loading && company.malls.length ==0" message="~ No brand data available ~"></no-items>
 </ion-content>
-<ion-footer>
-  <ion-button (click)="addBrand()">
-    Add New Brand
-  </ion-button>
-</ion-footer>

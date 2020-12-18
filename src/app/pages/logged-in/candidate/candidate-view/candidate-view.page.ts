@@ -17,7 +17,7 @@ import { Note } from 'src/app/models/note';
 // service
 import { StoreService } from 'src/app/providers/logged-in/store.service';
 import { CandidateService } from 'src/app/providers/logged-in/candidate.service';
-import { AwsService } from 'src/app/providers/aws.service';
+import { AwsService } from '../../../../providers/aws.service';
 import { EventService } from '../../../../providers/event.service';
 import { NoteService } from '../../../../providers/logged-in/note.service';
 import { AuthService } from '../../../../providers/auth.service';
@@ -27,6 +27,7 @@ import { CandidateCommittedFormPage } from '../candidate-committed-form/candidat
 import { AllCompanyListPage } from '../../company/company-request-list/all-company-list/all-company-list.page';
 import { CompanyRequestListPopupPage } from '../../company/company-request-list/company-request-list-popup/company-request-list-popup.page';
 import { SuggestPage } from '../../suggest/suggest.page';
+import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 
 
 @Component({
@@ -54,12 +55,11 @@ export class CandidateViewPage implements OnInit {
   public sendingPassword = false;
   public assigning = false;
   public unassinging = false;
-
+  public exportingCV = false;
   public loading = false;
   public approving = false;
   public unapproving = false;
 
-  public sections = 'personal';
   public processing = null;
 
   public updatingJobSearchStatus = false;
@@ -92,7 +92,8 @@ export class CandidateViewPage implements OnInit {
     public alertCtrl: AlertController,
     public storeService: StoreService,
     public candidateService: CandidateService,
-    public aws: AwsService,
+    public translateService: TranslateLabelService,
+    public awsService: AwsService,
     public toastCtrl: ToastController,
     public eventService: EventService,
     public authService: AuthService,
@@ -186,6 +187,71 @@ export class CandidateViewPage implements OnInit {
   }
 
   /**
+   * set candidate card expire
+   */
+  async exportCV() {
+    // Handle the functionality when user click on 'ok' button
+    this.exportingCV = true;
+
+    // Unassign Candidate from store
+    this.candidateService.exportCV(this.candidate).subscribe(async response => {
+     
+      // Dismiss the loader
+      this.exportingCV = false;
+    });
+  }
+
+  /**
+   * Unassign Candidate from store
+   */
+  async unassignCandidateFromStore() {
+    const confirm = await this.alertCtrl.create({
+      header: 'Are you sure?',
+      message: 'Remove candidate from store',
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: () => {
+            // Handle the functionality when user click on 'cancel' button
+          }
+        },
+        {
+          text: 'Ok',
+          handler: async () => {
+            // Handle the functionality when user click on 'ok' button
+            this.unassinging = true;
+
+            // Unassign Candidate from store
+            this.candidateService.removeFromAssignedStore(this.candidate).subscribe(async response => {
+              
+              // Dismiss the loader
+              this.unassinging = false;
+
+              if (response.operation == 'success') {
+                
+                if(this.candidate) {
+                  this.candidate.store_id = null;
+                  this.candidate.store = null;
+                  this.candidate.company = null;
+                }
+
+                this.eventService.reloadCandidateHistory$.next();
+              } else {
+                const prompt = await this.alertCtrl.create({
+                  message: this._processResponseMessage(response),
+                  buttons: ['Ok']
+                });
+                prompt.present();
+              }
+            });
+          }
+        }
+      ]
+    });
+    confirm.present();
+  }
+
+  /**
    * Assign Candidate to Store
    * @param {number} store_id
    */
@@ -259,12 +325,23 @@ export class CandidateViewPage implements OnInit {
     });
   }
 
+  openWorkPlace(history) {
+    if(history.store) {
+      this.router.navigate(['/store-view', history.store.store_id]);
+    } else if(history.company) {
+      this.router.navigate(['/company-view', history.company.company_id]);
+    }
+  }
+
+  onVideoError() {
+    this.candidate.candidate_video = null;
+  }
+
   /**
-   * @param $event
-   * @param candidate
+   * hide photo on error
    */
-  loadLogo($event, candidate) {
-    candidate.candidate_personal_photo = null;
+  onPhotoError() {
+    this.candidate.candidate_personal_photo = null;
   }
 
   /**
@@ -378,8 +455,16 @@ export class CandidateViewPage implements OnInit {
     await modal.present();
   }
 
-  public segmentChanged($e) {
-    this.sections = $e.detail.value;
+  openNotes() {
+    this.router.navigate(['candidate-notes', this.candidate_id], {
+      state: {
+        candidate: this.candidate
+      }
+    });
+  }
+
+  assingToStore() {
+    //TODO
   }
 
   /**
@@ -387,6 +472,7 @@ export class CandidateViewPage implements OnInit {
    * @param $e
    */
   updateRate($e) {
+    
     this.alertCtrl.create({
       header: 'Set hourly rate',
       inputs: [
@@ -432,7 +518,7 @@ export class CandidateViewPage implements OnInit {
    * @param candidate
    */
   getResumeUrl(candidate) {
-    return this.aws.permanentBucketUrl + 'candidate-resume/' + encodeURIComponent(candidate.candidate_resume);
+    return this.awsService.permanentBucketUrl + 'candidate-resume/' + encodeURIComponent(candidate.candidate_resume);
   }
 
   cancelAddNote() {
@@ -561,13 +647,23 @@ export class CandidateViewPage implements OnInit {
   }
 
   /**
+   * return area name
+   * @param area 
+   * @param country 
+   */
+  area(area, country) {
+    return this.translateService.langContent(area.area_name_en, area.area_name_ar) + ' ' + 
+      this.translateService.langContent(country.country_name_en, country.country_name_ar);
+  }
+
+  /**
    * load candidate notes without pagination
    */
   loadNotes() {
     const params = '&candidate_id=' + this.candidate_id;
 
     this.noteService.list(params).subscribe(async jsonResponse => {
-      this.notes = jsonResponse.body;
+      this.notes = jsonResponse;
     });
   }
 

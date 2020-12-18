@@ -8,7 +8,14 @@
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
 
-  <ion-list>
+  <ion-list *ngIf="company">
+    <h3 class="title">
+      Mall presence
+    </h3>
+    <h4 class="company-name">
+      {{ (company.company_common_name_en) ?  company.company_common_name_en:company.company_name }}
+    </h4>
+
     <ion-item tappable (click)="mallSelected(mall)" *ngFor="let mall of company.malls" lines="none">
       <div tabindex="0"></div>
       <ion-label>
@@ -23,4 +30,5 @@
       </ion-badge>
     </ion-item>
   </ion-list>
+  <no-items *ngIf="!loading && company.malls.length ==0" message="~ No mall data available ~"></no-items>
 </ion-content>

@@ -1,6 +1,6 @@
 :host {
   display: block;
-  margin: 0 15px 20px;
+  margin: 0 15px 13px;
 }
 
 ion-card {
@@ -9,8 +9,8 @@ ion-card {
     border-radius: 4px;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08), 2px 0 4px 0 rgba(0, 0, 0, 0.12);
     background-color: #ffffff;
-  
-    ion-badge { 
+
+    ion-badge {
       height: 25px;
       padding: 5px 9px 2px;
       font-size: 12px;
@@ -22,8 +22,9 @@ ion-card {
       text-align: center;
       color: #000;
       background-color: #f2f2f2;
+      border-radius: 1px;
     }
-  
+
     .activity {
       font-size: 14px;
       font-weight: normal;
@@ -35,7 +36,7 @@ ion-card {
       padding: 0 5px;
       margin: 10px 0 0;
     }
-  
+
     .txt-time {
       margin: 6px 0 5px 0px;
       font-size: 12px;
@@ -51,7 +52,7 @@ ion-card {
       color: #000;
     }
   }
-  
+
 ion-button {
     --border-radius: 5px;
     --box-shadow: none;
@@ -68,12 +69,11 @@ ion-button {
     width: 152px;
     margin: 0 10px 0 0;
   }
-  
+
   .btn-accept {
     --background: #219653;
   }
-  
+
   .btn-reject {
     --background: #eb5757;
   }
-  

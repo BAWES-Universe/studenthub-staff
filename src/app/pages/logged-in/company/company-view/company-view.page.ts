@@ -39,7 +39,7 @@ export class CompanyViewPage implements OnInit {
   public notes: Note[] = [];
 
   public loadingNotes: boolean = false;
-  
+
   constructor(
     public modalCtrl: ModalController,
     public toastCtrl: ToastController,
@@ -72,7 +72,7 @@ export class CompanyViewPage implements OnInit {
       }
     });
   }
-  
+
   async openStores() {
     this.router.navigate(['company-stores', this.company_id], {
       state: {
@@ -233,7 +233,7 @@ export class CompanyViewPage implements OnInit {
       this.updating = false;
     });
   }
- 
+
   isFollowUpIntervalPassed() {
 
     if (this.company.company_followup_interval_weeks == 0 || !this.company.company_last_followup_datetime) {

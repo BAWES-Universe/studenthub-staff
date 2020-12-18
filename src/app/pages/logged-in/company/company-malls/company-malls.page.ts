@@ -16,6 +16,7 @@ export class CompanyMallsPage implements OnInit {
   public company_id;
 
   public company: Company;
+  public loading= false;
 
   public borderLimit: boolean = false;
 
@@ -26,9 +27,9 @@ export class CompanyMallsPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    
+
     this.company_id = this.activatedRoute.snapshot.paramMap.get('company_id');
-    
+
     const state = window.history.state;
 
     if(state.company) {
@@ -39,7 +40,9 @@ export class CompanyMallsPage implements OnInit {
   }
 
   loadData() {
+    this.loading = true;
     this.companyService.view(this.company_id).subscribe(data => {
+      this.loading = false;
       this.company = data;
     });
   }
