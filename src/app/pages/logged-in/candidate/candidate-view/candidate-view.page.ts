@@ -54,12 +54,11 @@ export class CandidateViewPage implements OnInit {
   public sendingPassword = false;
   public assigning = false;
   public unassinging = false;
-
+  public exportingCV = false;
   public loading = false;
   public approving = false;
   public unapproving = false;
 
-  public sections = 'personal';
   public processing = null;
 
   public updatingJobSearchStatus = false;
@@ -186,6 +185,71 @@ export class CandidateViewPage implements OnInit {
   }
 
   /**
+   * set candidate card expire
+   */
+  async exportCV() {
+    // Handle the functionality when user click on 'ok' button
+    this.exportingCV = true;
+
+    // Unassign Candidate from store
+    this.candidateService.exportCV(this.candidate).subscribe(async response => {
+     
+      // Dismiss the loader
+      this.exportingCV = false;
+    });
+  }
+
+  /**
+   * Unassign Candidate from store
+   */
+  async unassignCandidateFromStore() {
+    const confirm = await this.alertCtrl.create({
+      header: 'Are you sure?',
+      message: 'Remove candidate from store',
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: () => {
+            // Handle the functionality when user click on 'cancel' button
+          }
+        },
+        {
+          text: 'Ok',
+          handler: async () => {
+            // Handle the functionality when user click on 'ok' button
+            this.unassinging = true;
+
+            // Unassign Candidate from store
+            this.candidateService.removeFromAssignedStore(this.candidate).subscribe(async response => {
+              
+              // Dismiss the loader
+              this.unassinging = false;
+
+              if (response.operation == 'success') {
+                
+                if(this.candidate) {
+                  this.candidate.store_id = null;
+                  this.candidate.store = null;
+                  this.candidate.company = null;
+                }
+
+                this.eventService.reloadCandidateHistory$.next();
+              } else {
+                const prompt = await this.alertCtrl.create({
+                  message: this._processResponseMessage(response),
+                  buttons: ['Ok']
+                });
+                prompt.present();
+              }
+            });
+          }
+        }
+      ]
+    });
+    confirm.present();
+  }
+
+  /**
    * Assign Candidate to Store
    * @param {number} store_id
    */
@@ -259,12 +323,23 @@ export class CandidateViewPage implements OnInit {
     });
   }
 
+  openWorkPlace(history) {
+    if(history.store) {
+      this.router.navigate(['/store-view', history.store.store_id]);
+    } else if(history.company) {
+      this.router.navigate(['/company-view', history.company.company_id]);
+    }
+  }
+
+  onVideoError() {
+    this.candidate.candidate_video = null;
+  }
+
   /**
-   * @param $event
-   * @param candidate
+   * hide photo on error
    */
-  loadLogo($event, candidate) {
-    candidate.candidate_personal_photo = null;
+  onPhotoError() {
+    this.candidate.candidate_personal_photo = null;
   }
 
   /**
@@ -378,8 +453,12 @@ export class CandidateViewPage implements OnInit {
     await modal.present();
   }
 
-  public segmentChanged($e) {
-    this.sections = $e.detail.value;
+  openNotes() {
+    //TODO
+  }
+
+  assingToStore() {
+    //TODO
   }
 
   /**
@@ -387,6 +466,7 @@ export class CandidateViewPage implements OnInit {
    * @param $e
    */
   updateRate($e) {
+    
     this.alertCtrl.create({
       header: 'Set hourly rate',
       inputs: [
