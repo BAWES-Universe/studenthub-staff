@@ -22,7 +22,7 @@
       <ion-thumbnail *ngIf="company.company_logo">
         <img src="{{ aws.cloudinaryUrl + company.company_logo }}" (error)="imageError()">
       </ion-thumbnail>
-      
+
       {{ company.company_name }}
     </h3>
 
@@ -42,7 +42,7 @@
           Follow up every {{ company.company_followup_interval_weeks }} weeks
         </span>
       </p>
-      
+
       <p class="last-followup" *ngIf="company.company_last_followup_datetime">
         Last follow-up was {{ company.company_last_followup_datetime | timeAgo }} on {{ toDate(company.company_last_followup_datetime) | date: 'MMM d, y' }}
       </p>
@@ -56,16 +56,16 @@
     </p>
 
     <p class="description" *ngIf="company.company_description_en"> {{ company.company_description_en }}</p>
-    
+
     <p class="description arabic" *ngIf="company.company_description_ar">{{ company.company_description_ar }}</p>
 
     <a class="website" href="{{ company.company_website }}" target="_blank" *ngIf="company.company_website">{{ company.company_website }}</a>
 
     <h5 *ngIf="notes.length > 0">Last Activity</h5>
-    
-    <note *ngIf="notes.length > 0" [routerLink]="'/note-view/' + notes[0].note_uuid" from="company-view" [note]="notes[0]" 
+
+    <note *ngIf="notes.length > 0" [routerLink]="'/note-view/' + notes[0].note_uuid" from="company-view" [note]="notes[0]"
       (onChange)="loadNotes()" (onDelete)="loadNotes()"></note>
-    
+
     <ion-button class="btn-view-notes" *ngIf="notes.length > 1" (click)="openNotes()">
       View all {{ notes.length }} notes
     </ion-button>
@@ -74,49 +74,49 @@
 
     <ion-item tappable (click)="openRequests()">
       <ion-label>Requests</ion-label>
-      <ion-note slot="end">{{ company.requests?.length }}</ion-note>
+      <ion-badge color="medium" slot="end">{{ company.requests?.length }}</ion-badge>
     </ion-item>
 
     <ion-item tappable (click)="openStores()" *ngIf="company.subCompanies?.length == 0">
       <ion-label>Stores</ion-label>
-      <ion-note slot="end">{{ company.subCompanies?.length }}</ion-note>
+      <ion-badge color="medium" slot="end">{{ company.stores?.length }}</ion-badge>
     </ion-item>
-    
+
     <ion-item tappable (click)="openSubCompanies()" *ngIf="company.stores?.length == 0">
       <ion-label>Subcompanies</ion-label>
-      <ion-note slot="end">{{ company.stores?.length }}</ion-note>
+      <ion-badge color="medium" slot="end">{{ company.subCompanies?.length }}</ion-badge>
     </ion-item>
-    
+
     <ion-item tappable (click)="openContacts()">
       <ion-label>Contacts</ion-label>
-      <ion-note slot="end">{{ company.companyContacts?.length }}</ion-note>
+      <ion-badge color="medium" slot="end">{{ company.companyContacts?.length }}</ion-badge>
     </ion-item>
 
     <ion-item tappable (click)="openBrands()">
       <ion-label>Brands</ion-label>
-      <ion-note slot="end">{{ company.brands?.length }}</ion-note>
+      <ion-badge color="medium" slot="end">{{ company.brands?.length }}</ion-badge>
     </ion-item>
 
     <ion-item tappable (click)="openMalls()">
       <ion-label>Malls present in</ion-label>
-      <ion-note slot="end">{{ company.malls?.length }}</ion-note>
+      <ion-badge color="medium" slot="end">{{ company.malls?.length }}</ion-badge>
     </ion-item>
-   
+
     <ion-item tappable (click)="openDocuments()">
       <ion-label>Documents</ion-label>
-      <ion-note slot="end">{{ company.files?.length }}</ion-note>
+      <ion-badge color="medium" slot="end">{{ company.files?.length }}</ion-badge>
     </ion-item>
 
     <ion-item tappable (click)="openTransfers()">
       <ion-label>Transfers</ion-label>
-      <ion-note slot="end">{{ company.parentTransfers?.length }}</ion-note>
+      <ion-badge color="medium" slot="end">{{ company.parentTransfers?.length }}</ion-badge>
     </ion-item>
 
     <ion-item tappable (click)="openChart()">
       <ion-label>Transfer Chart</ion-label>
     </ion-item>
-  </div> 
-  
+  </div>
+
   <loading-modal [loading]="loading" type="company-view"></loading-modal>
 
 </ion-content>
@@ -126,7 +126,7 @@
     I followed up
   </ion-button>
 </ion-footer>
- 
+
   <!-- request List
 
   <section *ngIf="segment == 'requests'">

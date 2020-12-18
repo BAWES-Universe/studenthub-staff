@@ -22,9 +22,9 @@ export class CompanyStoresPage implements OnInit {
 
   public company: Company;
 
-  public updating: boolean = false; 
+  public updating: boolean = false;
 
-  public loading: boolean = false; 
+  public loading: boolean = false;
 
   public borderLimit: boolean = false;
 
@@ -40,16 +40,20 @@ export class CompanyStoresPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    
+
     this.company_id = this.activatedRoute.snapshot.paramMap.get('company_id');
-    
+
     const state = window.history.state;
 
-    if(state.company) {
-      this.company = state.company;
-    } else {
-      this.loadData();
-    }
+    // if(state.company) {
+    //   this.company = state.company;
+    //   console.log(this.company);
+    // } else {
+    //   this.loadData();
+    // }
+  }
+  ionViewWillEnter() {
+    this.loadData();
   }
 
   loadData() {
@@ -57,7 +61,7 @@ export class CompanyStoresPage implements OnInit {
 
     this.companyService.view(this.company_id).subscribe(data => {
       this.company = data;
-
+      console.log(this.company);
       this.loading = false;
     });
   }
