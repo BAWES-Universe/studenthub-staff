@@ -3,21 +3,29 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/company-view/{{ this.company_id }}"></ion-back-button>
     </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="create()">
+        Add Subcompany
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
 
   <ng-container *ngIf="company && company.subCompanies">
-    <app-company [company]="company" *ngFor="let company of company.subCompanies" (click)="rowSelected(company)">
-    </app-company>
+    <h3 class="request-title">
+      Subcompanies
+    </h3>
+    <h4 class="company-name">
+      {{ (company.company_common_name_en) ?  company.company_common_name_en:company.company_name }}
+    </h4>
+    <ion-list>
+      <app-company [company]="company" *ngFor="let company of company.subCompanies" (click)="rowSelected(company)">
+      </app-company>
+    </ion-list>
   </ng-container>
 
   <loading-modal [loading]="loading" type="text-list"></loading-modal>
 
 </ion-content>
-<ion-footer>
-  <ion-button (click)="create()">
-    Create Sub Company
-  </ion-button>
-</ion-footer>
