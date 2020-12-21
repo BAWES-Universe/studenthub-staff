@@ -4,10 +4,9 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { CandidateNotesPageRoutingModule } from './candidate-notes-routing.module';
+import { StorePageRoutingModule } from './store-routing.module';
 
-import { CandidateNotesPage } from './candidate-notes.page';
-import { NoteModule } from 'src/app/components/note/note.module';
+import { StorePage } from './store.page';
 import { LoadingModalModule } from 'src/app/components/loading-modal/loading-modal.module';
 
 @NgModule({
@@ -15,10 +14,9 @@ import { LoadingModalModule } from 'src/app/components/loading-modal/loading-mod
     CommonModule,
     FormsModule,
     IonicModule,
-    NoteModule,
     LoadingModalModule,
-    CandidateNotesPageRoutingModule
+    StorePageRoutingModule
   ],
-  declarations: [CandidateNotesPage]
+  declarations: [StorePage]
 })
-export class CandidateNotesPageModule {}
+export class StorePageModule {}

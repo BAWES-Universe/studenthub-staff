@@ -486,6 +486,14 @@ const routes: Routes = [
     }
   },
   {
+    path: 'candidate-notes',
+    loadChildren: () => import('./pages/logged-in/candidate/candidate-notes/candidate-notes.module').then( m => m.CandidateNotesPageModule),
+    canActivate: [AuthService],
+    data: {
+      name: 'TransferViewPage'
+    }
+  },
+  {
     path: '**',
     redirectTo: 'not-found'
   }

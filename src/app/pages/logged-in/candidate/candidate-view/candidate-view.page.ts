@@ -21,13 +21,14 @@ import { AwsService } from '../../../../providers/aws.service';
 import { EventService } from '../../../../providers/event.service';
 import { NoteService } from '../../../../providers/logged-in/note.service';
 import { AuthService } from '../../../../providers/auth.service';
+import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 // pages
 import { OptionPage } from '../option/option.page';
 import { CandidateCommittedFormPage } from '../candidate-committed-form/candidate-committed-form.page';
 import { AllCompanyListPage } from '../../company/company-request-list/all-company-list/all-company-list.page';
 import { CompanyRequestListPopupPage } from '../../company/company-request-list/company-request-list-popup/company-request-list-popup.page';
 import { SuggestPage } from '../../suggest/suggest.page';
-import { TranslateLabelService } from 'src/app/providers/translate-label.service';
+import { SelectSearchPageComponent } from 'src/app/components/select-search/select-search-page/select-search-page.component';
 
 
 @Component({
@@ -102,10 +103,11 @@ export class CandidateViewPage implements OnInit {
     public modalCtrl: ModalController,
     private fb: FormBuilder,
   ) {
-    this.candidate_id = this.activatedRoute.snapshot.paramMap.get('id');
+    
   }
 
   ngOnInit() {
+    this.candidate_id = this.activatedRoute.snapshot.paramMap.get('id');
 
     this.eventService.reloadCandidateHistory$.subscribe((res) => {
       this.loadCandidateDetail();
@@ -428,6 +430,10 @@ export class CandidateViewPage implements OnInit {
       if (e.data && e.data.suggess) {
         this.suggest();
       }
+      
+      if (e.data && e.data.toggleCommitted) {
+        this.toggleCommitted();
+      }
     });
   }
 
@@ -463,8 +469,28 @@ export class CandidateViewPage implements OnInit {
     });
   }
 
-  assingToStore($event) {
-    // TODO
+  /**
+   * open popup to select store
+   * @param ev 
+   */
+  async assingToStore(ev) {
+    const selectPage = await this.popoverCtrl.create({
+      component : SelectSearchPageComponent,
+      componentProps: {
+        collection: this.stores,
+        valueAttr: 'store_id',
+        labelAttr: 'storeWithCompany'
+      },
+      cssClass: 'select_search_store_id',
+      //event: ev,
+      translucent: true
+    });
+    selectPage.onDidDismiss().then(e => {
+        if (e.data) {
+          this.assignCandidateToStore(e.data['store_id']);
+        }
+      });
+    await selectPage.present();
   }
 
   /**

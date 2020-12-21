@@ -185,7 +185,6 @@ export class CompanyService {
     return this._authhttp.patch(url, {});
   }
 
-
   /**
    * change company status
    * @param model

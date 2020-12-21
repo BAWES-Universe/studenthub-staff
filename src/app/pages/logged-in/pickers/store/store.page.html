@@ -1,0 +1,33 @@
+<ion-header [class.add-border]="borderLimit" class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button (click)="dismiss()"></ion-back-button>
+    </ion-buttons>
+    <ion-title *ngIf="!loading && !company">Select Store</ion-title>
+    <ion-title *ngIf="!loading && company">
+      {{ company.company_name }}
+    </ion-title>
+  </ion-toolbar>
+   
+</ion-header>
+
+<ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
+
+  <ion-list> 
+    <ion-item *ngFor="let store of stores" tappable (click)="rowSelected(store)">
+      <div tabindex="0"></div>
+      
+      <ion-label>
+        <h5>{{ store.store_name }}</h5>
+        <p *ngIf="store.store_location"><ion-icon name="location-outline"></ion-icon> {{ store.store_location }}</p>
+      </ion-label>
+
+    </ion-item>  
+  </ion-list>
+
+  <loading-modal [loading]="loading" type="text-list"></loading-modal>
+
+  <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

@@ -1,9 +1,29 @@
-<ion-header>
+<ion-header [class.add-border]="borderLimit" class="ion-no-border">
   <ion-toolbar>
-    <ion-title>candidate-notes</ion-title>
-  </ion-toolbar>
-</ion-header>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/candidate-view/{{ candidate_id }}"></ion-back-button>
+    </ion-buttons>
 
-<ion-content>
+    <ion-buttons slot="end">
+      <ion-button (click)="add()">
+        Add note
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+ 
+</ion-header>
+<ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
+
+  <h3>Notes</h3>
+
+  <h4 *ngIf="candidate">
+    {{ candidate.candidate_name }} 
+    <span *ngIf="!candidate.candidate_name">{{ candidate.candidate_name_ar }}</span>
+  </h4>
+
+  <note *ngFor="let note of notes" [routerLink]="'/note-view/' + note.note_uuid" 
+    [note]="note"></note>
+
+  <loading-modal [loading]="loading" type="note-list"></loading-modal>
 
 </ion-content>
