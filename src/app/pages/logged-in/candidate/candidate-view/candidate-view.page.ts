@@ -195,7 +195,7 @@ export class CandidateViewPage implements OnInit {
 
     // Unassign Candidate from store
     this.candidateService.exportCV(this.candidate).subscribe(async response => {
-     
+
       // Dismiss the loader
       this.exportingCV = false;
     });
@@ -223,12 +223,12 @@ export class CandidateViewPage implements OnInit {
 
             // Unassign Candidate from store
             this.candidateService.removeFromAssignedStore(this.candidate).subscribe(async response => {
-              
+
               // Dismiss the loader
               this.unassinging = false;
 
               if (response.operation == 'success') {
-                
+
                 if(this.candidate) {
                   this.candidate.store_id = null;
                   this.candidate.store = null;
@@ -463,8 +463,8 @@ export class CandidateViewPage implements OnInit {
     });
   }
 
-  assingToStore() {
-    //TODO
+  assingToStore($event) {
+    // TODO
   }
 
   /**
@@ -472,7 +472,7 @@ export class CandidateViewPage implements OnInit {
    * @param $e
    */
   updateRate($e) {
-    
+
     this.alertCtrl.create({
       header: 'Set hourly rate',
       inputs: [
@@ -648,11 +648,11 @@ export class CandidateViewPage implements OnInit {
 
   /**
    * return area name
-   * @param area 
-   * @param country 
+   * @param area
+   * @param country
    */
   area(area, country) {
-    return this.translateService.langContent(area.area_name_en, area.area_name_ar) + ' ' + 
+    return this.translateService.langContent(area.area_name_en, area.area_name_ar) + ' ' +
       this.translateService.langContent(country.country_name_en, country.country_name_ar);
   }
 
@@ -828,5 +828,12 @@ export class CandidateViewPage implements OnInit {
 
     }, () => {
     });
+  }
+
+  onCivilBackError() {
+    this.candidate.candidate_civil_photo_back = null;
+  }
+  onCivilFrontError() {
+    this.candidate.candidate_civil_photo_front = null;
   }
 }

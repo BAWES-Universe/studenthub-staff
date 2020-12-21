@@ -24,6 +24,8 @@ export class TransferCandidate {
     candidate_bonus: number;
     transfer_cost: number;
     paid: number;
+    total: number;
+    status: any;
     tc_created_at: string;
     tc_updated_at: string;
     total_paid: number;
