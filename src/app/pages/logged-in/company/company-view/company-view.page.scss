@@ -206,3 +206,24 @@ ion-item {
     font-weight: bold;
   }
 }
+ion-grid, ion-col, ion-row {
+  padding: 0;
+}
+.left-side {
+  padding-right: 60px;
+}
+.right-side {
+  padding-top: 165px;
+  ion-item{
+    background: #fff;
+  }
+}
+@media only screen and (max-width:767px){
+  .left-side {
+    padding-right: 0;
+  }
+
+  .right-side {
+    padding-top: 0;
+  }
+}
