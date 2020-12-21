@@ -15,7 +15,9 @@
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
 
-  <div *ngIf="company">
+  <loading-modal [loading]="loading" type="company-view"></loading-modal>
+
+  <div *ngIf="company && !loading">
     <ion-grid>
       <ion-row>
         <ion-col size-xs="12" size-sm="12" size-md="6" size-lg="6" size-xl="6">
@@ -127,8 +129,6 @@
     </ion-grid>
   </div>
 
-  <loading-modal [loading]="loading" type="company-view"></loading-modal>
-
 </ion-content>
 <!-- if followup enabled and followup interval passed -->
 <ion-footer *ngIf="followup && isFollowUpIntervalPassed()">
@@ -136,19 +136,3 @@
     I followed up
   </ion-button>
 </ion-footer>
-
-  <!-- request List
-
-  <section *ngIf="segment == 'requests'">
-    <ion-list  class="ion-padding">
-      <request-listing *ngFor="let request of requests" tappable [routerLink]="'/request-view/' + request.request_uuid"
-        [request]="request" [showStatus]="false"></request-listing>
-
-      <ion-item lines="none">
-        <div tabindex="0"></div>
-        <ion-button color="danger" (click)="addRequest()">
-          <span>Add New Request</span>
-        </ion-button>
-      </ion-item>
-    </ion-list>
-  </section> -->
