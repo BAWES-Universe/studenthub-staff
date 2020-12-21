@@ -21,13 +21,13 @@ import { AwsService } from '../../../../providers/aws.service';
 import { EventService } from '../../../../providers/event.service';
 import { NoteService } from '../../../../providers/logged-in/note.service';
 import { AuthService } from '../../../../providers/auth.service';
+import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 // pages
 import { OptionPage } from '../option/option.page';
 import { CandidateCommittedFormPage } from '../candidate-committed-form/candidate-committed-form.page';
 import { AllCompanyListPage } from '../../company/company-request-list/all-company-list/all-company-list.page';
 import { CompanyRequestListPopupPage } from '../../company/company-request-list/company-request-list-popup/company-request-list-popup.page';
 import { SuggestPage } from '../../suggest/suggest.page';
-import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 import { SelectSearchPageComponent } from 'src/app/components/select-search/select-search-page/select-search-page.component';
 
 
@@ -197,7 +197,7 @@ export class CandidateViewPage implements OnInit {
 
     // Unassign Candidate from store
     this.candidateService.exportCV(this.candidate).subscribe(async response => {
-     
+
       // Dismiss the loader
       this.exportingCV = false;
     });
@@ -225,12 +225,12 @@ export class CandidateViewPage implements OnInit {
 
             // Unassign Candidate from store
             this.candidateService.removeFromAssignedStore(this.candidate).subscribe(async response => {
-              
+
               // Dismiss the loader
               this.unassinging = false;
 
               if (response.operation == 'success') {
-                
+
                 if(this.candidate) {
                   this.candidate.store_id = null;
                   this.candidate.store = null;
@@ -498,7 +498,7 @@ export class CandidateViewPage implements OnInit {
    * @param $e
    */
   updateRate($e) {
-    
+
     this.alertCtrl.create({
       header: 'Set hourly rate',
       inputs: [
@@ -674,11 +674,11 @@ export class CandidateViewPage implements OnInit {
 
   /**
    * return area name
-   * @param area 
-   * @param country 
+   * @param area
+   * @param country
    */
   area(area, country) {
-    return this.translateService.langContent(area.area_name_en, area.area_name_ar) + ' ' + 
+    return this.translateService.langContent(area.area_name_en, area.area_name_ar) + ' ' +
       this.translateService.langContent(country.country_name_en, country.country_name_ar);
   }
 
@@ -854,5 +854,12 @@ export class CandidateViewPage implements OnInit {
 
     }, () => {
     });
+  }
+
+  onCivilBackError() {
+    this.candidate.candidate_civil_photo_back = null;
+  }
+  onCivilFrontError() {
+    this.candidate.candidate_civil_photo_front = null;
   }
 }

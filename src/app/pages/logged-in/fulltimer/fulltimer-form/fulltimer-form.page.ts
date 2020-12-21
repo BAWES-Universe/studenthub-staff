@@ -15,6 +15,7 @@ import { Fulltimer, FulltimerTag } from 'src/app/models/fulltimer';
 //pages
 import { FulltimerLocationPage } from '../fulltimer-location/fulltimer-location.page';
 import { NationalityPage } from '../../pickers/nationality/nationality.page';
+import {CustomValidator} from "../../../../validators/custom.validator";
 
 
 @Component({
@@ -93,7 +94,7 @@ export class FulltimerFormPage implements OnInit {
   formInit() {
     // Init Form
     if (!this.model.fulltimer_uuid) { // Show Create Form
-      
+
       this.operation = 'Create';
 
       this.form = this.fb.group({
@@ -104,9 +105,9 @@ export class FulltimerFormPage implements OnInit {
         latitude: ['', Validators.required],
         longitude: ['', Validators.required],
         name: ['', Validators.required],
-        phone: ['', Validators.required],
-        email: ['', Validators.required],
-        pdf_cv: ['', Validators.required],
+        phone: ['', [Validators.required, Validators.pattern('^[0-9-+\s()]*$')]],
+        email: ['', [Validators.required, CustomValidator.emailValidator]],
+        pdf_cv: [''],
         tags: ['', Validators.required],
         location: ['', Validators.required],
         tempPdfCVLocation: [''],
@@ -116,7 +117,7 @@ export class FulltimerFormPage implements OnInit {
 
       this.operation = 'Update';
 
-      let location, nationality, tags = []; 
+      let location, nationality, tags = [];
 
       if(this.model.area && this.model.country) {
         location = this.model.area.area_name_en + ', '+ this.model.country.country_name_en;
@@ -212,7 +213,7 @@ export class FulltimerFormPage implements OnInit {
             err && (
               ignoreErrors.indexOf(err.message) > -1 ||
               err.message.includes('aborted')
-            ) 
+            )
           ) {
             return null;
           }
@@ -286,9 +287,9 @@ export class FulltimerFormPage implements OnInit {
     },
       async err => {
         // log to slack/sentry to know how many user getting file upload error
-  
+
         if(!err.message || !err.message.includes('aborted')) {
-          
+
           const alert = await this.alertCtrl.create({
             header: 'Error',
             message: 'Error while uploading file!',
@@ -367,7 +368,7 @@ export class FulltimerFormPage implements OnInit {
   }
 
   getResumeUrl() {
-    
+
     if(this.form.controls.tempPdfCVLocation.value) {
       return decodeURIComponent(this.form.controls.tempPdfCVLocation.value);
     }
@@ -394,16 +395,16 @@ export class FulltimerFormPage implements OnInit {
         window.history.back();
       }
     });
-    
+
     const { data } = await modal.onWillDismiss();
 
     if (data && data.country) {
       this.form.controls.nationality_id.setValue(data.country.country_id);
       this.form.controls.nationality_id.markAsDirty();
-      
+
       this.form.controls.nationality.setValue(data.country.country_name_en);
       this.form.controls.nationality.markAsDirty();
-    
+
       this.form.updateValueAndValidity();
     }
   }
@@ -428,29 +429,29 @@ export class FulltimerFormPage implements OnInit {
         window.history.back();
       }
     });
-    
+
     const { data } = await modal.onWillDismiss();
 
     if (data && data.area_uuid) {
       this.form.controls.area_uuid.setValue(data.area_uuid);
       this.form.controls.area_uuid.markAsDirty();
-      
+
       this.form.controls.country_id.setValue(data.country_id);
       this.form.controls.country_id.markAsDirty();
-      
+
       this.form.controls.latitude.setValue(data.latitude);
       this.form.controls.latitude.markAsDirty();
-      
+
       this.form.controls.longitude.setValue(data.longitude);
       this.form.controls.longitude.markAsDirty();
-      
+
       this.form.controls.location.setValue(data.area.area_name_en + ', ' + data.country.country_name_en);
       this.form.controls.location.markAsDirty();
 
       this.form.updateValueAndValidity();
     }
   }
-  
+
   /**
    * Update Model Data based on Form Input
    */

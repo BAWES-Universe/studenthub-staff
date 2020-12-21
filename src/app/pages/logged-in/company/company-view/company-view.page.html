@@ -16,105 +16,115 @@
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
 
   <div *ngIf="company">
+    <ion-grid>
+      <ion-row>
+        <ion-col size-xs="12" size-sm="12" size-md="6" size-lg="6" size-xl="6">
+          <div class="left-side">
+            <h3 class="company-name">
 
-    <h3 class="company-name">
+              <ion-thumbnail *ngIf="company.company_logo">
+                <img src="{{ aws.cloudinaryUrl + company.company_logo }}" (error)="imageError()">
+              </ion-thumbnail>
 
-      <ion-thumbnail *ngIf="company.company_logo">
-        <img src="{{ aws.cloudinaryUrl + company.company_logo }}" (error)="imageError()">
-      </ion-thumbnail>
+              {{ company.company_name }}
+            </h3>
 
-      {{ company.company_name }}
-    </h3>
+            <h4 class="company-name-english">
+              {{ company.company_common_name_en }}
+            </h4>
 
-    <h4 class="company-name-english">
-      {{ company.company_common_name_en }}
-    </h4>
+            <h4 class="company-name-arabic arabic">
+              {{ company.company_common_name_ar }}
+            </h4>
 
-    <h4 class="company-name-arabic arabic">
-      {{ company.company_common_name_ar }}
-    </h4>
+            <div class="last-activity">
+              <p class="followup">
+                <ng-container *ngIf="company.company_status && !company.parent_company_id">Active.</ng-container>
+                <ng-container *ngIf="company.company_status && !company.parent_company_id">Inactive.</ng-container>
+                <span *ngIf="company.company_followup">
+                Follow up every {{ company.company_followup_interval_weeks }} weeks
+              </span>
+              </p>
 
-    <div class="last-activity">
-      <p class="followup">
-        <ng-container *ngIf="company.company_status && !company.parent_company_id">Active.</ng-container>
-        <ng-container *ngIf="company.company_status && !company.parent_company_id">Inactive.</ng-container>
-        <span *ngIf="company.company_followup">
-          Follow up every {{ company.company_followup_interval_weeks }} weeks
-        </span>
-      </p>
+              <p class="last-followup" *ngIf="company.company_last_followup_datetime">
+                Last follow-up was {{ company.company_last_followup_datetime | timeAgo }} on {{ toDate(company.company_last_followup_datetime) | date: 'MMM d, y' }}
+              </p>
+            </div>
 
-      <p class="last-followup" *ngIf="company.company_last_followup_datetime">
-        Last follow-up was {{ company.company_last_followup_datetime | timeAgo }} on {{ toDate(company.company_last_followup_datetime) | date: 'MMM d, y' }}
-      </p>
-    </div>
+            <p class="email" *ngIf="company.company_email">{{ company.company_email }}</p>
 
-    <p class="email" *ngIf="company.company_email">{{ company.company_email }}</p>
+            <p class="hourly-rate" *ngIf="company.company_hourly_rate">
+              {{ company.company_hourly_rate | number:'1.3-3' }} KD per hour <br />
+              {{ company.company_bonus_commission | number:'1.0-0' }}% commission
+            </p>
 
-    <p class="hourly-rate" *ngIf="company.company_hourly_rate">
-      {{ company.company_hourly_rate | number:'1.3-3' }} KD per hour <br />
-      {{ company.company_bonus_commission | number:'1.0-0' }}% commission
-    </p>
+            <p class="description" *ngIf="company.company_description_en"> {{ company.company_description_en }}</p>
 
-    <p class="description" *ngIf="company.company_description_en"> {{ company.company_description_en }}</p>
+            <p class="description arabic" *ngIf="company.company_description_ar">{{ company.company_description_ar }}</p>
 
-    <p class="description arabic" *ngIf="company.company_description_ar">{{ company.company_description_ar }}</p>
+            <a class="website" href="{{ company.company_website }}" target="_blank" *ngIf="company.company_website">{{ company.company_website }}</a>
 
-    <a class="website" href="{{ company.company_website }}" target="_blank" *ngIf="company.company_website">{{ company.company_website }}</a>
+            <h5 *ngIf="notes.length > 0">Last Activity</h5>
 
-    <h5 *ngIf="notes.length > 0">Last Activity</h5>
+            <note *ngIf="notes.length > 0" [routerLink]="'/note-view/' + notes[0].note_uuid" from="company-view" [note]="notes[0]"
+                  (onChange)="loadNotes()" (onDelete)="loadNotes()"></note>
 
-    <note *ngIf="notes.length > 0" [routerLink]="'/note-view/' + notes[0].note_uuid" from="company-view" [note]="notes[0]"
-      (onChange)="loadNotes()" (onDelete)="loadNotes()"></note>
+            <ion-button class="btn-view-notes" *ngIf="notes.length > 1" (click)="openNotes()">
+              View all {{ notes.length }} notes
+            </ion-button>
+          </div>
+        </ion-col>
+        <ion-col size-xs="12" size-sm="12" size-md="6" size-lg="6" size-xl="6">
+          <div class="right-side">
+            <h5>Manage</h5>
 
-    <ion-button class="btn-view-notes" *ngIf="notes.length > 1" (click)="openNotes()">
-      View all {{ notes.length }} notes
-    </ion-button>
+            <ion-item tappable (click)="openRequests()">
+              <ion-label>Requests</ion-label>
+              <ion-badge color="medium" slot="end">{{ company.requests?.length }}</ion-badge>
+            </ion-item>
 
-    <h5>Manage</h5>
+            <ion-item tappable (click)="openStores()" *ngIf="company.subCompanies?.length == 0">
+              <ion-label>Stores</ion-label>
+              <ion-badge color="medium" slot="end">{{ company.stores?.length }}</ion-badge>
+            </ion-item>
 
-    <ion-item tappable (click)="openRequests()">
-      <ion-label>Requests</ion-label>
-      <ion-badge color="medium" slot="end">{{ company.requests?.length }}</ion-badge>
-    </ion-item>
+            <ion-item tappable (click)="openSubCompanies()" *ngIf="company.stores?.length == 0">
+              <ion-label>Subcompanies</ion-label>
+              <ion-badge color="medium" slot="end">{{ company.subCompanies?.length }}</ion-badge>
+            </ion-item>
 
-    <ion-item tappable (click)="openStores()" *ngIf="company.subCompanies?.length == 0">
-      <ion-label>Stores</ion-label>
-      <ion-badge color="medium" slot="end">{{ company.stores?.length }}</ion-badge>
-    </ion-item>
+            <ion-item tappable (click)="openContacts()">
+              <ion-label>Contacts</ion-label>
+              <ion-badge color="medium" slot="end">{{ company.companyContacts?.length }}</ion-badge>
+            </ion-item>
 
-    <ion-item tappable (click)="openSubCompanies()" *ngIf="company.stores?.length == 0">
-      <ion-label>Subcompanies</ion-label>
-      <ion-badge color="medium" slot="end">{{ company.subCompanies?.length }}</ion-badge>
-    </ion-item>
+            <ion-item tappable (click)="openBrands()">
+              <ion-label>Brands</ion-label>
+              <ion-badge color="medium" slot="end">{{ company.brands?.length }}</ion-badge>
+            </ion-item>
 
-    <ion-item tappable (click)="openContacts()">
-      <ion-label>Contacts</ion-label>
-      <ion-badge color="medium" slot="end">{{ company.companyContacts?.length }}</ion-badge>
-    </ion-item>
+            <ion-item tappable (click)="openMalls()">
+              <ion-label>Malls present in</ion-label>
+              <ion-badge color="medium" slot="end">{{ company.malls?.length }}</ion-badge>
+            </ion-item>
 
-    <ion-item tappable (click)="openBrands()">
-      <ion-label>Brands</ion-label>
-      <ion-badge color="medium" slot="end">{{ company.brands?.length }}</ion-badge>
-    </ion-item>
+            <ion-item tappable (click)="openDocuments()">
+              <ion-label>Documents</ion-label>
+              <ion-badge color="medium" slot="end">{{ company.files?.length }}</ion-badge>
+            </ion-item>
 
-    <ion-item tappable (click)="openMalls()">
-      <ion-label>Malls present in</ion-label>
-      <ion-badge color="medium" slot="end">{{ company.malls?.length }}</ion-badge>
-    </ion-item>
+            <ion-item tappable (click)="openTransfers()">
+              <ion-label>Transfers</ion-label>
+              <ion-badge color="medium" slot="end">{{ company.parentTransfers?.length }}</ion-badge>
+            </ion-item>
 
-    <ion-item tappable (click)="openDocuments()">
-      <ion-label>Documents</ion-label>
-      <ion-badge color="medium" slot="end">{{ company.files?.length }}</ion-badge>
-    </ion-item>
-
-    <ion-item tappable (click)="openTransfers()">
-      <ion-label>Transfers</ion-label>
-      <ion-badge color="medium" slot="end">{{ company.parentTransfers?.length }}</ion-badge>
-    </ion-item>
-
-    <ion-item tappable (click)="openChart()">
-      <ion-label>Transfer Chart</ion-label>
-    </ion-item>
+            <ion-item tappable (click)="openChart()">
+              <ion-label>Transfer Chart</ion-label>
+            </ion-item>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
   </div>
 
   <loading-modal [loading]="loading" type="company-view"></loading-modal>

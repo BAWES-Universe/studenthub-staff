@@ -6,7 +6,7 @@
       </ion-button>
     </ion-buttons>
     <ion-title>{{ operation }}</ion-title>
-    
+
     <ion-buttons slot="end">
       <ion-button color="primary"
                   [disabled]="!form.dirty || !form.valid || loading"
@@ -24,7 +24,7 @@
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)" class="ion-padding">
   <form [formGroup]="form">
     <ion-list>
-   
+
       <ion-item>
         <ion-label position="floating">Name</ion-label>
         <ion-input type="telephone" formControlName="name"></ion-input>
@@ -40,7 +40,7 @@
         <ion-label position="floating">Phone</ion-label>
         <ion-input type="telephone" formControlName="phone"></ion-input>
       </ion-item>
-      
+
       <div class="error-wrapper" *ngIf="!form.controls.phone.pristine">
         <p class="error" *ngIf="form.controls.phone.errors && form.controls.phone.errors.required">
           * required
@@ -60,7 +60,7 @@
 
       <ion-item (click)="selectNationality()">
         <ion-label position="floating">Nationality</ion-label>
-        <ion-input formControlName="nationality"></ion-input>
+        <ion-input readonly formControlName="nationality"></ion-input>
       </ion-item>
 
       <div class="error-wrapper" *ngIf="!form.controls.nationality_id.pristine">
@@ -68,7 +68,7 @@
           * required
         </p>
       </div>
-      
+
       <ion-item tappable>
         <ion-label position="floating">PDF CV</ion-label>
         <ion-input type="text" readonly formControlName="pdf_cv"></ion-input>
@@ -76,25 +76,25 @@
 
           <!-- download -->
 
-          <ion-button *ngIf="form.controls.pdf_cv.value || form.controls.tempPdfCVLocation.value"  
+          <ion-button *ngIf="form.controls.pdf_cv.value || form.controls.tempPdfCVLocation.value"
             [href]="getResumeUrl()" target="_blank">
             <ion-icon name="cloud-download-outline"></ion-icon>
           </ion-button>
-          
+
           <!-- change/ upload -->
 
           <ion-button (click)="mobileUpload();" *ngIf="platform.is('hybrid')">
             <ion-icon name="cloud-upload-outline"></ion-icon>
           </ion-button>
-          
+
           <ion-button *ngIf="!platform.is('hybrid')">
             <ion-icon name="cloud-upload-outline"></ion-icon>
             <input class="upload" accept=".pdf" type='file' #fileInput (change)="browserUpload($event)">
           </ion-button>
-          
+
           <!-- remove -->
 
-          <ion-button *ngIf="form.controls.pdf_cv.value || form.controls.tempPdfCVLocation.value" 
+          <ion-button *ngIf="form.controls.pdf_cv.value || form.controls.tempPdfCVLocation.value"
             (click)="removeResume($event)">
             <ion-icon name="trash-outline"></ion-icon>
           </ion-button>
