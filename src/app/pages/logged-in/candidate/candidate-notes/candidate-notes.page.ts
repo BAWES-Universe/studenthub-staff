@@ -117,7 +117,4 @@ export class CandidateNotesPage implements OnInit {
   logScrolling(e) {
     this.borderLimit = (e.detail.scrollTop > 20);
   }
-  add() {
-
-  }
 }

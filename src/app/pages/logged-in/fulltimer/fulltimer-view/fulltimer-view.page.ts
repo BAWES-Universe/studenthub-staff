@@ -251,7 +251,6 @@ export class FulltimerViewPage implements OnInit {
     this.noteForm.controls.request_uuid.setValue('');
   }
 
-
   /**
    * edit note
    * @param note

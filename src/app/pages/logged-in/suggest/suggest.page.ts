@@ -67,7 +67,15 @@ export class SuggestPage implements OnInit {
   loadRequests() {
     this.loadingRequests = true;
 
-    this.requestService.listActiveRequests().subscribe(data => {
+    let filterParams;
+
+    if(this.fulltimer) {
+      filterParams = '&position_type=1';
+    } else {
+      filterParams = '&position_type=2';
+    }
+
+    this.requestService.listActiveRequests(false, filterParams).subscribe(data => {
       this.loadingRequests = false;
 
       this.activeRequests = data;
