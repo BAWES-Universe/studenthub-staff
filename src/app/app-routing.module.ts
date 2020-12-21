@@ -405,50 +405,89 @@ const routes: Routes = [
       name: 'TransferViewPage'
     }
   },
-
   {
     path: 'transfer-chart',
-    loadChildren: () => import('./pages/logged-in/transfer/transfer-chart/transfer-chart.module').then( m => m.TransferChartPageModule)
+    loadChildren: () => import('./pages/logged-in/transfer/transfer-chart/transfer-chart.module').then( m => m.TransferChartPageModule),
+    canActivate: [AuthService],
+    data: {
+      name: 'TransferViewPage'
+    }
   },
   {
     path: 'transfer-list',
-    loadChildren: () => import('./pages/logged-in/transfer/transfer-list/transfer-list.module').then( m => m.TransferListPageModule)
+    loadChildren: () => import('./pages/logged-in/transfer/transfer-list/transfer-list.module').then( m => m.TransferListPageModule),
+    canActivate: [AuthService],
+    data: {
+      name: 'TransferViewPage'
+    }
   },
   {
     path: 'company-documents',
-    loadChildren: () => import('./pages/logged-in/company/company-documents/company-documents.module').then( m => m.CompanyDocumentsPageModule)
+    loadChildren: () => import('./pages/logged-in/company/company-documents/company-documents.module').then( m => m.CompanyDocumentsPageModule),
+    canActivate: [AuthService],
+    data: {
+      name: 'TransferViewPage'
+    }
   },
   {
     path: 'company-malls',
-    loadChildren: () => import('./pages/logged-in/company/company-malls/company-malls.module').then( m => m.CompanyMallsPageModule)
+    loadChildren: () => import('./pages/logged-in/company/company-malls/company-malls.module').then( m => m.CompanyMallsPageModule),
+    canActivate: [AuthService],
+    data: {
+      name: 'TransferViewPage'
+    }
   },
   {
     path: 'company-brands',
-    loadChildren: () => import('./pages/logged-in/company/company-brands/company-brands.module').then( m => m.CompanyBrandsPageModule)
+    loadChildren: () => import('./pages/logged-in/company/company-brands/company-brands.module').then( m => m.CompanyBrandsPageModule),
+    canActivate: [AuthService],
+    data: {
+      name: 'TransferViewPage'
+    }
   },
   {
     path: 'company-contacts',
-    loadChildren: () => import('./pages/logged-in/company/company-contacts/company-contacts.module').then( m => m.CompanyContactsPageModule)
+    loadChildren: () => import('./pages/logged-in/company/company-contacts/company-contacts.module').then( m => m.CompanyContactsPageModule),
+    canActivate: [AuthService],
+    data: {
+      name: 'TransferViewPage'
+    }
   },
   {
     path: 'company-stores',
-    loadChildren: () => import('./pages/logged-in/company/company-stores/company-stores.module').then( m => m.CompanyStoresPageModule)
+    loadChildren: () => import('./pages/logged-in/company/company-stores/company-stores.module').then( m => m.CompanyStoresPageModule),
+    canActivate: [AuthService],
+    data: {
+      name: 'TransferViewPage'
+    }
   },
   {
     path: 'company-subcompanies',
-    loadChildren: () => import('./pages/logged-in/company/company-subcompanies/company-subcompanies.module').then( m => m.CompanySubcompaniesPageModule)
+    loadChildren: () => import('./pages/logged-in/company/company-subcompanies/company-subcompanies.module').then( m => m.CompanySubcompaniesPageModule),
+    canActivate: [AuthService],
+    data: {
+      name: 'TransferViewPage'
+    }
   },
   {
     path: 'company-notes',
-    loadChildren: () => import('./pages/logged-in/company/company-notes/company-notes.module').then( m => m.CompanyNotesPageModule)
+    loadChildren: () => import('./pages/logged-in/company/company-notes/company-notes.module').then( m => m.CompanyNotesPageModule),
+    canActivate: [AuthService],
+    data: {
+      name: 'TransferViewPage'
+    }
+  },
+  {
+    path: 'candidate-notes',
+    loadChildren: () => import('./pages/logged-in/candidate/candidate-notes/candidate-notes.module').then( m => m.CandidateNotesPageModule),
+    canActivate: [AuthService],
+    data: {
+      name: 'TransferViewPage'
+    }
   },
   {
     path: '**',
     redirectTo: 'not-found'
-  },
-  {
-    path: 'candidate-notes',
-    loadChildren: () => import('./pages/logged-in/candidate/candidate-notes/candidate-notes.module').then( m => m.CandidateNotesPageModule)
   }
 ];
 

@@ -7,7 +7,8 @@ import { CompanyContact } from 'src/app/models/company-contact';
 import { CompanyContactService } from 'src/app/providers/logged-in/company-contact.service';
 //pages
 import { CompanyContactFormPage } from '../company-contact-form/company-contact-form.page';
-
+import {Company} from "../../../../models/company";
+import {CompanyService} from "../../../../providers/logged-in/company.service";
 
 @Component({
   selector: 'app-company-contacts',
@@ -18,22 +19,24 @@ export class CompanyContactsPage implements OnInit {
 
   public companyContacts: CompanyContact[] = [];
   public company_id;
-
+  public company: Company;
   public borderLimit: boolean = false;
 
   constructor(
     public modalCtrl: ModalController,
     public activatedRoute: ActivatedRoute,
     public companyContactService: CompanyContactService,
+    public companyService: CompanyService
   ) { }
 
   ngOnInit() {
-    
+
     this.company_id = this.activatedRoute.snapshot.paramMap.get('company_id');
-    
-    //const state = window.history.state;
- 
+
+    // const state = window.history.state;
+
     this.loadContacts();
+    this.loadCompanyDetail();
   }
 
   loadContacts() {
@@ -78,5 +81,15 @@ export class CompanyContactsPage implements OnInit {
 
   logScrolling(e) {
     this.borderLimit = (e.detail.scrollTop > 20);
+  }
+
+  /**
+   * load company detail
+   */
+  loadCompanyDetail() {
+    this.companyService.view(this.company_id).subscribe(response => {
+      this.company = response;
+    }, () => {
+    });
   }
 }

@@ -8,6 +8,7 @@ import { CompanyContactsPageRoutingModule } from './company-contacts-routing.mod
 
 import { CompanyContactsPage } from './company-contacts.page';
 import { LoadingModalModule } from 'src/app/components/loading-modal/loading-modal.module';
+import {PipesModule} from 'src/app/pipes/pipes.module';
 
 @NgModule({
   imports: [
@@ -15,6 +16,7 @@ import { LoadingModalModule } from 'src/app/components/loading-modal/loading-mod
     FormsModule,
     IonicModule,
     LoadingModalModule,
+    PipesModule,
     CompanyContactsPageRoutingModule
   ],
   declarations: [CompanyContactsPage]
