@@ -98,11 +98,11 @@ export class StorePage implements OnInit {
     );
   }
 
-  dismiss(data) {
+  dismiss(data = {}) {
     this.modalCtrl.dismiss(data);
   }
 
   logScrolling(e) {
-    this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
+    this.borderLimit = (e.detail.scrollTop > 20);
   }
 }

@@ -30,7 +30,7 @@ export class CandidateNotesPage implements OnInit {
     public eventService: EventService,
     public candidateService: CandidateService,
     public noteService: NoteService
-  ) { 
+  ) {
   }
 
   ngOnInit() {
@@ -82,4 +82,7 @@ export class CandidateNotesPage implements OnInit {
   logScrolling(e) {
     this.borderLimit = (e.detail.scrollTop > 20);
   }
-} 
+  add() {
+
+  }
+}
