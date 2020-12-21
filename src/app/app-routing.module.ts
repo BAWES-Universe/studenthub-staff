@@ -443,12 +443,12 @@ const routes: Routes = [
     loadChildren: () => import('./pages/logged-in/company/company-notes/company-notes.module').then( m => m.CompanyNotesPageModule)
   },
   {
-    path: '**',
-    redirectTo: 'not-found'
-  },
-  {
     path: 'candidate-notes',
     loadChildren: () => import('./pages/logged-in/candidate/candidate-notes/candidate-notes.module').then( m => m.CandidateNotesPageModule)
+  },
+  {
+    path: '**',
+    redirectTo: 'not-found'
   }
 ];
 

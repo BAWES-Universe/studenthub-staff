@@ -82,6 +82,7 @@
       href="https://api.whatsapp.com/send?phone={{ candidate.candidate_phone }}"
       [class.required]="!candidate.candidate_phone">
       <div tabindex="0"></div>
+      <ion-icon slot="start" name="logo-whatsapp"></ion-icon>
       <ion-label *ngIf="candidate.candidate_phone">
         <h5>Whatsapp</h5>
         <p> {{ candidate.candidate_phone }}</p>
@@ -365,13 +366,14 @@
     <span *ngIf="!exportingCV">Export CV as PDF</span>
   </ion-button>
 
-  <ion-button class="btn-unassign" *ngIf="candidate.store" (click)="unassignCandidateFromStore()">
+  <ion-button class="btn-unassign" [disabled]="unassinging" *ngIf="candidate.store" (click)="unassignCandidateFromStore()">
     <span *ngIf="!unassinging">Unassign from {{ candidate.store.store_name }}</span>
     <ion-spinner *ngIf="unassinging"></ion-spinner>
   </ion-button>
 
-  <ion-button class="btn-store" (click)="assingToStore($event)" *ngIf="candidate.candidate_hourly_rate && !candidate.store">
-    Assign to store
+  <ion-button class="btn-store" [disabled]="assigning" (click)="assingToStore($event)" *ngIf="candidate.candidate_hourly_rate && !candidate.store">
+    <span *ngIf="!assigning">Assign to store</span>
+    <ion-spinner *ngIf="assigning"></ion-spinner>
   </ion-button>
 
   <ion-button class="btn-hourly-rate" (click)="updateRate($event)" *ngIf="!candidate.candidate_hourly_rate">

@@ -28,7 +28,7 @@ export class StoreService {
       append = `?fields=${fields}`;
     }
 
-    if (expand){
+    if (expand) {
       append = append ? `${append}&expand=${expand}` : `?expand=${expand}`;
     }
 

@@ -1,13 +1,18 @@
 <ion-content [attr.dir]="translateService.direction()">
-  <ion-list *ngIf="candidate">
 
-    <ion-item [disabled]="sendingPassword" (click)="resetPassword()" tappable>
-      <div tabindex="0"></div>
-      <span *ngIf="!sendingPassword">Send password reset email to candidate</span>
-      <ion-spinner *ngIf="sendingPassword"></ion-spinner>
-    </ion-item>
+  <ion-item [disabled]="sendingPassword" (click)="resetPassword()" tappable>
+    <div tabindex="0"></div>
+    <span *ngIf="!sendingPassword">Send password reset email to candidate</span>
+    <ion-spinner *ngIf="sendingPassword"></ion-spinner>
+  </ion-item>
 
-  </ion-list>
+  <ion-item tappable (click)="toggleCommitted()">
+    <div tabindex="0"></div>
+    <ion-label>
+      <span *ngIf="candidate.candidate_committed">Mark candidate as not committed</span>
+      <span *ngIf="!candidate.candidate_committed">Mark candidate as committed</span>
+    </ion-label>
+  </ion-item>
 
   <ng-container *ngIf="candidate && !candidate.candidate_job_search_status && candidate.isProfileCompleted">
     <ion-item [disabled]="updatingJobSearchStatus" (click)="toggleJobSearchStatus('mark_as_looking')" tappable>
@@ -56,5 +61,6 @@
       Generate ID Card
     </span>
   </ion-item>
+
 
 </ion-content>

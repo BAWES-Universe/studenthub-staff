@@ -274,4 +274,8 @@ export class OptionPage implements OnInit {
   async suggest() {
     this.popoverCtrl.dismiss({ suggess: true });
   }
+
+  toggleCommitted() {
+    this.popoverCtrl.dismiss({ toggleCommitted: true });
+  }
 }
