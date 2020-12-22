@@ -622,11 +622,11 @@
   .whatsapp {
     --padding-start: 0px;
     --background: none;
-  
+
     ion-icon {
       color: #000;
     }
-    
+
     ion-skeleton-text:nth-child(1) {
       width: 180px;
     }
@@ -837,6 +837,191 @@
 
     .heading {
       margin-top: 32px;
+    }
+  }
+
+}
+.company-list {
+  //background: #fcfcfc;
+  ion-skeleton-text {
+    padding: 0;
+    margin: 0;
+  }
+  ion-item {
+    margin: 7px 12px 12px;
+    //padding: 17px 15px 17px 21px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08), 2px 0 4px 0 rgba(0, 0, 0, 0.12);
+    background-color: #ffffff;
+    position: relative;
+  }
+  ion-badge {
+    width: 20%;
+    margin-right: 10px;
+    border-radius: 2px;
+    padding: 0;
+    ion-skeleton-text {
+      height: 29px;
+    }
+  }
+  h2 {
+    height: 27px;
+    margin-bottom: 13px;
+    width: 29%;
+  }
+  p {
+    margin: 5px 48px 8px 0;
+    line-height: 1.34;
+    width:36%;
+  }
+  .small-detail {
+    margin-bottom: 8px;
+  }
+  .company_status_badge {
+    position: absolute;
+    top: 17px;
+    right: 15px;
+    width: 11%;
+  }
+}
+.company-view {
+    --padding-start: 30px;
+    --padding-end: 30px;
+
+    ion-thumbnail {
+      max-height: 71px;
+      margin-bottom: 7px;
+      margin-top: -12px;
+    }
+
+    h3 {
+      margin: 23px 0px 0 0px;
+      font-size: 36px;
+      color: #000;
+    }
+
+    .company-name-arabic,
+    .company-name-english {
+      font-size: 24px;
+      color: #000;
+      margin: 0;
+    }
+
+    .last-activity {
+      margin-top: 10px;
+      font-size: 12px;
+      color: #000;
+
+      p {
+        margin: 0;
+      }
+
+      .followup {
+        font-size: 14px;
+        color: #219653;
+      }
+
+
+    .email {
+      margin: 13px 0 10px 0px;
+      font-size: 12px;
+      color: #000;
+    }
+
+    .hourly-rate {
+      margin: 10px 0 13px 0;
+      font-size: 12px;
+      color: #000;
+    }
+
+    .description {
+      margin: 18px 0 10px 0;
+      font-size: 14px;
+      color: #000;
+    }
+
+    .website {
+      margin: 10px 0 27px 0;
+      color: #2f80ed;
+      text-decoration: none;
+    }
+
+    h5 {
+      margin: 27px 0 24px 0;
+    }
+
+    .btn-view-notes {
+      border-radius: 5px;
+      box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08), 2px 0 4px 0 rgba(0, 0, 0, 0.12);
+      background-color: #ffffff;
+      width: 100%;
+      height: 41px;
+      text-transform: none;
+      margin: 0;
+      --background: none;
+      --box-shadow: none;
+    }
+
+    note {
+      margin: 0 0 9px;
+    }
+
+    ion-item {
+      --inner-border-width: 0;
+      --padding-top: 3px;
+      --padding-end: 0px;
+      --padding-bottom: 3px;
+      --padding-start: 21px;
+      --background: none;
+      margin-bottom: 9px;
+      border-radius: 5px;
+      box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08), 2px 0 4px 0 rgba(0, 0, 0, 0.12);
+
+      ion-label {
+        color: #000;
+      }
+
+      ion-note {
+        font-weight: bold;
+        text-align: center;
+        width: 34px;
+        height: 25px;
+        margin: 13px 0 0;
+        padding: 5px 9px 2px;
+        background-color: #f2f2f2;
+      }
+    }
+  }
+
+  ion-item {
+    ion-badge {
+      background-color: #f2f2f2;
+      border-radius: 1px;
+      color: #000;
+      font-size: 12px;
+      padding: 10px 15px;
+      font-weight: bold;
+    }
+  }
+  ion-grid, ion-col, ion-row {
+    padding: 0;
+  }
+  .left-side {
+    padding-right: 60px;
+  }
+  .right-side {
+    padding-top: 165px;
+    ion-item{
+      background: #fff;
+    }
+  }
+  @media only screen and (max-width:767px){
+    .left-side {
+      padding-right: 0;
+    }
+
+    .right-side {
+      padding-top: 0;
     }
   }
 

@@ -18,3 +18,44 @@
 ion-content,ion-list,section {
   background: #fcfcfc;
 }
+
+ion-badge {
+  border: solid 1px #4354a4;
+  background-color: #ffffff;
+  padding: 4px 17px;
+  margin: 0 7px 7px 0;
+  border-radius: 3px;
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.44;
+  letter-spacing: normal;
+  text-align: center;
+  color: #4354a4;
+}
+ion-badge.active {
+  background-color: #4354a4;
+  color: #fff;
+}
+h1 {
+  margin: 15px 0 24px;
+  font-size: 36px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: left;
+  color: #000;
+}
+.content {
+  padding: 0 20px;
+}
+ion-searchbar {
+  padding: 3px 20px;
+}
+
+section {
+  padding: 0 9px;
+}

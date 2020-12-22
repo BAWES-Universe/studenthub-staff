@@ -3,10 +3,9 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>Select Company</ion-title>
     <ion-buttons slot="end">
       <ion-button expand="full" (click)="create()">
-        Create
+        Add Client
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
@@ -14,50 +13,23 @@
 </ion-header>
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
+  <div class="content">
+    <h1>Clients</h1>
+    <ion-badge tappable color="primary" (click)="filterByStatus($event, 4)" [class.active]="filters.status == 4">All clients</ion-badge>
+    <ion-badge tappable color="primary" (click)="filterByStatus($event, 1)" [class.active]="filters.status == 1">Active</ion-badge>
+    <ion-badge tappable color="primary" (click)="filterByStatus($event, 2)" [class.active]="filters.status == 2">Inactive</ion-badge>
+    <ion-badge tappable color="primary" (click)="filterByStatus($event, 3)" [class.active]="filters.status == 3">Active + 40 days no payment</ion-badge>
+  </div>
 
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Filter by</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <ion-grid>
-        <ion-row>
-          <ion-col size-md="6" size-xs="12" size-lg="6">
-            <ion-item>
-              <ion-label position="floating" color="primary">Name</ion-label>
-              <ion-input type="text" [(ngModel)]="filters.name"></ion-input>
-            </ion-item>
-          </ion-col>
-          <ion-col size-md="6" size-xs="12" size-lg="6">
-              <ion-item>
-                <ion-label color="primary" position="floating">Filter By</ion-label>
-                <ion-select [(ngModel)]="filters.status">
-                  <ion-select-option value="4">All</ion-select-option>
-                  <ion-select-option value="1">Active</ion-select-option>
-                  <ion-select-option value="2">In-Active</ion-select-option>
-                  <ion-select-option value="3">active+40 days passed without payment</ion-select-option>
-                </ion-select>
-              </ion-item>
-          </ion-col>
-
-        </ion-row>
-      </ion-grid>
-    </ion-card-content>
-
-    <ion-card-header>
-      <ion-button (click)="loadData(1);">Submit</ion-button>
-      <ion-button (click)="resetFilter();" color="secondary">Reset</ion-button>
-    </ion-card-header>
-
-  </ion-card>
-
+  <ion-searchbar debounce="500" placeholder="Type to search" (ionChange)="searchByName($event)"></ion-searchbar>
   <ion-list>
     <section>
       <app-company [company]="company" *ngFor="let company of companies" (click)="rowSelected(company)"></app-company>
     </section>
   </ion-list>
 
-  <loading-modal [loading]="loading || loadingMore" type="text-list"></loading-modal>
+  <loading-modal [loading]="loading || loadingMore" type="company-list"></loading-modal>
+  <no-items *ngIf="!loading && !loadingMore && companies && companies.length==0" message="~ No company available ~"></no-items>
 
   <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
     <ion-infinite-scroll-content></ion-infinite-scroll-content>

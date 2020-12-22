@@ -644,16 +644,13 @@
 </div>
 
 
-
-
-
 <!--------------------------- company-view -------------------->
 
-<div class="note-list" *ngIf="loading && type == 'company-view'">
+<div class="company-view" *ngIf="loading && type == 'company-view'">
   <ion-grid>
     <ion-row>
       <ion-col size-xs="12" size-sm="12" size-md="6" size-lg="6" size-xl="6">
-        <div class="left-side">
+        <div class="company-view left-side">
           <h3 class="company-name">
 
             <ion-thumbnail>
@@ -698,7 +695,7 @@
         </div>
       </ion-col>
       <ion-col size-xs="12" size-sm="12" size-md="6" size-lg="6" size-xl="6">
-        <div class="right-side">
+        <div class="company-view right-side">
           <h5>Manage</h5>
 
           <ion-item>
@@ -740,7 +737,101 @@
       </ion-col>
     </ion-row>
   </ion-grid>
+</div>
+<!--------------------------- company-list -------------------->
+<div class="company-list" *ngIf="loading && type == 'company-list'">
+  <ion-item tappable lines="none">
+    <div tabindex="0"></div>
+    <ion-avatar slot="start">
+      <ion-skeleton-text animated></ion-skeleton-text>
+    </ion-avatar>
 
+    <ion-label class="ion-text-wrap">
+      <h2><ion-skeleton-text animated></ion-skeleton-text></h2>
+      <div class="small-detail">
+        <p>
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </p>
+        <ng-container>
+          <p><ion-skeleton-text animated></ion-skeleton-text></p>
+        </ng-container>
+      </div>
+      <ion-badge class="company_status_badge danger" color="light" slot="start">
+        <ion-skeleton-text animated></ion-skeleton-text>
+      </ion-badge>
+      <ion-badge slot="start" color="light">
+        <ion-skeleton-text animated></ion-skeleton-text>
+      </ion-badge>
+      <ion-badge slot="start" color="light">
+        <ion-skeleton-text animated></ion-skeleton-text>
+      </ion-badge>
+      <ion-badge slot="start" color="light">
+        <ion-skeleton-text animated></ion-skeleton-text>
+      </ion-badge>
+    </ion-label>
+  </ion-item>
+
+  <ion-item tappable lines="none">
+    <div tabindex="0"></div>
+    <ion-avatar slot="start">
+      <ion-skeleton-text animated></ion-skeleton-text>
+    </ion-avatar>
+
+    <ion-label class="ion-text-wrap">
+      <h2><ion-skeleton-text animated></ion-skeleton-text></h2>
+      <div class="small-detail">
+        <p>
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </p>
+        <ng-container>
+          <p><ion-skeleton-text animated></ion-skeleton-text></p>
+        </ng-container>
+      </div>
+      <ion-badge class="company_status_badge danger" color="light" slot="start">
+        <ion-skeleton-text animated></ion-skeleton-text>
+      </ion-badge>
+      <ion-badge slot="start" color="light">
+        <ion-skeleton-text animated></ion-skeleton-text>
+      </ion-badge>
+      <ion-badge slot="start" color="light">
+        <ion-skeleton-text animated></ion-skeleton-text>
+      </ion-badge>
+      <ion-badge slot="start" color="light">
+        <ion-skeleton-text animated></ion-skeleton-text>
+      </ion-badge>
+    </ion-label>
+  </ion-item>
+
+  <ion-item tappable lines="none">
+    <div tabindex="0"></div>
+    <ion-avatar slot="start">
+      <ion-skeleton-text animated></ion-skeleton-text>
+    </ion-avatar>
+
+    <ion-label class="ion-text-wrap">
+      <h2><ion-skeleton-text animated></ion-skeleton-text></h2>
+      <div class="small-detail">
+        <p>
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </p>
+        <ng-container>
+          <p><ion-skeleton-text animated></ion-skeleton-text></p>
+        </ng-container>
+      </div>
+      <ion-badge class="company_status_badge danger" color="light" slot="start">
+        <ion-skeleton-text animated></ion-skeleton-text>
+      </ion-badge>
+      <ion-badge slot="start" color="light">
+        <ion-skeleton-text animated></ion-skeleton-text>
+      </ion-badge>
+      <ion-badge slot="start" color="light">
+        <ion-skeleton-text animated></ion-skeleton-text>
+      </ion-badge>
+      <ion-badge slot="start" color="light">
+        <ion-skeleton-text animated></ion-skeleton-text>
+      </ion-badge>
+    </ion-label>
+  </ion-item>
 </div>
 
 

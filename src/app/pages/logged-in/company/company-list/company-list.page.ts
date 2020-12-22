@@ -30,10 +30,10 @@ export class CompanyListPage implements OnInit {
 
   public filters: {
     name: string
-    status: string
+    status: number
   } = {
       name: null,
-      status: null
+      status: 4
     };
 
   constructor(
@@ -94,7 +94,7 @@ export class CompanyListPage implements OnInit {
   resetFilter() {
     this.filters = {
       name: null,
-      status: null
+      status: 4
     };
 
     this.loadData(1); // reload all result
@@ -211,6 +211,15 @@ export class CompanyListPage implements OnInit {
       }
     }
     return false;
+  }
+
+  filterByStatus($event, status) {
+    this.filters.status = status;
+    this.loadData(1); // reload all result
+  }
+  searchByName($event) {
+    this.filters.name = $event.detail.value;
+    this.loadData(1); // reload all result
   }
 }
 
