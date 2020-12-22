@@ -9,6 +9,7 @@ import { CompanyService } from 'src/app/providers/logged-in/company.service';
 import { StoreService } from 'src/app/providers/logged-in/store.service';
 //pages
 import { StoreFormPage } from '../../store/store-form/store-form.page';
+import { StoreViewPage } from '../../store/store-view/store-view.page';
 
 
 @Component({
@@ -29,9 +30,8 @@ export class CompanyStoresPage implements OnInit {
   public borderLimit: boolean = false;
 
   constructor(
-    public platform: Platform,
     public router: Router,
-    public activatedRoute: ActivatedRoute,
+    public platform: Platform,
     public modalCtrl: ModalController,
     public alertCtrl: AlertController,
     public toastCtrl: ToastController,
@@ -40,26 +40,12 @@ export class CompanyStoresPage implements OnInit {
   ) { }
 
   ngOnInit() {
-
-    this.company_id = this.activatedRoute.snapshot.paramMap.get('company_id');
-
-    const state = window.history.state;
-
-    // if(state.company) {
-    //   this.company = state.company;
-    //   console.log(this.company);
-    // } else {
-    //   this.loadData();
-    // }
-  }
-  ionViewWillEnter() {
-    this.loadData();
   }
 
   loadData() {
     this.loading = true;
 
-    this.companyService.view(this.company_id).subscribe(data => {
+    this.companyService.view(this.company.company_id).subscribe(data => {
       this.company = data;
       this.loading = false;
     });
@@ -130,7 +116,7 @@ export class CompanyStoresPage implements OnInit {
     const modal = await this.modalCtrl.create({
       component: StoreFormPage,
       componentProps: {
-        company_id: this.company_id,
+        company_id: this.company.company_id,
         company: this.company,
         brands: this.company.brands
       }
@@ -153,12 +139,34 @@ export class CompanyStoresPage implements OnInit {
    * push select company data to store view
    * @param model
    */
-  storeSelected(model) {
-    this.router.navigate(['store-view', model.store_id], {
-      state: {
-        model
+  async storeSelected(model) {
+    this.modalCtrl.dismiss().then(() => {
+      setTimeout(() => {
+        this.router.navigate(['store-view', model.store_id], {
+          state: {
+            model: model
+          }
+        });
+      }, 100);
+    });
+    /*
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
+    const modal = await this.modalCtrl.create({
+      component: StoreViewPage,
+      componentProps: {
+        store_id: model.store_id,
+        store: model
       }
     });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
+    modal.present();*/
   }
 
   dismiss() {

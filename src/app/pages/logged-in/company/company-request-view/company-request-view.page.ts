@@ -74,9 +74,13 @@ export class CompanyRequestViewPage implements OnInit {
   }
 
   ngOnInit() {
-    this.request_uuid = this.route.snapshot.params.request_uuid;
+    
+    if(!this.request_uuid)
+      this.request_uuid = this.route.snapshot.params.request_uuid;
+
     this.backState = window.history.state;
     const model = window.history.state.model;
+
     this.loadDetail();
     // this.loadInvoice();
 

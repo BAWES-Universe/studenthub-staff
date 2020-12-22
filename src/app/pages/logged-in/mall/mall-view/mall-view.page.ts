@@ -18,9 +18,11 @@ export class MallViewPage implements OnInit {
 
   public borderLimit = false;
 
-  public mallUUID: string;
-  public mall: Mall;
-  public loading = false;
+  public mall_uuid: string;
+  
+  public mall;
+
+  public loading: boolean = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -32,15 +34,22 @@ export class MallViewPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.mallUUID = this.activatedRoute.snapshot.paramMap.get('id');
+    
+    if(!this.mall_uuid)
+      this.mall_uuid = this.activatedRoute.snapshot.paramMap.get('id');
+
     this.loadData();
   }
 
   loadData() {
     this.loading = true;
-    this.mallService.view(this.mallUUID).subscribe(res => {
+
+    this.mallService.view(this.mall_uuid).subscribe(data => {
       this.loading = false;
-      this.mall = res;
+    
+      this.mall = data;
+    }, () => {
+      this.loading = false;
     });
   }
 
@@ -125,4 +134,14 @@ export class MallViewPage implements OnInit {
     confirm.present();
   }
 
+  /**
+   * close page
+   */
+  dismiss() {
+    this.modalCtrl.getTop().then(overlay => {
+      if(overlay) {
+        overlay.dismiss();
+      }
+    });
+  }
 }

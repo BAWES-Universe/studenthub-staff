@@ -62,10 +62,12 @@ export class FulltimerFormPage implements OnInit {
     public countryService: CountryService,
     private authService: AuthService
   ) {
-    this.fulltimerUUID = this.activatedRoute.snapshot.paramMap.get('id');
   }
 
   ngOnInit() {
+
+    this.fulltimerUUID = this.activatedRoute.snapshot.paramMap.get('id');
+    
     // Load the passed model if available
     const state = window.history.state;
 

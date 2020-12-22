@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 //models
 import { CompanyContact } from 'src/app/models/company-contact';
@@ -9,6 +9,7 @@ import { CompanyContactService } from 'src/app/providers/logged-in/company-conta
 import { CompanyContactFormPage } from '../company-contact-form/company-contact-form.page';
 import {Company} from "../../../../models/company";
 import {CompanyService} from "../../../../providers/logged-in/company.service";
+import { CompanyContactViewPage } from '../company-contact/company-contact-view/company-contact-view.page';
 
 @Component({
   selector: 'app-company-contacts',
@@ -18,29 +19,61 @@ import {CompanyService} from "../../../../providers/logged-in/company.service";
 export class CompanyContactsPage implements OnInit {
 
   public companyContacts: CompanyContact[] = [];
-  public company_id;
+
   public company: Company;
   public borderLimit: boolean = false;
 
   constructor(
+    public router: Router,
     public modalCtrl: ModalController,
-    public activatedRoute: ActivatedRoute,
     public companyContactService: CompanyContactService,
     public companyService: CompanyService
   ) { }
 
   ngOnInit() {
 
-    this.company_id = this.activatedRoute.snapshot.paramMap.get('company_id');
-
-    // const state = window.history.state;
-
     this.loadContacts();
-    this.loadCompanyDetail();
+
+    if(!this.company)
+      this.loadCompanyDetail();
+  }
+
+  /**
+   * open contact detail page 
+   * @param companyContact 
+   */
+  async openContactDetail(companyContact) {
+    this.modalCtrl.dismiss().then(() => {
+      setTimeout(() => {
+        this.router.navigate(['company-contact-view', companyContact.contact_uuid], {
+          state: {
+            model: companyContact
+          }
+        });
+      }, 100);
+    });
+    /*
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
+    const modal = await this.modalCtrl.create({
+      component: CompanyContactViewPage,
+      componentProps: {
+        contact_uuid: companyContact.contact_uuid,
+        companyContact: companyContact
+      }
+    });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
+    modal.present();*/
   }
 
   loadContacts() {
-    this.companyContactService.companyContacts(this.company_id).subscribe(data => {
+    this.companyContactService.companyContacts(this.company.company_id).subscribe(data => {
       this.companyContacts = data;
     });
   }
@@ -49,7 +82,7 @@ export class CompanyContactsPage implements OnInit {
     window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
     const companyContact = new CompanyContact;
-    companyContact.company_id = this.company_id;
+    companyContact.company_id = this.company.company_id;
 
     const modal = await this.modalCtrl.create({
       component: CompanyContactFormPage,
@@ -87,7 +120,7 @@ export class CompanyContactsPage implements OnInit {
    * load company detail
    */
   loadCompanyDetail() {
-    this.companyService.view(this.company_id).subscribe(response => {
+    this.companyService.view(this.company.company_id).subscribe(response => {
       this.company = response;
     }, () => {
     });

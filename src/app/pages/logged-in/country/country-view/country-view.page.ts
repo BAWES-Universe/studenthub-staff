@@ -43,7 +43,8 @@ export class CountryViewPage implements OnInit {
 
   ngOnInit() {
 
-    this.country_id = this.activatedRoute.snapshot.paramMap.get('id');
+    if(!this.country_id)
+      this.country_id = this.activatedRoute.snapshot.paramMap.get('id');
     
     const state = window.history.state;
 
@@ -53,7 +54,9 @@ export class CountryViewPage implements OnInit {
 
     if (this.country) {
       this.loadData(this.currentPage);
-    } else  {
+    } 
+    
+    if(!this.country) {
       this.countryView(this.country_id);
     }
   }

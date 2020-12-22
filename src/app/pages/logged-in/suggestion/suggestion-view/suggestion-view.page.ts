@@ -27,7 +27,9 @@ export class SuggestionViewPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.suggestion_uuid = this.route.snapshot.params.suggestion_uuid;
+    if(!this.suggestion_uuid)
+      this.suggestion_uuid = this.route.snapshot.params.suggestion_uuid;
+      
     this.loadData();
   }
 

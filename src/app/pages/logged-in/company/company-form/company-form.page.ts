@@ -49,14 +49,6 @@ export class CompanyFormPage implements OnInit {
 
   ngOnInit() {
 
-    // Load the passed model if available
-    // if (window.history.state && window.history.state.model) {
-    //   this.model = window.history.state.model;
-    // }
-
-    // this.company_id = this.activateRoute.snapshot.paramMap.get('company_id');
-    // this.isSubCompany = parseInt(this.activateRoute.snapshot.paramMap.get('subcompany'));
-
     if (this.company_id && !this.model) {
       this.loadData(this.company_id);
     } else {

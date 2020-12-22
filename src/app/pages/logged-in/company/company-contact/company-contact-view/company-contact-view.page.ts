@@ -70,7 +70,9 @@ export class CompanyContactViewPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.contact_uuid = this.route.snapshot.params.contact_uuid;
+
+    if(!this.contact_uuid)
+      this.contact_uuid = this.route.snapshot.params.contact_uuid;
 
     const model = window.history.state.model;
 
@@ -133,9 +135,6 @@ export class CompanyContactViewPage implements OnInit {
   }
 
   async delete() {
-
-    event.preventDefault();
-    event.stopPropagation();
 
     const confirm = await this.alertCtrl.create({
       header: 'Delete Contact',

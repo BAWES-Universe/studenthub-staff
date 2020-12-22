@@ -50,7 +50,9 @@ export class RequestFormPage implements OnInit {
   ngOnInit() { }
 
   ionViewWillEnter() {
+    
     this.requestID = this.route.snapshot.paramMap.get('id');
+
     if (window.history.state.model) {
       this.model = window.history.state.model;
       this.loadForm();

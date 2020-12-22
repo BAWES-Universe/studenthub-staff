@@ -9,7 +9,6 @@ import { CompanyService } from 'src/app/providers/logged-in/company.service';
 //pages
 import { ImportTransferFormPage } from '../import-transfer-form/import-transfer-form.page';
 import { TransferFormPage } from '../transfer-form/transfer-form.page';
-import { TransferViewPage } from '../transfer-view/transfer-view.page';
 
 
 @Component({
@@ -51,6 +50,16 @@ export class TransferListPage implements OnInit {
   }
 
   async openTransferDetailPage(transfer) {
+    this.modalCtrl.dismiss().then(() => {
+      setTimeout(() => {
+        this.router.navigate(['transfer-view', transfer.transfer_id], {
+          state: {
+            model: transfer
+          }
+        });
+      }, 100);
+    });
+    /*
     window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
     const modal = await this.modalCtrl.create({
@@ -70,7 +79,7 @@ export class TransferListPage implements OnInit {
         this.loadData();
       }
     });
-    modal.present();
+    modal.present();*/
   }  
 
   /**
@@ -131,6 +140,7 @@ export class TransferListPage implements OnInit {
    * Loads form to initiate a new transfer
    */
   async importTransfer() {
+    
     window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
     let transfer = new Transfer;

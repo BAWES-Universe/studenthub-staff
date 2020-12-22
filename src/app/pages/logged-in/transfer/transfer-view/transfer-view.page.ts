@@ -27,6 +27,8 @@ export class TransferViewPage implements OnInit {
   public transferStatus = '';
   public transferStatusDescription = '';
 
+  public transfer_id;
+
   constructor(
     public navCtrl: NavController,
     public aws: AwsService,
@@ -40,6 +42,8 @@ export class TransferViewPage implements OnInit {
   }
 
   ngOnInit() {
+    this.transfer_id = this.activatedRoute.snapshot.paramMap.get('id');
+
     this.loadData();
   }
 
@@ -53,7 +57,7 @@ export class TransferViewPage implements OnInit {
     // Load list of transfer
     this.loading = true;
 
-    this.transferService.transferIdDetails(this.transfer.transfer_id).subscribe(response => {
+    this.transferService.transferIdDetails(this.transfer_id).subscribe(response => {
       
       this.transfer = response;
       

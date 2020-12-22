@@ -36,8 +36,11 @@ export class NoteViewPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.note_uuid = this.route.snapshot.params.note_uuid;
-    this.loadData();
+    if(!this.note_uuid)
+      this.note_uuid = this.route.snapshot.params.note_uuid;
+
+    if(!this.note)
+      this.loadData();
   }
 
   /**

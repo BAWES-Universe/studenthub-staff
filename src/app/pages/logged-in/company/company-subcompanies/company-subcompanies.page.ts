@@ -4,6 +4,7 @@ import { ModalController } from '@ionic/angular';
 import { Company } from 'src/app/models/company';
 import { CompanyService } from 'src/app/providers/logged-in/company.service';
 import { CompanyFormPage } from '../company-form/company-form.page';
+import { CompanyViewPage } from '../company-view/company-view.page';
 
 @Component({
   selector: 'app-company-subcompanies',
@@ -22,28 +23,17 @@ export class CompanySubcompaniesPage implements OnInit {
 
   constructor(
     public router: Router,
-    public activatedRoute: ActivatedRoute,
     public modalCtrl: ModalController,
     public companyService: CompanyService
   ) { }
 
   ngOnInit() {
-    
-    this.company_id = this.activatedRoute.snapshot.paramMap.get('company_id');
-    
-    const state = window.history.state;
-
-    if(state.company) {
-      this.company = state.company;
-    } else {
-      this.loadData();
-    }
   }
   
   loadData() {
     this.loading = true;
 
-    this.companyService.view(this.company_id).subscribe(data => {
+    this.companyService.view(this.company.company_id).subscribe(data => {
       this.company = data;
 
       this.loading = false;
@@ -54,12 +44,34 @@ export class CompanySubcompaniesPage implements OnInit {
    * Load company detail page when its selected from the list
    * @param model
    */
-  rowSelected(model) {
-    this.router.navigate(['company-view', model.company_id], {
-      state: {
-        model
+  async rowSelected(model) {
+    this.modalCtrl.dismiss().then(() => {
+      setTimeout(() => {
+        this.router.navigate(['company-view', model.company_id], {
+          state: {
+            model: model
+          }
+        });
+      }, 100);
+    });
+    /*
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
+    const modal = await this.modalCtrl.create({
+      component: CompanyViewPage,
+      componentProps: {
+        company_id: model.company_id,
+        company: model
       }
     });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
+    modal.present();*/
   }
   
   /**
@@ -69,7 +81,7 @@ export class CompanySubcompaniesPage implements OnInit {
     window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
     const company = new Company();
-    company.parent_company_id = this.company_id;
+    company.parent_company_id = this.company.company_id;
 
     const modal = await this.modalCtrl.create({
       component: CompanyFormPage,
@@ -91,6 +103,10 @@ export class CompanySubcompaniesPage implements OnInit {
       }
     });
     modal.present();
+  }
+
+  dismiss() {
+    this.modalCtrl.dismiss();
   }
 
   logScrolling(e) {

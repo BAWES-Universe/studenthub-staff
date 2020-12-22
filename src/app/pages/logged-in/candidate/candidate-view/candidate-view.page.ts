@@ -107,7 +107,9 @@ export class CandidateViewPage implements OnInit {
   }
 
   ngOnInit() {
-    this.candidate_id = this.activatedRoute.snapshot.paramMap.get('id');
+
+    if(!this.candidate_id)
+      this.candidate_id = this.activatedRoute.snapshot.paramMap.get('id');
 
     this.eventService.reloadCandidateHistory$.subscribe((res) => {
       this.loadCandidateDetail();

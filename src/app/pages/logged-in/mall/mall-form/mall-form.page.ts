@@ -32,11 +32,14 @@ export class MallFormPage implements OnInit {
     private modelCtrl: ModalController,
     private alertCtrl: AlertController,
     private authService: AuthService
-  ){
-    this.mallUUID = this.activatedRoute.snapshot.paramMap.get('id');
+  ) {
   }
 
   ngOnInit() {
+
+    if(!this.mallUUID)
+      this.mallUUID = this.activatedRoute.snapshot.paramMap.get('id');
+      
     // Load the passed model if available
     const state = window.history.state;
     if (state.model) {

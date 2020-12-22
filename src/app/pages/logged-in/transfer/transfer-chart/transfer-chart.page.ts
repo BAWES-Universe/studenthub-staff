@@ -31,7 +31,9 @@ export class TransferChartPage implements OnInit {
     }
 
     this.statsData = this.company.parentTransfers.reverse();
-  
+  }
+   
+  ionViewDidEnter() {
     this.loadChartStats();
   }
 

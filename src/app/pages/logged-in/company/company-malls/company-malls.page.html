@@ -1,7 +1,7 @@
 <ion-header [class.add-border]="borderLimit" class="ion-no-border">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/company-view/{{ this.company_id }}"></ion-back-button>
+      <ion-back-button (click)="dismiss()"></ion-back-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>

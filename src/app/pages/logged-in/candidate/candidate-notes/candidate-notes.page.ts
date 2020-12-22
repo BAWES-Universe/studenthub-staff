@@ -38,13 +38,16 @@ export class CandidateNotesPage implements OnInit {
 
   ngOnInit() {
 
-    this.candidate_id = this.activatedRoute.snapshot.paramMap.get('candidate_id');
+    if(!this.candidate_id)
+      this.candidate_id = this.activatedRoute.snapshot.paramMap.get('candidate_id');
 
     const state = window.history.state;
 
     if(state && state.candidate) {
       this.candidate = state.candidate;
-    } else {
+    } 
+    
+    if(!this.candidate) {
       this.loadCandidateDetail();
     }
 

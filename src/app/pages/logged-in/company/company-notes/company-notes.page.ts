@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AlertController, ModalController } from '@ionic/angular';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 //models
@@ -11,7 +11,8 @@ import { CompanyContact } from 'src/app/models/company-contact';
 import { NoteService } from 'src/app/providers/logged-in/note.service';
 import { AuthService } from 'src/app/providers/auth.service';
 import { CompanyContactService } from 'src/app/providers/logged-in/company-contact.service';
-import {CompanyService} from "../../../../providers/logged-in/company.service";
+import { CompanyService } from "../../../../providers/logged-in/company.service";
+import { NoteViewPage } from '../../note/note-view/note-view.page';
 
 
 @Component({
@@ -55,51 +56,75 @@ export class CompanyNotesPage implements OnInit {
   };
 
   constructor(
+    public router: Router,
     public fb: FormBuilder,
-    public activatedRoute: ActivatedRoute,
     public alertCtrl: AlertController,
     public modalCtrl: ModalController,
     public noteService: NoteService,
     public companyService: CompanyService,
-
     public companyContactService: CompanyContactService,
     public authService: AuthService
   ) { }
 
   ngOnInit() {
 
-    this.company_id = this.activatedRoute.snapshot.paramMap.get('company_id');
-
-    const state = window.history.state;
-
-    if(state.company) {
-      this.company = state.company;
-    }
-
     this.initNoteForm();
     this.loadNotes();
     this.loadContacts();
-    this.loadCompany();
+
+    if (!this.company)
+      this.loadCompany();
+  }
+
+  async openDetail(note) {
+    this.modalCtrl.dismiss().then(() => {
+      setTimeout(() => {
+        this.router.navigate(['note-view', note.note_uuid], {
+          state: {
+            model: note
+          }
+        });
+      }, 100);
+    });
+    /*
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
+    const modal = await this.modalCtrl.create({
+      component: NoteViewPage,
+      componentProps: {
+        note_uuid: note.note_uuid,
+        note: note
+      }
+    });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
+    modal.present();*/
   }
 
   loadContacts() {
-    this.companyContactService.companyContacts(this.company_id).subscribe(data => {
+    this.companyContactService.companyContacts(this.company.company_id).subscribe(data => {
       this.companyContacts = data;
     });
   }
 
   loadCompany() {
-    this.companyService.companyDetail(this.company_id).subscribe(data => {
+    this.companyService.companyDetail(this.company.company_id).subscribe(data => {
       this.company = data;
     });
   }
+
   /**
    * load company notes
    */
   loadNotes() {
     this.loadingNotes = true;
 
-    const params = '&company_id=' + this.company_id;
+    const params = '&company_id=' + this.company.company_id;
 
     this.noteService.list(params).subscribe(response => {
 
@@ -161,7 +186,7 @@ export class CompanyNotesPage implements OnInit {
     this.addingNote = true;
 
     const model = new Note();
-    model.company_id = this.company_id;
+    model.company_id = this.company.company_id;
     model.note_text = this.noteForm.controls.note.value;
     model.note_type = this.noteForm.controls.type.value;
     model.contact_uuid = this.noteForm.controls.contact.value;

@@ -43,7 +43,8 @@ export class StoreFormPage implements OnInit {
 
   ngOnInit() {
 
-    this.store_id = this.activatedRoute.snapshot.paramMap.get('id');
+    if(!this.store_id)
+      this.store_id = this.activatedRoute.snapshot.paramMap.get('id');
 
     // Load the passed model if available
     const state = window.history.state;

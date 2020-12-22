@@ -1,9 +1,11 @@
 <ion-header [class.add-border]="borderLimit" class="ion-no-border">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/company-list"></ion-back-button>
+      <ion-back-button (click)="dismiss()" defaultHref="/company-list"></ion-back-button>
     </ion-buttons>
+    
     <ion-title *ngIf="mall">{{ mall.mall_name_en }}</ion-title>
+
     <ion-buttons slot="end">
       <ion-button (click)="update()">
         Update
@@ -14,32 +16,36 @@
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
 
-  <ion-list *ngIf="!loading">
-    <section>
+  <ng-container *ngIf="mall">
+    <ion-list *ngIf="mall && mall.stores">
 
-      <ion-item-divider color="light">
-        <ion-label>
-          Stores
-        </ion-label>
-      </ion-item-divider>
+      <section *ngIf="mall.stores.length > 0">
 
-      <ion-item tappable (click)="rowSelected(store)" *ngFor="let store of mall.stores">
-        <div tabindex="0"></div>
-        <ion-label>
-          <h5>{{ store.store_name }}</h5>
-          <p *ngIf="store.store_location">
-            <ion-icon name="location-outline"></ion-icon> {{ store.store_location }}
-          </p>
-        </ion-label>
-        <ion-badge slot="end" *ngIf="store.candidatesCount">
-          <ion-icon name="person"></ion-icon> {{ store.candidatesCount }}
-        </ion-badge>
-      </ion-item>
+        <ion-item-divider color="light">
+          <ion-label>
+            Stores
+          </ion-label>
+        </ion-item-divider>
 
-      <no-items *ngIf="mall.stores.length == 0" message="No store added yet!"></no-items>
+        <ion-item tappable (click)="rowSelected(store)" *ngFor="let store of mall.stores">
+          <div tabindex="0"></div>
+          <ion-label>
+            <h5>{{ store.store_name }}</h5>
+            <p *ngIf="store.store_location">
+              <ion-icon name="location-outline"></ion-icon> {{ store.store_location }}
+            </p>
+          </ion-label>
+          <ion-badge slot="end" *ngIf="store.candidatesCount">
+            <ion-icon name="person"></ion-icon> {{ store.candidatesCount }}
+          </ion-badge>
+        </ion-item>
 
-    </section>
-  </ion-list>
+      </section>
+
+    </ion-list>
+
+    <no-items *ngIf="!loading && mall.stores && mall.stores.length == 0" message="No store added yet!"></no-items>
+  </ng-container>
 
   <loading-modal [loading]="loading" type="candidate-list"></loading-modal>
 

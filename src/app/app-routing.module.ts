@@ -97,7 +97,7 @@ const routes: Routes = [
     loadChildren: () => import('./pages/logged-in/country/country-view/country-view.module').then(m => m.CountryViewPageModule),
     canActivate: [AuthService],
     data: {
-      name: 'CountryListPage',
+      name: 'CountryViewPage',
       navDisable: true,
     }
   },
@@ -274,14 +274,6 @@ const routes: Routes = [
     }
   },
   {
-    path: 'company-requests',
-    loadChildren: () => import('./pages/logged-in/company/company-requests/company-requests.module').then(m => m.CompanyRequestsPageModule),
-    canActivate: [AuthService],
-    data: {
-      name: 'CompanyRequestsPage',
-    }
-  },
-  {
     path: 'request-form',
     loadChildren: () => import('./pages/logged-in/company/company-request-list/request-form/request-form.module').then(m => m.RequestFormPageModule),
     canActivate: [AuthService],
@@ -382,64 +374,8 @@ const routes: Routes = [
     }
   },
   {
-    path: 'transfer-chart',
-    loadChildren: () => import('./pages/logged-in/transfer/transfer-chart/transfer-chart.module').then( m => m.TransferChartPageModule),
-    canActivate: [AuthService],
-    data: {
-      name: 'TransferViewPage'
-    }
-  },
-  {
-    path: 'company-documents',
-    loadChildren: () => import('./pages/logged-in/company/company-documents/company-documents.module').then( m => m.CompanyDocumentsPageModule),
-    canActivate: [AuthService],
-    data: {
-      name: 'TransferViewPage'
-    }
-  },
-  {
-    path: 'company-malls',
-    loadChildren: () => import('./pages/logged-in/company/company-malls/company-malls.module').then( m => m.CompanyMallsPageModule),
-    canActivate: [AuthService],
-    data: {
-      name: 'TransferViewPage'
-    }
-  },
-  {
-    path: 'company-brands',
-    loadChildren: () => import('./pages/logged-in/company/company-brands/company-brands.module').then( m => m.CompanyBrandsPageModule),
-    canActivate: [AuthService],
-    data: {
-      name: 'TransferViewPage'
-    }
-  },
-  {
-    path: 'company-contacts',
-    loadChildren: () => import('./pages/logged-in/company/company-contacts/company-contacts.module').then( m => m.CompanyContactsPageModule),
-    canActivate: [AuthService],
-    data: {
-      name: 'TransferViewPage'
-    }
-  },
-  {
-    path: 'company-stores',
-    loadChildren: () => import('./pages/logged-in/company/company-stores/company-stores.module').then( m => m.CompanyStoresPageModule),
-    canActivate: [AuthService],
-    data: {
-      name: 'TransferViewPage'
-    }
-  },
-  {
-    path: 'company-subcompanies',
-    loadChildren: () => import('./pages/logged-in/company/company-subcompanies/company-subcompanies.module').then( m => m.CompanySubcompaniesPageModule),
-    canActivate: [AuthService],
-    data: {
-      name: 'TransferViewPage'
-    }
-  },
-  {
-    path: 'company-notes',
-    loadChildren: () => import('./pages/logged-in/company/company-notes/company-notes.module').then( m => m.CompanyNotesPageModule),
+    path: 'transfer-view',
+    loadChildren: () => import('./pages/logged-in/transfer/transfer-view/transfer-view.module').then( m => m.TransferViewPageModule),
     canActivate: [AuthService],
     data: {
       name: 'TransferViewPage'
@@ -450,7 +386,7 @@ const routes: Routes = [
     loadChildren: () => import('./pages/logged-in/candidate/candidate-notes/candidate-notes.module').then( m => m.CandidateNotesPageModule),
     canActivate: [AuthService],
     data: {
-      name: 'TransferViewPage'
+      name: 'CandidateNotesPage'
     }
   },
   {
@@ -458,7 +394,7 @@ const routes: Routes = [
     loadChildren: () => import('./pages/logged-in/candidate/candidate-notes/candidate-notes.module').then( m => m.CandidateNotesPageModule),
     canActivate: [AuthService],
     data: {
-      name: 'TransferViewPage'
+      name: 'CandidateNotesPage'
     }
   },
   {

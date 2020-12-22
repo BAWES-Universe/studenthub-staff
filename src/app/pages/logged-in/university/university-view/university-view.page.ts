@@ -22,14 +22,19 @@ export class UniversityViewPage implements OnInit {
     public activatedRoute: ActivatedRoute,
     public universityService: UniversityService
   ) {
-    this.university_id = this.activatedRoute.snapshot.paramMap.get('id');
-    const state = window.history.state;
-    if (state.model) {
-      this.university = state.model;
-    }
   }
 
   ngOnInit() {
+
+    if(!this.university_id)
+      this.university_id = this.activatedRoute.snapshot.paramMap.get('id');
+    
+    const state = window.history.state;
+
+    if (state.model) {
+      this.university = state.model;
+    }
+
     if (!this.university) {
       this.loadData();
     }

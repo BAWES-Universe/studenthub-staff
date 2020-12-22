@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ModalController, AlertController, ToastController, IonContent } from '@ionic/angular';
 // services
 import { CompanyService } from 'src/app/providers/logged-in/company.service';
@@ -15,6 +15,14 @@ import { CompanyFormPage } from 'src/app/pages/logged-in/company/company-form/co
 import { TransferChartPage } from '../../transfer/transfer-chart/transfer-chart.page';
 import { TransferListPage } from '../../transfer/transfer-list/transfer-list.page';
 import { CompanyDocumentsPage } from '../company-documents/company-documents.page';
+import { CompanyContactsPage } from '../company-contacts/company-contacts.page';
+import { CompanyBrandsPage } from '../company-brands/company-brands.page';
+import { CompanyNotesPage } from '../company-notes/company-notes.page';
+import { CompanyRequestsPage } from '../company-requests/company-requests.page';
+import { CompanyMallsPage } from '../company-malls/company-malls.page';
+import { CompanySubcompaniesPage } from '../company-subcompanies/company-subcompanies.page';
+import { CompanyStoresPage } from '../company-stores/company-stores.page';
+import { CompanyNavPage } from '../company-nav/company-nav.page';
 
 
 @Component({
@@ -46,7 +54,6 @@ export class CompanyViewPage implements OnInit {
     public modalCtrl: ModalController,
     public toastCtrl: ToastController,
     public alertCtrl: AlertController,
-    public router: Router,
     public activatedRoute: ActivatedRoute,
     public companyService: CompanyService,
     public aws: AwsService,
@@ -62,7 +69,8 @@ export class CompanyViewPage implements OnInit {
       this.company = window.history.state.model;
     }
 
-    this.company_id = this.activatedRoute.snapshot.paramMap.get('company_id');
+    if(!this.company_id)
+      this.company_id = this.activatedRoute.snapshot.paramMap.get('company_id');
 
     this.loadData();
 
@@ -76,27 +84,69 @@ export class CompanyViewPage implements OnInit {
   }
 
   async openStores() {
-    this.router.navigate(['company-stores', this.company_id], {
-      state: {
-        company: this.company
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
+    const modal = await this.modalCtrl.create({
+      component: CompanyStoresPage,
+      componentProps: {
+        company: this.company,
       }
     });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
+    modal.present();
   }
 
   async openSubCompanies() {
-    this.router.navigate(['company-subcompanies', this.company_id], {
-      state: {
-        company: this.company
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
+    const modal = await this.modalCtrl.create({
+      component: CompanySubcompaniesPage,
+      componentProps: {
+        company: this.company,
       }
     });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
+    modal.present();
   }
 
   async openMalls() {
-    this.router.navigate(['company-malls', this.company_id], {
-      state: {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
+    /*const modal = await this.modalCtrl.create({
+      component: CompanyNavPage,
+      componentProps: {
+        activatedRoutePath: CompanyMallsPage,//'company-malls/' + this.company_id,
+        activatedRoutePathProps: {
+          company: this.company
+        }
+      }
+    });*/
+    const modal = await this.modalCtrl.create({
+      component: CompanyMallsPage,
+      componentProps: {
         company: this.company
       }
     });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
+    modal.present();
   }
 
   async openDocuments() {
@@ -119,35 +169,79 @@ export class CompanyViewPage implements OnInit {
   }
 
   async openContacts() {
-    this.router.navigate(['company-contacts', this.company_id], {
-      state: {
-        company: this.company
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
+    const modal = await this.modalCtrl.create({
+      component: CompanyContactsPage,
+      componentProps: {
+        company: this.company,
       }
     });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
+    modal.present();
   }
 
   async openBrands() {
-    this.router.navigate(['company-brands', this.company_id], {
-      state: {
-        company: this.company
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
+    const modal = await this.modalCtrl.create({
+      component: CompanyBrandsPage,
+      componentProps: {
+        company: this.company,
       }
     });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
+    modal.present();
   }
 
   async openNotes() {
-    this.router.navigate(['company-notes', this.company_id], {
-      state: {
-        company: this.company
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
+    const modal = await this.modalCtrl.create({
+      component: CompanyNotesPage,
+      componentProps: {
+        company: this.company,
       }
     });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
+    modal.present();
   }
 
   async openRequests() {
-    this.router.navigate(['company-requests', this.company_id], {
-      state: {
-        company: this.company
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
+    const modal = await this.modalCtrl.create({
+      component: CompanyRequestsPage,
+      componentProps: {
+        company: this.company,
       }
     });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
+    modal.present();
   }
 
   async openTransfers() {
@@ -175,7 +269,7 @@ export class CompanyViewPage implements OnInit {
     const modal = await this.modalCtrl.create({
       component: TransferChartPage,
       componentProps: {
-        model: this.company,
+        company: this.company,
       }
     });
     modal.onDidDismiss().then(e => {

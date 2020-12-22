@@ -1,14 +1,16 @@
 import { Component, OnInit } from '@angular/core';
+import { ModalController, NavController } from "@ionic/angular";
 //models
 import { Request } from 'src/app/models/request';
 //services
+import { CompanyService } from "../../../../providers/logged-in/company.service";
 import { CompanyRequestService } from 'src/app/providers/logged-in/company-request.service';
-import {ModalController, NavController} from "@ionic/angular";
-import {ActivatedRoute} from "@angular/router";
-import {Company} from "../../../../models/company";
-import {CompanyService} from "../../../../providers/logged-in/company.service";
-import {TransferChartPage} from "../../transfer/transfer-chart/transfer-chart.page";
-import {CompanyRequestFormPage} from "../company-request-form/company-request-form.page";
+//models
+import { Company } from "../../../../models/company";
+//pages
+import { CompanyRequestFormPage } from "../company-request-form/company-request-form.page";
+import { CompanyRequestViewPage } from '../company-request-view/company-request-view.page';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -18,7 +20,7 @@ import {CompanyRequestFormPage} from "../company-request-form/company-request-fo
 })
 export class CompanyRequestsPage implements OnInit {
 
-  public loading: boolean = false;
+  public loading: boolean = true;
   public company: Company;
 
   public borderLimit = false;
@@ -30,19 +32,19 @@ export class CompanyRequestsPage implements OnInit {
   public pages: number[] = [];
 
   constructor(
+    public router: Router,
     public requestService: CompanyRequestService,
-    public navCtrl: NavController,
-    public activatedRoute: ActivatedRoute,
     public companyService: CompanyService,
     public modalCtrl: ModalController
   ) { }
 
   ngOnInit() {
-    this.company_id = this.activatedRoute.snapshot.paramMap.get('company_id');
   }
 
   ionViewDidEnter() {
-    this.loadCompanyDetail();
+    if(!this.company)
+      this.loadCompanyDetail();
+
     this.loadRequests(this.currentPage);
   }
 
@@ -51,7 +53,9 @@ export class CompanyRequestsPage implements OnInit {
    */
   loadRequests(page: number) {
     this.loading = true;
+
     const urlParams = this.urlParams();
+
     this.requestService.listWithPagination(page, urlParams).subscribe(response => {
       this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
       this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
@@ -61,20 +65,46 @@ export class CompanyRequestsPage implements OnInit {
     });
   }
 
+  dismiss() {
+    this.modalCtrl.dismiss();
+  }
+
   logScrolling(e) {
     this.borderLimit = (e.detail.scrollTop > 20);
   }
 
-  requestDetail(request) {
-    this.navCtrl.navigateForward('/request-view/' + request.request_uuid, {
-      state : {
-        from: 'company-request-dashboard'
+  async requestDetail(request) {
+    this.modalCtrl.dismiss().then(() => {
+      setTimeout(() => {
+        this.router.navigate(['request-view', request.request_uuid], {
+          state: {
+            model: request
+          }
+        });
+      }, 100);
+    });
+    /*
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
+    const modal = await this.modalCtrl.create({
+      component: CompanyRequestViewPage,
+      componentProps: {
+        request_uuid: request.request_uuid,
+        request: request
       }
     });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
+    modal.present();*/
   }
 
   loadCompanyDetail() {
-    this.companyService.view(this.company_id).subscribe(response => {
+    this.companyService.view(this.company.company_id).subscribe(response => {
       this.company = response;
     }, () => {
     });
@@ -94,11 +124,11 @@ export class CompanyRequestsPage implements OnInit {
 
     this.requestService.listWithPagination(this.currentPage, urlParams).subscribe(response => {
 
-        this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
-        this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
+      this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
+      this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
 
-        this.requests = this.requests.concat(response.body);
-      },
+      this.requests = this.requests.concat(response.body);
+    },
       error => { },
       () => {
         this.loading = false;
@@ -110,29 +140,29 @@ export class CompanyRequestsPage implements OnInit {
   urlParams() {
     let urlParams = '';
 
-    if (this.company_id) {
-      urlParams += '&company_id=' + this.company_id;
+    if (this.company.company_id) {
+      urlParams += '&company_id=' + this.company.company_id;
     }
 
     return urlParams;
   }
 
   async addRequest($event) {
-      window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
-      const modal = await this.modalCtrl.create({
-        component: CompanyRequestFormPage,
-        componentProps: {
-          company: this.company,
-        }
-      });
-      modal.onDidDismiss().then(e => {
-        this.loadRequests(this.currentPage);
-        if (!e.data || e.data.from != 'native-back-btn') {
-          window['history-back-from'] = 'onDidDismiss';
-          window.history.back();
-        }
-      });
-      modal.present();
+    const modal = await this.modalCtrl.create({
+      component: CompanyRequestFormPage,
+      componentProps: {
+        company: this.company,
+      }
+    });
+    modal.onDidDismiss().then(e => {
+      this.loadRequests(this.currentPage);
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
+    modal.present();
   }
 }

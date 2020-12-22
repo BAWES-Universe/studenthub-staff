@@ -1,7 +1,7 @@
 <ion-header [class.add-border]="borderLimit" class="ion-no-border">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/company-list"></ion-back-button>
+      <ion-back-button (click)="dismiss()"></ion-back-button>
     </ion-buttons>
     <ion-buttons slot="end">
       <ion-button fill="clear" (click)="addRequest($event)">Add Request</ion-button>
@@ -15,14 +15,18 @@
     <h3 class="request-title">
       Requests
     </h3>
+    
     <h4 class="company-name">
       {{ (company.company_common_name_en) ?  company.company_common_name_en:company.company_name }}
     </h4>
 
     <request-listing *ngFor="let request of requests" tappable (click)="requestDetail(request)"
                          [request]="request" [showStatus]="false"></request-listing>
+
     <no-items *ngIf="!loading && requests.length ==0" message="~ No request data ~"></no-items>
+  
   </section>
+
   <loading-modal [loading]="loading" type="request-list"></loading-modal>
 
   <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">

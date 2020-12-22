@@ -1,15 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 // models
 import { Brand } from 'src/app/models/brand';
+import { Company } from "../../../../models/company";
 // services
 import { AwsService } from 'src/app/providers/aws.service';
 import { BrandService } from 'src/app/providers/logged-in/brand.service';
+import { CompanyService } from "../../../../providers/logged-in/company.service";
 // pages
 import { BrandFormPage } from '../brand-form/brand-form.page';
-import {CompanyService} from "../../../../providers/logged-in/company.service";
-import {Company} from "../../../../models/company";
+import { BrandViewPage } from '../brand-view/brand-view.page';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -29,7 +30,6 @@ export class CompanyBrandsPage implements OnInit {
 
   constructor(
     public router: Router,
-    public activatedRoute: ActivatedRoute,
     public modalCtrl: ModalController,
     public awsService: AwsService,
     public brandService: BrandService,
@@ -38,30 +38,47 @@ export class CompanyBrandsPage implements OnInit {
 
   ngOnInit() {
 
-    this.company_id = this.activatedRoute.snapshot.paramMap.get('company_id');
-
-    const state = window.history.state;
-
-    if (state.company) {
-      this.brands = state.company.brands;
-      this.company = state.company;
+    if (this.company) {
+      this.brands = this.company.brands;
     } else {
       this.loadCompanyDetail();
       this.loadData();
     }
   }
 
-  brandSelected(brand) {
-    this.router.navigate(['brand-view', brand.brand_uuid], {
-      state: {
-        model: brand
+  async brandSelected(brand) {
+    this.modalCtrl.dismiss().then(() => {
+      setTimeout(() => {
+        this.router.navigate(['brand-view', brand.brand_uuid], {
+          state: {
+            model: brand
+          }
+        });
+      }, 100);
+    });
+    /*
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
+    const modal = await this.modalCtrl.create({
+      component: BrandViewPage,
+      componentProps: {
+        brand_uuid: brand.brand_uuid,
+        brand: brand
       }
     });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
+    modal.present();*/
   }
 
   loadData() {
     this.loading = true;
-    this.brandService.listByCompany(this.company_id).subscribe(response => {
+    this.brandService.listByCompany(this.company.company_id).subscribe(response => {
       this.brands = response;
       this.loading = false;
     });
@@ -74,7 +91,7 @@ export class CompanyBrandsPage implements OnInit {
     window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
     const brand = new Brand();
-    brand.company_id = this.company_id;
+    brand.company_id = this.company.company_id;
 
     const modal = await this.modalCtrl.create({
       component: BrandFormPage,
@@ -108,7 +125,7 @@ export class CompanyBrandsPage implements OnInit {
    * load company detail
    */
   loadCompanyDetail() {
-    this.companyService.view(this.company_id).subscribe(response => {
+    this.companyService.view(this.company.company_id).subscribe(response => {
       this.company = response;
     }, () => {
     });
