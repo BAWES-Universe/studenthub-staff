@@ -1,5 +1,5 @@
 import {Component, ViewChild, OnInit, ChangeDetectorRef, ViewRef} from '@angular/core';
-import { NavController, Platform, MenuController, PopoverController, IonContent } from '@ionic/angular';
+import { NavController, Platform, MenuController, PopoverController, IonContent, AlertController } from '@ionic/angular';
 import { Plugins } from '@capacitor/core';
 // import { Storage } from '@ionic/storage';
 import { environment } from '../../../../../environments/environment';
@@ -14,6 +14,9 @@ import { CandidateService } from '../../../../providers/logged-in/candidate.serv
 import { TranslateLabelService } from '../../../../providers/translate-label.service';
 import { EventService } from '../../../../providers/event.service';
 import { AlgoliaService } from 'src/app/providers/logged-in/algolia.service';
+import { CandidateIdCardService } from 'src/app/providers/logged-in/candidate.id.card.service';
+//pages
+import { CandidateMergeSelectPage } from '../candidate-merge-select/candidate-merge-select.page';
 
 
 const { Storage } = Plugins;
@@ -32,6 +35,10 @@ export class CandidateSearchPage implements OnInit {
   @ViewChild('instantSearch', { static: false }) public instantSearch;
 
   public lastQuery;
+
+  public downloading;
+
+  public merging;
 
   public eleInfinite;
 
@@ -61,10 +68,12 @@ export class CandidateSearchPage implements OnInit {
     public httpClient: HttpClient,
     public transferState: TransferState,
     public navCtrl: NavController,
+    public alertCtrl: AlertController,
     public platform: Platform,
     public auth: AuthService,
     public algoliaService: AlgoliaService,
     public candidateService: CandidateService,
+    public candidateIdCardService: CandidateIdCardService,
     public changeDetector: ChangeDetectorRef,
     public eventService: EventService,
     public translateService: TranslateLabelService,
@@ -124,6 +133,89 @@ export class CandidateSearchPage implements OnInit {
     this.content.getScrollElement().then(ele => {
       this.scrollPosition = ele.scrollTop;
     });
+  }
+
+  /**
+   * Merge to account
+   */
+  async merge(e) {
+
+    if (this.candidateService.candidates.length != 2) {
+      const prompt = await this.alertCtrl.create({
+        message: 'Please select any 2 candidates',
+        buttons: ['Okay']
+      });
+      prompt.present();
+
+      return false;
+    }
+
+    const popover = await this.popoverCtrl.create({
+      component: CandidateMergeSelectPage,
+      event: e,
+      cssClass: 'candidate-merge-select'
+    });
+
+    popover.onDidDismiss().then(e => {
+      
+      if(!e.data || !e.data.candidate) {
+        return false;
+      }
+
+      let source;
+
+      if(e.data.candidate.candidate_id == this.candidateService.candidates[1].candidate_id) {
+        source = this.candidateService.candidates[0].candidate_id;
+      } else {
+        source = this.candidateService.candidates[1].candidate_id;
+      }
+
+      this.merging = true;
+
+      this.candidateService.merge(source, e.data.candidate.candidate_id).subscribe(response => {
+      }, (err) => {
+      }, () => {
+        this.merging = false;
+        this.candidateService.candidates = [];
+        this.candidateIdCardService.candidates = [];
+
+        this.refreshCandidates();
+      });
+    });
+    popover.present();
+  }
+
+
+  /**
+   * Generate id cards
+   */
+  async generate() {
+    
+    if (this.candidateIdCardService.candidates.length == 0) {
+      const prompt = await this.alertCtrl.create({
+        message: 'Please select candidate(s)',
+        buttons: ['Ok']
+      });
+      prompt.present();
+
+      return false;
+    }
+
+    this.downloading = true;
+
+    this.candidateIdCardService.generate(this.candidateIdCardService.candidates).subscribe(response => {
+    }, (err) => {
+    }, () => {
+      this.downloading = false;
+      this.candidateIdCardService.candidates = [];
+    });
+  }
+
+  deselect() {
+    this.candidateService.candidates = [];
+    this.candidateIdCardService.candidates = [];
+
+    this.eventService.clearCandidateSelection$.next();
   }
 
   /**
@@ -496,6 +588,24 @@ export class CandidateSearchPage implements OnInit {
     });
   }
   
+
+  /**
+   * Refresh list
+   */
+  async refreshCandidates() {
+    
+    if (!this.instantSearch) {
+      return null;
+    }
+
+    this.nbPages = 0;
+    
+    this.loading = true;
+    this.refreshingCandidates = true;
+  
+    this.instantSearch.instantSearchInstance.helper.clearCache().setPage(0).setQuery('').search();
+  }
+
   logScrolling(e) {
     this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
   }

@@ -369,3 +369,56 @@ ion-back-button {
   border-radius: 4px;
   --border-radius: 4px;
 }
+
+
+ion-footer {
+    .btn-merge {
+        width: calc(100% - 28px);
+        margin: 5px 14px;
+        display: block;
+    }
+
+    .btn-deselect {
+        margin: 5px 14px 5px 5px;
+    }
+
+    .btn-generate {
+        margin: 5px 5px 5px 14px;
+    }
+
+    .btn-deselect,
+    .btn-generate {
+      width: calc(50% - 19px);
+      display: inline-block;
+    }
+
+    .btn-merge,
+    .btn-deselect,
+    .btn-generate {
+      height: 53px;
+      border-radius: 5px;
+      font-size: 16px;
+      font-weight: bold;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: 1.65;
+      letter-spacing: normal;
+      text-align: center;
+      text-transform: none;
+      --box-shadow: none;
+    }
+  
+    .btn-merge {
+      --background: #219653;
+    }
+  
+    .btn-generate {
+      --background: #333333;
+      color: #ffffff;
+    }
+  
+    .btn-deselect {
+      --background: #eb5757;
+      color: #ffffff;
+    }
+  }

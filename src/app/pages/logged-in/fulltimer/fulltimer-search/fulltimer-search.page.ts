@@ -537,7 +537,6 @@ export class FulltimerSearchPage implements OnInit {
     return await modal.present();
   }
 
-
   /**
    * Refresh fulltimer list
    */
