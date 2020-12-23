@@ -63,15 +63,20 @@
 /*---------------------- candidate ----------------------*/
 
 [dir="ltr"] {
+  .fulltimer .image,
   .candidate .image {
     margin: 0 15px 0 0;
   }
 }
 
-[dir="rtl"] .candidate .image {
-  margin: 0 0 0 15px;
+[dir="rtl"] {
+  .candidate .image,
+  .fulltimer .image {
+    margin: 0 0 0 15px;
+  }
 }
 
+.fulltimer,
 .candidate {
   position: relative;
   border-radius: 4px;
@@ -151,18 +156,25 @@
 
 /*---------------------- candidate-filter --------------------*/
 
-[dir="ltr"] .candidate-filter {
-  .wrapper {
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08), 2px 0 4px 0 rgba(0, 0, 0, 0.12);
+[dir="ltr"] {
+  .fulltimer-filter,
+  .candidate-filter {
+    .wrapper {
+      box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08), 2px 0 4px 0 rgba(0, 0, 0, 0.12);
+    }
   }
 }
 
-[dir="rtl"] .candidate-filter {
-  .wrapper {
-    box-shadow: 0 0 4px 2px rgba(0, 0, 0, 0.08), 2px 0 4px 0 rgba(0, 0, 0, 0.12);
+[dir="rtl"] {
+  .fulltimer-filter,
+  .candidate-filter {
+    .wrapper {
+      box-shadow: 0 0 4px 2px rgba(0, 0, 0, 0.08), 2px 0 4px 0 rgba(0, 0, 0, 0.12);
+    }
   }
 }
 
+.fulltimer-filter,
 .candidate-filter {
   .background-masker {
     animation-duration: 1s;

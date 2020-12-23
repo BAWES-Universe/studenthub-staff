@@ -46,6 +46,77 @@
   </ion-card>
 </div>
 
+<!------------------------ fulltimer -------------------->
+
+<div *ngIf="loading && type == 'fulltimer'">
+  <ion-card class="fulltimer">
+    <ion-card-content>
+
+      <div class="background-masker image"></div>
+
+      <h2 class="background-masker name"></h2>
+
+      <small class="city">
+        <div class="background-masker city-location"></div>
+      </small>
+
+      <div class="clearfix"></div>
+
+      <p class="background-masker objective"></p>
+
+      <hr />
+
+      <p class="background-masker work"></p>
+
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card class="fulltimer">
+    <ion-card-content>
+
+      <div class="background-masker image"></div>
+
+      <h2 class="background-masker name"></h2>
+
+      <small class="city">
+        <div class="background-masker city-location"></div>
+      </small>
+
+      <div class="clearfix"></div>
+
+      <p class="background-masker objective"></p>
+
+      <hr />
+
+      <p class="background-masker work"></p>
+
+    </ion-card-content>
+  </ion-card>
+</div>
+
+<!------------------- fulltimer-filter ------------------------>
+
+<div class="fulltimer-filter" *ngIf="loading && type == 'fulltimer-filter'">
+  <div class="wrapper">
+    <div class="background-masker title"></div>
+  </div>
+  <div class="wrapper">
+    <div class="background-masker title"></div>
+  </div>
+  <div class="wrapper">
+    <div class="background-masker title"></div>
+  </div>
+  <div class="wrapper">
+    <div class="background-masker title"></div>
+  </div>
+  <div class="wrapper">
+    <div class="background-masker title"></div>
+  </div>
+  <div class="wrapper">
+    <div class="background-masker title"></div>
+  </div>
+</div>
+
 <!------------------- candidate-filter ------------------------>
 
 <div class="candidate-filter" *ngIf="loading && type == 'candidate-filter'">
