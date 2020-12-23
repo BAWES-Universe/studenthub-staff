@@ -1,0 +1,32 @@
+ion-item {
+  margin: 0 12px 12px;
+  //padding: 12px 17px 12px 21px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08), 2px 0 4px 0 rgba(0, 0, 0, 0.12);
+  background-color: #ffffff;
+}
+ion-badge {
+  padding: 5px 9px 5px;
+  font-size: 12px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: #000;
+  border-radius: 0;
+}
+section,ion-list {
+  background: #fafafa;
+}
+h3{
+  font-size: 14px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.65;
+  letter-spacing: normal;
+  text-align: left;
+  color: #000;
+}

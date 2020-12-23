@@ -1,7 +1,7 @@
 <ion-header [class.add-border]="borderLimit" class="ion-no-border">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
+      <ion-back-button defaultHref="/default"></ion-back-button>
     </ion-buttons>
     <ion-title>Team List</ion-title>
   </ion-toolbar>
@@ -26,7 +26,7 @@
       </ion-item>
     </section>
   </ion-list>
-  
+
   <loading-modal [loading]="loading || loadMore" type="text-list"></loading-modal>
 
   <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">

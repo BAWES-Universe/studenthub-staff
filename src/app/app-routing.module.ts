@@ -390,6 +390,14 @@ const routes: Routes = [
     }
   },
   {
+    path: 'report-list',
+    loadChildren: () => import('./pages/logged-in/report-list/report-list.module').then( m => m.ReportListPageModule),
+    canActivate: [AuthService],
+    data: {
+      name: 'ReportPageList'
+    }
+  },
+  {
     path: '**',
     redirectTo: 'not-found'
   }
