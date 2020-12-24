@@ -213,6 +213,13 @@ export class CandidateViewPage implements OnInit {
     const confirm = await this.alertCtrl.create({
       header: 'Are you sure?',
       message: 'Remove candidate from store',
+      inputs: [
+        {
+          name: 'feedback',
+          type: 'textarea',
+          placeholder: 'Reason'
+        }
+      ],
       buttons: [
         {
           text: 'Cancel',
@@ -222,12 +229,22 @@ export class CandidateViewPage implements OnInit {
         },
         {
           text: 'Ok',
-          handler: async () => {
+          handler: async (data) => {
+            if (!data.feedback) {
+              this.alertCtrl.create({
+                message: 'Please provide reason',
+                buttons: ['Okay']
+              }).then(alert => {
+                alert.present();
+              });
+              return false;
+            }
+
             // Handle the functionality when user click on 'ok' button
             this.unassinging = true;
 
             // Unassign Candidate from store
-            this.candidateService.removeFromAssignedStore(this.candidate).subscribe(async response => {
+            this.candidateService.removeFromAssignedStore(this.candidate, data.feedback).subscribe(async response => {
 
               // Dismiss the loader
               this.unassinging = false;
@@ -239,6 +256,7 @@ export class CandidateViewPage implements OnInit {
                   this.candidate.store = null;
                   this.candidate.company = null;
                 }
+                this.loadNotes();
 
                 this.eventService.reloadCandidateHistory$.next();
               } else {
@@ -275,7 +293,7 @@ export class CandidateViewPage implements OnInit {
         this.loadCandidateDetail();
 
         this.loadWorkHistoryData();
-
+        this.loadNotes();
       } else {
         this.candidate.store_id = null;
 
