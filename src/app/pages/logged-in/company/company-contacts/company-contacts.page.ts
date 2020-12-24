@@ -22,6 +22,7 @@ export class CompanyContactsPage implements OnInit {
 
   public company: Company;
   public borderLimit: boolean = false;
+  public loading = false;
 
   constructor(
     public router: Router,
@@ -73,7 +74,9 @@ export class CompanyContactsPage implements OnInit {
   }
 
   loadContacts() {
+    this.loading = true;
     this.companyContactService.companyContacts(this.company.company_id,' ', 'companyContactEmails,companyContactPhones,companyContactStats').subscribe(data => {
+      this.loading = false;
       this.companyContacts = data;
     });
   }

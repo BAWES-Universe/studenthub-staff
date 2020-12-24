@@ -39,7 +39,7 @@ export class TransferListPage implements OnInit {
   loadData() {
     this.loading = true;
 
-    this.companyService.view(this.company.company_id, 'parentTransfers,parentTransfers.profit,parentTransfers.childTransfers,parentTransfers.childTransfers.company,parentTransfers.totalCandidateTransferTotal,parentTransfers.totalPaid,parentTransfers.paidTransferCandidates').subscribe(data => {
+    this.companyService.view(this.company.company_id, 'parentTransfers').subscribe(data => {
       this.company = data;
 
       this.loading = false;

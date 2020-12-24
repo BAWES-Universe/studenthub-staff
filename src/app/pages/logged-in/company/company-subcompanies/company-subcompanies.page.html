@@ -25,6 +25,7 @@
       </app-company>
     </ion-list>
   </ng-container>
+  <no-items *ngIf="!loading && company.subCompanies && company.subCompanies.length ==0" message="~ No subcompany data ~"></no-items>
 
   <loading-modal [loading]="loading" type="company-list"></loading-modal>
 

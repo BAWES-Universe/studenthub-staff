@@ -16,10 +16,10 @@ export class CompanySubcompaniesPage implements OnInit {
   public company_id;
 
   public company: Company;
-  
+
   public borderLimit: boolean = false;
 
-  public loading: boolean = false; 
+  public loading: boolean = false;
 
   constructor(
     public router: Router,
@@ -28,18 +28,19 @@ export class CompanySubcompaniesPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.loadData();
   }
-  
+
   loadData() {
     this.loading = true;
 
-    this.companyService.view(this.company.company_id).subscribe(data => {
+    this.companyService.view(this.company.company_id,'subCompanies,subCompanies.stores').subscribe(data => {
       this.company = data;
 
       this.loading = false;
     });
   }
-  
+
   /**
    * Load company detail page when its selected from the list
    * @param model
@@ -73,7 +74,7 @@ export class CompanySubcompaniesPage implements OnInit {
     });
     modal.present();*/
   }
-  
+
   /**
    * Create a new sub company
    */

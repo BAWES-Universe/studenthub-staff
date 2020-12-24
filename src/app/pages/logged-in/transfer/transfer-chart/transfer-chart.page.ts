@@ -17,7 +17,7 @@ export class TransferChartPage implements OnInit {
   public statsData: any[];
 
   public legendDisplay = true;
-  public loading = false;
+  public loading = true;
 
   public borderLimit: boolean = false;
 
@@ -298,12 +298,11 @@ export class TransferChartPage implements OnInit {
   }
 
   loadData() {
-    this.loading = true;
     this.companyService.view(this.company.company_id, 'parentTransfers,parentTransfers.profit,parentTransfers.childTransfers,parentTransfers.childTransfers.company,parentTransfers.totalCandidateTransferTotal,parentTransfers.totalPaid,parentTransfers.paidTransferCandidates').subscribe(response => {
+      this.loading = false;
       this.company = response;
       this.loadChartStats();
     }, () => {
-      this.loading = false;
     });
   }
 }

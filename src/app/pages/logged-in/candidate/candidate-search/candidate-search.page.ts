@@ -157,7 +157,7 @@ export class CandidateSearchPage implements OnInit {
     });
 
     popover.onDidDismiss().then(e => {
-      
+
       if(!e.data || !e.data.candidate) {
         return false;
       }
@@ -190,7 +190,7 @@ export class CandidateSearchPage implements OnInit {
    * Generate id cards
    */
   async generate() {
-    
+
     if (this.candidateIdCardService.candidates.length == 0) {
       const prompt = await this.alertCtrl.create({
         message: 'Please select candidate(s)',
@@ -587,26 +587,29 @@ export class CandidateSearchPage implements OnInit {
       }
     });
   }
-  
+
 
   /**
    * Refresh list
    */
   async refreshCandidates() {
-    
+
     if (!this.instantSearch) {
       return null;
     }
 
     this.nbPages = 0;
-    
+
     this.loading = true;
     this.refreshingCandidates = true;
-  
+
     this.instantSearch.instantSearchInstance.helper.clearCache().setPage(0).setQuery('').search();
   }
 
   logScrolling(e) {
-    this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
+    this.borderLimit = (e.detail.scrollTop > 20);
+  }
+  allCandidate() {
+    return this.navCtrl.navigateForward('/candidate-list');
   }
 }

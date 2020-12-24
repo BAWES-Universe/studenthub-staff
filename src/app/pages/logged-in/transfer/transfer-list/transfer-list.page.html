@@ -11,9 +11,8 @@
   <h3>Transfers</h3>
 
   <h4 *ngIf="company">
-    {{ company.company_name }} 
+    {{ company.company_name }}
   </h4>
-
   <ion-list *ngIf="company.parentTransfers">
     <ion-card *ngFor="let transfer of company.parentTransfers" tappable (click)="openTransferDetailPage(transfer)">
       <ion-card-content>
@@ -35,6 +34,8 @@
       </ion-card-content>
     </ion-card>
   </ion-list>
+  <loading-modal type="transfer-list" [loading]="loading"></loading-modal>
+  <no-items *ngIf="!loading && company && company.parentTransfers.length == 0" message="~ No transfer Data ~"></no-items>
 </ion-content>
 
 <ion-footer *ngIf="company">

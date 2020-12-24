@@ -35,7 +35,7 @@
       <ion-badge slot="end" color="light" *ngIf="brand.candidate_count > 0">{{brand.candidate_count}} staff</ion-badge>
     </ion-item>
   </ion-list>
-  
+  <loading-modal type="brand-list" [loading]="loading"></loading-modal>
   <no-items *ngIf="!loading && brands.length ==0" message="~ No brand data available ~"></no-items>
 
 </ion-content>

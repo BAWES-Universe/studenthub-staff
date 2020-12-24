@@ -10,6 +10,7 @@ import { CompanySubcompaniesPage } from './company-subcompanies.page';
 
 import {CompanyModule} from "../../../../components/company/company.module";
 import { LoadingModalModule } from 'src/app/components/loading-modal/loading-modal.module';
+import {NoItemsModule} from "../../../../components/no-items/no-items.module";
 
 @NgModule({
   imports: [
@@ -18,6 +19,7 @@ import { LoadingModalModule } from 'src/app/components/loading-modal/loading-mod
     LoadingModalModule,
     IonicModule,
     CompanyModule,
+    NoItemsModule,
     CompanySubcompaniesPageRoutingModule
   ],
   declarations: [CompanySubcompaniesPage]
