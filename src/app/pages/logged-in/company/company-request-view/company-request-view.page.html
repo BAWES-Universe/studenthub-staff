@@ -22,20 +22,10 @@
 
   <div *ngIf="request && !loading">
 
-    <h3 class="request" [class.pending]="request.request_status == 'pending'"
-      [class.active]="request.request_status == 'started'"
-      [class.completed]="request.request_status == 'delivered'"
-      [class.cancelled]="request.request_status == 'cancelled'">
-      <!-- pending request -->
-      <span *ngIf="request.request_status == 'pending'">Pending</span>
-      <span *ngIf="request.request_status == 'started'">Started</span>
-      <span *ngIf="request.request_status == 'delivered'">Delivered</span>
-      <span *ngIf="request.request_status == 'cancelled'">Cancelled</span>
-    </h3>
-
     <h4 class="company-name" tappable [routerLink]="'/company-view/' + request.company_id">{{ request.company.company_name }}</h4>
 
-    <p class="txt-looking">is looking for </p>
+    <p class="txt-looking" *ngIf="request.request_status == 'started'">is looking for </p>
+    <p class="txt-looking" *ngIf="request.request_status != 'started'">was looking for </p>
 
     <b class="requirement">
       {{ request.request_number_of_employees }}
