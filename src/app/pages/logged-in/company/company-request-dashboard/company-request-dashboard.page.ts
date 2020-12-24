@@ -17,10 +17,6 @@ export class CompanyRequestDashboardPage implements OnInit {
 
   public borderLimit = false;
 
-  public pendingRequests: Request[] = [];
-
-  public myRequests: Request[] = [];
-
   public activeRequests: Request[] = [];
 
   constructor(
@@ -34,44 +30,20 @@ export class CompanyRequestDashboardPage implements OnInit {
   ionViewDidEnter() {
 
     if(
-      this.pendingRequests.length == 0 &&
-      this.myRequests.length == 0 &&
       this.activeRequests.length == 0
     ) {
       this.loading = true;
     }
 
     this.loadActiveRequests();
-    this.loadPendingRequests();
-    this.loadMyRequests();
   }
 
   /**
    * load active request I'm not handling
    */
   loadActiveRequests() {
-    this.requestService.listActiveRequests(true).subscribe(data => {
+    this.requestService.listActiveRequests().subscribe(data => {
       this.activeRequests = data;
-      this.loading = false;
-    });
-  }
-
-  /**
-   * load pending requests
-   */
-  loadPendingRequests() {
-    this.requestService.listPendingRequests().subscribe(data => {
-      this.pendingRequests = data;
-      this.loading = false;
-    });
-  }
-
-  /**
-   * load requests I'm handling
-   */
-  loadMyRequests() {
-    this.requestService.listMyRequests().subscribe(data => {
-      this.myRequests = data;
       this.loading = false;
     });
   }

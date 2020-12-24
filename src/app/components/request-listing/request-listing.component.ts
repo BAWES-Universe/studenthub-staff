@@ -28,7 +28,7 @@ export class RequestListingComponent implements OnInit {
        * but last updated is longer than 24 hours ago, otherwise can use green color
        * if completed or active but had update made today.
        */
-      this.active = ((this.request.request_status == 'delivered') || ((this.request.staff_id) && (time < 24)));
+      this.active = time < 24;
     }
   }
 

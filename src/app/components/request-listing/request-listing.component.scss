@@ -2,6 +2,7 @@
 ion-card {
     margin-left: 0;
     margin-right: 0;
+    margin-bottom: 16px;
     border-radius: 5px;
     background-color: #ffffff;
     box-shadow: none;
@@ -61,7 +62,8 @@ ion-card {
         letter-spacing: normal;
         text-align: left;
         color: #000;
-        padding: 17px 24px 70px 24px;
+        padding: 17px 24px 55px 24px;
+
         .content-footer {
           position: absolute;
           bottom: 0;
@@ -142,9 +144,19 @@ ion-card {
 .pending ion-card-header {
     background-color: #f2994a;
 }
+
 .background-red {
   background: #eb5757
 }
+
+.background-grey {
+  background: #f2f2f2;
+
+  p {
+    color: #000000 !important;
+  }
+}
+
 .background-green {
   background: #219653
 }

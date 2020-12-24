@@ -366,7 +366,6 @@ export class CompanyRequestViewPage implements OnInit {
 
       if (response.operation == 'success') {
         request.request_status = 'started';
-        request.staff_id = this.authService.staff_id;
         this.loadRequestActivities();
         this.eventService.reloadStats$.next();
       } else {

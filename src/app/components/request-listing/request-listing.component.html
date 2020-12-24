@@ -1,5 +1,5 @@
 <ion-card [class.pending]="request.request_status == 'pending'" tappable>
-  <ion-card-content [class.pending-request]="!request.staff">
+  <ion-card-content>
     <h1 *ngIf="request.company">{{ request.company.company_common_name_en? request.company.company_common_name_en: request.company.company_name }}</h1>
     <h3>
       Looking for <b>{{ request.request_number_of_employees }}
@@ -10,14 +10,11 @@
 
     <p *ngIf="request.request_additional_info" class="txt-additional-info">{{ request.request_additional_info }} </p>
     <small class="time">Request made {{ request.request_created_datetime | timeAgo }} </small>
-    <div *ngIf="request" class="content-footer" [class.background-red]="!this.active" [class.background-green]="this.active">
-      <p *ngIf="!request.staff">Please pick up</p>
-      <ng-container *ngIf="request.staff">
-        <p *ngIf="request.request_status == 'started'">{{ request.staff.staff_name  }} is handling it</p>
-        <p *ngIf="request.request_status == 'delivered'">Delivered {{ request.request_updated_datetime | timeAgo }} by {{request.staff.staff_name}} </p>
-        <p *ngIf="request.request_status == 'cancelled'">Cancelled {{ request.request_updated_datetime | timeAgo }} by {{request.staff.staff_name}} </p>
-        <p *ngIf="request.request_status == 'started'">Last updated {{ request.request_updated_datetime | timeAgo }} </p>
-      </ng-container>
+
+    <div *ngIf="request" class="content-footer" [class.background-grey]="active" [class.background-red]="!active" [class.background-green]="request.request_status == 'delivered'">
+      <p *ngIf="request.request_status == 'delivered'">Delivered {{ request.request_updated_datetime | timeAgo }} </p>
+      <p *ngIf="request.request_status == 'cancelled'">Cancelled {{ request.request_updated_datetime | timeAgo }} </p>
+      <p *ngIf="request.request_status == 'started'">Last updated {{ request.request_updated_datetime | timeAgo }} </p>
     </div>
   </ion-card-content>
 </ion-card>

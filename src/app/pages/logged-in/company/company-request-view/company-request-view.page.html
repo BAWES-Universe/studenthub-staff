@@ -99,12 +99,12 @@
             Post an update
           </ion-button>
         </ion-col>
-        <ion-col size-xs="6"  *ngIf="request.staff_id == authService.staff_id">
+        <ion-col size-xs="6">
           <ion-button *ngIf="request.request_status == 'started'" (click)="deliveredRequest($event, request)">
             Mark delivered
           </ion-button>
         </ion-col>
-        <ion-col size-xs="6"  *ngIf="request.staff_id != authService.staff_id">
+        <ion-col size-xs="6">
           <ion-button *ngIf="request.request_status == 'started'" (click)="pickUpRequest($event, request)">
             Pick up
           </ion-button>
