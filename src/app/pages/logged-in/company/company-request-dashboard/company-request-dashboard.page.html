@@ -10,26 +10,15 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content scrollEvents="true" (ionScroll)="logScrolling($event)" class="ion-padding">
-
-  <h2 class="heading-request" id="heading-pending-request" *ngIf="pendingRequests.length > 0">Pending Requests</h2>
-
-  <request-listing *ngFor="let request of pendingRequests" tappable (click)="requestDetail(request)"
-                       [request]="request" [showStatus]="false"></request-listing>
-
-  <h2 class="heading-request" *ngIf="myRequests.length > 0">Requests you are currently handling</h2>
-
-  <request-listing *ngFor="let request of myRequests" tappable (click)="requestDetail(request)"
-                       [request]="request" [showStatus]="false" ></request-listing>
+<ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
 
   <h2 class="heading-request" id="heading-active-request" *ngIf="activeRequests.length > 0">Active Requests</h2>
 
   <request-listing *ngFor="let request of activeRequests" tappable (click)="requestDetail(request)"
                        [request]="request" [showStatus]="false" ></request-listing>
 
-  <!--
-  <loading-modal [loading]="loading" type="request-dashboard"></loading-modal>
-      -->
+  <loading-modal [loading]="loading" type="request-list"></loading-modal>
+      
 </ion-content>
 
 <ion-footer>

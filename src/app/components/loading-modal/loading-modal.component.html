@@ -707,12 +707,28 @@
 <!--------------------------- request-list -------------------->
 
 <div class="request-list" *ngIf="loading && type == 'request-list'">
+
   <ion-card>
     <ion-card-content>
       <h1><ion-skeleton-text animated class="title"></ion-skeleton-text></h1>
       <h3>
         <ion-skeleton-text animated class="title"></ion-skeleton-text>
-        <span><ion-skeleton-text animated class="title"></ion-skeleton-text></span>
+      </h3>
+
+      <p class="txt-additional-info"><ion-skeleton-text animated class="title"></ion-skeleton-text></p>
+      <small class="time"><ion-skeleton-text animated class="title"></ion-skeleton-text></small>
+      <div class="content-footer">
+        <ion-skeleton-text animated class="title"></ion-skeleton-text>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-content>
+      <h1><ion-skeleton-text animated class="title"></ion-skeleton-text></h1>
+      
+      <h3>
+        <ion-skeleton-text animated class="title"></ion-skeleton-text>
       </h3>
 
       <p class="txt-additional-info"><ion-skeleton-text animated class="title"></ion-skeleton-text></p>
@@ -728,7 +744,6 @@
       <h1><ion-skeleton-text animated class="title"></ion-skeleton-text></h1>
       <h3>
         <ion-skeleton-text animated class="title"></ion-skeleton-text>
-        <span><ion-skeleton-text animated class="title"></ion-skeleton-text></span>
       </h3>
 
       <p class="txt-additional-info"><ion-skeleton-text animated class="title"></ion-skeleton-text></p>

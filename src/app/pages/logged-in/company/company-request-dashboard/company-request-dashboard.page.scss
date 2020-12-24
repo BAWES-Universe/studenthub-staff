@@ -1,3 +1,7 @@
+ion-content {
+  --padding-start: 30px;
+  --padding-end: 30px;
+}
 
 #heading-pending-request {
     margin-top: 15px;
@@ -13,17 +17,16 @@
     letter-spacing: normal;
     text-align: left;
     color: #000;
-    margin-top: 40px;
-    margin-bottom: 31px;
+    margin-top: 30px;
+    margin-bottom: 22px;
 }
 
 ion-footer {
   box-shadow: 0 -4px 4px 0 rgba(0, 0, 0, 0.1);
   background-color: #ffffff;
+
   ion-button {
     height: 53px;
-    --border-radius: 22px;
-    --background: #333333;
     width: calc(100% - 24px);
     font-family: Effra;
     font-size: 16px;
@@ -33,8 +36,10 @@ ion-footer {
     line-height: 1.65;
     letter-spacing: normal;
     text-align: center;
-    --color: #ffffff;
     text-transform: none;
     margin: 12px 10px;
+    --color: #ffffff;
+    --border-radius: 5px;
+    --background: #333333;
   }
 }

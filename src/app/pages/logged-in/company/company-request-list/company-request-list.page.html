@@ -65,6 +65,9 @@
   <ion-list class="ion-padding">
     <request-listing *ngFor="let request of requests" tappable (click)="requestDetail(request)"
                      [request]="request" [showStatus]="false"></request-listing>
+
+    <loading-modal [loading]="loading" type="request-list"></loading-modal>
+                      
   </ion-list>
 
   <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">

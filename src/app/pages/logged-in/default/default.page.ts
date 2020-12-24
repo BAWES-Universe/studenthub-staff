@@ -16,7 +16,6 @@ export class DefaultPage implements OnInit {
   public borderLimit = false;
 
   public statistics: {
-    totalPendingRequests: any;
     totalExpiredCards: any;
     assignedExpiredCivilID: any;
     activeRequests: any;

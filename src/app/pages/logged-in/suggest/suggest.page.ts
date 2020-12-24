@@ -75,7 +75,7 @@ export class SuggestPage implements OnInit {
       filterParams = '&position_type=2';
     }
 
-    this.requestService.listActiveRequests(false, filterParams).subscribe(data => {
+    this.requestService.listActiveRequests(filterParams).subscribe(data => {
       this.loadingRequests = false;
 
       this.activeRequests = data;
