@@ -20,6 +20,7 @@ export class CompanyDocumentsPage implements OnInit {
   public company: Company;
 
   public borderLimit: boolean = false;
+  public loading = false;
 
   constructor(
     public modalCtrl: ModalController,
@@ -33,7 +34,9 @@ export class CompanyDocumentsPage implements OnInit {
   }
 
   loadData() {
+    this.loading = true;
     this.companyService.view(this.company.company_id, 'files').subscribe(data => {
+      this.loading = false;
       this.company = data;
     });
   }

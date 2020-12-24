@@ -56,4 +56,6 @@
       </ion-label>
     </ion-item>
   </ion-list>
+  <loading-modal type="contact-list" [loading]="loading"></loading-modal>
+  <no-items *ngIf="!loading && companyContacts.length ==0" message="~ No Contact data ~"></no-items>
 </ion-content>

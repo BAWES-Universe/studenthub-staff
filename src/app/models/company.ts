@@ -36,4 +36,5 @@ export class Company {
     companyContacts: CompanyContact[];
     requests: Request[];
     parentTransfers: Transfer[];
+    stats: any[];
 }

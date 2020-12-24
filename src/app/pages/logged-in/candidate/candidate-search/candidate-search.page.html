@@ -5,11 +5,14 @@
       <ion-back-button text="{{ 'Back' | translate }}" *ngIf="!showFilter" defaultHref="/"></ion-back-button>
     </ion-buttons>
 
-    <ion-buttons slot="end" *ngIf="!loading && nbHits > 0 && !showFilter" class="mobile-only">
-      <ion-button (click)="openFilter()" class="btn-filter skip-hover"  fill="clear">
-              <span>
-                  <img src="assets/images/ic-filter.svg"> {{ "Filter" | translate }}
-              </span>
+    <ion-buttons slot="end">
+      <ion-button (click)="openFilter()" class="btn-filter skip-hover mobile-only"  fill="clear"  *ngIf="!loading && nbHits > 0 && !showFilter">
+        <span>
+            <img src="assets/images/ic-filter.svg"> {{ "Filter" | translate }}
+        </span>
+      </ion-button>
+      <ion-button fill="clear" (click)="allCandidate()">
+        All Candidates
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
@@ -140,7 +143,7 @@
       <ion-spinner *ngIf="merging"></ion-spinner>
     </ion-button>
 
-    <ion-button class="btn-generate" 
+    <ion-button class="btn-generate"
       [disabled]="candidateIdCardService.candidates.length == 0 || merging || downloading"
       (click)="generate()">
       <span *ngIf="!downloading">Download Zip</span>

@@ -9,6 +9,7 @@ import { CompanyDocumentsPageRoutingModule } from './company-documents-routing.m
 import { CompanyDocumentsPage } from './company-documents.page';
 import { LoadingModalModule } from 'src/app/components/loading-modal/loading-modal.module';
 import { PipesModule } from 'src/app/pipes/pipes.module';
+import {NoItemsModule} from "../../../../components/no-items/no-items.module";
 
 @NgModule({
   imports: [
@@ -17,6 +18,7 @@ import { PipesModule } from 'src/app/pipes/pipes.module';
     IonicModule,
     PipesModule,
     LoadingModalModule,
+    NoItemsModule,
     CompanyDocumentsPageRoutingModule
   ],
   declarations: [CompanyDocumentsPage]

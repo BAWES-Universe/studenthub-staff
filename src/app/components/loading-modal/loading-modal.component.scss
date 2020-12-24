@@ -1057,3 +1057,121 @@
   }
 
 }
+.contact-list {
+
+  h4 ion-skeleton-text {
+    width: 21%;
+    height: 10px;
+  }
+  h2 ion-skeleton-text {
+    height: 20px;
+    width: 36%;
+  }
+  ion-icon {
+    float: left;
+    color: #000;
+    font-size: 19px;
+  }
+  p {
+    a ion-skeleton-text {
+      width: 30%;
+      margin-left: 32px;
+      }
+  }
+  ion-badge{
+    background-color: #f2f2f2;
+    color: #000;
+    border-radius: 2px;
+    width: 25%;
+    padding: 0;
+    margin: 0;
+    margin-right: 15px;
+    ion-skeleton-text {
+      padding: 0;
+      margin: 0;
+      height: 24px;
+    }
+  }
+  .counts {
+    margin-top: 17px;
+  }
+}
+.brand-list {
+  h1 {
+    width: 38%;
+    margin-left: 15px;
+    margin-top: 0;
+    height: 20px;
+  }
+}
+
+.company-file-list {
+
+
+  .document {
+    --border-radius: 5px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08), 2px 0 4px 0 rgba(0, 0, 0, 0.12);
+    background-color: #ffffff;
+    margin: 0 0 13.5px;
+
+
+    .icon {
+      width: 24px;
+      height: 24px;
+      margin: 3px 120px 5px 0;
+      object-fit: contain;
+    }
+
+    .meta-data {
+      margin: 0 6px 0 120px;
+      padding: 1px 9px 2px;
+      background-color: #f2f2f2;
+      float: right;
+      margin-left: 6px;
+      width: 12%;
+    }
+  }
+  h5 ion-skeleton-text {
+    height: 16px;
+    width: 40%;
+  }
+  .document-detail ion-skeleton-text {
+    margin-top: 15px;
+    height: 38px;
+    width: 40%;
+  }
+  .date ion-skeleton-text {
+    margin-top: 19px;
+    width: 26%;
+  }
+}
+.transfer-list {
+  ion-list {
+    background: transparent;
+  }
+  h1 {
+    width: 16%;
+  }
+  h2 {
+    width: 28%;
+    height: 18px;
+  }
+  h3 {
+    width: 31%;
+  }
+  h4 {
+    width: 46%;
+  }
+}
+.chart {
+  p ion-skeleton-text {
+      height: 202px;
+      margin-top: 18px;
+  }
+  small ion-skeleton-text {
+    width: 14%;
+    float: left;
+    margin-right: 12px;
+    height: 17px;
+  }
+}
