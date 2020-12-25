@@ -1,14 +1,6 @@
 <ion-header [class.mobile-tab]="platform.is('mobile')" [class.browser-tab]="!platform.is('mobile')">
   <ion-toolbar class="main-toolbar">
 
-    <!-- to fix: https://www.pivotaltracker.com/story/show/170232399 -->
-
-    <ion-buttons slot="start" class="dummy-btn-wrapper" *ngIf="authService.isLogin">
-      <ion-button class="setting-btn skip-hover" (click)="logout()">
-        Logout
-      </ion-button>
-    </ion-buttons>
-
     <div class="brand desktop">
       <img src="assets/icon/logo.png">
     </div>
@@ -17,11 +9,6 @@
       <img src="assets/icon/logo.png">
     </div>
     
-    <ion-buttons class="lang-btn" slot="end" *ngIf="authService.isLogin ">
-      <ion-button class="setting-btn skip-hover" (click)="logout()">
-        Logout
-      </ion-button>
-    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 <ion-content>
