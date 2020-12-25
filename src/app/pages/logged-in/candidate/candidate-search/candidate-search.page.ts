@@ -609,7 +609,8 @@ export class CandidateSearchPage implements OnInit {
   logScrolling(e) {
     this.borderLimit = (e.detail.scrollTop > 20);
   }
+  
   allCandidate() {
-    return this.navCtrl.navigateForward('/candidate-list');
+    this.navCtrl.navigateForward('/candidate-list');
   }
 }

@@ -1,0 +1,102 @@
+<ion-header [class.mobile-tab]="platform.is('mobile')" [class.browser-tab]="!platform.is('mobile')">
+  <ion-toolbar class="main-toolbar">
+
+    <!-- to fix: https://www.pivotaltracker.com/story/show/170232399 -->
+
+    <ion-buttons slot="start" class="dummy-btn-wrapper" *ngIf="authService.isLogin">
+      <ion-button class="setting-btn skip-hover" (click)="logout()">
+        Logout
+      </ion-button>
+    </ion-buttons>
+
+    <div class="brand desktop">
+      <img src="assets/icon/logo.png">
+    </div>
+
+    <div class="brand mobile">
+      <img src="assets/icon/logo.png">
+    </div>
+    
+    <ion-buttons class="lang-btn" slot="end" *ngIf="authService.isLogin ">
+      <ion-button class="setting-btn skip-hover" (click)="logout()">
+        Logout
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+
+  <ion-tabs #tabRef>
+
+    <ion-tab-bar slot="top" *ngIf="!platform.is('mobile')">
+   
+      <ion-tab-button tab="tasks" layout="icon-start">
+        <ion-icon name="stats-chart-outline"></ion-icon>
+        <ion-label>{{ 'Tasks' | translate }}</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button tab="candidate-search" layout="icon-start">
+        <ion-icon name="person-outline"></ion-icon>
+        <ion-label>{{ 'Candidates [Beta]' | translate }}</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button tab="fulltimer-search" layout="icon-start">
+        <ion-icon name="person-outline"></ion-icon>
+        <ion-label>{{ 'Fulltimer' | translate }}</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button tab="company-list" layout="icon-start">
+        <ion-icon name="earth-outline"></ion-icon>
+        <ion-label>{{ 'Clients' | translate }}</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button tab="company-request-dashboard" layout="icon-start">
+        <ion-icon name="chatbubble-outline"></ion-icon>
+        <ion-label>{{ 'Requests' | translate }}</ion-label>
+        <ion-badge>{{ totalRequest }}</ion-badge>
+      </ion-tab-button>
+      
+      <ion-tab-button tab="report-list" layout="icon-start">
+        <ion-icon name="newspaper-outline"></ion-icon>
+        <ion-label>{{ 'Reports' | translate }}</ion-label>
+      </ion-tab-button>
+
+    </ion-tab-bar>
+
+    <ion-tab-bar slot="bottom" class="mobile" *ngIf="platform.is('mobile')">
+
+      <ion-tab-button tab="tasks">
+        <ion-icon name="stats-chart-outline"></ion-icon>
+        <ion-label>{{ 'Tasks' | translate }}</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button tab="candidate-search">
+        <ion-icon name="person-outline"></ion-icon>
+        <ion-label>{{ 'Candidates [Beta]' | translate }}</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button tab="fulltimer-search">
+        <ion-icon name="person-outline"></ion-icon>
+        <ion-label>{{ 'Fulltimer' | translate }}</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button tab="company-list">
+        <ion-icon name="earth-outline"></ion-icon>
+        <ion-label>{{ 'Clients' | translate }}</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button tab="company-request-dashboard">
+        <ion-icon name="chatbubble-outline"></ion-icon>
+        <ion-label>{{ 'Requests' | translate }}</ion-label>
+        <ion-badge>{{ totalRequest }}</ion-badge>
+      </ion-tab-button>
+      
+      <ion-tab-button tab="report-list">
+        <ion-icon name="newspaper-outline"></ion-icon>
+        <ion-label>{{ 'Reports' | translate }}</ion-label>
+      </ion-tab-button>
+
+    </ion-tab-bar>
+  </ion-tabs>
+</ion-content>
+

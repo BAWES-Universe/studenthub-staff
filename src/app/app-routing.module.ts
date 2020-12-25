@@ -7,9 +7,8 @@ import { SelectiveLoadingStrategy } from './util/SelectiveLoadingStrategy';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: '/default',
-    pathMatch: 'full'
-  },
+    loadChildren: () => import('./pages/logged-in/tabs/tabs.module').then(m => m.TabsPageModule)
+  }, 
   {
     path: 'login',
     loadChildren: () => import('./pages/start-pages/login/login.module').then(m => m.LoginPageModule),
@@ -135,14 +134,6 @@ const routes: Routes = [
     }
   },
   {
-    path: 'default',
-    loadChildren: () => import('./pages/logged-in/default/default.module').then(m => m.DefaultPageModule),
-    canActivate: [AuthService],
-    data: {
-      name: 'DefaultPage'
-    }
-  },
-  {
     path: 'no-internet',
     loadChildren: () => import('./pages/errors/no-internet/no-internet.module').then(m => m.NoInternetPageModule),
     data: {
@@ -164,23 +155,6 @@ const routes: Routes = [
     }
   },
   {
-    path: 'company-list',
-    loadChildren: () => import('./pages/logged-in/company/company-list/company-list.module').then(m => m.CompanyListPageModule),
-    canActivate: [AuthService],
-    data: {
-      name: 'CompanyListPage',
-    }
-  },
-  {
-    path: 'candidate-search',
-    loadChildren: () => import('./pages/logged-in/candidate/candidate-search/candidate-search.module').then(m => m.CandidateSearchPageModule),
-    canActivate: [AuthService],
-    data: {
-      name: 'CandidateSearchPage',
-      navDisable: true,
-    }
-  },
-  {
     path: 'company-view',
     loadChildren: () => import('./pages/logged-in/company/company-view/company-view.module').then(m => m.CompanyViewPageModule),
     canActivate: [AuthService],
@@ -195,14 +169,6 @@ const routes: Routes = [
     canActivate: [AuthService],
     data: {
       name: 'CandidateReviewListPage',
-    }
-  },
-  {
-    path: 'company-followup-list',
-    loadChildren: () => import('./pages/logged-in/company/company-followup-list/company-followup-list.module').then(m => m.CompanyFollowupListPageModule),
-    canActivate: [AuthService],
-    data: {
-      name: 'CompanyFollowupListPage',
     }
   },
   {
@@ -302,10 +268,6 @@ const routes: Routes = [
     loadChildren: () => import('./pages/logged-in/candidate/candidate-committed-form/candidate-committed-form.module').then( m => m.CandidateCommittedFormPageModule)
   },
   {
-    path: 'company-request-dashboard',
-    loadChildren: () => import('./pages/logged-in/company/company-request-dashboard/company-request-dashboard.module').then( m => m.CompanyRequestDashboardPageModule)
-  },
-  {
     path: 'team-list',
     loadChildren: () => import('./pages/logged-in/team/team-list/team-list.module').then( m => m.TeamListPageModule),
     canActivate: [AuthService],
@@ -321,15 +283,7 @@ const routes: Routes = [
       name: 'TeamViewPage'
     }
   },
-  {
-    path: 'fulltimer-search',
-    loadChildren: () => import('./pages/logged-in/fulltimer/fulltimer-search/fulltimer-search.module').then( m => m.FulltimerSearchPageModule),
-    canActivate: [AuthService],
-    data: {
-      name: 'FulltimerSearchPage',
-      navDisable: true
-    }
-  },
+
   {
     path: 'fulltimer',
     loadChildren: () => import('./pages/logged-in/fulltimer/fulltimer-view/fulltimer-view.module').then( m => m.FulltimerViewPageModule),
@@ -392,14 +346,6 @@ const routes: Routes = [
   {
     path: 'fulltimer-notes',
     loadChildren: () => import('./pages/logged-in/fulltimer/fulltimer-notes/fulltimer-notes.module').then( m => m.FulltimerNotesPageModule)
-  },
-  {
-    path: 'report-list',
-    loadChildren: () => import('./pages/logged-in/report-list/report-list.module').then( m => m.ReportListPageModule),
-    canActivate: [AuthService],
-    data: {
-      name: 'ReportPageList'
-    }
   },
   {
     path: '**',

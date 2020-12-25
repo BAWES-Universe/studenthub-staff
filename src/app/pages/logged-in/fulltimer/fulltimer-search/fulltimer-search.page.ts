@@ -121,6 +121,10 @@ export class FulltimerSearchPage implements OnInit {
     this.showFilter = !this.showFilter;
   }
 
+  allFulltimers() {
+    this.navCtrl.navigateForward('/fulltimer-list');
+  }
+
   ionViewDidEnter() {
 
     if (!this.instantSearchConfig) { // on first time app load

@@ -1,9 +1,6 @@
 <ion-header [class.add-border]="borderLimit" class="ion-no-border">
   <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-    <ion-title>Requests</ion-title>
+    <ion-title>Active Requests</ion-title>
     <ion-buttons slot="end">
       <ion-button routerLink="/company-request-list">View Older</ion-button>
     </ion-buttons>
@@ -11,8 +8,6 @@
 </ion-header>
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
-
-  <h2 class="heading-request" id="heading-active-request" *ngIf="activeRequests.length > 0">Active Requests</h2>
 
   <request-listing *ngFor="let request of activeRequests" tappable (click)="requestDetail(request)"
                        [request]="request" [showStatus]="false" ></request-listing>

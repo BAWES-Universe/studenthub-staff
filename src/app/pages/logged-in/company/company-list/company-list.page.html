@@ -13,6 +13,7 @@
 </ion-header>
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
+
   <div class="content">
     <h1>Clients</h1>
     <ion-badge tappable color="primary" (click)="filterByStatus($event, 4)" [class.active]="filters.status == 4">All clients</ion-badge>
@@ -22,6 +23,7 @@
   </div>
 
   <ion-searchbar debounce="500" placeholder="Type to search" (ionChange)="searchByName($event)"></ion-searchbar>
+  
   <ion-list>
     <section>
       <app-company [company]="company" *ngFor="let company of companies" (click)="rowSelected(company)"></app-company>

@@ -193,7 +193,7 @@ applied-filters {
         //background: white;
         position: fixed;
         height: 100%;
-        top: 55px;
+        top: 120px;
         overflow: scroll;
         padding-bottom: 100px !important;
     }
@@ -211,18 +211,30 @@ applied-filters {
     margin: 20px 12px;
 }
 
-.btn-filter {
-    --padding-bottom: 7px;
-    font-size: 17px;
-    color: #f24459; 
-    font-weight: 400;
+.btn-wrapper {
+    text-align: right;
     display: block;
+}
 
-    img {
-        position: relative;
-        top: 7px;
-        display: inline-block;
-    }
+.btn-filter,
+.btn-all-candidates {
+    font-size: 18px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: left;
+    text-transform: none;
+    display: inline-block;
+}
+
+.btn-filter {
+    color: #f24459;
+}
+
+.btn-all-candidates {    
+    color: #2f80ed;
 }
 
 @keyframes swipeIn {
@@ -343,3 +355,27 @@ applied-filters {
 ion-card-title {
     text-transform: capitalize;
 }
+
+ion-footer {
+    box-shadow: 0 -4px 4px 0 rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+  
+    ion-button {
+      height: 53px;
+      width: calc(100% - 24px);
+      font-family: Effra;
+      font-size: 16px;
+      font-weight: bold;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: 1.65;
+      letter-spacing: normal;
+      text-align: center;
+      text-transform: none;
+      margin: 12px 10px;
+      --color: #ffffff;
+      --border-radius: 5px;
+      --background: #333333;
+    }
+  }
+  

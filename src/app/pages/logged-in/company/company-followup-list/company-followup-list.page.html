@@ -1,21 +1,14 @@
 <ion-header [class.add-border]="borderLimit" class="ion-no-border">
   <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="/"></ion-back-button>
-
-    </ion-buttons>
-
     <ion-title>Company followups</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
 
-  <ion-list>
-    <app-company [company]="company" *ngFor="let company of companies" page="follow" (click)="rowSelected(company)"></app-company>
-    <loading-modal [loading]="loading" type="text-list"></loading-modal>
+  <app-company [company]="company" *ngFor="let company of companies" page="follow" (click)="rowSelected(company)"></app-company>
 
-  </ion-list>
+  <loading-modal [loading]="loading" type="text-list"></loading-modal>
 
   <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
     <ion-infinite-scroll-content></ion-infinite-scroll-content>

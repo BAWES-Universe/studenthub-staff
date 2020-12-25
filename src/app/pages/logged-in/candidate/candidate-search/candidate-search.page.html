@@ -1,25 +1,16 @@
-<ion-header [class.add-border]="borderLimit" class="ion-no-border" [attr.dir]="translateService.direction()">
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button text="{{ 'Back' | translate }}" *ngIf="showFilter" (click)="dismiss()"></ion-back-button>
-      <ion-back-button text="{{ 'Back' | translate }}" *ngIf="!showFilter" defaultHref="/"></ion-back-button>
-    </ion-buttons>
-
-    <ion-buttons slot="end">
-      <ion-button (click)="openFilter()" class="btn-filter skip-hover mobile-only"  fill="clear"  *ngIf="!loading && nbHits > 0 && !showFilter">
-        <span>
-            <img src="assets/images/ic-filter.svg"> {{ "Filter" | translate }}
-        </span>
-      </ion-button>
-      <ion-button fill="clear" (click)="allCandidate()">
-        All Candidates
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
 
 <ion-content #container scrollEvents="true" (ionScroll)="logScrolling($event)" class="source-browser-page" [attr.dir]="translateService.direction()">
 
+  <div class="btn-wrapper">
+    <!-- !loading && nbHits > 0 &&  -->
+    <ion-button (click)="openFilter()" class="btn-filter skip-hover mobile-only"  fill="clear"  *ngIf="!showFilter">
+      <ion-icon slot="start" src="assets/images/ic-filter.svg"></ion-icon> Filter
+    </ion-button>
+    <ion-button fill="clear" class="btn-all-candidates" (click)="allCandidate()">
+      All Candidates
+    </ion-button>
+  </div>
+  
   <!-- loader when config not available -->
 
   <ion-grid *ngIf="!instantSearchConfig" class="dummy">
