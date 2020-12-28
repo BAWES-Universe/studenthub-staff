@@ -93,7 +93,7 @@ export class AppComponent implements OnInit {
 
     // On Login Event, set root to Internal app page
     this.eventService.userLogined$.subscribe(userEventData => {
-      this.navCtrl.navigateRoot(['/default']);
+      this.navCtrl.navigateRoot(['/view/tasks']);
     });
 
     this.eventService.error500$.subscribe(userEventData => {
