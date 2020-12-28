@@ -37,6 +37,6 @@ export class ServerErrorPage implements OnInit {
    * Open dashboard
    */
   dashboard() {
-    this.router.navigate(['/default']);
+    this.router.navigate(['/view/tasks']);
   }
 }
