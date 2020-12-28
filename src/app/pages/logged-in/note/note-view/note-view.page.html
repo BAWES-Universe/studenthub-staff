@@ -7,10 +7,17 @@
     <ion-title>Note</ion-title>
 
     <ion-buttons slot="end">
+      
       <ion-button (click)="edit()">
         <ion-icon slot="start" name="pencil-outline"></ion-icon>
         Edit
       </ion-button>
+
+      <ion-button (click)="delete()">
+        <ion-icon slot="start" name="trash-outline"></ion-icon>
+        Delete
+      </ion-button>
+
     </ion-buttons>
 
   </ion-toolbar>
@@ -76,21 +83,3 @@
   <loading-modal [loading]="loading" type="text-list"></loading-modal>
 
 </ion-content>
-<ion-footer>
-  <ion-grid>
-    <ion-row>
-      <ion-col>
-        <ion-button (click)="edit()">
-          <ion-icon slot="start" name="pencil-outline"></ion-icon>
-          Edit
-        </ion-button>
-      </ion-col>
-      <ion-col>
-        <ion-button (click)="delete()">
-          <ion-icon slot="start" name="trash-outline"></ion-icon>
-          Delete
-        </ion-button>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-</ion-footer>

@@ -8,8 +8,15 @@
 
     <ion-buttons slot="end">
       <ion-button (click)="update()">
+        <ion-icon slot="start" name="pencil-outline"></ion-icon>
         Update
       </ion-button>
+
+      <ion-button (click)="delete($event, mall)">
+        <ion-icon slot="start" name="trash-outline"></ion-icon>
+        Delete
+      </ion-button>
+
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -50,9 +57,3 @@
   <loading-modal [loading]="loading" type="candidate-list"></loading-modal>
 
 </ion-content>
-<ion-footer>
-  <ion-button expand="full" (click)="delete($event, mall)">
-    Delete
-  </ion-button>
-</ion-footer>
-
