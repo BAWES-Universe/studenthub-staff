@@ -21,7 +21,6 @@ export class CountryListPage implements OnInit {
 
   public loading = false;
   public countries: Country[];
-  public country_id = null;
 
   constructor(
     public navCtrl: NavController,
@@ -31,8 +30,6 @@ export class CountryListPage implements OnInit {
   }
 
   ngOnInit() {
-    this.country_id = this.activatedRoute.snapshot.paramMap.get('id');
-
     this.loadData(this.currentPage);
   }
 

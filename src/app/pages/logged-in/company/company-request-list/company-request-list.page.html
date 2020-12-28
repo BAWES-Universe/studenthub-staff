@@ -57,14 +57,18 @@
     </ion-card-content>
 
     <ion-card-header>
-      <ion-button (click)="list(1);">Submit</ion-button>
+      <ion-button (click)="list();">Submit</ion-button>
       <ion-button (click)="resetFilter();" color="secondary">Reset</ion-button>
     </ion-card-header>
   </ion-card>
 
   <ion-list class="ion-padding">
+    
     <request-listing *ngFor="let request of requests" tappable (click)="requestDetail(request)"
                      [request]="request" [showStatus]="false"></request-listing>
+
+    <loading-modal [loading]="loading" type="request-list"></loading-modal>
+                      
   </ion-list>
 
   <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">

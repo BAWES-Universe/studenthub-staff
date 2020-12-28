@@ -21,7 +21,7 @@ import { BrandFormPage } from '../brand-form/brand-form.page';
 export class BrandViewPage implements OnInit {
 
   public brand: Brand;
-  public brandID = null;
+  public brand_uuid = null;
   public loading = false;
   public deleting = false;
 
@@ -34,14 +34,16 @@ export class BrandViewPage implements OnInit {
     public aws: AwsService,
     private brandService: BrandService,
     private alertCtrl: AlertController,
-    private toastCtrl: ToastController,
     private location: Location,
     private eventService: EventService,
   ) {
   }
 
   ngOnInit() {
-    this.brandID = this.activatedRoute.snapshot.paramMap.get('id');
+
+    if(!this.brand_uuid)
+      this.brand_uuid = this.activatedRoute.snapshot.paramMap.get('id');
+
     this.loadData();
   }
 
@@ -73,7 +75,7 @@ export class BrandViewPage implements OnInit {
    */
   loadData() {
     this.loading = true;
-    this.brandService.view(this.brandID).subscribe(response => {
+    this.brandService.view(this.brand_uuid).subscribe(response => {
       this.loading = false;
       this.brand = response;
     });
@@ -111,6 +113,7 @@ export class BrandViewPage implements OnInit {
 
             this.brandService.delete(brand).subscribe(async jsonResp => {
               this.eventService.reloadBrand$.next();
+              this.eventService.reloadStats$.next();
               // On Success
               if (jsonResp.operation == 'success') {
                 this.location.back();

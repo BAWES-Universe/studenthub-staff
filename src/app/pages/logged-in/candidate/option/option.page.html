@@ -1,20 +1,18 @@
 <ion-content [attr.dir]="translateService.direction()">
-  <ion-list *ngIf="candidate">
 
-    <ion-item [disabled]="sendingPassword" (click)="resetPassword()" tappable>
-      <div tabindex="0"></div>
-      <span *ngIf="!sendingPassword">Send password reset email to candidate</span>
-      <ion-spinner *ngIf="sendingPassword"></ion-spinner>
-    </ion-item>
+  <ion-item [disabled]="sendingPassword" (click)="resetPassword()" tappable>
+    <div tabindex="0"></div>
+    <span *ngIf="!sendingPassword">Send password reset email to candidate</span>
+    <ion-spinner *ngIf="sendingPassword"></ion-spinner>
+  </ion-item>
 
-    <ng-container *ngIf="candidate && candidate.store_id && candidate.store && !assigning">
-      <ion-item *ngIf="!unassinging && candidate.store" (click)="unassignCandidateFromStore()" tappable>
-        <div tabindex="0"></div>
-        Unassign candidate from {{ candidate.store.store_name }}
-      </ion-item>
-      <ion-spinner *ngIf="unassinging"></ion-spinner>
-    </ng-container>
-  </ion-list>
+  <ion-item tappable (click)="toggleCommitted()">
+    <div tabindex="0"></div>
+    <ion-label>
+      <span *ngIf="candidate.candidate_committed">Mark candidate as not committed</span>
+      <span *ngIf="!candidate.candidate_committed">Mark candidate as committed</span>
+    </ion-label>
+  </ion-item>
 
   <ng-container *ngIf="candidate && !candidate.candidate_job_search_status && candidate.isProfileCompleted">
     <ion-item [disabled]="updatingJobSearchStatus" (click)="toggleJobSearchStatus('mark_as_looking')" tappable>
@@ -64,16 +62,5 @@
     </span>
   </ion-item>
 
-  <ion-item (click)="exportCV()" tappable *ngIf="candidate">
-    <div tabindex="0"></div>
-    <ion-spinner *ngIf="exportingCV"></ion-spinner>
-    <span *ngIf="!exportingCV">
-      Export CV as PDF
-    </span>
-  </ion-item>
-
-  <ion-item (click)="suggest()" tappable *ngIf="candidate">
-    Suggest this candidate
-  </ion-item>
 
 </ion-content>

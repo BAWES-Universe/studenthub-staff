@@ -36,31 +36,10 @@ export class CompanyRequestService {
   }
 
   /**
-   * load pending requests
-   */
-  listPendingRequests() : Observable<any> {
-    const url = this.companyRequestEndpoint + '/pending?expand=staff,lastActivity,lastActivity.createdBy,company';
-    return this.authhttp.get(url);
-  }
-
-  /**
-   * requests managed by current user
-   */
-  listMyRequests() : Observable<any> {
-    const url = this.companyRequestEndpoint + '/my?expand=staff,lastActivity,lastActivity.createdBy,company';
-    return this.authhttp.get(url);
-  }
-
-  /**
    * requests started/active but not by login user
    */
-  listActiveRequests(excludeMyRequests = false) : Observable<any> {
-    let url = this.companyRequestEndpoint + '/active?expand=staff,lastActivity,lastActivity.createdBy,company';
-    
-    if(excludeMyRequests) {
-      url += '&excludeMyRequests=' + excludeMyRequests;
-    }
-    
+  listActiveRequests(filterParams = '') : Observable<any> {
+    let url = this.companyRequestEndpoint + '/active?' + filterParams + '&expand=staff,lastActivity,lastActivity.createdBy,company';
     return this.authhttp.get(url);
   }
 
@@ -77,15 +56,6 @@ export class CompanyRequestService {
       number_of_employees: model.request_number_of_employees,
       additional_info: model.request_additional_info
     });
-  }
-
-  /**
-   * start request
-   * @param model
-   */
-  start(model: Request): Observable<any> {
-    const url = `${this.companyRequestEndpoint}/start/${model.request_uuid}`;
-    return this.authhttp.patch(url, {});
   }
 
   /**
@@ -108,15 +78,6 @@ export class CompanyRequestService {
     return this.authhttp.patch(url, {
       feedback: model.request_feedback
     });
-  }
-
-  /**
-   * deliver request
-   * @param model
-   */
-  pickup(model: Request): Observable<any> {
-    const url = `${this.companyRequestEndpoint}/pick-up/${model.request_uuid}`;
-    return this.authhttp.patch(url, {});
   }
 
   /**

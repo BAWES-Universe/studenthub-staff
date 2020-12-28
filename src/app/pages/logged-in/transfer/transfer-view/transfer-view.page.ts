@@ -1,12 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from "@angular/router";
-import { AlertController, LoadingController, NavController, ToastController } from "@ionic/angular";
+import { AlertController, LoadingController, ModalController, NavController, ToastController } from "@ionic/angular";
 //models
 import { Transfer } from "src/app/models/transfer";
 import { Invoice } from "src/app/models/invoice";
 //service
 import { TransferService } from "src/app/providers/logged-in/transfer.service";
 import { AwsService } from 'src/app/providers/aws.service';
+//pages
+import { TransferFormPage } from '../transfer-form/transfer-form.page';
+import { ImportTransferFormPage } from '../import-transfer-form/import-transfer-form.page';
 
 
 @Component({
@@ -16,8 +19,7 @@ import { AwsService } from 'src/app/providers/aws.service';
 })
 export class TransferViewPage implements OnInit {
 
-  public transfer_id;
-  public transferDetails: Transfer;
+  public transfer: Transfer;
   public invoices: Invoice[] = []; // unpaid invoices
   public receipts: Invoice[] = []; // paid invoices
   public loading = false;
@@ -25,19 +27,23 @@ export class TransferViewPage implements OnInit {
   public transferStatus = '';
   public transferStatusDescription = '';
 
+  public transfer_id;
+
   constructor(
     public navCtrl: NavController,
     public aws: AwsService,
     public transferService: TransferService,
     private _loadingCtrl: LoadingController,
+    public modalCtrl: ModalController,
     public activatedRoute: ActivatedRoute,
     public alertCtrl: AlertController,
     public _toastCtrl: ToastController
   ) {
-    this.transfer_id = this.activatedRoute.snapshot.paramMap.get('id');
   }
 
   ngOnInit() {
+    this.transfer_id = this.activatedRoute.snapshot.paramMap.get('id');
+
     this.loadData();
   }
 
@@ -52,7 +58,8 @@ export class TransferViewPage implements OnInit {
     this.loading = true;
 
     this.transferService.transferIdDetails(this.transfer_id).subscribe(response => {
-      this.transferDetails = response;
+      
+      this.transfer = response;
       
       this._updateTransferStatus();
 
@@ -74,7 +81,7 @@ export class TransferViewPage implements OnInit {
    * Update transfer status and description based on return value from API
    */
   private _updateTransferStatus() {
-    switch (this.transferDetails.transfer_status) {
+    switch (this.transfer.transfer_status) {
       case 10: // Draft
         this.transferStatus = 'Transfer Draft';
         this.transferStatusDescription = '\'Lock Transfer\' once you are done inputting hours worked by your assigned employees. Invoices will be sent to you after lock.';
@@ -189,15 +196,53 @@ export class TransferViewPage implements OnInit {
     return (2 * Number(hours)) + Number(bonus) + Number(transfer_cost);
   }
 
+  async importTransfer(transfer: Transfer) {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
+    const modal = await this.modalCtrl.create({
+      component: ImportTransferFormPage,
+      componentProps: {
+        transfer: transfer,
+      }
+    });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+
+      if(e.data && e.data.refresh) {
+        this.loadData();
+      }
+    });
+    modal.present();
+  }
+
   /**
    * Load the Transfer form page to edit the transfer details
    */
-  edit(transferDetails: any) {
-    this.navCtrl.navigateForward('transfer-form/' + transferDetails.company_id + '/' + transferDetails.transfer_id, {
-      state: {
-        model: transferDetails
+  async edit(transfer: any) {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
+    const modal = await this.modalCtrl.create({
+      component: TransferFormPage,
+      componentProps: {
+        transfer: transfer,
       }
     });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+
+      if(e.data && e.data.refresh) {
+        this.loadData();
+      }
+    });
+    modal.present();
   }
 
   /**
@@ -264,19 +309,8 @@ export class TransferViewPage implements OnInit {
     return Number((candidate.company_hourly_rate * candidate.hours) + candidate.bonus).toFixed(3);
   }
 
-  importTransfer(transfer: Transfer) {
-    this.navCtrl.navigateForward('import-transfer-form/' + transfer.company_id + '/' + transfer.transfer_id, {
-      state: {
-        transfer
-      }
-    });
-  }
-
   back() {
-    if(this.transferDetails)
-      return this.navCtrl.navigateBack('/company-view/' + this.transferDetails.company_id);
-
-    this.navCtrl.pop();
+    this.modalCtrl.dismiss();
   }
 
   loadLogo($event, candidate) {

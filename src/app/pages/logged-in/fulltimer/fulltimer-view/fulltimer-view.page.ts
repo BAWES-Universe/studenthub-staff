@@ -1,22 +1,18 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { AlertController, ModalController, NavController, Platform, PopoverController } from '@ionic/angular';
-import { ActivatedRoute } from '@angular/router';
-import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { ModalController, NavController } from '@ionic/angular';
+import { ActivatedRoute, Router } from '@angular/router';
 // services
 import { FulltimerService } from 'src/app/providers/logged-in/fulltimer.service';
 import { AwsService } from 'src/app/providers/aws.service';
 import { NoteService } from '../../../../providers/logged-in/note.service';
-import { AuthService } from '../../../../providers/auth.service';
 import { EventService } from 'src/app/providers/event.service';
 // models
 import { Fulltimer } from 'src/app/models/fulltimer';
 import { Note } from 'src/app/models/note';
+import { SuggestPage } from "../../suggest/suggest.page";
 // pages
 import { FulltimerFormPage } from '../fulltimer-form/fulltimer-form.page';
-import { AllCompanyListPage } from '../../company/company-request-list/all-company-list/all-company-list.page';
-import { CompanyRequestListPopupPage } from "../../company/company-request-list/company-request-list-popup/company-request-list-popup.page";
-import { SuggestPage } from "../../suggest/suggest.page";
+import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 
 
 @Component({
@@ -26,45 +22,26 @@ import { SuggestPage } from "../../suggest/suggest.page";
 })
 export class FulltimerViewPage implements OnInit {
 
-  @ViewChild('ckeditor') ckeditor;
-
   public borderLimit = false;
 
   public fulltimer_uuid: string;
+
   public fulltimer: Fulltimer;
+
   public loading = false;
-  public sections = 'personal';
 
   public notes: Note[] = [];
 
-  public editorFocused = false;
-  public deletingNote = false;
-  public editNoteData: Note = new Note();
-
-  public editorConfig = {
-    placeholder: 'Click here to take notes...',
-    toolbar: ['Heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', '|', 'indent', 'outdent'],
-  };
-
-  public Editor = ClassicEditor;
-  public addingNote = false;
-  public noteForm: FormGroup;
-
-  public company;
-
   constructor(
     public aws: AwsService,
+    public router: Router,
     private activatedRoute: ActivatedRoute,
     private fulltimerService: FulltimerService,
+    public translateService: TranslateLabelService,
     private modalCtrl: ModalController,
     private navCtrl: NavController,
-    private fb: FormBuilder,
-    public platform: Platform,
-    public alertCtrl: AlertController,
     public noteService: NoteService,
-    public authService: AuthService,
     public eventService: EventService,
-    public popoverCtrl: PopoverController
   ) { }
 
   ngOnInit() {
@@ -72,7 +49,6 @@ export class FulltimerViewPage implements OnInit {
 
     this.loadData();
     this.loadNotes(false);
-    this.initNoteForm();
 
     this.eventService.noteUpdated$.subscribe((data: any) => {
       if(data.fulltimer_uuid == this.fulltimer_uuid) {
@@ -89,6 +65,24 @@ export class FulltimerViewPage implements OnInit {
     });
   }
 
+  openNotes() {
+    this.router.navigate(['fulltimer-notes', this.fulltimer_uuid], {
+      state: {
+        fulltimer: this.fulltimer
+      }
+    });
+  }
+
+  /**
+   * return area name
+   * @param area
+   * @param country
+   */
+  area(area, country) {
+    return this.translateService.langContent(area.area_name_en, area.area_name_ar) + ' ' +
+      this.translateService.langContent(country.country_name_en, country.country_name_ar);
+  }
+  
   /**
    * get candidate resume url
    */
@@ -134,48 +128,6 @@ export class FulltimerViewPage implements OnInit {
     this.borderLimit = (e.detail.scrollTop > 20);
   }
 
-  public segmentChanged($e) {
-    this.sections = $e.detail.value;
-  }
-
-  /**
-   * display editor on input focused for note
-   */
-  onEditorFocus() {
-    this.editorFocused = true;
-  }
-
-  /**
-   * on note editor change
-   * @param event
-   */
-  onChange(event) {
-
-    if (!event.editor) {
-      return event;
-    }
-
-    const data = event.editor.getData();
-
-    this.noteForm.controls.note.setValue(data);
-    this.noteForm.markAsDirty();
-    this.noteForm.updateValueAndValidity();
-  }
-
-  /**
-   * init form to add note
-   */
-  initNoteForm() {
-    this.noteForm = this.fb.group({
-      note: ['', Validators.required],
-      type: ['Internal Note', Validators.required],
-      company_name: [''],
-      company_id: [''],
-      request_uuid: [''],
-      request_name: [''],
-    });
-  }
-
   /**
    * Make date readable by Safari
    * @param date
@@ -194,138 +146,8 @@ export class FulltimerViewPage implements OnInit {
     const params = '&fulltimer_uuid=' + this.fulltimer_uuid;
 
     this.noteService.list(params).subscribe(async jsonResponse => {
-      this.notes = jsonResponse.body;
+      this.notes = jsonResponse;
     });
-  }
-
-  /**
-   * add new note for candidate
-   */
-  addNote() {
-    this.addingNote = true;
-
-    const model = new Note();
-    model.fulltimer_uuid = this.fulltimer.fulltimer_uuid;
-    model.note_text = this.noteForm.controls.note.value;
-    model.note_type = this.noteForm.controls.type.value;
-    model.request_uuid = this.noteForm.controls.request_uuid.value;
-    model.company_id = this.noteForm.controls.company_id.value;
-
-    this.noteService.create(model).subscribe(async jsonResponse => {
-
-      this.addingNote = false;
-
-      // On Success
-      if (jsonResponse.operation == 'success') {
-
-        this.editorFocused = false;
-        this.cancelAddNote();
-
-        this.loadNotes(false);
-      }
-
-      // On Failure
-      if (jsonResponse.operation == 'error') {
-        const prompt = await this.alertCtrl.create({
-          message: this.authService._processResponseMessage(jsonResponse),
-          buttons: ['Ok']
-        });
-        prompt.present();
-      }
-    }, () => {
-      this.editorFocused = false;
-      this.addingNote = false;
-    });
-  }
-
-  cancelAddNote() {
-    this.editNoteData = new Note();
-    this.noteForm.controls.note.setValue('');
-    this.ckeditor.editorInstance.setData('');
-    this.editorFocused = false;
-
-    this.noteForm.controls.type.setValue('Internal Note');
-    this.noteForm.controls.company_name.setValue('');
-    this.noteForm.controls.company_id.setValue('');
-    this.noteForm.controls.request_name.setValue('');
-    this.noteForm.controls.request_uuid.setValue('');
-  }
-
-
-  /**
-   * edit note
-   * @param note
-   */
-  async editNote(note: Note) {
-    this.editNoteData = note;
-    this.noteForm.controls.note.setValue(note.note_text);
-    this.ckeditor.editorInstance.setData(note.note_text);
-    this.editorFocused = true;
-
-    this.noteForm.controls.type.setValue(note.note_type);
-    if (note.company) {
-      this.noteForm.controls.company_name.setValue(note.company.company_name);
-      this.noteForm.controls.company_id.setValue(note.company.company_id);
-    }
-
-    if (note.request) {
-      this.noteForm.controls.request_name.setValue(note.request.request_position_title);
-      this.noteForm.controls.request_uuid.setValue(note.request.request_uuid);
-    }
-  }
-
-  async openClient(e) {
-    const popover = await this.modalCtrl.create({
-      component: AllCompanyListPage,
-    });
-    popover.onDidDismiss().then((_) => {
-
-      if (_ && _.data) {
-
-        this.company = _.data;
-        this.noteForm.controls.company_name.setValue(_.data.company_name);
-        this.noteForm.controls.company_id.setValue(_.data.company_id);
-        this.noteForm.controls.request_name.setValue(null);
-        this.noteForm.controls.request_uuid.setValue(null);
-      }
-    });
-    popover.present();
-  }
-
-  /**
-   * open popup to select contact
-   * @param e
-   */
-  async openRequest(e) {
-
-    let popover;
-
-    if (this.company) {
-      popover = await this.popoverCtrl.create({
-        component: CompanyRequestListPopupPage,
-        event: e,
-        componentProps: {
-          company: this.company
-        }
-      });
-    } else {
-      popover = await this.modalCtrl.create({
-        component: CompanyRequestListPopupPage
-      });
-    }
-
-    popover.onDidDismiss().then((_) => {
-      if (_ && _.data && _.data) {
-
-        if (!this.company || !this.company.company_id) {
-          this.noteForm.controls.company_name.setValue(_.data.company.company_name);
-          this.noteForm.controls.company_id.setValue(_.data.company.company_id);
-        }
-        this.noteForm.controls.request_name.setValue(_.data.request_position_title);
-        this.noteForm.controls.request_uuid.setValue(_.data.request_uuid);
-      }
-    });
-    popover.present();
   }
 
   /**

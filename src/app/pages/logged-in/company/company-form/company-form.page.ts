@@ -9,6 +9,7 @@ import { AuthService } from 'src/app/providers/auth.service';
 import { CompanyService } from 'src/app/providers/logged-in/company.service';
 // models
 import { Company } from 'src/app/models/company';
+import {EventService} from "../../../../providers/event.service";
 
 
 @Component({
@@ -44,18 +45,11 @@ export class CompanyFormPage implements OnInit {
     private _fb: FormBuilder,
     private _alertCtrl: AlertController,
     public modalCtrl: ModalController,
-    private _toastCtrl: ToastController
+    private _toastCtrl: ToastController,
+    private eventService: EventService
   ) { }
 
   ngOnInit() {
-
-    // Load the passed model if available
-    // if (window.history.state && window.history.state.model) {
-    //   this.model = window.history.state.model;
-    // }
-
-    // this.company_id = this.activateRoute.snapshot.paramMap.get('company_id');
-    // this.isSubCompany = parseInt(this.activateRoute.snapshot.paramMap.get('subcompany'));
 
     if (this.company_id && !this.model) {
       this.loadData(this.company_id);
@@ -175,6 +169,7 @@ export class CompanyFormPage implements OnInit {
     this.model.company_website = this.form.value.website;
     this.model.company_followup_interval_weeks = this.form.value.followup_interval_weeks;
     this.model.company_followup = this.form.value.followup;
+    this.model.company_logo = this.form.value.logo;
   }
 
   /**
@@ -209,7 +204,7 @@ export class CompanyFormPage implements OnInit {
 
       // On Success
       if (jsonResponse.operation == 'success') {
-
+        this.eventService.reloadStats$.next();
         // Close the page
         const data = { refresh: true };
         this.modalCtrl.dismiss(data);

@@ -48,7 +48,7 @@ export class CandidateService {
    * @returns {Observable<any>}
    */
   detail(id: number): Observable<any> {
-    return this._authhttp.get(this._candidateEndpoint + '/detail/' + id + '?expand=candidateIdCard,store,company,candidateSkills,candidateExperiences,bank,nationality,area,country,university,acceptanceRatio,rejectionRatio');
+    return this._authhttp.get(this._candidateEndpoint + '/detail/' + id + '?expand=candidateIdCard,store,company,candidateSkills,candidateExperiences,bank,nationality,area,country,university,suggestionAccepted,suggestionRejected,suggested');
   }
 
   /**
@@ -226,11 +226,11 @@ export class CandidateService {
 
   /**
    * Removes Candidate from Assigned store
-   * @param {any} candidate
-   * @returns {Observable<any>}
+   * @param candidate
+   * @param feedback
    */
-  removeFromAssignedStore(candidate: Candidate): Observable<any> {
-    const url = `${this._candidateEndpoint}/unassign/${candidate.candidate_id}`;
+  removeFromAssignedStore(candidate: Candidate, feedback: string): Observable<any> {
+    const url = `${this._candidateEndpoint}/unassign/${candidate.candidate_id}?feedback=${feedback}`;
     return this._authhttp.delete(url);
   }
 

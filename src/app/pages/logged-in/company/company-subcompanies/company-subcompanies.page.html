@@ -1,0 +1,32 @@
+<ion-header [class.add-border]="borderLimit" class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button (click)="dismiss()"></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="create()">
+        Add Subcompany
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
+
+  <ng-container *ngIf="company && company.subCompanies">
+    <h3 class="request-title">
+      Subcompanies
+    </h3>
+    <h4 class="company-name">
+      {{ (company.company_common_name_en) ?  company.company_common_name_en:company.company_name }}
+    </h4>
+    <ion-list>
+      <app-company [company]="company" *ngFor="let company of company.subCompanies" (click)="rowSelected(company)">
+      </app-company>
+    </ion-list>
+  </ng-container>
+  <no-items *ngIf="!loading && company.subCompanies && company.subCompanies.length ==0" message="~ No subcompany data ~"></no-items>
+
+  <loading-modal [loading]="loading" type="company-list"></loading-modal>
+
+</ion-content>

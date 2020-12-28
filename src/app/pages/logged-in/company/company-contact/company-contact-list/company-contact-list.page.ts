@@ -37,9 +37,13 @@ export class CompanyContactListPage implements OnInit {
   }
 
   ngOnInit() {
-    if (this.company && this.company.companyContacts) {
+ 
+    if (this.company && this.company.companyContacts) 
+    {
       this.contactList = this.company.companyContacts;
-    } else if (this.company) {
+    } 
+    else if (this.company) 
+    {
       this.loadCompanyContacts();
     } else {
       this.loadData();//load all contacts if no company given
@@ -47,7 +51,7 @@ export class CompanyContactListPage implements OnInit {
   }
 
   /**
-   * load company contacts 
+   * load company contacts
    */
   loadCompanyContacts() {
     this.loading = true;
@@ -59,16 +63,16 @@ export class CompanyContactListPage implements OnInit {
     this.companyContactService.companyContacts(this.company.company_id, this.query).subscribe(response => {
 
       this.loading = false;
-      
+
       this.contactList = response;
     },
-    () => { 
+    () => {
       this.loading = false;
     });
   }
 
   /**
-   * load all contacts 
+   * load all contacts
    */
   loadData() {
     this.loading = true;
@@ -85,14 +89,14 @@ export class CompanyContactListPage implements OnInit {
 
       this.contactList = response.body;
     },
-    () => { 
+    () => {
       this.loading = false;
     });
   }
 
   /**
-   * infinite loader on scroll 
-   * @param event 
+   * infinite loader on scroll
+   * @param event
    */
   doInfinite(event) {
     this.loading = true;
@@ -119,7 +123,7 @@ export class CompanyContactListPage implements OnInit {
 
   /**
    * close popup on selection
-   * @param companyContact 
+   * @param companyContact
    */
   dismiss(companyContact = null) {
 
@@ -133,18 +137,18 @@ export class CompanyContactListPage implements OnInit {
   }
 
   /**
-   * filter contacts 
-   * @param ev 
+   * filter contacts
+   * @param ev
    */
   filter(ev) {
-    
+
     //filter from all companies
 
     if(!this.company) {
       return this.loadData();
     }
 
-    //filter from given company 
+    //filter from given company
 
     this.loading = true;
 
@@ -158,7 +162,7 @@ export class CompanyContactListPage implements OnInit {
       this.loading = false;
     });
   }
-  
+
   logScrolling(e) {
     this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
   }

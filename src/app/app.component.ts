@@ -8,10 +8,7 @@ import { environment } from 'src/environments/environment';
 // services
 import { EventService } from './providers/event.service';
 import { AuthService } from './providers/auth.service';
-import { CandidateIdCardService } from './providers/logged-in/candidate.id.card.service';
 import { TranslateLabelService } from './providers/translate-label.service';
-import { CandidateService } from './providers/logged-in/candidate.service';
-import { StatisticService } from './providers/logged-in/statistic.service';
 
 
 const { SplashScreen } = Plugins;
@@ -25,21 +22,6 @@ export class AppComponent implements OnInit {
 
   public updatesAvailable = false;
 
-  public expiredIdCount = 0;
-
-  public assignedExpiredCivilID = 0;
-  public assignedIdleCandidates = 0;
-  public companyMoreThen40DaysWithoutPayment = 0;
-
-  public totalCandidateToReview = null;
-
-  public assignedIncompleteCandidates = null;
-
-  public candidateBankInfo = null;
-
-  public companyFollowUp: any = 0;
-  public totalRequest: any = 0;
-
   constructor(
     public updates: SwUpdate,
     public appRef: ApplicationRef,
@@ -51,9 +33,6 @@ export class AppComponent implements OnInit {
     public modalCtrl: ModalController,
     public authService: AuthService,
     public translateService: TranslateLabelService,
-    public candidateIdCardService: CandidateIdCardService,
-    public candidateService: CandidateService,
-    public statisticService: StatisticService,
   ) {
     this.initializeApp();
   }
@@ -94,8 +73,6 @@ export class AppComponent implements OnInit {
       if (this.platform.is('hybrid')) {
         SplashScreen.hide();
       }
-
-      this.loadStats();
 
       this.setServiceWorker();
     });
@@ -141,38 +118,6 @@ export class AppComponent implements OnInit {
         console.log(logoutReason);
       }
     });
-
-    this.eventService.expiredIdCard$.subscribe((data: { expiredIdCount: number, assignedExpiredCivilID: number } = null) => {
-      if(!data) {
-        return this.loadStats();
-      }
-
-      this.expiredIdCount = data.expiredIdCount;
-      this.assignedExpiredCivilID = data.assignedExpiredCivilID;
-    });
-
-    this.eventService.reviewRequired$.subscribe(() => {
-      this.loadStats();
-    });
-  }
-
-  /**
-   * update expired count
-   */
-  updateExpiredIdCount() {
-    this.candidateIdCardService.totalExpiredIds().subscribe(result => {
-      this.expiredIdCount = result.total;
-    });
-  }
-
-  /**
-   * remove candidate selection
-   */
-  clearCandidateSelection() {
-    this.candidateService.candidates = [];
-    this.candidateIdCardService.candidates = [];
-
-    this.eventService.clearCandidateSelection$.next();
   }
 
   /**
@@ -249,33 +194,5 @@ export class AppComponent implements OnInit {
    */
   onUpdateAlertClose() {
     this.updatesAvailable = false;
-  }
-
-
-  logout() {
-    this.authService.logout();
-  }
-
-  /**
-   * load current data
-   */
-  async loadStats() {
-
-    this.statisticService.get().subscribe(response => {
-
-      this.expiredIdCount = response.totalExpiredCards;
-
-      this.assignedIncompleteCandidates = response.incompleteAssignedToWork;
-      this.candidateBankInfo = response.missingBankInfo;
-      this.totalCandidateToReview = response.profileApprovalRequire;
-      this.companyFollowUp = response.requireFollowup;
-      this.assignedExpiredCivilID = response.assignedExpiredCivilID;
-      this.assignedIdleCandidates = response.assignedIdleCandidates;
-      this.totalRequest = response.totalRequests;
-      this.companyMoreThen40DaysWithoutPayment = response.companyMoreThen40DaysWithoutPayment;
-    },
-      error => { },
-      () => { }
-    );
   }
 }

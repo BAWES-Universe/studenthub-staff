@@ -9,6 +9,7 @@ import { SentryErrorhandlerService } from 'src/app/providers/sentry.errorhandler
 import { FilepickerService } from 'src/app/providers/logged-in/filepicker.service';
 import { AwsService } from 'src/app/providers/aws.service';
 import { CompanyService } from '../../../../providers/logged-in/company.service';
+import {EventService} from "../../../../providers/event.service";
 
 
 @Component({
@@ -21,12 +22,12 @@ export class UploadFilePage implements OnInit, OnDestroy {
   @ViewChild('fileInput', { static: false }) fileInput: ElementRef;
 
   @Input() file;
-  
+
   public borderLimit = false;
 
   public fileModel: File = new File();
   public company;
-  
+
   public progress = null;
   public form: FormGroup;
   public loading = false;
@@ -50,7 +51,8 @@ export class UploadFilePage implements OnInit, OnDestroy {
     public companyService: CompanyService,
     public sentryService: SentryErrorhandlerService,
     public filepickerService: FilepickerService,
-    public awsService: AwsService
+    public awsService: AwsService,
+    public eventService: EventService
   ) { }
 
   ngOnInit() {
@@ -187,7 +189,7 @@ export class UploadFilePage implements OnInit, OnDestroy {
 
     this.progress = 1; // show loader
 
-    this.browserUploadSubscription = this.awsService.uploadFile('_', fileList[0]).subscribe(event => {
+    this.browserUploadSubscription = this.awsService.uploadFile(fileList[0]).subscribe(event => {
       this._handleFileSuccess(event);
     },
       async err => {
@@ -300,7 +302,7 @@ export class UploadFilePage implements OnInit, OnDestroy {
 
       // On Success
       if (jsonResponse.operation == 'success') {
-
+        this.eventService.reloadStats$.next();
         // open view page
         this.dismiss({ refresh: true });
 
@@ -329,7 +331,7 @@ export class UploadFilePage implements OnInit, OnDestroy {
       }
     });
   }
-  
+
   logScrolling(e) {
     this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
   }

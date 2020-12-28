@@ -11,6 +11,7 @@ export class StoreIdPipe implements PipeTransform {
       value = [];
 
     value.forEach(function(o) {
+      
       var group = o.candidate.store.store_id;    
       groups[group] = groups[group] ?
          groups[group] : { name: o.candidate.store.store_name, resources: [] };

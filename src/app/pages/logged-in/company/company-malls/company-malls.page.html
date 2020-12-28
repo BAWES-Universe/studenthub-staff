@@ -1,0 +1,34 @@
+<ion-header [class.add-border]="borderLimit" class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button (click)="dismiss()"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
+
+  <ion-list *ngIf="company">
+    <h3 class="title">
+      Mall presence
+    </h3>
+    <h4 class="company-name">
+      {{ (company.company_common_name_en) ?  company.company_common_name_en:company.company_name }}
+    </h4>
+
+    <ion-item tappable (click)="mallSelected(mall)" *ngFor="let mall of company.malls" lines="none">
+      <div tabindex="0"></div>
+      <ion-label>
+        <h5>{{ mall.mall_name_en }}</h5>
+      </ion-label>
+
+      <ion-badge slot="end" color="light" *ngIf="mall.store_count > 0">
+        {{ mall.store_count }} stores
+      </ion-badge>
+      <ion-badge slot="end" color="light" *ngIf="mall.candidate_count > 0">
+        {{ mall.candidate_count }} staff
+      </ion-badge>
+    </ion-item>
+  </ion-list>
+  <no-items *ngIf="!loading && company.malls.length ==0" message="~ No mall data available ~"></no-items>
+</ion-content>

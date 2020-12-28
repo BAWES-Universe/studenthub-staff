@@ -25,17 +25,18 @@ export class NoteService {
 
     if(page) {
       url += '&page=' + page;
+      return this.authhttp.getRaw(url);
     }
 
-    return this.authhttp.getRaw(url);
+    return this.authhttp.get(url);
   }
 
   /**
-   * Return note detail 
+   * Return note detail
    * @param note
    */
   view(note): Observable<any> {
-    const url = this.noteEndpoint + '/' + note.note_uuid + '?expand=companyContact,request,company,createdBy,updatedBy';
+    const url = this.noteEndpoint + '/' + note.note_uuid + '?expand=companyContact,request,company,createdBy,updatedBy,candidate';
     return this.authhttp.get(url);
   }
 

@@ -144,6 +144,7 @@ export class AuthService {
     if (!silent) {
       this.eventService.userLoggedOut$.next(reason ? reason : false);
     }
+    
     Storage.set({
       key: 'cookieMessageWasApproved',
       value : (this.displayCookieMessage == '0') ? '1' : '0'

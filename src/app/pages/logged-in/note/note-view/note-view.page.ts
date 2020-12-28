@@ -2,12 +2,12 @@ import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AlertController, ModalController } from '@ionic/angular';
-//models
+// models
 import { Note } from 'src/app/models/note';
 import { EventService } from 'src/app/providers/event.service';
-//services
+// services
 import { NoteService } from 'src/app/providers/logged-in/note.service';
-//pages
+// pages
 import { CompanyNoteFormPage } from '../../company/company-note-form/company-note-form.page';
 
 
@@ -25,7 +25,7 @@ export class NoteViewPage implements OnInit {
   public loading: boolean = false;
 
   public deletingNote: boolean = false;
-  
+
   constructor(
     public alertCtrl: AlertController,
     public modalCtrl: ModalController,
@@ -36,8 +36,11 @@ export class NoteViewPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.note_uuid = this.route.snapshot.params.note_uuid;
-    this.loadData();
+    if(!this.note_uuid)
+      this.note_uuid = this.route.snapshot.params.note_uuid;
+
+    if(!this.note)
+      this.loadData();
   }
 
   /**
@@ -47,7 +50,7 @@ export class NoteViewPage implements OnInit {
     this.loading = true;
 
     const params = { note_uuid: this.note_uuid };
-    
+
     this.noteService.view(params).subscribe(data => {
       this.note = data;
 
@@ -66,7 +69,7 @@ export class NoteViewPage implements OnInit {
       component: CompanyNoteFormPage,
       componentProps: {
         note: this.note,
-        //from: this.from,
+        // from: this.from,
       }
     });
     modal.present();

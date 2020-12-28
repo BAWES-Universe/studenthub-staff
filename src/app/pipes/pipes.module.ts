@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { AgePipe } from './age.pipe';
 import { FileSizePipe } from './filesize.pipe';
 import { GroupByPipe } from './group-by.pipe';
 import { StoreIdPipe } from './store-id.pipe';
@@ -11,13 +12,15 @@ import { TimeAgoPipe } from './timeago.pipe';
         FileSizePipe,
         GroupByPipe,
         StoreIdPipe,
+        AgePipe
     ],
     imports: [],
     exports: [
         TimeAgoPipe,
         FileSizePipe,
         GroupByPipe,
-        StoreIdPipe
+        StoreIdPipe,
+        AgePipe
     ]
 })
 export class PipesModule {}

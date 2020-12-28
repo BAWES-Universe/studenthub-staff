@@ -29,6 +29,7 @@ import {
   CalendarComponentOptions
 } from 'ion2-calendar';
 import { DefaultDate } from "ion2-calendar/dist/calendar.model";
+import {EventService} from "../../../../providers/event.service";
 
 
 @Component({
@@ -41,13 +42,10 @@ export class TransferFormPage implements OnInit {
   // Html Content
   @ViewChild(IonContent) content: IonContent;
 
-  public transfer_id;
   // The form containing entire records
   public form: FormGroup = new FormGroup({});
   // The Transfer containing all records
   public transfer: Transfer;
-
-  public company_id;
 
   // Page Title depends on Operation (Create vs Edit Transfer)
   public pageTitle = 'New Transfer';
@@ -84,37 +82,26 @@ export class TransferFormPage implements OnInit {
     public _toastCtrl: ToastController,
     private _fb: FormBuilder,
     private _authService: AuthService,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private eventService: EventService
   ) {
 
   }
 
   ngOnInit() {
 
-    this.transfer_id = this.activatedRoute.snapshot.paramMap.get('id');
-    this.company_id = this.activatedRoute.snapshot.paramMap.get('company_id');
-
-    const state = window.history.state;
-
-    // Load the passed model (required)
-    if (state.model) {
-      this.transfer = state.model;
-    }
-
     this.min = '1930/01/01';
 
     const d = new Date();
     this.max = (this.platform.is('mobile')) ? d.getFullYear() + '-12-12' : d;
 
-    if (!this.transfer_id) {
-      this.transfer = new Transfer();
-      this.transfer.company_id = this.company_id;
-    
+    if (!this.transfer.transfer_id) {
+
       // Load List of All Candidates Assigned to this Company
       this._loadCandidateListThenInitialize();
 
-    } else { 
-      this.pageTitle = 'Edit Transfer'; 
+    } else {
+      this.pageTitle = 'Edit Transfer';
 
       this.loadTransferDetail();
     }
@@ -125,11 +112,11 @@ export class TransferFormPage implements OnInit {
    * Initialise the form once loaded.
    */
   async _loadCandidateListThenInitialize() {
-    
+
     const loader = await this._loadingCtrl.create();
     loader.present();
 
-    this.companyService.getWithCandidates(this.company_id).subscribe(response => {
+    this.companyService.getWithCandidates(this.transfer.company_id).subscribe(response => {
       const allCandidatesAssignedToCompany: Candidate[] = response.candidates;
       this._initTransferCandidateList(allCandidatesAssignedToCompany);
       loader.dismiss();
@@ -273,26 +260,28 @@ export class TransferFormPage implements OnInit {
 
       // On Success. Show Toast with the response message and close the page
       if (jsonResponse.operation == 'success') {
+        this.eventService.reloadStats$.next();
         const toast = await this._toastCtrl.create({
           message: jsonResponse.message,
           duration: 3000
         });
         toast.present();
-        this.close();
+
+        this.close({ refresh: true });
 
         // create mode
-        if (!this.transfer.transfer_id) {
-          this.navCtrl.navigateForward('transfer-view/' + jsonResponse.transfer_id);
-          // this.navCtrl.push('transfer-view/'+jsonResponse.transfer_idTransferViewPage, {
-          //   'model': jsonResponse.transfer_id
+        /*if (!this.transfer.transfer_id) {
+          this.navCtrl.navigateForward('transfer-view/' + jsonResponse.transfer.transfer_id);
+          // this.navCtrl.push('transfer-view/'+jsonResponse.transfer.transfer_idTransferViewPage, {
+          //   'model': jsonResponse.transfer.transfer_id
           // });
         } else {
-          this.navCtrl.navigateForward('transfer-view/' + this.transfer_id, {
+          this.navCtrl.navigateForward('transfer-view/' + this.transfer.transfer_id, {
             state: {
               refresh: true
             }
           });
-        }
+        }*/
       }
 
       // On Failure, show an alert with the error message
@@ -345,9 +334,8 @@ export class TransferFormPage implements OnInit {
   /**
    * Close the Page
    */
-  close() {
-    const data = { refresh: false };
-    // this._viewCtrl.dismiss(data);
+  close(data = {}) {
+    this.modalCtrl.dismiss(data);
   }
 
   /**
@@ -357,7 +345,7 @@ export class TransferFormPage implements OnInit {
     const loading = await this._loadingCtrl.create();
     loading.present();
 
-    this.transferService.transferIdDetails(this.transfer_id).subscribe(response => {
+    this.transferService.transferIdDetails(this.transfer.transfer_id).subscribe(response => {
       loading.dismiss();
       this.transfer = response;
 
@@ -387,6 +375,7 @@ export class TransferFormPage implements OnInit {
 
     const event: any = await myCalendar.onDidDismiss();
     const date = event.data;
+
     if (date) {
       const from: CalendarResult = date.from;
       const to: CalendarResult = date.to;

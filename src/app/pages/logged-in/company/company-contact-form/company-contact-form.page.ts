@@ -7,6 +7,7 @@ import { CompanyContactService } from 'src/app/providers/logged-in/company-conta
 import { CompanyContact } from 'src/app/models/company-contact';
 //validator
 import { CustomValidator } from 'src/app/validators/custom.validator';
+import {EventService} from "../../../../providers/event.service";
 
 
 @Component({
@@ -29,7 +30,8 @@ export class CompanyContactFormPage implements OnInit {
     public companyContactService: CompanyContactService,
     private _fb: FormBuilder,
     private modalCtrl: ModalController,
-    private _alertCtrl: AlertController
+    private _alertCtrl: AlertController,
+    private eventService: EventService
   ) { }
 
   ngOnInit() {
@@ -101,10 +103,12 @@ export class CompanyContactFormPage implements OnInit {
 
   removeEmail(index) {
     this.emails.removeAt(index);
+    this.emails.markAsDirty();
   }
 
   removePhone(index) {
     this.phones.removeAt(index);
+    this.phones.markAsDirty();
   }
 
   addEmail() {
@@ -191,9 +195,11 @@ export class CompanyContactFormPage implements OnInit {
 
       // On Success
       if (jsonResponse.operation == "success") {
+        this.eventService.reloadStats$.next();
         // Close the page
         let data = { 'refresh': true };
         this.modalCtrl.dismiss(data);
+
       }
 
       // On Failure
@@ -210,7 +216,7 @@ export class CompanyContactFormPage implements OnInit {
 
     });
   }
-  
+
   logScrolling(e) {
     this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
   }

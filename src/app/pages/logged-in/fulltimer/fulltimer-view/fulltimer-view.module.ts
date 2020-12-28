@@ -11,6 +11,7 @@ import { FulltimerViewPage } from './fulltimer-view.page';
 import { LoadingModalModule } from '../../../../components/loading-modal/loading-modal.module';
 import {CKEditorModule} from '@ckeditor/ckeditor5-angular';
 import { NoteModule } from 'src/app/components/note/note.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 @NgModule({
@@ -21,6 +22,7 @@ import { NoteModule } from 'src/app/components/note/note.module';
     FormsModule,
     IonicModule,
     NoteModule,
+    TranslateModule.forChild(),
     FulltimerViewPageRoutingModule,
     LoadingModalModule
   ],

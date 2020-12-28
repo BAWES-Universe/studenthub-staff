@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/fulltimer-search"></ion-back-button>
     </ion-buttons>
-    <ion-title *ngIf="fulltimer">{{ fulltimer.fulltimer_name }}</ion-title>
+
     <ion-buttons slot="end">
       <ion-button (click)="update()">
         Update
@@ -15,155 +15,120 @@
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
 
-  <ion-segment (ionChange)="segmentChanged($event)" [value]="sections">
-    <ion-segment-button value="personal">
-      <ion-label>Personal</ion-label>
-    </ion-segment-button>
-    <ion-segment-button value="notes">
-      <ion-label>Notes</ion-label>
-    </ion-segment-button>
-  </ion-segment>
+  <div class="details" *ngIf="fulltimer">
+    <h2 class="fulltimer-name" *ngIf="fulltimer.fulltimer_name">{{ fulltimer.fulltimer_name }}</h2>
 
-  <ng-container *ngIf="sections == 'personal'">
-    <ion-list *ngIf="!loading">
+    <div class="badge-wrapper" *ngIf="fulltimer.fulltimerTags">
+      <ion-badge *ngFor="let fulltimerTag of fulltimer.fulltimerTags">{{ fulltimerTag.tag }}</ion-badge>
+    </div>
 
-      <ion-item>
-        <ion-label>
-          <h5>Nationality</h5>
-          <p>{{ fulltimer.nationality.country_name_en }}</p>
-        </ion-label>
-      </ion-item>
+    <ion-item class="phone" target="_blank" href="tel:{{ fulltimer.fulltimer_phone }}"
+      [class.required]="!fulltimer.fulltimer_phone">
+      <div tabindex="0"></div>
+      <ion-label *ngIf="fulltimer.fulltimer_phone">
+        <h5>Call</h5>
+        <p> {{ fulltimer.fulltimer_phone }}</p>
+      </ion-label>
+      <ion-label *ngIf="!fulltimer.fulltimer_phone">
+        <p>Call (not set)</p>
+      </ion-label>
+    </ion-item>
 
-      <ion-item *ngIf="fulltimer.area && fulltimer.country">
-        <ion-label>
-          <h5>Area</h5>
-          <p>{{ fulltimer.area.area_name_en }}, {{ fulltimer.country.country_name_en }}</p>
-        </ion-label>
-      </ion-item>
+    <ion-item class="whatsapp" target="_blank"
+      href="https://api.whatsapp.com/send?phone={{ fulltimer.fulltimer_phone }}"
+      [class.required]="!fulltimer.fulltimer_phone">
+      <div tabindex="0"></div>
+      <ion-icon slot="start" name="logo-whatsapp"></ion-icon>
+      <ion-label *ngIf="fulltimer.fulltimer_phone">
+        <h5>Whatsapp</h5>
+        <p> {{ fulltimer.fulltimer_phone }}</p>
+      </ion-label>
+      <ion-label *ngIf="!fulltimer.fulltimer_phone">
+        <p>Whatsapp (not set)</p>
+      </ion-label>
+    </ion-item>
 
-      <ion-item>
-        <ion-label>
-          <h5>Email</h5>
-          <p>{{ fulltimer.fulltimer_email }}</p>
-        </ion-label>
-      </ion-item>
+    <ion-item class="email" lines="none" [class.required]="!fulltimer.fulltimer_email"
+      href='mailto:{{ fulltimer.fulltimer_email }}' target='_blank'>
+      <div tabindex="0"></div>
+      <ion-label *ngIf="fulltimer.fulltimer_email">
+        <h5>Email</h5>
+        <p> {{ fulltimer.fulltimer_email }}</p>
+      </ion-label>
+      <ion-label *ngIf="!fulltimer.fulltimer_email">
+        <p>Email (not set)</p>
+      </ion-label>
+    </ion-item>
 
-      <ion-item>
-        <ion-label>
-          <h5>Phone</h5>
-          <p>{{ fulltimer.fulltimer_phone }}</p>
-        </ion-label>
-      </ion-item>
+    <ion-item class="nationality" [class.required]="!fulltimer.nationality">
+      <div tabindex="0"></div>
+      <ion-label>
+        <b *ngIf="fulltimer.nationality">{{
+        translateService.langContent(fulltimer.nationality.country_nationality_name_en,
+        fulltimer.nationality.country_nationality_name_ar) }}</b>
+        <p *ngIf="!fulltimer.nationality">Nationality (not set) </p>
+      </ion-label>
+    </ion-item>
 
-      <ion-item>
-        <ion-label>
-          <h5>Resume</h5>
-          <a target="_blank" *ngIf="fulltimer.fulltimer_pdf_cv"
-             href="{{ getResumeUrl() }}">
-            {{ fulltimer.fulltimer_pdf_cv }}
-          </a>
-          <a href=""></a>
-        </ion-label>
-      </ion-item>
+    <ion-item class="area" [class.required]="!fulltimer.country || !fulltimer.area">
+      <div tabindex="0"></div>
+      <ion-label>
+        <p *ngIf="fulltimer.area && fulltimer.country" [innerHtml]="'txt_lives_in' | translate : {
+         area : area(fulltimer.area, fulltimer.country)
+        }">
+        </p>
+        <p *ngIf="!fulltimer.area || !fulltimer.country">{{ "Address (not set)" | translate }}</p>
+      </ion-label>
+    </ion-item>
 
-      <ion-item *ngIf="fulltimer.fulltimerTags">
-        <ion-label>
-          <h5>Tags</h5>
-          <ion-chip *ngFor="let fulltimerTag of fulltimer.fulltimerTags">
-            {{ fulltimerTag.tag }}
-          </ion-chip>
-        </ion-label>
-      </ion-item>
+    <ion-item class="created-at">
+      <div tabindex="0"></div>
+      <ion-label>
+        <p>Created On {{ toDate(fulltimer.fulltimer_created_datetime) | date}}</p>
+        <p>Updated On {{ toDate(fulltimer.fulltimer_updated_datetime) | date}}</p>
+      </ion-label>
+    </ion-item>
+  </div>
 
-      <ion-item>
-        <div tabindex="0"></div>
-        <ion-label>
-          <h5>Suggestion Acceptance Ratio</h5>
-          <p *ngIf="fulltimer.acceptanceRatio">{{fulltimer.acceptanceRatio}} %</p>
-          <p *ngIf="!fulltimer.acceptanceRatio">-</p>
-        </ion-label>
-      </ion-item>
-      <ion-item>
-        <div tabindex="0"></div>
-        <ion-label>
-          <h5>Suggestion Rejection Ratio</h5>
-          <p *ngIf="fulltimer.rejectionRatio">{{fulltimer.rejectionRatio}} %</p>
-          <p *ngIf="!fulltimer.rejectionRatio">-</p>
-        </ion-label>
-      </ion-item>
+  <div class="suggestion-wrapper" *ngIf="fulltimer">
+    <h5 class="heading">Full-timer has been</h5>
 
-    </ion-list>
-  </ng-container>
-  <ng-container *ngIf="sections == 'notes'">
-    <!-- note -->
+    <ion-item>
+      <ion-label>Suggested</ion-label>
+      <ion-note slot="end">{{ fulltimer.suggested }}</ion-note>
+    </ion-item>
 
-    <section>
+    <ion-item>
+      <ion-label>Accepted</ion-label>
+      <ion-note class="accepted" slot="end">{{ fulltimer.suggestionAccepted }}</ion-note>
+    </ion-item>
 
-      <form [class.editor-inactive]="!editorFocused" [class.editor-focused]="editorFocused" [formGroup]="noteForm" *ngIf="noteForm">
-        <ion-item *ngIf="['Suggested', 'Accepted', 'Rejected'].indexOf(noteForm.controls.type.value) == -1">
-          <div tabindex="0"></div>
-          <ion-label position="floating">Type</ion-label>
-          <ion-select formControlName="type">
-            <ion-select-option>Internal Note</ion-select-option>
-            <ion-select-option>Phone Call</ion-select-option>
-            <ion-select-option>Email</ion-select-option>
-            <ion-select-option>Meeting</ion-select-option>
-            <ion-select-option>Interview</ion-select-option>
-            <ion-select-option>Task</ion-select-option>
-          </ion-select>
-        </ion-item>
+    <ion-item>
+      <ion-label>Rejected</ion-label>
+      <ion-note class="rejected" slot="end">{{ fulltimer.suggestionRejected }}</ion-note>
+    </ion-item>
+  </div>
 
-        <ion-list>
-          <ion-item (click)="openClient($event)">
-            <div tabindex="0"></div>
-            <ion-label position="floating">Company Name</ion-label>
-            <ion-input type="text" formControlName="company_name" readonly></ion-input>
-          </ion-item>
-        </ion-list>
+  <div class="note-wrapper">
+    <h5 class="heading" *ngIf="notes.length > 0">Notes</h5>
 
-        <ion-list>
-          <ion-item (click)="openRequest($event)">
-            <div tabindex="0"></div>
-            <ion-label position="floating">Request</ion-label>
-            <ion-input type="text" formControlName="request_name" readonly></ion-input>
-          </ion-item>
-        </ion-list>
+    <note *ngIf="notes.length > 0" [routerLink]="'/note-view/' + notes[0].note_uuid" from="company-view"
+      [note]="notes[0]" (onChange)="loadNotes()" (onDelete)="loadNotes()"></note>
 
-        <ckeditor [config]="editorConfig" #ckeditor [editor]="Editor" (focus)="onEditorFocus()"
-                  (change)="onChange($event)"></ckeditor>
+    <ion-button class="btn-view-notes" *ngIf="notes.length > 1" (click)="openNotes()">
+      View all {{ notes.length }} notes
+    </ion-button>
+  </div>
 
-        <ion-item lines="none">
-          <div tabindex="0"></div>
-
-          <ion-buttons slot="start">
-
-            <ion-button [disabled]="addingNote || !noteForm.valid" (click)="addNote()">
-              <span *ngIf="!addingNote">
-                <ng-container *ngIf="this.editNoteData && !this.editNoteData.note_uuid">Submit</ng-container>
-                  <ng-container *ngIf="this.editNoteData && this.editNoteData.note_uuid">Update</ng-container>
-              </span>
-              <ion-spinner *ngIf="addingNote"></ion-spinner>
-            </ion-button>
-
-            <ion-button color="danger" (click)="cancelAddNote()">
-              <span>Cancel</span>
-            </ion-button>
-
-          </ion-buttons>
-        </ion-item>
-      </form>
-
-      <ion-list *ngIf="this.editNoteData && !this.editNoteData.note_uuid">
-        <note *ngFor="let note of notes" [routerLink]="'/note-view/' + note.note_uuid" [note]="note" (onChange)="loadNotes()" (onDelete)="loadNotes()"></note>
-      </ion-list>
-    </section>
-  </ng-container>
-
-  <loading-modal [loading]="loading" type="candidate-list"></loading-modal>
+  <loading-modal [loading]="loading" type="fulltimer-view"></loading-modal>
 
 </ion-content>
 <ion-footer>
-  <ion-button expand="full" (click)="suggest()">
-    Suggest this candidate
+  <ion-button class="btn-export-cv" target="_blank" *ngIf="fulltimer && fulltimer.fulltimer_pdf_cv" href="{{ getResumeUrl() }}">
+    Download CV
+  </ion-button>
+
+  <ion-button class="btn-suggest" (click)="suggest()">
+    Suggest for client request
   </ion-button>
 </ion-footer>

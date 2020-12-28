@@ -16,7 +16,6 @@ export class DefaultPage implements OnInit {
   public borderLimit = false;
 
   public statistics: {
-    totalPendingRequests: any;
     totalExpiredCards: any;
     assignedExpiredCivilID: any;
     activeRequests: any;
@@ -117,5 +116,9 @@ export class DefaultPage implements OnInit {
         }
       }
     );
+  }
+
+  logout() {
+    this.authService.logout();
   }
 }

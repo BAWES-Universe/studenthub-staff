@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertController, ModalController, Platform } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 // service
@@ -15,6 +15,7 @@ import { Fulltimer, FulltimerTag } from 'src/app/models/fulltimer';
 //pages
 import { FulltimerLocationPage } from '../fulltimer-location/fulltimer-location.page';
 import { NationalityPage } from '../../pickers/nationality/nationality.page';
+import {CustomValidator} from "../../../../validators/custom.validator";
 
 
 @Component({
@@ -61,10 +62,12 @@ export class FulltimerFormPage implements OnInit {
     public countryService: CountryService,
     private authService: AuthService
   ) {
-    this.fulltimerUUID = this.activatedRoute.snapshot.paramMap.get('id');
   }
 
   ngOnInit() {
+
+    this.fulltimerUUID = this.activatedRoute.snapshot.paramMap.get('id');
+    
     // Load the passed model if available
     const state = window.history.state;
 
@@ -72,7 +75,7 @@ export class FulltimerFormPage implements OnInit {
       this.model = state.model;
     }
 
-    this.formInit();
+    this.initForm();
   }
 
   ngOnDestroy() {
@@ -90,10 +93,24 @@ export class FulltimerFormPage implements OnInit {
     }
   }
 
-  formInit() {
-    // Init Form
+  initForm() {
+    
+    let tagCtrls = [];
+
+    for (let fulltimerTag of this.model.fulltimerTags) {
+      tagCtrls.push(this.fb.group({
+        tag: [fulltimerTag.tag]//, [Validators.required]
+      }));
+    }
+
+    //show atleast one input for tag 
+  
+    tagCtrls.push(this.fb.group({
+      tag: ['']//, [Validators.required]
+    }));
+
     if (!this.model.fulltimer_uuid) { // Show Create Form
-      
+
       this.operation = 'Create';
 
       this.form = this.fb.group({
@@ -104,10 +121,10 @@ export class FulltimerFormPage implements OnInit {
         latitude: ['', Validators.required],
         longitude: ['', Validators.required],
         name: ['', Validators.required],
-        phone: ['', Validators.required],
-        email: ['', Validators.required],
-        pdf_cv: ['', Validators.required],
-        tags: ['', Validators.required],
+        phone: ['', [Validators.required, Validators.pattern('^[0-9-+\s()]*$')]],
+        email: ['', [Validators.required, CustomValidator.emailValidator]],
+        pdf_cv: [''],
+        fulltimerTags: new FormArray(tagCtrls),
         location: ['', Validators.required],
         tempPdfCVLocation: [''],
       });
@@ -116,20 +133,16 @@ export class FulltimerFormPage implements OnInit {
 
       this.operation = 'Update';
 
-      let location, nationality, tags = []; 
+      let location, nationality;
 
       if(this.model.area && this.model.country) {
         location = this.model.area.area_name_en + ', '+ this.model.country.country_name_en;
       }
 
-      this.model.fulltimerTags.forEach((fulltimerTag) => {
-        tags.push(fulltimerTag.tag);
-      });
-
       if(this.model.nationality) {
         nationality = this.model.nationality.country_name_en;
       }
-
+        
       this.form = this.fb.group({
         nationality_id: [this.model.nationality_id, Validators.required],
         nationality: [nationality, Validators.required],
@@ -141,10 +154,45 @@ export class FulltimerFormPage implements OnInit {
         phone: [this.model.fulltimer_phone, Validators.required],
         email: [this.model.fulltimer_email, Validators.required],
         pdf_cv: [this.model.fulltimer_pdf_cv, Validators.required],
-        tags: [tags.join(', '), Validators.required],
+        fulltimerTags: new FormArray(tagCtrls),
         location: [location, Validators.required],
         tempPdfCVLocation: [''],
       });
+    }
+  }
+
+  // convenience getters for easy access to form fields
+  get f() { return this.form.controls; }
+  get fulltimerTags() { return this.f.fulltimerTags as FormArray; }
+
+  removeTag(index) {
+    this.fulltimerTags.removeAt(index);
+    this.fulltimerTags.markAsDirty();
+  }
+
+  addTag() {
+    this.fulltimerTags.push(this.fb.group({
+      tag: ['']
+    }));
+  }
+
+  /**
+   * add new input
+   * @param event
+   * @param index
+   */
+  onTagChange(event, index) {
+
+    // remove field on clearing it out + have next empty field
+
+    if (this.fulltimerTags.length - index > 1 && event.target.value.length == 0) {
+      return this.removeTag(index);
+    }
+
+    // check if new field is not added && something is typed
+    if (((index - this.fulltimerTags.length) === -1) && event.target.value) {
+      // adding new field
+      this.addTag();
     }
   }
 
@@ -212,7 +260,7 @@ export class FulltimerFormPage implements OnInit {
             err && (
               ignoreErrors.indexOf(err.message) > -1 ||
               err.message.includes('aborted')
-            ) 
+            )
           ) {
             return null;
           }
@@ -281,14 +329,14 @@ export class FulltimerFormPage implements OnInit {
 
     this.progress = 1; // show loader
 
-    this.browserUploadSubscription = this.awsService.uploadFile('_', fileList[0]).subscribe(event => {
+    this.browserUploadSubscription = this.awsService.uploadFile(fileList[0]).subscribe(event => {
       this._handleFileSuccess(event);
     },
       async err => {
         // log to slack/sentry to know how many user getting file upload error
-  
+
         if(!err.message || !err.message.includes('aborted')) {
-          
+
           const alert = await this.alertCtrl.create({
             header: 'Error',
             message: 'Error while uploading file!',
@@ -367,7 +415,7 @@ export class FulltimerFormPage implements OnInit {
   }
 
   getResumeUrl() {
-    
+
     if(this.form.controls.tempPdfCVLocation.value) {
       return decodeURIComponent(this.form.controls.tempPdfCVLocation.value);
     }
@@ -394,16 +442,16 @@ export class FulltimerFormPage implements OnInit {
         window.history.back();
       }
     });
-    
+
     const { data } = await modal.onWillDismiss();
 
     if (data && data.country) {
       this.form.controls.nationality_id.setValue(data.country.country_id);
       this.form.controls.nationality_id.markAsDirty();
-      
+
       this.form.controls.nationality.setValue(data.country.country_name_en);
       this.form.controls.nationality.markAsDirty();
-    
+
       this.form.updateValueAndValidity();
     }
   }
@@ -428,29 +476,29 @@ export class FulltimerFormPage implements OnInit {
         window.history.back();
       }
     });
-    
+
     const { data } = await modal.onWillDismiss();
 
     if (data && data.area_uuid) {
       this.form.controls.area_uuid.setValue(data.area_uuid);
       this.form.controls.area_uuid.markAsDirty();
-      
+
       this.form.controls.country_id.setValue(data.country_id);
       this.form.controls.country_id.markAsDirty();
-      
+
       this.form.controls.latitude.setValue(data.latitude);
       this.form.controls.latitude.markAsDirty();
-      
+
       this.form.controls.longitude.setValue(data.longitude);
       this.form.controls.longitude.markAsDirty();
-      
+
       this.form.controls.location.setValue(data.area.area_name_en + ', ' + data.country.country_name_en);
       this.form.controls.location.markAsDirty();
 
       this.form.updateValueAndValidity();
     }
   }
-  
+
   /**
    * Update Model Data based on Form Input
    */
@@ -464,18 +512,7 @@ export class FulltimerFormPage implements OnInit {
     this.model.fulltimer_phone = this.form.value.phone;
     this.model.fulltimer_email = this.form.value.email;
     this.model.fulltimer_pdf_cv = this.form.value.pdf_cv;
-
-    this.model.fulltimerTags = [];
-
-    const tags = this.form.value.tags.split(',');
-
-    for(let tag of tags) {
-
-      let a = new FulltimerTag;
-      a.tag = tag.trim();
-
-      this.model.fulltimerTags.push(a);
-    }
+    this.model.fulltimerTags = this.form.value.fulltimerTags;
   }
 
   /**

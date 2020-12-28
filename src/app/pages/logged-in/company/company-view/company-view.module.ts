@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+
 import { IonicModule } from '@ionic/angular';
 
 import { CompanyViewPageRoutingModule } from './company-view-routing.module';
@@ -11,7 +11,7 @@ import { LoadingModalModule } from 'src/app/components/loading-modal/loading-mod
 import { PipesModule } from 'src/app/pipes/pipes.module';
 import {RequestListingModule} from "../../../../components/request-listing/request-listing.module";
 import { NoteModule } from 'src/app/components/note/note.module';
-import {CompanyModule} from "../../../../components/company/company.module";
+
 
 @NgModule({
   imports: [
@@ -21,11 +21,9 @@ import {CompanyModule} from "../../../../components/company/company.module";
     LoadingModalModule,
     IonicModule,
     PipesModule,
-    CKEditorModule,
-    RequestListingModule,
     NoteModule,
+    RequestListingModule,
     CompanyViewPageRoutingModule,
-    CompanyModule
   ],
   declarations: [CompanyViewPage]
 })

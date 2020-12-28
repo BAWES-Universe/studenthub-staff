@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { AlertController, ModalController, NavController, Platform, ToastController } from '@ionic/angular';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { AlertController, IonContent, ModalController, NavController, Platform, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 // models
 import { Company } from 'src/app/models/company';
@@ -8,6 +8,8 @@ import { Request } from 'src/app/models/request';
 import { CompanyService } from 'src/app/providers/logged-in/company.service';
 import { AwsService } from 'src/app/providers/aws.service';
 import { CompanyRequestService } from 'src/app/providers/logged-in/company-request.service';
+import { EventService } from 'src/app/providers/event.service';
+
 
 @Component({
   selector: 'app-company-request-list',
@@ -15,6 +17,8 @@ import { CompanyRequestService } from 'src/app/providers/logged-in/company-reque
   styleUrls: ['./company-request-list.page.scss'],
 })
 export class CompanyRequestListPage implements OnInit {
+
+  @ViewChild(IonContent, { static: true }) content: IonContent;
 
   public companies: Company[] = [];
 
@@ -42,10 +46,13 @@ export class CompanyRequestListPage implements OnInit {
 
   public borderLimit = false;
 
+  public scrollPosition = 0;
+
   constructor(
     public navCtrl: NavController,
     public platform: Platform,
     public companyService: CompanyService,
+    public eventService: EventService,
     public requestService: CompanyRequestService,
     public aws: AwsService,
     public alertCtrl: AlertController,
@@ -59,23 +66,34 @@ export class CompanyRequestListPage implements OnInit {
 
     const d = new Date();
     this.max = (this.platform.is('mobile')) ? d.getFullYear() + '-12-12' : d;
+
+    this.list();
+
+    this.eventService.companyRequestUpdate$.subscribe(() => { 
+      this.list();
+    });
   }
 
   ionViewWillEnter() {
-    this.list(this.currentPage);
+    this.content.scrollToPoint(0, this.scrollPosition);
+  }
+
+  ionViewWillLeave() {
+    this.content.getScrollElement().then(ele => {
+      this.scrollPosition = ele.scrollTop;
+    });
   }
 
   /**
    * list all requests
-   * @param page
    */
-  async list(page: number) {
+  async list() {
 
     this.loading = true;
 
     const urlParams = this.urlParams();
 
-    this.requestService.listWithPagination(page, urlParams).subscribe(response => {
+    this.requestService.listWithPagination(1, urlParams).subscribe(response => {
 
       this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
       this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
@@ -138,16 +156,6 @@ export class CompanyRequestListPage implements OnInit {
     return urlParams;
   }
 
-  /**
-   * Make date readable by Safari
-   * @param date
-   */
-  toDate(date) {
-    if (date) {
-      return new Date(date.replace(/-/g, '/'));
-    }
-  }
-
   resetFilter() {
     this.filters = {
       companyName: null,
@@ -155,171 +163,6 @@ export class CompanyRequestListPage implements OnInit {
       startDate: null,
       endDate: null
     };
-  }
-
-  /**
-   * open request detail page
-   * @param $event
-   * @param request
-   */
-  async viewRequest($event, request) {
-    this.router.navigate(['request-view', request.request_uuid], {
-      state: {
-        model: request,
-        from: 'company-request-list'
-      }
-    });
-  }
-
-  /**
-   * open request form to edit
-   * @param $event
-   * @param request
-   */
-  async editRequest($event, request) {
-    $event.preventDefault();
-    $event.stopPropagation();
-    this.router.navigate(['request-form', request.request_uuid], {
-      state: {
-        model: request
-      }
-    });
-  }
-
-  /**
-   * mark request as started
-   * @param event
-   * @param request
-   */
-  startRequest(event, request) {
-
-    event.preventDefault();
-    event.stopPropagation();
-
-    this.requestService.start(request).subscribe(async response => {
-
-      if (response.operation == 'success') {
-        request.request_status = 'started';
-      } else {
-        this.toastCtrl.create({
-          message: response.message,
-          buttons: ['Ok']
-        }).then(prompt => {
-          prompt.present();
-        });
-      }
-    });
-  }
-
-  /**
-   * mark request as cancelled
-   * @param event
-   * @param request
-   */
-  cancelledRequest(event, request) {
-
-    event.preventDefault();
-    event.stopPropagation();
-
-    this.alertCtrl.create({
-      header: 'Please provide feedback',
-      inputs: [
-        {
-          name: 'feedback',
-          type: 'textarea',
-          placeholder: 'Feedback'
-        }
-      ],
-      buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel',
-        }, {
-          text: 'Save',
-          handler: (data) => {
-            if (data.feedback) {
-              request.request_feedback = data.feedback;
-              this.requestService.cancel(request).subscribe(async response => {
-
-                if (response.operation == 'success') {
-                  request.request_status = 'cancelled';
-                } else {
-                  this.toastCtrl.create({
-                    message: response.message,
-                    buttons: ['Ok']
-                  }).then(prompt => {
-                    prompt.present();
-                  });
-                }
-              });
-            } else {
-              this.alertCtrl.create({
-                message: 'Please provide feedback',
-                buttons: ['ok']
-              }).then(alert => {
-                alert.present();
-              });
-            }
-          }
-        }
-      ]
-    }).then(alert => { alert.present(); });
-  }
-
-  /**
-   * mark request as delivered
-   * @param event
-   * @param request
-   */
-  deliveredRequest(event, request) {
-
-    event.preventDefault();
-    event.stopPropagation();
-
-    this.alertCtrl.create({
-      header: 'Please provide feedback',
-      inputs: [
-        {
-          name: 'feedback',
-          type: 'textarea',
-          placeholder: 'Feedback'
-        }
-      ],
-      buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel',
-          cssClass: 'secondary'
-        }, {
-          text: 'Save',
-          handler: (data) => {
-            if (data.feedback) {
-              request.request_feedback = data.feedback;
-              this.requestService.deliver(request).subscribe(async response => {
-
-                if (response.operation == 'success') {
-                  request.request_status = 'delivered';
-                } else {
-                  this.toastCtrl.create({
-                    message: response.message,
-                    buttons: ['Ok']
-                  }).then(prompt => {
-                    prompt.present();
-                  });
-                }
-              });
-            } else {
-              this.alertCtrl.create({
-                message: 'Please provide feedback',
-                buttons: ['ok']
-              }).then(alert => {
-                alert.present();
-              });
-            }
-          }
-        }
-      ]
-    }).then(alert => { alert.present(); });
   }
 
   logScrolling(e) {

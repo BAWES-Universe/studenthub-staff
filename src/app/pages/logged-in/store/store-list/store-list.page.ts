@@ -60,7 +60,8 @@ export class StoreListPage implements OnInit {
 
   ngOnInit() {
 
-    this.company_id = this.activatedRoute.snapshot.paramMap.get('id');
+    if(!this.company_id)
+      this.company_id = this.activatedRoute.snapshot.paramMap.get('id');
 
     this.loadData(this.currentPage);
     this.loadCompany();

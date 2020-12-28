@@ -17,16 +17,18 @@ import { Note } from 'src/app/models/note';
 // service
 import { StoreService } from 'src/app/providers/logged-in/store.service';
 import { CandidateService } from 'src/app/providers/logged-in/candidate.service';
-import { AwsService } from 'src/app/providers/aws.service';
+import { AwsService } from '../../../../providers/aws.service';
 import { EventService } from '../../../../providers/event.service';
 import { NoteService } from '../../../../providers/logged-in/note.service';
 import { AuthService } from '../../../../providers/auth.service';
+import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 // pages
 import { OptionPage } from '../option/option.page';
 import { CandidateCommittedFormPage } from '../candidate-committed-form/candidate-committed-form.page';
 import { AllCompanyListPage } from '../../company/company-request-list/all-company-list/all-company-list.page';
 import { CompanyRequestListPopupPage } from '../../company/company-request-list/company-request-list-popup/company-request-list-popup.page';
 import { SuggestPage } from '../../suggest/suggest.page';
+import { SelectSearchPageComponent } from 'src/app/components/select-search/select-search-page/select-search-page.component';
 
 
 @Component({
@@ -54,12 +56,11 @@ export class CandidateViewPage implements OnInit {
   public sendingPassword = false;
   public assigning = false;
   public unassinging = false;
-
+  public exportingCV = false;
   public loading = false;
   public approving = false;
   public unapproving = false;
 
-  public sections = 'personal';
   public processing = null;
 
   public updatingJobSearchStatus = false;
@@ -83,6 +84,7 @@ export class CandidateViewPage implements OnInit {
   public borderLimit = false;
 
   public company;
+  public pendingData = null;
 
   constructor(
     public navCtrl: NavController,
@@ -92,7 +94,8 @@ export class CandidateViewPage implements OnInit {
     public alertCtrl: AlertController,
     public storeService: StoreService,
     public candidateService: CandidateService,
-    public aws: AwsService,
+    public translateService: TranslateLabelService,
+    public awsService: AwsService,
     public toastCtrl: ToastController,
     public eventService: EventService,
     public authService: AuthService,
@@ -101,10 +104,13 @@ export class CandidateViewPage implements OnInit {
     public modalCtrl: ModalController,
     private fb: FormBuilder,
   ) {
-    this.candidate_id = this.activatedRoute.snapshot.paramMap.get('id');
+
   }
 
   ngOnInit() {
+
+    if(!this.candidate_id)
+      this.candidate_id = this.activatedRoute.snapshot.paramMap.get('id');
 
     this.eventService.reloadCandidateHistory$.subscribe((res) => {
       this.loadCandidateDetail();
@@ -186,6 +192,89 @@ export class CandidateViewPage implements OnInit {
   }
 
   /**
+   * set candidate card expire
+   */
+  async exportCV() {
+    // Handle the functionality when user click on 'ok' button
+    this.exportingCV = true;
+
+    // Unassign Candidate from store
+    this.candidateService.exportCV(this.candidate).subscribe(async response => {
+
+      // Dismiss the loader
+      this.exportingCV = false;
+    });
+  }
+
+  /**
+   * Unassign Candidate from store
+   */
+  async unassignCandidateFromStore() {
+    const confirm = await this.alertCtrl.create({
+      header: 'Are you sure?',
+      message: 'Remove candidate from store',
+      inputs: [
+        {
+          name: 'feedback',
+          type: 'textarea',
+          placeholder: 'Reason'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: () => {
+            // Handle the functionality when user click on 'cancel' button
+          }
+        },
+        {
+          text: 'Ok',
+          handler: async (data) => {
+            if (!data.feedback) {
+              this.alertCtrl.create({
+                message: 'Please provide reason',
+                buttons: ['Okay']
+              }).then(alert => {
+                alert.present();
+              });
+              return false;
+            }
+
+            // Handle the functionality when user click on 'ok' button
+            this.unassinging = true;
+
+            // Unassign Candidate from store
+            this.candidateService.removeFromAssignedStore(this.candidate, data.feedback).subscribe(async response => {
+
+              // Dismiss the loader
+              this.unassinging = false;
+
+              if (response.operation == 'success') {
+
+                if(this.candidate) {
+                  this.candidate.store_id = null;
+                  this.candidate.store = null;
+                  this.candidate.company = null;
+                }
+                this.loadNotes();
+
+                this.eventService.reloadCandidateHistory$.next();
+              } else {
+                const prompt = await this.alertCtrl.create({
+                  message: this._processResponseMessage(response),
+                  buttons: ['Ok']
+                });
+                prompt.present();
+              }
+            });
+          }
+        }
+      ]
+    });
+    confirm.present();
+  }
+
+  /**
    * Assign Candidate to Store
    * @param {number} store_id
    */
@@ -204,7 +293,7 @@ export class CandidateViewPage implements OnInit {
         this.loadCandidateDetail();
 
         this.loadWorkHistoryData();
-
+        this.loadNotes();
       } else {
         this.candidate.store_id = null;
 
@@ -252,6 +341,9 @@ export class CandidateViewPage implements OnInit {
 
       this.loading = false;
       this.candidate = response;
+      if (this.candidate && this.candidate.pendingField && this.candidate.pendingField.length > 0) {
+        this.pendingData = 'Total ' + this.candidate.pendingField.length + ' pending fields\n ' + this.candidate.pendingField.join(',');
+      }
 
       setTimeout(_ => {
         this.job_search_status = !!(this.candidate.candidate_job_search_status);
@@ -259,12 +351,23 @@ export class CandidateViewPage implements OnInit {
     });
   }
 
+  openWorkPlace(history) {
+    if(history.store) {
+      this.router.navigate(['/store-view', history.store.store_id]);
+    } else if(history.company) {
+      this.router.navigate(['/company-view', history.company.company_id]);
+    }
+  }
+
+  onVideoError() {
+    this.candidate.candidate_video = null;
+  }
+
   /**
-   * @param $event
-   * @param candidate
+   * hide photo on error
    */
-  loadLogo($event, candidate) {
-    candidate.candidate_personal_photo = null;
+  onPhotoError() {
+    this.candidate.candidate_personal_photo = null;
   }
 
   /**
@@ -351,6 +454,10 @@ export class CandidateViewPage implements OnInit {
       if (e.data && e.data.suggess) {
         this.suggest();
       }
+
+      if (e.data && e.data.toggleCommitted) {
+        this.toggleCommitted();
+      }
     });
   }
 
@@ -378,8 +485,36 @@ export class CandidateViewPage implements OnInit {
     await modal.present();
   }
 
-  public segmentChanged($e) {
-    this.sections = $e.detail.value;
+  openNotes() {
+    this.router.navigate(['candidate-notes', this.candidate_id], {
+      state: {
+        candidate: this.candidate
+      }
+    });
+  }
+
+  /**
+   * open popup to select store
+   * @param ev
+   */
+  async assingToStore(ev) {
+    const selectPage = await this.popoverCtrl.create({
+      component : SelectSearchPageComponent,
+      componentProps: {
+        collection: this.stores,
+        valueAttr: 'store_id',
+        labelAttr: 'storeWithCompany'
+      },
+      cssClass: 'select_search_store_id',
+      //event: ev,
+      translucent: true
+    });
+    selectPage.onDidDismiss().then(e => {
+        if (e.data) {
+          this.assignCandidateToStore(e.data['store_id']);
+        }
+      });
+    await selectPage.present();
   }
 
   /**
@@ -387,6 +522,7 @@ export class CandidateViewPage implements OnInit {
    * @param $e
    */
   updateRate($e) {
+
     this.alertCtrl.create({
       header: 'Set hourly rate',
       inputs: [
@@ -432,7 +568,7 @@ export class CandidateViewPage implements OnInit {
    * @param candidate
    */
   getResumeUrl(candidate) {
-    return this.aws.permanentBucketUrl + 'candidate-resume/' + encodeURIComponent(candidate.candidate_resume);
+    return this.awsService.permanentBucketUrl + 'candidate-resume/' + encodeURIComponent(candidate.candidate_resume);
   }
 
   cancelAddNote() {
@@ -561,13 +697,23 @@ export class CandidateViewPage implements OnInit {
   }
 
   /**
+   * return area name
+   * @param area
+   * @param country
+   */
+  area(area, country) {
+    return this.translateService.langContent(area.area_name_en, area.area_name_ar) + ' ' +
+      this.translateService.langContent(country.country_name_en, country.country_name_ar);
+  }
+
+  /**
    * load candidate notes without pagination
    */
   loadNotes() {
     const params = '&candidate_id=' + this.candidate_id;
 
     this.noteService.list(params).subscribe(async jsonResponse => {
-      this.notes = jsonResponse.body;
+      this.notes = jsonResponse;
     });
   }
 
@@ -711,7 +857,6 @@ export class CandidateViewPage implements OnInit {
 
   toggleFollowup($event) {
 
-    console.log($event.detail.checked);
     // if same value then do nothing
     if (this.job_search_status == $event.detail.checked) {
       return;
@@ -732,5 +877,12 @@ export class CandidateViewPage implements OnInit {
 
     }, () => {
     });
+  }
+
+  onCivilBackError() {
+    this.candidate.candidate_civil_photo_back = null;
+  }
+  onCivilFrontError() {
+    this.candidate.candidate_civil_photo_front = null;
   }
 }

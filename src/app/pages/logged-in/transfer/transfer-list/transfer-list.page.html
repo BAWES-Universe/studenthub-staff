@@ -1,0 +1,45 @@
+<ion-header [class.add-border]="borderLimit" class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button (click)="dismiss()"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
+
+  <h3>Transfers</h3>
+
+  <h4 *ngIf="company">
+    {{ company.company_name }}
+  </h4>
+  <ion-list *ngIf="company.parentTransfers">
+    <ion-card *ngFor="let transfer of company.parentTransfers" tappable (click)="openTransferDetailPage(transfer)">
+      <ion-card-content>
+        <p><strong>Transfer #{{ transfer.transfer_id}}</strong></p>
+        <h2><strong>KWD {{ transfer.company_total | number:'1.3-3' }}</strong></h2>
+        <p>
+          <strong>Status: </strong>
+          <span class="status status_{{transfer.transfer_status}}" *ngIf="transfer.transfer_status==10"> Draft </span>
+          <span class="status status_{{transfer.transfer_status}}" *ngIf="transfer.transfer_status==5"> Locked,
+            Pending Payment </span>
+          <span class="status status_{{transfer.transfer_status}}" *ngIf="transfer.transfer_status==1"> Payment Sent,
+            Confirm Received </span>
+          <span class="status status_{{transfer.transfer_status}}" *ngIf="transfer.transfer_status==3"> Received &
+            Distribution in Progress </span>
+          <span class="status status_{{transfer.transfer_status}}" *ngIf="transfer.transfer_status==4"> Completed
+          </span>
+        </p>
+        <p><strong>Created on: </strong> {{transfer.transfer_created_at}}</p>
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
+  <loading-modal type="transfer-list" [loading]="loading"></loading-modal>
+  <no-items *ngIf="!loading && company && company.parentTransfers.length == 0" message="~ No transfer Data ~"></no-items>
+</ion-content>
+
+<ion-footer *ngIf="company">
+  <ion-button (click)="presentActionSheetForNewTransfer()">
+    Create New Transfer
+  </ion-button>
+</ion-footer>

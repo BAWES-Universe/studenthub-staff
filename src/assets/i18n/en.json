@@ -1,5 +1,7 @@
 {
     "txt_view_candidates": "View all {{value}} candidates",
     "txt_showing_candidates_for": "{{ value }} candidates Found",
-    "txt_showing_candidates": "{{ value }} candidates Found"
+    "txt_showing_candidates": "{{ value }} candidates Found",
+    "txt_lives_in": "Lives in <b>{{area}}</b>",
+    "txt_years_old": "{{ value }} years old"
 }

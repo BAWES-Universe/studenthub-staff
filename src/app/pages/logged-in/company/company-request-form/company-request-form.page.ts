@@ -8,6 +8,7 @@ import { Request } from 'src/app/models/request';
 import { AuthService } from "../../../../providers/auth.service";
 //pages
 import { CompanyContactListPage } from "../company-contact/company-contact-list/company-contact-list.page";
+import {EventService} from "../../../../providers/event.service";
 
 
 @Component({
@@ -35,12 +36,12 @@ export class CompanyRequestFormPage implements OnInit {
     private modalCtrl: ModalController,
     private alertCtrl: AlertController,
     private authService: AuthService,
-    private popoverCtrl: PopoverController
+    private popoverCtrl: PopoverController,
+    private eventService: EventService
   ) {
   }
 
   ngOnInit() {
-
     if (this.request) {
       this.model = this.request;
     }
@@ -103,6 +104,7 @@ export class CompanyRequestFormPage implements OnInit {
       // On Success
       if (jsonResponse.operation == 'success') {
         // Close the page
+        this.eventService.reloadStats$.next();
         const data = { refresh: true };
         this.modalCtrl.dismiss(data);
       }
@@ -141,7 +143,7 @@ export class CompanyRequestFormPage implements OnInit {
     }
 
     popover.onDidDismiss().then((_) => {
-      if (_ && _.data) {
+      if (_ && _.data && _.data.companyContact) {
         this.form.controls.contact_name.setValue(_.data.companyContact.contact_name);
         this.form.controls.contact_uuid.setValue(_.data.companyContact.contact_uuid);
 
@@ -155,7 +157,7 @@ export class CompanyRequestFormPage implements OnInit {
   }
 
   logScrolling(e) {
-    this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
+    this.borderLimit = (e.detail.scrollTop > 20);
   }
 
 

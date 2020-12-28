@@ -1,36 +1,28 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router, ActivatedRoute, NavigationCancel } from '@angular/router';
-import { Platform, ModalController, AlertController, ToastController, IonContent, NavController } from '@ionic/angular';
-import { Chart } from 'chart.js';
-import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { ModalController, AlertController, ToastController, IonContent } from '@ionic/angular';
 // services
-import { StoreService } from 'src/app/providers/logged-in/store.service';
 import { CompanyService } from 'src/app/providers/logged-in/company.service';
-import { CompanyContactService } from 'src/app/providers/logged-in/company-contact.service';
-import { AwsService } from 'src/app/providers/aws.service';
-import { AuthService } from 'src/app/providers/auth.service';
-import { CompanyRequestService } from 'src/app/providers/logged-in/company-request.service';
-import { BrandService } from 'src/app/providers/logged-in/brand.service';
+import { NoteService } from 'src/app/providers/logged-in/note.service';
 import { EventService } from 'src/app/providers/event.service';
-import { NoteService } from "../../../../providers/logged-in/note.service";
+import { AwsService } from 'src/app/providers/aws.service';
 // models
-import { CompanyContact } from 'src/app/models/company-contact';
 import { Company } from 'src/app/models/company';
-import { Store } from 'src/app/models/store';
-import { Brand } from 'src/app/models/brand';
 import { Note } from 'src/app/models/note';
-import { Request } from 'src/app/models/request';
 // pages
-import { UploadFilePage } from '../upload-file/upload-file.page';
-import { CompanyContactFormPage } from '../company-contact-form/company-contact-form.page';
 import { CompanyFollowupNotePage } from '../company-followup-note/company-followup-note.page';
-import { CompanyRequestFormPage } from '../company-request-form/company-request-form.page';
-import { BrandFormPage } from '../brand-form/brand-form.page';
-import { StoreFormPage } from '../../store/store-form/store-form.page';
 import { CompanyFormPage } from 'src/app/pages/logged-in/company/company-form/company-form.page';
-
-import NumberFormat = Intl.NumberFormat;
+import { TransferChartPage } from '../../transfer/transfer-chart/transfer-chart.page';
+import { TransferListPage } from '../../transfer/transfer-list/transfer-list.page';
+import { CompanyDocumentsPage } from '../company-documents/company-documents.page';
+import { CompanyContactsPage } from '../company-contacts/company-contacts.page';
+import { CompanyBrandsPage } from '../company-brands/company-brands.page';
+import { CompanyNotesPage } from '../company-notes/company-notes.page';
+import { CompanyRequestsPage } from '../company-requests/company-requests.page';
+import { CompanyMallsPage } from '../company-malls/company-malls.page';
+import { CompanySubcompaniesPage } from '../company-subcompanies/company-subcompanies.page';
+import { CompanyStoresPage } from '../company-stores/company-stores.page';
+import { CompanyNavPage } from '../company-nav/company-nav.page';
 
 
 @Component({
@@ -40,82 +32,47 @@ import NumberFormat = Intl.NumberFormat;
 })
 export class CompanyViewPage implements OnInit {
 
-  @ViewChild('statsChart') statsChart;
-
-  @ViewChild('ckeditor') ckeditor;
-
   @ViewChild(IonContent, { static: true }) content: IonContent;
 
   public followup = false;
 
-  public editorFocused: boolean = false;
-
-  public Editor = ClassicEditor;
-
-  public editorConfig = {
-    placeholder: 'Click here to take notes...',
-    toolbar: ['Heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', '|', 'indent', 'outdent'],
-  };
-
-  public loadingNotes: boolean = false;
-
-  public notePageCount;
-  public currentNotePage;
-
-  public notes: Note[] = [];
-
   public company_id;
 
   public company: Company;
-  public subCompanies: Company[] = [];
-  public stores: Store[] = [];
-
-  public requests: Request[] = [];
-
-  public companyContacts: CompanyContact[] = [];
-
-  public brands: Brand[] = [];
 
   public deleting = false;
   public loading = false;
   public updating = null;
 
-  public addingNote = false;
-
-  public sendingNewPassword = false;
-  public statsData: any[];
-  public segment = 'info';
-
-  public noteForm: FormGroup;
-
-  bars: any;
-  colorArray: any;
-
-  public legendDisplay = true;
-  public editNoteData: Note = new Note();
-  public companyStatus = false;
-
   public borderLimit = false;
 
+  public notes: Note[] = [];
+
+  public loadingNotes = false;
+  public stats = {
+    requests : 0,
+    subCompanies : 0,
+    stores : 0,
+    contacts : 0,
+    brands : 0,
+    malls : 0,
+    documents : 0,
+    transfers : 0
+  };
+
   constructor(
-    public platform: Platform,
     public modalCtrl: ModalController,
     public toastCtrl: ToastController,
     public alertCtrl: AlertController,
-    public router: Router,
-    private fb: FormBuilder,
     public activatedRoute: ActivatedRoute,
     public companyService: CompanyService,
+    public aws: AwsService,
     public eventService: EventService,
-    public authService: AuthService,
-    public requestService: CompanyRequestService,
-    public brandService: BrandService,
-    public noteService: NoteService,
-    public companyContactService: CompanyContactService,
-    public storeService: StoreService,
-    public awsService: AwsService,
-    public navCtrl: NavController
+    public noteService: NoteService
   ) {
+    this.eventService.reloadStats$.subscribe(response => {
+      this.loadStats();
+    });
   }
 
   ngOnInit() {
@@ -123,28 +80,15 @@ export class CompanyViewPage implements OnInit {
     // Load the passed model if available
     if (window && window.history.state) {
       this.company = window.history.state.model;
-      if (this.company && this.company.parentTransfers) {
-        this.statsData = this.company.parentTransfers.reverse();
-      }
-      this.loadChartStats();
     }
 
-    this.company_id = this.activatedRoute.snapshot.paramMap.get('company_id');
+    if (!this.company_id) {
+      this.company_id = this.activatedRoute.snapshot.paramMap.get('company_id');
+    }
 
     this.loadData();
-    this.loadContacts();
-    this.loadRequests();
+
     this.loadNotes();
-
-    if (this.platform.is('mobile')) {
-      this.legendDisplay = false;
-    }
-
-    this.initNoteForm();
-
-    this.eventService.reloadBrand$.subscribe(res => {
-      this.loadBrand();
-    });
 
     this.eventService.noteUpdated$.subscribe((data: any) => {
       if (data.company_id == this.company_id) {
@@ -153,13 +97,211 @@ export class CompanyViewPage implements OnInit {
     });
   }
 
+  async openStores() {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
+    const modal = await this.modalCtrl.create({
+      component: CompanyStoresPage,
+      componentProps: {
+        company: this.company,
+      }
+    });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
+    modal.present();
+  }
+
+  async openSubCompanies() {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
+    const modal = await this.modalCtrl.create({
+      component: CompanySubcompaniesPage,
+      componentProps: {
+        company: this.company,
+      }
+    });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
+    modal.present();
+  }
+
+  async openMalls() {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
+    /*const modal = await this.modalCtrl.create({
+      component: CompanyNavPage,
+      componentProps: {
+        activatedRoutePath: CompanyMallsPage,//'company-malls/' + this.company_id,
+        activatedRoutePathProps: {
+          company: this.company
+        }
+      }
+    });*/
+    const modal = await this.modalCtrl.create({
+      component: CompanyMallsPage,
+      componentProps: {
+        company: this.company
+      }
+    });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
+    modal.present();
+  }
+
+  async openDocuments() {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
+    const modal = await this.modalCtrl.create({
+      component: CompanyDocumentsPage,
+      componentProps: {
+        company: this.company,
+      }
+    });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
+    modal.present();
+  }
+
+  async openContacts() {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
+    const modal = await this.modalCtrl.create({
+      component: CompanyContactsPage,
+      componentProps: {
+        company: this.company,
+      }
+    });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
+    modal.present();
+  }
+
+  async openBrands() {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
+    const modal = await this.modalCtrl.create({
+      component: CompanyBrandsPage,
+      componentProps: {
+        company: this.company,
+      }
+    });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
+    modal.present();
+  }
+
+  async openNotes() {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
+    const modal = await this.modalCtrl.create({
+      component: CompanyNotesPage,
+      componentProps: {
+        company: this.company,
+      }
+    });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
+    modal.present();
+  }
+
+  async openRequests() {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
+    const modal = await this.modalCtrl.create({
+      component: CompanyRequestsPage,
+      componentProps: {
+        company: this.company,
+      }
+    });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
+    modal.present();
+  }
+
+  async openTransfers() {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
+    const modal = await this.modalCtrl.create({
+      component: TransferListPage,
+      componentProps: {
+        company: this.company,
+      }
+    });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
+    modal.present();
+  }
+
+  async openChart() {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
+    const modal = await this.modalCtrl.create({
+      component: TransferChartPage,
+      componentProps: {
+        company: this.company,
+      }
+    });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
+    modal.present();
+  }
+
   /**
    * load compay data
    */
   async loadData(silent = false) {
 
     setTimeout(_ => {
-      this.companyStatus = !!(this.company && this.company.company_status);
       this.followup = !!(this.company && this.company.company_followup);
     }, 500);
 
@@ -172,123 +314,23 @@ export class CompanyViewPage implements OnInit {
       this.company.company_id = this.company_id;
     }
 
-    this.companyService.view(this.company_id).subscribe(response => {
+    this.companyService.view(this.company_id, 'stats').subscribe(response => {
 
       this.loading = false;
       this.deleting = false;
       this.updating = false;
       this.company = response;
+      this.stats = response.stats;
 
       setTimeout(_ => {
-        this.companyStatus = !!(this.company.company_status);
         this.followup = !!(this.company.company_followup);
       }, 500);
-
-      this.subCompanies = response.subCompanies;
-      this.stores = response.stores;
-
-      this.brands = response.brands;
-
-      if (this.company && this.company.parentTransfers) {
-        this.statsData = this.company.parentTransfers.reverse();
-      }
-
-      this.loadChartStats();
 
     }, () => {
       this.loading = false;
       this.deleting = false;
       this.updating = false;
     });
-  }
-
-  /**
-   * load company notes
-   */
-  loadNotes() {
-    this.loadingNotes = true;
-
-    const params = '&company_id=' + this.company_id;
-
-    this.noteService.list(params, 1).subscribe(response => {
-
-      this.loadingNotes = false;
-
-      this.notePageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
-      this.currentNotePage = parseInt(response.headers.get('X-Pagination-Current-Page'));
-
-      this.notes = response.body;
-    }, () => {
-      this.loadingNotes = false;
-    });
-  }
-
-  /**
-   * load more notes on scroll to bottom
-   * @param event
-   */
-  doInfiniteNoteLoading(event) {
-
-    this.loadingNotes = true;
-
-    this.currentNotePage++;
-
-    const params = '&company_id=' + this.company_id;
-
-    this.noteService.list(params, this.currentNotePage).subscribe(response => {
-
-      this.notePageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
-      this.currentNotePage = parseInt(response.headers.get('X-Pagination-Current-Page'));
-
-      this.notes = this.notes.concat(response.body);
-    },
-      error => { },
-      () => {
-        this.loadingNotes = false;
-        event.target.complete();
-      }
-    );
-  }
-
-  loadRequests() {
-    this.requestService.list(this.company_id).subscribe(response => {
-      this.requests = response;
-    });
-  }
-
-  loadBrand() {
-    this.brandService.listByCompany(this.company_id).subscribe(response => {
-      this.brands = response;
-    });
-  }
-
-  /**
-   * Loads the create page
-   */
-  async addStore() {
-
-    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
-
-    const modal = await this.modalCtrl.create({
-      component: StoreFormPage,
-      componentProps: {
-        company_id: this.company_id,
-        company: this.company,
-        brands: this.company.brands
-      }
-    });
-    modal.onDidDismiss().then(e => {
-
-      if (!e.data || e.data.from != 'native-back-btn') {
-        window['history-back-from'] = 'onDidDismiss';
-        window.history.back();
-      }
-
-      if (e.data && e.data.refresh) {
-        this.loadData(true);
-      }
-    });
-    return await modal.present();
   }
 
   /**
@@ -325,70 +367,20 @@ export class CompanyViewPage implements OnInit {
     });
   }
 
-  /**
-   * retrun type name from mime type
-   * @param file_type
-   */
-  getFileType(file_type) {
-    const types = file_type.split('/');
-
-    if(types.length > 1)
-      return types[1];
-  }
-
-  /**
-   * Loads form to initiate a new transfer
-   */
-  createNewTransfer() {
-    this.navCtrl.navigateForward('transfer-form/' + this.company_id);
-  }
-
-  /**
-   * Loads form to initiate a new transfer
-   */
-  importTransfer() {
-    this.navCtrl.navigateForward('import-transfer-form/' + this.company_id);
-  }
-
-  /**
-   * Present action sheet to create a new transfer
-   */
-  async presentActionSheetForNewTransfer() {
-    const actionSheet = await this.alertCtrl.create({
-      header: 'How do you wish to create your transfer?',
-      buttons: [
-        {
-          text: 'Manual input of hours',
-          handler: () => {
-            this.createNewTransfer();
-          }
-        },
-        {
-          text: 'Excel sheet upload',
-          handler: () => {
-            this.importTransfer();
-          }
-        }
-      ]
-    });
-
-    actionSheet.present();
-  }
-
   isFollowUpIntervalPassed() {
 
     if (this.company.company_followup_interval_weeks == 0 || !this.company.company_last_followup_datetime) {
       return true;
     }
 
-    let followup_datetime = new Date(this.company.company_last_followup_datetime.replace(/-/g, '/') + ' UTC');
+    const followup_datetime = new Date(this.company.company_last_followup_datetime.replace(/-/g, '/') + ' UTC');
 
-    //date to follow
+    // date to follow
 
     followup_datetime.setDate(followup_datetime.getDate() + this.company.company_followup_interval_weeks * 7);
     followup_datetime.setHours(0, 0, 0, 0);
 
-    //current date
+    // current date
 
     const currentDate = new Date();
     currentDate.setHours(0, 0, 0, 0);
@@ -447,261 +439,6 @@ export class CompanyViewPage implements OnInit {
   }
 
   /**
-   * Delete the provided model
-   */
-  async deleteStore(event, store: Store) {
-
-    event.preventDefault();
-    event.stopPropagation();
-
-    const confirm = await this.alertCtrl.create({
-      header: 'Delete Store',
-      message: 'Are you sure you want to delete this Store?',
-      buttons: [
-        {
-          text: 'Yes',
-          handler: () => {
-
-            this.updating = true;
-
-            this.storeService.delete(store).subscribe(async jsonResp => {
-
-              this.updating = false;
-
-              if (jsonResp.operation == 'error') {
-                const alert = await this.alertCtrl.create({
-                  header: 'Deletion Error!',
-                  subHeader: jsonResp.message,
-                  buttons: ['OK']
-                });
-                alert.present();
-              }
-
-              if (jsonResp.operation == 'success') {
-                const toast = await this.toastCtrl.create({
-                  message: jsonResp.message,
-                  duration: 3000
-                });
-                toast.present();
-
-                this.stores = this.stores.filter(e => {
-                  return e.store_id != store.store_id;
-                });
-              }
-            }, () => {
-              this.updating = false;
-            });
-          }
-        },
-        {
-          text: 'No'
-        }
-      ]
-    });
-    confirm.present();
-  }
-
-  /**
-   * open brand edit page
-   * @param brand
-   */
-  async brandSelected(brand) {
-    this.router.navigate(['brand-view', brand.brand_uuid], {
-      state: {
-        model: brand
-      }
-    });
-  }
-  /**
-   * open brand edit page
-   * @param mall
-   */
-  async mallSelected(mall) {
-    this.router.navigate(['mall-view', mall.mall_uuid], {
-      state: {
-        model: mall
-      }
-    });
-  }
-
-  /**
-   * form to add new brand
-   */
-  async addBrand() {
-    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
-
-    const brand = new Brand();
-    brand.company_id = this.company_id;
-
-    const modal = await this.modalCtrl.create({
-      component: BrandFormPage,
-      componentProps: {
-        model: brand
-      }
-    });
-    modal.onDidDismiss().then(e => {
-
-      if (!e.data || e.data.from != 'native-back-btn') {
-        window['history-back-from'] = 'onDidDismiss';
-        window.history.back();
-      }
-
-      if (e && e.data && e.data.refresh) {
-        this.loadData(true);
-      }
-    });
-    modal.present();
-  }
-
-  onEditorFocus() {
-    this.editorFocused = true;
-  }
-
-  /**
-   * on note editor change
-   * @param event
-   */
-  onChange(event) {
-
-    if (!event.editor) {
-      return event;
-    }
-
-    const data = event.editor.getData();
-
-    this.noteForm.controls.note.setValue(data);
-    this.noteForm.markAsDirty();
-    this.noteForm.updateValueAndValidity();
-  }
-
-  initNoteForm() {
-    this.noteForm = this.fb.group({
-      note: ['', Validators.required],
-      type: ['Internal Note', Validators.required],
-      contact: [''],
-      request: [''],
-    });
-  }
-
-  /**
-   * add note
-   */
-  addNote() {
-    this.addingNote = true;
-
-    const model = new Note();
-    model.company_id = this.company_id;
-    model.note_text = this.noteForm.controls.note.value;
-    model.note_type = this.noteForm.controls.type.value;
-    model.contact_uuid = this.noteForm.controls.contact.value;
-    model.request_uuid = this.noteForm.controls.request.value;
-
-    let response = null;
-    if (this.editNoteData && this.editNoteData.note_uuid) {
-      model.note_uuid = this.editNoteData.note_uuid;
-      response = this.noteService.update(model);
-    } else {
-      response = this.noteService.create(model);
-    }
-
-    response.subscribe(async jsonResponse => {
-
-      this.addingNote = false;
-
-      // On Success
-      if (jsonResponse.operation == 'success') {
-
-        this.cancelAddNote();
-        this.loadNotes();
-      }
-
-      // On Failure
-      if (jsonResponse.operation == 'error') {
-        const prompt = await this.alertCtrl.create({
-          message: this.authService._processResponseMessage(jsonResponse),
-          buttons: ['Ok']
-        });
-        prompt.present();
-      }
-    }, () => {
-      this.editorFocused = false;
-      this.addingNote = false;
-    });
-  }
-
-  /**
-   * edit note
-   * @param note
-   */
-  async editNote(note: Note) {
-
-    this.editNoteData = note;
-    this.noteForm.controls.note.setValue(note.note_text);
-    this.ckeditor.editorInstance.setData(note.note_text);
-    this.editorFocused = true;
-
-    this.noteForm.controls.type.setValue(note.note_type);
-
-    if (note.contact_uuid) {
-      this.noteForm.controls.contact.setValue(note.contact_uuid);
-    }
-    if (note.request_uuid) {
-      this.noteForm.controls.request.setValue(note.request_uuid);
-    }
-  }
-
-  /**
-   * removing note
-   * @param event
-   * @param note
-   */
-  async removeNote(event, note) {
-
-    event.preventDefault();
-    event.stopPropagation();
-
-    const confirm = await this.alertCtrl.create({
-      header: 'Delete Note',
-      message: 'Do you want to delete this note?',
-      buttons: [
-        {
-          text: 'Yes',
-          handler: () => {
-
-            this.deleting = true;
-
-            this.noteService.delete(note).subscribe(async response => {
-
-              this.deleting = false;
-
-              if (response.operation == 'success') {
-                this.loadData(true);
-              } else {
-
-                this.deleting = false;
-
-                // failer text
-                const prompt = await this.alertCtrl.create({
-                  header: 'Deletion Error!',
-                  message: response.message,
-                  buttons: ['Ok']
-                });
-                prompt.present();
-              }
-            }, () => {
-              this.deleting = false;
-            });
-          }
-        },
-        {
-          text: 'No'
-        }
-      ]
-    });
-    confirm.present();
-  }
-
-  /**
    * add followup note
    */
   async addFollowupNote() {
@@ -723,7 +460,7 @@ export class CompanyViewPage implements OnInit {
       if (e && e.data && e.data.company_last_followup_datetime && this.company) {
         this.company.company_last_followup_datetime = e.data.company_last_followup_datetime;
 
-        //to update view
+        // to update view
 
         this.content.scrollToPoint(0, 1);
 
@@ -731,6 +468,24 @@ export class CompanyViewPage implements OnInit {
       }
     });
     modal.present();
+  }
+
+  /**
+   * load company notes
+   */
+  loadNotes() {
+    this.loadingNotes = true;
+
+    const params = '&company_id=' + this.company_id;
+
+    this.noteService.list(params).subscribe(response => {
+
+      this.loadingNotes = false;
+
+      this.notes = response;
+    }, () => {
+      this.loadingNotes = false;
+    });
   }
 
   /**
@@ -743,588 +498,9 @@ export class CompanyViewPage implements OnInit {
     }
   }
 
-  /**
-   * Load company detail page when its selected from the list
-   * @param model
-   */
-  rowSelected(model) {
-    this.router.navigate(['company-view', model.company_id], {
-      state: {
-        model
-      }
-    });
+  imageError() {
+    this.company.company_logo = null;
   }
-
-  /**
-   * push select company data to store view
-   * @param model
-   */
-  storeSelected(model) {
-    this.router.navigate(['store-view', model.store_id], {
-      state: {
-        model
-      }
-    });
-  }
-
-  loadContacts() {
-    this.companyContactService.companyContacts(this.company_id).subscribe(data => {
-      this.companyContacts = data;
-    });
-  }
-
-  async addCompanyContact() {
-    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
-
-    const companyContact = new CompanyContact;
-    companyContact.company_id = this.company_id;
-
-    const modal = await this.modalCtrl.create({
-      component: CompanyContactFormPage,
-      componentProps: {
-        model: companyContact
-      }
-    });
-    modal.onDidDismiss().then(e => {
-
-      if (!e.data || e.data.from != 'native-back-btn') {
-        window['history-back-from'] = 'onDidDismiss';
-        window.history.back();
-      }
-
-      if (e && e.data && e.data.refresh) {
-        this.loadContacts();
-      }
-    });
-    modal.present();
-  }
-
-  doNothing(event) {
-    event.stopPropagation();
-  }
-
-  segmentChanged($event) {
-    if ($event.detail.value == 'info') {
-      setTimeout(() => {
-        this.loadChartStats();
-      }, 150);
-    }
-    this.segment = $event.detail.value;
-  }
-
-  /**
-   * upload company document to S3
-   */
-  async uploadDocument() {
-    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
-
-    const modal = await this.modalCtrl.create({
-      component: UploadFilePage,
-      componentProps: {
-        company: this.company,
-      }
-    });
-    modal.present();
-    modal.onDidDismiss().then(e => {
-
-      if (!e.data || e.data.from != 'native-back-btn') {
-        window['history-back-from'] = 'onDidDismiss';
-        window.history.back();
-      }
-    });
-
-    const { data } = await modal.onWillDismiss();
-
-    if (data && data.refresh) {
-      this.loadData();
-    }
-  }
-
-  async editRequest(request) {
-    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
-
-    this.company.companyContacts = this.companyContacts;
-
-    const modal = await this.modalCtrl.create({
-      component: CompanyRequestFormPage,
-      componentProps: {
-        company: this.company,
-        request,
-      }
-    });
-    modal.present();
-    modal.onDidDismiss().then(e => {
-
-      if (!e.data || e.data.from != 'native-back-btn') {
-        window['history-back-from'] = 'onDidDismiss';
-        window.history.back();
-      }
-    });
-
-    const { data } = await modal.onWillDismiss();
-
-    if (data && data.refresh) {
-      this.loadRequests();
-    }
-  }
-
-  async addRequest() {
-    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
-
-    const request = new Request;
-
-    this.company.companyContacts = this.companyContacts;
-
-    if (this.company.companyContacts.length == 0) {
-      return this.addCompanyContact();
-    }
-
-    const modal = await this.modalCtrl.create({
-      component: CompanyRequestFormPage,
-      componentProps: {
-        company: this.company,
-        request,
-      }
-    });
-    modal.present();
-    modal.onDidDismiss().then(e => {
-
-      if (!e.data || e.data.from != 'native-back-btn') {
-        window['history-back-from'] = 'onDidDismiss';
-        window.history.back();
-      }
-    });
-
-    const { data } = await modal.onWillDismiss();
-
-    if (data && data.refresh) {
-      this.loadRequests();
-    }
-  }
-
-  startRequest(event, request) {
-
-    event.preventDefault();
-    event.stopPropagation();
-
-    this.requestService.start(request).subscribe(async response => {
-
-      if (response.operation == 'success') {
-        request.request_status = 'started';
-      } else {
-        this.toastCtrl.create({
-          message: response.message,
-          buttons: ['Ok']
-        }).then(prompt => {
-          prompt.present();
-        });
-      }
-    });
-  }
-
-
-  cancelledRequest(event, request) {
-
-    event.preventDefault();
-    event.stopPropagation();
-
-    this.alertCtrl.create({
-      header: 'Please provide feedback',
-      inputs: [
-        {
-          name: 'feedback',
-          type: 'textarea',
-          placeholder: 'Feedback'
-        }
-      ],
-      buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel',
-          cssClass: 'secondary'
-        }, {
-          text: 'Save',
-          handler: (data) => {
-            if (data.feedback) {
-              request.request_feedback = data.feedback;
-              this.requestService.cancel(request).subscribe(async response => {
-
-                if (response.operation == 'success') {
-                  request.request_status = 'cancelled';
-                } else {
-                  this.toastCtrl.create({
-                    message: response.message,
-                    buttons: ['Ok']
-                  }).then(prompt => {
-                    prompt.present();
-                  });
-                }
-              });
-            } else {
-              this.alertCtrl.create({
-                message: 'Please provide feedback',
-                buttons: ['ok']
-              }).then(alert => {
-                alert.present();
-              });
-            }
-          }
-        }
-      ]
-    }).then(alert => { alert.present(); });
-  }
-
-  deliveredRequest(event, request) {
-
-    event.preventDefault();
-    event.stopPropagation();
-
-
-    this.alertCtrl.create({
-      header: 'Please provide feedback',
-      inputs: [
-        {
-          name: 'feedback',
-          type: 'textarea',
-          placeholder: 'Feedback'
-        }
-      ],
-      buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel',
-          cssClass: 'secondary'
-        }, {
-          text: 'Save',
-          handler: (data) => {
-            if (data.feedback) {
-              request.request_feedback = data.feedback;
-              this.requestService.deliver(request).subscribe(async response => {
-
-                if (response.operation == 'success') {
-                  request.request_status = 'delivered';
-                } else {
-                  this.toastCtrl.create({
-                    message: response.message,
-                    buttons: ['Ok']
-                  }).then(prompt => {
-                    prompt.present();
-                  });
-                }
-              });
-            } else {
-              this.alertCtrl.create({
-                message: 'Please provide feedback',
-                buttons: ['ok']
-              }).then(alert => {
-                alert.present();
-              });
-            }
-          }
-        }
-      ]
-    }).then(alert => { alert.present(); });
-
-  }
-
-  loadLogo($event, company) {
-    company.company_logo = null;
-  }
-
-  ionViewDidEnter() {
-    // this.createBarChart();
-  }
-
-  /**
-   * @param xAxis
-   * @param complete
-   * @param paymentReceived
-   * @param inProgress
-   * @param profit
-   * @param totalCandidates
-   * @param totalCandidatePaid
-   * @param canAvgPayment
-   * @param averageProfitPerCandidate
-   * @param allTransfers
-   * @param pointBackgroundColors
-   */
-  createStatsChart(
-    xAxis,
-    complete,
-    paymentReceived,
-    inProgress,
-    profit,
-    totalCandidates,
-    totalCandidatePaid,
-    canAvgPayment,
-    averageProfitPerCandidate,
-    allTransfers,
-    pointBackgroundColors
-  ) {
-    if (this.segment == 'info' && this.statsChart && this.statsChart.nativeElement) {
-      this.bars = new Chart(this.statsChart.nativeElement, {
-        type: 'line',
-        data: {
-          // labels: ['S1', 'S2', 'S3', 'S4', 'S5', 'S6', 'S7', 'S8'],
-          // https://stackoverflow.com/questions/28159595/chartjs-different-color-per-data-point
-          datasets: [
-            {
-              label: 'Transfers (' + allTransfers.length + ')',
-              display: false,
-              data: allTransfers,
-              pointBackgroundColor: pointBackgroundColors,
-              pointBorderColor: pointBackgroundColors,
-              fill: false,
-              backgroundColor: 'rgb(38, 194, 129)',
-              borderColor: 'rgb(38, 194, 129)',
-              borderWidth: 1
-            },
-            {
-              label: 'Profit (' + profit.length + ')',
-              fill: false,
-              data: profit,
-              backgroundColor: 'red',
-              borderColor: 'red',
-              borderWidth: 1
-            }
-            , {
-              label: 'Total Candidates (' + totalCandidates.length + ')',
-              fill: false,
-              data: totalCandidates,
-              backgroundColor: 'Blue',
-              borderColor: 'Blue',
-              borderWidth: 1
-            }, {
-              label: 'Total Candidates Paid (' + totalCandidatePaid.length + ')',
-              fill: false,
-              data: totalCandidatePaid,
-              backgroundColor: '#ffbf00',
-              borderColor: '#ffbf00',
-              borderWidth: 1
-            }, {
-              label: 'Average Candidates Payment (' + canAvgPayment.length + ')',
-              fill: false,
-              data: canAvgPayment,
-              backgroundColor: '#F5CAC3',
-              borderColor: '#F5CAC3',
-              borderWidth: 1
-            }
-            , {
-              label: 'Average Profit Per Candidate (' + averageProfitPerCandidate.length + ')',
-              fill: false,
-              data: averageProfitPerCandidate,
-              backgroundColor: '#00ffff',
-              borderColor: '#00ffff',
-              borderWidth: 1
-            }
-          ]
-        },
-        options: {
-          legend: {
-            display: this.legendDisplay,
-            position: 'bottom'
-          },
-          scales: {
-            xAxes: [{
-              // display: false,
-              type: 'category',
-              labels: xAxis,
-            }],
-            yAxes: [{
-              ticks: {
-                beginAtZero: true,
-                callback: (value) => {
-                  return (new Intl.NumberFormat('en-US', {
-                    style: 'currency',
-                    currency: 'KWD',
-                  })).format(value);
-                }
-              }
-            }]
-          },
-          tooltips: {
-            callbacks: {
-              label: (context) => {
-
-                let label = '';
-                // let label = context.label || '';Complete/payment received/inprogress
-                if (context.datasetIndex == 0) {
-                  if (allTransfers[context.index].status == '4') {
-                    label += '\nTransfer Completed on ' + context.label + '\n';
-                  } else if (allTransfers[context.index].status == '1') {
-                    label += '\nConfirm Received on ' + context.label + '\n';
-                  } else if (allTransfers[context.index].status == '3') {
-                    label += '\nDistribution in Progress on ' + context.label + '\n';
-                  }
-                }
-
-
-                if (context.datasetIndex == 1) {
-                  label += '\nProfit on ' + context.label + '\n';
-                } else if (context.datasetIndex == 2) {
-                  label += '\nTotal Candidates on ' + context.label + '\n';
-                } else if (context.datasetIndex == 3) {
-                  label += '\nTotal Candidates Paid on ' + context.label + '\n';
-                } else if (context.datasetIndex == 4) {
-                  label += '\nAverage Candidates Payment on ' + context.label + '\n';
-                } else if (context.datasetIndex == 5) {
-                  label += '\nAverage Profit Per Candidate on ' + context.label + '\n';
-                }
-
-                if (context.datasetIndex == 2) {
-                  label += 'are ' + allTransfers[context.index].totalCandidateTransferTotal;
-                } else if (!isNaN(context.yLabel)) {
-                  label += new Intl.NumberFormat('en-US', {
-                    style: 'currency',
-                    currency: 'KWD'
-                  }).format(context.yLabel);
-                }
-                return label;
-              }
-            }
-          }
-        }
-      });
-    }
-  }
-
-  loadChartStats() {
-    const allTransfers = [];
-    const complete = [];
-    const paymentReceived = [];
-    const inprogress = [];
-    const xAxis = [];
-    const profit = [];
-    const totalCandidates = [];
-    const totalCandidatePaid = [];
-    const canAvgPayment = [];
-    const averageProfitPerCandidate = [];
-    const pointBackgroundColors = [];
-    if (this.company && this.statsData && this.statsData.length > 0) {
-      for (const transfer of this.statsData) {
-        // Complete/payment received/inprogress
-        if (transfer.transfer_status == 4 || transfer.transfer_status == 1 || transfer.transfer_status == 3) {
-          // Complete/payment received/inprogress
-          if (transfer.transfer_status == 4) {
-            // Complete transfer
-            complete.push(transfer.company_total.replace(/,/g, ''));
-          }
-
-          if (transfer.transfer_status == 1) {
-            // payment received transfer
-            paymentReceived.push(transfer.company_total);
-          }
-
-          if (transfer.transfer_status == 3) {
-            // Inprogress transfer
-            inprogress.push(transfer.company_total);
-          }
-
-
-          // one line for profit
-          if (transfer.profit) {
-            const tProfit = transfer.profit.replace(/,/g, '');
-            profit.push(tProfit);
-          }
-
-          // one line showing candidates count transferred to in that transfer
-          if (transfer.totalCandidateTransferTotal) {
-            totalCandidates.push(transfer.totalCandidateTransferTotal);
-          }
-
-          // one line for total distributed to candidates
-          // let totalPaid = 0;
-          // for (const candidatePaid of transfer.paidTransferCandidates) {
-          //   totalPaid += candidatePaid.total_paid;
-          // }
-          totalCandidatePaid.push(transfer.total);
-
-          // average payment per candidate
-          canAvgPayment.push((transfer.total / transfer.totalPaid));
-
-          // Also average profit per candidate would be nice
-          const profits = 0;
-          if (transfer.profit && transfer.paidTransferCandidates && transfer.paidTransferCandidates.length > 0) {
-            const profits = transfer.profit.replace(/,/g, '');
-            averageProfitPerCandidate.push((profits / transfer.paidTransferCandidates.length));
-          }
-
-          allTransfers.push({
-            x: transfer.transfer_created_at_unix,
-            y: transfer.company_total.replace(/,/g, ''),
-            id: '1A',
-            transfer_id: transfer.transfer_id,
-            total: transfer.company_total,
-            status: transfer.transfer_status,
-            profit: transfer.profit.replace(/,/g, ''),
-            totalCandidateTransferTotal: transfer.totalCandidateTransferTotal,
-            totalCandidatePaid: transfer.total,
-            canAvgPayment: (transfer.total / transfer.totalPaid),
-            averageProfitPerCandidate: (profits / transfer.paidTransferCandidates.length),
-          });
-
-          if (transfer.transfer_status == 4) {
-            pointBackgroundColors.push('rgb(38, 194, 129)');
-          } else if (transfer.transfer_status == 1) {
-            pointBackgroundColors.push('#8000ff');
-          } else if (transfer.transfer_status == 3) {
-            pointBackgroundColors.push('#387ef5');
-          }
-
-          // Horizontal line shows transfer date
-          xAxis.push(transfer.transfer_created_at_unix);
-        }
-      }
-
-      this.createStatsChart(
-        xAxis, complete, paymentReceived,
-        inprogress, profit, totalCandidates,
-        totalCandidatePaid, canAvgPayment,
-        averageProfitPerCandidate,
-        allTransfers,
-        pointBackgroundColors
-      );
-    }
-  }
-
-  onEditorReady(event: any) {
-    // this.editorReady = event.editor;
-  }
-
-  /**
-   * Create a new company
-   * @param parent_company_id
-   * @param isSubcompany
-   */
-  async create(parent_company_id: number, isSubcompany: boolean = false) {
-    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
-
-    const company = new Company();
-
-    company.parent_company_id = parent_company_id;
-
-    const modal = await this.modalCtrl.create({
-      component: CompanyFormPage,
-      componentProps: {
-        model: company,
-        company_id: company.company_id,
-        subcompany: isSubcompany
-      }
-    });
-    modal.onDidDismiss().then(e => {
-
-      if (!e.data || e.data.from != 'native-back-btn') {
-        window['history-back-from'] = 'onDidDismiss';
-        window.history.back();
-      }
-
-      if (e && e.data && e.data.refresh) {
-        this.loadData(true);
-      }
-    });
-    modal.present();
-  }
-
 
   /**
    * Loads Form in modal to update
@@ -1355,72 +531,17 @@ export class CompanyViewPage implements OnInit {
     modal.present();
   }
 
-  /**
-   * change company status
-   * @param $event
-   */
-  async changeStatus($event) {
-
-    this.companyStatus = $event.detail.checked;
-
-    const status = ($event.detail.checked) ? 10 : 0;
-
-    if (status == this.company.company_status) {
-      return;
-    }
-    this.updating = true;
-
-    // if (!status) {
-    //   const prompt = await this.alertCtrl.create({
-    //     header: 'Attention!',
-    //     message: 'Please unassign all staff from this company before making client inactive',
-    //     buttons: ['Ok']
-    //   });
-    //   prompt.present();
-    // }
-
-    this.updating = true;
-
-    this.companyService.changeStatus(this.company, status).subscribe(async response => {
-
-      this.updating = false;
-
-      if (response && response.operation == 'success') {
-
-        this.eventService.reloadCompanyList$.next();
-        this.company.company_status = status;
-        const toast = await this.toastCtrl.create({
-          message: response.message,
-          duration: 3000
-        });
-        toast.present();
-      } else if (response.operation != 'success') {
-        this.companyStatus = !$event.detail.checked;
-        const prompt = await this.alertCtrl.create({
-          header: 'Error!',
-          message: response.message,
-          buttons: ['Ok']
-        });
-        prompt.present();
-      }
-    }, () => {
-      this.updating = false;
-    });
-  }
-
   logScrolling(e) {
     this.borderLimit = (e.detail.scrollTop > 20);
   }
 
-  cancelAddNote() {
-    this.editNoteData = new Note();
-
-    this.ckeditor.editorInstance.setData('');
-    this.editorFocused = false;
-
-    this.noteForm.controls.note.reset();
-    this.noteForm.controls.type.reset();
-    this.noteForm.controls.contact.reset();
-    this.noteForm.controls.request.reset();
+  /**
+   * load company stats
+   */
+  loadStats(silent = false) {
+    this.companyService.stats(this.company_id).subscribe(response => {
+      this.stats = response.stats;
+    }, () => {
+    });
   }
 }

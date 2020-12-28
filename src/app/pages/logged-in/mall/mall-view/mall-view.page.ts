@@ -7,6 +7,7 @@ import { MallService } from 'src/app/providers/logged-in/mall.service';
 import { Mall } from 'src/app/models/mall';
 //pages
 import { MallFormPage } from "../mall-form/mall-form.page";
+import {EventService} from "../../../../providers/event.service";
 
 
 @Component({
@@ -18,9 +19,11 @@ export class MallViewPage implements OnInit {
 
   public borderLimit = false;
 
-  public mallUUID: string;
-  public mall: Mall;
-  public loading = false;
+  public mall_uuid: string;
+
+  public mall;
+
+  public loading: boolean = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -28,19 +31,27 @@ export class MallViewPage implements OnInit {
     private modalCtrl: ModalController,
     private navCtrl: NavController,
     private alertCtrl: AlertController,
-    private toastCtrl: ToastController
+    private toastCtrl: ToastController,
+    private eventService: EventService
   ) { }
 
   ngOnInit() {
-    this.mallUUID = this.activatedRoute.snapshot.paramMap.get('id');
+
+    if(!this.mall_uuid)
+      this.mall_uuid = this.activatedRoute.snapshot.paramMap.get('id');
+
     this.loadData();
   }
 
   loadData() {
     this.loading = true;
-    this.mallService.view(this.mallUUID).subscribe(res => {
+
+    this.mallService.view(this.mall_uuid).subscribe(data => {
       this.loading = false;
-      this.mall = res;
+
+      this.mall = data;
+    }, () => {
+      this.loading = false;
     });
   }
 
@@ -107,6 +118,7 @@ export class MallViewPage implements OnInit {
               }
 
               if (jsonResp.operation == 'success') {
+                this.eventService.reloadStats$.next();
                 const toast = await this.toastCtrl.create({
                   message: jsonResp.message,
                   duration: 3000
@@ -125,4 +137,14 @@ export class MallViewPage implements OnInit {
     confirm.present();
   }
 
+  /**
+   * close page
+   */
+  dismiss() {
+    this.modalCtrl.getTop().then(overlay => {
+      if(overlay) {
+        overlay.dismiss();
+      }
+    });
+  }
 }

@@ -36,7 +36,8 @@ export class TeamViewPage implements OnInit {
 
   ngOnInit() {
 
-    this.staff_id = this.activatedRoute.snapshot.paramMap.get('id');
+    if(!this.staff_id)
+      this.staff_id = this.activatedRoute.snapshot.paramMap.get('id');
     
     const state = window.history.state;
     

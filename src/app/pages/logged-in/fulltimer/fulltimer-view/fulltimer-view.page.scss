@@ -1,4 +1,334 @@
-ckeditor{
-  width: 100%;
+ion-content {
+  --padding-start: 30px;
+  --padding-end: 30px;
+}
+
+ion-thumbnail {
+  width: 136px;
+  height: 136px;
+  --border-radius: 100%;
+  margin: 38px 0 32px 0;
+}
+
+h2.fulltimer-name {
+  margin: 32px 0 3px 0;
+  font-size: 36px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: black;
+  text-transform: capitalize;
+}
+
+.badge-wrapper {
   margin-top: 15px;
+}
+
+ion-badge {
+  margin: 0 11px 10px 0;
+  padding: 5px 9px 2px;
+  background-color: #f2f2f2;
+  font-size: 12px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: #000;
+  border-radius: 0;
+  text-transform: capitalize;
+}
+
+.objective {
+  margin: 0 0 12px 0;
+  font-size: 18px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: black;
+}
+
+.details ion-item {
+  --inner-border-width: 0;
+  --padding-start: 51px;
+  margin-bottom: 2px;
+
+  ion-label {
+      white-space: normal;
+      margin-bottom: 0;
+      font-size: 14px;
+  }
+
+  h5 {
+      margin: 0 0 0 0;
+      font-size: 14px;
+      font-weight: bold;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: normal;
+      letter-spacing: normal;
+      color: black;
+  }
+
+  p {
+      margin: 0;
+      font-size: 14px;
+      font-weight: normal;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: normal;
+      letter-spacing: normal;
+      color: black;
+  }
+
+  .hint {
+      font-family: EffraLight;
+      margin: 7px 0 11px 0;
+      font-size: 14px;
+      font-weight: normal;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: normal;
+      letter-spacing: normal;
+      text-align: left;
+      color: var(--black);
+  }
+}
+
+.phone,
+.email,
+.whatsapp {
+  --padding-start: 46px;
+  --inner-border-width: 0;
+  margin-bottom: 5px;
+
+  ion-label {
+      white-space: normal;
+      margin-bottom: 0;
+      font-size: 14px;
+  }
+
+  h5 {
+      margin: 0;
+      font-size: 16px;
+      font-weight: bold;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: normal;
+      letter-spacing: normal;
+      color: black;
+  }
+
+  p {
+      margin: 3px 0 0 0;
+      font-size: 14px;
+      font-weight: normal;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: normal;
+      letter-spacing: normal;
+      color: black;
+  }
+}
+
+.whatsapp {
+  --padding-start: 0 !important;
+}
+
+.note-wrapper,
+.suggestion-wrapper {
+  .heading {
+    margin: 42px 0 24px 0;
+    font-size: 21px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: left;
+    color: #000;
+  }
+
+  note {
+    margin: 0 0 9px;
+  }
+
+  .btn-view-notes {
+    border-radius: 5px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08), 2px 0 4px 0 rgba(0, 0, 0, 0.12);
+    background-color: #ffffff;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.65;
+    letter-spacing: normal;
+    text-align: center;
+    color: #000;
+    width: 100%;
+    height: 41px;
+    text-transform: none;
+    margin: 0;
+    --background: none;
+    --box-shadow: none;
+  }
+
+  ion-item {
+    --inner-border-width: 0;
+    --padding-top: 3px;
+    --padding-end: 0px;
+    --padding-bottom: 3px;
+    --padding-start: 21px;
+    --background: none;
+    margin-bottom: 9px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08), 2px 0 4px 0 rgba(0, 0, 0, 0.12);
+
+    ion-label {
+        font-size: 14px;
+        font-weight: bold;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.65;
+        letter-spacing: normal;
+        text-align: left;
+        color: #000;
+    }
+
+    ion-note {
+        font-weight: bold;
+        font-size: 12px;
+        text-align: center;
+        width: 34px;
+        height: 25px;
+        margin: 13px 0 0;
+        padding: 5px 9px 2px;
+        background-color: #f2f2f2;
+    }
+
+    ion-note.accepted {
+      color: #fff;
+      background: #219653;
+    }
+    
+    ion-note.rejected {
+      color: #fff;
+      background: #eb5757;
+    }
+  }
+}
+
+.note-wrapper {
+  margin-bottom: 23px;
+
+  .heading {
+    margin-top: 32px;
+  }
+}
+
+.skills,
+.experiences {
+  p {
+      margin-top: 10px;
+  }
+
+  span {
+      clear: both;
+      display: block;
+  }
+}
+
+.area {
+  --background: url('src/assets/images/ic_home_2.svg') no-repeat 0px 11px;
+}
+
+.phone {
+  --background: url('src/assets/images/ic_phone.svg') no-repeat 0px 15px;
+}
+
+.whatsapp {
+  --padding-start: 0px;
+  --background: none;
+  
+  ion-icon {
+    color: #000;
+  }
+}
+
+.email {
+  --background: url('src/assets/images/ic_message.svg') no-repeat 0px 15px;
+}
+
+.nationality {
+  --background: url('src/assets/images/ic_globe.svg') no-repeat 0px 15px;
+}
+
+.mother-nationality {
+  --background: url('src/assets/images/ic_username.svg') no-repeat 0px 15px;
+}
+
+.created-at {
+  --background: url('src/assets/images/ic_timer.svg') no-repeat 0px 15px;
+
+  p {
+    margin-bottom: 0 !important;
+  }
+}
+
+.required {
+  color: #eb5757 !important;
+
+  h5, p {
+    color: #eb5757 !important;
+  }
+}
+
+.area,
+.phone,
+.email,
+.nationality,
+.mother-nationality {
+  margin-bottom: 5px;
+}
+
+ion-footer {
+  ion-button {
+    width: calc(100% - 28px);
+    height: 53px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.65;
+    letter-spacing: normal;
+    text-align: center;
+    text-transform: none;
+    display: block;
+    margin: 10px 14px;
+    --box-shadow: none;
+  }
+
+  .btn-export-cv {
+    --background: #333333;
+    color: #ffffff;
+  }
+
+  .btn-suggest {
+    --background: #219653;
+    color: #ffffff;
+  }
+}
+
+.nationality ion-label {
+  margin-top: 5px;
+}
+
+.area ion-label {
+  margin-top: 0;
 }

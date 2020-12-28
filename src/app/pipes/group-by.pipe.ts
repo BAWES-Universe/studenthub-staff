@@ -9,10 +9,15 @@ export class GroupByPipe implements PipeTransform {
     const groups = {};
 
     value.forEach(o => {
+
+      if(!o) 
+        return null;
+
       const group = o.store_id;
 
       groups[group] = groups[group] ?
          groups[group] : { name: o.store_name, resources: [] };
+
       groups[group].resources.push(o);
     });
 

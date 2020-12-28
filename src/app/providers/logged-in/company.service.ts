@@ -70,19 +70,30 @@ export class CompanyService {
   }
 
   /**
-   * model detail
-   * @param company_id
+   * @param companyID
+   * @param expands
    */
-  view(company_id) {
-    return this._authhttp.get(this._companyEndpoint + '/' + company_id + '?expand=brands,subCompanies,subCompanies.stores,subCompanies.stores.mall,stores,stores.mall,subCompanies.stores.candidates,files,requests,notes,brands,parentTransfers,parentTransfers.profit,parentTransfers.childTransfers,parentTransfers.childTransfers.company,parentTransfers.totalCandidateTransferTotal,parentTransfers.totalPaid,parentTransfers.paidTransferCandidates,malls,notes.createdBy,notes.updatedBy,companyContacts');
+  view(
+    companyID,
+    expands= 'brands,subCompanies,subCompanies.stores,subCompanies.stores.mall,subCompanies.stores.brand,stores,stores.mall,stores.brand,subCompanies.stores.candidates,files,requests,notes,brands,parentTransfers,parentTransfers.profit,parentTransfers.childTransfers,parentTransfers.childTransfers.company,parentTransfers.totalCandidateTransferTotal,parentTransfers.totalPaid,parentTransfers.paidTransferCandidates,malls,notes.createdBy,notes.updatedBy,companyContacts'
+  ) {
+    return this._authhttp.get(this._companyEndpoint + '/' + companyID + '?expand=' + expands);
+  }
+
+  /**
+   * model detail
+   * @param companyID
+   */
+  stats(companyID) {
+    return this._authhttp.get(this._companyEndpoint + '/' + companyID + '?expand=stats');
   }
 
   /**
    * detail with all candidates
    * @returns {Observable<any>}
    */
-  getWithCandidates(company_id): Observable<any> {
-    let url = `${this._companyEndpoint}/${company_id}?expand=candidates,candidates.store,candidates.company`;
+  getWithCandidates(companyID): Observable<any> {
+    let url = `${this._companyEndpoint}/${companyID}?expand=candidates,candidates.store,candidates.company`;
     return this._authhttp.get(url);
   }
 
@@ -184,7 +195,6 @@ export class CompanyService {
     const url = `${this._companyEndpoint}/reset-password/${model.company_id}`;
     return this._authhttp.patch(url, {});
   }
-
 
   /**
    * change company status

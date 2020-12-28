@@ -1,21 +1,17 @@
-<ion-header [class.add-border]="borderLimit" (click)="refreshFulltimers()" class="ion-no-border">
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="/"></ion-back-button>
-    </ion-buttons>
-
-    <ion-buttons slot="end" class="mobile-only" *ngIf="showFilter">
-      <ion-button fill="clear" (click)="openFilter()" class="btn-filter skip-hover">
-        <span>
-          <img src="assets/images/ic-filter.svg"> Filter
-        </span>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
 
 <ion-content #container scrollEvents="true" (ionScroll)="logScrolling($event)" class="source-browser-page">
 
+  <div class="btn-wrapper">
+    <ion-button (click)="openFilter()" class="btn-filter skip-hover mobile-only"  fill="clear"  *ngIf="!showFilter">
+      <ion-icon slot="start" src="assets/images/ic-filter.svg"></ion-icon>Filter
+    </ion-button>
+    <!-- 
+    <ion-button fill="clear" class="btn-all-candidates" (click)="allFulltimers()">
+      All Fulltimers
+    </ion-button>
+    -->
+  </div>
+  
   <!-- loader when config not available -->
 
   <ion-grid *ngIf="!instantSearchConfig" class="dummy">
@@ -182,7 +178,7 @@
       <ion-spinner *ngIf="loading || refreshingFulltimers || nbHits == null"></ion-spinner>
     </ion-button>
 
-    <ion-button [hidden]="showFilter" expand="full" (click)="create($event)">
+    <ion-button [hidden]="showFilter" (click)="create($event)">
       Add Fulltimer
     </ion-button>
 

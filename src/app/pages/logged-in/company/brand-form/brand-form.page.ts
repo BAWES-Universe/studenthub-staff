@@ -10,6 +10,7 @@ import { BrandService } from 'src/app/providers/logged-in/brand.service';
 import { AwsService } from 'src/app/providers/aws.service';
 import { SentryErrorhandlerService } from 'src/app/providers/sentry.errorhandler.service';
 import { CameraService } from 'src/app/providers/camera.service';
+import {EventService} from "../../../../providers/event.service";
 
 
 @Component({
@@ -50,7 +51,8 @@ export class BrandFormPage implements OnInit {
     public actionSheetCtrl: ActionSheetController,
     private alertCtrl: AlertController,
     public modalCtrl: ModalController,
-    private _toastCtrl: ToastController
+    private _toastCtrl: ToastController,
+    private eventService: EventService
   ) { }
 
   ngOnInit() {
@@ -127,7 +129,7 @@ export class BrandFormPage implements OnInit {
 
       // On Success
       if (jsonResponse.operation == 'success') {
-
+        this.eventService.reloadStats$.next();
         // Close the page
         const data = { refresh: true };
         this.modalCtrl.dismiss(data);
@@ -318,7 +320,7 @@ export class BrandFormPage implements OnInit {
     {
       this.progress = 1;
 
-      this.uploadFileSubscription = this.awsService.uploadFile('_', fileList[0]).subscribe(event => {
+      this.uploadFileSubscription = this.awsService.uploadFile(fileList[0]).subscribe(event => {
         this._handleFileSuccess(event);
       }, async err => {
 
@@ -412,7 +414,7 @@ export class BrandFormPage implements OnInit {
 
     this.currentTarget.abort();
   }
-  
+
   logScrolling(e) {
     this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
   }

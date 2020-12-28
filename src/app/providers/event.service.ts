@@ -11,7 +11,9 @@ export class EventService {
   public profileUpdated$ = new Subject();
   public error404$ = new Subject();
   public error500$ = new Subject();
+  
   public userLogined$ = new Subject();
+  
   public pageSelected$ = new Subject();
   public internetOffline$ = new Subject();
   public internetOnline$ = new Subject();
@@ -21,6 +23,7 @@ export class EventService {
   public reloadCandiate$ = new Subject();
   public reloadCompanyList$ = new Subject();
   public reloadBrand$ = new Subject();
+  public reloadStats$ = new Subject();
 
   public clearCandidateSelection$ = new Subject();
 
