@@ -295,6 +295,14 @@ const routes: Routes = [
   },
 
   {
+    path: 'company-followup-list',
+    loadChildren: () => import('./pages/logged-in/company/company-followup-list/company-followup-list.module').then(m => m.CompanyFollowupListPageModule),
+    data: {
+      name: 'CompanyFollowupListPage',
+    }
+  },
+
+  {
     path: 'company-contact-view',
     loadChildren: () => import('./pages/logged-in/company/company-contact/company-contact-view/company-contact-view.module').then( m => m.CompanyContactViewPageModule),
     canActivate: [AuthService],

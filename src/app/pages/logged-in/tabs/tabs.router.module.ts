@@ -47,14 +47,6 @@ const routes: Routes = [
       },
 
       {
-        path: 'company-followup-list',
-        loadChildren: () => import('../company/company-followup-list/company-followup-list.module').then(m => m.CompanyFollowupListPageModule),
-        data: {
-          name: 'CompanyFollowupListPage',
-        }
-      },
-
-      {
         path: 'company-request-dashboard',
         loadChildren: () => import('../company/company-request-dashboard/company-request-dashboard.module').then( m => m.CompanyRequestDashboardPageModule)
       },
