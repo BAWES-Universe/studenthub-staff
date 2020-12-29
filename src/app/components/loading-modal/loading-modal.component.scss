@@ -966,6 +966,7 @@
     }
 
     h5 {
+      font-weight: bold;
       margin: 27px 0 24px 0;
     }
 
@@ -1042,6 +1043,47 @@
     .right-side {
       padding-top: 0;
     }
+  }
+
+  .last-activity {
+    h5 ion-skeleton-text {
+      height: 22px;
+      width: 38%;
+    }
+    .txt-time {
+      margin-bottom: 12px;
+      width: 39%;
+    }
+    ion-badge {
+      background: gainsboro;
+      width: 96px;
+    }
+  }
+  label ion-skeleton-text {
+    height: 31px;
+    width: 55%;
+    margin-bottom: 13px;
+  }
+  .company-name-english ion-skeleton-text {
+    height: 21px;
+    margin-bottom: 23px;
+    width: 55%;
+  }
+
+  .company-name-arabic ion-skeleton-text {
+    height: 16px;
+    width: 55%;
+    margin-bottom: 21px;
+  }
+  .last-activity  p{
+    width:69%
+  }
+  p.email {
+    width: 36%;
+  }
+
+  .hourly-rate,.description,.website {
+    width: 49%;
   }
 }
 
