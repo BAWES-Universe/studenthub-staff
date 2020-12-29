@@ -1,13 +1,3 @@
-@media only screen and (min-width: 768px) {
-  ion-header {
-    box-shadow: 0 0.5px 4px 0 rgba(0, 0, 0, 0.25);
-  }
-
-  ion-header::after {
-    display: none;
-  }
-}
-
 ion-toolbar ion-buttons {
   position: relative;
 }
@@ -16,7 +6,7 @@ ion-grid {
   --ion-grid-padding: 0;
 }
 
-ion-col.mobile {
+ion-col {
   --ion-grid-column-padding: 0;
 }
 
@@ -192,7 +182,7 @@ applied-filters {
     //background: white;
     position: fixed;
     height: 100%;
-    top: 120px;
+    top: 57px;
     overflow: scroll;
     padding-bottom: 100px !important;
   }
@@ -244,6 +234,7 @@ applied-filters {
 
 .btn-filter {
   color: #f24459;
+  --color: #f24459;
 }
 
 .btn-all-candidates {
@@ -401,11 +392,5 @@ ion-footer {
     width: 100%;
     position: relative;
     top: 0;
-  }
-}
-
-@media only screen and (min-width: 768px) {
-  .btn-add-filter {
-    display: block;
   }
 }

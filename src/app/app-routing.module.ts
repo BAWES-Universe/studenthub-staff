@@ -295,6 +295,24 @@ const routes: Routes = [
   },
 
   {
+    path: 'candidate-search',
+    loadChildren: () => import('./pages/logged-in/candidate/candidate-search/candidate-search.module').then(m => m.CandidateSearchPageModule),
+    data: {
+      name: 'CandidateSearchPage',
+      navDisable: true,
+    }
+  },
+  
+  {
+    path: 'fulltimer-search',
+    loadChildren: () => import('./pages/logged-in/fulltimer/fulltimer-search/fulltimer-search.module').then( m => m.FulltimerSearchPageModule),
+    data: {
+      name: 'FulltimerSearchPage',
+      navDisable: true
+    }
+  },
+
+  {
     path: 'company-followup-list',
     loadChildren: () => import('./pages/logged-in/company/company-followup-list/company-followup-list.module').then(m => m.CompanyFollowupListPageModule),
     data: {

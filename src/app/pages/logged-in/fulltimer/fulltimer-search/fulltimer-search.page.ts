@@ -567,6 +567,10 @@ export class FulltimerSearchPage implements OnInit {
   }
 
   logScrolling(e) {
-    this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
+    if(e.target) {
+      this.borderLimit = e.target.scrollTop > 20;
+    } else {
+      this.borderLimit = (e.detail.scrollTop > 20);
+    }
   }
 }

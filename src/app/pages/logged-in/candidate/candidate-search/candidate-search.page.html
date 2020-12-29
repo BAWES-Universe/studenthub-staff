@@ -1,16 +1,24 @@
 
+<ion-header [class.add-border]="borderLimit" class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+
+    <ion-buttons slot="end">
+      <ion-button (click)="openFilter()" class="btn-filter skip-hover mobile-only"  fill="clear"  *ngIf="!showFilter">
+        <ion-icon slot="start" src="assets/images/ic-filter.svg"></ion-icon> Filter
+      </ion-button>
+      <ion-button fill="clear" class="btn-all-candidates" (click)="allCandidate()">
+        All Candidates
+      </ion-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+
 <ion-content #container scrollEvents="true" (ionScroll)="logScrolling($event)" class="source-browser-page" [attr.dir]="translateService.direction()">
 
-  <div class="btn-wrapper">
-    <!-- !loading && nbHits > 0 &&  -->
-    <ion-button (click)="openFilter()" class="btn-filter skip-hover mobile-only"  fill="clear"  *ngIf="!showFilter">
-      <ion-icon slot="start" src="assets/images/ic-filter.svg"></ion-icon> Filter
-    </ion-button>
-    <ion-button fill="clear" class="btn-all-candidates" (click)="allCandidate()">
-      All Candidates
-    </ion-button>
-  </div>
-  
   <!-- loader when config not available -->
 
   <ion-grid *ngIf="!instantSearchConfig" class="dummy">
@@ -47,7 +55,7 @@
       <ion-row [class.filter-closed]="!showFilter" [class.filter-opened]="showFilter">
 
         <ion-col size-sm="12" size-md="4" size-lg="4" class="col-filter">
-          <div class="filter-wrapper">
+          <div class="filter-wrapper" (scroll)="logScrolling($event)">
             <candidate-filter [class.hidden]="loading && !nbHits"></candidate-filter>
             <loading-modal [loading]="loading && !nbHits" type="candidate-filter"></loading-modal>
           </div>

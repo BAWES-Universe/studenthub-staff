@@ -1,16 +1,26 @@
 
-<ion-content #container scrollEvents="true" (ionScroll)="logScrolling($event)" class="source-browser-page">
+<ion-header [class.add-border]="borderLimit" class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
 
-  <div class="btn-wrapper">
-    <ion-button (click)="openFilter()" class="btn-filter skip-hover mobile-only"  fill="clear"  *ngIf="!showFilter">
-      <ion-icon slot="start" src="assets/images/ic-filter.svg"></ion-icon>Filter
-    </ion-button>
-    <!-- 
-    <ion-button fill="clear" class="btn-all-candidates" (click)="allFulltimers()">
-      All Fulltimers
-    </ion-button>
-    -->
-  </div>
+    <ion-buttons slot="end">
+
+      <ion-button (click)="openFilter()" class="btn-filter mobile-only" *ngIf="!showFilter">
+        <ion-icon slot="start" src="assets/images/ic-filter.svg"></ion-icon> Filter
+      </ion-button>
+  
+      <ion-button class="btn-add-filter" (click)="create($event)">
+        Add Fulltimer
+      </ion-button>  
+
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content #container scrollEvents="true" (ionScroll)="logScrolling($event)" class="source-browser-page">
   
   <!-- loader when config not available -->
 
@@ -49,7 +59,7 @@
       <ion-row [class.filter-closed]="!showFilter" [class.filter-opened]="showFilter">
 
         <ion-col size-sm="12" size-md="4" size-lg="4" class="col-filter">
-          <div class="filter-wrapper">
+          <div class="filter-wrapper" (scroll)="logScrolling($event)">
             <fulltimer-filter [class.hidden]="loading && !nbHits"></fulltimer-filter>
             <loading-modal [loading]="loading && !nbHits" type="candidate-filter"></loading-modal>
           </div>
@@ -159,22 +169,15 @@
   </instant-search>
 
 </ion-content>
-<ion-footer>
-  <ion-toolbar class="ion-no-padding">
 
-    <ion-button [hidden]="!showFilter" [disabled]="loading || refreshingFulltimers || nbHits == 0" expand="full"
-      (click)="dismiss()" class="btn-view-fulltimers mobile-only skip-hover">
+<ion-footer [class.filter-closed]="!showFilter" [class.filter-opened]="showFilter">
+  <ion-toolbar class="ion-no-padding">
+    <ion-button [disabled]="loading || nbHits == 0" (click)="dismiss()" expands="full" class="btn-view-fulltimers">
       <span *ngIf="!loading || !refreshingFulltimers">
         <span *ngIf="nbHits == 0">No Job Found</span>
         <span *ngIf="nbHits > 0">View {{ nbHits }} fulltimers</span>
       </span>
       <ion-spinner *ngIf="loading || refreshingFulltimers || nbHits == null"></ion-spinner>
     </ion-button>
-
-    <ion-button class="btn-add-filter" [class.hidden]="showFilter" (click)="create($event)">
-      Add Fulltimer
-    </ion-button>
-
   </ion-toolbar>
-
 </ion-footer>

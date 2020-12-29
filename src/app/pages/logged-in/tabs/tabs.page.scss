@@ -38,10 +38,6 @@ app-tabs .brand {
   content: none;
 }
 
-ion-tab-bar[slot="top"] {
-  margin-top: 10px;
-}
-
 ion-tab-button:hover {
   ion-icon {
     filter: invert(46%) sepia(57%) saturate(5695%) hue-rotate(330deg) brightness(99%) contrast(92%);

@@ -42,6 +42,10 @@ body {
   }
 }
 
+ion-tabs ion-back-button {
+  display: none !important;
+}
+
 .hidden {
     display: none;
 }
@@ -63,6 +67,11 @@ body {
 }
 
 .mobile-only {
+  display: none;
+}
+
+ion-footer.filter-opened,
+ion-footer.filter-closed {
   display: none;
 }
 
@@ -94,6 +103,13 @@ body {
     }
   }
 
+  ion-footer.filter-opened {
+    display: block;
+  }
+
+  ion-footer.filter-closed {
+    display: none;
+  }
 }
 
 .select_search_store_id {

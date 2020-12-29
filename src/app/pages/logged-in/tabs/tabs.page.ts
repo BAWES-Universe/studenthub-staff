@@ -1,5 +1,5 @@
 import { Component, Renderer2, ViewChild, OnInit, ViewEncapsulation } from '@angular/core';
-import { Platform, IonTabs } from '@ionic/angular';
+import { Platform, IonTabs, ActionSheetController } from '@ionic/angular';
 import { Router } from '@angular/router';
 // services
 import { AuthService } from 'src/app/providers/auth.service';
@@ -22,6 +22,7 @@ export class TabsPage implements OnInit {
   public totalRequest: any = 0;
 
   constructor(
+    public actionSheetCtrl: ActionSheetController,
     public eventService: EventService,
     public renderer: Renderer2,
     public platform: Platform,
@@ -80,6 +81,25 @@ export class TabsPage implements OnInit {
 
   logout() {
     this.authService.logout();
+  }
+
+  async showCandidateActions() {
+
+    const actionSheet = await this.actionSheetCtrl.create({
+      header: 'Candidates',
+      buttons: [{
+        text: 'Part-timers',
+        handler: () => {
+          this.router.navigate(['/candidate-search']);
+        }
+      }, {
+        text: 'Full-timers',
+        handler: () => {
+          this.router.navigate(['/fulltimer-search']);
+        }
+      }]
+    });
+    actionSheet.present();
   }
 
   /**
