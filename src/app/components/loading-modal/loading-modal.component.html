@@ -1412,3 +1412,38 @@
     </ion-card-content>
   </ion-card>
 </div>
+
+
+<div class="store-list" *ngIf="loading && type=='store-list'">
+  <ion-card>
+    <ion-card-content>
+      <h5><ion-skeleton-text animated></ion-skeleton-text></h5>
+
+      <p class="icon-location">
+        <ion-icon name="navigate-outline"></ion-icon> <ion-skeleton-text animated></ion-skeleton-text>
+      </p>
+      <p class="icon-location">
+        <ion-icon name="pricetag-outline"></ion-icon> <ion-skeleton-text animated></ion-skeleton-text>
+      </p>
+      <p>
+        <ion-icon name="storefront-outline"></ion-icon> <ion-skeleton-text animated></ion-skeleton-text>
+      </p>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-content>
+      <h5><ion-skeleton-text animated></ion-skeleton-text></h5>
+
+      <p class="icon-location">
+        <ion-icon name="navigate-outline"></ion-icon> <ion-skeleton-text animated></ion-skeleton-text>
+      </p>
+      <p class="icon-location">
+        <ion-icon name="pricetag-outline"></ion-icon> <ion-skeleton-text animated></ion-skeleton-text>
+      </p>
+      <p>
+        <ion-icon name="storefront-outline"></ion-icon> <ion-skeleton-text animated></ion-skeleton-text>
+      </p>
+    </ion-card-content>
+  </ion-card>
+</div>
