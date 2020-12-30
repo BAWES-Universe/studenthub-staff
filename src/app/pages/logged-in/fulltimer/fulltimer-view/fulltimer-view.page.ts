@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FulltimerService } from 'src/app/providers/logged-in/fulltimer.service';
 import { AwsService } from 'src/app/providers/aws.service';
 import { NoteService } from '../../../../providers/logged-in/note.service';
+import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 import { EventService } from 'src/app/providers/event.service';
 // models
 import { Fulltimer } from 'src/app/models/fulltimer';
@@ -12,7 +13,7 @@ import { Note } from 'src/app/models/note';
 import { SuggestPage } from "../../suggest/suggest.page";
 // pages
 import { FulltimerFormPage } from '../fulltimer-form/fulltimer-form.page';
-import { TranslateLabelService } from 'src/app/providers/translate-label.service';
+import { CompanyNoteFormPage } from '../../company/company-note-form/company-note-form.page';
 
 
 @Component({
@@ -63,6 +64,38 @@ export class FulltimerViewPage implements OnInit {
       this.loading = false;
       this.fulltimer = res;
     });
+  }
+
+  /**
+   * open popup to update modal
+   */
+  async addNote() {
+
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
+    let note = new Note;
+    note.fulltimer_uuid = this.fulltimer_uuid;
+    
+    const modal = await this.modalCtrl.create({
+      component: CompanyNoteFormPage,
+      componentProps: {
+        note: note
+      }
+    });
+    modal.present();
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
+
+    const { data } = await modal.onWillDismiss();
+
+    if (data && data.refresh) {
+      this.loadNotes();
+    }
   }
 
   openNotes() {
