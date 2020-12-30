@@ -3,15 +3,16 @@
     <ion-buttons slot="start">
       <ion-back-button (click)="dismiss()"></ion-back-button>
     </ion-buttons>
-<!--    <ion-buttons slot="end">-->
-<!--      <ion-button fill="clear" (click)="addNoteShow()">Add Note</ion-button>-->
-<!--    </ion-buttons>-->
+    <ion-title *ngIf="addNewNote">Add Note</ion-title>
+    <ion-buttons slot="end" *ngIf="!addNewNote">
+      <ion-button fill="clear" (click)="addNoteShow()">Add Note</ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
 
-  <ion-list class="title-list">
+  <ion-list class="title-list" *ngIf="!addNewNote">
     <h3 class="title">
       Notes
     </h3>

@@ -12,7 +12,6 @@ import { NoteService } from 'src/app/providers/logged-in/note.service';
 import { AuthService } from 'src/app/providers/auth.service';
 import { CompanyContactService } from 'src/app/providers/logged-in/company-contact.service';
 import { CompanyService } from "../../../../providers/logged-in/company.service";
-import { NoteViewPage } from '../../note/note-view/note-view.page';
 
 
 @Component({
@@ -301,7 +300,11 @@ export class CompanyNotesPage implements OnInit {
   }
 
   dismiss() {
-    this.modalCtrl.dismiss();
+    if(this.addNewNote) {
+      this.addNewNote = false;
+    } else {
+      this.modalCtrl.dismiss();
+    }
   }
 
   logScrolling(e) {
