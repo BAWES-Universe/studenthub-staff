@@ -115,6 +115,10 @@ export class CandidateNotesPage implements OnInit {
 
     if (data && data.refresh) {
       this.loadNotes();
+
+      this.eventService.noteUpdated$.next({
+        candidate_id: this.candidate_id
+      });
     }
   }
 

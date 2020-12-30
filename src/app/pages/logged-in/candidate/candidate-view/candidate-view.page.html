@@ -148,20 +148,26 @@
               </ion-item>
             </div>
             <div class="note-wrapper">
-              <h5 class="heading" *ngIf="notes.length > 0">Notes</h5>
+              
+              <h5 class="heading">Notes</h5>
 
               <note *ngIf="notes.length > 0" [routerLink]="'/note-view/' + notes[0].note_uuid" from="company-view"
                     [note]="notes[0]" (onChange)="loadNotes()" (onDelete)="loadNotes()"></note>
 
-              <ion-button class="btn-view-notes" *ngIf="notes.length > 1" (click)="openNotes()">
-                View all {{ notes.length }} notes
+              <ion-button class="btn-view-notes" *ngIf="notes.length > 0" (click)="openNotes()">
+                <span *ngIf="notes.length > 1">View all {{ notes.length }} notes</span>
+                <span *ngIf="notes.length == 1">Manage notes</span>
               </ion-button>
+
+              <ion-button class="btn-add-note" *ngIf="notes.length == 0" (click)="addNote()">
+                Add note
+              </ion-button>
+              
             </div>
           </div>
         </ion-col>
         <ion-col size-xs="12" size-sm="12" size-md="6" size-lg="6" size-xl="6">
           <div class="right-side">
-
 
             <div class="details">
 
@@ -366,6 +372,8 @@
             <h5 *ngIf="salaryTransfers.length > 0">Salary Transfers</h5>
 
             <transfer [transferCandidate]="salary" *ngFor="let salary of salaryTransfers"></transfer>
+
+
           </div>
         </ion-col>
       </ion-row>

@@ -241,6 +241,7 @@ export class CompanyViewPage implements OnInit {
         window['history-back-from'] = 'onDidDismiss';
         window.history.back();
       }
+      
     });
     modal.present();
   }

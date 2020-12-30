@@ -115,6 +115,10 @@ export class FulltimerNotesPage implements OnInit {
 
     if (data && data.refresh) {
       this.loadNotes();
+
+      this.eventService.noteUpdated$.next({
+        fulltimer_uuid: this.fulltimer_uuid
+      });
     }
   }
 

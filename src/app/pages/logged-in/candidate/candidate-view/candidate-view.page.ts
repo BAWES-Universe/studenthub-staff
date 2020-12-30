@@ -29,6 +29,7 @@ import { AllCompanyListPage } from '../../company/company-request-list/all-compa
 import { CompanyRequestListPopupPage } from '../../company/company-request-list/company-request-list-popup/company-request-list-popup.page';
 import { SuggestPage } from '../../suggest/suggest.page';
 import { SelectSearchPageComponent } from 'src/app/components/select-search/select-search-page/select-search-page.component';
+import { CompanyNoteFormPage } from '../../company/company-note-form/company-note-form.page';
 
 
 @Component({
@@ -653,8 +654,40 @@ export class CandidateViewPage implements OnInit {
   }
 
   /**
-   * add new note for candidate
+   * open popup to update modal
    */
+  async addNote() {
+
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
+    let note = new Note;
+    note.candidate_id = this.candidate_id;
+    
+    const modal = await this.modalCtrl.create({
+      component: CompanyNoteFormPage,
+      componentProps: {
+        note: note
+      }
+    });
+    modal.present();
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
+
+    const { data } = await modal.onWillDismiss();
+
+    if (data && data.refresh) {
+      this.loadNotes();
+    }
+  }
+
+  /**
+   * add new note for candidate
+   *
   addNote() {
     this.addingNote = true;
 
@@ -696,7 +729,7 @@ export class CandidateViewPage implements OnInit {
       this.editorFocused = false;
       this.addingNote = false;
     });
-  }
+  }*/
 
   /**
    * on note editor change
