@@ -42,7 +42,8 @@
             <div class="last-activity">
               <p class="followup">
                 <ng-container *ngIf="company.company_status && !company.parent_company_id">Active.</ng-container>
-                <ng-container *ngIf="company.company_status && !company.parent_company_id">Inactive.</ng-container>
+                <ng-container *ngIf="!company.company_status && !company.parent_company_id">Inactive.</ng-container>
+
                 <span *ngIf="company.company_followup">
                 Follow up every {{ company.company_followup_interval_weeks }} weeks
               </span>

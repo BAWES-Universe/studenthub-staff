@@ -19,10 +19,10 @@
         <p>{{ company.company_last_followup_datetime | timeAgo }}</p>
       </ng-container>
     </div>
-    <ion-badge class="company_status_badge danger" slot="start" *ngIf="!company.company_status">
+    <ion-badge class="company_status_badge danger" slot="start" *ngIf="!company.company_status && !company.parent_company_id">
       Inactive
     </ion-badge>
-    <ion-badge class="company_status_badge success" slot="start" *ngIf="company.company_status">
+    <ion-badge class="company_status_badge success" slot="start" *ngIf="company.company_status && !company.parent_company_id">
       Active
     </ion-badge>
     <ion-badge slot="start" color="light" *ngIf="company.total_candidate > 0">
