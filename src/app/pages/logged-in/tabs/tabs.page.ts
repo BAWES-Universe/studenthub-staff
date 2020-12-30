@@ -86,7 +86,7 @@ export class TabsPage implements OnInit {
   async showCandidateActions() {
 
     const actionSheet = await this.actionSheetCtrl.create({
-      header: 'Candidates',
+      //header: 'Candidates',
       buttons: [{
         text: 'Part-timers',
         handler: () => {
