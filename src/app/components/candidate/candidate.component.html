@@ -17,10 +17,6 @@
         <small *ngIf="latestWorkStartedOn"> Latest Work Started on {{ toDate(latestWorkStartedOn) | date }} </small>
       </p>
 
-      <ion-badge *ngIf="candidate.approved == 0 && candidate.isProfileCompleted == true" color="warning">
-        Requires Approval
-      </ion-badge>
-
       <ion-badge *ngIf="candidate.isProfileCompleted == false" color="danger">
         Incomplete Profile
       </ion-badge>
