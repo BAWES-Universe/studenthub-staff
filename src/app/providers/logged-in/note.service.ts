@@ -49,10 +49,10 @@ export class NoteService {
       company_id: model.company_id,
       note: model.note_text,
       type: model.note_type,
-      contact_uuid: model.contact_uuid,
-      request_uuid: model.request_uuid,
-      fulltimer_uuid: model.fulltimer_uuid,
-      candidate_id: model.candidate_id
+      contact_uuid: model.contact_uuid? model.contact_uuid: null,
+      request_uuid: model.request_uuid? model.request_uuid: null,
+      fulltimer_uuid: model.fulltimer_uuid? model.fulltimer_uuid: null,
+      candidate_id: model.candidate_id? model.candidate_id: null
     });
   }
 
@@ -65,10 +65,10 @@ export class NoteService {
       note: model.note_text,
       type: model.note_type,
       company_id: model.company_id,
-      contact_uuid: model.contact_uuid,
-      request_uuid: model.request_uuid,
-      fulltimer_uuid: model.fulltimer_uuid,
-      candidate_id: model.candidate_id
+      contact_uuid: model.contact_uuid? model.contact_uuid: null,
+      request_uuid: model.request_uuid? model.request_uuid: null,
+      fulltimer_uuid: model.fulltimer_uuid? model.fulltimer_uuid: null,
+      candidate_id: model.candidate_id? model.candidate_id: null
     });
   }
 

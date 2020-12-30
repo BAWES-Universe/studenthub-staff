@@ -120,6 +120,7 @@ ion-content {
         color: #000;
     }
 
+    .btn-add-note,
     .btn-view-notes {
         border-radius: 5px;
         box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08), 2px 0 4px 0 rgba(0, 0, 0, 0.12);
@@ -138,6 +139,10 @@ ion-content {
         margin: 0;
         --background: none;
         --box-shadow: none;
+    }
+
+    .btn-add-note {
+        margin-top: 15px;
     }
 
     note {

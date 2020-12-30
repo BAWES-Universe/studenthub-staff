@@ -220,13 +220,19 @@ export class CompanyViewPage implements OnInit {
     modal.present();
   }
 
-  async openNotes() {
+  addNote() {
+    this.openNotes(true);
+  }
+
+  async openNotes(addNewNote = false) {
     window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
     const modal = await this.modalCtrl.create({
       component: CompanyNotesPage,
       componentProps: {
         company: this.company,
+        addNewNote: addNewNote,
+        editorFocused: addNewNote
       }
     });
     modal.onDidDismiss().then(e => {
