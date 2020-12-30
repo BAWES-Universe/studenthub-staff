@@ -18,7 +18,7 @@
 
   <div *ngIf="request && !loading">
 
-    <h4 class="company-name" tappable [routerLink]="'/company-view/' + request.company_id">{{ request.company.company_name }}</h4>
+    <h4 class="company-name" tappable [routerLink]="'/company-view/' + request.company_id">{{ request.company.company_common_name_en }}</h4>
 
     <p class="txt-looking" *ngIf="request.request_status == 'started'">is looking for </p>
     <p class="txt-looking" *ngIf="request.request_status != 'started'">was looking for </p>
@@ -74,7 +74,7 @@
 </ion-content>
 
 <ion-footer *ngIf="request && request.request_status == 'started'">
-    
+
   <ion-grid>
     <ion-row>
       <ion-col size-xs="6">
@@ -88,5 +88,5 @@
         </ion-button>
       </ion-col>
     </ion-row>
-  </ion-grid> 
+  </ion-grid>
 </ion-footer>
