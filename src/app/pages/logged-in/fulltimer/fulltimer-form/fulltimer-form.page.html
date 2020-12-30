@@ -9,7 +9,7 @@
 
     <ion-buttons slot="end">
       <ion-button color="primary"
-                  [disabled]="!form.dirty || !form.valid || loading"
+                  [disabled]="!form || !form.dirty || !form.valid || loading"
                   (click)="save()">
         <span *ngIf="!loading">Save</span>
         <ion-spinner *ngIf="loading"></ion-spinner>

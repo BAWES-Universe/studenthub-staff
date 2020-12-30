@@ -15,7 +15,8 @@ import { Fulltimer, FulltimerTag } from 'src/app/models/fulltimer';
 //pages
 import { FulltimerLocationPage } from '../fulltimer-location/fulltimer-location.page';
 import { NationalityPage } from '../../pickers/nationality/nationality.page';
-import {CustomValidator} from "../../../../validators/custom.validator";
+//validator
+import { CustomValidator } from "../../../../validators/custom.validator";
 
 
 @Component({
@@ -67,7 +68,7 @@ export class FulltimerFormPage implements OnInit {
   ngOnInit() {
 
     this.fulltimerUUID = this.activatedRoute.snapshot.paramMap.get('id');
-    
+
     // Load the passed model if available
     const state = window.history.state;
 
@@ -94,9 +95,13 @@ export class FulltimerFormPage implements OnInit {
   }
 
   initForm() {
-    
+
     let tagCtrls = [];
 
+    if(!this.model.fulltimerTags) {
+      this.model.fulltimerTags = [];
+    }
+    
     for (let fulltimerTag of this.model.fulltimerTags) {
       tagCtrls.push(this.fb.group({
         tag: [fulltimerTag.tag]//, [Validators.required]
@@ -104,7 +109,7 @@ export class FulltimerFormPage implements OnInit {
     }
 
     //show atleast one input for tag 
-  
+
     tagCtrls.push(this.fb.group({
       tag: ['']//, [Validators.required]
     }));
@@ -135,14 +140,14 @@ export class FulltimerFormPage implements OnInit {
 
       let location, nationality;
 
-      if(this.model.area && this.model.country) {
-        location = this.model.area.area_name_en + ', '+ this.model.country.country_name_en;
+      if (this.model.area && this.model.country) {
+        location = this.model.area.area_name_en + ', ' + this.model.country.country_name_en;
       }
 
-      if(this.model.nationality) {
+      if (this.model.nationality) {
         nationality = this.model.nationality.country_name_en;
       }
-        
+
       this.form = this.fb.group({
         nationality_id: [this.model.nationality_id, Validators.required],
         nationality: [nationality, Validators.required],
@@ -309,7 +314,7 @@ export class FulltimerFormPage implements OnInit {
     event.preventDefault();
     event.stopPropagation();
 
-    if(this.platform.is('hybrid')) {
+    if (this.platform.is('hybrid')) {
       this.mobileUpload();
     } else {
       this.fileInput.nativeElement.click();
@@ -335,7 +340,7 @@ export class FulltimerFormPage implements OnInit {
       async err => {
         // log to slack/sentry to know how many user getting file upload error
 
-        if(!err.message || !err.message.includes('aborted')) {
+        if (!err.message || !err.message.includes('aborted')) {
 
           const alert = await this.alertCtrl.create({
             header: 'Error',
@@ -416,11 +421,11 @@ export class FulltimerFormPage implements OnInit {
 
   getResumeUrl() {
 
-    if(this.form.controls.tempPdfCVLocation.value) {
+    if (this.form.controls.tempPdfCVLocation.value) {
       return decodeURIComponent(this.form.controls.tempPdfCVLocation.value);
     }
 
-    if(this.form.controls.pdf_cv.value) {
+    if (this.form.controls.pdf_cv.value) {
       return this.awsService.permanentBucketUrl + 'fulltimer-resume/' + encodeURIComponent(this.form.controls.pdf_cv.value);
     }
   }
