@@ -53,13 +53,30 @@ export class CompanyDocumentsPage implements OnInit {
 
   /**
    * retrun type name from mime type
-   * @param file_type
+   * @param file
    */
-  getFileType(file_type) {
-    const types = file_type.split('/');
+  getFileType(file) {
 
-    if(types.length > 1)
+    const extension = this.awsService.getFileExtension(file.file_s3_path);
+
+    if(extension) 
+      return extension;
+
+    //if no extension, user mime type 
+    
+    const types = file.file_type.split('/');
+
+    if(types.length > 1 && types[1].length > 0) {
+
+      //spreadsheet officedocument
+      if(types[1].includes('spreadsheet')) {
+        return 'spreadsheet';
+      }
+      
       return types[1];
+    }
+
+    return 'Document';
   }
 
   /**

@@ -157,7 +157,7 @@ export class AwsService {
             apiVersion: '2006-03-01'
         });
 
-        const extension = this._getFileExtension(file.name);
+        const extension = this.getFileExtension(file.name);
 
         let prefix = this._getFileNameWithoutExtension(file.name);
 
@@ -221,7 +221,7 @@ export class AwsService {
     /**
      * Take file name / path and return the file extension.
      */
-    private _getFileExtension(path) {
+    getFileExtension(path) {
         const basename = path.split(/[\\/]/).pop(),  // extract file name from full path ...
                                                 // (supports `\\` and `/` separators)
             pos = basename.lastIndexOf('.');       // get last position of `.`
