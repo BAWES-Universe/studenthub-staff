@@ -267,7 +267,7 @@ export class ImportTransferFormPage implements OnInit {
     const options: CalendarModalOptions = {
       canBackwardsSelected: true,
       pickMode: 'range',
-      title: 'RANGE',
+      title: '',
       defaultScrollTo: new Date(this.end_date ? this.end_date : new Date()),
       defaultDateRange: {
         from: new Date(this.start_date ? this.start_date : ''),
@@ -277,6 +277,7 @@ export class ImportTransferFormPage implements OnInit {
 
     const myCalendar = await this.modalCtrl.create({
       component: CalendarModal,
+      cssClass: 'modal-calender',
       componentProps: { options }
     });
 

@@ -50,7 +50,7 @@
     </ion-row>
   </ion-grid>
 
-  <instant-search #instantSearch *ngIf="instantSearchConfig" [config]="instantSearchConfig" [searchParameters]="searchParameters">
+  <ais-instantsearch #instantSearch *ngIf="instantSearchConfig" [config]="instantSearchConfig">
     <ion-grid>
       <ion-row [class.filter-closed]="!showFilter" [class.filter-opened]="showFilter">
 
@@ -63,24 +63,24 @@
         
         <ion-col size-xs="12" size-sm="12" size-md="8" size-lg="8" size-xl="8" class="col-listing employer-list-wrapper">
 
-          <is-infinite-hits class="cv-list">
+          <div class="list-header" *ngIf="showSearchBox">
+
+            <div class="applied-filters-wrapper">
+              <applied-filters [loading]="refreshingCandidates" [labelWithoutFilter]="'Showing candidates'"
+                               [labelWithFilter]="'Showing candidates for'">
+              </applied-filters>
+            </div>
+            <div class="searchBox">
+              <ion-searchbar (ionChange)="onSearch($event)" placeholder="{{ 'Type to filter from these results' | translate }}"></ion-searchbar>
+              <!-- <is-search-box [searchAsYouType]="true"
+                placeholder="{{ 'Type to filter from these results' | translate }}">
+              </is-search-box>-->
+            </div>
+
+          </div>
+
+          <ais-infinite-hits class="cv-list">
             <ng-template let-results="results" let-showMore="showMore" let-hits="hits">
-
-              <div class="list-header" *ngIf="showSearchBox">
-
-                <div class="applied-filters-wrapper">
-                  <applied-filters [loading]="refreshingCandidates" [labelWithoutFilter]="'txt_showing_candidates_for'"
-                                   [labelWithFilter]="'txt_showing_candidates'">
-                  </applied-filters>
-                </div>
-                <div class="searchBox">
-                  <ion-searchbar (ionChange)="onSearch($event)" placeholder="{{ 'Type to filter from these results' | translate }}"></ion-searchbar>
-                  <!-- <is-search-box [searchAsYouType]="true"
-                    placeholder="{{ 'Type to filter from these results' | translate }}">
-                  </is-search-box>-->
-                </div>
-
-              </div>
 
               <div [class.hidden]="refreshingCandidates" class="candidate-wrapper">
                 <candidate tappable (click)="rowSelected(hit)" type='candidate' [candidate]="hit" *ngFor="let hit of hits"></candidate>
@@ -96,7 +96,7 @@
               </ion-infinite-scroll>
 
             </ng-template>
-          </is-infinite-hits>
+          </ais-infinite-hits>
 
           <!-- No results message -->
 
@@ -107,7 +107,7 @@
         </ion-col>
       </ion-row>
     </ion-grid>
-  </instant-search>
+  </ais-instantsearch>
 
 </ion-content>
 <ion-footer *ngIf="showFilter || candidateService.candidates.length > 0">
@@ -134,7 +134,10 @@
     <ion-button class="btn-generate"
       [disabled]="candidateIdCardService.candidates.length == 0 || merging || downloading"
       (click)="generate()">
-      <span *ngIf="!downloading">Download Zip</span>
+      <span *ngIf="!downloading">
+        Download Zip
+        <small *ngIf="candidateService.candidates.length != candidateIdCardService.candidates.length">(Unassigned selected)</small>
+      </span>
       <ion-spinner *ngIf="downloading"></ion-spinner>
     </ion-button>
 

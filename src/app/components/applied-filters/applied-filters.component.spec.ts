@@ -5,7 +5,7 @@ import { AppliedFiltersComponent } from './applied-filters.component';
 import { AppliedFiltersModule } from './applied-filters.module';
 import { APP_BASE_HREF } from '@angular/common';
 import { AppModule } from '../../app.module';
-import { InstantSearchComponent } from '../instant-search/instant-search.component'; 
+import { NgAisInstantSearch } from 'angular-instantsearch';
 
 
 describe('AppliedFiltersPage', () => {
@@ -35,7 +35,7 @@ describe('AppliedFiltersPage', () => {
     .overrideComponent(AppliedFiltersComponent, {
       set: {
         providers: [
-          { provide: InstantSearchComponent, useValue: null }
+          { provide: NgAisInstantSearch, useValue: null }
         ]
       }
     })

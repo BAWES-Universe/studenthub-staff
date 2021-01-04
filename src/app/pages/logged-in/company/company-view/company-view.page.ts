@@ -70,13 +70,14 @@ export class CompanyViewPage implements OnInit {
     public eventService: EventService,
     public noteService: NoteService
   ) {
-    this.eventService.reloadStats$.subscribe(response => {
-      this.loadStats();
-    });
   }
 
   ngOnInit() {
 
+    this.eventService.reloadStats$.subscribe(response => {
+      this.loadStats();
+    });
+    
     // Load the passed model if available
     if (window && window.history.state) {
       this.company = window.history.state.model;

@@ -1,11 +1,7 @@
 import { Component, Inject, forwardRef, Input, ViewEncapsulation } from '@angular/core';
-import { BaseWidget } from 'angular-instantsearch';
-import { capitalize, noop } from "angular-instantsearch/esm2015/utils";
-import { connectCurrentRefinements } from "instantsearch.js/es/connectors";
-import * as tslib_1 from "tslib";
-import { InstantSearchComponent } from '../instant-search/instant-search.component';
-//services
-import { TranslateLabelService } from '../../providers/translate-label.service';
+import { BaseWidget, NgAisInstantSearch } from 'angular-instantsearch';
+import { noop } from "angular-instantsearch/esm2015/utils";
+import { connectCurrentRefinedValues } from "instantsearch.js/es/connectors";
 
 
 @Component({
@@ -24,9 +20,8 @@ export class CurrentRefinementComponent extends BaseWidget {
     public state;
 
     constructor(
-        @Inject(forwardRef(() => InstantSearchComponent))
-        public instantSearchParent,
-        public _translateService: TranslateLabelService
+        @Inject(forwardRef(() => NgAisInstantSearch))
+        public instantSearchParent
     ) {
         super('CurrentRefinementComponent');
 
@@ -55,42 +50,13 @@ export class CurrentRefinementComponent extends BaseWidget {
 
         //connectCurrentRefinedValues
         if(this.instantSearchParent) { 
-            this.createWidget(connectCurrentRefinements, options);
+            this.createWidget(connectCurrentRefinedValues, options);
             super.ngOnInit();
         }
     }
 
-    /**
-     * Return current selection for given attribute 
-     */
-    refinements() {
-        /** @type {?} */
-        var items = typeof this.transformItems === "function"
-            ? this.transformItems(this.state.items)
-            : this.state.items;
-
-        // group refinements by category? (attribute && type)
-        return items.reduce(function (res, _a) {
-            var type = _a.type, attribute = _a.attribute, refinement = tslib_1.__rest(_a, ["type", "attribute"]);
-            /** @type {?} */
-            var match = res.find(function (r) { return r.attribute === attribute && r.type === type; });
-            if (match) {
-                match.items.push(tslib_1.__assign({ type: type, attribute: attribute }, refinement));
-            }
-            else {
-                res.push({
-                    type: type,
-                    attribute: attribute,
-                    label: capitalize(attribute),
-                    items: [tslib_1.__assign({ type: type, attribute: attribute }, refinement)]
-                });
-            }
-            return res;
-        }, []);
-    }
-
     json() {
-        return JSON.stringify(this.refinements, null, 4);
+        return JSON.stringify(this.state.refinements, null, 4);
     }
 
     /**
@@ -131,7 +97,8 @@ export class CurrentRefinementComponent extends BaseWidget {
      * @return boolean 
      */
     isHidden() {
-        return this.state.items.length === 0;// && this.autoHideContainer;
+        return this.state.refinements && 
+            this.state.refinements.filter(b => b.attributeName == this.attribute).length === 0;// && this.autoHideContainer;
     }
 
     /**
@@ -139,18 +106,140 @@ export class CurrentRefinementComponent extends BaseWidget {
      */
     currentSelections() {
         
+        if(!this.state || !this.state.refinements) {
+            return false;    
+        }
+
         let a = [];
 
-        for (let b of this.state.items) {
-
-            let refinements = typeof this.transformItems === "function"
-                ? this.transformItems(b.refinements) : b.refinements;
-
-            for (let c of refinements) {
-                a.push(c.label);
+        for (let b of this.state.refinements) {
+            
+            if(this.attribute && b.attributeName != this.attribute)
+                continue;
+            
+            if (b.attributeName == 'candidate_driving_license') {
+                b = this.licenseTransformItems(b);
             }
-        } 
+
+            else if (b.attributeName == 'assigned') {
+                b = this.assignedTransformItems(b);
+            }
+
+            else if (b.attributeName == 'candidate_mom_kuwaiti') {
+                b = this.kuwaitiMomTransformItems(b);
+            }
+            
+           /* if (b.attributeName == 'candidate_committed') {
+                b = this.committedTransformItems(b);
+            }
+
+            else if (b.attributeName == 'have_video') {
+                b = this.haveVideoTransformItems(b);
+            }
+
+            else if (b.attributeName == 'have_resume') {
+                b = this.haveResumeTransformItems(b);
+            }*/
+
+            a.push(b.computedLabel);
+        }
 
         return a.join(', ');
+    }
+
+    committedTransformItems = (item) => {
+
+        //if(!items)
+        //    return [];
+
+        //return items.map(item => {
+            if (item.name == "Yes" || item.computedLabel == "Yes")
+                item.computedLabel = item.highlighted = item.name = 'Committed';
+            else if (item.name == "No" || item.computedLabel == "No")
+                item.computedLabel = item.highlighted = item.name = 'Not committed';
+
+            return item;
+        //});
+    };
+
+    haveVideoTransformItems = (item) => {
+
+        //if(!items)
+        //    return [];
+
+        //return items.map(item => {
+            if (item.name == "Yes" || item.computedLabel == "Yes")
+                item.computedLabel = item.highlighted = item.name = 'Have video';
+            else if (item.name == "No" || item.computedLabel == "No")
+                item.computedLabel = item.highlighted = item.name = 'Not have video';
+
+            return item;
+        //});
+    };
+
+    haveResumeTransformItems = (item) => {
+
+        //if(!items)
+        //    return [];
+
+        //return items.map(item => {
+            if (item.name == "Yes" || item.computedLabel == "Yes")
+                item.computedLabel = item.highlighted = item.name = 'Have resume';
+            else if (item.name == "No" || item.computedLabel == "No")
+                item.computedLabel = item.highlighted = item.name = 'Not have resume';
+
+            return item;
+        //});
+    };
+
+    licenseTransformItems = (item) => {
+
+        if(!item)
+            return [];
+
+        //return items.map(item => {
+            if (item.name == "1" || item.computedLabel == "1")
+                item.computedLabel = item.highlighted = item.name = 'Yes';
+            else if (item.name == "2" || item.computedLabel == "2")
+                item.computedLabel = item.highlighted = item.name = 'No';
+            else if (item.name == "0" || item.computedLabel == "0")
+                item.computedLabel = item.highlighted = item.name = 'No data';
+
+            return item;
+        //});
+    };
+
+    assignedTransformItems = (item) => {
+
+        if(!item)
+            return [];
+
+      //return items.map(item => {
+        if (item.name == '0' || item.computedLabel == '0') {
+          item.computedLabel = item.highlighted = item.name = 'Not Assigned';
+        }
+        else if (item.name == '1' || item.computedLabel == '1') {
+          item.computedLabel = item.highlighted = item.name = 'Assigned';
+        }
+
+        return item;
+      //});
+    };
+
+    kuwaitiMomTransformItems = (item) => {
+
+        if(!item)
+            return [];
+
+      //return items.map(item => {
+        if (item.name == '1' || item.computedLabel == '1') {
+          item.computedLabel = item.highlighted = item.name = 'Mom Kuwaiti';
+        }
+        else if (item.name == '2' || item.computedLabel == '2') {
+          item.computedLabel = item.highlighted = item.name = 'Mom Not Kuwaiti';
+        }
+
+        return item;
+        //});
     }
 } 

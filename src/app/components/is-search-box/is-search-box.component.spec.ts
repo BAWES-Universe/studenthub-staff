@@ -5,7 +5,8 @@ import { IsSearchBoxComponent } from './is-search-box.component';
 import { IsSearchBoxModule } from './is-search-box.module';
 import { APP_BASE_HREF } from '@angular/common';
 import { AppModule } from 'src/app/app.module';
-import { InstantSearchComponent } from '../instant-search/instant-search.component';
+import { NgAisInstantSearch } from 'angular-instantsearch';
+
 
 describe('IsSearchBoxComponent', () => {
   let component: IsSearchBoxComponent;
@@ -24,7 +25,7 @@ describe('IsSearchBoxComponent', () => {
     .overrideComponent(IsSearchBoxComponent, {
       set: {
         providers: [
-          { provide: InstantSearchComponent, useValue: null }
+          { provide: NgAisInstantSearch, useValue: null }
         ]
       }
     })

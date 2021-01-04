@@ -5,7 +5,8 @@ import { CurrentRefinementComponent } from './current-refinement.component';
 import { CurrentRefinementModule } from './current-refinement.module';
 import { APP_BASE_HREF } from '@angular/common';
 import { AppModule } from 'src/app/app.module';
-import { InstantSearchComponent } from '../instant-search/instant-search.component';
+import { NgAisInstantSearch } from 'angular-instantsearch';
+
 
 describe('CurrentRefinementComponent', () => {
   let component: CurrentRefinementComponent;
@@ -24,7 +25,7 @@ describe('CurrentRefinementComponent', () => {
     .overrideComponent(CurrentRefinementComponent, {
       set: {
         providers: [
-          { provide: InstantSearchComponent, useValue: null }
+          { provide: NgAisInstantSearch, useValue: null }
         ]
       }
     })

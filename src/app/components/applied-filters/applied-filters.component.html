@@ -1,11 +1,11 @@
-<div class="component-content" [attr.dir]="_translateService.direction()">
+<div class="component-content" dir="ltr">
   <h3 *ngIf="total > -1 && !loading">
 
-    <span *ngIf="this.state.items.length == 0 && total">
-        {{ labelWithoutFilter | translate : { value : total }  }}
+    <span *ngIf="state && state.refinements && state.refinements.length == 0 && total">
+        {{ total }} {{ labelWithoutFilter }}
     </span>
-    <span *ngIf="this.state.items.length > 0 && total">
-        {{ labelWithFilter | translate : { value : total }  }}
+    <span *ngIf="state && state.refinements && state.refinements.length > 0 && total">
+      {{ total }}  {{ labelWithFilter }}
     </span>
   </h3>
 
@@ -13,31 +13,32 @@
     <ion-skeleton-text animated></ion-skeleton-text>
   </div>
 
+  <!--
   <p class="txt-average" *ngIf="authService && average">
     {{
         'txt_with_average_salary' | translate : {
           value : average | currency : authService.currency_pref : 'code':'3.0'
         }
     }}
-  </p>
+  </p>-->
 
   <div class="clearfix"></div>
 
   <div [class]="cx()" *ngIf="!isHidden()">
-    <span [class]="cx('list')" *ngIf="this.platform.is('mobile')">
+    <span [class]="cx('list')" *ngIf="this.platform.is('mobile') && state.refinements">
         <div class="outer-slider">
             <div class="inner-element">
                 <ion-button (click)="toggleCurrentSelection(currentSelection)" class="skip-hover" *ngFor="let currentSelection of currentSelections()">
-                  {{ currentSelection.label }}
+                  {{ currentSelection.appliedLabel? currentSelection.appliedLabel : currentSelection.computedLabel}}
                   <ion-icon name="close"></ion-icon>
                 </ion-button>
             </div>
         </div>
     </span>
 
-      <span [class]="cx('list')" *ngIf="this.platform.is('desktop')">
+      <span [class]="cx('list')" *ngIf="this.platform.is('desktop') && state.refinements">
         <ion-button (click)="toggleCurrentSelection(currentSelection)"  *ngFor="let currentSelection of currentSelections()" class="skip-hover">
-          {{ currentSelection.label }}
+          {{ currentSelection.appliedLabel? currentSelection.appliedLabel : currentSelection.computedLabel}}
             <ion-icon name="close"></ion-icon>
         </ion-button>
     </span>

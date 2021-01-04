@@ -1,8 +1,10 @@
-<div [class]="cx()" *ngIf="!isHidden()" [attr.dir]="this._translateService.direction()">
+<div [class]="cx()" *ngIf="!isHidden()"  dir="ltr">
+  
   <ion-button [class]="cx('reset skip-hover')" (click)="handleClearAllClick($event)">
     <img src="assets/images/ic-cancel.svg">
     <ion-ripple-effect></ion-ripple-effect>
   </ion-button>
   
   <span [class]="cx('list')" [innerHTML]="currentSelections()"></span>
+
 </div>

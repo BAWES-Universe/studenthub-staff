@@ -86,6 +86,7 @@ export class CandidateComponent implements OnInit {
 
     if (!this.candidate.store) {
 
+      /*
       if(!event.detail.checked) {
         return false;
       }
@@ -98,7 +99,7 @@ export class CandidateComponent implements OnInit {
         message: canndidate + " not assigned to store, assign candidate to download ID",
         buttons: ['Okay']
       });
-      prompt.present();
+      prompt.present();*/
 
       return false;
     }

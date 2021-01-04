@@ -152,7 +152,6 @@ ion-header.add-border:after {
 ion-modal,  
 ion-router-outlet {
   ion-header ion-buttons[slot="end"] ion-button {
-    font-family: Effra;
     font-size: 18px;
     font-weight: bold;
     font-stretch: normal;
@@ -305,5 +304,21 @@ ckeditor {
   100% {
     -webkit-transform: translateZ(0) rotateY(0);
             transform: translateZ(0) rotateY(0);
+  }
+}
+
+ion-calendar-modal {
+  ion-header {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  ion-button {
+    color: unset !important;
+    text-transform: none !important;
+  }
+
+  ion-toolbar {
+    color: #fff;
   }
 }

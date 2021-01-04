@@ -5,7 +5,8 @@ import { IsFacetsSearchComponent } from './is-facets-search.component';
 import { IsFacetsSearchModule } from './is-facets-search.module';
 import { APP_BASE_HREF } from '@angular/common';
 import { AppModule } from 'src/app/app.module';
-import { InstantSearchComponent } from '../instant-search/instant-search.component';
+import { NgAisInstantSearch } from 'angular-instantsearch';
+
 
 describe('IsFacetsSearchComponent', () => {
   let component: IsFacetsSearchComponent;
@@ -24,7 +25,7 @@ describe('IsFacetsSearchComponent', () => {
     .overrideComponent(IsFacetsSearchComponent, {
       set: {
         providers: [
-          { provide: InstantSearchComponent, useValue: null }
+          { provide: NgAisInstantSearch, useValue: null }
         ]
       }
     })
