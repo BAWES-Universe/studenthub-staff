@@ -7,7 +7,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content scrollEvents="true" (ionScroll)="logScrolling($event)" class="ion-padding">
+<ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
   <loading-modal [loading]="loadingDetail" type="text-list-view"></loading-modal>
   <ion-list *ngIf="country">
     <ion-item>

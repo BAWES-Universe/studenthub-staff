@@ -38,6 +38,17 @@
 
 .candidate-list {
 
+  ion-card {
+    margin: 0 10px 13.5px 10px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08), 2px 0 4px 0 rgba(0, 0, 0, 0.12);
+    background-color: #ffffff;
+
+    ion-card-title {
+      text-transform: capitalize;
+    }
+  }
+
   /* Custom Skeleton Line Height and Margin */
   .custom-skeleton ion-skeleton-text {
     line-height: 13px;
@@ -52,17 +63,11 @@
   height: 80px;
 }
 
-/*---------------------- stats --------------------*/
-
-.stats {
-  ion-skeleton-text {
-    height: 120px;
-  }
-}
 
 /*---------------------- candidate ----------------------*/
 
 [dir="ltr"] {
+
   .fulltimer .image,
   .candidate .image {
     margin: 0 15px 0 0;
@@ -70,6 +75,7 @@
 }
 
 [dir="rtl"] {
+
   .candidate .image,
   .fulltimer .image {
     margin: 0 0 0 15px;
@@ -190,6 +196,7 @@
 }
 
 [dir="rtl"] {
+
   .fulltimer-filter,
   .candidate-filter {
     .wrapper {
@@ -220,7 +227,7 @@
   }
 }
 
-/*---------------------- candidate-list --------------------*/
+/*---------------------- request-list --------------------*/
 
 .request-list {
 
@@ -849,6 +856,7 @@
 /*---------------------- candidate-view --------------------*/
 
 .fulltimer-view {
+
   .area,
   .nationality,
   .created-at {
@@ -861,41 +869,48 @@
 }
 
 .company-list {
+
   //background: #fcfcfc;
   ion-skeleton-text {
     padding: 0;
     margin: 0;
   }
+
   ion-item {
-    margin: 7px 12px 12px;
-    //padding: 17px 15px 17px 21px;
+    margin: 7px 0 12px;
     border-radius: 5px;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08), 2px 0 4px 0 rgba(0, 0, 0, 0.12);
     background-color: #ffffff;
     position: relative;
   }
+
   ion-badge {
     width: 20%;
     margin-right: 10px;
     border-radius: 2px;
     padding: 0;
+
     ion-skeleton-text {
       height: 29px;
     }
   }
+
   h2 {
     height: 27px;
     margin-bottom: 13px;
     width: 29%;
   }
+
   p {
     margin: 5px 48px 8px 0;
     line-height: 1.34;
-    width:36%;
+    width: 36%;
   }
+
   .small-detail {
     margin-bottom: 8px;
   }
+
   .company_status_badge {
     position: absolute;
     top: 17px;
@@ -903,42 +918,51 @@
     width: 11%;
   }
 }
+
 .company-view {
-    --padding-start: 30px;
-    --padding-end: 30px;
+  --padding-start: 30px;
+  --padding-end: 30px;
 
-    ion-thumbnail {
-      max-height: 71px;
-      margin-bottom: 7px;
-      margin-top: -12px;
-    }
+  ion-card {
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08), 2px 0 4px 0 rgba(0, 0, 0, 0.12);
+    border-radius: 5px;
+    margin-bottom: 9px;
+    margin-left: 0;
+    margin-right: 0;
+  }
 
-    h3 {
-      margin: 23px 0px 0 0px;
-      font-size: 36px;
-      color: #000;
-    }
+  ion-thumbnail {
+    max-height: 71px;
+    margin-bottom: 7px;
+    margin-top: -12px;
+  }
 
-    .company-name-arabic,
-    .company-name-english {
-      font-size: 24px;
-      color: #000;
+  h3 {
+    margin: 23px 0px 0 0px;
+    font-size: 36px;
+    color: #000;
+  }
+
+  .company-name-arabic,
+  .company-name-english {
+    font-size: 24px;
+    color: #000;
+    margin: 0;
+  }
+
+  .last-activity {
+    margin-top: 10px;
+    font-size: 12px;
+    color: #000;
+
+    p {
       margin: 0;
     }
 
-    .last-activity {
-      margin-top: 10px;
-      font-size: 12px;
-      color: #000;
-
-      p {
-        margin: 0;
-      }
-
-      .followup {
-        font-size: 14px;
-        color: #219653;
-      }
+    .followup {
+      font-size: 14px;
+      color: #219653;
+    }
 
 
     .email {
@@ -1023,19 +1047,26 @@
       font-weight: bold;
     }
   }
-  ion-grid, ion-col, ion-row {
+
+  ion-grid,
+  ion-col,
+  ion-row {
     padding: 0;
   }
+
   .left-side {
     padding-right: 60px;
   }
+
   .right-side {
     padding-top: 165px;
-    ion-item{
+
+    ion-item {
       background: #fff;
     }
   }
-  @media only screen and (max-width:767px){
+
+  @media only screen and (max-width:767px) {
     .left-side {
       padding-right: 0;
     }
@@ -1050,20 +1081,24 @@
       height: 22px;
       width: 38%;
     }
+
     .txt-time {
       margin-bottom: 12px;
       width: 39%;
     }
+
     ion-badge {
       background: gainsboro;
       width: 96px;
     }
   }
+
   label ion-skeleton-text {
     height: 31px;
     width: 55%;
     margin-bottom: 13px;
   }
+
   .company-name-english ion-skeleton-text {
     height: 21px;
     margin-bottom: 23px;
@@ -1075,14 +1110,18 @@
     width: 55%;
     margin-bottom: 21px;
   }
-  .last-activity  p{
-    width:69%
+
+  .last-activity p {
+    width: 69%
   }
+
   p.email {
     width: 36%;
   }
 
-  .hourly-rate,.description,.website {
+  .hourly-rate,
+  .description,
+  .website {
     width: 49%;
   }
 }
@@ -1124,7 +1163,7 @@
     a ion-skeleton-text {
       width: 30%;
       margin-left: 32px;
-      }
+    }
   }
 
   ion-badge {
@@ -1155,6 +1194,16 @@
     margin-top: 0;
     height: 20px;
   }
+
+  ion-card {
+    border-radius: 4px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08), 2px 0 4px 0 rgba(0, 0, 0, 0.12);
+    background-color: #ffffff;
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom: 13.5px;
+  }
+
 }
 
 .company-file-list {
@@ -1182,15 +1231,18 @@
       width: 12%;
     }
   }
+
   h5 ion-skeleton-text {
     height: 16px;
     width: 40%;
   }
+
   .document-detail ion-skeleton-text {
     margin-top: 15px;
     height: 38px;
     width: 40%;
   }
+
   .date ion-skeleton-text {
     margin-top: 19px;
     width: 26%;
@@ -1198,28 +1250,50 @@
 }
 
 .transfer-list {
+
+  ion-card {
+    border-radius: 4px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08), 2px 0 4px 0 rgba(0, 0, 0, 0.12);
+    background-color: #ffffff;
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom: 13.5px;
+  }
+
   ion-list {
     background: transparent;
   }
+
   h1 {
     width: 16%;
   }
+
   h2 {
     width: 28%;
     height: 18px;
   }
+
   h3 {
     width: 31%;
   }
+
   h4 {
     width: 46%;
   }
 }
+
 .chart {
-  p ion-skeleton-text {
-      height: 202px;
-      margin-top: 18px;
+
+  ion-card {
+    margin-left: 0;
+    margin-right: 0;
   }
+
+  p ion-skeleton-text {
+    height: 202px;
+    margin-top: 18px;
+  }
+
   small ion-skeleton-text {
     width: 14%;
     float: left;
@@ -1232,28 +1306,86 @@
   h1 {
     margin-left: 0;
   }
+
   ion-badge {
     width: 52px;
     background: gainsboro;
     border-radius: 0;
   }
 }
+
+/*---------------------- stats --------------------*/
+
+.stats {
+
+  ion-card {
+    border-radius: 5px;
+    margin: 0 0 9px 0;
+    --box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.25);
+  }
+
+  ion-card-content {
+    padding-inline-start: 0;
+    display: flex;
+
+    .count {
+      width: 76px;
+      text-align: center;
+      line-height: 1.65;
+      letter-spacing: normal;
+      justify-content: center;
+      align-items: center;
+      display: flex;
+
+      ion-skeleton-text {
+        width: 16px;
+      }
+    }
+
+    .message {
+      line-height: 1.65;
+      text-align: left;
+      width: calc(100% - 92px);
+    }
+  }
+
+  ion-card:nth-child(1) .message ion-skeleton-text {
+    width: 40%;
+  }
+
+  ion-card:nth-child(2) .message ion-skeleton-text {
+    width: 50%;
+  }
+
+  ion-card:nth-child(3) .message ion-skeleton-text {
+    width: 70%;
+  }
+
+  ion-card:nth-child(4) .message ion-skeleton-text {
+    width: 60%;
+  }
+}
+
 .store-list {
   ion-card {
     margin: 13px 32px
   }
+
   p {
     margin-top: 15px;
+
     ion-icon {
       float: left;
     }
+
     ion-skeleton-text {
       margin-left: 22px;
       width: 38%;
     }
   }
+
   h5 ion-skeleton-text {
-      height: 16px;
-      width: 30%;
+    height: 16px;
+    width: 30%;
   }
 }

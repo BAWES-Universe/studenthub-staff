@@ -18,18 +18,18 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
+<ion-content>
   
   <loading-modal [loading]="loading" type="transfer-view"></loading-modal>
 
   <ng-container *ngIf="!loading">
-    <div class="ion-text-center ion-padding" *ngIf="transfer">
+    <div class="ion-text-center" *ngIf="transfer">
       <h2 class="ion-text-center">
         {{transferStatus}}
       </h2>
       <div>{{transferStatusDescription}}</div>
 
-      <section class="ion-padding" *ngIf="transfer">
+      <section *ngIf="transfer">
         <!-- If Transfer Locked -->
         <ion-button fill="outline" (click)="paymentSent(transfer)"
           *ngIf="transfer && (transfer.transfer_status==5)">

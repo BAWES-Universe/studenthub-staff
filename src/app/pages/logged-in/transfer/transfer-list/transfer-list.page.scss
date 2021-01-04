@@ -1,7 +1,3 @@
-ion-content {
-    --padding-start: 30px;
-    --padding-end: 30px;
-}
 
 ion-back-button {
     display: block;
@@ -29,6 +25,15 @@ h4 {
     color: #000;
 }
 
+ion-card {
+  border-radius: 4px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08), 2px 0 4px 0 rgba(0, 0, 0, 0.12);
+  background-color: #ffffff;
+  margin-left: 0;
+  margin-right: 0;
+  margin-bottom: 13.5px;
+}
+
 ion-footer {
   ion-button {
     width: calc(100% - 28px);
@@ -49,6 +54,7 @@ ion-footer {
     color: #ffffff;
   }
 }
+
 ion-list {
   background: transparent;
 }

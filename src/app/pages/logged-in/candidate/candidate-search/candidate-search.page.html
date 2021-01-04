@@ -43,7 +43,7 @@
           </div>
 
           <div class="loading-candidate">
-            <loading-modal [loading]="true" type="candidate"></loading-modal>
+            <loading-modal [loading]="true" type="candidate-list"></loading-modal>
           </div>
         </div>
       </ion-col>
@@ -86,7 +86,7 @@
                 <candidate tappable (click)="rowSelected(hit)" type='candidate' [candidate]="hit" *ngFor="let hit of hits"></candidate>
               </div>
 
-              <loading-modal [loading]="refreshingCandidates || loading" type="candidate"></loading-modal>
+              <loading-modal [loading]="refreshingCandidates || loading" type="candidate-list"></loading-modal>
 
               <!-- to load more on scroll to bottom, usinng 0(zero) based pagination -->
 

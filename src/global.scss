@@ -184,9 +184,9 @@ ion-router-outlet {
       color: #000000;
   }
 
-  ion-content.ion-padding {
-    --padding-start: 27px !important;
-    --padding-end: 27px !important;
+  ion-content {
+    --padding-start: 30px;
+    --padding-end: 30px;
   }
 }
 

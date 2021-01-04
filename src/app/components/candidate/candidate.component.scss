@@ -3,7 +3,19 @@ ion-checkbox {
     display: block;
     position: relative;
 }
+
 ion-badge {
   font-size: 9px;
   margin-right: 12px;
+}
+
+ion-card {
+  margin: 0 10px 13.5px 10px;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08), 2px 0 4px 0 rgba(0, 0, 0, 0.12);
+  background-color: #ffffff;
+    
+  ion-card-title {
+    text-transform: capitalize;
+  }
 }

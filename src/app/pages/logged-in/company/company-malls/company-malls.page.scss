@@ -6,6 +6,7 @@ ion-list {
   background: transparent;
   padding: 0 30px;
 }
+
 .title {
   margin: 23px 0 3px 3px;
   font-size: 36px;
@@ -17,6 +18,7 @@ ion-list {
   text-align: left;
   color: #000000;
 }
+
 .company-name {
   margin: 3px 0 29px 3px;
   font-size: 27px;
@@ -34,6 +36,7 @@ ion-item {
   border-radius: 5px;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08), 2px 0 4px 0 rgba(0, 0, 0, 0.12);
   background-color: #ffffff;
+
   ion-badge {
     margin: 0 6px 0 0;
     padding: 5px 10px;

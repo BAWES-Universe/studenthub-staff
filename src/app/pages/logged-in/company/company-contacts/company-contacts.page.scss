@@ -2,6 +2,11 @@ ion-back-button {
     display: block;
 }
 
+ion-content {
+  --padding-start: 0;
+  --padding-end: 0;
+}
+
 ion-list {
   background: transparent;
   padding: 0 30px;

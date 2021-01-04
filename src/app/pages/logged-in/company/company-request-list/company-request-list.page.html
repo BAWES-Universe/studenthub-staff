@@ -1,7 +1,7 @@
 <ion-header [class.add-border]="borderLimit" class="ion-no-border">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
+      <ion-back-button defaultHref="/view/company-request-dashboard"></ion-back-button>
     </ion-buttons>
     <ion-title>Company Request List</ion-title>
   </ion-toolbar>
@@ -62,7 +62,7 @@
     </ion-card-header>
   </ion-card>
 
-  <ion-list class="ion-padding">
+  <ion-list>
     
     <request-listing *ngFor="let request of requests" tappable (click)="requestDetail(request)"
                      [request]="request" [showStatus]="false"></request-listing>

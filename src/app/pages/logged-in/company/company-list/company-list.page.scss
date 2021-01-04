@@ -1,9 +1,4 @@
 
-ion-content {
-  --padding-start: 30px;
-  --padding-end: 30px;
-}
-
 .end {
   ion-badge {
     display: block;
@@ -44,6 +39,7 @@ ion-badge.active {
   background-color: #4354a4;
   color: #fff;
 }
+
 h1 {
   margin: 15px 0 24px;
   font-size: 36px;
@@ -55,13 +51,7 @@ h1 {
   text-align: left;
   color: #000;
 }
-.content {
-  padding: 0 20px;
-}
-ion-searchbar {
-  padding: 3px 20px;
-}
 
-section {
-  padding: 0 9px;
+ion-searchbar {
+  padding: 3px 0px;
 }

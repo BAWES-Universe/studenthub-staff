@@ -1,4 +1,10 @@
 
+
+ion-content {
+  --padding-start: 20px;
+  --padding-end: 20px;
+}
+
 .btn-wrapper {
   text-align: right;
   display: block;
@@ -205,7 +211,7 @@ applied-filters {
   .filter-wrapper {
     --start: left;
     --end: right;
-    left: 0;
+    left: 23px;
   }
 }
 
@@ -213,13 +219,12 @@ applied-filters {
   .filter-wrapper {
     --start: right;
     --end: left;
-    right: 0;
+    right: 23px;
   }
 }
 
 .filter-wrapper {
-  width: calc(34% - 5px);
-  //background: white;
+  width: calc(32% - 5px);
   position: fixed;
   height: 100%;
   top: 57px;

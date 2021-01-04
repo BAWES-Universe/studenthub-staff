@@ -2,6 +2,11 @@ ion-toolbar ion-buttons {
   position: relative;
 }
 
+ion-content {
+  --padding-start: 20px;
+  --padding-end: 20px;
+}
+
 ion-grid {
   --ion-grid-padding: 0;
 }
@@ -164,7 +169,7 @@ applied-filters {
   .filter-wrapper {
     --start: left;
     --end: right;
-    left: 0;
+    left: 23px;
   }
 }
 
@@ -172,14 +177,13 @@ applied-filters {
   .filter-wrapper {
     --start: right;
     --end: left;
-    right: 0;
+    right: 23px;
   }
 }
 
 @media only screen and (min-width: 768px) {
   .filter-wrapper {
-    width: calc(34% - 5px);
-    //background: white;
+    width: calc(32% - 5px);
     position: fixed;
     height: 100%;
     top: 57px;
@@ -358,8 +362,15 @@ applied-filters {
   width: 232px;
 }
 
-ion-card-title {
-  text-transform: capitalize;
+ion-card {
+  margin: 0 10px 13.5px 10px;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08), 2px 0 4px 0 rgba(0, 0, 0, 0.12);
+  background-color: #ffffff;
+    
+  ion-card-title {
+    text-transform: capitalize;
+  }
 }
 
 ion-footer {

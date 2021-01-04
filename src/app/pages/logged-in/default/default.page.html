@@ -12,13 +12,14 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content scrollEvents="true" (ionScroll)="logScrolling($event)" class="ion-padding">
+<ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
 
   <h2>Hello {{ authService.name }},</h2>
 
   <p class="sub-title">We need to work on the following:</p>
 
-  <loading-modal type="mall-list" [loading]="loading"></loading-modal>
+  <loading-modal type="stats" [loading]="loading"></loading-modal>
+
   <div *ngIf="statistics && !loading">
 
     <ion-card class="danger stats" *ngIf="statistics.companyMoreThen40DaysWithoutPayment > 0" tappable (click)="companyList()">

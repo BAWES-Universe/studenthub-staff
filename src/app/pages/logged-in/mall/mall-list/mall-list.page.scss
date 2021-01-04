@@ -1,3 +1,9 @@
+
+ion-content {
+  --padding-start: 18px  !important;
+  --padding-end: 18px !important;
+}
+
 ion-item {
   margin: 0 12px 12px;
   //padding: 12px 17px 12px 21px;
@@ -5,6 +11,7 @@ ion-item {
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08), 2px 0 4px 0 rgba(0, 0, 0, 0.12);
   background-color: #ffffff;
 }
+
 ion-badge {
   padding: 5px 9px 5px;
   font-size: 12px;
@@ -17,10 +24,12 @@ ion-badge {
   color: #000;
   border-radius: 0;
 }
+
 section,ion-list {
   background: #fafafa;
 }
-h3{
+
+h3 {
   font-size: 14px;
   font-weight: bold;
   font-stretch: normal;
@@ -29,4 +38,21 @@ h3{
   letter-spacing: normal;
   text-align: left;
   color: #000;
+}
+
+ion-footer ion-button {
+  width: calc(100% - 28px);
+  height: 53px;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.65;
+  letter-spacing: normal;
+  text-align: center;
+  text-transform: none;
+  display: block;
+  margin: 10px 14px;
+  --box-shadow: none;
 }

@@ -47,7 +47,9 @@
       <ion-icon tappable slot="end" name="close-outline" (click)="reset()"></ion-icon>
     </ion-item>
   </ng-container>
+  
   <loading-modal [loading]="loading" type="text-list"></loading-modal>
+
   <ion-list class="places-wrapper" *ngIf="query && !loading">
 
     <ion-item class="item" *ngFor="let place of this.places" tappable (click)="placeSelected(place)">

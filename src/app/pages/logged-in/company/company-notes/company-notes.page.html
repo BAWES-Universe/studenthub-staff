@@ -86,8 +86,9 @@
 
   <ion-list *ngIf="!addNewNote">
     <note *ngFor="let note of notes" (click)="openDetail(note)" from="company-view" [note]="note" (onChange)="loadNotes()" (onDelete)="loadNotes()"></note>
-  </ion-list>
 
-  <loading-modal [loading]="loadingNotes" type="university-view"></loading-modal>
+    <loading-modal [loading]="loadingNotes" type="note-list"></loading-modal>
+
+  </ion-list>
 
 </ion-content>

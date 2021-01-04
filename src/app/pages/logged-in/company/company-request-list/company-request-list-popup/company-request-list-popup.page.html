@@ -7,7 +7,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding" scrollEvents="true" (ionScroll)="logScrolling($event)">
+<ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
 
   <ion-list>
     <request-listing *ngFor="let request of requests" (click)="rowSelected(request)"
