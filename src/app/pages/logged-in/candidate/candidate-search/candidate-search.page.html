@@ -134,7 +134,10 @@
     <ion-button class="btn-generate"
       [disabled]="candidateIdCardService.candidates.length == 0 || merging || downloading"
       (click)="generate()">
-      <span *ngIf="!downloading">Download Zip</span>
+      <span *ngIf="!downloading">
+        Download Zip
+        <small *ngIf="candidateService.candidates.length != candidateIdCardService.candidates.length">(Unassigned selected)</small>
+      </span>
       <ion-spinner *ngIf="downloading"></ion-spinner>
     </ion-button>
 
