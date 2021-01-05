@@ -304,6 +304,7 @@ export class TransferFormPage implements OnInit {
    */
   calculateTotal() {
     this.total = 0;
+    
     if (this.transfer) {
       this.transfer.transferCandidates.forEach((transferCandidate: TransferCandidate) => {
         const hours = this.parseNumber(transferCandidate.hours);

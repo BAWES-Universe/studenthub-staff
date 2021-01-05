@@ -43,11 +43,13 @@
           <ion-icon name="create" slot="start"></ion-icon>
           Edit Transfer
         </ion-button>
+        
         <ion-button fill="outline" (click)="importTransfer(transfer)"
           *ngIf="transfer && (transfer.transfer_status==10)">
           <ion-icon name="create" slot="start"></ion-icon>
           Edit via Excel
         </ion-button>
+
         <ion-button fill="outline" (click)="transferLock(transfer)"
           *ngIf="transfer && (transfer.transfer_status==10)">
           <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
