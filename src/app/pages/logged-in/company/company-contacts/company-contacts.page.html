@@ -1,5 +1,5 @@
 <ion-header [class.add-border]="borderLimit" class="ion-no-border">
-  <ion-toolbar>
+  <ion-toolbar class="container">
     <ion-buttons slot="start">
       <ion-back-button (click)="dismiss()"></ion-back-button>
     </ion-buttons>
@@ -11,60 +11,60 @@
 </ion-header>
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
+  <div class="container">
+    <ion-list class="contact-list">
 
-  <ion-list class="contact-list">
+      <h3 class="title">
+        Contacts
+      </h3>
 
-    <h3 class="title">
-      Contacts
-    </h3>
+      <h4 class="company-name" *ngIf="company">
+        {{ (company.company_common_name_en) ?  company.company_common_name_en:company.company_name }}
+      </h4>
 
-    <h4 class="company-name" *ngIf="company">
-      {{ (company.company_common_name_en) ?  company.company_common_name_en:company.company_name }}
-    </h4>
+      <ion-item *ngFor="let companyContact of companyContacts" tappable (click)="openContactDetail(companyContact)" lines="none">
+        <div tabindex="0"></div>
 
-    <ion-item *ngFor="let companyContact of companyContacts" tappable (click)="openContactDetail(companyContact)" lines="none">
-      <div tabindex="0"></div>
+        <ion-label>
+          <h4>{{ companyContact.contact_name }}</h4>
 
-      <ion-label>
-        <h4>{{ companyContact.contact_name }}</h4>
+          <h2>
+            {{ companyContact.contact_position }}
+          </h2>
 
-        <h2>
-          {{ companyContact.contact_position }}
-        </h2>
+          <p>
+            <a href="mailto:{{ companyContactEmail.email_address }}" (click)="doNothing($event)"
+              *ngFor="let companyContactEmail of companyContact.companyContactEmails">
+              <ion-icon name="mail-outline"></ion-icon> {{ companyContactEmail.email_address }}
+            </a>
+          </p>
 
-        <p>
-          <a href="mailto:{{ companyContactEmail.email_address }}" (click)="doNothing($event)"
-            *ngFor="let companyContactEmail of companyContact.companyContactEmails">
-            <ion-icon name="mail-outline"></ion-icon> {{ companyContactEmail.email_address }}
-          </a>
-        </p>
+          <p>
+            <a href="tel:{{ companyContactPhone.phone_number }}" (click)="doNothing($event)"
+              *ngFor="let companyContactPhone of companyContact.companyContactPhones">
+              <ion-icon name="call-outline"></ion-icon> {{ companyContactPhone.phone_number }}
+            </a>
+          </p>
+          <p>
+            <a *ngIf="companyContact.companyContactStats.lastNotes">
+              <ion-icon name="time-outline"></ion-icon> Last note was {{ companyContact.companyContactStats.lastNotes.note_updated_datetime | timeAgo }}
+            </a>
+          </p>
+          <div class="counts">
+            <ion-badge>
+              {{ companyContact.companyContactStats.requests }} requests
+            </ion-badge>
+            <ion-badge>
+              {{ companyContact.companyContactStats.notes }} notes
+            </ion-badge>
+          </div>
+        </ion-label>
+      </ion-item>
 
-        <p>
-          <a href="tel:{{ companyContactPhone.phone_number }}" (click)="doNothing($event)"
-            *ngFor="let companyContactPhone of companyContact.companyContactPhones">
-            <ion-icon name="call-outline"></ion-icon> {{ companyContactPhone.phone_number }}
-          </a>
-        </p>
-        <p>
-          <a *ngIf="companyContact.companyContactStats.lastNotes">
-            <ion-icon name="time-outline"></ion-icon> Last note was {{ companyContact.companyContactStats.lastNotes.note_updated_datetime | timeAgo }}
-          </a>
-        </p>
-        <div class="counts">
-          <ion-badge>
-            {{ companyContact.companyContactStats.requests }} requests
-          </ion-badge>
-          <ion-badge>
-            {{ companyContact.companyContactStats.notes }} notes
-          </ion-badge>
-        </div>
-      </ion-label>
-    </ion-item>
+      <loading-modal type="contact-list" [loading]="loading"></loading-modal>
 
-    <loading-modal type="contact-list" [loading]="loading"></loading-modal>
-    
-  </ion-list>
-  
-  <no-items *ngIf="!loading && companyContacts.length ==0" message="~ No Contact data ~"></no-items>
+    </ion-list>
 
+    <no-items *ngIf="!loading && companyContacts.length ==0" message="~ No Contact data ~"></no-items>
+  </div>
 </ion-content>

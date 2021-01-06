@@ -104,7 +104,9 @@ export class CompanyRequestFormPage implements OnInit {
       // On Success
       if (jsonResponse.operation == 'success') {
         // Close the page
-        this.eventService.reloadStats$.next();
+        this.eventService.reloadStats$.next({
+          company_id: this.model.company_id
+        });
         const data = { refresh: true };
         this.modalCtrl.dismiss(data);
       }

@@ -1,5 +1,5 @@
 <ion-header [class.add-border]="borderLimit" class="ion-no-border">
-  <ion-toolbar>
+  <ion-toolbar class="container">
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/view/company-list"></ion-back-button>
     </ion-buttons>
@@ -7,7 +7,7 @@
     <ion-title *ngIf="brand">{{ brand.brand_name_en }}</ion-title>
 
     <ion-buttons slot="end">
-      
+
       <ion-button (click)="editBrandSelected($event, brand)">
         <ion-icon slot="start" name="pencil-outline"></ion-icon>
         Update
@@ -23,30 +23,31 @@
 </ion-header>
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
-  <ion-list *ngIf="brand">
+  <div class="container">
+    <ion-list *ngIf="brand">
 
-    <ion-item-divider color="light">
-      <ion-label>
-        Candidates &nbsp; <ion-badge color="dark" *ngIf="brand.candidates">{{ brand.candidates.length }}</ion-badge>
-      </ion-label>
-    </ion-item-divider>
+      <ion-item-divider color="light">
+        <ion-label>
+          Candidates &nbsp; <ion-badge color="dark" *ngIf="brand.candidates">{{ brand.candidates.length }}</ion-badge>
+        </ion-label>
+      </ion-item-divider>
 
-    <candidate tappable (click)="rowSelected(candidate)" [candidate]="candidate" (refresh)="loadData()" *ngFor="let candidate of brand.candidates"></candidate>
+      <candidate tappable (click)="rowSelected(candidate)" [candidate]="candidate" (refresh)="loadData()" *ngFor="let candidate of brand.candidates"></candidate>
 
-    <ion-item-divider color="light">
-      <ion-label>
-        Stores &nbsp; <ion-badge color="dark" *ngIf="brand.stores">{{ brand.stores.length }}</ion-badge>
-      </ion-label>
-    </ion-item-divider>
+      <ion-item-divider color="light">
+        <ion-label>
+          Stores &nbsp; <ion-badge color="dark" *ngIf="brand.stores">{{ brand.stores.length }}</ion-badge>
+        </ion-label>
+      </ion-item-divider>
 
-    <ion-item *ngFor="let store of brand.stores" (click)="storeSelected(store)">
-      <div tabindex="0"></div>
-      <ion-label>
-        {{store.store_name}}
-      </ion-label>
-    </ion-item>
-  </ion-list>
+      <ion-item *ngFor="let store of brand.stores" (click)="storeSelected(store)">
+        <div tabindex="0"></div>
+        <ion-label>
+          {{store.store_name}}
+        </ion-label>
+      </ion-item>
+    </ion-list>
 
-  <loading-modal [loading]="loading" type="candidate-list"></loading-modal>
-
+    <loading-modal [loading]="loading" type="candidate-list"></loading-modal>
+  </div>
 </ion-content>

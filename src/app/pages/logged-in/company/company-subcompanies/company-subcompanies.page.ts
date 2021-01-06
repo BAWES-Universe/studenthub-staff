@@ -1,10 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
+//models
 import { Company } from 'src/app/models/company';
+//services
+import { EventService } from 'src/app/providers/event.service';
 import { CompanyService } from 'src/app/providers/logged-in/company.service';
+//pages
 import { CompanyFormPage } from '../company-form/company-form.page';
-import { CompanyViewPage } from '../company-view/company-view.page';
+
 
 @Component({
   selector: 'app-company-subcompanies',
@@ -24,6 +28,7 @@ export class CompanySubcompaniesPage implements OnInit {
   constructor(
     public router: Router,
     public modalCtrl: ModalController,
+    public eventService: EventService,
     public companyService: CompanyService
   ) { }
 
@@ -100,6 +105,11 @@ export class CompanySubcompaniesPage implements OnInit {
       }
 
       if (e && e.data && e.data.refresh) {
+
+        this.eventService.reloadStats$.next({
+          company_id: this.company.company_id
+        });
+
         this.loadData();
       }
     });

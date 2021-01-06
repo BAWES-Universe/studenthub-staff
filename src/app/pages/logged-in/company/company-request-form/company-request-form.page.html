@@ -1,5 +1,5 @@
 <ion-header [class.add-border]="borderLimit" class="ion-no-border">
-  <ion-toolbar>
+  <ion-toolbar class="container">
     <ion-buttons slot="start">
       <ion-back-button (click)="close()"></ion-back-button>
     </ion-buttons>
@@ -16,7 +16,8 @@
 </ion-header>
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
-  <form [formGroup]="form" *ngIf="form">
+  <div class="container">
+    <form [formGroup]="form" *ngIf="form">
 
     <ion-list>
       <ion-item tappable (click)="openClient($event)">
@@ -72,4 +73,5 @@
     </ion-button>
     <ion-button (click)="resetForm();" color="secondary">Reset</ion-button>
   </form>
+  </div>
 </ion-content>

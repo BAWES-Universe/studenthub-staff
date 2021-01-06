@@ -23,6 +23,7 @@ import { CompanyMallsPage } from '../company-malls/company-malls.page';
 import { CompanySubcompaniesPage } from '../company-subcompanies/company-subcompanies.page';
 import { CompanyStoresPage } from '../company-stores/company-stores.page';
 import { CompanyNavPage } from '../company-nav/company-nav.page';
+import {ModalPopPage} from "../../modal-pop/modal-pop.page";
 
 
 @Component({
@@ -49,6 +50,7 @@ export class CompanyViewPage implements OnInit {
   public notes: Note[] = [];
 
   public loadingNotes = false;
+
   public stats = {
     requests : 0,
     subCompanies : 0,
@@ -74,10 +76,6 @@ export class CompanyViewPage implements OnInit {
 
   ngOnInit() {
 
-    this.eventService.reloadStats$.subscribe(response => {
-      this.loadStats();
-    });
-    
     // Load the passed model if available
     if (window && window.history.state) {
       this.company = window.history.state.model;
@@ -91,6 +89,22 @@ export class CompanyViewPage implements OnInit {
 
     this.loadNotes();
 
+    this.eventService.companyRequestUpdate$.subscribe((data: any) => {
+      if (data && data.company_id == this.company_id) {
+        this.loadStats();
+
+        this.loadNotes();
+      }
+    });
+
+    this.eventService.reloadStats$.subscribe((data: any) => {
+      if (data && data.company_id == this.company_id) {
+        this.loadStats();
+
+        this.loadNotes();
+      }
+    });
+
     this.eventService.noteUpdated$.subscribe((data: any) => {
       if (data.company_id == this.company_id) {
         this.loadNotes();
@@ -102,9 +116,12 @@ export class CompanyViewPage implements OnInit {
     window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
     const modal = await this.modalCtrl.create({
-      component: CompanyStoresPage,
+      component: ModalPopPage,
       componentProps: {
-        company: this.company,
+        activatedRoutePath: CompanyStoresPage,
+        activatedRoutePathProps: {
+          company: this.company,
+        }
       }
     });
     modal.onDidDismiss().then(e => {
@@ -242,7 +259,7 @@ export class CompanyViewPage implements OnInit {
         window['history-back-from'] = 'onDidDismiss';
         window.history.back();
       }
-      
+
     });
     modal.present();
   }

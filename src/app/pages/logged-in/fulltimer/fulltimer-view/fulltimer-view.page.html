@@ -1,5 +1,5 @@
 <ion-header [class.add-border]="borderLimit" class="ion-no-border">
-  <ion-toolbar>
+  <ion-toolbar class="container">
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/view/fulltimer-search"></ion-back-button>
     </ion-buttons>
@@ -14,122 +14,122 @@
 </ion-header>
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
+  <div  class="container">
+    <div class="details" *ngIf="fulltimer">
+      <h2 class="fulltimer-name" *ngIf="fulltimer.fulltimer_name">{{ fulltimer.fulltimer_name }}</h2>
 
-  <div class="details" *ngIf="fulltimer">
-    <h2 class="fulltimer-name" *ngIf="fulltimer.fulltimer_name">{{ fulltimer.fulltimer_name }}</h2>
+      <div class="badge-wrapper" *ngIf="fulltimer.fulltimerTags">
+        <ion-badge *ngFor="let fulltimerTag of fulltimer.fulltimerTags">{{ fulltimerTag.tag }}</ion-badge>
+      </div>
 
-    <div class="badge-wrapper" *ngIf="fulltimer.fulltimerTags">
-      <ion-badge *ngFor="let fulltimerTag of fulltimer.fulltimerTags">{{ fulltimerTag.tag }}</ion-badge>
+      <ion-item class="phone" target="_blank" href="tel:{{ fulltimer.fulltimer_phone }}"
+        [class.required]="!fulltimer.fulltimer_phone">
+        <div tabindex="0"></div>
+        <ion-label *ngIf="fulltimer.fulltimer_phone">
+          <h5>Call</h5>
+          <p> {{ fulltimer.fulltimer_phone }}</p>
+        </ion-label>
+        <ion-label *ngIf="!fulltimer.fulltimer_phone">
+          <p>Call (not set)</p>
+        </ion-label>
+      </ion-item>
+
+      <ion-item class="whatsapp" target="_blank"
+        href="https://api.whatsapp.com/send?phone={{ fulltimer.fulltimer_phone }}"
+        [class.required]="!fulltimer.fulltimer_phone">
+        <div tabindex="0"></div>
+        <ion-icon slot="start" name="logo-whatsapp"></ion-icon>
+        <ion-label *ngIf="fulltimer.fulltimer_phone">
+          <h5>Whatsapp</h5>
+          <p> {{ fulltimer.fulltimer_phone }}</p>
+        </ion-label>
+        <ion-label *ngIf="!fulltimer.fulltimer_phone">
+          <p>Whatsapp (not set)</p>
+        </ion-label>
+      </ion-item>
+
+      <ion-item class="email" lines="none" [class.required]="!fulltimer.fulltimer_email"
+        href='mailto:{{ fulltimer.fulltimer_email }}' target='_blank'>
+        <div tabindex="0"></div>
+        <ion-label *ngIf="fulltimer.fulltimer_email">
+          <h5>Email</h5>
+          <p> {{ fulltimer.fulltimer_email }}</p>
+        </ion-label>
+        <ion-label *ngIf="!fulltimer.fulltimer_email">
+          <p>Email (not set)</p>
+        </ion-label>
+      </ion-item>
+
+      <ion-item class="nationality" [class.required]="!fulltimer.nationality">
+        <div tabindex="0"></div>
+        <ion-label>
+          <b *ngIf="fulltimer.nationality">{{
+          translateService.langContent(fulltimer.nationality.country_nationality_name_en,
+          fulltimer.nationality.country_nationality_name_ar) }}</b>
+          <p *ngIf="!fulltimer.nationality">Nationality (not set) </p>
+        </ion-label>
+      </ion-item>
+
+      <ion-item class="area" [class.required]="!fulltimer.country || !fulltimer.area">
+        <div tabindex="0"></div>
+        <ion-label>
+          <p *ngIf="fulltimer.area && fulltimer.country" [innerHtml]="'txt_lives_in' | translate : {
+           area : area(fulltimer.area, fulltimer.country)
+          }">
+          </p>
+          <p *ngIf="!fulltimer.area || !fulltimer.country">{{ "Address (not set)" | translate }}</p>
+        </ion-label>
+      </ion-item>
+
+      <ion-item class="created-at">
+        <div tabindex="0"></div>
+        <ion-label>
+          <p>Created On {{ toDate(fulltimer.fulltimer_created_datetime) | date}}</p>
+          <p>Updated On {{ toDate(fulltimer.fulltimer_updated_datetime) | date}}</p>
+        </ion-label>
+      </ion-item>
     </div>
 
-    <ion-item class="phone" target="_blank" href="tel:{{ fulltimer.fulltimer_phone }}"
-      [class.required]="!fulltimer.fulltimer_phone">
-      <div tabindex="0"></div>
-      <ion-label *ngIf="fulltimer.fulltimer_phone">
-        <h5>Call</h5>
-        <p> {{ fulltimer.fulltimer_phone }}</p>
-      </ion-label>
-      <ion-label *ngIf="!fulltimer.fulltimer_phone">
-        <p>Call (not set)</p>
-      </ion-label>
-    </ion-item>
+    <div class="suggestion-wrapper" *ngIf="fulltimer">
+      <h5 class="heading">Full-timer has been</h5>
 
-    <ion-item class="whatsapp" target="_blank"
-      href="https://api.whatsapp.com/send?phone={{ fulltimer.fulltimer_phone }}"
-      [class.required]="!fulltimer.fulltimer_phone">
-      <div tabindex="0"></div>
-      <ion-icon slot="start" name="logo-whatsapp"></ion-icon>
-      <ion-label *ngIf="fulltimer.fulltimer_phone">
-        <h5>Whatsapp</h5>
-        <p> {{ fulltimer.fulltimer_phone }}</p>
-      </ion-label>
-      <ion-label *ngIf="!fulltimer.fulltimer_phone">
-        <p>Whatsapp (not set)</p>
-      </ion-label>
-    </ion-item>
+      <ion-item>
+        <ion-label>Suggested</ion-label>
+        <ion-note slot="end">{{ fulltimer.suggested }}</ion-note>
+      </ion-item>
 
-    <ion-item class="email" lines="none" [class.required]="!fulltimer.fulltimer_email"
-      href='mailto:{{ fulltimer.fulltimer_email }}' target='_blank'>
-      <div tabindex="0"></div>
-      <ion-label *ngIf="fulltimer.fulltimer_email">
-        <h5>Email</h5>
-        <p> {{ fulltimer.fulltimer_email }}</p>
-      </ion-label>
-      <ion-label *ngIf="!fulltimer.fulltimer_email">
-        <p>Email (not set)</p>
-      </ion-label>
-    </ion-item>
+      <ion-item>
+        <ion-label>Accepted</ion-label>
+        <ion-note class="accepted" slot="end">{{ fulltimer.suggestionAccepted }}</ion-note>
+      </ion-item>
 
-    <ion-item class="nationality" [class.required]="!fulltimer.nationality">
-      <div tabindex="0"></div>
-      <ion-label>
-        <b *ngIf="fulltimer.nationality">{{
-        translateService.langContent(fulltimer.nationality.country_nationality_name_en,
-        fulltimer.nationality.country_nationality_name_ar) }}</b>
-        <p *ngIf="!fulltimer.nationality">Nationality (not set) </p>
-      </ion-label>
-    </ion-item>
+      <ion-item>
+        <ion-label>Rejected</ion-label>
+        <ion-note class="rejected" slot="end">{{ fulltimer.suggestionRejected }}</ion-note>
+      </ion-item>
+    </div>
 
-    <ion-item class="area" [class.required]="!fulltimer.country || !fulltimer.area">
-      <div tabindex="0"></div>
-      <ion-label>
-        <p *ngIf="fulltimer.area && fulltimer.country" [innerHtml]="'txt_lives_in' | translate : {
-         area : area(fulltimer.area, fulltimer.country)
-        }">
-        </p>
-        <p *ngIf="!fulltimer.area || !fulltimer.country">{{ "Address (not set)" | translate }}</p>
-      </ion-label>
-    </ion-item>
+    <div class="note-wrapper">
+      <h5 class="heading">Notes</h5>
 
-    <ion-item class="created-at">
-      <div tabindex="0"></div>
-      <ion-label>
-        <p>Created On {{ toDate(fulltimer.fulltimer_created_datetime) | date}}</p>
-        <p>Updated On {{ toDate(fulltimer.fulltimer_updated_datetime) | date}}</p>
-      </ion-label>
-    </ion-item>
+      <note *ngIf="notes.length > 0" [routerLink]="'/note-view/' + notes[0].note_uuid" from="company-view"
+        [note]="notes[0]" (onChange)="loadNotes()" (onDelete)="loadNotes()"></note>
+
+      <ion-button class="btn-view-notes" *ngIf="notes.length > 0" (click)="openNotes()">
+        <span *ngIf="notes.length > 1">View all {{ notes.length }} notes</span>
+        <span *ngIf="notes.length == 1">Manage notes</span>
+      </ion-button>
+
+      <ion-button class="btn-add-note" *ngIf="notes.length == 0" (click)="addNote()">
+        Add note
+      </ion-button>
+    </div>
+
+    <loading-modal [loading]="loading" type="fulltimer-view"></loading-modal>
   </div>
-
-  <div class="suggestion-wrapper" *ngIf="fulltimer">
-    <h5 class="heading">Full-timer has been</h5>
-
-    <ion-item>
-      <ion-label>Suggested</ion-label>
-      <ion-note slot="end">{{ fulltimer.suggested }}</ion-note>
-    </ion-item>
-
-    <ion-item>
-      <ion-label>Accepted</ion-label>
-      <ion-note class="accepted" slot="end">{{ fulltimer.suggestionAccepted }}</ion-note>
-    </ion-item>
-
-    <ion-item>
-      <ion-label>Rejected</ion-label>
-      <ion-note class="rejected" slot="end">{{ fulltimer.suggestionRejected }}</ion-note>
-    </ion-item>
-  </div>
-
-  <div class="note-wrapper">
-    <h5 class="heading">Notes</h5>
-
-    <note *ngIf="notes.length > 0" [routerLink]="'/note-view/' + notes[0].note_uuid" from="company-view"
-      [note]="notes[0]" (onChange)="loadNotes()" (onDelete)="loadNotes()"></note>
-
-    <ion-button class="btn-view-notes" *ngIf="notes.length > 0" (click)="openNotes()">
-      <span *ngIf="notes.length > 1">View all {{ notes.length }} notes</span>
-      <span *ngIf="notes.length == 1">Manage notes</span>
-    </ion-button>
-
-    <ion-button class="btn-add-note" *ngIf="notes.length == 0" (click)="addNote()">
-      Add note
-    </ion-button>
-  </div>
-
-  <loading-modal [loading]="loading" type="fulltimer-view"></loading-modal>
-
 </ion-content>
 
-<ion-footer *ngIf="fulltimer">
+<ion-footer *ngIf="fulltimer" class="container">
 
   <ion-grid>
     <ion-row>

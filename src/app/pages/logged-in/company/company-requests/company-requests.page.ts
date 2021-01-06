@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController, NavController } from "@ionic/angular";
+import { Router } from '@angular/router';
 //models
 import { Request } from 'src/app/models/request';
 //services
 import { CompanyService } from "../../../../providers/logged-in/company.service";
+import { EventService } from 'src/app/providers/event.service';
 import { CompanyRequestService } from 'src/app/providers/logged-in/company-request.service';
 //models
 import { Company } from "../../../../models/company";
 //pages
 import { CompanyRequestFormPage } from "../company-request-form/company-request-form.page";
-import { CompanyRequestViewPage } from '../company-request-view/company-request-view.page';
-import { Router } from '@angular/router';
 
 
 @Component({
@@ -35,6 +35,7 @@ export class CompanyRequestsPage implements OnInit {
     public router: Router,
     public requestService: CompanyRequestService,
     public companyService: CompanyService,
+    public eventService: EventService,
     public modalCtrl: ModalController
   ) { }
 
@@ -157,10 +158,19 @@ export class CompanyRequestsPage implements OnInit {
       }
     });
     modal.onDidDismiss().then(e => {
-      this.loadRequests(this.currentPage);
+
       if (!e.data || e.data.from != 'native-back-btn') {
         window['history-back-from'] = 'onDidDismiss';
         window.history.back();
+      }
+
+      if(e.data && e.data.refresh) {
+
+        this.eventService.reloadStats$.next({
+          company_id: this.company.company_id
+        });
+
+        this.loadRequests(this.currentPage);
       }
     });
     modal.present();

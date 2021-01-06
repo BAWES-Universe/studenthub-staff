@@ -1,5 +1,5 @@
 <ion-header [class.add-border]="borderLimit" class="ion-no-border">
-  <ion-toolbar>
+  <ion-toolbar class="container">
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/"></ion-back-button>
 
@@ -11,24 +11,25 @@
 </ion-header>
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
+  <div class="container">
+    <ion-searchbar
+      [(ngModel)]="SearchBar"
+      animated
+      debounce="200"
+      (ionChange)="search()">
+    </ion-searchbar>
 
-  <ion-searchbar
-    [(ngModel)]="SearchBar"
-    animated
-    debounce="200"
-    (ionChange)="search()">
-  </ion-searchbar>
+    <ion-list>
+      <ng-container *ngIf="!loading">
+        <candidate tappable (click)="rowSelected(candidate)" [candidate]="candidate" (refresh)="search()" *ngFor="let candidate of candidates"></candidate>
+      </ng-container>
 
-  <ion-list>
-    <ng-container *ngIf="!loading">
-      <candidate tappable (click)="rowSelected(candidate)" [candidate]="candidate" (refresh)="search()" *ngFor="let candidate of candidates"></candidate>
-    </ng-container>
+      <no-items *ngIf="!loading && candidates && candidates.length == 0" message="No candidate data available"></no-items>
 
-    <no-items *ngIf="!loading && candidates && candidates.length == 0" message="No candidate data available"></no-items>
+      <loading-modal [loading]="loading || paginationLoading" type="candidate-list"></loading-modal>
 
-    <loading-modal [loading]="loading || paginationLoading" type="candidate-list"></loading-modal>
-
-  </ion-list>
+    </ion-list>
+  </div>
 
   <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
     <ion-infinite-scroll-content></ion-infinite-scroll-content>

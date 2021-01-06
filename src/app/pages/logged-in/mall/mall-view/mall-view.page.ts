@@ -1,13 +1,16 @@
-import { Component, OnInit } from '@angular/core';
-import {AlertController, ModalController, NavController, ToastController} from "@ionic/angular";
+import {Component, OnInit, Optional} from '@angular/core';
+import {AlertController, IonNav, ModalController, NavController, ToastController} from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
-//services
+// services
 import { MallService } from 'src/app/providers/logged-in/mall.service';
-//models
+// models
 import { Mall } from 'src/app/models/mall';
-//pages
-import { MallFormPage } from "../mall-form/mall-form.page";
-import {EventService} from "../../../../providers/event.service";
+// pages
+import { MallFormPage } from '../mall-form/mall-form.page';
+import {EventService} from '../../../../providers/event.service';
+import {ModalPopPage} from "../../modal-pop/modal-pop.page";
+import {CompanyStoresPage} from "../../company/company-stores/company-stores.page";
+import {StoreViewPage} from "../../store/store-view/store-view.page";
 
 
 @Component({
@@ -23,7 +26,7 @@ export class MallViewPage implements OnInit {
 
   public mall;
 
-  public loading: boolean = false;
+  public loading = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -32,13 +35,15 @@ export class MallViewPage implements OnInit {
     private navCtrl: NavController,
     private alertCtrl: AlertController,
     private toastCtrl: ToastController,
-    private eventService: EventService
+    private eventService: EventService,
+    @Optional() public nav: IonNav
   ) { }
 
   ngOnInit() {
 
-    if(!this.mall_uuid)
+    if (!this.mall_uuid) {
       this.mall_uuid = this.activatedRoute.snapshot.paramMap.get('id');
+    }
 
     this.loadData();
   }
@@ -82,13 +87,6 @@ export class MallViewPage implements OnInit {
     return await modal.present();
   }
 
-  /**
-   * On candidate selected from list
-   */
-  rowSelected(store) {
-    this.navCtrl.navigateForward('store-view/' + store.store_id);
-  }
-
   logScrolling(e) {
     this.borderLimit = (e.detail.scrollTop > 20);
   }
@@ -118,7 +116,11 @@ export class MallViewPage implements OnInit {
               }
 
               if (jsonResp.operation == 'success') {
-                this.eventService.reloadStats$.next();
+
+                this.eventService.reloadStats$.next({
+                  company_id: this.mall.company_id
+                });
+
                 const toast = await this.toastCtrl.create({
                   message: jsonResp.message,
                   duration: 3000
@@ -142,9 +144,39 @@ export class MallViewPage implements OnInit {
    */
   dismiss() {
     this.modalCtrl.getTop().then(overlay => {
-      if(overlay) {
+      if (overlay) {
         overlay.dismiss();
       }
     });
+  }
+
+  /**
+   * On candidate selected from list
+   */
+  // rowSelected(store) {
+  //   this.navCtrl.navigateForward('store-view/' + store.store_id);
+  // }
+
+  async rowSelected(store) {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
+    const modal = await this.modalCtrl.create({
+      component: ModalPopPage,
+      componentProps: {
+        activatedRoutePath: StoreViewPage,
+        activatedRoutePathProps: {
+          store_id: store.store_id,
+          view: 'direct',
+        }
+      }
+    });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
+    modal.present();
   }
 }

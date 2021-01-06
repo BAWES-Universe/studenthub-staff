@@ -208,22 +208,36 @@
 /*---------------------- request-detail --------------------*/
 
 .request-detail {
-  .title {
-    height: 12px;
-    margin: 0 0 10px 0;
-    max-width: 100px;
+  h4  ion-skeleton-text {
+    height: 31px;
+    width: 172px
+  }
+  .looking-for {
+    margin-bottom: 7px;
+    ion-skeleton-text {
+      height: 20px;
+      width: 272px;
+    }
+  }
+  .requirement{
+    padding-top: 0px;
+    margin-top: 0;
+    height: 18px;
+    width: 472px;
   }
 
-  .sub-title {
-    height: 14px;
-    margin: 0 0 10px 0;
-    max-width: 150px;
+  .txt-additional-info {
+    height: 19px;
+    width: 211px;
+    margin-bottom: 40px;
   }
 
-  .message {
-    height: 12px;
-    margin: 0;
-    max-width: 260px;
+  .requested-by {
+    width: 116px;
+  }
+  .activity-container {
+    height: 100px;
+    width: 530px;
   }
 }
 

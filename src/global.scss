@@ -149,7 +149,7 @@ ion-header.add-border:after {
   text-transform: capitalize;
 }
 
-ion-modal,  
+ion-modal,
 ion-router-outlet {
   ion-header ion-buttons[slot="end"] ion-button {
     font-size: 18px;
@@ -321,4 +321,12 @@ ion-calendar-modal {
   ion-toolbar {
     color: #fff;
   }
+}
+.container {
+  max-width: 1050px;
+  margin: 0 auto;
+}
+ion-header {
+  --background: #fafafa;
+  background: #fafafa;
 }

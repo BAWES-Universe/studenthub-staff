@@ -5,6 +5,7 @@ import { ModalController } from '@ionic/angular';
 import { Company } from 'src/app/models/company';
 //services
 import { AwsService } from 'src/app/providers/aws.service';
+import { EventService } from 'src/app/providers/event.service';
 import { CompanyService } from 'src/app/providers/logged-in/company.service';
 //pages
 import { UploadFilePage } from '../upload-file/upload-file.page';
@@ -26,6 +27,7 @@ export class CompanyDocumentsPage implements OnInit {
     public modalCtrl: ModalController,
     public activatedRoute: ActivatedRoute,
     public awsService: AwsService,
+    public eventService: EventService,
     public companyService: CompanyService
   ) { }
 
@@ -104,6 +106,10 @@ export class CompanyDocumentsPage implements OnInit {
 
     if (data && data.refresh) {
       this.loadData();
+
+      this.eventService.reloadStats$.next({
+        company_id: this.company.company_id
+      });
     }
   }
 

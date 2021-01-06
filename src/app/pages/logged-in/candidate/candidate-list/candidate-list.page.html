@@ -1,5 +1,5 @@
 <ion-header [class.add-border]="borderLimit" class="ion-no-border">
-  <ion-toolbar>
+  <ion-toolbar class="container">
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/"></ion-back-button>
     </ion-buttons>
@@ -26,63 +26,65 @@
 </ion-header>
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Filter by</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <ion-grid>
-        <ion-row>
-          <ion-col>
-            <!-- Filter by Major -->
-            <ion-item>
-              <ion-label position="floating" color="primary">Name</ion-label>
-              <ion-input type="text" [(ngModel)]="filters.name"></ion-input>
-            </ion-item>
+  <div class="container">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Filter by</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <!-- Filter by Major -->
+              <ion-item>
+                <ion-label position="floating" color="primary">Name</ion-label>
+                <ion-input type="text" [(ngModel)]="filters.name"></ion-input>
+              </ion-item>
 
-            <!-- Filter by Tag -->
-            <ion-item>
-              <ion-label position="floating" color="primary">Email</ion-label>
-              <ion-input type="text" [(ngModel)]="filters.email"></ion-input>
-            </ion-item>
-          </ion-col>
-          <ion-col>
-            <!-- Filter by Tag -->
-            <ion-item>
-              <ion-label position="floating" color="primary">phone</ion-label>
-              <ion-input type="text" [(ngModel)]="filters.phone"></ion-input>
-            </ion-item>
+              <!-- Filter by Tag -->
+              <ion-item>
+                <ion-label position="floating" color="primary">Email</ion-label>
+                <ion-input type="text" [(ngModel)]="filters.email"></ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col>
+              <!-- Filter by Tag -->
+              <ion-item>
+                <ion-label position="floating" color="primary">phone</ion-label>
+                <ion-input type="text" [(ngModel)]="filters.phone"></ion-input>
+              </ion-item>
 
-            <ion-item>
-              <ion-label position="floating" color="primary">Type</ion-label>
-              <ion-select [(ngModel)]="filters.type" [value]="filters.type" okText="Okay" cancelText="Dismiss">
-                <ion-select-option value="assigned">Assigned</ion-select-option>
-                <ion-select-option value="un-assigned">UnAssigned</ion-select-option>
-              </ion-select>
-            </ion-item>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </ion-card-content>
+              <ion-item>
+                <ion-label position="floating" color="primary">Type</ion-label>
+                <ion-select [(ngModel)]="filters.type" [value]="filters.type" okText="Okay" cancelText="Dismiss">
+                  <ion-select-option value="assigned">Assigned</ion-select-option>
+                  <ion-select-option value="un-assigned">UnAssigned</ion-select-option>
+                </ion-select>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
 
-    <ion-card-header>
-      <ion-button (click)="loadData(1);">Submit</ion-button>
-      <ion-button (click)="resetFilter();" color="secondary">Reset</ion-button>
-    </ion-card-header>
+      <ion-card-header>
+        <ion-button (click)="loadData(1);">Submit</ion-button>
+        <ion-button (click)="resetFilter();" color="secondary">Reset</ion-button>
+      </ion-card-header>
 
-  </ion-card>
+    </ion-card>
 
-  <ion-list>
+    <ion-list>
 
-    <candidate tappable (click)="rowSelected(candidate)" [candidate]="candidate" type='candidate' (refresh)="search()" *ngFor="let candidate of candidates">
-    </candidate>
+      <candidate tappable (click)="rowSelected(candidate)" [candidate]="candidate" type='candidate' (refresh)="search()" *ngFor="let candidate of candidates">
+      </candidate>
 
-    <no-items *ngIf="!loading && candidates && candidates.length == 0" message="No candidate data available"></no-items>
+      <no-items *ngIf="!loading && candidates && candidates.length == 0" message="No candidate data available"></no-items>
 
-    <loading-modal [loading]="loading" type="candidate-list"></loading-modal>
+      <loading-modal [loading]="loading" type="candidate-list"></loading-modal>
 
-  </ion-list>
+    </ion-list>
 
+  </div>
   <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
     <ion-infinite-scroll-content></ion-infinite-scroll-content>
   </ion-infinite-scroll>

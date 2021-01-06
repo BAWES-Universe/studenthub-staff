@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar class="container">
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/"></ion-back-button>
     </ion-buttons>
@@ -19,10 +19,10 @@
 </ion-header>
 
 <ion-content>
-  
-  <loading-modal [loading]="loading" type="transfer-view"></loading-modal>
+  <div class="container">
+    <loading-modal [loading]="loading" type="transfer-view"></loading-modal>
 
-  <ng-container *ngIf="!loading">
+    <ng-container *ngIf="!loading">
     <div class="ion-text-center" *ngIf="transfer">
       <h2 class="ion-text-center">
         {{transferStatus}}
@@ -43,11 +43,13 @@
           <ion-icon name="create" slot="start"></ion-icon>
           Edit Transfer
         </ion-button>
+        
         <ion-button fill="outline" (click)="importTransfer(transfer)"
           *ngIf="transfer && (transfer.transfer_status==10)">
           <ion-icon name="create" slot="start"></ion-icon>
           Edit via Excel
         </ion-button>
+
         <ion-button fill="outline" (click)="transferLock(transfer)"
           *ngIf="transfer && (transfer.transfer_status==10)">
           <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
@@ -151,4 +153,5 @@
       </ion-item-group>
     </ion-list>
   </ng-container>
+  </div>
 </ion-content>

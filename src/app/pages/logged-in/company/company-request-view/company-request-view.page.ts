@@ -225,6 +225,7 @@ export class CompanyRequestViewPage implements OnInit {
       this.request.request_updated_datetime = data.request_updated_datetime;
 
       this.eventService.companyRequestUpdate$.next({ 
+        company_id: this.request.company_id,
         request_updated_datetime: data.request_updated_datetime,
         request_uuid: this.request_uuid 
       });
@@ -281,9 +282,13 @@ export class CompanyRequestViewPage implements OnInit {
               if (response.operation == 'success') {
                 request.request_status = 'cancelled';
                 this.loadRequestActivities();
-                this.eventService.reloadStats$.next();
+
+                this.eventService.reloadStats$.next({
+                  company_id: this.request.company_id
+                });
 
                 this.eventService.companyRequestUpdate$.next({ 
+                  company_id: this.request.company_id,
                   request_updated_datetime: response.request_updated_datetime,
                   request_uuid: this.request_uuid 
                 });
@@ -353,9 +358,13 @@ export class CompanyRequestViewPage implements OnInit {
               if (response.operation == 'success') {
                 request.request_status = 'delivered';
                 this.loadRequestActivities();
-                this.eventService.reloadStats$.next();
+
+                this.eventService.reloadStats$.next({
+                  company_id: this.request.company_id
+                });
 
                 this.eventService.companyRequestUpdate$.next({ 
+                  company_id: this.request.company_id,
                   request_updated_datetime: response.request_updated_datetime,
                   request_uuid: this.request_uuid 
                 });

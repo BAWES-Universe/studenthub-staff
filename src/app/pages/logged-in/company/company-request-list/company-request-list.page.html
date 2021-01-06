@@ -1,5 +1,5 @@
 <ion-header [class.add-border]="borderLimit" class="ion-no-border">
-  <ion-toolbar>
+  <ion-toolbar class="container">
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/view/company-request-dashboard"></ion-back-button>
     </ion-buttons>
@@ -8,69 +8,69 @@
 </ion-header>
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
+  <div class="container">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Filter by</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <ion-item>
+                <ion-label color="primary" position="stacked">Company name</ion-label>
+                <ion-input type="text" placeholder="Enter Company Name" [(ngModel)]="filters.companyName"></ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col>
+              <ion-item>
+                <ion-label color="primary" position="stacked">Request Status</ion-label>
+                <ion-select [(ngModel)]="filters.requestStatus">
+                  <ion-select-option value="">All</ion-select-option>
+                  <ion-select-option value="pending">Pending</ion-select-option>
+                  <ion-select-option value="started">Started</ion-select-option>
+                  <ion-select-option value="delivered">Delivered</ion-select-option>
+                  <ion-select-option value="cancelled">Cancelled</ion-select-option>
+                </ion-select>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <ion-item>
+                <ion-label position="stacked" color="primary">Start Date</ion-label>
+                <app-date-dropdown pickerFormat="DD MMMM YYYY" displayFormat="DD MMMM YYYY" [min]="min" [max]="max"
+                                   placeholder="DD/MM/YYYY" [(ngModel)]="filters.startDate"></app-date-dropdown>
+              </ion-item>
+            </ion-col>
 
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Filter by</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <ion-grid>
-        <ion-row>
-          <ion-col>
-            <ion-item>
-              <ion-label color="primary" position="stacked">Company name</ion-label>
-              <ion-input type="text" placeholder="Enter Company Name" [(ngModel)]="filters.companyName"></ion-input>
-            </ion-item>
-          </ion-col>
-          <ion-col>
-            <ion-item>
-              <ion-label color="primary" position="stacked">Request Status</ion-label>
-              <ion-select [(ngModel)]="filters.requestStatus">
-                <ion-select-option value="">All</ion-select-option>
-                <ion-select-option value="pending">Pending</ion-select-option>
-                <ion-select-option value="started">Started</ion-select-option>
-                <ion-select-option value="delivered">Delivered</ion-select-option>
-                <ion-select-option value="cancelled">Cancelled</ion-select-option>
-              </ion-select>
-            </ion-item>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col>
-            <ion-item>
-              <ion-label position="stacked" color="primary">Start Date</ion-label>
-              <app-date-dropdown pickerFormat="DD MMMM YYYY" displayFormat="DD MMMM YYYY" [min]="min" [max]="max"
-                                 placeholder="DD/MM/YYYY" [(ngModel)]="filters.startDate"></app-date-dropdown>
-            </ion-item>
-          </ion-col>
+            <ion-col>
+              <ion-item>
+                <ion-label position="stacked" color="primary">End Date</ion-label>
+                <app-date-dropdown pickerFormat="DD MMMM YYYY" displayFormat="DD MMMM YYYY" [min]="min" [max]="max"
+                                   placeholder="DD/MM/YYYY" [(ngModel)]="filters.endDate"></app-date-dropdown>
+              </ion-item>
+            </ion-col>
 
-          <ion-col>
-            <ion-item>
-              <ion-label position="stacked" color="primary">End Date</ion-label>
-              <app-date-dropdown pickerFormat="DD MMMM YYYY" displayFormat="DD MMMM YYYY" [min]="min" [max]="max"
-                                 placeholder="DD/MM/YYYY" [(ngModel)]="filters.endDate"></app-date-dropdown>
-            </ion-item>
-          </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
 
-        </ion-row>
-      </ion-grid>
-    </ion-card-content>
+      <ion-card-header>
+        <ion-button (click)="list();">Submit</ion-button>
+        <ion-button (click)="resetFilter();" color="secondary">Reset</ion-button>
+      </ion-card-header>
+    </ion-card>
 
-    <ion-card-header>
-      <ion-button (click)="list();">Submit</ion-button>
-      <ion-button (click)="resetFilter();" color="secondary">Reset</ion-button>
-    </ion-card-header>
-  </ion-card>
+    <ion-list>
 
-  <ion-list>
-    
-    <request-listing *ngFor="let request of requests" tappable (click)="requestDetail(request)"
-                     [request]="request" [showStatus]="false"></request-listing>
+      <request-listing *ngFor="let request of requests" tappable (click)="requestDetail(request)"
+                       [request]="request" [showStatus]="false"></request-listing>
 
-    <loading-modal [loading]="loading" type="request-list"></loading-modal>
-                      
-  </ion-list>
+      <loading-modal [loading]="loading" type="request-list"></loading-modal>
 
+    </ion-list>
+  </div>
   <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
     <ion-infinite-scroll-content></ion-infinite-scroll-content>
   </ion-infinite-scroll>

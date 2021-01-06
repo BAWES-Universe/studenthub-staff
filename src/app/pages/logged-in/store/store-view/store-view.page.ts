@@ -1,19 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import {AlertController, ModalController, NavController, ToastController} from "@ionic/angular";
-import { ActivatedRoute } from "@angular/router";
-//model
-import { Store } from "../../../../models/store";
-import { Candidate } from "../../../../models/candidate";
-//page
-import { StoreFormPage } from "../store-form/store-form.page";
-//service
-import { StoreService } from "../../../../providers/logged-in/store.service";
+import {AlertController, ModalController, NavController, NavParams, ToastController} from '@ionic/angular';
+import { ActivatedRoute } from '@angular/router';
+// model
+import { Store } from '../../../../models/store';
+import { Candidate } from '../../../../models/candidate';
+// page
+import { StoreFormPage } from '../store-form/store-form.page';
+// service
+import { StoreService } from '../../../../providers/logged-in/store.service';
 import { AwsService } from 'src/app/providers/aws.service';
-import { EventService } from "../../../../providers/event.service";
-import { MallService } from "../../../../providers/logged-in/mall.service";
-import { Mall } from "../../../../models/mall";
+import { EventService } from '../../../../providers/event.service';
+import { MallService } from '../../../../providers/logged-in/mall.service';
+import { Mall } from '../../../../models/mall';
 import { StoreManagerFormPage } from '../store-manager-form/store-manager-form.page';
-import { AuthService } from "../../../../providers/auth.service";
+import { AuthService } from '../../../../providers/auth.service';
 
 
 @Component({
@@ -30,8 +30,9 @@ export class StoreViewPage implements OnInit {
   public malls: Mall[];
 
   public borderLimit = false;
+  public directView = false;
 
-  public updating: boolean = false;
+  public updating = false;
 
   constructor(
     public navCtrl: NavController,
@@ -43,14 +44,24 @@ export class StoreViewPage implements OnInit {
     private eventService: EventService,
     private mallService: MallService,
     private authService: AuthService,
-    private toastCtrl: ToastController
+    private toastCtrl: ToastController,
+    private navParams: NavParams
   ) {
   }
 
   ngOnInit() {
+    // console.log(this.activatedRoute, this.navParams.data);
 
-    if(!this.store_id)
+    if (!this.store_id && this.activatedRoute.snapshot.paramMap.get('id')) {
       this.store_id = this.activatedRoute.snapshot.paramMap.get('id');
+    }
+
+    if (this.navParams && this.navParams.data && this.navParams.data.store_id) {
+      this.store_id = this.navParams.data.store_id;
+    }
+    if (this.navParams && this.navParams.data && this.navParams.data.view) {
+      this.directView = true;
+    }
 
     const state = window.history.state;
 
@@ -58,9 +69,10 @@ export class StoreViewPage implements OnInit {
     //   this.store = state['model'];
     // } else {
     // }
-
-    this.loadData();
-    this.loadMall();
+    if (this.store_id) {
+      this.loadData();
+      this.loadMall();
+    }
 
     this.eventService.reloadCandidateHistory$.subscribe(response => {
       this.loadData();
@@ -258,7 +270,10 @@ export class StoreViewPage implements OnInit {
               }
 
               if (jsonResp.operation == 'success') {
-                this.eventService.reloadStats$.next();
+
+                this.eventService.reloadStats$.next({
+                  company_id: this.company_id
+                });
                 const toast = await this.toastCtrl.create({
                   message: jsonResp.message,
                   duration: 3000
@@ -280,4 +295,8 @@ export class StoreViewPage implements OnInit {
     confirm.present();
   }
 
+  close() {
+    console.log('test');
+    this.modalCtrl.dismiss();
+  }
 }

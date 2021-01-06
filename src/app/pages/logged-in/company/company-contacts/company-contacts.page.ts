@@ -1,15 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 //models
 import { CompanyContact } from 'src/app/models/company-contact';
+import { Company } from "../../../../models/company";
 //services
+import { CompanyService } from "../../../../providers/logged-in/company.service";
 import { CompanyContactService } from 'src/app/providers/logged-in/company-contact.service';
 //pages
 import { CompanyContactFormPage } from '../company-contact-form/company-contact-form.page';
-import {Company} from "../../../../models/company";
-import {CompanyService} from "../../../../providers/logged-in/company.service";
-import { CompanyContactViewPage } from '../company-contact/company-contact-view/company-contact-view.page';
+import { EventService } from 'src/app/providers/event.service';
+
 
 @Component({
   selector: 'app-company-contacts',
@@ -28,14 +29,15 @@ export class CompanyContactsPage implements OnInit {
     public router: Router,
     public modalCtrl: ModalController,
     public companyContactService: CompanyContactService,
-    public companyService: CompanyService
+    public companyService: CompanyService,
+    public eventService: EventService
   ) { }
 
   ngOnInit() {
 
     this.loadContacts();
 
-    if(!this.company)
+    if (!this.company)
       this.loadCompanyDetail();
   }
 
@@ -75,7 +77,7 @@ export class CompanyContactsPage implements OnInit {
 
   loadContacts() {
     this.loading = true;
-    this.companyContactService.companyContacts(this.company.company_id,' ', 'companyContactEmails,companyContactPhones,companyContactStats').subscribe(data => {
+    this.companyContactService.companyContacts(this.company.company_id, ' ', 'companyContactEmails,companyContactPhones,companyContactStats').subscribe(data => {
       this.loading = false;
       this.companyContacts = data;
     });
@@ -102,6 +104,10 @@ export class CompanyContactsPage implements OnInit {
 
       if (e && e.data && e.data.refresh) {
         this.loadContacts();
+
+        this.eventService.reloadStats$.next({
+          company_id: this.company.company_id
+        });
       }
     });
     modal.present();

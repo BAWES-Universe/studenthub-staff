@@ -88,6 +88,7 @@ export class NoteViewPage implements OnInit {
       this.eventService.noteUpdated$.next(this.note);
 
       this.eventService.companyRequestUpdate$.next({
+        company_id: this.note.company_id,
         request_uuid: this.note.request_uuid,
         request_updated_datetime: data.request_updated_datetime
       });

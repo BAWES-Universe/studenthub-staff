@@ -9,7 +9,6 @@ import { BrandService } from 'src/app/providers/logged-in/brand.service';
 import { CompanyService } from "../../../../providers/logged-in/company.service";
 // pages
 import { BrandFormPage } from '../brand-form/brand-form.page';
-import { BrandViewPage } from '../brand-view/brand-view.page';
 import { Router } from '@angular/router';
 
 

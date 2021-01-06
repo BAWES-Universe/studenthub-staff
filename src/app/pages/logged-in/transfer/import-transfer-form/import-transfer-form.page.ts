@@ -173,7 +173,11 @@ export class ImportTransferFormPage implements OnInit {
       this.uploading = false;
 
       if (data.operation == 'success') {
-        this.eventService.reloadStats$.next();
+
+        this.eventService.reloadStats$.next({
+          company_id: this.transfer.company_id
+        });
+
         let prompt = await this._alertCtrl.create({
           message: data.message,
           buttons: ["Ok"]
@@ -210,7 +214,11 @@ export class ImportTransferFormPage implements OnInit {
         this.uploading = false;
 
         if (data.operation == 'success') {
-          this.eventService.reloadStats$.next();
+            
+          this.eventService.reloadStats$.next({
+            company_id: this.transfer.company_id
+          });
+          
           let prompt = await this._alertCtrl.create({
             message: data.message,
             buttons: ["Ok"]

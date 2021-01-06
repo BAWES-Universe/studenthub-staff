@@ -38,9 +38,9 @@ export class TeamViewPage implements OnInit {
 
     if(!this.staff_id)
       this.staff_id = this.activatedRoute.snapshot.paramMap.get('id');
-    
+
     const state = window.history.state;
-    
+
     if (state.model) {
       this.staff = state.model;
     }
@@ -82,7 +82,7 @@ export class TeamViewPage implements OnInit {
 
     this.loading = loading;
 
-    const params = '&staff_id=' + this.staff_id;
+    const params = 'staff_id=' + this.staff_id;
 
     this.noteService.list(params, 1).subscribe(response => {
 
@@ -107,7 +107,7 @@ export class TeamViewPage implements OnInit {
 
     this.currentPage++;
 
-    const params = '&staff_id=' + this.staff_id;
+    const params = 'staff_id=' + this.staff_id;
 
     this.noteService.list(params, this.currentPage).subscribe(response => {
 

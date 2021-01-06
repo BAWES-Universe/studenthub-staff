@@ -7,7 +7,7 @@ import { CompanyContactService } from 'src/app/providers/logged-in/company-conta
 import { CompanyContact } from 'src/app/models/company-contact';
 //validator
 import { CustomValidator } from 'src/app/validators/custom.validator';
-import {EventService} from "../../../../providers/event.service";
+import { EventService } from "../../../../providers/event.service";
 
 
 @Component({
@@ -195,7 +195,11 @@ export class CompanyContactFormPage implements OnInit {
 
       // On Success
       if (jsonResponse.operation == "success") {
-        this.eventService.reloadStats$.next();
+
+        this.eventService.reloadStats$.next({
+          company_id: this.model.company_id
+        }); 
+
         // Close the page
         let data = { 'refresh': true };
         this.modalCtrl.dismiss(data);

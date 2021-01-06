@@ -151,7 +151,9 @@ export class CompanyContactViewPage implements OnInit {
               this.deleting = false;
 
               if (response.operation == 'success') {
-                this.eventService.reloadStats$.next();
+                this.eventService.reloadStats$.next({
+                  company_id: this.companyContact.company_id
+                });
                 this.location.back();
               }
               else {

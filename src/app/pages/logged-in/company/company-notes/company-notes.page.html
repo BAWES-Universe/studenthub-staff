@@ -36,7 +36,7 @@
           <ion-select-option>Task</ion-select-option>
         </ion-select>
       </ion-item>
-      
+
       <ion-item>
         <div tabindex="0"></div>
         <ion-label position="floating">Contact</ion-label>
@@ -85,7 +85,7 @@
   </ng-container>
 
   <ion-list *ngIf="!addNewNote">
-    <note *ngFor="let note of notes" (click)="openDetail(note)" from="company-view" [note]="note" (onChange)="loadNotes()" (onDelete)="loadNotes()"></note>
+    <note tappable *ngFor="let note of notes" (click)="openDetail(note)" from="company-view" [note]="note" (onChange)="loadNotes()" (onDelete)="loadNotes()"></note>
 
     <loading-modal [loading]="loadingNotes" type="note-list"></loading-modal>
 

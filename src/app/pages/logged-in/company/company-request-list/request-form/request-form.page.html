@@ -1,5 +1,5 @@
 <ion-header [class.add-border]="borderLimit" class="ion-no-border">
-  <ion-toolbar>
+  <ion-toolbar class="container">
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/view/company-request-dashboard"></ion-back-button>
     </ion-buttons>
@@ -21,6 +21,7 @@
 </ion-header>
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
+  <div class="container">
   <form [formGroup]="form" *ngIf="form">
 
     <ion-list>
@@ -80,8 +81,9 @@
       </ion-item>
     </ion-list>
   </form>
+  </div>
 </ion-content>
-<ion-footer>
+<ion-footer class="container">
   <ion-grid>
     <ion-row>
       <ion-col>

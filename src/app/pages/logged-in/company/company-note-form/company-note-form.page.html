@@ -32,22 +32,22 @@
         </ion-select>
       </ion-item>
 
-        <ion-item (click)="openClient($event)" *ngIf="this.from !='company-view'">
+        <ion-item (click)="openClient($event)" *ngIf="this.from !='company-view'" tappable>
           <div tabindex="0"></div>
           <ion-label position="floating">Company Name</ion-label>
-          <ion-input type="text" formControlName="company_name" readonly></ion-input>
+          <ion-input type="text" formControlName="company_name" readonly tappable></ion-input>
         </ion-item>
 
-        <ion-item (click)="openContact($event)">
+        <ion-item (click)="openContact($event)" tappable>
           <div tabindex="0"></div>
           <ion-label position="floating">Contact</ion-label>
-          <ion-input type="text" formControlName="contact_name" readonly></ion-input>
+          <ion-input type="text" formControlName="contact_name" readonly tappable></ion-input>
         </ion-item>
 
-        <ion-item (click)="openRequest($event)">
+        <ion-item (click)="openRequest($event)" tappable>
           <div tabindex="0"></div>
           <ion-label position="floating">Request</ion-label>
-          <ion-input type="text" formControlName="request_name" readonly></ion-input>
+          <ion-input type="text" formControlName="request_name" readonly tappable></ion-input>
         </ion-item>
       </ng-container>
 

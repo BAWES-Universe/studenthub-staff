@@ -7,6 +7,7 @@ import { Invoice } from "src/app/models/invoice";
 //service
 import { TransferService } from "src/app/providers/logged-in/transfer.service";
 import { AwsService } from 'src/app/providers/aws.service';
+import { EventService } from 'src/app/providers/event.service';
 //pages
 import { TransferFormPage } from '../transfer-form/transfer-form.page';
 import { ImportTransferFormPage } from '../import-transfer-form/import-transfer-form.page';
@@ -33,6 +34,7 @@ export class TransferViewPage implements OnInit {
     public navCtrl: NavController,
     public aws: AwsService,
     public transferService: TransferService,
+    public eventService: EventService,
     private _loadingCtrl: LoadingController,
     public modalCtrl: ModalController,
     public activatedRoute: ActivatedRoute,
@@ -132,7 +134,12 @@ export class TransferViewPage implements OnInit {
               toast.present();
 
               this.loadData();
+
               loader.dismiss();
+
+              this.eventService.reloadStats$.next({
+                company_id: this.transfer.company_id
+              });
             });
           }
         }
@@ -156,7 +163,12 @@ export class TransferViewPage implements OnInit {
       toast.present();
 
       this.loadData();
+
       loader.dismiss();
+
+      this.eventService.reloadStats$.next({
+        company_id: this.transfer.company_id
+      });
     });
   }
 
@@ -214,6 +226,10 @@ export class TransferViewPage implements OnInit {
 
       if(e.data && e.data.refresh) {
         this.loadData();
+        
+        this.eventService.reloadStats$.next({
+          company_id: this.transfer.company_id
+        });
       }
     });
     modal.present();
@@ -240,6 +256,10 @@ export class TransferViewPage implements OnInit {
 
       if(e.data && e.data.refresh) {
         this.loadData();
+
+        this.eventService.reloadStats$.next({
+          company_id: this.transfer.company_id
+        });
       }
     });
     modal.present();
@@ -279,6 +299,11 @@ export class TransferViewPage implements OnInit {
       loader.dismiss();
 
       if (response.operation == 'success') {
+
+        this.eventService.reloadStats$.next({
+          company_id: this.transfer.company_id
+        });
+
         this.back();
       } else {
         const alert = await this.alertCtrl.create({

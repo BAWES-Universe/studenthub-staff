@@ -18,16 +18,19 @@ export class CompanyComponent implements OnInit {
 
   @Input() company: Company;
   @Input() page = null;
-
+  public totalCandidates = 0;
   constructor(
     public router: Router,
     public aws: AwsService,
     public platform: Platform,
   ) {
+    if (this.company) {
+      this.totalCandidates = this.company.total_candidate;
+    }
   }
 
   ngOnInit() {
-
+    this.countCandidate();
   }
 
   doNothing(event) {
@@ -55,5 +58,13 @@ export class CompanyComponent implements OnInit {
 
   loadLogo($event, company) {
     company.company_logo = null;
+  }
+
+  countCandidate() {
+    if (this.company && this.company.stores && this.company.stores.length > 0) {
+      this.company.stores.map(store => {
+        this.totalCandidates += store.store_total_candidates;
+      });
+    }
   }
 }

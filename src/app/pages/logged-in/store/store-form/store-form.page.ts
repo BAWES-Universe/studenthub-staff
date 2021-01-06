@@ -151,7 +151,10 @@ export class StoreFormPage implements OnInit {
         // Close the page
         const data = { refresh: true };
         this._modelCtrl.dismiss(data);
-        this.eventService.reloadStats$.next();
+
+        this.eventService.reloadStats$.next({
+          company_id: this.model.company_id
+        });
       }
 
       // On Failure

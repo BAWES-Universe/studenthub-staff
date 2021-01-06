@@ -1,5 +1,5 @@
 <ion-header [class.add-border]="borderLimit" class="ion-no-border">
-  <ion-toolbar>
+  <ion-toolbar class="container">
 
     <ion-buttons slot="start">
       <ion-back-button (click)="dismiss()"></ion-back-button>
@@ -10,9 +10,10 @@
 </ion-header>
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
-  <ion-searchbar [(ngModel)]="query" (ionChange)="filter($event)" placeholder="Search by name / phone / email" debounce="100"></ion-searchbar>
+  <div class="container">
+    <ion-searchbar [(ngModel)]="query" (ionChange)="filter($event)" placeholder="Search by name / phone / email" debounce="100"></ion-searchbar>
 
-  <ion-list class="contact-list">
+    <ion-list class="contact-list">
     <ion-item-sliding *ngFor="let companyContact of contactList">
       <ion-item tappable (click)="dismiss(companyContact)">
         <div tabindex="0"></div>
@@ -44,7 +45,7 @@
       </ion-item>
     </ion-item-sliding>
   </ion-list>
-
+  </div>
   <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
     <ion-infinite-scroll-content></ion-infinite-scroll-content>
   </ion-infinite-scroll>

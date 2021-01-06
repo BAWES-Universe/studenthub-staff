@@ -12,6 +12,7 @@ import { NoteService } from 'src/app/providers/logged-in/note.service';
 import { AuthService } from 'src/app/providers/auth.service';
 import { CompanyContactService } from 'src/app/providers/logged-in/company-contact.service';
 import { CompanyService } from "../../../../providers/logged-in/company.service";
+import { EventService } from 'src/app/providers/event.service';
 
 
 @Component({
@@ -61,6 +62,7 @@ export class CompanyNotesPage implements OnInit {
     public modalCtrl: ModalController,
     public noteService: NoteService,
     public companyService: CompanyService,
+    public eventService: EventService,
     public companyContactService: CompanyContactService,
     public authService: AuthService
   ) { }
@@ -189,6 +191,7 @@ export class CompanyNotesPage implements OnInit {
     model.note_text = this.noteForm.controls.note.value;
     model.note_type = this.noteForm.controls.type.value;
     model.contact_uuid = this.noteForm.controls.contact.value;
+
     if (this.noteForm.controls.request.value) {
       model.request_uuid = this.noteForm.controls.request.value;
     }
@@ -207,6 +210,10 @@ export class CompanyNotesPage implements OnInit {
 
       // On Success
       if (jsonResponse.operation == 'success') {
+
+        this.eventService.reloadStats$.next({
+          company_id: this.company.company_id
+        });
 
         this.cancelAddNote();
         this.loadNotes();
@@ -273,6 +280,11 @@ export class CompanyNotesPage implements OnInit {
               this.deleting = false;
 
               if (response.operation == 'success') {
+
+                this.eventService.reloadStats$.next({
+                  company_id: this.company.company_id
+                });
+                
                 this.loadNotes();
               } else {
 

@@ -10,7 +10,7 @@ import { BrandService } from 'src/app/providers/logged-in/brand.service';
 import { AwsService } from 'src/app/providers/aws.service';
 import { SentryErrorhandlerService } from 'src/app/providers/sentry.errorhandler.service';
 import { CameraService } from 'src/app/providers/camera.service';
-import {EventService} from "../../../../providers/event.service";
+import { EventService } from "../../../../providers/event.service";
 
 
 @Component({
@@ -129,7 +129,11 @@ export class BrandFormPage implements OnInit {
 
       // On Success
       if (jsonResponse.operation == 'success') {
-        this.eventService.reloadStats$.next();
+        
+        this.eventService.reloadStats$.next({
+          company_id: this.model.company_id
+        });
+
         // Close the page
         const data = { refresh: true };
         this.modalCtrl.dismiss(data);

@@ -1,5 +1,5 @@
 <ion-header [class.add-border]="borderLimit" class="ion-no-border">
-  <ion-toolbar>
+  <ion-toolbar class="container">
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/view/company-list"></ion-back-button>
     </ion-buttons>
@@ -8,60 +8,60 @@
       {{ company.company_name }}
     </ion-title>
   </ion-toolbar>
-  
+
   <ion-progress-bar type="indeterminate" *ngIf="updating"></ion-progress-bar>
 
 </ion-header>
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
+  <div class="container">
+    <ion-list>
+      <ion-item-sliding *ngFor="let store of stores" [disabled]="platform.width() > 768">
+        <ion-item tappable (click)="rowSelected(store)">
+          <div tabindex="0"></div>
 
-  <ion-list>
-    <ion-item-sliding *ngFor="let store of stores" [disabled]="platform.width() > 768">
-      <ion-item tappable (click)="rowSelected(store)">
-        <div tabindex="0"></div>
-        
-        <ion-label>
-          <h5>{{ store.store_name }}</h5>
-          <p *ngIf="store.store_location"><ion-icon name="location-outline"></ion-icon> {{ store.store_location }}</p>
-        </ion-label>
+          <ion-label>
+            <h5>{{ store.store_name }}</h5>
+            <p *ngIf="store.store_location"><ion-icon name="location-outline"></ion-icon> {{ store.store_location }}</p>
+          </ion-label>
 
-        <ion-badge slot="end" *ngIf="store.candidates?.length > 0">
-          <ion-icon name="person"></ion-icon> {{ store.candidates.length }}
-        </ion-badge>
+          <ion-badge slot="end" *ngIf="store.candidates?.length > 0">
+            <ion-icon name="person"></ion-icon> {{ store.candidates.length }}
+          </ion-badge>
 
-        <ion-buttons slot="end" *ngIf="platform.width() > 768">
-            
-          <ion-button *ngIf="!store.storeManager" (click)="selectStoreManager($event, store)">
+          <ion-buttons slot="end" *ngIf="platform.width() > 768">
+
+            <ion-button *ngIf="!store.storeManager" (click)="selectStoreManager($event, store)">
+              <ion-icon name="call-outline"></ion-icon>
+              Select store manager
+            </ion-button>
+
+            <ion-button color="danger" (click)="delete($event, store)">
+              <ion-icon slot="start" name="trash-outline"></ion-icon>
+              Delete
+            </ion-button>
+          </ion-buttons>
+
+        </ion-item>
+
+        <ion-item-options side="end">
+
+          <ion-button *ngIf="!store.storeManager" color="primary" (click)="selectStoreManager($event, store)">
             <ion-icon name="call-outline"></ion-icon>
             Select store manager
           </ion-button>
-          
+
           <ion-button color="danger" (click)="delete($event, store)">
-            <ion-icon slot="start" name="trash-outline"></ion-icon>
+            <ion-icon name="trash"></ion-icon>
             Delete
           </ion-button>
-        </ion-buttons>
+        </ion-item-options>
 
-      </ion-item>
+      </ion-item-sliding>
+    </ion-list>
 
-      <ion-item-options side="end">
-
-        <ion-button *ngIf="!store.storeManager" color="primary" (click)="selectStoreManager($event, store)">
-          <ion-icon name="call-outline"></ion-icon>
-          Select store manager
-        </ion-button>
-
-        <ion-button color="danger" (click)="delete($event, store)">
-          <ion-icon name="trash"></ion-icon>
-          Delete
-        </ion-button>
-      </ion-item-options>
-
-    </ion-item-sliding>    
-  </ion-list>
-
-  <loading-modal [loading]="loading" type="text-list"></loading-modal>
-
+    <loading-modal [loading]="loading" type="text-list"></loading-modal>
+  </div>
   <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
     <ion-infinite-scroll-content></ion-infinite-scroll-content>
   </ion-infinite-scroll>

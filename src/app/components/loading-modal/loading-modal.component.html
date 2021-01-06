@@ -2,7 +2,7 @@
 
 <div *ngIf="loading && type == 'candidate'" #container>
   <ion-card class="candidate">
-    
+
     <ion-card-content>
 
       <div class="background-masker image"></div>
@@ -381,7 +381,7 @@
       </div>
     </ion-card-content>
   </ion-card>
-  
+
   <ion-card>
     <ion-card-content>
       <div class="count"><ion-skeleton-text animated></ion-skeleton-text></div>
@@ -390,7 +390,7 @@
       </div>
     </ion-card-content>
   </ion-card>
-  
+
   <ion-card>
     <ion-card-content>
       <div class="count"><ion-skeleton-text animated></ion-skeleton-text></div>
@@ -399,7 +399,7 @@
       </div>
     </ion-card-content>
   </ion-card>
-  
+
   <ion-card>
     <ion-card-content>
       <div class="count"><ion-skeleton-text animated></ion-skeleton-text></div>
@@ -408,7 +408,7 @@
       </div>
     </ion-card-content>
   </ion-card>
-  
+
 </div>
 
 <!--------------------------- candidate-view -------------------->
@@ -759,27 +759,17 @@
 <!--------------------------- request-detail -------------------->
 
 <div class="request-detail" *ngIf="loading && type == 'request-detail'">
-  <ion-item>
-    <ion-label>
-      <ion-skeleton-text animated class="title"></ion-skeleton-text>
-      <ion-skeleton-text animated class="sub-title"></ion-skeleton-text>
-    </ion-label>
-  </ion-item>
 
-  <ion-item>
-    <ion-label>
-      <ion-skeleton-text animated class="title"></ion-skeleton-text>
-      <ion-skeleton-text animated class="sub-title"></ion-skeleton-text>
-    </ion-label>
-  </ion-item>
-
-  <ion-item>
-    <ion-label>
-      <ion-skeleton-text animated class="title"></ion-skeleton-text>
-      <ion-skeleton-text animated class="sub-title"></ion-skeleton-text>
-    </ion-label>
-  </ion-item>
-
+    <div>
+      <h4 class="company-name" tappable><ion-skeleton-text animated class="title"></ion-skeleton-text></h4>
+      <p class="looking-for"><ion-skeleton-text animated class="title"></ion-skeleton-text></p>
+      <p class="requirement"><ion-skeleton-text animated class="title"></ion-skeleton-text></p>
+      <p class="txt-additional-info"><ion-skeleton-text animated class="title"></ion-skeleton-text></p>
+      <p class="requested-by"><ion-skeleton-text animated class="title"></ion-skeleton-text></p>
+      <p class="requested-by"><ion-skeleton-text animated class="title"></ion-skeleton-text></p>
+      <h4 class="txt-activities">Recent Activity</h4>
+      <p class="activity-container"><ion-skeleton-text animated class="title"></ion-skeleton-text></p>
+    </div>
 </div>
 
 <!--------------------------- request-list -------------------->

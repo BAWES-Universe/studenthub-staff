@@ -204,7 +204,9 @@ export class CompanyFormPage implements OnInit {
 
       // On Success
       if (jsonResponse.operation == 'success') {
-        this.eventService.reloadStats$.next();
+        this.eventService.reloadStats$.next({
+          company_id: this.model.company_id
+        });
         // Close the page
         const data = { refresh: true };
         this.modalCtrl.dismiss(data);

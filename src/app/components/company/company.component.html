@@ -25,8 +25,8 @@
     <ion-badge class="company_status_badge success" slot="start" *ngIf="company.company_status && !company.parent_company_id">
       Active
     </ion-badge>
-    <ion-badge slot="start" color="light" *ngIf="company.total_candidate > 0">
-      {{ company.total_candidate }} candidates
+    <ion-badge slot="start" color="light" *ngIf="totalCandidates > 0">
+      {{ totalCandidates }} assigned staff
     </ion-badge>
     <ion-badge slot="start" color="light" *ngIf="company.subCompanies && company.subCompanies.length > 0">
       {{ company.subCompanies.length }} sub-companies

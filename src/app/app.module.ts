@@ -45,8 +45,8 @@ import { CandidateMergeSelectPageModule } from './pages/logged-in/candidate/cand
 import { NoteModule } from './components/note/note.module';
 import { SuggestPageModule } from './pages/logged-in/suggest/suggest.module';
 import { FulltimerFormPageModule } from './pages/logged-in/fulltimer/fulltimer-form/fulltimer-form.module';
-import { CompanyModule } from "./components/company/company.module";
-import { LocationPageModule } from "./pages/logged-in/candidate/location/location.module";
+import { CompanyModule } from './components/company/company.module';
+import { LocationPageModule } from './pages/logged-in/candidate/location/location.module';
 import { CalendarModule } from 'ion2-calendar';
 import { TransferChartPageModule } from './pages/logged-in/transfer/transfer-chart/transfer-chart.module';
 
@@ -61,6 +61,8 @@ import { CompanyNotesPageModule } from './pages/logged-in/company/company-notes/
 import { CompanyRequestsPageModule } from './pages/logged-in/company/company-requests/company-requests.module';
 import { CompanyMallsPageModule } from './pages/logged-in/company/company-malls/company-malls.module';
 import { CompanySubcompaniesPageModule } from './pages/logged-in/company/company-subcompanies/company-subcompanies.module';
+import {ModalPopPageModule} from './pages/logged-in/modal-pop/modal-pop.module';
+import {StoreViewPageModule} from "./pages/logged-in/store/store-view/store-view.module";
 
 export function startupServiceFactory(authService) {
   return () => authService.load();
@@ -133,6 +135,8 @@ export function createTranslateLoader(http: HttpClient) {
     CompanySubcompaniesPageModule,
     CompanyStoresPageModule,
     TransferChartPageModule,
+    ModalPopPageModule,
+    StoreViewPageModule
   ],
   providers: [
     {

@@ -302,7 +302,11 @@ export class UploadFilePage implements OnInit, OnDestroy {
 
       // On Success
       if (jsonResponse.operation == 'success') {
-        this.eventService.reloadStats$.next();
+
+        this.eventService.reloadStats$.next({
+          company_id: this.company.company_id
+        });
+
         // open view page
         this.dismiss({ refresh: true });
 

@@ -1,5 +1,5 @@
 <ion-header [class.add-border]="borderLimit" class="ion-no-border">
-  <ion-toolbar>
+  <ion-toolbar class="container">
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/country-list"></ion-back-button>
     </ion-buttons>
@@ -8,58 +8,59 @@
 </ion-header>
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
-  <loading-modal [loading]="loadingDetail" type="text-list-view"></loading-modal>
-  <ion-list *ngIf="country">
-    <ion-item>
-      <div tabindex="0"></div>
-      <ion-label>
-        <h5>Country ID</h5>
-        <p>{{ country.country_id }}</p>
-      </ion-label>
-    </ion-item>
+  <div class="container">
+    <loading-modal [loading]="loadingDetail" type="text-list-view"></loading-modal>
+    <ion-list *ngIf="country">
+      <ion-item>
+        <div tabindex="0"></div>
+        <ion-label>
+          <h5>Country ID</h5>
+          <p>{{ country.country_id }}</p>
+        </ion-label>
+      </ion-item>
 
-    <ion-item>
-      <div tabindex="0"></div>
-      <ion-label>
-        <h5>Country Name</h5>
-        <p>{{ country.country_name_en }}</p>
-      </ion-label>
-    </ion-item>
+      <ion-item>
+        <div tabindex="0"></div>
+        <ion-label>
+          <h5>Country Name</h5>
+          <p>{{ country.country_name_en }}</p>
+        </ion-label>
+      </ion-item>
 
-    <ion-item>
-      <div tabindex="0"></div>
-      <ion-label>
-        <h5>Country Name - Arabic</h5>
-        <p>{{ country.country_name_ar }}</p>
-      </ion-label>
-    </ion-item>
+      <ion-item>
+        <div tabindex="0"></div>
+        <ion-label>
+          <h5>Country Name - Arabic</h5>
+          <p>{{ country.country_name_ar }}</p>
+        </ion-label>
+      </ion-item>
 
-    <ion-item>
-      <div tabindex="0"></div>
-      <ion-label>
-        <h5>Country Nationality</h5>
-        <p>{{ country.country_nationality_name_en }}</p>
-      </ion-label>
-    </ion-item>
+      <ion-item>
+        <div tabindex="0"></div>
+        <ion-label>
+          <h5>Country Nationality</h5>
+          <p>{{ country.country_nationality_name_en }}</p>
+        </ion-label>
+      </ion-item>
 
-    <ion-item>
-      <div tabindex="0"></div>
-      <ion-label>
-        <h5>Country Nationality - Arabic</h5>
-        <p>{{ country.country_nationality_name_ar }}</p>
-      </ion-label>
-    </ion-item>
-    
-  </ion-list>
+      <ion-item>
+        <div tabindex="0"></div>
+        <ion-label>
+          <h5>Country Nationality - Arabic</h5>
+          <p>{{ country.country_nationality_name_ar }}</p>
+        </ion-label>
+      </ion-item>
 
-  <h5 *ngIf="candidates && candidates.length > 0">Candidates</h5>
- 
-  <ion-list *ngIf="!loading">
+    </ion-list>
 
-    <candidate tappable (click)="candidateSelected(candidate)" [candidate]="candidate" (refresh)="refresh()" *ngFor="let candidate of candidates"></candidate>
+    <h5 *ngIf="candidates && candidates.length > 0">Candidates</h5>
 
-  </ion-list>
+    <ion-list *ngIf="!loading">
 
-  <loading-modal [loading]="loading" type="text-list"></loading-modal>
+      <candidate tappable (click)="candidateSelected(candidate)" [candidate]="candidate" (refresh)="refresh()" *ngFor="let candidate of candidates"></candidate>
 
+    </ion-list>
+
+    <loading-modal [loading]="loading" type="text-list"></loading-modal>
+  </div>
 </ion-content>

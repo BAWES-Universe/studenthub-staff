@@ -1,5 +1,5 @@
 <ion-header [class.add-border]="borderLimit" class="ion-no-border">
-  <ion-toolbar>
+  <ion-toolbar class="container">
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/view/tasks"></ion-back-button>
     </ion-buttons>
@@ -7,28 +7,30 @@
   </ion-toolbar>
 </ion-header>
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
-  <ion-list *ngIf="!loading">
-    <section>
+  <div class="container">
+    <ion-list *ngIf="!loading">
+      <section>
 
-      <ion-item-sliding *ngFor="let mall of malls" [disabled]="platform.width() > 768">
-        <ion-item tappable (click)="rowSelected(mall)" lines="none">
-          <div tabindex="0"></div>
-          <h3>{{ mall.mall_name_en }}</h3>
+        <ion-item-sliding *ngFor="let mall of malls" [disabled]="platform.width() > 768">
+          <ion-item tappable (click)="rowSelected(mall)" lines="none">
+            <div tabindex="0"></div>
+            <h3>{{ mall.mall_name_en }}</h3>
 
-          <ion-badge slot="end" color="light" *ngIf="mall.candidate_count > 0">
-            {{ mall.candidate_count }} staff
-          </ion-badge>
-        </ion-item>
-      </ion-item-sliding>
-    </section>
-  </ion-list>
-  <loading-modal [loading]="loading || loadMore" type="mall-list"></loading-modal>
+            <ion-badge slot="end" color="light" *ngIf="mall.candidate_count > 0">
+              {{ mall.candidate_count }} staff
+            </ion-badge>
+          </ion-item>
+        </ion-item-sliding>
+      </section>
+    </ion-list>
+    <loading-modal [loading]="loading || loadMore" type="mall-list"></loading-modal>
+  </div>
   <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
     <ion-infinite-scroll-content></ion-infinite-scroll-content>
   </ion-infinite-scroll>
 </ion-content>
 
-<ion-footer>
+<ion-footer class="container">
   <ion-button (click)="create($event)">
     Add New Mall
   </ion-button>

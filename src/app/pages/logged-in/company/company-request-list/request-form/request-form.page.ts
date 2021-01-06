@@ -125,7 +125,10 @@ export class RequestFormPage implements OnInit {
       // On Success
       if (jsonResponse.operation == 'success') {
         // Close the page
-        this.eventService.companyRequestUpdate$.next();
+        this.eventService.companyRequestUpdate$.next({
+          company_id: this.company? this.company.company_id: null
+        });
+        
         this.location.back();
       }
 
