@@ -83,10 +83,14 @@ export class StoreViewPage implements OnInit {
    * On candidate selected from list
    */
   candidateSelected(candidate: Candidate) {
-    this.navCtrl.navigateForward('candidate-view/' + candidate.candidate_id, {
-      state: {
-        model: candidate
-      }
+    this.modalCtrl.dismiss().then(() => {
+      setTimeout(() => {
+        this.navCtrl.navigateForward('candidate-view/' + candidate.candidate_id, {
+          state: {
+            model: candidate
+          }
+        });
+      }, 100);
     });
   }
 
