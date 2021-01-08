@@ -62,16 +62,11 @@
             attribute="candidateExperiences.experience"></refinement-list>
 
         <refinement-list label="{{ 'School/University' | translate }}" [searchable]="true"
-            data-sort-order="3" [class.is-refined]="arrRefined['university.university_name_en']"
+            data-sort-order="3" [class.is-refined]="arrRefined['university.university_name']"
             searchPlaceholder="{{ 'Search here...' | translate }}" showMoreLabel="{{ 'Show more' | translate }}"
             showLessLabel="{{ 'Show less' | translate }}" showMoreLimit="15" operator="or"
-            attribute="university.university_name_en"></refinement-list>
+            attribute="university.university_name"></refinement-list>
 
-        <refinement-list label="{{ 'School/University - Arabic' | translate }}" [searchable]="true"
-            data-sort-order="3" [class.is-refined]="arrRefined['university.university_name_ar']"
-            searchPlaceholder="{{ 'Search here...' | translate }}" showMoreLabel="{{ 'Show more' | translate }}"
-            showLessLabel="{{ 'Show less' | translate }}" showMoreLimit="15" operator="or"
-            attribute="university.university_name_ar"></refinement-list>
     </div>
 
     <h4 class="filter-group-name">{{ "Current Assignment" | translate }}</h4>
