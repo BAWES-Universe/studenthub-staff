@@ -42,7 +42,7 @@
   <no-items *ngIf="!loading && company && company.parentTransfers.length == 0" message="~ No transfer Data ~"></no-items>
 
 </ion-content>
-<ion-footer *ngIf="company">
+<ion-footer *ngIf="company && !company.parent_company_id">
   <ion-button (click)="presentActionSheetForNewTransfer()">
     Create New Transfer
   </ion-button>

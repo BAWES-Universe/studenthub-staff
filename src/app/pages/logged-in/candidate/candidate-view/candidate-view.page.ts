@@ -30,6 +30,8 @@ import { CompanyRequestListPopupPage } from '../../company/company-request-list/
 import { SuggestPage } from '../../suggest/suggest.page';
 import { SelectSearchPageComponent } from 'src/app/components/select-search/select-search-page/select-search-page.component';
 import { CompanyNoteFormPage } from '../../company/company-note-form/company-note-form.page';
+import {ModalPopPage} from "../../modal-pop/modal-pop.page";
+import {StoreViewPage} from "../../store/store-view/store-view.page";
 
 
 @Component({
@@ -352,9 +354,30 @@ export class CandidateViewPage implements OnInit {
     });
   }
 
-  openWorkPlace(history) {
+  async openWorkPlace(history) {
     if(history.store) {
-      this.router.navigate(['/store-view', history.store.store_id]);
+        window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
+        const modal = await this.modalCtrl.create({
+          component: ModalPopPage,
+          componentProps: {
+            activatedRoutePath: StoreViewPage,
+            activatedRoutePathProps: {
+              store_id: history.store.store_id,
+              view: 'direct',
+            }
+          }
+        });
+        modal.onDidDismiss().then(e => {
+
+          if (!e.data || e.data.from != 'native-back-btn') {
+            window['history-back-from'] = 'onDidDismiss';
+            window.history.back();
+          }
+        });
+        modal.present();
+
+      // this.router.navigate(['/store-view', history.store.store_id]);
     } else if(history.company) {
       this.router.navigate(['/company-view', history.company.company_id]);
     }
@@ -662,7 +685,7 @@ export class CandidateViewPage implements OnInit {
 
     let note = new Note;
     note.candidate_id = this.candidate_id;
-    
+
     const modal = await this.modalCtrl.create({
       component: CompanyNoteFormPage,
       componentProps: {

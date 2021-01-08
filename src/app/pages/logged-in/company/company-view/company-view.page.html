@@ -122,12 +122,12 @@
                 <ion-badge color="medium" slot="end">{{ stats.documents }}</ion-badge>
               </ion-item>
 
-              <ion-item tappable (click)="openTransfers()">
+              <ion-item tappable (click)="openTransfers()" *ngIf="!company.parent_company_id">
                 <ion-label>Transfers</ion-label>
                 <ion-badge color="medium" slot="end">{{ stats.transfers }}</ion-badge>
               </ion-item>
 
-              <ion-item tappable (click)="openChart()">
+              <ion-item tappable (click)="openChart()"  *ngIf="!company.parent_company_id">
                 <ion-label>Transfer Chart</ion-label>
               </ion-item>
             </div>
@@ -138,7 +138,7 @@
   </div>
 </ion-content>
 <!-- if followup enabled and followup interval passed -->
-<ion-footer *ngIf="followup && isFollowUpIntervalPassed()" class="container">
+<ion-footer *ngIf="!company.parent_company_id && followup && isFollowUpIntervalPassed()" class="container">
   <ion-button (click)="addFollowupNote()">
     I followed up
   </ion-button>
