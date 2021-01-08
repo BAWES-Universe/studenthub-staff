@@ -35,7 +35,6 @@ export class CompanyFormPage implements OnInit {
 
   public form: FormGroup;
 
-  public type: string = 'password';
   public followup = false;
 
   constructor(
@@ -137,7 +136,6 @@ export class CompanyFormPage implements OnInit {
         this.form = this._fb.group({
             name: [this.model.company_name, Validators.required],
             email: [this.model.company_email, [Validators.required, CustomValidator.emailValidator]],
-            password: [this.model.company_password_hash], // not required
             bonus_commission: [this.model.company_bonus_commission],
             hourly_rate: [this.model.company_hourly_rate, Validators.required],
             common_name_en: [this.model.company_common_name_en, Validators.required],
@@ -159,7 +157,6 @@ export class CompanyFormPage implements OnInit {
   updateModelDataFromForm(){
     this.model.company_name = this.form.value.name;
     this.model.company_email = this.form.value.email;
-    this.model.company_password_hash = this.form.value.password;
     this.model.company_bonus_commission = this.form.value.bonus_commission;
     this.model.company_hourly_rate = this.form.value.hourly_rate;
     this.model.company_common_name_en = this.form.value.common_name_en;
@@ -230,10 +227,6 @@ export class CompanyFormPage implements OnInit {
     }, () => {
       this.saving = false;
     });
-  }
-
-  togglePasswordVisibility() {
-    this.type = (this.type == 'password') ? 'text' : 'password';
   }
 
   logScrolling(e) {

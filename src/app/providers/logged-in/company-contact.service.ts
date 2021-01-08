@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 // Services
 import { AuthHttpService } from './authhttp.service';
 // Models
-import { CompanyContact } from 'src/app/models/company-contact';
+import { Contact } from 'src/app/models/contact';
 
 
 @Injectable({
@@ -11,7 +11,7 @@ import { CompanyContact } from 'src/app/models/company-contact';
 })
 export class CompanyContactService {
 
-  private _companyContactEndpoint = '/company-contacts';
+  private _endpoint = '/company-contacts';
 
   constructor(private _authhttp: AuthHttpService) { }
 
@@ -20,7 +20,7 @@ export class CompanyContactService {
    * @param company_id
    */
   list(page, query = ''): Observable<any>{
-    const url = `${this._companyContactEndpoint}?expand=companyContactEmails,companyContactPhones,company&page=${page}&query=${query}`;
+    const url = `${this._endpoint}?expand=contactEmails,contactPhones,company&page=${page}&query=${query}`;
     return this._authhttp.getRaw(url);
   }
 
@@ -28,8 +28,8 @@ export class CompanyContactService {
    * get given company contacts
    * @param companyID
    */
-  companyContacts(companyID, query = '', expands= 'companyContactEmails,companyContactPhones,company,notes,requests,companyContactStats'): Observable<any>{
-    const url = `${this._companyContactEndpoint}?company_id=${companyID}&query=${query}&expand=${expands}`;
+  companyContacts(companyID, query = '', expands= 'contactEmails,contactPhones,company,notes,requests,companyContactStats'): Observable<any>{
+    const url = `${this._endpoint}?company_id=${companyID}&query=${query}&expand=${expands}`;
     return this._authhttp.get(url);
   }
 
@@ -38,24 +38,28 @@ export class CompanyContactService {
    * @param contact_uuid
    */
   view(contact_uuid): Observable<any>{
-    const url = `${this._companyContactEndpoint}/${contact_uuid}?expand=companyContactEmails,companyContactPhones,company`;
+    const url = `${this._endpoint}/${contact_uuid}?expand=contactEmails,contactPhones,company`;
     return this._authhttp.get(url);
   }
 
   /**
    * Create university
-   * @param {CompanyContact} model
+   * @param {Contact} model
    * @returns {Observable<any>}
    */
-  create(model: CompanyContact): Observable<any>{
-    const postUrl = `${this._companyContactEndpoint}`;
+  create(model: Contact): Observable<any>{
+    const postUrl = `${this._endpoint}`;
 
     const params = {
-      company_id: model.company_id,
+    //  company_id: model.company_id,
       name: model.contact_name,
+      email: model.contact_email,
+      password: model.contact_password,
+      receive_email: model.contact_receive_email,
+      receive_notification: model.contact_receive_notification,
       position: model.contact_position,
-      emails: model.companyContactEmails,
-      phones: model.companyContactPhones
+      emails: model.contactEmails,
+      phones: model.contactPhones
     };
 
     return this._authhttp.post(postUrl, params);
@@ -63,29 +67,34 @@ export class CompanyContactService {
 
   /**
    * Update university
-   * @param {CompanyContact} model
+   * @param {Contact} model
    * @returns {Observable<any>}
    */
-  update(model: CompanyContact): Observable<any>{
-    const url = `${this._companyContactEndpoint}/${model.contact_uuid}`;
+  update(model: Contact): Observable<any>{
+    const url = `${this._endpoint}/${model.contact_uuid}`;
+
     const params = {
-      company_id: model.company_id,
+    //  company_id: model.company_id,
       name: model.contact_name,
       position: model.contact_position,
-      emails: model.companyContactEmails,
-      phones: model.companyContactPhones
+      email: model.contact_email,
+      password: model.contact_password,
+      receive_email: model.contact_receive_email,
+      receive_notification: model.contact_receive_notification,
+      emails: model.contactEmails,
+      phones: model.contactPhones
     };
 
     return this._authhttp.patch(url, params);
   }
 
   /**
-   * Deletes university
-   * @param {CompanyContact} model
+   * Deletes 
+   * @param {Contact} model
    * @returns {Observable<any>}
    */
-  delete(model: CompanyContact): Observable<any>{
-    const url = `${this._companyContactEndpoint}/${model.contact_uuid}`;
+  delete(model: Contact): Observable<any>{
+    const url = `${this._endpoint}/${model.contact_uuid}`;
     return this._authhttp.delete(url);
   }
 }
