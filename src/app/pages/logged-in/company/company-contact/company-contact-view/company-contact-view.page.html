@@ -25,24 +25,24 @@
         <div tabindex="0"></div>
 
         <ion-label>
-<!--          <h4>{{ companyContact.contact_name }}</h4>-->
+          <h4>{{ companyContact.contact.contact_name }}</h4>
 
           <p>
-<!--            {{ companyContact.contact_position }}-->
+            {{ companyContact.contact.contact_position }}
           </p>
 
           <p>
-<!--            <a href="mailto:{{ contactEmail.email_address }}"-->
-<!--              *ngFor="let contactEmail of companyContact.contactEmails">-->
-<!--              <ion-icon name="mail-outline"></ion-icon> {{ contactEmail.email_address }}-->
-<!--            </a>-->
+            <a href="mailto:{{ contactEmail.email_address }}"
+              *ngFor="let contactEmail of companyContact.contact.contactEmails">
+              <ion-icon name="mail-outline"></ion-icon> {{ contactEmail.email_address }}
+            </a>
           </p>
 
           <p>
-<!--            <a href="tel:{{ contactPhone.phone_number }}"-->
-<!--              *ngFor="let contactPhone of companyContact.contactPhones">-->
-<!--              <ion-icon name="call-outline"></ion-icon> {{ contactPhone.phone_number }}-->
-<!--            </a>-->
+            <a href="tel:{{ contactPhone.phone_number }}"
+              *ngFor="let contactPhone of companyContact.contact.contactPhones">
+              <ion-icon name="call-outline"></ion-icon> {{ contactPhone.phone_number }}
+            </a>
           </p>
         </ion-label>
       </ion-item>
@@ -50,8 +50,8 @@
       <ion-item>
         <ion-label>
 
-<!--          <p>Added at {{ toDate(companyContact.contact_created_datetime) | date: 'MMM d, y, h:mm:ss a' }}</p>-->
-<!--          <p>Updated {{ companyContact.contact_updated_datetime | timeAgo }}</p>-->
+          <p>Added at {{ toDate(companyContact.contact.contact_created_at) | date: 'MMM d, y, h:mm:ss a' }}</p>
+          <p>Updated {{ companyContact.contact.contact_updated_at | timeAgo }}</p>
 
         </ion-label>
 

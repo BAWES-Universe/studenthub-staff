@@ -1,3 +1,4 @@
+import {Contact} from './contact';
 
 export class CompanyContact {
     company_contact_uuid: string;
@@ -8,4 +9,5 @@ export class CompanyContact {
     updated_at: string;
     created_by: string;
     updated_by: string;
+    contact: Contact;
 }

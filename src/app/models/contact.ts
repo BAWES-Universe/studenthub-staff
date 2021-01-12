@@ -12,8 +12,8 @@ export class Contact {
     contact_auth_key: string;
     contact_password_hash: string;
     contact_password_reset_token: string;
-    contact_created_datetime: string;
-    contact_updated_datetime: string;
+    contact_created_at: string;
+    contact_updated_at: string;
     contactEmails: contactEmail[];
     contactPhones: contactPhone[];
     notes: Note[];
