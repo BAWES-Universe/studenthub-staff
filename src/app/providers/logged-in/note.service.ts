@@ -36,7 +36,7 @@ export class NoteService {
    * @param note
    */
   view(note): Observable<any> {
-    const url = this.noteEndpoint + '/' + note.note_uuid + '?expand=companyContact,request,company,createdBy,updatedBy,candidate';
+    const url = this.noteEndpoint + '/' + note.note_uuid + '?expand=companyContact.contact,request,company,createdBy,updatedBy,candidate';
     return this.authhttp.get(url);
   }
 

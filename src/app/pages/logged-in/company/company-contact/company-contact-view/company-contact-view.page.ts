@@ -136,44 +136,44 @@ export class CompanyContactViewPage implements OnInit {
 
   async delete() {
 
-    const confirm = await this.alertCtrl.create({
-      header: 'Delete Contact',
-      message: 'Do you want to delete this contact?',
-      buttons: [
-        {
-          text: 'Yes',
-          handler: () => {
-
-            this.deleting = true;
-
-            this.companyContactService.delete(this.companyContact).subscribe(async response => {
-
-              this.deleting = false;
-
-              if (response.operation == 'success') {
-                this.eventService.reloadStats$.next({
-                  company_id: this.companyContact.company_id
-                });
-                this.location.back();
-              }
-              else {
-                const prompt = await this.alertCtrl.create({
-                  message: this.authService.errorMessage(response.message),
-                  buttons: ['Ok']
-                });
-                prompt.present();
-              }
-            }, () => {
-              this.deleting = false;
-            });
-          },
-        },
-        {
-          text: 'No',
-        }
-      ]
-    });
-    confirm.present();
+    // const confirm = await this.alertCtrl.create({
+    //   header: 'Delete Contact',
+    //   message: 'Do you want to delete this contact?',
+    //   buttons: [
+    //     {
+    //       text: 'Yes',
+    //       handler: () => {
+    //
+    //         this.deleting = true;
+    //
+    //         this.companyContactService.delete(this.companyContact).subscribe(async response => {
+    //
+    //           this.deleting = false;
+    //
+    //           if (response.operation == 'success') {
+    //             this.eventService.reloadStats$.next({
+    //               company_id: this.companyContact.company_id
+    //             });
+    //             this.location.back();
+    //           }
+    //           else {
+    //             const prompt = await this.alertCtrl.create({
+    //               message: this.authService.errorMessage(response.message),
+    //               buttons: ['Ok']
+    //             });
+    //             prompt.present();
+    //           }
+    //         }, () => {
+    //           this.deleting = false;
+    //         });
+    //       },
+    //     },
+    //     {
+    //       text: 'No',
+    //     }
+    //   ]
+    // });
+    // confirm.present();
   }
 
   /**

@@ -1,6 +1,6 @@
 import { Injectable, RendererFactory2 } from '@angular/core';
 import {EMPTY, Observable, throwError} from 'rxjs';
-import {first, map, retryWhen, take} from 'rxjs/operators';
+import { catchError, first, map, retryWhen, take } from 'rxjs/operators';
 import {HttpClient, HttpHeaders, HttpResponse} from '@angular/common/http';
 import {ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree} from '@angular/router';
 import {genericRetryStrategy} from '../util/genericRetryStrategy';
@@ -36,6 +36,7 @@ export class AuthService {
 
   private _urlBasicAuth = '/auth/login';
   private _urlUpdatePass = '/auth/update-password';
+  private _urlResetPassRequest = '/auth/request-reset-password';
 
   constructor(
     public _http: HttpClient,
@@ -144,7 +145,7 @@ export class AuthService {
     if (!silent) {
       this.eventService.userLoggedOut$.next(reason ? reason : false);
     }
-    
+
     Storage.set({
       key: 'cookieMessageWasApproved',
       value : (this.displayCookieMessage == '0') ? '1' : '0'
@@ -261,21 +262,38 @@ export class AuthService {
   }
 
   /**
+   * reset password request
+   * @param email
+   */
+  resetPasswordRequest(email: string) {
+    const url = environment.apiEndpoint + this._urlResetPassRequest;
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+    return this._http.post(url, { email }, { headers }).pipe(
+      retryWhen(genericRetryStrategy()),
+      catchError((err) => this._handleError(err)),
+      first(),
+      map((res) => res)
+    );
+  }
+  /**
    * Change password by password reset token
    * @param token
    * @param newPassword
    */
-  // changePassword(token: string, newPassword: string): Observable<any>{
-  //
-  //   const url = this._config.apiBaseUrl + '/auth/update-password';
-  //
-  //   return this._http.patch(url, {
-  //     token: token,
-  //     newPassword: newPassword
-  //   })
-  //     .first()
-  //     .map((res: Response) => res.json());
-  // }
+  changePassword(newPassword: string, token: string): Observable<any> {
+    const headers = new HttpHeaders({'Content-Type': 'application/json'});
+    return this._http.patch(environment.apiEndpoint + this._urlUpdatePass, {
+      newPassword,
+      token
+    }, {headers}).pipe(
+      retryWhen(genericRetryStrategy()),
+      catchError((err) => this._handleError(err)),
+      first(),
+      map((res) => res)
+    );
+  }
 
   /**
    * Handles Caught Errors from All Authorized Requests Made to Server
@@ -330,7 +348,7 @@ export class AuthService {
 
   _processResponseMessage(response) {
     let html = '';
-      for (const i in response.message) {
+    for (const i in response.message) {
         for (const j of response.message[i]) {
           html += j + '<br />';
         }

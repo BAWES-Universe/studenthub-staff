@@ -32,6 +32,7 @@
             {{ companyContact.contact_position }}
           </h2>
 
+          <!-- 
           <p>
             <a href="mailto:{{ contactEmail.email_address }}" (click)="doNothing($event)"
               *ngFor="let contactEmail of companyContact.contactEmails">
@@ -45,11 +46,13 @@
               <ion-icon name="call-outline"></ion-icon> {{ contactPhone.phone_number }}
             </a>
           </p>
+
           <p>
             <a *ngIf="companyContact.contactStats.lastNotes">
               <ion-icon name="time-outline"></ion-icon> Last note was {{ companyContact.contactStats.lastNotes.note_updated_datetime | timeAgo }}
             </a>
           </p>
+
           <div class="counts">
             <ion-badge>
               {{ companyContact.contactStats.requests }} requests
@@ -58,6 +61,7 @@
               {{ companyContact.contactStats.notes }} notes
             </ion-badge>
           </div>
+          -->
         </ion-label>
       </ion-item>
 

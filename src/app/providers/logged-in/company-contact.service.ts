@@ -20,7 +20,7 @@ export class CompanyContactService {
    * @param company_id
    */
   list(page, query = ''): Observable<any>{
-    const url = `${this._endpoint}?expand=contactEmails,contactPhones,company&page=${page}&query=${query}`;
+    const url = `${this._endpoint}?expand=contact.contactEmails,contact.contactPhones,company&page=${page}&query=${query}`;
     return this._authhttp.getRaw(url);
   }
 
@@ -28,7 +28,7 @@ export class CompanyContactService {
    * get given company contacts
    * @param companyID
    */
-  companyContacts(companyID, query = '', expands= 'contactEmails,contactPhones,company,notes,requests,contactStats'): Observable<any>{
+  companyContacts(companyID, query = '', expands= 'contact.contactEmails,contact.contactPhones,company,contact.notes,contact.requests'): Observable<any>{
     const url = `${this._endpoint}?company_id=${companyID}&query=${query}&expand=${expands}`;
     return this._authhttp.get(url);
   }
@@ -38,7 +38,7 @@ export class CompanyContactService {
    * @param contact_uuid
    */
   view(contact_uuid): Observable<any>{
-    const url = `${this._endpoint}/${contact_uuid}?expand=contactEmails,contactPhones,company`;
+    const url = `${this._endpoint}/${contact_uuid}?expand=contact.contactEmails,contact.contactPhones,company`;
     return this._authhttp.get(url);
   }
 
@@ -89,7 +89,7 @@ export class CompanyContactService {
   }
 
   /**
-   * Deletes 
+   * Deletes
    * @param {Contact} model
    * @returns {Observable<any>}
    */

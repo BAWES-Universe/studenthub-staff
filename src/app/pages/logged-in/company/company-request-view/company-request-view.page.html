@@ -33,7 +33,7 @@
       <p class="txt-additional-info">{{ request.request_additional_info }}</p>
 
       <div class="requested-by">
-        Requested by <span class="requested-by-staff" tappable [routerLink]="'/company-contact-view/' + request.contact_uuid">{{ request.contact.contact_name }}</span>
+<!--        Requested by <span class="requested-by-staff" tappable [routerLink]="'/company-contact-view/' + request.contact_uuid">{{ request.contact.contact_name }}</span>-->
         <div class="requested-by-time">on {{ toDate(request.request_created_datetime) | date: 'MMM d, y' }} </div>
       </div>
 
