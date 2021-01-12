@@ -28,7 +28,7 @@ export class CompanyContactService {
    * get given company contacts
    * @param companyID
    */
-  companyContacts(companyID, query = '', expands= 'contactEmails,contactPhones,company,notes,requests,companyContactStats'): Observable<any>{
+  companyContacts(companyID, query = '', expands= 'contactEmails,contactPhones,company,notes,requests,contactStats'): Observable<any>{
     const url = `${this._endpoint}?company_id=${companyID}&query=${query}&expand=${expands}`;
     return this._authhttp.get(url);
   }
