@@ -330,6 +330,15 @@ const routes: Routes = [
   },
 
   {
+    path: 'company-contact-form',
+    loadChildren: () => import('./pages/logged-in/company/company-contact-form/company-contact-form.module').then( m => m.CompanyContactFormPageModule),
+    canActivate: [AuthService],
+    data: {
+      name: 'CompanyContactFormPage'
+    }
+  },
+
+  {
     path: 'note-view',
     loadChildren: () => import('./pages/logged-in/note/note-view/note-view.module').then( m => m.NoteViewPageModule),
     canActivate: [AuthService],
@@ -376,6 +385,10 @@ const routes: Routes = [
   {
     path: '**',
     redirectTo: 'not-found'
+  },
+  {
+    path: 'company-contact-role',
+    loadChildren: () => import('./pages/logged-in/company/company-contact-role/company-contact-role.module').then( m => m.CompanyContactRolePageModule)
   }
 ];
 

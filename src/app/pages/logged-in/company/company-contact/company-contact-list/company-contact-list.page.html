@@ -11,15 +11,17 @@
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
   <div class="container">
+
     <ion-searchbar [(ngModel)]="query" (ionChange)="filter($event)" placeholder="Search by name / phone / email" debounce="100"></ion-searchbar>
 
     <ion-list class="contact-list">
+
     <ion-item-sliding *ngFor="let companyContact of contactList">
       <ion-item tappable (click)="dismiss(companyContact)">
         <div tabindex="0"></div>
 
         <ion-label>
-          <h4>{{ companyContact.contact.contact_name }}</h4>
+          <h4>{{ companyContact.contact_name }}</h4>
 
           <h5 *ngIf="companyContact.company">
             {{ companyContact.company.company_common_name_en? companyContact.company.company_common_name_en: companyContact.company.company_name }}
@@ -31,18 +33,19 @@
 
           <p>
             <a (click)="doNothing($event)"
-               *ngFor="let contactEmail of companyContact.contact.contactEmails">
+               *ngFor="let contactEmail of companyContact.contactEmails">
               <ion-icon name="mail-outline"></ion-icon> {{ contactEmail.email_address }}
             </a>
           </p>
           <p>
             <a (click)="doNothing($event)"
-               *ngFor="let contactPhone of companyContact.contact.contactPhones">
+               *ngFor="let contactPhone of companyContact.contactPhones">
               <ion-icon name="call-outline"></ion-icon> {{ contactPhone.phone_number }}
             </a>
           </p>
         </ion-label>
       </ion-item>
+      
     </ion-item-sliding>
   </ion-list>
   </div>

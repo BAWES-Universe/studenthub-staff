@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { AuthHttpService } from './authhttp.service';
 // Models
 import { Contact } from 'src/app/models/contact';
+import { CompanyContact } from 'src/app/models/company-contact';
 
 
 @Injectable({
@@ -43,15 +44,41 @@ export class CompanyContactService {
   }
 
   /**
+   * check if email already exists 
+   * @param email 
+   */
+  isEmailExists(email: string): Observable<any>{
+    const url = `${this._endpoint}/is-email-exists?email=${email}`;
+    return this._authhttp.get(url);
+  }
+
+  /**
+   * add contact to team
+   * @param companyContact 
+   */
+  addToTeam(companyContact: CompanyContact): Observable<any>{
+    const url = `${this._endpoint}/add-to-team`;
+
+    const params = {
+      role: companyContact.role,
+      contact_uuid: companyContact.contact_uuid,
+      company_id: companyContact.company_id
+    };
+
+    return this._authhttp.patch(url, params);
+  }
+
+  /**
    * Create university
    * @param {Contact} model
    * @returns {Observable<any>}
    */
-  create(model: Contact): Observable<any>{
+  create(model: Contact, companyContact: CompanyContact = null): Observable<any>{
     const postUrl = `${this._endpoint}`;
 
     const params = {
-    //  company_id: model.company_id,
+      company_id: companyContact?.company_id,
+      role: companyContact?.role,
       name: model.contact_name,
       email: model.contact_email,
       password: model.contact_password,
@@ -59,9 +86,9 @@ export class CompanyContactService {
       receive_notification: model.contact_receive_notification,
       position: model.contact_position,
       emails: model.contactEmails,
-      phones: model.contactPhones
+      phones: model.contactPhones,
     };
-
+   
     return this._authhttp.post(postUrl, params);
   }
 

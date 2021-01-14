@@ -6,6 +6,7 @@ import { CompanyContactService } from 'src/app/providers/logged-in/company-conta
 import { EventService } from "../../../../providers/event.service";
 //models
 import { Contact } from 'src/app/models/contact';
+import { CompanyContact } from 'src/app/models/company-contact';
 //validator
 import { CustomValidator } from 'src/app/validators/custom.validator';
 
@@ -23,13 +24,21 @@ export class CompanyContactFormPage implements OnInit {
 
   public type: string = 'password';
 
+  //model to update/add
   public model: Contact;
+
+  //already available 
+  public contact: Contact;
+
+  public companyContact: CompanyContact;
 
   public operation: string;
 
   public form: FormGroup;
 
   public borderLimit = false;
+
+  public addingToTeam: boolean = false; 
 
   constructor(
     public companyContactService: CompanyContactService,
@@ -41,6 +50,16 @@ export class CompanyContactFormPage implements OnInit {
 
   ngOnInit() {
 
+    const state = window.history.state;
+
+    if(state && state.companyContact) {
+      this.companyContact = state.companyContact;
+    }
+
+    if(!this.model) {
+      this.model = new Contact;
+    }
+    
     let emailCtrls = [];
 
     let phoneCtrls = [];
@@ -189,6 +208,55 @@ export class CompanyContactFormPage implements OnInit {
   }
 
   /**
+   * on adding new contact with role, check if email already available (to add that contact to team),
+   * edit will be without company/role details, so no need to check email
+   */
+  checkEmailAvailable(e) {
+
+    if (this.model.contact_uuid || !this.companyContact || !this.companyContact.role) {
+      return false;
+    }
+
+    this.companyContactService.isEmailExists(e.target.value).subscribe(data => {
+      this.contact = data.contact;
+    });
+  }
+
+  /**
+   * add to team
+   */
+  addToTeam() {
+    this.addingToTeam = true;
+
+    this.companyContact.contact_uuid = this.contact.contact_uuid;
+
+    this.companyContactService.addToTeam(this.companyContact).subscribe(async data => {
+
+      this.addingToTeam = false;
+
+      if(data.operation == 'success') {
+
+        this.eventService.reloadStats$.next({
+          company_id: this.company_id
+        }); 
+
+        // Close the page
+        let data = { 'refresh': true };
+        this.modalCtrl.dismiss(data);
+      }
+
+      // On Failure
+      if (data.operation == "error") {
+        let prompt = await this._alertCtrl.create({
+          message: JSON.stringify(data.message),
+          buttons: ["Okay"]
+        });
+        prompt.present();
+      }
+    });
+  }
+
+  /**
    * Save the model
    */
   async save() {
@@ -198,9 +266,10 @@ export class CompanyContactFormPage implements OnInit {
     this.updateModelDataFromForm();
 
     let action;
+
     if (!this.model.contact_uuid) {
       // Create
-      action = this.companyContactService.create(this.model);
+      action = this.companyContactService.create(this.model, this.companyContact);
     } else {
       // Update
       action = this.companyContactService.update(this.model);

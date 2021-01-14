@@ -25,22 +25,30 @@
         <div tabindex="0"></div>
 
         <ion-label>
-          <h4>{{ companyContact.contact.contact_name }}</h4>
+
+
+          <h4>{{ companyContact.contact_name }}</h4>
 
           <p>
-            {{ companyContact.contact.contact_position }}
+            {{ companyContact.contact_position }}
+          </p>
+
+          <p *ngIf="companyContact.contact_email">
+            <a href="mailto:{{ companyContact.contact_email }}">
+              <ion-icon name="mail-outline"></ion-icon> {{ companyContact.contact_email }}
+            </a>
           </p>
 
           <p>
             <a href="mailto:{{ contactEmail.email_address }}"
-              *ngFor="let contactEmail of companyContact.contact.contactEmails">
+              *ngFor="let contactEmail of companyContact.contactEmails">
               <ion-icon name="mail-outline"></ion-icon> {{ contactEmail.email_address }}
             </a>
           </p>
 
           <p>
             <a href="tel:{{ contactPhone.phone_number }}"
-              *ngFor="let contactPhone of companyContact.contact.contactPhones">
+              *ngFor="let contactPhone of companyContact.contactPhones">
               <ion-icon name="call-outline"></ion-icon> {{ contactPhone.phone_number }}
             </a>
           </p>
@@ -49,9 +57,25 @@
 
       <ion-item>
         <ion-label>
+          <h4>Receive Email?</h4>
+          <p *ngIf="companyContact.contact_receive_email">Yes</p>
+          <p *ngIf="!companyContact.contact_receive_email">No</p>
+        </ion-label>
+      </ion-item>
+      
+      <ion-item>
+        <ion-label>
+          <h4>Receive notification?</h4>
+          <p *ngIf="companyContact.contact_receive_notification">Yes</p>
+          <p *ngIf="!companyContact.contact_receive_notification">No</p>
+        </ion-label>
+      </ion-item>
 
-          <p>Added at {{ toDate(companyContact.contact.contact_created_at) | date: 'MMM d, y, h:mm:ss a' }}</p>
-          <p>Updated {{ companyContact.contact.contact_updated_at | timeAgo }}</p>
+      <ion-item>
+        <ion-label>
+
+          <p>Added at {{ toDate(companyContact.contact_created_at) | date: 'MMM d, y, h:mm:ss a' }}</p>
+          <p>Updated {{ companyContact.contact_updated_at | timeAgo }}</p>
 
         </ion-label>
 

@@ -27,6 +27,8 @@ export class CompanyContactViewPage implements OnInit {
 
   public contact_uuid: string;
 
+  public company_id;
+
   public loading: boolean = false;
 
   public deleting: boolean = false;
@@ -73,6 +75,8 @@ export class CompanyContactViewPage implements OnInit {
 
     if(!this.contact_uuid)
       this.contact_uuid = this.route.snapshot.params.contact_uuid;
+
+    this.company_id = this.route.snapshot.params.company_id;
 
     const model = window.history.state.model;
 
@@ -283,7 +287,13 @@ export class CompanyContactViewPage implements OnInit {
   }
 
   urlParams() {
-    return '&contact_uuid=' + this.contact_uuid;
+    let url = '&contact_uuid=' + this.contact_uuid;
+
+    if(this.company_id) {
+      url += '&company_id=' + this.company_id;
+    }
+
+    return url;
   }
 
   doInfinite(event) {
@@ -311,7 +321,7 @@ export class CompanyContactViewPage implements OnInit {
     this.addingNote = true;
 
     const model = new Note();
-    model.company_id = this.companyContact.company_id;
+    model.company_id = this.company_id;
     model.note_type = this.noteForm.controls.type.value;
     model.contact_uuid = this.contact_uuid;
     model.note_text = this.noteForm.controls.note.value;

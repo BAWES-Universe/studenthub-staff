@@ -7,9 +7,10 @@ import { Company } from "../../../../models/company";
 //services
 import { CompanyService } from "../../../../providers/logged-in/company.service";
 import { CompanyContactService } from 'src/app/providers/logged-in/company-contact.service';
-//pages
-import { CompanyContactFormPage } from '../company-contact-form/company-contact-form.page';
 import { EventService } from 'src/app/providers/event.service';
+//pages
+import { CompanyContactRolePage } from '../company-contact-role/company-contact-role.page';
+import { ModalPopPage } from '../../modal-pop/modal-pop.page';
 
 
 @Component({
@@ -22,7 +23,9 @@ export class CompanyContactsPage implements OnInit {
   public companyContacts: CompanyContact[] = [];
 
   public company: Company;
+  
   public borderLimit: boolean = false;
+
   public loading = false;
 
   constructor(
@@ -48,7 +51,7 @@ export class CompanyContactsPage implements OnInit {
   async openContactDetail(companyContact) {
     this.modalCtrl.dismiss().then(() => {
       setTimeout(() => {
-        this.router.navigate(['company-contact-view', companyContact.contact_uuid], {
+        this.router.navigate(['company-contact-view', companyContact.contact_uuid, this.company.company_id], {
           state: {
             model: companyContact
           }
@@ -83,6 +86,9 @@ export class CompanyContactsPage implements OnInit {
     });
   }
 
+  /**
+   * add new contact to company 
+   */
   async addCompanyContact() {
     window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
@@ -90,11 +96,15 @@ export class CompanyContactsPage implements OnInit {
     companyContact.company_id = this.company.company_id;
 
     const modal = await this.modalCtrl.create({
-      component: CompanyContactFormPage,
+      component: ModalPopPage,
       componentProps: {
-        model: companyContact
+        activatedRoutePath: CompanyContactRolePage,
+        activatedRoutePathProps: {
+          companyContact: companyContact
+        }
       }
     });
+
     modal.onDidDismiss().then(e => {
 
       if (!e.data || e.data.from != 'native-back-btn') {
