@@ -133,17 +133,17 @@
               <div class="suggestion-wrapper">
                 <h5 class="heading">Candidate has been</h5>
 
-                <ion-item (click)="suggestionListPage('1')">
+                <ion-item tappable (click)="suggestionListPage(1)">
                   <ion-label>Suggested</ion-label>
                   <ion-note slot="end">{{ candidate.suggested }}</ion-note>
                 </ion-item>
 
-                <ion-item (click)="suggestionListPage('2')">
+                <ion-item tappable (click)="suggestionListPage(2)">
                   <ion-label>Accepted</ion-label>
                   <ion-note class="accepted" slot="end">{{ candidate.suggestionAccepted }}</ion-note>
                 </ion-item>
 
-                <ion-item (click)="suggestionListPage('3')">
+                <ion-item tappable (click)="suggestionListPage(3)">
                   <ion-label>Rejected</ion-label>
                   <ion-note class="rejected" slot="end">{{ candidate.suggestionRejected }}</ion-note>
                 </ion-item>

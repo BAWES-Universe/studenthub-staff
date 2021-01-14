@@ -1,15 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ModalController } from '@ionic/angular';
-//models
-import { Note } from 'src/app/models/note';
+// models
+import { Suggestion } from 'src/app/models/suggestion';
 import { EventService } from 'src/app/providers/event.service';
 import { CandidateService } from 'src/app/providers/logged-in/candidate.service';
-//services
-import { NoteService } from 'src/app/providers/logged-in/note.service';
-//pages
-import { CompanyNoteFormPage } from '../../company/company-note-form/company-note-form.page';
-
+// services
+import { SuggestionService } from 'src/app/providers/logged-in/suggestion.service';
 
 @Component({
   selector: 'app-candidate-suggestions',
@@ -23,32 +20,36 @@ export class CandidateSuggestionsPage implements OnInit {
   public loading: boolean = false;
 
   public candidate_id;
+  public status;
 
   public candidate;
 
-  public notes: Note[] = [];
+  public suggestions: Suggestion[] = [];
 
   constructor(
     public modalCtrl: ModalController,
     public activatedRoute: ActivatedRoute,
     public eventService: EventService,
     public candidateService: CandidateService,
-    public noteService: NoteService
+    public suggestionService: SuggestionService
   ) {
   }
 
   ngOnInit() {
 
-    if(!this.candidate_id)
+    if (!this.candidate_id)
       this.candidate_id = this.activatedRoute.snapshot.paramMap.get('candidate_id');
+
+    if (!this.status)
+      this.status = this.activatedRoute.snapshot.paramMap.get('status');
 
     const state = window.history.state;
 
-    if(state && state.candidate) {
+    if (state && state.candidate) {
       this.candidate = state.candidate;
     }
 
-    if(!this.candidate) {
+    if (!this.candidate) {
       this.loadCandidateDetail();
     }
 
@@ -58,11 +59,11 @@ export class CandidateSuggestionsPage implements OnInit {
 
     this.eventService.noteUpdated$.subscribe((data: any) => {
       if (data.candidate_id == this.candidate_id) {
-        this.loadNotes();
+        this.loadSuggestions();
       }
     });
 
-    this.loadNotes();
+    this.loadSuggestions();
   }
 
   loadCandidateDetail(loading = true) {
@@ -78,48 +79,12 @@ export class CandidateSuggestionsPage implements OnInit {
   /**
    * load candidate notes without pagination
    */
-  loadNotes() {
-    const params = '&candidate_id=' + this.candidate_id;
+  loadSuggestions() {
+    const params = '&candidate_id=' + this.candidate_id + '&status=' + this.status;
 
-    this.noteService.list(params).subscribe(async jsonResponse => {
-      this.notes = jsonResponse;
+    this.suggestionService.list(params).subscribe(async jsonResponse => {
+      this.suggestions = jsonResponse;
     });
-  }
-
-  /**
-   * open popup to update modal
-   */
-  async add() {
-
-    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
-
-    let note = new Note;
-    note.candidate_id = this.candidate_id;
-
-    const modal = await this.modalCtrl.create({
-      component: CompanyNoteFormPage,
-      componentProps: {
-        note: note
-      }
-    });
-    modal.present();
-    modal.onDidDismiss().then(e => {
-
-      if (!e.data || e.data.from != 'native-back-btn') {
-        window['history-back-from'] = 'onDidDismiss';
-        window.history.back();
-      }
-    });
-
-    const { data } = await modal.onWillDismiss();
-
-    if (data && data.refresh) {
-      this.loadNotes();
-
-      this.eventService.noteUpdated$.next({
-        candidate_id: this.candidate_id
-      });
-    }
   }
 
   logScrolling(e) {

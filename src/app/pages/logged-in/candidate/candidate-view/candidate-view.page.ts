@@ -877,8 +877,8 @@ export class CandidateViewPage implements OnInit {
     this.candidate.candidate_civil_photo_front = null;
   }
 
-  suggestionListPage() {
-    this.router.navigate(['candidate-suggestions', this.candidate_id], {
+  suggestionListPage(status: number) {
+    this.router.navigate(['candidate-suggestions', this.candidate_id, status], {
       state: {
         candidate: this.candidate
       }

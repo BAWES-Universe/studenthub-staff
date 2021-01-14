@@ -7,6 +7,10 @@ const routes: Routes = [
   {
     path: ':candidate_id',
     component: CandidateSuggestionsPage
+  },
+  {
+    path: ':candidate_id/:status',
+    component: CandidateSuggestionsPage
   }
 ];
 
