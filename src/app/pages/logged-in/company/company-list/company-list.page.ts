@@ -25,7 +25,7 @@ export class CompanyListPage implements OnInit {
   public loadingMore = false;
   public active = 1;
   public inActive = 0;
-  public companies: Company[];
+  public companies: Company[] = [];
   public segment = 1;
 
   public filters: {
@@ -57,6 +57,7 @@ export class CompanyListPage implements OnInit {
   }
 
   ionViewWillEnter() {
+    console.log('ionViewWillEnter');
     const state = window.history.state;
 
     if (state.filter) {
@@ -67,9 +68,7 @@ export class CompanyListPage implements OnInit {
     //   this.loadCompaniesSegmentData();
     // }
 
-    if (!this.companies) {
-      this.loadData(1);
-    }
+    this.loadData(1);
   }
 
   /**
