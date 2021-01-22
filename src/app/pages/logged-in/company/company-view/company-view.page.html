@@ -92,12 +92,12 @@
                 <ion-badge color="medium" slot="end">{{ stats.requests }}</ion-badge>
               </ion-item>
 
-              <ion-item tappable (click)="openStores()" *ngIf="stats.subCompanies == 0">
+              <ion-item tappable (click)="openStores()" *ngIf="stats.stores > 0">
                 <ion-label>Stores</ion-label>
                 <ion-badge color="medium" slot="end">{{ stats.stores }}</ion-badge>
               </ion-item>
 
-              <ion-item tappable (click)="openSubCompanies()" *ngIf="stats.stores == 0">
+              <ion-item tappable (click)="openSubCompanies()" *ngIf="stats.subCompanies > 0">
                 <ion-label>Subcompanies</ion-label>
                 <ion-badge color="medium" slot="end">{{ stats.subCompanies }}</ion-badge>
               </ion-item>
