@@ -153,17 +153,17 @@ export class CompanyNoteFormPage implements OnInit {
     });
     popover.onDidDismiss().then(e => {
 
-      if (!e.data) {
+      if (!e.data || (e.data && !e.data.companyContact)) {
         return null;
       }
-
+      console.log(e.data);
       if (!this.form.controls.company_id.value) {
         this.form.controls.company_name.setValue(e.data.companyContact.company.company_name);
         this.form.controls.company_id.setValue(e.data.companyContact.company.company_id);
       }
 
       this.form.controls.contact_uuid.setValue(e.data.companyContact.contact_uuid);
-      this.form.controls.contact_name.setValue(e.data.companyContact.contact_name);
+      this.form.controls.contact_name.setValue(e.data.companyContact.contact.contact_name);
 
     });
     popover.present();

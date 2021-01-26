@@ -47,8 +47,8 @@ export class CompanyRequestFormPage implements OnInit {
     }
 
     this.form = this.fb.group({
-      company_id: [this.company? this.company.company_id: null, Validators.required],
-      contact_name: [(this.model.contact) ? this.model.contact.contact_name : '', Validators.required],
+      company_id: [this.company? this.company.company_id : null, Validators.required],
+      contact_name: [(this.model.contact) ? this.model.contact : '', Validators.required],
       contact_uuid: [this.model.contact_uuid, Validators.required],
       position_type: [this.model.request_position_type + '', Validators.required],
       position_title: [this.model.request_position_title, Validators.required],

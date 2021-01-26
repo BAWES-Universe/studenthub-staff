@@ -32,7 +32,7 @@ export class CompanyService {
    * @param searchParams
    */
   listWithContact(page, searchParams): Observable<any> {
-    return this._authhttp.getRaw(this._companyEndpoint + '?page=' + page + searchParams + '&expand=subCompanies,companyContacts,companyContacts.companyContactEmails,companyContacts.companyContactPhones,subCompanies.companyContacts,subCompanies.companyContacts.companyContactEmails,subCompanies.companyContacts.companyContactPhones,requests');
+    return this._authhttp.getRaw(this._companyEndpoint + '?page=' + page + searchParams + '&expand=subCompanies,companyContacts,companyContacts.contactEmails,companyContacts.contactPhones,subCompanies.companyContacts,subCompanies.companyContacts.contactEmails,subCompanies.companyContacts.contactPhones,requests');
   }
 
   /**
@@ -146,7 +146,7 @@ export class CompanyService {
       parent: model.parent_company_id,
       name: model.company_name,
       email: model.company_email,
-      password: model.company_password_hash,
+      // password: model.company_password_hash,
       bonus_commission: model.company_bonus_commission,
       hourly_rate: model.company_hourly_rate,
       common_name_en: model.company_common_name_en,

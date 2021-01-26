@@ -66,5 +66,15 @@ export class CompanyComponent implements OnInit {
         this.totalCandidates += store.store_total_candidates;
       });
     }
+
+    if (this.company && this.company.subCompanies && this.company.subCompanies.length > 0) {
+      this.company.subCompanies.map(subCompanies => {
+        if (subCompanies && subCompanies.stores.length > 0) {
+            subCompanies.stores.map(store => {
+              this.totalCandidates += store.store_total_candidates;
+            });
+          }
+      });
+    }
   }
 }

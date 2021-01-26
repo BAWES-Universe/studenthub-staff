@@ -37,16 +37,13 @@ export class CompanyContactListPage implements OnInit {
   }
 
   ngOnInit() {
- 
-    if (this.company && this.company.companyContacts) 
-    {
+
+    if (this.company && this.company.companyContacts) {
       this.contactList = this.company.companyContacts;
-    } 
-    else if (this.company) 
-    {
+    } else if (this.company && this.company.company_id) {
       this.loadCompanyContacts();
     } else {
-      this.loadData();//load all contacts if no company given
+      this.loadData(); // load all contacts if no company given
     }
   }
 
@@ -54,6 +51,7 @@ export class CompanyContactListPage implements OnInit {
    * load company contacts
    */
   loadCompanyContacts() {
+    console.log('company');
     this.loading = true;
 
     this.currentPage = 1;
@@ -142,7 +140,7 @@ export class CompanyContactListPage implements OnInit {
    */
   filter(ev) {
 
-    //filter from all companies
+    // filter from all companies
 
     if(!this.company) {
       return this.loadData();

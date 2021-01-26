@@ -22,7 +22,6 @@ import { CompanyRequestsPage } from '../company-requests/company-requests.page';
 import { CompanyMallsPage } from '../company-malls/company-malls.page';
 import { CompanySubcompaniesPage } from '../company-subcompanies/company-subcompanies.page';
 import { CompanyStoresPage } from '../company-stores/company-stores.page';
-import { CompanyNavPage } from '../company-nav/company-nav.page';
 import {ModalPopPage} from "../../modal-pop/modal-pop.page";
 
 

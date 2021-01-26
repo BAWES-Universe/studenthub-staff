@@ -32,32 +32,42 @@
             {{ companyContact.contact_position }}
           </h2>
 
-          <p>
-            <a href="mailto:{{ companyContactEmail.email_address }}" (click)="doNothing($event)"
-              *ngFor="let companyContactEmail of companyContact.companyContactEmails">
-              <ion-icon name="mail-outline"></ion-icon> {{ companyContactEmail.email_address }}
+          <p *ngIf="companyContact.contact_email">
+            <a href="mailto:{{ companyContact.contact_email }}" (click)="doNothing($event)">
+              <ion-icon name="mail-outline"></ion-icon> {{ companyContact.contact_email }}
             </a>
           </p>
 
           <p>
-            <a href="tel:{{ companyContactPhone.phone_number }}" (click)="doNothing($event)"
-              *ngFor="let companyContactPhone of companyContact.companyContactPhones">
-              <ion-icon name="call-outline"></ion-icon> {{ companyContactPhone.phone_number }}
+            <a href="mailto:{{ contactEmail.email_address }}" (click)="doNothing($event)"
+              *ngFor="let contactEmail of companyContact.contactEmails">
+              <ion-icon name="mail-outline"></ion-icon> {{ contactEmail.email_address }}
             </a>
           </p>
+
           <p>
-            <a *ngIf="companyContact.companyContactStats.lastNotes">
-              <ion-icon name="time-outline"></ion-icon> Last note was {{ companyContact.companyContactStats.lastNotes.note_updated_datetime | timeAgo }}
+            <a href="tel:{{ contactPhone.phone_number }}" (click)="doNothing($event)"
+              *ngFor="let contactPhone of companyContact.contactPhones">
+              <ion-icon name="call-outline"></ion-icon> {{ contactPhone.phone_number }}
             </a>
           </p>
+
+          <!--
+          <p>
+            <a *ngIf="companyContact.contactStats.lastNotes">
+              <ion-icon name="time-outline"></ion-icon> Last note was {{ companyContact.contactStats.lastNotes.note_updated_datetime | timeAgo }}
+            </a>
+          </p>
+
           <div class="counts">
             <ion-badge>
-              {{ companyContact.companyContactStats.requests }} requests
+              {{ companyContact.contactStats.requests }} requests
             </ion-badge>
             <ion-badge>
-              {{ companyContact.companyContactStats.notes }} notes
+              {{ companyContact.contactStats.notes }} notes
             </ion-badge>
           </div>
+          -->
         </ion-label>
       </ion-item>
 

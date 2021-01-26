@@ -8,7 +8,7 @@ const routes: Routes = [
   {
     path: '',
     loadChildren: () => import('./pages/logged-in/tabs/tabs.module').then(m => m.TabsPageModule)
-  }, 
+  },
   {
     path: 'login',
     loadChildren: () => import('./pages/start-pages/login/login.module').then(m => m.LoginPageModule),
@@ -302,7 +302,7 @@ const routes: Routes = [
       navDisable: true,
     }
   },
-  
+
   {
     path: 'fulltimer-search',
     loadChildren: () => import('./pages/logged-in/fulltimer/fulltimer-search/fulltimer-search.module').then( m => m.FulltimerSearchPageModule),
@@ -326,6 +326,15 @@ const routes: Routes = [
     canActivate: [AuthService],
     data: {
       name: 'CompanyContactViewPage'
+    }
+  },
+
+  {
+    path: 'company-contact-form',
+    loadChildren: () => import('./pages/logged-in/company/company-contact-form/company-contact-form.module').then( m => m.CompanyContactFormPageModule),
+    canActivate: [AuthService],
+    data: {
+      name: 'CompanyContactFormPage'
     }
   },
 
@@ -362,11 +371,11 @@ const routes: Routes = [
     }
   },
   {
-    path: 'candidate-notes',
-    loadChildren: () => import('./pages/logged-in/candidate/candidate-notes/candidate-notes.module').then( m => m.CandidateNotesPageModule),
+    path: 'candidate-suggestions',
+    loadChildren: () => import('./pages/logged-in/candidate/candidate-suggestions/candidate-suggestions.module').then( m => m.CandidateSuggestionsPageModule),
     canActivate: [AuthService],
     data: {
-      name: 'CandidateNotesPage'
+      name: 'CandidateSuggestionsPage'
     }
   },
   {
@@ -376,9 +385,13 @@ const routes: Routes = [
   {
     path: '**',
     redirectTo: 'not-found'
+  },
+  {
+    path: 'company-contact-role',
+    loadChildren: () => import('./pages/logged-in/company/company-contact-role/company-contact-role.module').then( m => m.CompanyContactRolePageModule)
   }
 ];
- 
+
 @NgModule({
   imports: [
     RouterModule.forRoot(routes, { enableTracing: false, preloadingStrategy: SelectiveLoadingStrategy })

@@ -3,11 +3,12 @@ import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { ModalController, AlertController } from '@ionic/angular';
 //services
 import { CompanyContactService } from 'src/app/providers/logged-in/company-contact.service';
+import { EventService } from "../../../../providers/event.service";
 //models
+import { Contact } from 'src/app/models/contact';
 import { CompanyContact } from 'src/app/models/company-contact';
 //validator
 import { CustomValidator } from 'src/app/validators/custom.validator';
-import { EventService } from "../../../../providers/event.service";
 
 
 @Component({
@@ -17,14 +18,27 @@ import { EventService } from "../../../../providers/event.service";
 })
 export class CompanyContactFormPage implements OnInit {
 
+  public company_id;
+
   public saving: boolean = false;
 
-  public model: CompanyContact;
+  public type: string = 'password';
+
+  //model to update/add
+  public model: Contact;
+
+  //already available
+  public contact: Contact;
+
+  public companyContact: CompanyContact;
+
   public operation: string;
 
   public form: FormGroup;
 
   public borderLimit = false;
+
+  public addingToTeam: boolean = false;
 
   constructor(
     public companyContactService: CompanyContactService,
@@ -36,21 +50,30 @@ export class CompanyContactFormPage implements OnInit {
 
   ngOnInit() {
 
+    const state = window.history.state;
+
+    if(state && state.companyContact) {
+      this.companyContact = state.companyContact;
+    }
+    if(!this.model) {
+      this.model = new Contact();
+    }
+
     let emailCtrls = [];
 
     let phoneCtrls = [];
 
-    if(this.model.companyContactEmails)
-      for (let companyContactEmail of this.model.companyContactEmails) {
+    if(this.model.contactEmails)
+      for (let contactEmail of this.model.contactEmails) {
         emailCtrls.push(this._fb.group({
-          email_address: [companyContactEmail.email_address, [CustomValidator.emailValidator]]
+          email_address: [contactEmail.email_address, [CustomValidator.emailValidator]]
         }));
       }
 
-    if(this.model.companyContactPhones)
-      for (let companyContactPhone of this.model.companyContactPhones) {
+    if(this.model.contactPhones)
+      for (let contactPhone of this.model.contactPhones) {
         phoneCtrls.push(this._fb.group({
-          phone_number: [companyContactPhone.phone_number, []]
+          phone_number: [contactPhone.phone_number, []]
         }));
       }
 
@@ -66,20 +89,30 @@ export class CompanyContactFormPage implements OnInit {
       this.operation = "Create";
 
       this.form = this._fb.group({
-        name: ["", Validators.required],
-        position: ["", Validators.required],
-        note: [""],
+        name: ['', Validators.required],
+        position: ['', Validators.required],
+        note: [''],
+        email: ['', [CustomValidator.emailValidator, Validators.required]],
+        password: ['', Validators.required],
+        role: ['', Validators.required],
+        receive_email: [true, Validators.required],
+        receive_notification: [true, Validators.required],
         emails: new FormArray(emailCtrls),
         phones: new FormArray(phoneCtrls),
       });
 
     } else { // Show Update Form
 
-      this.operation = "Update";
+      this.operation = 'Update';
 
       this.form = this._fb.group({
         name: [this.model.contact_name, Validators.required],
         position: [this.model.contact_position, Validators.required],
+        email: [this.model.contact_email, [CustomValidator.emailValidator, Validators.required]],
+        password: [this.model.contact_password, Validators.required],
+        receive_email: [this.model.contact_receive_email, Validators.required],
+        receive_notification: [this.model.contact_receive_notification, Validators.required],
+        role: [this.model.role, Validators.required],
         emails: new FormArray(emailCtrls),
         phones: new FormArray(phoneCtrls),
       });
@@ -95,10 +128,15 @@ export class CompanyContactFormPage implements OnInit {
    * Update Model Data based on Form Input
    */
   updateModelDataFromForm() {
+    this.model.role = this.form.value.role;
     this.model.contact_name = this.form.value.name;
+    this.model.contact_email = this.form.value.email;
+    this.model.contact_receive_email = this.form.value.receive_email;
+    this.model.contact_receive_notification = this.form.value.receive_notification;
+    this.model.contact_password = this.form.value.password;
     this.model.contact_position = this.form.value.position;
-    this.model.companyContactEmails = this.form.value.emails;
-    this.model.companyContactPhones = this.form.value.phones;
+    this.model.contactEmails = this.form.value.emails;
+    this.model.contactPhones = this.form.value.phones;
   }
 
   removeEmail(index) {
@@ -172,6 +210,54 @@ export class CompanyContactFormPage implements OnInit {
   }
 
   /**
+   * on adding new contact with role, check if email already available (to add that contact to team),
+   * edit will be without company/role details, so no need to check email
+   */
+  checkEmailAvailable(e) {
+    if (this.model.contact_uuid || !this.companyContact) {
+      return false;
+    }
+
+    this.companyContactService.isEmailExists(e.target.value).subscribe(data => {
+      this.contact = data.contact;
+    });
+  }
+
+  /**
+   * add to team
+   */
+  addToTeam() {
+    this.addingToTeam = true;
+
+    this.companyContact.contact_uuid = this.contact.contact_uuid;
+
+    this.companyContactService.addToTeam(this.companyContact).subscribe(async data => {
+
+      this.addingToTeam = false;
+
+      if(data.operation == 'success') {
+
+        this.eventService.reloadStats$.next({
+          company_id: this.company_id
+        });
+
+        // Close the page
+        let data = { 'refresh': true };
+        this.modalCtrl.dismiss(data);
+      }
+
+      // On Failure
+      if (data.operation == "error") {
+        let prompt = await this._alertCtrl.create({
+          message: JSON.stringify(data.message),
+          buttons: ["Okay"]
+        });
+        prompt.present();
+      }
+    });
+  }
+
+  /**
    * Save the model
    */
   async save() {
@@ -181,12 +267,13 @@ export class CompanyContactFormPage implements OnInit {
     this.updateModelDataFromForm();
 
     let action;
+
     if (!this.model.contact_uuid) {
       // Create
-      action = this.companyContactService.create(this.model);
+      action = this.companyContactService.create(this.model, this.companyContact);
     } else {
       // Update
-      action = this.companyContactService.update(this.model);
+      action = this.companyContactService.update(this.model, this.companyContact);
     }
 
     action.subscribe(async jsonResponse => {
@@ -197,8 +284,8 @@ export class CompanyContactFormPage implements OnInit {
       if (jsonResponse.operation == "success") {
 
         this.eventService.reloadStats$.next({
-          company_id: this.model.company_id
-        }); 
+          company_id: this.company_id
+        });
 
         // Close the page
         let data = { 'refresh': true };
@@ -221,7 +308,14 @@ export class CompanyContactFormPage implements OnInit {
     });
   }
 
+  togglePasswordVisibility() {
+    this.type = (this.type == 'password') ? 'text' : 'password';
+  }
+
   logScrolling(e) {
-    this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
+    this.borderLimit = (e.detail.scrollTop > 20);
+  }
+  onRoleSelected(role) {
+    this.companyContact.role = role;
   }
 }

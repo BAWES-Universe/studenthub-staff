@@ -1,15 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
-//models
+// models
 import { CompanyContact } from 'src/app/models/company-contact';
 import { Company } from "../../../../models/company";
-//services
+// services
 import { CompanyService } from "../../../../providers/logged-in/company.service";
 import { CompanyContactService } from 'src/app/providers/logged-in/company-contact.service';
-//pages
-import { CompanyContactFormPage } from '../company-contact-form/company-contact-form.page';
 import { EventService } from 'src/app/providers/event.service';
+// pages
+import { CompanyContactRolePage } from '../company-contact-role/company-contact-role.page';
+import { ModalPopPage } from '../../modal-pop/modal-pop.page';
+import {Contact} from "../../../../models/contact";
+import {CompanyContactFormPage} from "../company-contact-form/company-contact-form.page";
 
 
 @Component({
@@ -19,10 +22,12 @@ import { EventService } from 'src/app/providers/event.service';
 })
 export class CompanyContactsPage implements OnInit {
 
-  public companyContacts: CompanyContact[] = [];
+  public companyContacts: Contact[] = [];
 
   public company: Company;
+
   public borderLimit: boolean = false;
+
   public loading = false;
 
   constructor(
@@ -48,7 +53,7 @@ export class CompanyContactsPage implements OnInit {
   async openContactDetail(companyContact) {
     this.modalCtrl.dismiss().then(() => {
       setTimeout(() => {
-        this.router.navigate(['company-contact-view', companyContact.contact_uuid], {
+        this.router.navigate(['company-contact-view', companyContact.contact_uuid, this.company.company_id], {
           state: {
             model: companyContact
           }
@@ -77,24 +82,32 @@ export class CompanyContactsPage implements OnInit {
 
   loadContacts() {
     this.loading = true;
-    this.companyContactService.companyContacts(this.company.company_id, ' ', 'companyContactEmails,companyContactPhones,companyContactStats').subscribe(data => {
+    this.companyContactService.companyContacts(this.company.company_id, ' ', 'contactEmails,contactPhones,contactStats').subscribe(data => {
       this.loading = false;
       this.companyContacts = data;
+      console.log(this.companyContacts);
     });
   }
 
+  /**
+   * add new contact to company
+   */
   async addCompanyContact() {
     window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
-    const companyContact = new CompanyContact;
+    const companyContact = new CompanyContact();
     companyContact.company_id = this.company.company_id;
 
     const modal = await this.modalCtrl.create({
-      component: CompanyContactFormPage,
+      component: ModalPopPage,
       componentProps: {
-        model: companyContact
+        activatedRoutePath: CompanyContactFormPage,
+        activatedRoutePathProps: {
+          companyContact: companyContact
+        }
       }
     });
+
     modal.onDidDismiss().then(e => {
 
       if (!e.data || e.data.from != 'native-back-btn') {

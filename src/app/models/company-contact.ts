@@ -1,33 +1,13 @@
-import {Note} from './note';
-import {Request} from './request';
+import {Contact} from './contact';
 
 export class CompanyContact {
+    company_contact_uuid: string;
     contact_uuid: string;
     company_id: number;
-    contact_name: string;
-    contact_position: string;
-    contact_created_datetime: string;
-    contact_updated_datetime: string;
-    companyContactEmails: CompanyContactEmail[];
-    companyContactPhones: CompanyContactPhone[];
-    notes: Note[];
-    companyContactStats: any;
-    requests: Request[];
+    role: any;
+    created_at: string;
+    updated_at: string;
+    created_by: string;
+    updated_by: string;
+    contact: Contact;
 }
-
-export class CompanyContactEmail {
-    email_uuid: string;
-    contact_uuid: string;
-    email_address: string;
-    email_created_datetime: string;
-    email_updated_datetime: string;
-}
-
-export class CompanyContactPhone {
-    phone_uuid: string;
-    contact_uuid: string;
-    phone_number: string;
-    phone_created_datetime: string;
-    phone_updated_datetime: string;
-}
-

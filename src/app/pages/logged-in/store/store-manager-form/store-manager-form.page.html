@@ -8,13 +8,13 @@
     <h3>Select store manager</h3>
 
     <ion-list>
-      
+
       <ion-item *ngFor="let companyContact of companyContacts" tappable (click)="rowSelected(companyContact)">
         <div tabindex="0"></div>
         <ion-label>
-          <h4>{{ companyContact.contact_name }}</h4>
+<!--          <h4>{{ companyContact.contact_name }}</h4>-->
           <p>
-            {{ companyContact.contact_position }}
+<!--            {{ companyContact.contact_position }}-->
           </p>
         </ion-label>
       </ion-item>
@@ -22,9 +22,9 @@
       <ion-item *ngFor="let companyContact of parentCompanyContacts" tappable (click)="rowSelected(companyContact)">
         <div tabindex="0"></div>
         <ion-label>
-          <h4>{{ companyContact.contact_name }}</h4>
+<!--          <h4>{{ companyContact.contact_name }}</h4>-->
           <p>
-            {{ companyContact.contact_position }}
+<!--            {{ companyContact.contact_position }}-->
           </p>
         </ion-label>
       </ion-item>

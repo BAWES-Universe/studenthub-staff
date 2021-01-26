@@ -27,11 +27,13 @@ export class CompanyContactViewPage implements OnInit {
 
   public contact_uuid: string;
 
+  public company_id;
+
   public loading: boolean = false;
 
   public deleting: boolean = false;
 
-  public companyContact: CompanyContact;
+  public companyContact: CompanyContact = null;
 
   public notes: Note[] = [];
 
@@ -74,10 +76,12 @@ export class CompanyContactViewPage implements OnInit {
     if(!this.contact_uuid)
       this.contact_uuid = this.route.snapshot.params.contact_uuid;
 
+    this.company_id = this.route.snapshot.params.company_id;
+
     const model = window.history.state.model;
 
     if(model) {
-      this.companyContact = model;
+      // this.companyContact = model;
       this.initNoteForm();
       this.loadNotes();
     }
@@ -117,7 +121,8 @@ export class CompanyContactViewPage implements OnInit {
     const modal = await this.modalCtrl.create({
       component: CompanyContactFormPage,
       componentProps: {
-        model: this.companyContact
+        model: this.companyContact.contact,
+        companyContact: this.companyContact
       }
     });
     modal.onDidDismiss().then(e => {
@@ -136,44 +141,44 @@ export class CompanyContactViewPage implements OnInit {
 
   async delete() {
 
-    const confirm = await this.alertCtrl.create({
-      header: 'Delete Contact',
-      message: 'Do you want to delete this contact?',
-      buttons: [
-        {
-          text: 'Yes',
-          handler: () => {
-
-            this.deleting = true;
-
-            this.companyContactService.delete(this.companyContact).subscribe(async response => {
-
-              this.deleting = false;
-
-              if (response.operation == 'success') {
-                this.eventService.reloadStats$.next({
-                  company_id: this.companyContact.company_id
-                });
-                this.location.back();
-              }
-              else {
-                const prompt = await this.alertCtrl.create({
-                  message: this.authService.errorMessage(response.message),
-                  buttons: ['Ok']
-                });
-                prompt.present();
-              }
-            }, () => {
-              this.deleting = false;
-            });
-          },
-        },
-        {
-          text: 'No',
-        }
-      ]
-    });
-    confirm.present();
+    // const confirm = await this.alertCtrl.create({
+    //   header: 'Delete Contact',
+    //   message: 'Do you want to delete this contact?',
+    //   buttons: [
+    //     {
+    //       text: 'Yes',
+    //       handler: () => {
+    //
+    //         this.deleting = true;
+    //
+    //         this.companyContactService.delete(this.companyContact).subscribe(async response => {
+    //
+    //           this.deleting = false;
+    //
+    //           if (response.operation == 'success') {
+    //             this.eventService.reloadStats$.next({
+    //               company_id: this.companyContact.company_id
+    //             });
+    //             this.location.back();
+    //           }
+    //           else {
+    //             const prompt = await this.alertCtrl.create({
+    //               message: this.authService.errorMessage(response.message),
+    //               buttons: ['Ok']
+    //             });
+    //             prompt.present();
+    //           }
+    //         }, () => {
+    //           this.deleting = false;
+    //         });
+    //       },
+    //     },
+    //     {
+    //       text: 'No',
+    //     }
+    //   ]
+    // });
+    // confirm.present();
   }
 
   /**
@@ -283,7 +288,13 @@ export class CompanyContactViewPage implements OnInit {
   }
 
   urlParams() {
-    return '&contact_uuid=' + this.contact_uuid;
+    let url = '&contact_uuid=' + this.contact_uuid;
+
+    if(this.company_id) {
+      url += '&company_id=' + this.company_id;
+    }
+
+    return url;
   }
 
   doInfinite(event) {
@@ -311,7 +322,7 @@ export class CompanyContactViewPage implements OnInit {
     this.addingNote = true;
 
     const model = new Note();
-    model.company_id = this.companyContact.company_id;
+    model.company_id = this.company_id;
     model.note_type = this.noteForm.controls.type.value;
     model.contact_uuid = this.contact_uuid;
     model.note_text = this.noteForm.controls.note.value;

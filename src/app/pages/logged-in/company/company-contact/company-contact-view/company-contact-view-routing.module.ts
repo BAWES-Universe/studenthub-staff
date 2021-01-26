@@ -7,6 +7,10 @@ const routes: Routes = [
   {
     path: ':contact_uuid',
     component: CompanyContactViewPage
+  },
+  {
+    path: ':contact_uuid/:company_id',
+    component: CompanyContactViewPage
   }
 ];
 
