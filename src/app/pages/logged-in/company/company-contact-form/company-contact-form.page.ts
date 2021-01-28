@@ -232,6 +232,8 @@ export class CompanyContactFormPage implements OnInit {
   addToTeam() {
     this.addingToTeam = true;
 
+    this.companyContact.allow_access = this.form.controls.allow_access.value;
+    this.companyContact.contact_position = this.form.controls.position.value;
     this.companyContact.contact_uuid = this.contact.contact_uuid;
 
     this.companyContactService.addToTeam(this.companyContact).subscribe(async data => {
