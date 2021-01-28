@@ -9,7 +9,6 @@ import { CompanyService } from "../../../../providers/logged-in/company.service"
 import { CompanyContactService } from 'src/app/providers/logged-in/company-contact.service';
 import { EventService } from 'src/app/providers/event.service';
 // pages
-import { CompanyContactRolePage } from '../company-contact-role/company-contact-role.page';
 import { ModalPopPage } from '../../modal-pop/modal-pop.page';
 import {Contact} from "../../../../models/contact";
 import {CompanyContactFormPage} from "../company-contact-form/company-contact-form.page";
@@ -85,7 +84,6 @@ export class CompanyContactsPage implements OnInit {
     this.companyContactService.companyContacts(this.company.company_id, ' ', 'contactEmails,contactPhones,contactStats').subscribe(data => {
       this.loading = false;
       this.companyContacts = data;
-      console.log(this.companyContacts);
     });
   }
 

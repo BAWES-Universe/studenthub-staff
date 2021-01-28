@@ -51,7 +51,7 @@ export class CompanyContactListPage implements OnInit {
    * load company contacts
    */
   loadCompanyContacts() {
-    console.log('company');
+
     this.loading = true;
 
     this.currentPage = 1;

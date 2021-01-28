@@ -300,7 +300,6 @@ export class StoreViewPage implements OnInit {
   }
 
   close() {
-    console.log('test');
     this.modalCtrl.dismiss();
   }
 }

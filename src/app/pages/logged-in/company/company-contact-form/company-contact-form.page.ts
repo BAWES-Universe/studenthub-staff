@@ -89,14 +89,14 @@ export class CompanyContactFormPage implements OnInit {
       this.operation = "Create";
 
       this.form = this._fb.group({
+        allow_access: [this.companyContact?.allow_access, Validators.required],
+        position: [this.companyContact?.contact_position, Validators.required],
         name: ['', Validators.required],
-        position: ['', Validators.required],
         note: [''],
         email: ['', [CustomValidator.emailValidator, Validators.required]],
         password: ['', Validators.required],
-        role: ['', Validators.required],
-        receive_email: [true, Validators.required],
-        receive_notification: [true, Validators.required],
+        receive_email: [true],
+        receive_notification: [true],
         emails: new FormArray(emailCtrls),
         phones: new FormArray(phoneCtrls),
       });
@@ -106,13 +106,13 @@ export class CompanyContactFormPage implements OnInit {
       this.operation = 'Update';
 
       this.form = this._fb.group({
+        allow_access: [this.companyContact?.allow_access, Validators.required],
+        position: [this.companyContact?.contact_position, Validators.required],
         name: [this.model.contact_name, Validators.required],
-        position: [this.model.contact_position, Validators.required],
         email: [this.model.contact_email, [CustomValidator.emailValidator, Validators.required]],
-        password: [this.model.contact_password, Validators.required],
-        receive_email: [this.model.contact_receive_email, Validators.required],
-        receive_notification: [this.model.contact_receive_notification, Validators.required],
-        role: [this.model.role, Validators.required],
+        //password: [this.model.contact_password, Validators.required],
+        receive_email: [this.model.contact_receive_email],
+        receive_notification: [this.model.contact_receive_notification],
         emails: new FormArray(emailCtrls),
         phones: new FormArray(phoneCtrls),
       });
@@ -128,15 +128,18 @@ export class CompanyContactFormPage implements OnInit {
    * Update Model Data based on Form Input
    */
   updateModelDataFromForm() {
-    this.model.role = this.form.value.role;
     this.model.contact_name = this.form.value.name;
     this.model.contact_email = this.form.value.email;
     this.model.contact_receive_email = this.form.value.receive_email;
     this.model.contact_receive_notification = this.form.value.receive_notification;
     this.model.contact_password = this.form.value.password;
-    this.model.contact_position = this.form.value.position;
     this.model.contactEmails = this.form.value.emails;
     this.model.contactPhones = this.form.value.phones;
+
+    if(this.companyContact) {
+      this.companyContact.allow_access = this.form.value.allow_access;
+      this.companyContact.contact_position = this.form.value.position;
+    }
   }
 
   removeEmail(index) {
@@ -314,8 +317,5 @@ export class CompanyContactFormPage implements OnInit {
 
   logScrolling(e) {
     this.borderLimit = (e.detail.scrollTop > 20);
-  }
-  onRoleSelected(role) {
-    this.companyContact.role = role;
   }
 }

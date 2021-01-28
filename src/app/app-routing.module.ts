@@ -385,10 +385,6 @@ const routes: Routes = [
   {
     path: '**',
     redirectTo: 'not-found'
-  },
-  {
-    path: 'company-contact-role',
-    loadChildren: () => import('./pages/logged-in/company/company-contact-role/company-contact-role.module').then( m => m.CompanyContactRolePageModule)
   }
 ];
 

@@ -214,7 +214,6 @@ export class CompanyRequestListPage implements OnInit {
         this.list(); // reload all result
       }
     }
-    console.log(date);
   }
 
   filterByStatus($event, status) {

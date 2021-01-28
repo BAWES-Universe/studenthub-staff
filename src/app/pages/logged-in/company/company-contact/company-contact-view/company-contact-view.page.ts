@@ -7,9 +7,10 @@ import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 //models
 import { CompanyContact } from 'src/app/models/company-contact';
 import { Note } from 'src/app/models/note';
-import { AuthService } from 'src/app/providers/auth.service';
+import { Contact } from 'src/app/models/contact';
 //services
 import { CompanyContactService } from 'src/app/providers/logged-in/company-contact.service';
+import { AuthService } from 'src/app/providers/auth.service';
 import { NoteService } from 'src/app/providers/logged-in/note.service';
 import { EventService } from 'src/app/providers/event.service';
 //pages
@@ -34,6 +35,8 @@ export class CompanyContactViewPage implements OnInit {
   public deleting: boolean = false;
 
   public companyContact: CompanyContact = null;
+
+  public contact: Contact;
 
   public notes: Note[] = [];
 
@@ -90,6 +93,10 @@ export class CompanyContactViewPage implements OnInit {
       this.loadDetail();
     }
 
+    if(!this.companyContact && this.company_id) {
+      this.loadCompanyContact();
+    }
+
     this.eventService.noteUpdated$.subscribe((data: any) => {
       if(data.contact_uuid == this.contact_uuid) {
         this.loadNotes();
@@ -98,13 +105,22 @@ export class CompanyContactViewPage implements OnInit {
   }
 
   /**
+   * load role details
+   */
+  loadCompanyContact() {
+    this.companyContactService.viewCompanyContact(this.contact_uuid, this.company_id).subscribe(data => {
+      this.companyContact = data;
+    });
+  }
+  
+  /**
    * load request detail
    */
   loadDetail() {
     this.loading = true;
 
     this.companyContactService.view(this.contact_uuid).subscribe(data => {
-      this.companyContact = data;
+      this.contact = data;
       this.loadNotes();
 
       if(!this.noteForm)
@@ -121,7 +137,7 @@ export class CompanyContactViewPage implements OnInit {
     const modal = await this.modalCtrl.create({
       component: CompanyContactFormPage,
       componentProps: {
-        model: this.companyContact.contact,
+        model: this.contact,
         companyContact: this.companyContact
       }
     });

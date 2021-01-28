@@ -29,6 +29,7 @@
         <ion-label position="floating">Emails</ion-label>
         <ion-input type="text" formControlName="email" (ionChange)="checkEmailAvailable($event)"></ion-input>
       </ion-item>
+
       <ion-item *ngIf="contact">
         <div tabindex="0"></div>
 
@@ -39,28 +40,17 @@
           <h5 *ngIf="contact.company">
             {{ contact.company.company_common_name_en? contact.company.company_common_name_en: contact.company.company_name }}
           </h5>
-
-          <hr/>
-          <p>Please select Role</p>
-          <ion-buttons class="btn-wrapper">
-
-            <ion-button [class.selected]="this.companyContact.role == 'Owner'" (click)="onRoleSelected('Owner')">
-              Owner
-            </ion-button>
-
-            <ion-button [class.selected]="this.companyContact.role == 'HR'" (click)="onRoleSelected('HR')">
-              HR
-            </ion-button>
-
-            <ion-button [class.selected]="this.companyContact.role == 'Finance'" (click)="onRoleSelected('Finance')">
-              Finance
-            </ion-button>
-
-            <ion-button [class.selected]="this.companyContact.role == 'Other'"  (click)="onRoleSelected('Other')">
-              Other
-            </ion-button>
-          </ion-buttons>
         </ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Position</ion-label>
+        <ion-input type="text" formControlName="position"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-checkbox slot="start" formControlName="allow_access"></ion-checkbox>
+        <ion-label>Allow access?</ion-label>  
       </ion-item>
 
       <div *ngIf="!contact">
@@ -68,20 +58,6 @@
         <ion-item>
           <ion-label position="floating">Name</ion-label>
           <ion-input type="text" formControlName="name"></ion-input>
-        </ion-item>
-
-        <ion-item>
-          <ion-label position="floating">Select role</ion-label>
-          <ion-select value="brown" okText="Okay" cancelText="Dismiss" formControlName="role">
-            <ion-select-option value="Owner">Owner</ion-select-option>
-            <ion-select-option value="HR">HR</ion-select-option>
-            <ion-select-option value="Finance">Finance</ion-select-option>
-            <ion-select-option value="Other">Other</ion-select-option>
-          </ion-select>
-        </ion-item>
-        <ion-item>
-          <ion-label position="floating">Position</ion-label>
-          <ion-input type="text" formControlName="position"></ion-input>
         </ion-item>
 
         <ion-item class="field-password">
@@ -127,7 +103,7 @@
         </div>
       </ion-card-content>
     </ion-card>
-
+  
     <ion-card *ngIf="!contact">
       <ion-card-header>
         <ion-card-title>Phones </ion-card-title>
