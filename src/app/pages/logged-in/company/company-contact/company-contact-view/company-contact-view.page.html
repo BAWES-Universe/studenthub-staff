@@ -20,64 +20,69 @@
 
 <ion-content [scrollEvents]="true" (ionScroll)="logScrolling($event)">
   <div class="container">
-    <ion-list *ngIf="companyContact">
+    <ion-list *ngIf="contact">
       <ion-item>
         <div tabindex="0"></div>
         <ion-label>
-          <h4>{{ companyContact.contact.contact_name }}</h4>
-          <p>
-            {{ companyContact.contact.contact_position }}
-          </p>
-
-          <p *ngIf="companyContact.contact.contact_email">
-            <a href="mailto:{{ companyContact.contact.contact_email }}">
-              <ion-icon name="mail-outline"></ion-icon> {{ companyContact.contact.contact_email }}
+          <h4>{{ contact.contact_name }}</h4>
+     
+          <p *ngIf="contact.contact_email">
+            <a href="mailto:{{ contact.contact_email }}">
+              <ion-icon name="mail-outline"></ion-icon> {{ contact.contact_email }}
             </a>
           </p>
 
           <p>
             <a href="mailto:{{ contactEmail.email_address }}"
-              *ngFor="let contactEmail of companyContact.contact.contactEmails">
+              *ngFor="let contactEmail of contact.contactEmails">
               <ion-icon name="mail-outline"></ion-icon> {{ contactEmail.email_address }}
             </a>
           </p>
           <p>
             <a href="tel:{{ contactPhone.phone_number }}"
-              *ngFor="let contactPhone of companyContact.contact.contactPhones">
+              *ngFor="let contactPhone of contact.contactPhones">
               <ion-icon name="call-outline"></ion-icon> {{ contactPhone.phone_number }}
             </a>
           </p>
         </ion-label>
       </ion-item>
 
-      <ion-item>
+      <ion-item *ngIf="companyContact">
         <ion-label>
-          <h4>Role</h4>
-          <p>{{companyContact.contact.role}}</p>
+          <h4>Position</h4>
+          <p>{{ companyContact.contact_position }}</p>
+        </ion-label>
+      </ion-item>
+
+      <ion-item *ngIf="companyContact">
+        <ion-label>
+          <h4>Allow access?</h4>
+          <p *ngIf="companyContact.allow_access">Yes</p>
+          <p *ngIf="!companyContact.allow_access">No</p>
         </ion-label>
       </ion-item>
 
       <ion-item>
         <ion-label>
           <h4>Receive Email?</h4>
-          <p *ngIf="companyContact.contact.contact_receive_email">Yes</p>
-          <p *ngIf="!companyContact.contact.contact_receive_email">No</p>
+          <p *ngIf="contact.contact_receive_email">Yes</p>
+          <p *ngIf="!contact.contact_receive_email">No</p>
         </ion-label>
       </ion-item>
 
       <ion-item>
         <ion-label>
           <h4>Receive notification?</h4>
-          <p *ngIf="companyContact.contact.contact_receive_notification">Yes</p>
-          <p *ngIf="!companyContact.contact.contact_receive_notification">No</p>
+          <p *ngIf="contact.contact_receive_notification">Yes</p>
+          <p *ngIf="!contact.contact_receive_notification">No</p>
         </ion-label>
       </ion-item>
 
       <ion-item>
         <ion-label>
 
-          <p>Added at {{ toDate(companyContact.contact.contact_created_at) | date: 'MMM d, y, h:mm:ss a' }}</p>
-          <p>Updated {{ companyContact.contact.contact_updated_at | timeAgo }}</p>
+          <p>Added at {{ toDate(contact.contact_created_at) | date: 'MMM d, y, h:mm:ss a' }}</p>
+          <p>Updated {{ contact.contact_updated_at | timeAgo }}</p>
 
         </ion-label>
 

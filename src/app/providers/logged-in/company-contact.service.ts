@@ -39,10 +39,19 @@ export class CompanyContactService {
    * @param contact_uuid
    */
   view(contact_uuid): Observable<any>{
-    const url = `${this._endpoint}/${contact_uuid}?expand=contact.contactEmails,contact.contactPhones,company`;
+    const url = `${this._endpoint}/${contact_uuid}?expand=contactEmails,contactPhones,company`;
     return this._authhttp.get(url);
   }
 
+  /**
+   * load contact role detail
+   * @param contact_uuid 
+   */
+  viewCompanyContact(contact_uuid, company_id): Observable<any>{
+    const url = `${this._endpoint}/view-company-contact?contact_uuid=${contact_uuid}&company_id=${company_id}`;
+    return this._authhttp.get(url);
+  }
+  
   /**
    * check if email already exists
    * @param email
@@ -60,7 +69,8 @@ export class CompanyContactService {
     const url = `${this._endpoint}/add-to-team`;
 
     const params = {
-      role: companyContact.role,
+      allow_access: companyContact.allow_access,
+      contact_position: companyContact.contact_position,
       contact_uuid: companyContact.contact_uuid,
       company_id: companyContact.company_id
     };
@@ -78,13 +88,13 @@ export class CompanyContactService {
 
     const params = {
       company_id: companyContact?.company_id,
-      role: model.role,
+      allow_access: companyContact?.allow_access,
+      contact_position: companyContact?.contact_position,
       name: model.contact_name,
       email: model.contact_email,
       password: model.contact_password,
       receive_email: model.contact_receive_email,
       receive_notification: model.contact_receive_notification,
-      position: model.contact_position,
       emails: model.contactEmails,
       phones: model.contactPhones,
     };
@@ -102,9 +112,9 @@ export class CompanyContactService {
 
     const params = {
       company_id: companyContact?.company_id,
+      allow_access: companyContact?.allow_access,
+      contact_position: companyContact?.contact_position,
       name: model.contact_name,
-      role: model.role,
-      position: model.contact_position,
       email: model.contact_email,
       password: model.contact_password,
       receive_email: model.contact_receive_email,

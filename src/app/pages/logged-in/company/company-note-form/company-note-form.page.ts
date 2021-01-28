@@ -156,7 +156,7 @@ export class CompanyNoteFormPage implements OnInit {
       if (!e.data || (e.data && !e.data.companyContact)) {
         return null;
       }
-      console.log(e.data);
+ 
       if (!this.form.controls.company_id.value) {
         this.form.controls.company_name.setValue(e.data.companyContact.company.company_name);
         this.form.controls.company_id.setValue(e.data.companyContact.company.company_id);

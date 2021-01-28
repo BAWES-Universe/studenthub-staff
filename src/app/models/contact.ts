@@ -5,7 +5,6 @@ import {Company} from './company';
 export class Contact {
     contact_uuid: string;
     contact_name: string;
-    contact_position: string;
     contact_email: string;
     contact_password: string;
     contact_receive_email: any;
@@ -15,7 +14,6 @@ export class Contact {
     contact_password_reset_token: string;
     contact_created_at: string;
     contact_updated_at: string;
-    role: string;
     contactEmails: contactEmail[];
     contactPhones: contactPhone[];
     notes: Note[];
