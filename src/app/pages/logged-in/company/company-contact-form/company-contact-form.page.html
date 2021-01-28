@@ -12,7 +12,7 @@
         <ion-spinner *ngIf="saving"></ion-spinner>
       </ion-button>
 
-      <ion-button clear color="primary" *ngIf="contact" [disabled]="addingToTeam || !this.companyContact.role" (click)="addToTeam()">
+      <ion-button clear color="primary" *ngIf="contact" [disabled]="addingToTeam" (click)="addToTeam()">
         <span *ngIf="!addingToTeam">Add To Team</span>
         <ion-spinner *ngIf="addingToTeam"></ion-spinner>
       </ion-button>
