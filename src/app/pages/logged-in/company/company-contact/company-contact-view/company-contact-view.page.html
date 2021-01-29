@@ -20,39 +20,27 @@
 
 <ion-content [scrollEvents]="true" (ionScroll)="logScrolling($event)">
   <div class="container">
-    <ion-list *ngIf="contact">
-      <ion-item>
-        <div tabindex="0"></div>
-        <ion-label>
-          <h4>{{ contact.contact_name }}</h4>
-     
-          <p *ngIf="contact.contact_email">
-            <a href="mailto:{{ contact.contact_email }}">
-              <ion-icon name="mail-outline"></ion-icon> {{ contact.contact_email }}
-            </a>
-          </p>
+    <ion-card *ngIf="contact" class="ion-padding">
+      <div tabindex="0"></div>
+        <h4>{{ contact.contact_name }}</h4>
+        <p *ngIf="contact.contact_email">
+          <a href="mailto:{{ contact.contact_email }}">
+            <ion-icon name="mail-outline"></ion-icon> {{ contact.contact_email }}
+          </a>
+        </p>
 
-          <p>
-            <a href="mailto:{{ contactEmail.email_address }}"
-              *ngFor="let contactEmail of contact.contactEmails">
-              <ion-icon name="mail-outline"></ion-icon> {{ contactEmail.email_address }}
-            </a>
-          </p>
-          <p>
-            <a href="tel:{{ contactPhone.phone_number }}"
-              *ngFor="let contactPhone of contact.contactPhones">
-              <ion-icon name="call-outline"></ion-icon> {{ contactPhone.phone_number }}
-            </a>
-          </p>
-        </ion-label>
-      </ion-item>
-
-      <ion-item *ngIf="companyContact">
-        <ion-label>
-          <h4>Position</h4>
-          <p>{{ companyContact.contact_position }}</p>
-        </ion-label>
-      </ion-item>
+        <p>
+          <a href="mailto:{{ contactEmail.email_address }}"
+            *ngFor="let contactEmail of contact.contactEmails">
+            <ion-icon name="mail-outline"></ion-icon> {{ contactEmail.email_address }}
+          </a>
+        </p>
+        <p>
+          <a href="tel:{{ contactPhone.phone_number }}"
+            *ngFor="let contactPhone of contact.contactPhones">
+            <ion-icon name="call-outline"></ion-icon> {{ contactPhone.phone_number }}
+          </a>
+        </p>
 
       <ion-item *ngIf="companyContact">
         <ion-label>
@@ -78,22 +66,17 @@
         </ion-label>
       </ion-item>
 
-      <ion-item>
+      <ion-item lines="none">
         <ion-label>
-
           <p>Added at {{ toDate(contact.contact_created_at) | date: 'MMM d, y, h:mm:ss a' }}</p>
           <p>Updated {{ contact.contact_updated_at | timeAgo }}</p>
-
         </ion-label>
-
       </ion-item>
-    </ion-list>
+    </ion-card>
 
-    <ion-item-divider>
-      <ion-label>
-        Notes
-      </ion-label>
-    </ion-item-divider>
+    <div>
+      <h2>Notes</h2>
+    </div>
 
     <form [class.editor-inactive]="!editorFocused" [class.editor-focused]="editorFocused" [formGroup]="noteForm" *ngIf="noteForm">
       <ion-item *ngIf="['Suggested', 'Accepted', 'Rejected'].indexOf(noteForm.controls.type.value) == -1">
