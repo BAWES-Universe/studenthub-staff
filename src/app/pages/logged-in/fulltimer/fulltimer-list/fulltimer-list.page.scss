@@ -1,0 +1,27 @@
+
+ion-footer {
+    box-shadow: 0 -4px 4px 0 rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+  
+    ion-button {
+      height: 53px;
+      width: calc(100% - 24px);
+      font-size: 16px;
+      font-weight: bold;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: 1.65;
+      letter-spacing: normal;
+      text-align: center;
+      text-transform: none;
+      margin: 12px 10px;
+      --color: #ffffff;
+      --border-radius: 5px;
+      --background: #333333;
+      --box-shadow: none;
+    }
+  
+    .btn-view-fulltimers {
+      --background: #f24459;
+    }
+  }

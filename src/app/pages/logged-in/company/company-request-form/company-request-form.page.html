@@ -67,11 +67,21 @@
       </ion-item>
     </ion-list>
 
-    <ion-button color="primary" [disabled]="form && !form.valid" (click)="save()">
-      <span *ngIf="!saving">Save</span>
-      <ion-spinner *ngIf="saving"></ion-spinner>
-    </ion-button>
-    <ion-button (click)="resetForm();" color="secondary">Reset</ion-button>
   </form>
   </div>
 </ion-content>
+<ion-footer>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-button [disabled]="form && !form.valid" (click)="save()">
+          <span *ngIf="!saving">Save</span>
+          <ion-spinner *ngIf="saving"></ion-spinner>
+        </ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button (click)="resetForm();">Reset</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-footer>

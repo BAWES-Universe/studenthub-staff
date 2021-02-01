@@ -478,7 +478,7 @@ ion-footer {
   }
 
   ion-row {
-    padding: 10px 7px;
+    padding: 10px 7px 0 7px;
   }
 
   ion-button {
@@ -494,7 +494,7 @@ ion-footer {
     text-align: center;
     text-transform: none;
     display: block;
-    margin: 0;
+    margin: 0 0 10px 0;
     --box-shadow: none;
   }
 

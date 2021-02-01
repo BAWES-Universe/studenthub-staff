@@ -383,7 +383,7 @@
     <loading-modal [loading]="loading" type="candidate-view"></loading-modal>
   </div>
 </ion-content>
-<ion-footer *ngIf="candidate" class="container">
+<ion-footer *ngIf="candidate && (!candidate.candidate_hourly_rate || candidate.isProfileCompleted || candidate.store)" class="container">
   <ion-grid>
     <ion-row>
 
