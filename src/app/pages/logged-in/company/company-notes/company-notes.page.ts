@@ -30,7 +30,7 @@ export class CompanyNotesPage implements OnInit {
 
   public notes: Note[] = [];
 
-  public companyContacts: CompanyContact[] = [];
+  public companyContacts: any[] = [];
 
   public loadingNotes: boolean = false;
 
@@ -110,6 +110,7 @@ export class CompanyNotesPage implements OnInit {
   loadContacts() {
     this.companyContactService.companyContacts(this.company.company_id).subscribe(data => {
       this.companyContacts = data;
+      console.log(this.companyContacts);
     });
   }
 
@@ -284,7 +285,7 @@ export class CompanyNotesPage implements OnInit {
                 this.eventService.reloadStats$.next({
                   company_id: this.company.company_id
                 });
-                
+
                 this.loadNotes();
               } else {
 
