@@ -7,12 +7,12 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
+<ion-content scrollEvents="true" class="ion-no-padding" (ionScroll)="logScrolling($event)">
   <div class="container">
     <ion-list>
       <ion-item tappable *ngFor="let country of countries" (click)="rowSelected(country)">
         <div tabindex="0"></div>
-        <ion-label>
+        <ion-label class="ion-text-wrap">
           {{ country.country_name_en }}
         </ion-label>
         <ion-badge slot="end" *ngIf="country.total_candidates > 0">

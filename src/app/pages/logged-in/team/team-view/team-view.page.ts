@@ -57,9 +57,7 @@ export class TeamViewPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    if (this.staff_id) {
-      this.loadNotes();
-    }
+    this.loadNotes();
   }
 
   loadData() {

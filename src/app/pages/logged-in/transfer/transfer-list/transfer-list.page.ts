@@ -46,15 +46,25 @@ export class TransferListPage implements OnInit {
     });
   }
 
+  /**
+   * open transfer detail page
+   * @param transfer 
+   */
   async openTransferDetailPage(transfer) {
-    this.modalCtrl.dismiss().then(() => {
-      setTimeout(() => {
-        this.router.navigate(['transfer-view', transfer.transfer_id], {
-          state: {
-            model: transfer
-          }
-        });
-      }, 100);
+    this.modalCtrl.getTop().then(overlay => {
+      if(!overlay) {
+        return false;
+      }
+      
+      overlay.dismiss().then(() => {
+        setTimeout(() => {
+          this.router.navigate(['transfer-view', transfer.transfer_id], {
+            state: {
+              model: transfer
+            }
+          });
+        }, 100);
+      });
     });
     /*
     window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);

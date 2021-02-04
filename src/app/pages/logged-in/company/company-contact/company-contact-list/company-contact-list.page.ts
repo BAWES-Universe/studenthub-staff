@@ -4,6 +4,7 @@ import { ModalController, PopoverController } from "@ionic/angular";
 import { Company } from 'src/app/models/company';
 //services
 import { CompanyContactService } from 'src/app/providers/logged-in/company-contact.service';
+import {Contact} from "../../../../../models/contact";
 
 
 @Component({
@@ -28,6 +29,7 @@ export class CompanyContactListPage implements OnInit {
   public query: string = '';
 
   public borderLimit = false;
+  public selectedContact = null;
 
   constructor(
     public companyContactService: CompanyContactService,
@@ -122,16 +124,37 @@ export class CompanyContactListPage implements OnInit {
   /**
    * close popup on selection
    * @param companyContact
+   * @param company
    */
-  dismiss(companyContact = null) {
-
-    this.popupCtrl.getTop().then(overlay => {
-      if(overlay) {
-        this.popupCtrl.dismiss({ companyContact });
+  dismiss(companyContact = null, company = null) {
+    if (companyContact && companyContact.companies.length > 1) {
+      if (companyContact.contact_uuid && this.selectedContact == companyContact.contact_uuid) {
+        this.selectedContact = null;
       } else {
-        this.modalCtrl.dismiss({ companyContact });
+        this.selectedContact = companyContact.contact_uuid;
       }
-    });
+    } else {
+      this.selected(companyContact, company);
+    }
+  }
+
+  /**
+   * close popup on selection
+   * @param companyContact
+   * @param company
+   */
+  selected(companyContact = null, company = null) {
+      let contact = new Contact();
+      contact = companyContact;
+      contact.company = company;
+
+      this.popupCtrl.getTop().then(overlay => {
+        if(overlay) {
+          this.popupCtrl.dismiss({ contact });
+        } else {
+          this.modalCtrl.dismiss({ contact });
+        }
+      });
   }
 
   /**

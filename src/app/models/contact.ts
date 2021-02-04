@@ -18,6 +18,7 @@ export class Contact {
     contactPhones: contactPhone[];
     notes: Note[];
     company: Company;
+    companies: Company[];
     contactStats: any;
     requests: Request[];
 }

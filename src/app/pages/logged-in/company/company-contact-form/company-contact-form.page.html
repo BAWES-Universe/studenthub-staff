@@ -60,7 +60,7 @@
           <ion-input type="text" formControlName="name"></ion-input>
         </ion-item>
 
-        <ion-item class="field-password">
+        <ion-item class="field-password" *ngIf="form.controls.password">
           <ion-label position="floating">Password</ion-label>
           <ion-input type="{{ type }}" formControlName="password"></ion-input>
 

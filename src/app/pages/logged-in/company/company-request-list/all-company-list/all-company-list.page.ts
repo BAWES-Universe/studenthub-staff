@@ -87,10 +87,14 @@ export class AllCompanyListPage implements OnInit {
    * When its selected
    */
   showSub(model: Company) {
-    if (model.company_id && this.selectedCompany == model.company_id) {
-      this.selectedCompany = null;
-    } else  {
-      this.selectedCompany = model.company_id;
+    if (model.subCompanies && model.subCompanies.length > 0) {
+      if (model.company_id && this.selectedCompany == model.company_id) {
+        this.selectedCompany = null;
+      } else {
+        this.selectedCompany = model.company_id;
+      }
+    } else {
+      this.rowSelected(model);
     }
   }
 

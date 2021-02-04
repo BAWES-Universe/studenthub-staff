@@ -173,19 +173,19 @@ export class RequestFormPage implements OnInit {
     // }
 
     popover.onDidDismiss().then((_) => {
-      if (_ && _.data && _.data.companyContact) {
+      if (_ && _.data && _.data.contact) {
 
-        let contact = _.data.companyContact.contact_name;
+        let contact = _.data.contact.contact_name;
 
-        if (!this.company || !this.company.company_id) {
-          this.form.controls.company_name.setValue(_.data.companyContact.company.company_name);
-          this.form.controls.company_id.setValue(_.data.companyContact.company.company_id);
+        if (!this.company || !this.company.company_id && _.data.contact.company) {
+          this.form.controls.company_name.setValue(_.data.contact.company.company_name);
+          this.form.controls.company_id.setValue(_.data.contact.company.company_id);
 
-          contact += ' @ ' + _.data.companyContact.company.company_name;
+          contact += ' @ ' + _.data.contact.company.company_name;
         }
 
         this.form.controls.contact_name.setValue(contact);
-        this.form.controls.contact_uuid.setValue(_.data.companyContact.contact_uuid);
+        this.form.controls.contact_uuid.setValue(_.data.contact.contact_uuid);
 
       }
     });

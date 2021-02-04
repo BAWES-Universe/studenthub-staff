@@ -17,7 +17,7 @@
     <h3 class="title">
       Stores
     </h3>
-    
+
     <h4 class="company-name">
       {{ (company.company_common_name_en) ?  company.company_common_name_en:company.company_name }}
     </h4>
@@ -46,5 +46,6 @@
 
   <no-items *ngIf="!loading && company.stores && company.stores.length == 0" message="~ No stores data ~"></no-items>
 
-  <loading-modal [loading]="loading" type="store-list"></loading-modal>
+  <loading-modal [loading]="loading" type="store-card-list"></loading-modal>
+
 </ion-content>

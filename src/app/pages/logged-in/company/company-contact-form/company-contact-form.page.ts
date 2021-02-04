@@ -55,6 +55,7 @@ export class CompanyContactFormPage implements OnInit {
     if(state && state.companyContact) {
       this.companyContact = state.companyContact;
     }
+
     if(!this.model) {
       this.model = new Contact();
     }
@@ -85,7 +86,7 @@ export class CompanyContactFormPage implements OnInit {
       phone_number: ['', []]
     }));
 
-    if (!this.model || !this.model.contact_uuid) { // Show Create Form
+    if (!this.model.contact_uuid) { // Show Create Form
       this.operation = "Create";
 
       this.form = this._fb.group({

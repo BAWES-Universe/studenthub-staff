@@ -14,9 +14,12 @@
 
     <loading-modal [loading]="loading" type="request-list"></loading-modal>
   </div>
+  <div class="add-request mobile-only" tappable routerLink="/request-form">
+    <ion-icon name="add-outline"></ion-icon>
+  </div>
 </ion-content>
 
-<ion-footer class="container">
+<ion-footer class="container desktop-only">
   <ion-button routerLink="/request-form">
     <span>Create new request</span>
   </ion-button>

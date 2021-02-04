@@ -1,0 +1,62 @@
+
+h4 {
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: left;
+    color: #000;
+  }
+  h2{
+    //margin: 21px 0 0;
+    font-size: 16px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: left;
+    margin-bottom: 16px;
+  }
+  p {
+    margin-bottom: 4px;
+    a {
+      //margin: 0 0 0 10px;
+      font-size: 14px;
+      font-weight: normal;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: normal;
+      letter-spacing: normal;
+      text-align: left;
+      color: #000;
+      text-decoration: none;
+      ion-icon {
+        font-size:18px;
+        margin-right: 10px;
+      }
+    }
+  }
+  
+  .counts {
+    margin-top: 13px;
+  }
+  
+  ion-icon {
+    position: relative;
+  }
+  
+  ion-icon[name="mail-outline"] {
+    top: 4px;
+  }
+  
+  ion-icon[name="call-outline"] {
+    top: 4px;
+  }
+  
+  ion-icon[name="time-outline"] {
+    top: 4px;
+  }
+  

@@ -26,7 +26,23 @@
         <ion-label position="floating">Name Arabic</ion-label>
         <ion-input type="text" formControlName="name_ar"></ion-input>
       </ion-item>
-
     </ion-list>
   </form>
 </ion-content>
+<ion-footer>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-button expand="full" color="primary" [disabled]="!form || !form.dirty || !form.valid || loading" (click)="save()">
+          <span *ngIf="!loading">Save</span>
+          <ion-spinner *ngIf="loading"></ion-spinner>
+        </ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button expand="full" (click)="close()">
+          Cancel
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-footer>

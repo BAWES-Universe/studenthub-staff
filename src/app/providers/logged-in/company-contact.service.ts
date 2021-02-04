@@ -21,7 +21,7 @@ export class CompanyContactService {
    * @param company_id
    */
   list(page, query = ''): Observable<any>{
-    const url = `${this._endpoint}?expand=contact.contactEmails,contact.contactPhones,company&page=${page}&query=${query}`;
+    const url = `${this._endpoint}?expand=contact.contactEmails,contact.contactPhones,company,companies&page=${page}&query=${query}`;
     return this._authhttp.getRaw(url);
   }
 
@@ -45,13 +45,13 @@ export class CompanyContactService {
 
   /**
    * load contact role detail
-   * @param contact_uuid 
+   * @param contact_uuid
    */
   viewCompanyContact(contact_uuid, company_id): Observable<any>{
     const url = `${this._endpoint}/view-company-contact?contact_uuid=${contact_uuid}&company_id=${company_id}`;
     return this._authhttp.get(url);
   }
-  
+
   /**
    * check if email already exists
    * @param email
