@@ -127,15 +127,29 @@ export class CompanyContactListPage implements OnInit {
    * @param company
    */
   dismiss(companyContact = null, company = null) {
-    if (companyContact && companyContact.companies.length > 1) {
+
+    /**
+     * dismiss on back button clicked
+     */
+    if(!companyContact) {
+      this.modalCtrl.dismiss();
+    }
+
+    /**
+     * expand if more than 1 company 
+     */
+    if (companyContact.companies.length > 1) {
       if (companyContact.contact_uuid && this.selectedContact == companyContact.contact_uuid) {
         this.selectedContact = null;
       } else {
         this.selectedContact = companyContact.contact_uuid;
       }
+    /**
+     * select if only one 
+     */
     } else {
       this.selected(companyContact, company);
-    }
+    } 
   }
 
   /**

@@ -9,51 +9,59 @@
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)" class="ion-no-padding">
   <div class="container">
-    <ion-searchbar [(ngModel)]="query" (ionChange)="filter($event)" placeholder="Search by name / phone / email" debounce="100"></ion-searchbar>
+    
+    <ion-searchbar [(ngModel)]="query" (ionChange)="filter($event)" placeholder="Search by name / phone / email"
+      debounce="100"></ion-searchbar>
+
     <ion-list class="contact-list">
-    <ion-item-sliding *ngFor="let companyContact of contactList">
-      <ion-item tappable (click)="dismiss(companyContact, companyContact.companies[0])">
-        <div tabindex="0"></div>
+      <ng-container *ngFor="let companyContact of contactList">
+        <ion-item-sliding *ngIf="companyContact.companies.length > 0">
 
-        <ion-label class="ion-text-nowrap">
-          <h4>{{ companyContact.contact_name }}</h4>
-
-          <h5 *ngFor="let company of companyContact.companies ">
-            <strong>{{ company.company_common_name_en? company.company_common_name_en: company.company_name }}</strong>
-          </h5>
-          <p>{{ companyContact.contact_position }}</p>
-
-          <p>
-            <a (click)="doNothing($event)"
-               *ngFor="let contactEmail of companyContact.contactEmails">
-              <ion-icon name="mail-outline"></ion-icon> {{ contactEmail.email_address }}
-            </a>
-          </p>
-          <p>
-            <a (click)="doNothing($event)"
-               *ngFor="let contactPhone of companyContact.contactPhones">
-              <ion-icon name="call-outline"></ion-icon> {{ contactPhone.phone_number }}
-            </a>
-          </p>
-        </ion-label>
-        <ng-container *ngIf="companyContact.companies && companyContact.companies.length > 1">
-          <ion-icon slot="end" *ngIf = "selectedContact != companyContact.contact_uuid" name="arrow-down-outline"></ion-icon>
-          <ion-icon slot="end" *ngIf = "selectedContact == companyContact.contact_uuid" name="arrow-up-outline"></ion-icon>
-        </ng-container>
-      </ion-item>
-      <ng-container *ngIf="companyContact.companies && companyContact.companies.length > 0">
-        <div *ngIf = "selectedContact == companyContact.contact_uuid">
-          <ion-item tappable *ngFor="let company of companyContact.companies" (click)="selected(companyContact, company)">
+          <ion-item tappable (click)="dismiss(companyContact, companyContact.companies[0])">
             <div tabindex="0"></div>
-            <ion-label>
-              <div tabindex="0"></div>
-              {{ company.company_common_name_en? company.company_common_name_en: company.company_name }}
+
+            <ion-label class="ion-text-nowrap">
+              <h4>{{ companyContact.contact_name }}</h4>
+
+              <h5 *ngFor="let company of companyContact.companies ">
+                <strong>{{ company.company_common_name_en? company.company_common_name_en: company.company_name }}</strong>
+              </h5>
+              <p>{{ companyContact.contact_position }}</p>
+
+              <p>
+                <a (click)="doNothing($event)" *ngFor="let contactEmail of companyContact.contactEmails">
+                  <ion-icon name="mail-outline"></ion-icon> {{ contactEmail.email_address }}
+                </a>
+              </p>
+              <p>
+                <a (click)="doNothing($event)" *ngFor="let contactPhone of companyContact.contactPhones">
+                  <ion-icon name="call-outline"></ion-icon> {{ contactPhone.phone_number }}
+                </a>
+              </p>
             </ion-label>
+            <ng-container *ngIf="companyContact.companies && companyContact.companies.length > 1">
+              <ion-icon slot="end" *ngIf="selectedContact != companyContact.contact_uuid" name="arrow-down-outline">
+              </ion-icon>
+              <ion-icon slot="end" *ngIf="selectedContact == companyContact.contact_uuid" name="arrow-up-outline">
+              </ion-icon>
+            </ng-container>
           </ion-item>
-        </div>
+
+          <ng-container *ngIf="companyContact.companies && companyContact.companies.length > 0">
+            <div *ngIf="selectedContact == companyContact.contact_uuid">
+              <ion-item tappable *ngFor="let company of companyContact.companies"
+                (click)="selected(companyContact, company)">
+                <div tabindex="0"></div>
+                <ion-label>
+                  <div tabindex="0"></div>
+                  {{ company.company_common_name_en? company.company_common_name_en: company.company_name }}
+                </ion-label>
+              </ion-item>
+            </div>
+          </ng-container>
+        </ion-item-sliding>
       </ng-container>
-    </ion-item-sliding>
-  </ion-list>
+    </ion-list>
   </div>
   <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
     <ion-infinite-scroll-content></ion-infinite-scroll-content>
