@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController, PopoverController } from "@ionic/angular";
-//models
+import { ModalController, PopoverController } from '@ionic/angular';
+// models
 import { Company } from 'src/app/models/company';
-//services
+// services
 import { CompanyContactService } from 'src/app/providers/logged-in/company-contact.service';
-import {Contact} from "../../../../../models/contact";
+import {Contact} from '../../../../../models/contact';
 
 
 @Component({
@@ -24,9 +24,9 @@ export class CompanyContactListPage implements OnInit {
 
   public pageCount: number;
 
-  public loading: boolean = false;
+  public loading = false;
 
-  public query: string = '';
+  public query = '';
 
   public borderLimit = false;
   public selectedContact = null;
@@ -39,9 +39,8 @@ export class CompanyContactListPage implements OnInit {
   }
 
   ngOnInit() {
-
     if (this.company && this.company.companyContacts) {
-      this.contactList = this.company.companyContacts;
+      this.contactList = this.company.contacts;
     } else if (this.company && this.company.company_id) {
       this.loadCompanyContacts();
     } else {
@@ -131,25 +130,25 @@ export class CompanyContactListPage implements OnInit {
     /**
      * dismiss on back button clicked
      */
-    if(!companyContact) {
+    if (!companyContact) {
       this.modalCtrl.dismiss();
     }
 
     /**
-     * expand if more than 1 company 
+     * expand if more than 1 company
      */
-    if (companyContact.companies.length > 1) {
+    if (companyContact && companyContact.companies && companyContact.companies.length > 1) {
       if (companyContact.contact_uuid && this.selectedContact == companyContact.contact_uuid) {
         this.selectedContact = null;
       } else {
         this.selectedContact = companyContact.contact_uuid;
       }
     /**
-     * select if only one 
+     * select if only one
      */
     } else {
       this.selected(companyContact, company);
-    } 
+    }
   }
 
   /**
@@ -158,17 +157,22 @@ export class CompanyContactListPage implements OnInit {
    * @param company
    */
   selected(companyContact = null, company = null) {
-      let contact = new Contact();
-      contact = companyContact;
-      contact.company = company;
+    let contact = new Contact();
+    contact = companyContact;
 
-      this.popupCtrl.getTop().then(overlay => {
-        if(overlay) {
-          this.popupCtrl.dismiss({ contact });
-        } else {
-          this.modalCtrl.dismiss({ contact });
-        }
-      });
+    if (company == null && companyContact && companyContact.companies) {
+      contact.company = companyContact.companies[0];
+    } else if (company) {
+      contact.company = company;
+    }
+
+    this.popupCtrl.getTop().then(overlay => {
+      if (overlay) {
+        this.popupCtrl.dismiss({ contact });
+      } else {
+        this.modalCtrl.dismiss({ contact });
+      }
+    });
   }
 
   /**
@@ -179,11 +183,11 @@ export class CompanyContactListPage implements OnInit {
 
     // filter from all companies
 
-    if(!this.company) {
+    if (!this.company) {
       return this.loadData();
     }
 
-    //filter from given company
+    // filter from given company
 
     this.loading = true;
 
