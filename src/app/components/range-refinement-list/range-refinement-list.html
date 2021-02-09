@@ -1,0 +1,65 @@
+<div class="ais-RefinementListComponent" lines="none" [class.open]="open" [class.closed]="!open"
+    dir="ltr">
+
+    <div class="list-header" (click)="toggleOpen()" tappable>
+
+        <div>
+            <ion-icon *ngIf="!open && !dirty" src="assets/images/ic-plus.svg"></ion-icon>
+            <ion-icon *ngIf="!open && dirty" src="assets/images/ic-tick.svg"></ion-icon>
+
+            <span>{{ title }}</span>
+
+            <ion-button fill="clear" class="btn-close" *ngIf="open">
+                <img src="assets/images/ic-cancel.svg">
+            </ion-button>
+        </div>
+
+        <div class="ais-CurrentRefinementComponent" *ngIf="!open && dirty">
+            <ion-button fill="clear" color="dark" class="ais-CurrentRefinementComponent-reset" (click)="handleClearAllClick($event)">
+                <img src="assets/images/ic-cancel.svg">
+            </ion-button>
+
+            <span class="ais-CurrentRefinementComponent-list">
+                From {{ this.value.lower | age }}
+                To {{ this.value.upper | age }}
+            </span>
+        </div>
+
+    </div>
+
+    <div class="ais-RefinementListContent">
+
+        <p class="sub-title" *ngIf="subTitle">{{ subTitle }}</p>
+
+        <ng-container *ngIf="average > 0">
+
+            <div class="range range-selector">
+                
+                <ion-label slot="start" class="range-lower">
+                    {{ value.lower | age }}
+                </ion-label>
+
+                <ion-label slot="end" class="range-upper">
+                    {{ value.upper | age }}
+                </ion-label>
+
+                <ng5-slider [(value)]="value.lower" [(highValue)]="value.upper" 
+                    (userChangeEnd)="handleChange()"
+                    (userChange)="setLabel()" [options]="options"></ng5-slider>
+                <!--
+                <ion-range debounce="500" dualKnobs="true" (ionChange)="handleChange($event)" 
+                    [value]="value"
+                    [min]="options.floor" [max]="options.ceil">
+                    <ion-label slot="start">{{ value.lower | age }}</ion-label>
+                    <ion-label slot="end">{{ value.upper | age }}</ion-label>
+                </ion-range>
+             -->
+            </div>
+
+        </ng-container>
+
+        <p class="txt-no-items" *ngIf="average == 0">
+            ~ No options under this filter ~
+        </p>
+    </div>
+</div>

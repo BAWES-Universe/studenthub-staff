@@ -2,7 +2,7 @@ import { Component, Inject, forwardRef, Input, ViewEncapsulation } from '@angula
 import { BaseWidget, NgAisInstantSearch } from 'angular-instantsearch';
 import { noop } from "angular-instantsearch/esm2015/utils";
 import { connectCurrentRefinedValues } from "instantsearch.js/es/connectors";
-
+import { AgePipe } from 'src/app/pipes/age.pipe';
 
 @Component({
     selector: 'current-refinement',
@@ -101,6 +101,14 @@ export class CurrentRefinementComponent extends BaseWidget {
             this.state.refinements.filter(b => b.attributeName == this.attribute).length === 0;// && this.autoHideContainer;
     }
 
+    birthTimestampItems(item) {
+        const agePipe = new AgePipe();
+
+        item.computedLabel = agePipe.transform(item.value);
+
+        return item;
+    }
+
     /**
      * Return current selection comma(,) separated 
      */
@@ -116,8 +124,12 @@ export class CurrentRefinementComponent extends BaseWidget {
             
             if(this.attribute && b.attributeName != this.attribute)
                 continue;
-            
-            if (b.attributeName == 'candidate_driving_license') {
+        
+            if (b.attributeName == 'candidate_birth_timestamp') {
+                b = this.birthTimestampItems(b);
+            }
+
+            else if (b.attributeName == 'candidate_driving_license') {
                 b = this.licenseTransformItems(b);
             }
 
