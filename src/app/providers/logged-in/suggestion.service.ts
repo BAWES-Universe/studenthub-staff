@@ -17,7 +17,7 @@ export class SuggestionService {
    * @returns {Observable<any>}
    */
   list(params: string = ''): Observable<any> {
-    let url = this._endpoint + '?expand=note,feedback,feedback.updatedBy,candidate,fulltimer,updatedBy' + params;
+    let url = this._endpoint + '?expand=note,feedback,feedback.updatedBy,feedbacks,feedbacks.updatedBy,candidate,fulltimer,updatedBy' + params;
     return this._authhttp.get(url);
   }
 

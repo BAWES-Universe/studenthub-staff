@@ -9,16 +9,18 @@ import { CandidateSuggestionsPageRoutingModule } from './candidate-suggestions-r
 import { CandidateSuggestionsPage } from './candidate-suggestions.page';
 import { NoteModule } from 'src/app/components/note/note.module';
 import { LoadingModalModule } from 'src/app/components/loading-modal/loading-modal.module';
+import {SuggestionModule} from "../../../../components/suggestion/suggestion.module";
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    NoteModule,
-    LoadingModalModule,
-    CandidateSuggestionsPageRoutingModule
-  ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        IonicModule,
+        NoteModule,
+        LoadingModalModule,
+        CandidateSuggestionsPageRoutingModule,
+        SuggestionModule
+    ],
   declarations: [CandidateSuggestionsPage]
 })
 export class CandidateSuggestionsPageModule {}

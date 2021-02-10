@@ -46,8 +46,8 @@ export class FulltimerNotesPage implements OnInit {
 
     if(state && state.fulltimer) {
       this.fulltimer = state.fulltimer;
-    } 
-    
+    }
+
     if(!this.fulltimer) {
       this.loadfulltimerDetail();
     }
@@ -95,11 +95,12 @@ export class FulltimerNotesPage implements OnInit {
 
     let note = new Note;
     note.fulltimer_uuid = this.fulltimer_uuid;
-    
+
     const modal = await this.modalCtrl.create({
       component: CompanyNoteFormPage,
       componentProps: {
-        note: note
+        note,
+        fulltimer: this.fulltimer
       }
     });
     modal.present();

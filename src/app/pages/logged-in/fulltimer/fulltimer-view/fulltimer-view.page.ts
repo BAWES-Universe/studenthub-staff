@@ -75,11 +75,12 @@ export class FulltimerViewPage implements OnInit {
 
     let note = new Note;
     note.fulltimer_uuid = this.fulltimer_uuid;
-    
+
     const modal = await this.modalCtrl.create({
       component: CompanyNoteFormPage,
       componentProps: {
-        note: note
+        note,
+        fulltimer: this.fulltimer
       }
     });
     modal.present();
@@ -115,7 +116,7 @@ export class FulltimerViewPage implements OnInit {
     return this.translateService.langContent(area.area_name_en, area.area_name_ar) + ' ' +
       this.translateService.langContent(country.country_name_en, country.country_name_ar);
   }
-  
+
   /**
    * get candidate resume url
    */

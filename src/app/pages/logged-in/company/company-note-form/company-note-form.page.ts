@@ -2,16 +2,19 @@ import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ModalController, AlertController, PopoverController } from '@ionic/angular';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-//models
+// models
 import { Note } from 'src/app/models/note';
 import { Company } from 'src/app/models/company';
-//services
+// services
 import { NoteService } from 'src/app/providers/logged-in/note.service';
-import { AuthService } from "../../../../providers/auth.service";
-//pages
+import { AuthService } from 'src/app/providers/auth.service';
+import { AwsService } from 'src/app/providers/aws.service';
+// pages
 import { AllCompanyListPage } from '../company-request-list/all-company-list/all-company-list.page';
 import { CompanyRequestListPopupPage } from '../company-request-list/company-request-list-popup/company-request-list-popup.page';
 import { CompanyContactListPage } from '../company-contact/company-contact-list/company-contact-list.page';
+import {Candidate} from 'src/app/models/candidate';
+import {Fulltimer} from 'src/app/models/fulltimer';
 
 
 @Component({
@@ -26,13 +29,13 @@ export class CompanyNoteFormPage implements OnInit {
   @Input() note;
   @Input() from;
 
-  public saving: boolean = false;
-
-  public loading: boolean = false;
-
+  public saving = false;
+  public loading = false;
   public operation: string;
-
   public Editor = ClassicEditor;
+  public company: Company;
+  public candidate: Candidate;
+  public fulltimer: Fulltimer;
 
   public editorConfig = {
     placeholder: 'Click here to take notes...',
@@ -49,7 +52,8 @@ export class CompanyNoteFormPage implements OnInit {
     private modalCtrl: ModalController,
     private alertCtrl: AlertController,
     public popoverCtrl: PopoverController,
-    private authService: AuthService
+    private authService: AuthService,
+    public awsService: AwsService
   ) {
   }
 
@@ -80,7 +84,7 @@ export class CompanyNoteFormPage implements OnInit {
       company_id: [this.note.company_id],
       company_name: [this.note.company ? this.note.company.company_name : ''],
     });
-    //https://www.pivotaltracker.com/story/show/175926516
+    // https://www.pivotaltracker.com/story/show/175926516
     if (this.from == 'post-update') {
       this.form.controls.type.setValue('Internal Note');
     }
@@ -138,32 +142,38 @@ export class CompanyNoteFormPage implements OnInit {
    * @param e
    */
   async openContact(e) {
+    let popover;
 
-    const company = new Company;
-
-    if(this.form.controls.company_id.value) {
-      company.company_id = this.form.controls.company_id.value;
+    if (this.company && this.company.company_id) {
+      popover = await this.popoverCtrl.create({
+        component: CompanyContactListPage,
+        event: e,
+        componentProps: {
+          company: this.company
+        }
+      });
+    } else {
+      popover = await this.modalCtrl.create({
+        component: CompanyContactListPage,
+        componentProps: {
+          company: this.company
+        }
+      });
     }
 
-    const popover = await this.modalCtrl.create({
-      component: CompanyContactListPage,
-      componentProps: {
-        company: company
-      }
-    });
     popover.onDidDismiss().then(e => {
 
-      if (!e.data || (e.data && !e.data.companyContact)) {
+      if (!e.data || (e.data && !e.data.contact)) {
         return null;
       }
- 
+
       if (!this.form.controls.company_id.value) {
-        this.form.controls.company_name.setValue(e.data.companyContact.company.company_name);
-        this.form.controls.company_id.setValue(e.data.companyContact.company.company_id);
+        this.form.controls.company_name.setValue(e.data.contact.company.company_name);
+        this.form.controls.company_id.setValue(e.data.contact.company.company_id);
       }
 
-      this.form.controls.contact_uuid.setValue(e.data.companyContact.contact_uuid);
-      this.form.controls.contact_name.setValue(e.data.companyContact.contact.contact_name);
+      this.form.controls.contact_uuid.setValue(e.data.contact.contact_uuid);
+      this.form.controls.contact_name.setValue(e.data.contact.contact_name);
 
     });
     popover.present();
@@ -184,6 +194,9 @@ export class CompanyNoteFormPage implements OnInit {
         return null;
       }
 
+      if (e.data && e.data.company_id) {
+        this.company = e.data;
+      }
       this.form.controls.company_name.setValue(e.data.company_name);
       this.form.controls.company_id.setValue(e.data.company_id);
 
@@ -294,5 +307,12 @@ export class CompanyNoteFormPage implements OnInit {
     this.form.controls.note.setValue(data);
     this.form.markAsDirty();
     this.form.updateValueAndValidity();
+  }
+
+  /**
+   * hide photo on error
+   */
+  onPhotoError() {
+    this.candidate.candidate_personal_photo = null;
   }
 }

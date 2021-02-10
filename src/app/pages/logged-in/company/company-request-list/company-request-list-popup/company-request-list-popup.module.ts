@@ -11,18 +11,20 @@ import { LoadingModalModule } from 'src/app/components/loading-modal/loading-mod
 import { DateDropdownModule } from 'src/app/components/date-dropdown/date-dropdown.module';
 import { PipesModule } from 'src/app/pipes/pipes.module';
 import { RequestListingModule } from 'src/app/components/request-listing/request-listing.module';
+import {NoItemsModule} from "../../../../../components/no-items/no-items.module";
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    LoadingModalModule,
-    PipesModule, 
-    RequestListingModule,
-    DateDropdownModule,
-    CompanyRequestListPopupPageRoutingModule
-  ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        IonicModule,
+        LoadingModalModule,
+        PipesModule,
+        RequestListingModule,
+        DateDropdownModule,
+        CompanyRequestListPopupPageRoutingModule,
+        NoItemsModule
+    ],
   declarations: [CompanyRequestListPopupPage]
 })
 export class CompanyRequestListPopupPageModule {}

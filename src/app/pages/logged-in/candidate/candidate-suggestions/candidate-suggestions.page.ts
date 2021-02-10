@@ -7,6 +7,8 @@ import { EventService } from 'src/app/providers/event.service';
 import { CandidateService } from 'src/app/providers/logged-in/candidate.service';
 // services
 import { SuggestionService } from 'src/app/providers/logged-in/suggestion.service';
+import {NoteService} from '../../../../providers/logged-in/note.service';
+import {Note} from 'src/app/models/note';
 
 @Component({
   selector: 'app-candidate-suggestions',
@@ -16,32 +18,32 @@ import { SuggestionService } from 'src/app/providers/logged-in/suggestion.servic
 export class CandidateSuggestionsPage implements OnInit {
 
   public borderLimit;
-
-  public loading: boolean = false;
-
+  public loading = false;
   public candidate_id;
-  public status;
+  public status; // 1:Suggested, 2:Rejected, 3:Accepted
+  public notes: Note[] = [];
 
   public candidate;
-
   public suggestions: Suggestion[] = [];
-
   constructor(
     public modalCtrl: ModalController,
     public activatedRoute: ActivatedRoute,
     public eventService: EventService,
     public candidateService: CandidateService,
-    public suggestionService: SuggestionService
+    public suggestionService: SuggestionService,
+    public noteService: NoteService
   ) {
   }
 
   ngOnInit() {
 
-    if (!this.candidate_id)
+    if (!this.candidate_id) {
       this.candidate_id = this.activatedRoute.snapshot.paramMap.get('candidate_id');
+    }
 
-    if (!this.status)
+    if (!this.status) {
       this.status = this.activatedRoute.snapshot.paramMap.get('status');
+    }
 
     const state = window.history.state;
 
@@ -68,9 +70,7 @@ export class CandidateSuggestionsPage implements OnInit {
 
   loadCandidateDetail(loading = true) {
     this.loading = loading;
-
     this.candidateService.detail(this.candidate_id).subscribe(response => {
-
       this.loading = false;
       this.candidate = response;
     });
@@ -80,14 +80,26 @@ export class CandidateSuggestionsPage implements OnInit {
    * load candidate notes without pagination
    */
   loadSuggestions() {
-    const params = '&candidate_id=' + this.candidate_id + '&status=' + this.status;
-
-    this.suggestionService.list(params).subscribe(async jsonResponse => {
-      this.suggestions = jsonResponse;
-    });
+    this.suggestionService
+      .list('&candidate_id=' + this.candidate_id + '&status=' + this.status)
+      .subscribe(async jsonResponse => {
+        this.suggestions = jsonResponse;
+      });
   }
 
   logScrolling(e) {
     this.borderLimit = (e.detail.scrollTop > 20);
   }
+
+  /**
+   * load candidate notes without pagination
+   */
+  loadNotes() {
+    const params = '&candidate_id=' + this.candidate_id;
+
+    this.noteService.list(params).subscribe(async jsonResponse => {
+      this.notes = jsonResponse;
+    });
+  }
+
 }

@@ -138,12 +138,12 @@
                   <ion-note slot="end">{{ candidate.suggested }}</ion-note>
                 </ion-item>
 
-                <ion-item tappable (click)="suggestionListPage(2)">
+                <ion-item tappable (click)="suggestionListPage(3)">
                   <ion-label>Accepted</ion-label>
                   <ion-note class="accepted" slot="end">{{ candidate.suggestionAccepted }}</ion-note>
                 </ion-item>
 
-                <ion-item tappable (click)="suggestionListPage(3)">
+                <ion-item tappable (click)="suggestionListPage(2)">
                   <ion-label>Rejected</ion-label>
                   <ion-note class="rejected" slot="end">{{ candidate.suggestionRejected }}</ion-note>
                 </ion-item>
@@ -419,8 +419,6 @@
           Set hourly rate
         </ion-button>
       </ion-col>
-
     </ion-row>
   </ion-grid>
-
 </ion-footer>

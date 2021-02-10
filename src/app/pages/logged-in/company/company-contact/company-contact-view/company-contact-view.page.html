@@ -19,28 +19,32 @@
 </ion-header>
 
 <ion-content [scrollEvents]="true" (ionScroll)="logScrolling($event)">
+
   <div class="container">
     <ion-card *ngIf="contact" class="ion-padding">
       <div tabindex="0"></div>
-        <h4>{{ contact.contact_name }}</h4>
-        <p *ngIf="contact.contact_email">
-          <a href="mailto:{{ contact.contact_email }}">
-            <ion-icon name="mail-outline"></ion-icon> {{ contact.contact_email }}
-          </a>
-        </p>
+        
+      <h4>{{ contact.contact_name }}</h4>
 
-        <p>
-          <a href="mailto:{{ contactEmail.email_address }}"
-            *ngFor="let contactEmail of contact.contactEmails">
-            <ion-icon name="mail-outline"></ion-icon> {{ contactEmail.email_address }}
-          </a>
-        </p>
-        <p>
-          <a href="tel:{{ contactPhone.phone_number }}"
-            *ngFor="let contactPhone of contact.contactPhones">
-            <ion-icon name="call-outline"></ion-icon> {{ contactPhone.phone_number }}
-          </a>
-        </p>
+      <p *ngIf="contact.contact_email">
+        <a href="mailto:{{ contact.contact_email }}">
+          <ion-icon name="mail-outline"></ion-icon> {{ contact.contact_email }}
+        </a>
+      </p>
+
+      <p>
+        <a href="mailto:{{ contactEmail.email_address }}"
+          *ngFor="let contactEmail of contact.contactEmails">
+          <ion-icon name="mail-outline"></ion-icon> {{ contactEmail.email_address }}
+        </a>
+      </p>
+      
+      <p>
+        <a href="tel:{{ contactPhone.phone_number }}"
+          *ngFor="let contactPhone of contact.contactPhones">
+          <ion-icon name="call-outline"></ion-icon> {{ contactPhone.phone_number }}
+        </a>
+      </p>
 
       <ion-item *ngIf="companyContact">
         <ion-label>
@@ -68,8 +72,8 @@
 
       <ion-item lines="none">
         <ion-label>
-          <p>Added at {{ toDate(contact.contact_created_at) | date: 'MMM d, y, h:mm:ss a' }}</p>
-          <p>Updated {{ contact.contact_updated_at | timeAgo }}</p>
+          <p *ngIf="contact.contact_created_at">Added at {{ toDate(contact.contact_created_at) | date: 'MMM d, y, h:mm:ss a' }}</p>
+          <p *ngIf="contact.contact_updated_at">Updated {{ contact.contact_updated_at | timeAgo }}</p>
         </ion-label>
       </ion-item>
     </ion-card>

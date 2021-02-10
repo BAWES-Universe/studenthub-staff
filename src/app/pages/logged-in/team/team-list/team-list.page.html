@@ -14,7 +14,8 @@
         <ion-item tappable *ngFor="let staff of staffs" (click)="rowSelected(staff)">
           <div tabindex="0"></div>
           <ion-label>
-            {{ staff.staff_name }} <span *ngIf="authService.staff_id == staff.staff_id">&nbsp;•&nbsp;You</span>
+            {{ staff.staff_name }} 
+            <span *ngIf="authService.staff_id == staff.staff_id">&nbsp;•&nbsp;You</span>
             <br/>
             <small>{{ staff.staff_email }}</small><br/>
           </ion-label>

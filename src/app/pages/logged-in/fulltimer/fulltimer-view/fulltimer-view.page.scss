@@ -171,7 +171,7 @@ ion-badge {
     height: 41px;
     text-transform: none;
     margin: 0;
-    --background: none;
+    --background: #fff;
     --box-shadow: none;
   }
 
@@ -185,7 +185,7 @@ ion-badge {
     --padding-end: 0px;
     --padding-bottom: 3px;
     --padding-start: 21px;
-    --background: none;
+    --background: #fff;
     margin-bottom: 9px;
     border-radius: 5px;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08), 2px 0 4px 0 rgba(0, 0, 0, 0.12);
@@ -216,7 +216,7 @@ ion-badge {
       color: #fff;
       background: #219653;
     }
-    
+
     ion-note.rejected {
       color: #fff;
       background: #eb5757;
@@ -255,7 +255,7 @@ ion-badge {
 .whatsapp {
   --padding-start: 0px;
   --background: none;
-  
+
   ion-icon {
     color: #000;
   }

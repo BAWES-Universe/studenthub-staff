@@ -46,8 +46,8 @@ export class CandidateNotesPage implements OnInit {
 
     if(state && state.candidate) {
       this.candidate = state.candidate;
-    } 
-    
+    }
+
     if(!this.candidate) {
       this.loadCandidateDetail();
     }
@@ -95,11 +95,12 @@ export class CandidateNotesPage implements OnInit {
 
     let note = new Note;
     note.candidate_id = this.candidate_id;
-    
+
     const modal = await this.modalCtrl.create({
       component: CompanyNoteFormPage,
       componentProps: {
-        note: note
+        note,
+        candidate: this.candidate
       }
     });
     modal.present();

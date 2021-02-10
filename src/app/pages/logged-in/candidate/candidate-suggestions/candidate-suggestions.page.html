@@ -3,12 +3,6 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/candidate-view/{{ candidate_id }}"></ion-back-button>
     </ion-buttons>
-
-    <ion-buttons slot="end">
-<!--      <ion-button (click)="add()">-->
-<!--        Add note-->
-<!--      </ion-button>-->
-    </ion-buttons>
   </ion-toolbar>
 
 </ion-header>
@@ -21,8 +15,14 @@
       <span *ngIf="!candidate.candidate_name">{{ candidate.candidate_name_ar }}</span>
     </h4>
 
-<!--    <note *ngFor="let note of notes" [routerLink]="'/note-view/' + note.note_uuid"-->
-<!--      [note]="note"></note>-->
+    <ng-container *ngFor="let suggestion of suggestions" >
+      <suggestion [model]="suggestion" (onUpdate)="loadSuggestions()"></suggestion>
+      <ng-container *ngIf="suggestion.feedbacks && suggestion.feedbacks.length > 0 && this.status != 1">
+        <note *ngFor="let feedback of suggestion.feedbacks" [routerLink]="'/note-view/' + feedback.note_uuid"
+              [note]="feedback"></note>
+      </ng-container>
+    </ng-container>
+
 
     <loading-modal [loading]="loading" type="note-list"></loading-modal>
   </div>

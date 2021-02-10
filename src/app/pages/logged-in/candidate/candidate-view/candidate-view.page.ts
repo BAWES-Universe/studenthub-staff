@@ -420,6 +420,9 @@ export class CandidateViewPage implements OnInit {
     });
   }
 
+  /**
+   * suggestion made to candidate
+   */
   async suggest() {
 
     window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
@@ -437,8 +440,9 @@ export class CandidateViewPage implements OnInit {
         window.history.back();
       }
 
-      if (e.data && e.data.refresh) {
+      if (e.data && e.data.refresh && e.data.suggestionCount) {
         this.loadNotes();
+        this.candidate.suggested = e.data.suggestionCount;
       }
     });
     await modal.present();
@@ -689,7 +693,8 @@ export class CandidateViewPage implements OnInit {
     const modal = await this.modalCtrl.create({
       component: CompanyNoteFormPage,
       componentProps: {
-        note: note
+        note,
+        candidate: this.candidate
       }
     });
     modal.present();
@@ -710,7 +715,7 @@ export class CandidateViewPage implements OnInit {
 
   /**
    * add new note for candidate
-   *
+
   addNote() {
     this.addingNote = true;
 
@@ -877,7 +882,21 @@ export class CandidateViewPage implements OnInit {
     this.candidate.candidate_civil_photo_front = null;
   }
 
+  /**
+   * suggestion list page
+   * @param status
+   */
   suggestionListPage(status: number) {
+    if (status == 1 && this.candidate.suggested < 1) { // Suggested
+      return false;
+    }
+    if (status == 2 && this.candidate.suggestionRejected < 1) { // Rejected
+      return false;
+    }
+    if (status == 3 && this.candidate.suggestionAccepted < 1) { // Accepted
+      return false;
+    }
+
     this.router.navigate(['candidate-suggestions', this.candidate_id, status], {
       state: {
         candidate: this.candidate

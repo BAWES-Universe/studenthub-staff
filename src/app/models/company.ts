@@ -3,6 +3,7 @@ import { CompanyContact } from './company-contact';
 import { Request } from './request';
 import {Transfer} from "./transfer";
 import {Mall} from "./mall";
+import {Contact} from "./contact";
 
 export class Company {
     company_id: number;
@@ -33,6 +34,7 @@ export class Company {
     transferInLast40Days: number;
     malls: Mall[];
     companyContacts: CompanyContact[];
+    contacts: Contact[];
     requests: Request[];
     parentTransfers: Transfer[];
     stats: any[];

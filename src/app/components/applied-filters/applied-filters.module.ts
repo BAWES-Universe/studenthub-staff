@@ -5,6 +5,7 @@ import { NgAisModule } from 'angular-instantsearch';
 import { TranslateModule } from '@ngx-translate/core';
 import { AppliedFiltersComponent } from './applied-filters.component';
 import { CommonModule, CurrencyPipe } from '@angular/common';
+import { PipesModule } from 'src/app/pipes/pipes.module';
 
 @NgModule({
     declarations: [       
@@ -17,6 +18,7 @@ import { CommonModule, CurrencyPipe } from '@angular/common';
         CommonModule,
         IonicModule,
         NgAisModule,
+        PipesModule,
         TranslateModule.forChild(),
     ],
     exports: [

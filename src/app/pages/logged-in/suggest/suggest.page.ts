@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertController, ModalController } from '@ionic/angular';
-//models
+// models
 import { Candidate } from 'src/app/models/candidate';
 import { Fulltimer } from 'src/app/models/fulltimer';
 import { Request } from 'src/app/models/request';
 import { AuthService } from 'src/app/providers/auth.service';
 import { EventService } from 'src/app/providers/event.service';
 import { SuggestionService } from 'src/app/providers/logged-in/suggestion.service';
-//services
+// services
 import { CompanyRequestService } from '../../../providers/logged-in/company-request.service';
 
 
@@ -21,9 +21,9 @@ export class SuggestPage implements OnInit {
 
   public borderLimit = false;
 
-  public loadingRequests: boolean = false;
+  public loadingRequests = false;
 
-  public loading: boolean = false; 
+  public loading = false;
 
   public candidate: Candidate;
 
@@ -45,7 +45,6 @@ export class SuggestPage implements OnInit {
 
   ngOnInit() {
     this.initForm();
-
     this.loadRequests();
   }
 
@@ -54,28 +53,25 @@ export class SuggestPage implements OnInit {
     this.form = this.fb.group({
       suggestion: ['', Validators.required],
       request_uuid: ['', Validators.required],
-      fulltimer_uuid: [this.fulltimer? this.fulltimer.fulltimer_uuid: null],
-      candidate_id: [this.candidate? this.candidate.candidate_id: null],
+      fulltimer_uuid: [this.fulltimer ? this.fulltimer.fulltimer_uuid : null],
+      candidate_id: [this.candidate ? this.candidate.candidate_id : null],
     });
   }
-  
+
   selectRequest(request) {
     this.form.controls.request_uuid.setValue(request.request_uuid);
     this.form.controls.request_uuid.markAsDirty();
   }
 
+  /**
+   * load all requests
+   */
   loadRequests() {
     this.loadingRequests = true;
 
-    let filterParams;
-
-    if(this.fulltimer) {
-      filterParams = '&position_type=1';
-    } else {
-      filterParams = '&position_type=2';
-    }
-
-    this.requestService.listActiveRequests(filterParams).subscribe(data => {
+    this.requestService
+      .listActiveRequests((this.fulltimer) ? '&position_type=1' : '&position_type=2')
+      .subscribe(data => {
       this.loadingRequests = false;
 
       this.activeRequests = data;
@@ -89,9 +85,7 @@ export class SuggestPage implements OnInit {
    * @param date
    */
   toDate(date) {
-    if (date) {
-      return new Date(date.replace(/-/g, '/'));
-    }
+    return (date) ? new Date(date.replace(/-/g, '/')) : null;
   }
 
   /**
@@ -106,7 +100,7 @@ export class SuggestPage implements OnInit {
       // On Success
       if (response.operation == 'success') {
         // Close the page
-        this.close(true);
+        this.close(true, response.suggestionCount);
       }
 
       // On Failure
@@ -119,20 +113,21 @@ export class SuggestPage implements OnInit {
       }
     }, () => {
       this.loading = false;
-    })
+    });
   }
 
   /**
    * close popup
-   * @param refresh 
+   * @param refresh
+   * @param suggestionCount
    */
-  close(refresh = false) {
+  close(refresh = false, suggestionCount = null) {
     this.modalCtrl.dismiss({
-      refresh: refresh 
+      refresh, suggestionCount
     });
   }
 
   logScrolling(e) {
-    this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
+    this.borderLimit = (e.detail.scrollTop > 20);
   }
 }

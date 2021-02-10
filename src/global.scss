@@ -332,3 +332,31 @@ ion-header {
   --background: #fafafa;
   background: #fafafa;
 }
+
+ng5-slider {
+  $handleSize: 12px;
+
+  background: #bdbdbd !important;
+  margin: 10px 0 15px !important;
+
+  .ng5-slider-pointer {
+      width: 12px !important;
+      height: 12px !important;
+      top: -4px !important;
+      background-color: var(--ion-color-primary) !important;
+      outline: none;
+
+      &:after {
+          content: none;
+          display: none;
+      }
+  }
+
+  .ng5-slider-selection {
+      background: #d8e0f3 !important;
+  }
+
+  .ng5-slider-bubble {
+      display: none !important;
+  }
+}

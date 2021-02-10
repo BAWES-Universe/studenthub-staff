@@ -220,6 +220,7 @@ export class CompanyRequestListPage implements OnInit {
     this.filters.requestStatus = status;
     this.list(); // reload all result
   }
+  
   searchByName($event) {
     this.filters.companyName = $event.detail.value;
     this.list(); // reload all result
