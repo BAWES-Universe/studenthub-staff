@@ -43,7 +43,7 @@ export class CandidateIdCardService {
    * @returns {Observable<any>}
    */
   listExpiredIds(candidate_name: string, page: number): Observable<any> {
-    let url = this._candidateEndpoint + '/list-expired?candidate_name=' + candidate_name + '&page=' + page;
+    let url = this._candidateEndpoint + '/list-expired?candidate_name=' + candidate_name + '&page=' + page + '&expand=candidateIdCard';
     return this._authhttp.getRaw(url);
   }
 

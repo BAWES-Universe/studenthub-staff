@@ -33,16 +33,19 @@
     <div  class="clearfix">
       <form [formGroup]="form">
       <ion-grid>
-      <ion-list *ngIf="candidatelistData && candidatelistData.length > 0">
-        <ion-row *ngFor="let obj of candidatelistData; let i= index">
-          <ion-col tappable size="11" (click)="detail(obj)">
-            <ion-label class="candidate_name">{{ obj.candidate_name? obj.candidate_name: obj.candidate_name_ar }}</ion-label>
-          </ion-col>
-          <ion-col size="1">
-            <ion-checkbox [value]="obj.candidate_id" [checked]="checkAll" (ionChange)="onCandidateToggle($event)"></ion-checkbox>
-          </ion-col>
-        </ion-row>
-      </ion-list>
+        <ion-list *ngIf="candidatelistData && candidatelistData.length > 0">
+          <ion-row *ngFor="let obj of candidatelistData; let i= index">
+            <ion-col tappable size="11" (click)="detail(obj)">
+              <ion-label class="candidate_name">
+                {{ obj.candidate_name? obj.candidate_name: obj.candidate_name_ar }}
+                <br/><small *ngIf="obj.candidateIdCard">Expired On : {{obj.candidateIdCard.expiry_date | date}}</small>
+              </ion-label>
+            </ion-col>
+            <ion-col size="1">
+              <ion-checkbox [value]="obj.candidate_id" [checked]="checkAll" (ionChange)="onCandidateToggle($event)"></ion-checkbox>
+            </ion-col>
+          </ion-row>
+        </ion-list>
       </ion-grid>
 
       <loading-modal [loading]="loading" type="text-list"></loading-modal>
