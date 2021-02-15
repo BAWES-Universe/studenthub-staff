@@ -10,3 +10,15 @@ input[type="file"] {
   position: absolute;
   visibility: hidden;
 }
+
+.date-range {
+  margin-bottom: 0;
+  
+  .btn-clear-date-range {
+    --padding-start: 0;
+    --padding-end: 5px;
+    position: relative;
+    top: -5px;
+    left: 5px;
+  }
+}

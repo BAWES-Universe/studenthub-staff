@@ -23,10 +23,16 @@
   </section>
 
   <h4>I am transferring for work done in the following time period:</h4>
-  <ion-button (click)="openCalendar()">Please select the date Range</ion-button>
-  <p *ngIf="this.start_date && this.end_date">
+
+  <ion-button *ngIf="!start_date || !end_date" (click)="openCalendar()">Please select the date Range</ion-button>
+
+  <p class="date-range" *ngIf="this.start_date && this.end_date">
     From <span *ngIf="this.start_date">{{this.start_date | date}}</span> - To
     <span *ngIf="this.end_date">{{this.end_date | date}}</span>
+
+    <ion-button class="btn-clear-date-range" fill="clear" (click)="clearSelection()">
+      <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+    </ion-button>
   </p>
 
   <br/>

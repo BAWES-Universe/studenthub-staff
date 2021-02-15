@@ -304,6 +304,10 @@ export class ImportTransferFormPage implements OnInit {
       }
     }
   }
+  
+  clearSelection() {
+    this.start_date = this.end_date = null;
+  }
 
   dismiss(data = {}) {
     this.modalCtrl.dismiss(data);

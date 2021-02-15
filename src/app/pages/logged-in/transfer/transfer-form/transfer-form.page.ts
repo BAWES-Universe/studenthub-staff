@@ -395,4 +395,8 @@ export class TransferFormPage implements OnInit {
       }
     }
   }
+
+  clearSelection() {
+    this.transfer.start_date = this.transfer.end_date = null;
+  }
 }

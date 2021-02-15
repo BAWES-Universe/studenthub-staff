@@ -3,7 +3,9 @@ ion-back-button {
 }
 
 ion-footer {
-  div{font-size:1.1em;}
+  div {
+    font-size: 1.1em;
+  }
 }
 
 h4 {
@@ -11,4 +13,18 @@ h4 {
   //margin: 13px 0 0 0;
   color: #000;
   font-size: 16px;
+}
+
+.card-date-range {
+  p {
+    margin-bottom: 0;
+  }
+  
+  .btn-clear-date-range {
+    --padding-start: 0;
+    --padding-end: 5px;
+    position: relative;
+    top: -5px;
+    left: 5px;
+  }
 }

@@ -42,7 +42,7 @@ export class CompanyRequestListPage implements OnInit {
     requestStatus: string,
     startDate: string
     endDate: string
-    position_type: string
+    position_type: number
   } = {
       companyName: null,
       requestStatus: null,
@@ -50,6 +50,7 @@ export class CompanyRequestListPage implements OnInit {
       endDate: null,
       position_type: null
   };
+
   dateRange: { from: string; to: string; };
   type: 'string'; // 'string' | 'js-date' | 'moment' | 'time' | 'object'
   optionsRange: CalendarComponentOptions = {

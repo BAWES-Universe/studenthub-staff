@@ -18,13 +18,21 @@
 <ion-content>
   <form [formGroup]="form" *ngIf="ready">
 
-    <ion-card class="ion-padding">
+    <ion-card class="ion-padding card-date-range">
       <h4>I am transferring for work done in the following time period:</h4>
-      <ion-button (click)="openCalendar()">Please select the date Range</ion-button>
+
+      <ion-button *ngIf="!transfer.start_date || !transfer.end_date" (click)="openCalendar()">Please select the date Range</ion-button>
+
       <p *ngIf="this.transfer.start_date && this.transfer.end_date">
         From <span *ngIf="this.transfer.start_date">{{this.transfer.start_date | date}}</span> - To
         <span *ngIf="this.transfer.end_date">{{this.transfer.end_date | date}}</span>
+
+        <ion-button class="btn-clear-date-range" fill="clear" (click)="clearSelection()">
+          <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+        </ion-button>
+
       </p>
+
     </ion-card>
     <!-- store_id pipe returns the transferCandidates grouped by store as object of following format: -->
     <!-- {name: string, resources: TransferCandidate[]} -->
