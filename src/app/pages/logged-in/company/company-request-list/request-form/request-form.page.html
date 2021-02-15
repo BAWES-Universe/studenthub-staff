@@ -70,8 +70,22 @@
 
     <ion-list>
       <ion-item>
+        <ion-label position="floating">Job Description</ion-label>
+        <ion-input type="text" formControlName="job_description"></ion-input>
+      </ion-item>
+    </ion-list>
+
+    <ion-list>
+      <ion-item>
         <ion-label position="floating">Number of employees</ion-label>
         <ion-input type="text" formControlName="number_of_employees"></ion-input>
+      </ion-item>
+    </ion-list>
+
+    <ion-list>
+      <ion-item>
+        <ion-label position="floating">Compensation</ion-label>
+        <ion-textarea formControlName="compensation" placeholder="Please provide compensation detail"></ion-textarea>
       </ion-item>
     </ion-list>
 

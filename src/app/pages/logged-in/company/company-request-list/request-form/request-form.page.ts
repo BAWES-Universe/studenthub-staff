@@ -9,7 +9,7 @@ import { CompanyRequestService } from 'src/app/providers/logged-in/company-reque
 import { AuthService } from 'src/app/providers/auth.service';
 // models
 import { Request } from 'src/app/models/request';
-//pages
+// pages
 import { CompanyContactListPage } from '../../company-contact/company-contact-list/company-contact-list.page';
 import { AllCompanyListPage } from '../all-company-list/all-company-list.page';
 
@@ -77,6 +77,8 @@ export class RequestFormPage implements OnInit {
       contact_uuid: [this.model.contact_uuid, Validators.required],
       position_type: [this.model.request_position_type + '', Validators.required],
       position_title: [this.model.request_position_title, Validators.required],
+      job_description: [this.model.request_job_description, Validators.required],
+      compensation: [this.model.request_compensation, Validators.required],
       number_of_employees: [this.model.request_number_of_employees, Validators.required],
       additional_info: [this.model.request_additional_info]
     });
@@ -94,6 +96,8 @@ export class RequestFormPage implements OnInit {
     this.model.request_position_title = this.form.value.position_title;
     this.model.request_number_of_employees = this.form.value.number_of_employees;
     this.model.request_additional_info = this.form.value.additional_info;
+    this.model.request_job_description = this.form.value.job_description;
+    this.model.request_compensation = this.form.value.compensation;
   }
 
   /**

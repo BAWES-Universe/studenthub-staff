@@ -53,6 +53,8 @@ export class CompanyRequestFormPage implements OnInit {
       position_type: [this.model.request_position_type + '', Validators.required],
       position_title: [this.model.request_position_title, Validators.required],
       number_of_employees: [this.model.request_number_of_employees, Validators.required],
+      job_description: [this.model.request_job_description, Validators.required],
+      compensation: [this.model.request_compensation, Validators.required],
       additional_info: [this.model.request_additional_info]
     });
 
@@ -69,6 +71,8 @@ export class CompanyRequestFormPage implements OnInit {
     this.model.request_position_title = this.form.value.position_title;
     this.model.request_number_of_employees = this.form.value.number_of_employees;
     this.model.request_additional_info = this.form.value.additional_info;
+    this.model.request_job_description = this.form.value.job_description;
+    this.model.request_compensation = this.form.value.compensation;
   }
 
   /**
