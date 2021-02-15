@@ -324,10 +324,10 @@ export class CandidateService {
   /**
    * update candidate hourly rate
    * @param model
-   * @param rate
+   * @param exportWithNumber
    */
-  exportCV(model: Candidate): Observable<any>{
-    return this._authhttp.pdfget(`${this._candidateEndpoint}/candidate-resume-pdf/${model.candidate_id}`, model.candidate_name + '-cv');
+  exportCV(model: Candidate, exportWithNumber = 1): Observable<any>{
+    return this._authhttp.pdfget(`${this._candidateEndpoint}/candidate-resume-pdf/${model.candidate_id}?with_number=${exportWithNumber}`, model.candidate_name + '-cv');
   }
 
   /**

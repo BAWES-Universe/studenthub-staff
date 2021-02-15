@@ -388,7 +388,7 @@
     <ion-row>
 
       <ion-col *ngIf="candidate.isProfileCompleted">
-        <ion-button class="btn-export-cv" (click)="exportCV()">
+        <ion-button class="btn-export-cv" (click)="exportOption()">
           <ion-spinner *ngIf="exportingCV"></ion-spinner>
           <span *ngIf="!exportingCV">Export CV as PDF</span>
         </ion-button>

@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import {
+  ActionSheetController,
   AlertController,
   ModalController,
   NavController,
@@ -106,6 +107,7 @@ export class CandidateViewPage implements OnInit {
     public noteService: NoteService,
     public modalCtrl: ModalController,
     private fb: FormBuilder,
+    private actionSheetCtrl: ActionSheetController,
   ) {
 
   }
@@ -194,15 +196,36 @@ export class CandidateViewPage implements OnInit {
     });
   }
 
+  async exportOption() {
+
+    const actionSheet = await this.actionSheetCtrl.create({
+      header: 'Export Candidates CV ',
+      buttons: [{
+        text: 'With contact details',
+        handler: () => {
+          this.exportCV();
+        }
+      }, {
+        text: 'Without contact details',
+        handler: () => {
+          this.exportCV(0);
+        }
+      }]
+    });
+    actionSheet.present();
+  }
+
   /**
-   * set candidate card expire
+   * export cv with and without
+   * number
+   * @param exportWithNumber
    */
-  async exportCV() {
+  async exportCV(exportWithNumber = 1) {
     // Handle the functionality when user click on 'ok' button
     this.exportingCV = true;
 
     // Unassign Candidate from store
-    this.candidateService.exportCV(this.candidate).subscribe(async response => {
+    this.candidateService.exportCV(this.candidate, exportWithNumber).subscribe(async response => {
 
       // Dismiss the loader
       this.exportingCV = false;
