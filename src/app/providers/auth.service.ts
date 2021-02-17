@@ -68,24 +68,26 @@ export class AuthService {
         resolve(true);
       }
 
-      const ret = await Storage.get({ key: 'loggedInStaff' });
+      Storage.get({ key: 'loggedInStaff' }).then(ret => {
 
-      const user = JSON.parse(ret.value);
+        const user = JSON.parse(ret.value);
 
-      if (user) {
-        this.isLogged = true;
-        this._accessToken = user.token;
-        this.staff_id = user.staff_id;
-        this.email = user.email;
-        this.name = user.name;
-        this.theme = user.theme;
+        if (user) {
+          this.isLogged = true;
+          this._accessToken = user.token;
+          this.staff_id = user.staff_id;
+          this.email = user.email;
+          this.name = user.name;
+          this.theme = user.theme;
 
-        resolve(true);
-      } else {
-        resolve(false);
-        this.logout('invalid access');
-      }
-
+          resolve(true);
+        } else {
+          resolve(false);
+          this.logout('invalid access');
+        }
+      }).catch(r => {
+        this.eventService.errorStorage$.next();
+      });
     });
   }
 
@@ -97,6 +99,8 @@ export class AuthService {
     Storage.set({
       key: 'theme',
       value: theme
+    }).catch(r => {
+      this.eventService.errorStorage$.next();
     });
 
     this.theme = theme;
@@ -122,6 +126,8 @@ export class AuthService {
         name: this.name,
         email: this.email
       })
+    }).catch(r => {
+      this.eventService.errorStorage$.next();
     });
   }
 
@@ -140,7 +146,9 @@ export class AuthService {
     this.staff_id = null;
     this.name = null;
     this.email = null;
-    Storage.clear();
+    Storage.clear().catch(r => {
+      this.eventService.errorStorage$.next();
+    });
 
     if (!silent) {
       this.eventService.userLoggedOut$.next(reason ? reason : false);
@@ -149,6 +157,8 @@ export class AuthService {
     Storage.set({
       key: 'cookieMessageWasApproved',
       value : (this.displayCookieMessage == '0') ? '1' : '0'
+    }).catch(r => {
+      this.eventService.errorStorage$.next();
     });
   }
 
@@ -173,21 +183,28 @@ export class AuthService {
 
   // This is the method you want to call at bootstrap
   async load(): Promise<any> {
-    const ret = await Storage.get({ key: 'loggedInStaff' });
 
-    const staff = JSON.parse(ret.value);
+    Storage.get({ key: 'loggedInStaff' }).then(ret => {
 
-    if (staff && staff.token) {
-      return this.setAccessToken(staff);
-    } else {
-      // return this.logout('error with store variables',true);
-    }
+      const staff = JSON.parse(ret.value);
 
-    const { value } = await Storage.get({ key: 'theme' });
+      if (staff && staff.token) {
+        return this.setAccessToken(staff);
+      } else {
+        // return this.logout('error with store variables',true);
+      }
+    }).catch(r => {
+      this.eventService.errorStorage$.next();
+    });
 
-    if (value) {
-      this.setTheme(value);
-    }
+    Storage.get({ key: 'theme' }).then(ret => {
+
+      if (ret.value) {
+        this.setTheme(ret.value);
+      }
+    }).catch(r => {
+      this.eventService.errorStorage$.next();
+    });
   }
 
   /**
@@ -208,6 +225,8 @@ export class AuthService {
         this.setAccessToken(user, redirect);
         this._accessToken = user.token;
       }
+    }).catch(r => {
+      this.eventService.errorStorage$.next();
     });
 
     return this._accessToken;

@@ -91,6 +91,10 @@ export class AppComponent implements OnInit {
       this.navCtrl.navigateRoot(['/no-internet']);
     });
 
+    this.eventService.errorStorage$.subscribe(() => {
+      this.navCtrl.navigateRoot(['app-error']);
+    });
+    
     // On Login Event, set root to Internal app page
     this.eventService.userLogined$.subscribe(userEventData => {
       this.navCtrl.navigateRoot(['/view/tasks']);

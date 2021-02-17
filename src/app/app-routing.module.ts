@@ -382,6 +382,11 @@ const routes: Routes = [
     path: 'fulltimer-notes',
     loadChildren: () => import('./pages/logged-in/fulltimer/fulltimer-notes/fulltimer-notes.module').then( m => m.FulltimerNotesPageModule)
   },
+
+  {
+    path: 'app-error',
+    loadChildren: () => import('./pages/errors/app-error/app-error.module').then( m => m.AppErrorPageModule)
+  },
   {
     path: '**',
     redirectTo: 'not-found'
