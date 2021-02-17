@@ -17,10 +17,10 @@ export class TimeAgoPipe implements PipeTransform, OnDestroy {
 	transform(value: string) {
 		this.removeTimer();
     let GMTDate = new Date();
-
-		let d = (value) ? new Date(value.replace(/-/g, '/') + ' GMT') : GMTDate['toGMTString']();
-		let now = new Date();
-		let seconds = Math.round(Math.abs((now.getTime() - d.getTime())/1000));
+		let d = (value) ? new Date(value.replace(/-/g, '/') + ' GMT') : this.toUTC();
+    let now = this.toUTC();
+		// let now = temp['toGMTString']();
+    let seconds = Math.round(Math.abs((now.getTime() - d.getTime())/1000));
 		let timeToUpdate = (Number.isNaN(seconds)) ? 1000 : this.getSecondsUntilUpdate(seconds) * 1000;
 
         this.timer = this.ngZone.runOutsideAngular(() => {
@@ -90,5 +90,17 @@ export class TimeAgoPipe implements PipeTransform, OnDestroy {
 			return 3600;
 		}
 	}
+
+  toUTC(/*Date*/date = new Date()) {
+    return new Date(Date.UTC(
+      date.getFullYear()
+      , date.getMonth()
+      , date.getDate()
+      , date.getHours()
+      , date.getMinutes()
+      , date.getSeconds()
+      , date.getMilliseconds()
+    ));
+  }
 }
 
