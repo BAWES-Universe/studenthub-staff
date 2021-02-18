@@ -58,8 +58,8 @@
               <p class="email" *ngIf="company.company_email">{{ company.company_email }}</p>
 
               <p class="hourly-rate" *ngIf="company.company_hourly_rate">
-                {{ company.company_hourly_rate | number:'1.3-3' }} KD per hour <br />
-                {{ company.company_bonus_commission | number:'1.0-0' }}% commission
+                {{ company.company_hourly_rate | number:'1.0-3' }} KD per hour <br />
+                {{ company.company_bonus_commission | number:'1.0-2' }}% commission
               </p>
 
               <p class="description" *ngIf="company.company_description_en"> {{ company.company_description_en }}</p>

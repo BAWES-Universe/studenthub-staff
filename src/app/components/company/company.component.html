@@ -11,8 +11,8 @@
     <h2 *ngIf="!company.company_common_name_en">{{ company.company_name }}</h2>
     <div class="small-detail">
       <p>
-        {{company.company_hourly_rate}} KD per hour<br/>
-        <span>{{company.company_bonus_commission | number }} </span>% commission
+        {{company.company_hourly_rate | number:'1.0-3' }} KD per hour<br/>
+        <span>{{company.company_bonus_commission | number:'1.0-2' }} </span>% commission
       </p>
       <ng-container *ngIf="page =='follow'">
         <p>@ {{ toDate(company.company_last_followup_datetime) | date: 'MMM d, y, h:mm:ss a' }}</p>

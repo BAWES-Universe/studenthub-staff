@@ -137,7 +137,7 @@
             <h2 class="candidate_name">{{ resource.candidate.candidate_name? resource.candidate.candidate_name: resource.candidate.candidate_name_ar }}</h2>
 
             <p *ngIf="resource.hours > 0">{{ resource.hours | number }} hours x KD
-              {{ resource.company_hourly_rate | number }} per hour</p>
+              {{ resource.company_hourly_rate | number:'1.0-3' }} per hour</p>
             <p *ngIf="resource.bonus">Bonus KD {{resource.bonus | number}}</p>
             <p><b>KD {{ total(resource) }}</b></p>
 

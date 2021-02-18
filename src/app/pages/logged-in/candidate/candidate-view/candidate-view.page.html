@@ -39,7 +39,7 @@
               <h4 class="candidate-name" *ngIf="candidate.candidate_name_ar">{{ candidate.candidate_name_ar }}</h4>
 
               <h5 class="hourly-rate" *ngIf="candidate.candidate_hourly_rate">
-                {{ candidate.candidate_hourly_rate | number:'1.0-0' }} KD per hour</h5>
+                {{ candidate.candidate_hourly_rate | number:'1.0-3' }} KD per hour</h5>
 
               <div class="birth-date" [class.required]="!candidate.candidate_birth_date">
 
