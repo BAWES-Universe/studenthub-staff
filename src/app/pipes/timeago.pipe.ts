@@ -16,10 +16,9 @@ export class TimeAgoPipe implements PipeTransform, OnDestroy {
 
 	transform(value: string) {
 		this.removeTimer();
-    const GMTDate = new Date();
-		const d = (value) ? new Date(value.replace(/-/g, '/') + ' GMT') : GMTDate['toGMTString']();
-    const utcTimeNow = Date.parse(GMTDate.toUTCString());
-    const seconds = Math.round(Math.abs((utcTimeNow - d.getTime()) / 1000));
+		const d = (value) ? this.kuwaitCurrentTime(value) : this.kuwaitCurrentTime(new Date());
+    const utcTimeNow = this.kuwaitCurrentTime(new Date());
+    const seconds = Math.round(Math.abs((utcTimeNow.getTime() - d.getTime()) / 1000));
 		const timeToUpdate = (Number.isNaN(seconds)) ? 1000 : this.getSecondsUntilUpdate(seconds) * 1000;
 
     this.timer = this.ngZone.runOutsideAngular(() => {
@@ -90,18 +89,15 @@ export class TimeAgoPipe implements PipeTransform, OnDestroy {
 		}
 	}
 
-  toUTC(/*Date*/date = new Date()) {
-    const UTCDate  = Date.UTC(
-      date.getFullYear()
-      , date.getMonth()
-      , date.getDate()
-      , date.getHours()
-      , date.getMinutes()
-      , date.getSeconds()
-      , date.getMilliseconds()
-    );
-    console.log(new Date(date.toUTCString()));
-    return new Date(UTCDate);
+  /**
+   * kuwait current time
+   * @param date
+   * @param tzString = 'Asia/Kuwait'
+   */
+	kuwaitCurrentTime(date, tzString = 'Asia/Kuwait') {
+    const time = new Date((typeof date === "string" ? new Date(date) : date).toLocaleString('en-US', {timeZone: tzString}));
+    console.log(date, time);
+    return time;
   }
 }
 
