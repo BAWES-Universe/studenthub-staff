@@ -20,20 +20,20 @@
     </h4>
 
     <!-- Default Segment -->
-    <ion-segment [(ngModel)]="sections" [value]="sections">
-      <ion-segment-button value="part">
+    <ion-segment [(ngModel)]="sections" [value]="sections" *ngIf="requests.length > 0">
+      <ion-segment-button value="part" *ngIf="this.partTimeRequests.length > 0">
         <ion-label>Part Time</ion-label>
       </ion-segment-button>
-      <ion-segment-button value="full">
+      <ion-segment-button value="full" *ngIf="this.fullTimeRequests.length > 0">
         <ion-label>Full Time</ion-label>
       </ion-segment-button>
     </ion-segment>
 
-    <ng-container *ngIf="sections == 'part'">
+    <ng-container *ngIf="sections == 'part' && this.partTimeRequests.length > 0">
       <request-listing *ngFor="let request of partTimeRequests" tappable (click)="requestDetail(request)"
                        [request]="request" [showStatus]="false"></request-listing>
     </ng-container>
-    <ng-container *ngIf="sections == 'full'">
+    <ng-container *ngIf="sections == 'full' && this.fullTimeRequests.length > 0">
       <request-listing *ngFor="let request of fullTimeRequests" tappable (click)="requestDetail(request)"
                        [request]="request" [showStatus]="false"></request-listing>
     </ng-container>
