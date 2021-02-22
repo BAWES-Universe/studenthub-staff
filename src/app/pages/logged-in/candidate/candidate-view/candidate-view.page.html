@@ -120,6 +120,7 @@
                     <h5 *ngIf="history.store">{{ history.store.store_name }} @ {{ history.company.company_name }}</h5>
 
                     <h5 *ngIf="!history.store">@ {{ history.company.company_name }}</h5>
+                    <ng-container *ngIf="history.end_date">{{ toDate(history.end_date) | date }}</ng-container>
 
                     <p>
                       {{ toDate(history.start_date) | date }} to
@@ -127,6 +128,7 @@
                       <ng-container *ngIf="!history.end_date">now</ng-container>
                     </p>
                   </label>
+                  <ion-button slot="end" (click)="downloadCertification(history)"><ion-icon name="cloud-download-outline"></ion-icon>&nbsp;Certificate</ion-button>
                 </ion-item>
               </div>
 

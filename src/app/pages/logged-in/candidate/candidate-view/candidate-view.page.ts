@@ -33,6 +33,7 @@ import { SelectSearchPageComponent } from 'src/app/components/select-search/sele
 import { CompanyNoteFormPage } from '../../company/company-note-form/company-note-form.page';
 import {ModalPopPage} from "../../modal-pop/modal-pop.page";
 import {StoreViewPage} from "../../store/store-view/store-view.page";
+import {Invoice} from "../../../../../../../studenthub-admin/src/app/models/transfer";
 
 
 @Component({
@@ -64,6 +65,7 @@ export class CandidateViewPage implements OnInit {
   public loading = false;
   public approving = false;
   public unapproving = false;
+  public downloading = false;
 
   public processing = null;
 
@@ -924,6 +926,19 @@ export class CandidateViewPage implements OnInit {
       state: {
         candidate: this.candidate
       }
+    });
+  }
+
+  /**
+   * download candidate appreciation certifcate
+   * @param history
+   */
+  async downloadCertification(history) {
+    this.downloading = true;
+
+    this.candidateService.downloadCertificate(this.candidate.candidate_id, history.id).subscribe(response => {
+
+      this.downloading = false;
     });
   }
 }
