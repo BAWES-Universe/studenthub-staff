@@ -12,10 +12,10 @@
     <!-- Default Segment -->
     <ion-segment [(ngModel)]="section" [value]="section" (ionChange)="segmentChange($event)">
       <ion-segment-button value="part">
-        <ion-label>Part Time</ion-label>
+        <ion-label>Part Time <span class="ion-badge" *ngIf="partTimeRequests">{{partTimeRequests.length}}</span></ion-label>
       </ion-segment-button>
       <ion-segment-button value="full">
-        <ion-label>Full Time</ion-label>
+        <ion-label>Full Time <span class="ion-badge" *ngIf="fullTimeRequests">{{fullTimeRequests.length}}</span></ion-label>
       </ion-segment-button>
     </ion-segment>
 
