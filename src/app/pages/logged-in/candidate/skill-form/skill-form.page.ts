@@ -48,14 +48,14 @@ export class SkillFormPage implements OnInit {
     if(!this.candidate.candidateSkills) {
       this.candidate.candidateSkills = [];
     }
-    
+
     setTimeout(() => {
 
       const lastElementIndex = this.candidate.candidateSkills.length;
 
       const lastElement = document.getElementById('input[' + lastElementIndex + ']') as any;
- 
-      if(lastElement) {
+
+      if (lastElement && document.getElementById('input[' + lastElementIndex + ']')) {
         lastElement.setFocus();
       }
     }, 200);
