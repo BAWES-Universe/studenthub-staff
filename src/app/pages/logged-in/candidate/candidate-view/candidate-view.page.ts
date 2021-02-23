@@ -31,10 +31,8 @@ import { CompanyRequestListPopupPage } from '../../company/company-request-list/
 import { SuggestPage } from '../../suggest/suggest.page';
 import { SelectSearchPageComponent } from 'src/app/components/select-search/select-search-page/select-search-page.component';
 import { CompanyNoteFormPage } from '../../company/company-note-form/company-note-form.page';
-import {ModalPopPage} from "../../modal-pop/modal-pop.page";
-import {StoreViewPage} from "../../store/store-view/store-view.page";
-import {Invoice} from "../../../../../../../studenthub-admin/src/app/models/transfer";
-
+import {ModalPopPage} from 'src/app/pages/logged-in/modal-pop/modal-pop.page';
+import {StoreViewPage} from 'src/app/pages/logged-in/store/store-view/store-view.page';
 
 @Component({
   selector: 'app-candidate-view',
@@ -116,8 +114,9 @@ export class CandidateViewPage implements OnInit {
 
   ngOnInit() {
 
-    if(!this.candidate_id)
+    if (!this.candidate_id) {
       this.candidate_id = this.activatedRoute.snapshot.paramMap.get('id');
+    }
 
     this.eventService.reloadCandidateHistory$.subscribe((res) => {
       this.loadCandidateDetail();
@@ -279,7 +278,7 @@ export class CandidateViewPage implements OnInit {
 
               if (response.operation == 'success') {
 
-                if(this.candidate) {
+                if (this.candidate) {
                   this.candidate.store_id = null;
                   this.candidate.store = null;
                   this.candidate.company = null;
@@ -380,7 +379,7 @@ export class CandidateViewPage implements OnInit {
   }
 
   async openWorkPlace(history) {
-    if(history.store) {
+    if (history.store) {
         window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
         const modal = await this.modalCtrl.create({
@@ -403,7 +402,7 @@ export class CandidateViewPage implements OnInit {
         modal.present();
 
       // this.router.navigate(['/store-view', history.store.store_id]);
-    } else if(history.company) {
+    } else if (history.company) {
       this.router.navigate(['/company-view', history.company.company_id]);
     }
   }
@@ -494,12 +493,12 @@ export class CandidateViewPage implements OnInit {
         labelAttr: 'storeWithCompany'
       },
       cssClass: 'select_search_store_id',
-      //event: ev,
+      // event: ev,
       translucent: true
     });
     selectPage.onDidDismiss().then(e => {
         if (e.data) {
-          this.assignCandidateToStore(e.data['store_id']);
+          this.assignCandidateToStore(e.data.store_id);
         }
       });
     await selectPage.present();
@@ -712,7 +711,7 @@ export class CandidateViewPage implements OnInit {
 
     window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
-    let note = new Note;
+    const note = new Note;
     note.candidate_id = this.candidate_id;
 
     const modal = await this.modalCtrl.create({
