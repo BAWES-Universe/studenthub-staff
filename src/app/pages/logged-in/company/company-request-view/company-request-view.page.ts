@@ -236,6 +236,11 @@ export class CompanyRequestViewPage implements OnInit {
     this.borderLimit = (e.detail.scrollTop > 0);
   }
 
+  /**
+   * mark request as cancelled
+   * @param event 
+   * @param request 
+   */
   cancelledRequest(event, request) {
 
     if (this.suggestedSuggestions.length > 0) {
@@ -280,7 +285,9 @@ export class CompanyRequestViewPage implements OnInit {
             this.requestService.cancel(request).subscribe(async response => {
 
               if (response.operation == 'success') {
+                
                 request.request_status = 'cancelled';
+
                 this.loadRequestActivities();
 
                 this.eventService.reloadStats$.next({
@@ -294,8 +301,9 @@ export class CompanyRequestViewPage implements OnInit {
                 });
 
               } else {
+
                 this.toastCtrl.create({
-                  message: response.message,
+                  message: this.translateLabelService.errorMessage(response.message),
                   buttons: ['Okay']
                 }).then(prompt => {
                   prompt.present();
@@ -309,6 +317,11 @@ export class CompanyRequestViewPage implements OnInit {
     }).then(alert => { alert.present(); });
   }
 
+  /**
+   * mark request as delivered 
+   * @param event 
+   * @param request 
+   */
   deliveredRequest(event, request) {
 
     if (this.suggestedSuggestions.length > 0) {
@@ -371,7 +384,7 @@ export class CompanyRequestViewPage implements OnInit {
                 
               } else {
                 this.toastCtrl.create({
-                  message: response.message,
+                  message: this.translateLabelService.errorMessage(response.message),
                   buttons: ['Ok']
                 }).then(prompt => {
                   prompt.present();
