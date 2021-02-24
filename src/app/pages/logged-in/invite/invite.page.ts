@@ -60,7 +60,7 @@ export class InvitePage implements OnInit {
   }
 
   /**
-   * load all requests for parttimers 
+   * load all requests for parttimers
    */
   loadRequests() {
     this.loadingRequests = true;
@@ -90,7 +90,7 @@ export class InvitePage implements OnInit {
     this.loading = true;
 
     this.invitationService.create(this.form.value).subscribe(async response => {
-      
+
       this.loading = false;
 
       // On Success
@@ -119,7 +119,7 @@ export class InvitePage implements OnInit {
    */
   close(refresh = false, invitedCount = null) {
     this.modalCtrl.dismiss({
-      refresh, 
+      refresh,
       invitedCount
     });
   }
