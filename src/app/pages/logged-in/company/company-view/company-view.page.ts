@@ -533,7 +533,7 @@ export class CompanyViewPage implements OnInit {
     const modal = await this.modalCtrl.create({
       component: CompanyFormPage,
       componentProps: {
-        model: this.company,
+        model: Object.assign({}, this.company),
         company_id: this.company_id,
         subcompany: 0
       }
