@@ -105,7 +105,7 @@ export class CompanyRequestViewPage implements OnInit, OnDestroy {
     });
 
     this.internvalSubscribe = setInterval(  _ => {
-      this.loadInvitations(false);
+      this.isRequestUpdated();
     }, 6 * 1000);//every 6 seconds
   }
 
@@ -131,14 +131,34 @@ export class CompanyRequestViewPage implements OnInit, OnDestroy {
   /**
    * load request detail
    */
-  loadDetail() {
-    this.loading = true;
+  loadDetail(loading = true) {
+
+    if(loading)
+      this.loading = true;
 
     this.requestService.view(this.request_uuid).subscribe(data => {
       this.request = data;
       this.loadRequestActivities();
       this.loadSuggestions();
       this.loadInvitations();
+    }, () => {
+    }, () => {
+      this.loading = false;
+    });
+  }
+
+  /**
+   * check if request updated, if so reload details
+   */
+  isRequestUpdated() {
+    if(!this.request) {
+      return null;
+    }
+
+    this.requestService.isRequestUpdated(this.request_uuid).subscribe(data => {
+      if(data.request_updated_datetime != this.request.request_updated_datetime) {
+        this.loadDetail(false);//refresh without showing loader
+      }
     }, () => {
     }, () => {
       this.loading = false;
@@ -168,10 +188,10 @@ export class CompanyRequestViewPage implements OnInit, OnDestroy {
   }
 
   /**
-   * On Invitation updated/moved to suggestion
+   * On Invitation moved to suggestion
    */
   onInvitationUpdated() {
-    this.loadInvitations();
+    //this.loadInvitations();
     this.loadSuggestions();
   }
 

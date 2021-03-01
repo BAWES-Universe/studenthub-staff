@@ -19,7 +19,7 @@
     </h3>
 
     <h4 class="company-name">
-      {{ (company.company_common_name_en) ?  company.company_common_name_en:company.company_name }}
+      {{ (company.company_common_name_en) ? company.company_common_name_en:company.company_name }}
     </h4>
 
     <ion-item tappable (click)="storeSelected(store)" *ngFor="let store of company.stores" lines="none">

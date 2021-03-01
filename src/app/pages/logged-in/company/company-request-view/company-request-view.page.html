@@ -18,7 +18,9 @@
 
     <div *ngIf="request && !loading">
 
-      <h4 class="company-name" tappable [routerLink]="'/company-view/' + request.company_id">{{ request.company.company_common_name_en }}</h4>
+      <h4 class="company-name" tappable [routerLink]="'/company-view/' + request.company_id">
+        {{ request.company.company_common_name_en? request.company.company_common_name_en: request.company.company_name }}
+      </h4>
 
       <p class="txt-looking" *ngIf="request.request_status == 'started'">is looking for </p>
       <p class="txt-looking" *ngIf="request.request_status != 'started'">was looking for </p>
