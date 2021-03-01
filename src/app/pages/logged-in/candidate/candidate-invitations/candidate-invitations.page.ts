@@ -100,10 +100,7 @@ export class CandidateInvitationsPage implements OnInit {
    */
   suggest(invitation: Invitation) {
 
-    /**
-     * show as "accepted by both" in request if invited by client, else suggest to client
-     */
-    if (invitation.is_suggested && invitation.invitation_created_by_company) {
+    if (invitation.is_suggested) {
       return false;
     }
 

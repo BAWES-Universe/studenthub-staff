@@ -1,4 +1,4 @@
-<ion-card tappable *ngIf="!model.is_suggested">
+<ion-card>
   <ion-badge *ngIf="model.invitation_status == 1">
     Invited a candidate
   </ion-badge>
@@ -7,12 +7,8 @@
     Rejected by candidate
   </ion-badge>
 
-  <ion-badge *ngIf="model.invitation_status == 3 && !model.invitation_created_by_company">
+  <ion-badge *ngIf="model.invitation_status == 3">
     Accepted by candidate
-  </ion-badge>
-
-  <ion-badge *ngIf="model.invitation_status == 3 && model.invitation_created_by_company">
-    Accepted by both
   </ion-badge>
 
   <ion-item lines="none" *ngIf="model.candidate">
@@ -35,9 +31,9 @@
   </p>
 </ion-card>
 
-<!-- move to suggestion if not suggested + created by staff and accepted -->
+<!-- move to suggestion if not suggested and accepted -->
 
-<ion-button *ngIf="!model.is_suggested && model.invitation_created_by_staff && model.invitation_status == 3" class="btn-suggestion" (click)="suggest($event)">
+<ion-button *ngIf="!model.is_suggested && model.invitation_status == 3" class="btn-suggestion" (click)="suggest($event)">
   Move to suggestion
 </ion-button>
 

@@ -62,10 +62,7 @@ export class InvitationComponent implements OnInit {
    */
   suggest(ev) {
 
-    /**
-     * show as "accepted by both" in request if invited by client, else suggest to client
-     */
-    if (this.model.is_suggested && this.model.invitation_created_by_company) {
+    if (this.model.is_suggested) {
       return false;
     }
 

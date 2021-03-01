@@ -49,9 +49,7 @@ export class CompanyRequestViewPage implements OnInit, OnDestroy {
 
   public rejectedCandidates: Invitation[] = [];
 
-  public acceptedStaffInvitations: Invitation[] = []; // created by staff + accepted by candidate
-
-  public acceptedCompanyInvitations: Invitation[] = []; // created by company + accepted by candidate
+  public acceptedInvitations: Invitation[] = [];
 
   public request_uuid;
   public loading = false;
@@ -108,11 +106,12 @@ export class CompanyRequestViewPage implements OnInit, OnDestroy {
 
     this.internvalSubscribe = setInterval(  _ => {
       this.loadInvitations(false);
-    }, 6000 );
+    }, 6 * 1000);//every 6 seconds
   }
 
   ngOnDestroy() {
     clearInterval(this.internvalSubscribe);
+    this.internvalSubscribe = null;
   }
 
   /**
@@ -158,42 +157,13 @@ export class CompanyRequestViewPage implements OnInit, OnDestroy {
    */
   loadInvitations(loading = true)
   {
-    this.invitedCandidates = [];
-
-    this.rejectedCandidates = [];
-
-    this.acceptedStaffInvitations = [];
-
-    this.acceptedCompanyInvitations = [];
-
     this.invitationService.list('&request_uuid=' + this.request_uuid).subscribe(invitations => {
+      
+      this.invitedCandidates = invitations.filter(invitation => invitation.invitation_status == 1);
 
-      invitations.forEach((invitation: Invitation) => {
+      this.rejectedCandidates = invitations.filter(invitation => invitation.invitation_status == 2);
 
-        if(invitation.is_suggested) {
-          return null;
-        }
-
-        if(invitation.invitation_status == 1)
-        {
-          this.invitedCandidates.push(invitation);
-        }
-        else if (invitation.invitation_status == 2)
-        {
-          this.rejectedCandidates.push(invitation);
-        }
-        /**
-         * hide from staff invitations if moved to suggestion
-         */
-        else if (invitation.invitation_status == 3 && invitation.invitation_created_by_staff) //created by staff + accepted by candidate
-        {
-          this.acceptedStaffInvitations.push(invitation);
-        }
-        else if (invitation.invitation_status == 3 && invitation.invitation_created_by_company) //created by company + accepted by candidate
-        {
-          this.acceptedCompanyInvitations.push(invitation);
-        }
-      });
+      this.acceptedInvitations = invitations.filter(invitation => invitation.invitation_status == 3);
     })
   }
 

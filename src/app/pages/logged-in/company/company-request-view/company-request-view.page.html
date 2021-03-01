@@ -72,10 +72,10 @@
 
       <!-- - ability to move to suggestion -->
 
-      <div *ngIf="acceptedStaffInvitations.length > 0">
-        <h4 class="txt-suggested-candidates">Accepted Staff Invitations by Candidates ({{ acceptedStaffInvitations.length }})</h4>
+      <div *ngIf="acceptedInvitations.length > 0">
+        <h4 class="txt-suggested-candidates">Accepted Invitations by Candidates ({{ acceptedInvitations.length }})</h4>
 
-        <invitation *ngFor="let invitation of acceptedStaffInvitations" (onUpdate)="onInvitationUpdated()" [model]="invitation"></invitation>
+        <invitation *ngFor="let invitation of acceptedInvitations" (onUpdate)="onInvitationUpdated()" [model]="invitation"></invitation>
       </div>
 
       <div *ngIf="suggestedSuggestions.length > 0">
@@ -94,12 +94,6 @@
         <h4 class="txt-suggested-candidates">Accepted Suggestions ({{ acceptedSuggestions.length }})</h4>
 
         <suggestion tappable [routerLink]="'/suggestion-view/' + suggestion.suggestion_uuid" (onUpdate)="onSuggestionUpdate()" *ngFor="let suggestion of acceptedSuggestions" [model]="suggestion"></suggestion>
-      </div>
-      
-      <div *ngIf="acceptedCompanyInvitations.length > 0">
-        <h4 class="txt-suggested-candidates">Accepted by both ({{ acceptedCompanyInvitations.length }})</h4>
-
-        <invitation *ngFor="let invitation of acceptedCompanyInvitations" [model]="invitation"></invitation>
       </div>
       
     </div>
