@@ -14,7 +14,8 @@ import { EventService } from 'src/app/providers/event.service';
 export class ExpiredIdPage implements OnInit {
 
   public pageCount = 0;
-  public currentPage = 1; 
+  public totalCount = 0;
+  public currentPage = 1;
 
   public searchBar = '';
 
@@ -25,7 +26,7 @@ export class ExpiredIdPage implements OnInit {
 
   public loading = false;
   public renewLoader: boolean = false;
-  
+
   public checkAll = null;
 
   public borderLimit: boolean = false;
@@ -105,6 +106,7 @@ export class ExpiredIdPage implements OnInit {
     this.candidateIdCardService.listExpiredIds(this.searchBar, page).subscribe(response => {
       this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
       this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
+      this.totalCount = parseInt(response.headers.get('X-Pagination-Total-Count'));
 
       this.candidatelistData = response.body;
     },
@@ -142,7 +144,7 @@ export class ExpiredIdPage implements OnInit {
   selectAll() {
     this.checkAll = !(this.checkAll);
   }
-  
+
   logScrolling(e) {
     this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
   }
