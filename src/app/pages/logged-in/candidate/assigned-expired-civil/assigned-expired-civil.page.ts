@@ -11,11 +11,12 @@ import { CandidateService } from 'src/app/providers/logged-in/candidate.service'
   styleUrls: ['./assigned-expired-civil.page.scss'],
 })
 export class AssignedExpiredCivilPage implements OnInit {
-  
+
   public borderLimit = false;
 
   public pageCount = 0;
-  public currentPage = 1; 
+  public total = 0;
+  public currentPage = 1;
 
   public searchBar = '';
 
@@ -26,7 +27,7 @@ export class AssignedExpiredCivilPage implements OnInit {
 
   public loading = false;
   public renewLoader: boolean = false;
-  
+
   public checkAll = null;
 
   constructor(
@@ -52,6 +53,7 @@ export class AssignedExpiredCivilPage implements OnInit {
 
       this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
       this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
+      this.total = parseInt(response.headers.get('X-Pagination-Total-Count'));
 
       this.candidatelistData = response.body;
     },
@@ -63,8 +65,8 @@ export class AssignedExpiredCivilPage implements OnInit {
   }
 
   /**
-   * load more data on scroll to bottom 
-   * @param event 
+   * load more data on scroll to bottom
+   * @param event
    */
   doInfinite(event) {
     this.loading = true;
@@ -86,7 +88,7 @@ export class AssignedExpiredCivilPage implements OnInit {
       }
     );
   }
-  
+
   /**
    * When its selected
    */
