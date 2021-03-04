@@ -16,10 +16,11 @@
   <div class="container">
     <div class="content">
       <h1>Clients</h1>
-      <ion-badge tappable color="primary" (click)="filterByStatus($event, 4)" [class.active]="filters.status == 4">All clients</ion-badge>
+      <ion-badge tappable color="primary" (click)="filterByStatus($event, 5)" [class.active]="filters.status == 5">All clients</ion-badge>
       <ion-badge tappable color="primary" (click)="filterByStatus($event, 1)" [class.active]="filters.status == 1">Active</ion-badge>
       <ion-badge tappable color="primary" (click)="filterByStatus($event, 2)" [class.active]="filters.status == 2">Inactive</ion-badge>
       <ion-badge tappable color="primary" (click)="filterByStatus($event, 3)" [class.active]="filters.status == 3">Active + 40 days no payment</ion-badge>
+      <ion-badge tappable color="primary" (click)="filterByStatus($event, 4)" [class.active]="filters.status == 4">Active + 40 days no new request</ion-badge>
     </div>
 
     <ion-searchbar debounce="500" placeholder="Type to search" (ionChange)="searchByName($event)"></ion-searchbar>
