@@ -15,105 +15,99 @@
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
 
   <div class="container">
-    
+
     <h2>Hello {{ authService.name }},</h2>
 
     <p class="sub-title">We need to work on the following:</p>
 
     <loading-modal type="stats" [loading]="loading"></loading-modal>
 
-    <div *ngIf="statistics && !loading">
+    <ng-container *ngIf="!loading && statistics">
+      <div *ngIf="statistics.activeRequests > 0">
+        <h3>Recruitment</h3>
+        <ion-card class="stats" tappable (click)="scrollToActive()">
+          <ion-card-content>
+            <div class="count success">{{ statistics.activeRequests }}</div>
+            <div class="message">
 
-      <ion-card class="danger stats" *ngIf="statistics.companyMoreThen40DaysWithoutPayment > 0" tappable (click)="companyList()">
-        <ion-card-content>
-          <div class="count">{{ statistics.companyMoreThen40DaysWithoutPayment }}</div>
-          <div class="message">
-            <b>Urgent! Companies with assigned staff that have not made a payment in 40 days</b>
-          </div>
-        </ion-card-content>
-      </ion-card>
+              <b>Active requests that need an update.</b> These active requests haven't received an update in a while.
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </div>
 
-      <ion-card (click)="showExpiredIDs()" *ngIf="statistics.totalExpiredCards > 0" tappable class="danger stats">
-        <ion-card-content>
-          <div class="count">{{ statistics.totalExpiredCards }}</div>
-          <div class="message">
-            <b>Candidates with expired ID cards</b> that need renewal. Let’s unassign or renew ASAP.
-          </div>
-        </ion-card-content>
-      </ion-card>
+      <div *ngIf="statistics.totalExpiredCards > 0 || statistics.missingBankInfo > 0 || statistics.assignedExpiredCivilID > 0 || statistics.assignedIdleCandidates > 0 || statistics.incompleteAssignedToWork > 0">
+        <h3>Operations</h3>
+        <ion-card (click)="showExpiredIDs()" *ngIf="statistics.totalExpiredCards > 0" tappable class="danger stats">
+          <ion-card-content>
+            <div class="count">{{ statistics.totalExpiredCards }}</div>
+            <div class="message">
+              <b>Candidates with expired ID cards</b> that need renewal. Let’s unassign or renew ASAP.
+            </div>
+          </ion-card-content>
+        </ion-card>
+        <ion-card class="stats" *ngIf="statistics.missingBankInfo > 0" routerLink="/candidate-bank-info-list" tappable>
+          <ion-card-content>
+            <div class="count success">{{ statistics.missingBankInfo }}</div>
+            <div class="message">
+              <b>Candidates missing bank info</b> so we can’t pay them.
+            </div>
+          </ion-card-content>
+        </ion-card>
+        <ion-card class="stats" *ngIf="statistics.assignedExpiredCivilID > 0" routerLink="/assigned-expired-civil" tappable>
+          <ion-card-content>
+            <div class="count success">{{ statistics.assignedExpiredCivilID }}</div>
+            <div class="message">
+              Candidates are assigned to work but have <b>expired civil id.</b>
+            </div>
+          </ion-card-content>
+        </ion-card>
+        <ion-card class="stats" *ngIf="statistics.assignedIdleCandidates > 0" routerLink="/assigned-idle-candidates" tappable>
+          <ion-card-content>
+            <div class="count success">{{ statistics.assignedIdleCandidates }}</div>
+            <div class="message">
+              Candidates are assigned to work but have <b>not received any payments in the past two months.</b>
+            </div>
+          </ion-card-content>
+        </ion-card>
+        <ion-card class="stats" *ngIf="statistics.incompleteAssignedToWork > 0" tappable routerLink="/incomplete-candidate-list">
+          <ion-card-content>
+            <div class="count success">{{ statistics.incompleteAssignedToWork }}</div>
+            <div class="message">
+              Candidates are assigned to work but have <b>incomplete profiles.</b>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </div>
+      <div *ngIf="statistics.companyMoreThen40DaysWithoutPayment > 0 || statistics.requireFollowup > 0 || statistics.last40daysNoRequest > 0">
+        <h3>Sales</h3>
+        <ion-card class="danger stats" *ngIf="statistics.companyMoreThen40DaysWithoutPayment > 0" tappable (click)="companyList()">
+          <ion-card-content>
+            <div class="count">{{ statistics.companyMoreThen40DaysWithoutPayment }}</div>
+            <div class="message">
+              <b>Urgent! Companies with assigned staff that have not made a payment in 40 days</b>
+            </div>
+          </ion-card-content>
+        </ion-card>
 
-      <ion-card class="stats" tappable *ngIf="statistics.activeRequests > 0"  (click)="scrollToActive()">
-        <ion-card-content>
-          <div class="count success">{{ statistics.activeRequests }}</div>
-          <div class="message">
+        <ion-card class="stats" tappable *ngIf="statistics.requireFollowup > 0" routerLink="/company-followup-list">
+          <ion-card-content>
+            <div class="count success">{{ statistics.requireFollowup }}</div>
+            <div class="message">
+              <b>Clients requiring followup.</b> We need to collect feedback and try to up-sell additional services.
+            </div>
+          </ion-card-content>
+        </ion-card>
 
-            <b>Active requests that need an update.</b> These active requests haven't received an update in a while.
-          </div>
-        </ion-card-content>
-      </ion-card>
-
-      <ion-card class="stats" tappable *ngIf="statistics.requireFollowup > 0" routerLink="/company-followup-list">
-        <ion-card-content>
-          <div class="count success">{{ statistics.requireFollowup }}</div>
-          <div class="message">
-            <b>Clients requiring followup.</b> We need to collect feedback and try to up-sell additional services.
-          </div>
-        </ion-card-content>
-      </ion-card>
-
-      <ion-card class="stats" tappable *ngIf="statistics.last40daysNoRequest > 0" routerLink="/view/company-list">
-        <ion-card-content>
-          <div class="count success">{{ statistics.last40daysNoRequest }}</div>
-          <div class="message">
-            <b>Active clients which haven't made a request in over 40 days.</b> Why aren't they making requests?
-          </div>
-        </ion-card-content>
-      </ion-card>
-
-      <ion-card class="stats" *ngIf="statistics.missingBankInfo > 0" routerLink="/candidate-bank-info-list" tappable>
-        <ion-card-content>
-          <div class="count success">{{ statistics.missingBankInfo }}</div>
-          <div class="message">
-            <b>Candidates missing bank info</b> so we can’t pay them.
-          </div>
-        </ion-card-content>
-      </ion-card>
-
-      <ion-card class="stats" *ngIf="statistics.assignedExpiredCivilID > 0" routerLink="/assigned-expired-civil" tappable>
-        <ion-card-content>
-          <div class="count success">{{ statistics.assignedExpiredCivilID }}</div>
-          <div class="message">
-            Candidates are assigned to work but have <b>expired civil id.</b>
-          </div>
-        </ion-card-content>
-      </ion-card>
-
-     <ion-card class="stats" *ngIf="statistics.assignedIdleCandidates > 0" routerLink="/assigned-idle-candidates" tappable>
-        <ion-card-content>
-          <div class="count success">{{ statistics.assignedIdleCandidates }}</div>
-          <div class="message">
-            Candidates are assigned to work but have <b>not received any payments in the past two months.</b>
-          </div>
-        </ion-card-content>
-      </ion-card>
-
-      <ion-card class="stats" *ngIf="statistics.incompleteAssignedToWork > 0" tappable routerLink="/incomplete-candidate-list">
-        <ion-card-content>
-          <div class="count success">{{ statistics.incompleteAssignedToWork }}</div>
-          <div class="message">
-            Candidates are assigned to work but have <b>incomplete profiles.</b>
-          </div>
-        </ion-card-content>
-      </ion-card>
-
-  <!--    <ion-card class="stats" tappable *ngIf="statistics.profileApprovalRequire > 0" routerLink="/candidate-review-list">-->
-  <!--      <ion-card-content>-->
-  <!--        <div class="count warning">{{ statistics.profileApprovalRequire }}</div>-->
-  <!--        <div class="message">-->
-  <!--          Candidates with profile complete requiring their <b>profiles to be reviewed and approved.</b>-->
-  <!--        </div>-->
-  <!--      </ion-card-content>-->
-  <!--    </ion-card>-->
-    </div>
+        <ion-card class="stats" tappable *ngIf="statistics.last40daysNoRequest > 0" routerLink="/view/company-list">
+          <ion-card-content>
+            <div class="count success">{{ statistics.last40daysNoRequest }}</div>
+            <div class="message">
+              <b>Active clients which haven't made a request in over 40 days.</b> Why aren't they making requests?
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </div>
+    </ng-container>
   </div>
 </ion-content>
