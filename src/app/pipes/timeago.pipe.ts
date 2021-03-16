@@ -108,6 +108,7 @@ export class TimeAgoPipe implements PipeTransform, OnDestroy {
    * @param tzString = 'Asia/Kuwait'
    */
 	kuwaitCurrentTime(date, tzString = 'Asia/Kuwait') {
+    
     const time = new Date((typeof date === "string" ? new Date(date) : date).toLocaleString('en-US', {timeZone: tzString}));
     // console.log(date, time);
     return time;
