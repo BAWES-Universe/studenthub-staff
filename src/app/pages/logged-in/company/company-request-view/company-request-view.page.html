@@ -42,7 +42,7 @@
       <p class="txt-additional-info">{{ request.request_compensation }}</p>
 
       <div class="requested-by">
-<!--        Requested by <span class="requested-by-staff" tappable [routerLink]="'/company-contact-view/' + request.contact_uuid">{{ request.contact.contact_name }}</span>-->
+        Requested <ng-container *ngIf="request.contact">by <span class="requested-by-staff" tappable [routerLink]="'/company-contact-view/' + request.contact_uuid">{{ request.contact.contact_name }}</span></ng-container>
         <div class="requested-by-time">on {{ toDate(request.request_created_datetime) | date: 'MMM d, y' }} </div>
       </div>
 

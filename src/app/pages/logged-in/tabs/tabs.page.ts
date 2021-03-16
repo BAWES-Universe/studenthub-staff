@@ -57,7 +57,7 @@ export class TabsPage implements OnInit {
 
     this.internvalSubscribe = setInterval(() => {
       this.loadStats();
-    }, 2 * 1000);//every 2 seconds
+    }, 3 * 1000);//every 3 seconds
   }
 
   ngOnDestroy() {
