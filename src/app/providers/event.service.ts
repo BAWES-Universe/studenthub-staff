@@ -40,4 +40,6 @@ export class EventService {
   public noteUpdated$ = new Subject();
   
   public invitationUpdated$ = new Subject();
+
+  public statistics$ = new Subject();
 }

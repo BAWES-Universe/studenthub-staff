@@ -38,17 +38,32 @@ export class DefaultPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.loadData();
+    this._events.statistics$.subscribe((response: {
+        totalExpiredCards: any;
+        assignedExpiredCivilID: any;
+        activeRequests: any;
+        requireFollowup: any;
+        last40daysNoRequest: any;
+        missingBankInfo: any;
+        incompleteAssignedToWork: any;
+        profileApprovalRequire: any;
+        assignedIdleCandidates: any;
+        companyMoreThen40DaysWithoutPayment: any;
+    }) => {
+      this.statistics = response;
+    });
   }
 
   /**
    * load current data
    */
-  async loadData() {
+  async loadData(loading = true) {
 
-    this.loading = true;
+    if(loading)
+      this.loading = true;
 
     this.statisticService.get().subscribe(response => {
+
       this.statistics = response;
 
       this._events.expiredIdCard$.next({

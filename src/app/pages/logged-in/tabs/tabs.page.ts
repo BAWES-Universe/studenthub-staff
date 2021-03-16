@@ -21,6 +21,8 @@ export class TabsPage implements OnInit {
 
   public totalRequest: any = 0;
 
+  public internvalSubscribe;
+
   constructor(
     public actionSheetCtrl: ActionSheetController,
     public eventService: EventService,
@@ -52,6 +54,15 @@ export class TabsPage implements OnInit {
     this.eventSubscriptions();
 
     this.loadStats();
+
+    this.internvalSubscribe = setInterval(() => {
+      this.loadStats();
+    }, 2 * 1000);//every 2 seconds
+  }
+
+  ngOnDestroy() {
+    clearInterval(this.internvalSubscribe);
+    this.internvalSubscribe = null;
   }
 
   /**
@@ -63,6 +74,15 @@ export class TabsPage implements OnInit {
 
       this.companyFollowUp = response.requireFollowup;
       this.totalRequest = response.totalRequests;
+
+      this.eventService.statistics$.next(response);
+
+      this.eventService.expiredIdCard$.next({
+        assignedExpiredCivilID: response.assignedExpiredCivilID,
+        expiredIdCount: response.totalExpiredCards
+      });
+
+      this.eventService.reviewRequired$.next(response.profileApprovalRequire);
 
       /*
       this.expiredIdCount = response.totalExpiredCards;

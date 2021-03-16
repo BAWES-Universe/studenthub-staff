@@ -61,6 +61,7 @@ export class CompanyRequestViewPage implements OnInit, OnDestroy {
   public backState = null;
 
   public activityExpanded: boolean = false;
+  
   public internvalSubscribe;
 
   constructor(

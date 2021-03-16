@@ -24,6 +24,7 @@
 
     <ng-container *ngIf="!loading && statistics">
       <div *ngIf="statistics.activeRequests > 0">
+        
         <h3>Recruitment</h3>
         <ion-card class="stats" tappable (click)="scrollToActive()">
           <ion-card-content>
