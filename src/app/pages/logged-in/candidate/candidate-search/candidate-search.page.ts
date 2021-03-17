@@ -176,9 +176,9 @@ export class CandidateSearchPage implements OnInit {
       }, (err) => {
       }, () => {
         this.merging = false;
-        this.candidateService.candidates = [];
-        this.candidateIdCardService.candidates = [];
 
+        this.deselect();
+        
         this.refreshCandidates();
       });
     });
@@ -207,7 +207,7 @@ export class CandidateSearchPage implements OnInit {
     }, (err) => {
     }, () => {
       this.downloading = false;
-      this.candidateIdCardService.candidates = [];
+      this.deselect();
     });
   }
 

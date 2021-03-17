@@ -6,6 +6,7 @@ import { Candidate } from 'src/app/models/candidate';
 // service
 import { CandidateService } from 'src/app/providers/logged-in/candidate.service';
 import { AwsService } from 'src/app/providers/aws.service';
+import { EventService } from 'src/app/providers/event.service';
 import { CandidateIdCardService } from 'src/app/providers/logged-in/candidate.id.card.service';
 //pages
 import { CandidateMergeSelectPage } from '../candidate-merge-select/candidate-merge-select.page';
@@ -65,6 +66,7 @@ export class CandidateListPage implements OnInit {
     public activatedRoute: ActivatedRoute,
     public aws: AwsService,
     public candidateIdCardService: CandidateIdCardService,
+    public eventService: EventService,
     public candidateService: CandidateService,
   ) {
   }
@@ -131,8 +133,15 @@ export class CandidateListPage implements OnInit {
     }, (err) => {
     }, () => {
       this.downloading = false;
-      this.candidateIdCardService.candidates = [];
+      this.deselect();
     });
+  }
+
+  deselect() {
+    this.candidateService.candidates = [];
+    this.candidateIdCardService.candidates = [];
+
+    this.eventService.clearCandidateSelection$.next();
   }
 
   /**
@@ -176,8 +185,7 @@ export class CandidateListPage implements OnInit {
       }, (err) => {
       }, () => {
         this.merging = false;
-        this.candidateService.candidates = [];
-        this.candidateIdCardService.candidates = [];
+        this.deselect();
         this.loadData(this.currentPage);
       });
     });

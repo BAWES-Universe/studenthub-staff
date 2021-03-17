@@ -7,6 +7,7 @@ import { Candidate } from 'src/app/models/candidate';
 import { CandidateService } from 'src/app/providers/logged-in/candidate.service';
 import { AwsService } from 'src/app/providers/aws.service';
 import { CandidateIdCardService } from 'src/app/providers/logged-in/candidate.id.card.service';
+import { EventService } from 'src/app/providers/event.service';
 
 
 @Component({
@@ -36,6 +37,7 @@ export class IncompleteCandidateListPage implements OnInit {
     public aws: AwsService,
     public candidateIdCardService: CandidateIdCardService,
     public candidateService: CandidateService,
+    public eventService: EventService,
     public toastCtrl: ToastController,
     public alertCtrl: AlertController,
   ) {
@@ -66,8 +68,15 @@ export class IncompleteCandidateListPage implements OnInit {
     }, (err) => {
     }, () => {
       this.downloading = false;
-      this.candidateIdCardService.candidates = [];
+      this.deselect();
     });
+  }
+
+  deselect() {
+    this.candidateService.candidates = [];
+    this.candidateIdCardService.candidates = [];
+
+    this.eventService.clearCandidateSelection$.next();
   }
 
   ionViewWillEnter() {
