@@ -65,7 +65,7 @@ export class InvitePage implements OnInit {
   loadRequests() {
     this.loadingRequests = true;
 
-    this.requestService.listActiveRequests('&position_type=2').subscribe(data => {
+    this.requestService.listActiveRequests().subscribe(data => {
 
       this.loadingRequests = false;
 

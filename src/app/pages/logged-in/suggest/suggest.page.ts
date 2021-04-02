@@ -69,9 +69,7 @@ export class SuggestPage implements OnInit {
   loadRequests() {
     this.loadingRequests = true;
 
-    this.requestService
-      .listActiveRequests((this.fulltimer) ? '&position_type=1' : '&position_type=2')
-      .subscribe(data => {
+    this.requestService.listActiveRequests().subscribe(data => {
       this.loadingRequests = false;
 
       this.activeRequests = data;

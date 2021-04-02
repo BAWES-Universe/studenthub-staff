@@ -133,6 +133,7 @@ export class CompanyRequestsPage implements OnInit {
       this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
 
       this.requests = this.requests.concat(response.body);
+      
       this.requestFilter();
     },
       error => { },
@@ -185,9 +186,11 @@ export class CompanyRequestsPage implements OnInit {
    * request filter method
    */
   requestFilter(reset = false) {
+    
     if (reset) {
       this.fullTimeRequests = this.partTimeRequests = [];
     }
+
     if (this.requests && this.requests.length > 0) {
       for (const request of this.requests) {
         if (request.request_position_type == 1) {
@@ -197,6 +200,7 @@ export class CompanyRequestsPage implements OnInit {
         }
       }
     }
+    
     if ((this.requests.length > 0) && this.partTimeRequests.length == 0) {
       this.sections = 'full';
     }
