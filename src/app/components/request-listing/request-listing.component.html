@@ -27,6 +27,38 @@
 
     <small class="time">Request made {{ request.request_created_datetime | timeAgo }} </small><br/>
 
+    <p class="invitation-time" *ngIf="invitation">
+      
+      Invited at {{ toDate(invitation.invitation_created_at) | date: 'MMM d, y, h:mm:ss a' }}, first 
+      
+      <ng-container *ngIf="
+        invitation.invitation_app_seen_at && 
+        (
+          !invitation.invitation_email_seen_at ||
+          toDate(invitation.invitation_app_seen_at) > toDate(invitation.invitation_email_seen_at)
+        )
+        ">
+        saw the invitation via app at {{ toDate(invitation.invitation_app_seen_at) | date: 'MMM d, y, h:mm:ss a' }} 
+        (took her {{ invitation.invitation_created_at | duration : translateService.currentLang : invitation.invitation_app_seen_at }})
+      </ng-container>
+      
+      <ng-container *ngIf="
+        invitation.invitation_email_seen_at && 
+        (
+          !invitation.invitation_app_seen_at || 
+          toDate(invitation.invitation_email_seen_at) > toDate(invitation.invitation_app_seen_at)
+        )
+        "> 
+        saw the invitation via email at {{ toDate(invitation.invitation_email_seen_at) | date: 'MMM d, y, h:mm:ss a' }} 
+        (took her {{ invitation.invitation_created_at | duration : translateService.currentLang : invitation.invitation_email_seen_at }})
+      </ng-container>
+      
+      <ng-container *ngIf="!invitation.invitation_app_seen_at && !invitation.invitation_email_seen_at">
+        Not viewed yet    
+      </ng-container> 
+      
+    </p>
+    
     <ng-container *ngIf="showStatus && invitation">
       <ion-badge *ngIf="invitation && invitation.invitation_status == 1" color="warning">
         Invited
@@ -44,5 +76,6 @@
       <p *ngIf="request.request_status == 'cancelled'">Cancelled {{ request.request_updated_datetime | timeAgo }} </p>
       <p *ngIf="request.request_status == 'started'">Last updated {{ request.request_updated_datetime | timeAgo }} </p>
     </div>
+
   </ion-card-content>
 </ion-card>

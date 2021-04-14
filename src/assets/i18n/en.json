@@ -3,5 +3,10 @@
     "txt_showing_candidates_for": "{{ value }} candidates found",
     "txt_showing_candidates": "{{ value }} candidates found",
     "txt_lives_in": "Lives in <b>{{area}}</b>",
-    "txt_years_old": "{{ value }} years old"
+    "txt_years_old": "{{ value }} years old",
+    "txt_minutes": "{{ value }} minutes",
+    "txt_hours": "{{ value }} hours",
+    "txt_days": "{{ value }} days",
+    "txt_months": "{{ value }} months",
+    "txt_years": "{{ value }} years"
 }

@@ -1,9 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 //services
 import { AuthService } from 'src/app/providers/auth.service';
+import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 //models
 import { Request } from '../../models/request';
-import {Invitation} from "../../models/invitation";
+import { Invitation } from "../../models/invitation";
 
 
 @Component({
@@ -19,7 +20,10 @@ export class RequestListingComponent implements OnInit {
 
   public active = false;
 
-  constructor(public authService: AuthService) {
+  constructor(
+    public authService: AuthService,
+    public translateService: TranslateLabelService
+  ) {
   }
 
   ngOnInit() {
@@ -64,7 +68,7 @@ export class RequestListingComponent implements OnInit {
   }
 
   kuwaitCurrentTime(date = new Date(), tzString = 'Asia/Kuwait') {
-    const time = new Date((typeof date === "string" ? new Date(date) : date).toLocaleString('en-US', {timeZone: tzString}));
+    const time = new Date((typeof date === "string" ? new Date(date) : date).toLocaleString('en-US', { timeZone: tzString }));
     // console.log(date, time);
     return time;
   }

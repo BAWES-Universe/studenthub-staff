@@ -16,7 +16,8 @@
 
     <ion-avatar slot="start" (click)="openCandidatePage($event)">
       <img *ngIf="model.candidate.candidate_personal_photo"
-        src="{{ aws.cloudinaryUrl + 'candidate-photo/' + model.candidate.candidate_personal_photo }}" onerror="this.src='/assets/icon/icon.png';">
+        src="{{ aws.cloudinaryUrl + 'candidate-photo/' + model.candidate.candidate_personal_photo }}"
+        onerror="this.src='/assets/icon/icon.png';">
       <img *ngIf="!model.candidate.candidate_personal_photo" src="/assets/icon/icon.png">
     </ion-avatar>
 
@@ -30,11 +31,47 @@
     {{ model.invitation_created_at | timeAgo }} on
     {{ toDate(model.invitation_created_at) | date: 'MMM d, y' }}
   </p>
+
+  <p class="invitation-time" *ngIf="model">
+
+    first
+
+    <ng-container *ngIf="
+        model.invitation_app_seen_at && 
+        (
+          !model.invitation_email_seen_at ||
+          toDate(model.invitation_app_seen_at) > toDate(model.invitation_email_seen_at)
+        )
+        ">
+      saw the invitation via app at {{ toDate(model.invitation_app_seen_at) | date: 'MMM d, y, h:mm:ss a' }}
+      (took her
+      {{ model.invitation_created_at | duration : translateService.currentLang : model.invitation_app_seen_at }})
+    </ng-container>
+
+    <ng-container *ngIf="
+        model.invitation_email_seen_at && 
+        (
+          !model.invitation_app_seen_at || 
+          toDate(model.invitation_email_seen_at) > toDate(model.invitation_app_seen_at)
+        )
+        ">
+      saw the invitation via email at {{ toDate(model.invitation_email_seen_at) | date: 'MMM d, y, h:mm:ss a' }}
+      (took her
+      {{ model.invitation_created_at | duration : translateService.currentLang : model.invitation_email_seen_at }})
+    </ng-container>
+
+    <ng-container *ngIf="!model.invitation_app_seen_at && !model.invitation_email_seen_at">
+      Not viewed yet
+    </ng-container>
+
+  </p>
+
 </ion-card>
 
 <!-- move to suggestion if not suggested and accepted -->
 
-<ion-button *ngIf="!model.is_suggested && model.invitation_status == 3" class="btn-suggestion" (click)="suggest($event)">
+<ion-button *ngIf="!model.is_suggested && model.invitation_status == 3" class="btn-suggestion"
+  (click)="suggest($event)">
   Move to suggestion
 </ion-button>
 

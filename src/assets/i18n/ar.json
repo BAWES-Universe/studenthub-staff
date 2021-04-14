@@ -1,3 +1,14 @@
 {
-    "txt_view_candidates": "عرض {{value}} المرشحين"
+    "txt_view_candidates": "عرض {{ value }} المرشحين",
+    "txt_minutes": "{{value}} دقيقة",
+    "txt_hours": "{{ value }} ساعة",
+    "txt_days": "{{ value }} يوم",
+    "txt_months": "{{value}} شهر",
+    "txt_years": "{{ value }} سنة",
+    "a few seconds": "بضع ثوان",
+    "a minute": "دقيقة",
+    "an hour": "ساعة",
+    "a day": "يوم",
+    "a month": "شهر",
+    "a year": "سنة"
 }

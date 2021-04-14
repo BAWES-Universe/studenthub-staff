@@ -16,10 +16,12 @@ export class TimeAgoPipe implements PipeTransform, OnDestroy {
 
 	transform(value: string) {
     this.removeTimer();
+
       const d = (value) ? new Date(value.replace(/ /g,'T')) : this.kuwaitCurrentTime(new Date());
       // console.log(value,  new Date(value.replace(/ /g,'T') ));
       // const d = (value) ? new Date(value) : this.kuwaitCurrentTime(new Date());
       const utcTimeNow = this.kuwaitCurrentTime(new Date());
+
       // console.log(d, utcTimeNow);
       // console.log(utcTimeNow.getTime(), d.getTime());
       // console.log(utcTimeNow.getTime() - d.getTime());
@@ -78,14 +80,14 @@ export class TimeAgoPipe implements PipeTransform, OnDestroy {
 
 	ngOnDestroy(): void {
 		this.removeTimer();
-    }
+  }
 
 	public removeTimer() {
 		if (this.timer) {
 			window.clearTimeout(this.timer);
 			this.timer = null;
 		}
-    }
+  }
 
 	public getSecondsUntilUpdate(seconds: number) {
 		const min = 60;
