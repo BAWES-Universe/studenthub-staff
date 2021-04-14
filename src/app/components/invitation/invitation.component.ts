@@ -8,6 +8,7 @@ import { AuthService } from 'src/app/providers/auth.service';
 import { AwsService } from 'src/app/providers/aws.service';
 import { InvitationService } from 'src/app/providers/logged-in/invitation.service';
 import { SuggestionService } from 'src/app/providers/logged-in/suggestion.service';
+import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 
 
 @Component({
@@ -29,6 +30,7 @@ export class InvitationComponent implements OnInit {
     public router: Router,
     public aws: AwsService,
     public authService: AuthService,
+    public translateService: TranslateLabelService,
     public suggestionService: SuggestionService,
     public invitationService: InvitationService
   ) { }
