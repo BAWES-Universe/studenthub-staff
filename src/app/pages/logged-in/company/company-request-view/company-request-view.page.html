@@ -4,6 +4,12 @@
       <ion-back-button icon="assets/images/ic_cancel.svg" defaultHref="/view/tasks"></ion-back-button>
     </ion-buttons>
 
+
+    <ion-button fill="clear" (click)="update()" slot="end" class="btn-update"
+      *ngIf="request && ['delivered', 'cancelled'].indexOf(request.request_status) == -1">
+      Update
+    </ion-button>
+
     <ion-button fill="clear" (click)="cancelledRequest($event, request)" slot="end" class="btn-cancel"
       *ngIf="request && request.request_status == 'started'">
       Cancel Request

@@ -20,9 +20,14 @@
     <form [formGroup]="form" *ngIf="form">
 
     <ion-list>
-      <ion-item tappable (click)="openClient($event)">
+      <ion-item tappable (click)="openClient($event)" *ngIf="!model.request_uuid">
         <ion-label position="floating">Contact</ion-label>
         <ion-input type="text" formControlName="contact_name" readonly></ion-input>
+      </ion-item>
+      
+      <ion-item *ngIf="model.request_uuid">
+        <ion-label position="floating">Contact</ion-label>
+        <ion-input type="text" formControlName="contact_name" disabled></ion-input>
       </ion-item>
     </ion-list>
 
@@ -91,7 +96,7 @@
   </form>
   </div>
 </ion-content>
-<ion-footer>
+<ion-footer *ngIf="!model.request_uuid">
   <ion-grid>
     <ion-row>
       <ion-col>
@@ -100,7 +105,7 @@
           <ion-spinner *ngIf="saving"></ion-spinner>
         </ion-button>
       </ion-col>
-      <ion-col>
+      <ion-col> 
         <ion-button (click)="resetForm();">Reset</ion-button>
       </ion-col>
     </ion-row>

@@ -171,11 +171,6 @@ export class CompanyRequestsPage implements OnInit {
       }
 
       if(e.data && e.data.refresh) {
-
-        this.eventService.reloadStats$.next({
-          company_id: this.company.company_id
-        });
-
         this.loadRequests(this.currentPage);
       }
     });

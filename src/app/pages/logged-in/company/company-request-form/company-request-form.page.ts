@@ -43,13 +43,14 @@ export class CompanyRequestFormPage implements OnInit {
   }
 
   ngOnInit() {
+
     if (this.request) {
       this.model = this.request;
     }
 
     this.form = this.fb.group({
       company_id: [this.company ? this.company.company_id : null, Validators.required],
-      contact_name: [(this.model.contact) ? this.model.contact : '', Validators.required],
+      contact_name: [(this.model.contact) ? this.model.contact.contact_name : '', Validators.required],
       contact_uuid: [this.model.contact_uuid, Validators.required],
       position_type: [this.model.request_position_type + '', Validators.required],
       position_title: [this.model.request_position_title, Validators.required],
@@ -96,6 +97,7 @@ export class CompanyRequestFormPage implements OnInit {
     this.updateModelDataFromForm();
 
     let action;
+
     if (!this.model.request_uuid) {
       // Create
       action = this.requestService.create(this.model);
@@ -152,7 +154,7 @@ export class CompanyRequestFormPage implements OnInit {
     }
 
     popover.onDidDismiss().then((_) => {
-      console.log(_);
+      
       if (_ && _.data && _.data.contact) {
         this.form.controls.contact_name.setValue(_.data.contact.contact_name);
         this.form.controls.contact_uuid.setValue(_.data.contact.contact_uuid);

@@ -38,7 +38,9 @@
       <span *ngIf="!filters.endDate">Select End Date</span>
       <span *ngIf="filters.endDate">Selected  : {{filters.endDate}}</span>
     </ion-button>
+    
     <ion-button fill="clear" (click)="clearfilter()" *ngIf="filters.endDate"><ion-icon name="refresh-outline"></ion-icon></ion-button>
+    
     <ion-list>
 
       <request-listing *ngFor="let request of requests" tappable (click)="requestDetail(request)"

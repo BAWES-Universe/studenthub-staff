@@ -192,6 +192,7 @@ ion-back-button {
     border-color: #6fcf97;
 }
 
+.btn-update,
 .btn-cancel {
     height: 30px;
     font-size: 18px;
@@ -204,6 +205,10 @@ ion-back-button {
     text-transform: none;
     --color: #eb5757;
     margin-right: 10px;
+}
+
+.btn-update {
+    --color: var(--ion-color-primary);
 }
 
 ion-footer {
