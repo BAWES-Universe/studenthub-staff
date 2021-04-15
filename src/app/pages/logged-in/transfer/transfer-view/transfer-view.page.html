@@ -69,12 +69,12 @@
           </ion-col>
           <ion-col size-lg="2" size-md="2" size-sm="6" size-xs="6" class="ion-align-self-center">
             <b>Start Date</b> <br />
-            <span *ngIf="transfer.start_date">{{ transfer.start_date | date}}</span>
+            <span *ngIf="transfer.start_date">{{ toDate(transfer.start_date) | date}}</span>
             <span *ngIf="!transfer.start_date">-</span>
           </ion-col>
           <ion-col size-lg="2" size-md="2" size-sm="6" size-xs="6" class="ion-align-self-center">
             <b>End Date</b> <br />
-            <span>{{ transfer.end_date | date}}</span>
+            <span>{{ toDate(transfer.end_date) | date}}</span>
             <span *ngIf="!transfer.end_date">-</span>
           </ion-col>
           <ion-col size-lg="2" size-md="2" size-sm="6" size-xs="6" class="ion-align-self-center">

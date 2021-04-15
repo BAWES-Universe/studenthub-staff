@@ -309,6 +309,16 @@ export class ImportTransferFormPage implements OnInit {
     this.start_date = this.end_date = null;
   }
 
+  /**
+   * Make date readable by Safari
+   * @param date
+   */
+   toDate(date) {
+    if (date) {
+      return new Date(date.replace(/-/g, '/'));
+    }
+  }
+  
   dismiss(data = {}) {
     this.modalCtrl.dismiss(data);
   }

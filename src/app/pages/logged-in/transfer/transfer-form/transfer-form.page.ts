@@ -396,6 +396,16 @@ export class TransferFormPage implements OnInit {
     }
   }
 
+  /**
+   * Make date readable by Safari
+   * @param date
+   */
+   toDate(date) {
+    if (date) {
+      return new Date(date.replace(/-/g, '/'));
+    }
+  }
+  
   clearSelection() {
     this.transfer.start_date = this.transfer.end_date = null;
   }
