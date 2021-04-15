@@ -38,7 +38,7 @@
             <ion-col tappable size="11" (click)="detail(obj)">
               <ion-label class="candidate_name">
                 {{ obj.candidate_name? obj.candidate_name: obj.candidate_name_ar }}
-                <br/><small *ngIf="obj.candidateIdCard">Expired On : {{obj.candidateIdCard.expiry_date | date}}</small>
+                <br/><small *ngIf="obj.candidateIdCard">Expired On : {{ toDate(obj.candidateIdCard.expiry_date) | date}}</small>
               </ion-label>
             </ion-col>
             <ion-col size="1">

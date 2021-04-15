@@ -24,8 +24,8 @@
       <ion-button *ngIf="!transfer.start_date || !transfer.end_date" (click)="openCalendar()">Please select the date Range</ion-button>
 
       <p *ngIf="this.transfer.start_date && this.transfer.end_date">
-        From <span *ngIf="this.transfer.start_date">{{this.transfer.start_date | date}}</span> - To
-        <span *ngIf="this.transfer.end_date">{{this.transfer.end_date | date}}</span>
+        From <span *ngIf="this.transfer.start_date">{{ toDate(this.transfer.start_date) | date}}</span> - To
+        <span *ngIf="this.transfer.end_date">{{ toDate(this.transfer.end_date) | date}}</span>
 
         <ion-button class="btn-clear-date-range" fill="clear" (click)="clearSelection()">
           <ion-icon slot="icon-only" name="close-outline"></ion-icon>

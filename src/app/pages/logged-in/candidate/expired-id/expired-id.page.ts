@@ -145,6 +145,16 @@ export class ExpiredIdPage implements OnInit {
     this.checkAll = !(this.checkAll);
   }
 
+  /**
+   * Make date readable by Safari
+   * @param date
+   */
+   toDate(date) {
+    if (date) {
+      return new Date(date.replace(/-/g, '/'));
+    }
+  }
+  
   logScrolling(e) {
     this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
   }

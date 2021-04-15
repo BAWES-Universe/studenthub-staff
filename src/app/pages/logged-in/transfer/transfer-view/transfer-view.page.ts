@@ -338,6 +338,16 @@ export class TransferViewPage implements OnInit {
     this.modalCtrl.dismiss();
   }
 
+  /**
+   * Make date readable by Safari
+   * @param date
+   */
+   toDate(date) {
+    if (date) {
+      return new Date(date.replace(/-/g, '/'));
+    }
+  }
+  
   loadLogo($event, candidate) {
     candidate.candidate_personal_photo = null;
   }
