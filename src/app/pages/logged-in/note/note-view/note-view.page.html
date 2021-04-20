@@ -32,7 +32,13 @@
         </ion-badge>
 
         <p class="note">
-          <b *ngIf="note.updatedBy" [routerLink]="'/team-view/' + note.updatedBy.staff_id">{{ note.updatedBy.staff_name }}:&nbsp;</b>
+
+          <b *ngIf="note.updatedBy && note.updatedBy.staff_id" [routerLink]="'/team-view/' + note.updatedBy.staff_id">{{ note.updatedBy.staff_name }}:&nbsp;</b>
+          
+          <b *ngIf="note.updatedBy && note.updatedBy.candidate_id" [routerLink]="'/candidate-view/' + note.updatedBy.candidate_id">
+            {{ model.updatedBy.candidate_name }}:&nbsp;
+          </b>
+
           <span [innerHTML]="note.note_text"></span>
         </p>
 
