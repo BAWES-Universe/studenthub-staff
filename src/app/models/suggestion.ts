@@ -18,6 +18,6 @@ export class Suggestion {
     candidate: Candidate;
     fulltimer: Fulltimer;
     request: Request;
-    createdBy: Staff;
-    updatedBy: Staff;
+    createdBy: any;
+    updatedBy: any;
 }
