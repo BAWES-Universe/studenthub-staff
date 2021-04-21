@@ -1,6 +1,6 @@
 <ion-header [class.add-border]="borderLimit" class="ion-no-border">
   <ion-toolbar class="container">
-    <ion-title>Active Requests</ion-title>
+    <ion-title>Active Requests ({{total}})</ion-title>
     <ion-buttons slot="end">
       <ion-button routerLink="/company-request-list">View Older</ion-button>
     </ion-buttons>
@@ -9,22 +9,9 @@
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
   <div class="container">
-    <!-- Default Segment -->
-    <ion-segment [(ngModel)]="section" [value]="section" (ionChange)="segmentChange($event)">
-      <ion-segment-button value="part">
-        <ion-label>Part Time <span class="ion-badge" *ngIf="partTimeRequests">{{partTotal}}</span></ion-label>
-      </ion-segment-button>
-      <ion-segment-button value="full">
-        <ion-label>Full Time <span class="ion-badge" *ngIf="fullTimeRequests">{{fullTotal}}</span></ion-label>
-      </ion-segment-button>
-    </ion-segment>
 
-    <ng-container *ngIf="section == 'part'">
-      <request-listing *ngFor="let request of partTimeRequests" tappable (click)="requestDetail(request)"
-                       [request]="request" [showStatus]="false"></request-listing>
-    </ng-container>
-    <ng-container *ngIf="section == 'full'">
-      <request-listing *ngFor="let request of fullTimeRequests" tappable (click)="requestDetail(request)"
+    <ng-container>
+      <request-listing *ngFor="let request of activeRequests" tappable (click)="requestDetail(request)"
                        [request]="request" [showStatus]="false"></request-listing>
     </ng-container>
 

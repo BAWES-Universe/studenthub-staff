@@ -1,7 +1,7 @@
 <ion-header [class.add-border]="borderLimit" class="ion-no-border">
   <ion-toolbar  class="container">
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/candidate-list"></ion-back-button>
+      <ion-back-button defaultHref="/candidate-search"></ion-back-button>
     </ion-buttons>
 
     <ion-buttons slot="end">
@@ -114,22 +114,24 @@
 
                 <h5 class="heading" *ngIf="workHistory.length > 0">StudentHub Assignments</h5>
 
-                <ion-item *ngFor="let history of workHistory" lines="none">
-                  <div tabindex="0"></div>
-                  <label *ngIf="history.store" tappable (click)="openWorkPlace(history)">
-                    <h5 *ngIf="history.store">{{ history.store.store_name }} @ {{ history.company.company_name }}</h5>
+                <ng-container *ngFor="let history of workHistory">
+                  <ion-item lines="none" *ngIf="history.store">
+                    <div tabindex="0"></div>
+                    <label tappable (click)="openWorkPlace(history)">
+                      <h5 *ngIf="history.store">{{ history.store.store_name }} @ {{ history.company.company_name }}</h5>
 
-                    <h5 *ngIf="!history.store">@ {{ history.company.company_name }}</h5>
-                    <ng-container *ngIf="history.end_date">{{ toDate(history.end_date) | date }}</ng-container>
-
-                    <p>
-                      {{ toDate(history.start_date) | date }} to
+                      <h5 *ngIf="!history.store">@ {{ history.company.company_name }}</h5>
                       <ng-container *ngIf="history.end_date">{{ toDate(history.end_date) | date }}</ng-container>
-                      <ng-container *ngIf="!history.end_date">now</ng-container>
-                    </p>
-                  </label>
-                  <ion-button slot="end" (click)="downloadCertification(history)"><ion-icon name="cloud-download-outline"></ion-icon>&nbsp;Certificate</ion-button>
-                </ion-item>
+
+                      <p>
+                        {{ toDate(history.start_date) | date }} to
+                        <ng-container *ngIf="history.end_date">{{ toDate(history.end_date) | date }}</ng-container>
+                        <ng-container *ngIf="!history.end_date">now</ng-container>
+                      </p>
+                    </label>
+                    <ion-button slot="end" (click)="downloadCertification(history)"><ion-icon name="cloud-download-outline"></ion-icon>&nbsp;Certificate</ion-button>
+                  </ion-item>
+                </ng-container>
               </div>
 
               <div class="suggestion-wrapper">
@@ -417,12 +419,6 @@
         <ion-button class="btn-unassign" [disabled]="unassinging" (click)="unassignCandidateFromStore()">
           <span *ngIf="!unassinging">Unassign from {{ candidate.store.store_name }}</span>
           <ion-spinner *ngIf="unassinging"></ion-spinner>
-        </ion-button>
-      </ion-col>
-
-      <ion-col *ngIf="candidate.isProfileCompleted">
-        <ion-button class="btn-suggest" (click)="suggest()">
-          Suggest for client request
         </ion-button>
       </ion-col>
 

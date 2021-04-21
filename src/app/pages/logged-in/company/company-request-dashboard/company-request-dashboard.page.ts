@@ -23,19 +23,11 @@ export class CompanyRequestDashboardPage implements OnInit {
   public activeRequests: Request[] = [];
 
   public scrollPosition = 0;
-  public partTimeRequests: Request[] = [];
-  public fullTimeRequests: Request[] = [];
 
+  public total = 0;
   public pageCount = 0;
   public currentPage = 1;
 
-  public partTotal = 0;
-  public partPageCount = 0;
-  public partCurrentPage = 1;
-
-  public fullTotal = 0;
-  public fullPageCount = 0;
-  public fullCurrentPage = 1;
 
   public section = 'part';
 
@@ -63,35 +55,19 @@ export class CompanyRequestDashboardPage implements OnInit {
   }
 
   loadAllRequest() {
-    this.loadPartTimeRequests();
-    this.loadFullTimeRequests();
+    this.loadRequests();
   }
 
   /**
    * load part time request
    */
-  loadPartTimeRequests() {
-    this.requestService.listActiveWithPages(1, '&position_type=2').subscribe(response => {
-      this.partTimeRequests = response.body;
-      this.partPageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
-      this.partCurrentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
-      this.partTotal = parseInt(response.headers.get('X-Pagination-Total-Count'));
+  loadRequests() {
+    this.requestService.listActiveWithPages(1, '&followup_interval=1').subscribe(response => {
+      this.activeRequests = response.body;
+      this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
+      this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
+      this.total = parseInt(response.headers.get('X-Pagination-Total-Count'));
       this.loading = false;
-      this.segmentChange();
-    });
-  }
-
-  /**
-   * load Full time request
-   */
-  loadFullTimeRequests() {
-    this.requestService.listActiveWithPages(1, '&position_type=1').subscribe(response => {
-      this.fullPageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
-      this.fullCurrentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
-      this.fullTotal = parseInt(response.headers.get('X-Pagination-Total-Count'));
-      this.fullTimeRequests = response.body;
-      this.loading = false;
-      this.segmentChange();
     });
   }
 
@@ -111,20 +87,6 @@ export class CompanyRequestDashboardPage implements OnInit {
     });
   }
 
-  urlParams() {
-    return (this.section == 'full')  ? '&position_type=1' : '&position_type=2';
-  }
-
-  segmentChange($event = null) {
-    if (this.section == 'full') {
-      this.currentPage = this.fullCurrentPage;
-      this.pageCount = this.fullPageCount;
-    } else {
-      this.currentPage = this.partCurrentPage;
-      this.pageCount = this.partPageCount;
-    }
-  }
-
   /**
    * load more on scroll to bottom
    * @param event
@@ -134,18 +96,11 @@ export class CompanyRequestDashboardPage implements OnInit {
     this.loading = true;
 
     this.currentPage++;
-    this.requestService.listActiveWithPages(this.currentPage, this.urlParams()).subscribe(response => {
-
-        if (this.section == 'full') {
-          this.fullTimeRequests = this.fullTimeRequests.concat(response.body);
-          this.fullPageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
-          this.fullCurrentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
-        } else  {
-          this.partTimeRequests = this.partTimeRequests.concat(response.body);
-          this.partPageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
-          this.partCurrentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
-        }
-        this.segmentChange();
+    this.requestService.listActiveWithPages(this.currentPage).subscribe(response => {
+        this.activeRequests = this.activeRequests.concat(response.body);
+        this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
+        this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
+        this.total = parseInt(response.headers.get('X-Pagination-Total-Count'));
       },
       error => { },
       () => {

@@ -39,7 +39,15 @@
   <!-- for old data -->
 
   <p class="activity" *ngIf="!model.feedback">
-    <span class="staff-name" *ngIf="model.updatedBy" [routerLink]="'/team-view/' + model.updatedBy.staff_id">{{ model.updatedBy.staff_name }}:&nbsp;</span>
+    
+    <span class="staff-name" *ngIf="model.updatedBy && model.updatedBy.staff_id" [routerLink]="'/team-view/' + model.updatedBy.staff_id">
+      {{ model.updatedBy.staff_name }}:&nbsp;
+    </span>
+    
+    <span class="staff-name" *ngIf="model.updatedBy && model.updatedBy.candidate_id" [routerLink]="'/candidate-view/' + model.updatedBy.candidate_id">
+      {{ model.updatedBy.candidate_name }}:&nbsp;
+    </span>
+
     <span *ngIf="model.suggestion_status == 1">I suggested&nbsp;</span>
     <span *ngIf="model.suggestion_status == 3">Client accepted&nbsp;</span>
     <span *ngIf="model.suggestion_status == 2">Client rejected&nbsp;</span>
@@ -49,7 +57,9 @@
   </p>
 
   <p class="activity" *ngIf="model.feedback">
-    <span class="staff-name" *ngIf="model.feedback.updatedBy">{{ model.feedback.updatedBy.staff_name }}:&nbsp;</span>
+    <span class="staff-name" *ngIf="model.feedback.updatedBy">
+      {{ model.feedback.updatedBy.staff_name? model.feedback.updatedBy.staff_name: model.feedback.updatedBy.candidate_name }}:&nbsp;
+    </span>
     <ng-container *ngIf="model.feedback.note_type == 'Suggested'" > I <span class="note-tpye"> {{ model.feedback.note_type }}&nbsp;</span></ng-container>
     <ng-container *ngIf="model.feedback.note_type != 'Suggested'" > Client <span class="note-tpye">  {{ model.feedback.note_type }}&nbsp;</span></ng-container>
     <span class="candidate_name" *ngIf="model.candidate">&nbsp;{{ model.candidate.candidate_name ?model.candidate.candidate_name : model.candidate.candidate_name_ar }}</span>

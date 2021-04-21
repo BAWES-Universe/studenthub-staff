@@ -21,6 +21,7 @@ export class Request {
     request_status: any;
     // request_status: Status;
     request_feedback: string;
+    num_hours_followup_interval: number;
     request_created_datetime: string;
     request_updated_datetime: string;
     requestCreatedBy: Staff;

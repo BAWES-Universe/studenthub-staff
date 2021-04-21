@@ -25,6 +25,6 @@ export class Note {
     fulltimer: Fulltimer;
     company: Company;
     request: Request;
-    createdBy: Staff;
-    updatedBy: Staff;
+    createdBy: any;
+    updatedBy: any;
 }

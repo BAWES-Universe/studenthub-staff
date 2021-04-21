@@ -27,11 +27,11 @@
       <ion-badge slot="end" color="success" *ngIf="request.company && request.company.company_approved_to_hire">
         <ion-icon name="checkmark-outline"></ion-icon> Approved to hire
       </ion-badge>
-      
+
       <ion-badge slot="end" color="warning" *ngIf="request.company && !request.company.company_approved_to_hire">
         <ion-icon name="close-outline"></ion-icon> Not approved to hire
       </ion-badge>
-  
+
       <h4 class="company-name" tappable [routerLink]="'/company-view/' + request.company_id">
         {{ request.company.company_common_name_en? request.company.company_common_name_en: request.company.company_name }}
       </h4>
@@ -55,6 +55,9 @@
       <p class="txt-additional-info">{{ request.request_job_description }}</p>
       <p class="txt-additional-info">{{ request.request_compensation }}</p>
 
+      <p *ngIf="updatingInterval" class="txt-additional-info">Number of Hours to Followup Interval: <ion-spinner></ion-spinner></p>
+      <p *ngIf="!updatingInterval && request.num_hours_followup_interval" class="txt-additional-info">Number of Hours to Followup Interval: <strong>{{request.num_hours_followup_interval}} hours</strong> &nbsp;&nbsp;&nbsp;<ion-badge tappable (click)="updateValue($event)" color="primary">Update Interval</ion-badge></p>
+
       <div class="requested-by">
         Requested <ng-container *ngIf="request.contact">by <span class="requested-by-staff" tappable [routerLink]="'/company-contact-view/' + request.contact_uuid">{{ request.contact.contact_name }}</span></ng-container>
         <div class="requested-by-time">on {{ toDate(request.request_created_datetime) | date: 'MMM d, y' }} </div>
@@ -73,7 +76,7 @@
           <span *ngIf="activityExpanded">Collapse</span>
         </ion-button>
       </div>
-     
+
       <div *ngIf="invitedCandidates.length > 0">
         <h4 class="txt-suggested-candidates">Invited Candidates ({{ invitedCandidates.length }})</h4>
 
@@ -111,7 +114,7 @@
 
         <suggestion tappable [routerLink]="'/suggestion-view/' + suggestion.suggestion_uuid" (onUpdate)="onSuggestionUpdate()" *ngFor="let suggestion of acceptedSuggestions" [model]="suggestion"></suggestion>
       </div>
-      
+
     </div>
   </div>
 

@@ -82,6 +82,18 @@ export class CompanyRequestService {
   }
 
   /**
+   * cancel request
+   * @param param
+   */
+  updateInterval(param): Observable<any> {
+    const url = `${this.companyRequestEndpoint}/update-interval/${param.request_uuid}`;
+    return this.authhttp.patch(url, {
+      hours: param.num_hours_followup_interval,
+      reason: param.reason
+    });
+  }
+
+  /**
    * deliver request
    * @param model
    */
@@ -139,7 +151,7 @@ export class CompanyRequestService {
 
   /**
    * check if request updated
-   * @param request_uuid 
+   * @param request_uuid
    */
   isRequestUpdated(request_uuid) : Observable<any> {
     let url = this.companyRequestEndpoint + '/is-request-updated/' + request_uuid;

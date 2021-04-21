@@ -5,7 +5,7 @@
         <ion-icon name="close"></ion-icon>
       </ion-button>
     </ion-buttons>
-  
+
     <ion-title>Invite this profile</ion-title>
 
     <ion-buttons slot="end">
@@ -25,12 +25,15 @@
 
         <h5>Select Request </h5>
 
-        <request-listing (click)="selectRequest(request)" *ngFor="let request of activeRequests" tappable 
+      <ion-searchbar (ionChange)="onSearchInput($event)" [value]="query">
+      </ion-searchbar>
+
+        <request-listing (click)="selectRequest(request)" *ngFor="let request of activeRequestsData" tappable
           [request]="request" [showStatus]="false"></request-listing>
 
     </ion-list>
 
   </form>
-  
+
 </ion-content>
 

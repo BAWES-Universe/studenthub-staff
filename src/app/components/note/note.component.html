@@ -6,7 +6,7 @@
   </ion-badge>
 
   <p class="note">
-    <b *ngIf="note.updatedBy">{{ note.updatedBy.staff_name }}:&nbsp;</b>
+    <b *ngIf="note.updatedBy">{{ note.updatedBy.staff_name? note.updatedBy.staff_name: note.updatedBy.candidate_name }}:&nbsp;</b>
     <ng-container *ngIf="note.note_text.length > 100"><span [innerHTML]="note.note_text | slice:0:100"></span>...</ng-container>
     <ng-container *ngIf="note.note_text.length < 100"><span [innerHTML]="note.note_text"></span></ng-container>
   </p>
