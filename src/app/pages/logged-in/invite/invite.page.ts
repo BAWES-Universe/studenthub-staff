@@ -52,13 +52,39 @@ export class InvitePage implements OnInit {
     this.form = this.fb.group({
       request_uuid: ['', Validators.required],
       candidate_id: [this.candidate ? this.candidate.candidate_id : null],
+      reason: ['', Validators.required],
     });
   }
 
-  selectRequest(request) {
-    this.form.controls.request_uuid.setValue(request.request_uuid);
-    this.form.controls.request_uuid.markAsDirty();
-    this.save();
+  async selectRequest(request) {
+      const confirm = await this.alertCtrl.create({
+        header: 'Please provide feedback',
+        inputs: [
+          {
+            name: 'feedback',
+            type: 'textarea',
+            placeholder: 'Reason'
+          }
+        ],
+        buttons: [
+          {
+            text: 'Cancel',
+            handler: () => {
+              // Handle the functionality when user click on 'cancel' button
+            }
+          },
+          {
+            text: 'Ok',
+            handler: async (data) => {
+              this.form.controls.reason.setValue(data.feedback);
+              this.form.controls.request_uuid.setValue(request.request_uuid);
+              this.form.controls.request_uuid.markAsDirty();
+              this.save();
+            }
+          }
+        ]
+      });
+      confirm.present();
   }
 
   /**

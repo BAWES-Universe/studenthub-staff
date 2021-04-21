@@ -62,49 +62,72 @@ export class InvitationComponent implements OnInit {
   /**
    * move to suggestion
    */
-  suggest(ev) {
+  async suggest(ev) {
 
     if (this.model.is_suggested) {
       return false;
     }
+    const confirm = await this.alertCtrl.create({
+      header: 'Please provide feedback',
+      inputs: [
+        {
+          name: 'feedback',
+          type: 'textarea',
+          placeholder: 'Reason'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: () => {
+            // Handle the functionality when user click on 'cancel' button
+          }
+        },
+        {
+          text: 'Ok',
+          handler: async (data) => {
+            this.loading = true;
 
-    this.loading = true;
+            const param = {
+              suggestion: data.feedback,
+              request_uuid: this.model.request_uuid,
+              fulltimer_uuid: null,
+              candidate_id: this.model.candidate_id
+            };
 
-    const param = {
-      suggestion: 'Candidate Suggestion',
-      request_uuid: this.model.request_uuid,
-      fulltimer_uuid: null,
-      candidate_id: this.model.candidate_id
-    };
+            this.suggestionService.create(param).subscribe(async response => {
 
-    this.suggestionService.create(param).subscribe(async response => {
+              this.loading = false;
 
-      this.loading = false;
+              // On Success
+              if (response.operation == 'success') {
 
-      // On Success
-      if (response.operation == 'success') {
+                this.model.is_suggested = true;
 
-        this.model.is_suggested = true;
+                this.onUpdate.emit();
 
-        this.onUpdate.emit();
+                const prompt = await this.alertCtrl.create({
+                  message: 'Suggested successfully',
+                  buttons: ['Okay']
+                });
+                prompt.present();
+              }
 
-        const prompt = await this.alertCtrl.create({
-          message: 'Suggested successfully',
-          buttons: ['Okay']
-        });
-        prompt.present();
-      }
-
-      // On Failure
-      if (response.operation == 'error') {
-        const prompt = await this.alertCtrl.create({
-          message: this.authService.errorMessage(response.message),
-          buttons: ['Okay']
-        });
-        prompt.present();
-      }
-    }, () => {
-      this.loading = false;
+              // On Failure
+              if (response.operation == 'error') {
+                const prompt = await this.alertCtrl.create({
+                  message: this.authService.errorMessage(response.message),
+                  buttons: ['Okay']
+                });
+                prompt.present();
+              }
+            }, () => {
+              this.loading = false;
+            });
+          }
+        }
+      ]
     });
+    confirm.present();
   }
 }

@@ -40,7 +40,8 @@ export class InvitationService {
   create(params) {
     return this._authhttp.post(this._endpoint, {
       request_uuid: params.request_uuid,
-      candidate_id: params.candidate_id
+      candidate_id: params.candidate_id,
+      reason: params.reason
     });
   }
 
