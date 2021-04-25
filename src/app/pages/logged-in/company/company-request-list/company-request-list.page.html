@@ -10,7 +10,7 @@
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
   <div class="container">
     <div class="content">
-      <h1>Clients</h1>
+      <h1>Requests</h1>
       <ion-grid>
         <ion-row>
           <ion-col size-md="6" size-lg="6" size-xs="12" >
@@ -38,9 +38,9 @@
       <span *ngIf="!filters.endDate">Select End Date</span>
       <span *ngIf="filters.endDate">Selected  : {{filters.endDate}}</span>
     </ion-button>
-    
+
     <ion-button fill="clear" (click)="clearfilter()" *ngIf="filters.endDate"><ion-icon name="refresh-outline"></ion-icon></ion-button>
-    
+
     <ion-list>
 
       <request-listing *ngFor="let request of requests" tappable (click)="requestDetail(request)"
@@ -50,7 +50,7 @@
 
     </ion-list>
   </div>
-  
+
   <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
     <ion-infinite-scroll-content></ion-infinite-scroll-content>
   </ion-infinite-scroll>

@@ -120,7 +120,7 @@
 
 </ion-content>
 
-<ion-footer *ngIf="request && request.request_status == 'started'">
+<ion-footer *ngIf="request && (request.request_status == 'started' || request.request_status == 'pending')">
 
   <ion-grid class="container">
     <ion-row>
@@ -130,7 +130,7 @@
         </ion-button>
       </ion-col>
       <ion-col size-xs="6">
-        <ion-button *ngIf="request.request_status == 'started'" (click)="deliveredRequest($event, request)">
+        <ion-button *ngIf="request.request_status == 'started' || request.request_status == 'pending'" (click)="deliveredRequest($event, request)">
           Mark delivered
         </ion-button>
       </ion-col>

@@ -34,7 +34,7 @@ export class CompanyListPage implements OnInit {
     approved_to_hire: number
   } = {
       name: null,
-      status: 4,
+      status: 5,
       approved_to_hire: null
     };
 
@@ -230,13 +230,13 @@ export class CompanyListPage implements OnInit {
   }
 
   filterByStatus($event, status) {
-    
+
     if(this.filters.status == status) {
       this.filters.status = null;
     } else {
       this.filters.status = status;
     }
-    
+
     this.loadData(1); // reload all result
   }
 

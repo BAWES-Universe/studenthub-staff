@@ -9,6 +9,12 @@
         <ion-label>{{ 'Tasks' | translate }}</ion-label>
       </ion-tab-button>
 
+      <ion-tab-button tab="company-request-dashboard" layout="icon-start">
+        <ion-icon name="chatbubble-outline"></ion-icon>
+        <ion-label>{{ 'Requests' | translate }}</ion-label>
+        <ion-badge>{{ totalRequest }}</ion-badge>
+      </ion-tab-button>
+
       <ion-tab-button tab="candidate-search" layout="icon-start">
         <ion-icon name="person-outline"></ion-icon>
         <ion-label>{{ 'Part-timers' | translate }}</ion-label>
@@ -22,12 +28,6 @@
       <ion-tab-button tab="company-list" layout="icon-start">
         <ion-icon name="earth-outline"></ion-icon>
         <ion-label>{{ 'Clients' | translate }}</ion-label>
-      </ion-tab-button>
-
-      <ion-tab-button tab="company-request-dashboard" layout="icon-start">
-        <ion-icon name="chatbubble-outline"></ion-icon>
-        <ion-label>{{ 'Requests' | translate }}</ion-label>
-        <ion-badge>{{ totalRequest }}</ion-badge>
       </ion-tab-button>
 
       <ion-tab-button tab="report-list" layout="icon-start">
@@ -44,6 +44,12 @@
         <ion-label>{{ 'Tasks' | translate }}</ion-label>
       </ion-tab-button>
 
+      <ion-tab-button tab="company-request-dashboard">
+        <ion-icon name="chatbubble-outline"></ion-icon>
+        <ion-label>{{ 'Requests' | translate }}</ion-label>
+        <ion-badge>{{ totalRequest }}</ion-badge>
+      </ion-tab-button>
+
       <ion-tab-button (click)="showCandidateActions()">
         <ion-icon name="person-outline"></ion-icon>
         <ion-label>{{ 'Candidates' | translate }}</ion-label>
@@ -54,11 +60,6 @@
         <ion-label>{{ 'Clients' | translate }}</ion-label>
       </ion-tab-button>
 
-      <ion-tab-button tab="company-request-dashboard">
-        <ion-icon name="chatbubble-outline"></ion-icon>
-        <ion-label>{{ 'Requests' | translate }}</ion-label>
-        <ion-badge>{{ totalRequest }}</ion-badge>
-      </ion-tab-button>
 
       <ion-tab-button tab="report-list">
         <ion-icon name="newspaper-outline"></ion-icon>

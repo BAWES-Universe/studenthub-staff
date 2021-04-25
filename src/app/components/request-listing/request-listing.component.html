@@ -71,11 +71,12 @@
         Invitation Rejected
       </ion-badge>
     </ng-container>
-
     <div *ngIf="request" class="content-footer" [class.background-grey]="active" [class.background-red]="!active" [class.background-green]="request.request_status == 'delivered'">
       <p *ngIf="request.request_status == 'delivered'">Delivered {{ request.request_updated_datetime | timeAgo }} </p>
       <p *ngIf="request.request_status == 'cancelled'">Cancelled {{ request.request_updated_datetime | timeAgo }} </p>
-      <p *ngIf="request.request_status == 'started'">Last updated {{ request.request_updated_datetime | timeAgo }} </p>
+      <p *ngIf="active && request.request_status == 'started'">Last updated {{ request.request_updated_datetime | timeAgo }} </p>
+      <p *ngIf="active && request.request_status == 'pending'">Last updated {{ request.request_updated_datetime | timeAgo }} </p>
+      <p *ngIf="!active && late">{{ getLateTime(late)}}</p>
     </div>
 
   </ion-card-content>

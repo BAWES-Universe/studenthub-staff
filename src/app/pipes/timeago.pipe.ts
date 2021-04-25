@@ -22,7 +22,7 @@ export class TimeAgoPipe implements PipeTransform, OnDestroy {
     const utcTimeNow = new Date();
 
     const seconds = Math.round(Math.abs((utcTimeNow.getTime() - d.getTime()) / 1000));
-   
+
     const timeToUpdate = (Number.isNaN(seconds)) ? 1000 : this.getSecondsUntilUpdate(seconds) * 1000;
 
     this.timer = this.ngZone.runOutsideAngular(() => {
