@@ -1,7 +1,7 @@
 <ion-header mode="md" [class.add-border]="borderLimit" class="clear-header">
   <ion-toolbar class="container">
     <ion-buttons slot="start">
-      <ion-back-button icon="assets/images/ic_cancel.svg" defaultHref="/view/tasks"></ion-back-button>
+      <ion-back-button icon="assets/images/ic_cancel.svg" defaultHref="/view/company-request-dashboard"></ion-back-button>
     </ion-buttons>
 
 
@@ -21,6 +21,12 @@
 <ion-content [scrollEvents]="true" (ionScroll)="logScrolling($event)">
   <div class="container">
     <loading-modal [loading]="loading" type="request-detail"></loading-modal>
+
+    <ion-button *ngIf="request && (request.request_status == 'started' || request.request_status == 'pending')"
+                class="btn-cv-search" routerLink="/view/candidate-search">
+      {{"CV Search: Invite candidates to apply for this position"}}
+    </ion-button>
+    <br/>
 
     <div *ngIf="request && !loading">
 

@@ -106,16 +106,19 @@ export class RequestListingComponent implements OnInit {
       return `${hours} hours late`;
     } else if (hours <= 36) {
       return 'One day late';
-    } else if (days <= 25) {
+    } else {
       return days + ' days late';
-    } else if (days <= 45) {
-      return 'One month late';
-    } else if (days <= 345) {
-      return months + ' months late';
-    } else if (days <= 545) {
-      return 'One year late';
-    } else { // (days > 545)
-      return years + ' years late';
     }
+    // } else if (days <= 25) {
+    // return days + ' days late';
+    // else if (days <= 45) {
+    //   return 'One month late';
+    // } else if (days <= 345) {
+    //   return months + ' months late';
+    // } else if (days <= 545) {
+    //   return 'One year late';
+    // } else { // (days > 545)
+    //   return years + ' years late';
+    // }
   }
 }

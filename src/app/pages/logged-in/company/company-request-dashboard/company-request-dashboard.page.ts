@@ -96,7 +96,7 @@ export class CompanyRequestDashboardPage implements OnInit {
     this.loading = true;
 
     this.currentPage++;
-    this.requestService.listActiveWithPages(this.currentPage).subscribe(response => {
+    this.requestService.listActiveWithPages(this.currentPage,'&followup_interval=1').subscribe(response => {
         this.activeRequests = this.activeRequests.concat(response.body);
         this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
         this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
