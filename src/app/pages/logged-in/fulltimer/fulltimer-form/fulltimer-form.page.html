@@ -26,7 +26,7 @@
     <ion-list>
 
       <ion-item>
-        <ion-label position="floating">Name</ion-label>
+        <ion-label position="floating">Name*</ion-label>
         <ion-input type="telephone" formControlName="name"></ion-input>
       </ion-item>
 
@@ -37,7 +37,7 @@
       </div>
 
       <ion-item>
-        <ion-label position="floating">Phone</ion-label>
+        <ion-label position="floating">Phone*</ion-label>
         <ion-input type="telephone" formControlName="phone"></ion-input>
       </ion-item>
 
@@ -48,7 +48,7 @@
       </div>
 
       <ion-item>
-        <ion-label position="floating">Email</ion-label>
+        <ion-label position="floating">Email*</ion-label>
         <ion-input type="email" formControlName="email"></ion-input>
       </ion-item>
 
@@ -59,7 +59,7 @@
       </div>
 
       <ion-item (click)="selectNationality()">
-        <ion-label position="floating">Nationality</ion-label>
+        <ion-label position="floating">Nationality*</ion-label>
         <ion-input readonly formControlName="nationality"></ion-input>
       </ion-item>
 
@@ -70,7 +70,7 @@
       </div>
 
       <ion-item tappable>
-        <ion-label position="floating">PDF CV</ion-label>
+        <ion-label position="floating">PDF CV*</ion-label>
         <ion-input type="text" readonly formControlName="pdf_cv"></ion-input>
         <ion-buttons slot="end">
 
@@ -89,7 +89,7 @@
 
           <ion-button *ngIf="!platform.is('hybrid')">
             <ion-icon name="cloud-upload-outline"></ion-icon>
-            <input class="upload" accept=".pdf" type='file' #fileInput (change)="browserUpload($event)">
+            <input class="upload" accept=".pdf,.doc,.docx" type='file' #fileInput (change)="browserUpload($event)">
           </ion-button>
 
           <!-- remove -->
@@ -108,7 +108,7 @@
       </div>
 
       <ion-item (click)="updateLocation()">
-        <ion-label position="floating">Location</ion-label>
+        <ion-label position="floating">Location*</ion-label>
         <ion-input readonly formControlName="location"></ion-input>
       </ion-item>
 
