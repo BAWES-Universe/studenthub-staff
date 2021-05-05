@@ -118,6 +118,27 @@
         </p>
       </div>
 
+      <ion-item>
+        <ion-label position="floating">Current Salary*</ion-label>
+        <ion-input type="email" formControlName="current_salary"></ion-input>
+      </ion-item>
+
+      <div class="error-wrapper" *ngIf="!form.controls.current_salary.pristine">
+        <p class="error" *ngIf="form.controls.current_salary.errors && form.controls.current_salary.errors.required">
+          * required
+        </p>
+      </div>
+
+      <ion-item>
+        <ion-label position="floating">Expected Salary*</ion-label>
+        <ion-input type="email" formControlName="expected_salary"></ion-input>
+      </ion-item>
+
+      <div class="error-wrapper" *ngIf="!form.controls.expected_salary.pristine">
+        <p class="error" *ngIf="form.controls.expected_salary.errors && form.controls.expected_salary.errors.required">
+          * required
+        </p>
+      </div>
       <ion-card>
         <ion-card-header>
           <ion-card-title>Tags </ion-card-title>
@@ -138,6 +159,14 @@
           </div>
         </ion-card-content>
       </ion-card>
+
+      <ion-item class="flip-in-hor-bottom" *ngIf="this.request_uuid">
+        <div tabindex="0"></div>
+        <ion-label position="floating">
+          Reason for suggestion
+        </ion-label>
+        <ion-textarea formControlName="suggestion"></ion-textarea>
+      </ion-item>
 
     </ion-list>
   </form>

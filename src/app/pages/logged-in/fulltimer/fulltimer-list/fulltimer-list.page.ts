@@ -78,7 +78,7 @@ export class FulltimerListPage implements OnInit {
   async create($event, fulltimer: Fulltimer = new Fulltimer()) {
     $event.preventDefault();
     $event.stopPropagation();
-    
+
     window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
     const modal = await this.modalCtrl.create({

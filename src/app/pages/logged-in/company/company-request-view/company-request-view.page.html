@@ -127,9 +127,26 @@
 </ion-content>
 
 <ion-footer *ngIf="request && (request.request_status == 'started' || request.request_status == 'pending')">
-
   <ion-grid class="container">
-    <ion-row>
+    <ion-row *ngIf="request.request_position_type == 1">
+      <ion-col size-xs="4">
+        <ion-button (click)="suggestCandidate($event)">
+          Suggest a candidate
+        </ion-button>
+      </ion-col>
+      <ion-col size-xs="4">
+        <ion-button (click)="showUpdateAlert()">
+          Post an update
+        </ion-button>
+      </ion-col>
+      <ion-col size-xs="4">
+        <ion-button *ngIf="request.request_status == 'started' || request.request_status == 'pending'" (click)="deliveredRequest($event, request)">
+          Mark delivered
+        </ion-button>
+      </ion-col>
+    </ion-row>
+
+    <ion-row *ngIf="request.request_position_type == 2">
       <ion-col size-xs="6">
         <ion-button (click)="showUpdateAlert()">
           Post an update

@@ -131,7 +131,7 @@ export class CompanyContactService {
    * @param {Contact} model
    * @returns {Observable<any>}
    */
-  delete(model: Contact): Observable<any>{
+  delete(model): Observable<any>{
     const url = `${this._endpoint}/${model.contact_uuid}`;
     return this._authhttp.delete(url);
   }

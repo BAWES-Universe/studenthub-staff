@@ -1,22 +1,23 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AlertController, ModalController, Platform } from '@ionic/angular';
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {AlertController, LoadingController, ModalController, NavController, Platform} from '@ionic/angular';
 import { Subscription } from 'rxjs';
 // service
-import { AuthService } from "../../../../providers/auth.service";
+import { AuthService } from '../../../../providers/auth.service';
 import { CountryService } from 'src/app/providers/logged-in/country.service';
 import { FulltimerService } from 'src/app/providers/logged-in/fulltimer.service';
 import { AwsService } from 'src/app/providers/aws.service';
 import { FilepickerService } from 'src/app/providers/logged-in/filepicker.service';
 import { SentryErrorhandlerService } from 'src/app/providers/sentry.errorhandler.service';
 // model
-import { Fulltimer, FulltimerTag } from 'src/app/models/fulltimer';
-//pages
-import { FulltimerLocationPage } from '../fulltimer-location/fulltimer-location.page';
+import { Fulltimer } from 'src/app/models/fulltimer';
+// pages
 import { NationalityPage } from '../../pickers/nationality/nationality.page';
-//validator
-import { CustomValidator } from "../../../../validators/custom.validator";
+// validator
+import { CustomValidator } from '../../../../validators/custom.validator';
+import {FulltimeLocationPage} from '../fulltime-location/fulltime-location.page';
+import {SuggestionService} from '../../../../providers/logged-in/suggestion.service';
 
 
 @Component({
@@ -24,11 +25,13 @@ import { CustomValidator } from "../../../../validators/custom.validator";
   templateUrl: './fulltimer-form.page.html',
   styleUrls: ['./fulltimer-form.page.scss'],
 })
-export class FulltimerFormPage implements OnInit {
+export class FulltimerFormPage implements OnInit, OnDestroy {
 
   @ViewChild('fileInput', { static: false }) fileInput: ElementRef;
 
   public model: Fulltimer = new Fulltimer();
+  public request_uuid = null;
+  public showSuggestion = false;
 
   public progress;
 
@@ -61,7 +64,10 @@ export class FulltimerFormPage implements OnInit {
     public filepickerService: FilepickerService,
     public awsService: AwsService,
     public countryService: CountryService,
-    private authService: AuthService
+    private authService: AuthService,
+    private navCtrl: NavController,
+    private suggestionService: SuggestionService,
+    private loadingCtrl: LoadingController
   ) {
   }
 
@@ -96,23 +102,24 @@ export class FulltimerFormPage implements OnInit {
 
   initForm() {
 
-    let tagCtrls = [];
+    const tagCtrls = [];
 
-    if(!this.model.fulltimerTags) {
+    if (!this.model.fulltimerTags) {
       this.model.fulltimerTags = [];
     }
-    
-    for (let fulltimerTag of this.model.fulltimerTags) {
+
+    for (const fulltimerTag of this.model.fulltimerTags) {
       tagCtrls.push(this.fb.group({
-        tag: [fulltimerTag.tag]//, [Validators.required]
+        tag: [fulltimerTag.tag]// , [Validators.required]
       }));
     }
 
-    //show atleast one input for tag 
+    // show atleast one input for tag
 
     tagCtrls.push(this.fb.group({
-      tag: ['']//, [Validators.required]
+      tag: ['']// , [Validators.required]
     }));
+
 
     if (!this.model.fulltimer_uuid) { // Show Create Form
 
@@ -131,8 +138,14 @@ export class FulltimerFormPage implements OnInit {
         pdf_cv: [''],
         fulltimerTags: new FormArray(tagCtrls),
         location: ['', Validators.required],
+        current_salary: ['', Validators.required],
+        expected_salary: ['', Validators.required],
         tempPdfCVLocation: [''],
       });
+
+      if (this.request_uuid) {
+        this.form.addControl('suggestion', new FormControl('', Validators.required));
+      }
 
     } else { // Show Update Form
 
@@ -161,6 +174,8 @@ export class FulltimerFormPage implements OnInit {
         pdf_cv: [this.model.fulltimer_pdf_cv, Validators.required],
         fulltimerTags: new FormArray(tagCtrls),
         location: [location, Validators.required],
+        current_salary: [this.model.fulltimer_current_salary, Validators.required],
+        expected_salary: [this.model.fulltimer_expected_salary, Validators.required],
         tempPdfCVLocation: [''],
       });
     }
@@ -370,7 +385,7 @@ export class FulltimerFormPage implements OnInit {
 
     this.progress = null;
 
-    //this.uploading = false;
+    // this.uploading = false;
 
     this.currentTarget.abort();
   }
@@ -468,7 +483,7 @@ export class FulltimerFormPage implements OnInit {
     window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
     const modal = await this.modalCtrl.create({
-      component: FulltimerLocationPage,
+      component: FulltimeLocationPage,
       componentProps: {
         fulltimer: this.model,
       }
@@ -518,6 +533,8 @@ export class FulltimerFormPage implements OnInit {
     this.model.fulltimer_email = this.form.value.email;
     this.model.fulltimer_pdf_cv = this.form.value.pdf_cv;
     this.model.fulltimerTags = this.form.value.fulltimerTags;
+    this.model.fulltimer_current_salary = this.form.value.current_salary;
+    this.model.fulltimer_expected_salary = this.form.value.expected_salary;
   }
 
   /**
@@ -550,22 +567,102 @@ export class FulltimerFormPage implements OnInit {
 
       // On Success
       if (jsonResponse.operation == 'success') {
-        // Close the page
-        this.close(true);
+
+        if (this.request_uuid) {
+          this.createSuggestion(jsonResponse.data.fulltimer_uuid);
+        } else {
+          // Close the page
+          this.close(true);
+        }
       }
 
       // On Failure
       if (jsonResponse.operation == 'error') {
-        const prompt = await this.alertCtrl.create({
-          message: this.authService.errorMessage(jsonResponse.message),
-          buttons: ['Ok']
-        });
-        prompt.present();
+        if (jsonResponse.data) {
+          this.confirmationBox(jsonResponse);
+        } else {
+          const prompt = await this.alertCtrl.create({
+            message: this.authService.errorMessage(jsonResponse.message),
+            buttons: ['Ok']
+          });
+          prompt.present();
+        }
       }
     });
   }
 
   logScrolling(e) {
-    this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
+    this.borderLimit = (e.detail.scrollTop > 20);
   }
+
+  async confirmationBox(jsonResponse) {
+      const alert = await this.alertCtrl.create({
+        header: this.authService.errorMessage(jsonResponse.message),
+        buttons: [
+          {
+            text: 'Cancel',
+            role: 'cancel',
+            handler: (blah) => {
+              console.log('Confirm Cancel: blah');
+            }
+          }, {
+            text: 'Show me that fulltimer account',
+            handler: () => {
+              this.modalCtrl.dismiss().then(() => {
+                setTimeout(() => {
+                  this.navCtrl.navigateForward(['fulltimer/' + jsonResponse.data.fulltimer_uuid]);
+                }, 100);
+              });
+              // this.close(false);
+            }
+          }
+        ]
+      });
+
+      await alert.present();
+  }
+
+  /**
+   * creating suggestion
+   * @param fulltimer_uuid
+   */
+  async createSuggestion(fulltimer_uuid) {
+
+    const params = {
+      suggestion: this.form.value.suggestion,
+      request_uuid: this.request_uuid,
+      fulltimer_uuid,
+      candidate_id: null
+    };
+
+    const loading  = await this.loadingCtrl.create({
+      message: 'Suggesting Please wait...',
+      duration: 2000
+    });
+    loading.present();
+    this.suggestionService.create(params).subscribe(async response => {
+
+        this.loading = false;
+
+        // On Success
+        if (response.operation == 'success') {
+          // Close the page
+          this.close(true);
+        }
+
+        // On Failure
+        if (response.operation == 'error') {
+          const prompt = await this.alertCtrl.create({
+            message: this.authService.errorMessage(response.message),
+            buttons: ['Okay']
+          });
+          prompt.present();
+        }
+      }, () => {
+      },
+      () => {
+        loading.dismiss();
+      }
+      );
+    }
 }

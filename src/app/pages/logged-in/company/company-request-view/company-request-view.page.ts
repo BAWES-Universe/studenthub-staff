@@ -26,6 +26,8 @@ import { CompanyNoteFormPage } from '../company-note-form/company-note-form.page
 import { InvitationService } from 'src/app/providers/logged-in/invitation.service';
 import { Invitation } from 'src/app/models/invitation';
 import { CompanyRequestFormPage } from '../company-request-form/company-request-form.page';
+import {Fulltimer} from "../../../../models/fulltimer";
+import {FulltimerFormPage} from "../../fulltimer/fulltimer-form/fulltimer-form.page";
 
 
 @Component({
@@ -560,5 +562,37 @@ export class CompanyRequestViewPage implements OnInit, OnDestroy {
         }
       ]
     }).then(alert => { alert.present(); });
+  }
+
+  /**
+   *
+   * @param $event
+   * @param fulltimer
+   */
+  async suggestCandidate($event, fulltimer: Fulltimer = new Fulltimer()) {
+    $event.preventDefault();
+    $event.stopPropagation();
+
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
+    const modal = await this.modalCtrl.create({
+      component: FulltimerFormPage,
+      componentProps: {
+        request_uuid: this.request_uuid,
+        model: fulltimer
+      }
+    });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+
+      if (e.data && e.data.refresh) {
+        this.loadDetail();
+      }
+    });
+    return await modal.present();
   }
 }

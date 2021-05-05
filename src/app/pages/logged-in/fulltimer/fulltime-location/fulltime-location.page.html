@@ -1,0 +1,50 @@
+<ion-header mode="md" [class.add-border]="borderLimit" class="clear-header" [attr.dir]="translateService.direction()">
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button text="{{ 'Back' | translate }}" defaultHref="view/profile" *ngIf="from != 'sidebar'">
+            </ion-back-button>
+            <ion-back-button text="{{ 'Back' | translate }}" (click)="dismiss()" defaultHref="view/profile"
+                *ngIf="from == 'sidebar'"></ion-back-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+<ion-content [scrollEvents]="true" (ionScroll)="logScrolling($event)" [attr.dir]="translateService.direction()" class='contentArea ion-padding'>
+    <div class="desktop-view">
+
+        <div class='page-title'>
+            <h1>{{ "Fulltimer current location" | translate }}</h1>
+        </div>
+
+        <div class="current-selection" *ngIf="!loading && fulltimer.country && fulltimer.area && selected">
+            <div *ngIf="fulltimer.area">
+                <b>{{ this.translateService.langContent(fulltimer.area.area_name_en, fulltimer.area.area_name_ar) }}</b>
+                <span>
+<!--                    {{ this.translateService.langContent(fulltimer.city.city_name_en, fulltimer.city.city_name_ar) }},-->
+                    {{ this.translateService.langContent(fulltimer.country.country_name_en, fulltimer.country.country_name_ar) }}
+                </span>
+            </div>
+            <div *ngIf="!fulltimer.area">
+                <span>
+                    {{ this.translateService.langContent(fulltimer.country.country_name_en, fulltimer.country.country_name_ar) }}
+                </span>
+            </div>
+            <ion-icon tappable (click)="clear()" tabindex="1" src="assets/images/ic_cancel_red.svg"></ion-icon>
+        </div>
+
+        <div *ngIf="!loading && isReady && !area">
+
+            <ion-input tabindex="2" inputmode="search" enterkeyhint="{{ 'Search' | translate }}" placeholder="{{ 'Type home location' | translate }}" #searchInput [value]="query"
+                (ionChange)="getItems($event)">
+            </ion-input>
+            <div class="places-wrapper" *ngIf="query">
+                <div class="item" *ngFor="let place of this.places" tappable (click)="placeSelected(place)">
+                    <div class="city" [innerHTML]="highlight(place.structured_formatting.main_text)"></div>
+                    <div class="country" [innerHTML]="highlight(place.structured_formatting.secondary_text)"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <ion-spinner class="loader" *ngIf="loading"></ion-spinner>
+
+</ion-content>

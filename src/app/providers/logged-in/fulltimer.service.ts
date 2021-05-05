@@ -53,6 +53,8 @@ export class FulltimerService {
       phone: model.fulltimer_phone,
       email: model.fulltimer_email,
       pdf_cv: model.fulltimer_pdf_cv,
+      current_salary: model.fulltimer_current_salary,
+      expected_salary: model.fulltimer_expected_salary,
       tags: model.fulltimerTags
     };
 
@@ -77,6 +79,8 @@ export class FulltimerService {
       phone: model.fulltimer_phone,
       email: model.fulltimer_email,
       pdf_cv: model.fulltimer_pdf_cv,
+      current_salary: model.fulltimer_current_salary,
+      expected_salary: model.fulltimer_expected_salary,
       tags: model.fulltimerTags
     };
 

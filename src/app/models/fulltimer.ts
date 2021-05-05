@@ -19,6 +19,8 @@ export class Fulltimer {
     fulltimer_phone: any;
     fulltimer_email: string;
     fulltimer_pdf_cv: string;
+    fulltimer_current_salary: string;
+    fulltimer_expected_salary: string;
     fulltimer_created_datetime: string;
     fulltimer_updated_datetime: string;
     rejectionRatio: any;
