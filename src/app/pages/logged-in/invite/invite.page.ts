@@ -106,10 +106,14 @@ export class InvitePage implements OnInit {
 
   onSearchInput(ev: any) {
     this.query = ev.target.value;
+
     this.activeRequestsData = this.activeRequests.filter(item => {
       return (
+        (item.company && item.company.company_name.toLowerCase().indexOf(ev.target.value.toLowerCase()) > -1) ||
+        (item.company && item.company.company_common_name_en && item.company.company_common_name_en.toLowerCase().indexOf(ev.target.value.toLowerCase()) > -1) ||
+        (item.company && item.company.company_common_name_ar && item.company.company_common_name_ar.toLowerCase().indexOf(ev.target.value.toLowerCase()) > -1) || 
         item.request_position_title.toLowerCase().indexOf(ev.target.value.toLowerCase()) > -1 ||
-        item.request_job_description.toLowerCase().indexOf(ev.target.value.toLowerCase()) > -1
+        item.request_job_description.toLowerCase().indexOf(ev.target.value.toLowerCase()) > -1 
       );
     });
   }
