@@ -6,7 +6,7 @@
 
     <ion-title>Note</ion-title>
 
-    <ion-buttons slot="end">
+    <ion-buttons slot="end" *ngIf="note">
 
       <ion-button (click)="edit()">
         <ion-icon slot="start" name="pencil-outline"></ion-icon>
