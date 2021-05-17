@@ -68,10 +68,12 @@
           Civil ID
         </ion-card-header>
         <ion-card-content>
+          
           <ion-item>
             <ion-label position="floating">Civil ID Number</ion-label>
             <ion-input type="text" formControlName="civil_id"></ion-input>
           </ion-item>
+
           <div class="error-wrapper" *ngIf="!form.controls.civil_id.pristine">
             <p class="error" *ngIf="form.controls.civil_id.errors && form.controls.civil_id.errors.pattern">
               Should be 12 Digit
@@ -144,6 +146,7 @@
           </div>
 
           <ion-item (click)="updateLocation()" tappable>
+            <div tabindex="0"></div>
             <ion-label position="stacked">Area candidate live in</ion-label>
             <p>
               <span *ngIf="model.area && model.country">
@@ -160,7 +163,7 @@
   <!--          model.country.country_nationality_name_en == 'Kuwaiti' &&-->
   <!--          model.nationality.country_nationality_name_en != 'Kuwaiti'-->
   <!--        ">-->
-            <ion-item >
+          <ion-item>
             <div tabindex="0"></div>
             <ion-label>Candidate mother a Kuwaiti national?</ion-label>
             <ion-chip (click)="setKuwaitiMomStatus(1)" [class.active]="model.candidate_mom_kuwaiti == 1">Yes</ion-chip>

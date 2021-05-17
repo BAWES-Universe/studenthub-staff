@@ -47,6 +47,7 @@
       </p>
 
       <ion-item *ngIf="companyContact">
+        <div tabindex="0"></div>
         <ion-label>
           <h4>Allow access?</h4>
           <p *ngIf="companyContact.allow_access">Yes</p>
@@ -55,6 +56,7 @@
       </ion-item>
 
       <ion-item>
+        <div tabindex="0"></div>
         <ion-label>
           <h4>Receive Email?</h4>
           <p *ngIf="contact.contact_receive_email">Yes</p>
@@ -63,6 +65,7 @@
       </ion-item>
 
       <ion-item *ngIf="companyContact && companyContact.contact_position">
+        <div tabindex="0"></div>
         <ion-label>
           <h4>Position</h4>
           <p>{{companyContact.contact_position}}</p>
@@ -71,6 +74,7 @@
 
       <!--
       <ion-item>
+        <div tabindex="0"></div>
         <ion-label>
           <h4>Receive notification?</h4>
           <p *ngIf="contact.contact_receive_notification">Yes</p>
@@ -79,6 +83,7 @@
       </ion-item>-->
 
       <ion-item lines="none">
+        <div tabindex="0"></div>
         <ion-label>
           <p *ngIf="contact.contact_created_at">Added at {{ toDate(contact.contact_created_at) | date: 'MMM d, y, h:mm:ss a' }}</p>
           <p *ngIf="contact.contact_updated_at">Updated {{ contact.contact_updated_at | timeAgo }}</p>

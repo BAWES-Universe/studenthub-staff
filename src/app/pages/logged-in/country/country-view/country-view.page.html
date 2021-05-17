@@ -9,8 +9,9 @@
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
   <div class="container">
-    <loading-modal [loading]="loadingDetail" type="text-list-view"></loading-modal>
+    
     <ion-list *ngIf="country">
+
       <ion-item>
         <div tabindex="0"></div>
         <ion-label>
@@ -51,8 +52,11 @@
         </ion-label>
       </ion-item>
 
+    
     </ion-list>
-
+    
+    <loading-modal [loading]="loadingDetail" type="text-list-view"></loading-modal>
+    
     <h5 *ngIf="candidates && candidates.length > 0">Candidates</h5>
 
     <ion-list *ngIf="!loading">

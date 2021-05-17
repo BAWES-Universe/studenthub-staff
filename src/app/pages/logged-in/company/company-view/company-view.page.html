@@ -97,26 +97,31 @@
               <h5>Manage</h5>
 
               <ion-item tappable (click)="openRequests()">
+                <div tabindex="0"></div>
                 <ion-label>Requests</ion-label>
                 <ion-badge color="medium" slot="end">{{ stats.requests }}</ion-badge>
               </ion-item>
 
               <ion-item tappable (click)="openStores()" *ngIf="stats.subCompanies == 0">
+                <div tabindex="0"></div>
                 <ion-label>Stores</ion-label>
                 <ion-badge color="medium" slot="end">{{ stats.stores }}</ion-badge>
               </ion-item>
 
               <ion-item tappable (click)="openSubCompanies()" *ngIf="stats.stores == 0">
+                <div tabindex="0"></div>
                 <ion-label>Subcompanies</ion-label>
                 <ion-badge color="medium" slot="end">{{ stats.subCompanies }}</ion-badge>
               </ion-item>
 
               <ion-item tappable (click)="openContacts()">
+                <div tabindex="0"></div>
                 <ion-label>Contacts</ion-label>
                 <ion-badge color="medium" slot="end">{{ stats.contacts }}</ion-badge>
               </ion-item>
 
               <ion-item tappable (click)="openBrands()">
+                <div tabindex="0"></div>
                 <ion-label>Brands</ion-label>
                 <ion-badge color="medium" slot="end">{{ stats.brands }}</ion-badge>
               </ion-item>
@@ -127,16 +132,19 @@
               </ion-item>
 
               <ion-item tappable (click)="openDocuments()">
+                <div tabindex="0"></div>
                 <ion-label>Documents</ion-label>
                 <ion-badge color="medium" slot="end">{{ stats.documents }}</ion-badge>
               </ion-item>
 
               <ion-item tappable (click)="openTransfers()" *ngIf="!company.parent_company_id">
+                <div tabindex="0"></div>
                 <ion-label>Transfers</ion-label>
                 <ion-badge color="medium" slot="end">{{ stats.transfers }}</ion-badge>
               </ion-item>
 
               <ion-item tappable (click)="openChart()"  *ngIf="!company.parent_company_id">
+                <div tabindex="0"></div>
                 <ion-label>Transfer Chart</ion-label>
               </ion-item>
             </div>
