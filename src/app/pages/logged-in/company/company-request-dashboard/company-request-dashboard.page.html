@@ -1,6 +1,6 @@
 <ion-header [class.add-border]="borderLimit" class="ion-no-border">
   <ion-toolbar class="container">
-    <ion-title>Active Requests ({{total}})</ion-title>
+    <ion-title>Active Requests (<span *ngIf="activeRequests">{{activeRequests.length}}</span>)</ion-title>
     <ion-buttons slot="end">
       <ion-button routerLink="/company-request-list">View Older</ion-button>
     </ion-buttons>
