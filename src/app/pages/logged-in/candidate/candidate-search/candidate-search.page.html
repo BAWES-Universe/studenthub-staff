@@ -1,4 +1,3 @@
-
 <ion-header [class.add-border]="borderLimit" class="ion-no-border">
   <ion-toolbar>
     <ion-buttons slot="start">
@@ -60,7 +59,7 @@
             <loading-modal [loading]="loading && !nbHits" type="candidate-filter"></loading-modal>
           </div>
         </ion-col>
-        
+
         <ion-col size-xs="12" size-sm="12" size-md="8" size-lg="8" size-xl="8" class="col-listing employer-list-wrapper">
 
           <div class="list-header" *ngIf="showSearchBox">
@@ -111,7 +110,7 @@
 
 </ion-content>
 <ion-footer *ngIf="showFilter || candidateService.candidates.length > 0">
-  
+
   <ion-toolbar class="mobile-only ion-no-padding" *ngIf="showFilter">
     <ion-button [disabled]="loading || nbHits == 0" (click)="dismiss()" expands="full"
                 class="btn-view-candidates">

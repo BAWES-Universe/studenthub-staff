@@ -11,6 +11,10 @@
             [class.is-refined]="arrRefined['candidate_birth_timestamp']" title="Age"
             operator="or" attribute="candidate_birth_timestamp"></range-refinement-list>
 
+      <range-refinement-list data-sort-order="2"
+            [class.is-refined]="arrRefined['candidate_updated_at_timestamp']" title="Update By"
+            operator="or" attribute="candidate_updated_at_timestamp"></range-refinement-list>
+
         <refinement-list data-sort-order="3" [class.is-refined]="arrRefined && arrRefined['candidate_driving_license']"
             label="{{ 'Driving license' | translate }}" operator="or" [transformItems]="booleanTransformItems"
             attribute="candidate_driving_license"></refinement-list>
