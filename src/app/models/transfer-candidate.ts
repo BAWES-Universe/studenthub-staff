@@ -29,8 +29,13 @@ export class TransferCandidate {
     status: any;
     tc_created_at: string;
     tc_updated_at: string;
-    total_paid: number;
-    total_amount: number;
+    
+    candidate_total: number;
+    company_total: number;
+
+    total_paid: number;//company_total - dynamically calculated
+    total_amount: number;//candidate_total - dynamically calculated
+
     profit: number;
     candidate: Candidate;
     bank: Bank;

@@ -141,12 +141,12 @@
             <p *ngIf="resource.bonus">Bonus KD {{resource.bonus | number}}</p>
             <p><b>KD {{ total(resource) }}</b></p>
 
-            <ion-badge slot="start" color="dark" *ngIf="resource.paid != '1' && resource.total_paid > 0 && (transfer.transfer_status==3 || transfer.transfer_status==4)">
+            <ion-badge slot="start" color="dark" *ngIf="resource.paid != '1' && resource.company_total > 0 && (transfer.transfer_status==3 || transfer.transfer_status==4)">
               Transfer in progress
             </ion-badge>
           </ion-label>
 
-          <ion-badge slot="end" color="secondary" *ngIf="resource.paid == '1' && resource.total_paid > 0 && (transfer.transfer_status==3 || transfer.transfer_status==4)">
+          <ion-badge slot="end" color="secondary" *ngIf="resource.paid == '1' && resource.company_total > 0 && (transfer.transfer_status==3 || transfer.transfer_status==4)">
             <ion-icon name="checkmark-circle-outline"></ion-icon>
           </ion-badge>
         </ion-item>
