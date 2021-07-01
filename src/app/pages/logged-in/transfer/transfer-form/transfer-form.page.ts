@@ -307,6 +307,7 @@ export class TransferFormPage implements OnInit {
     
     if (this.transfer) {
       this.transfer.transferCandidates.forEach((transferCandidate: TransferCandidate) => {
+        //this.total += this.parseNumber(transferCandidate.company_total);
         const hours = this.parseNumber(transferCandidate.hours);
         const bonus = this.parseNumber(transferCandidate.bonus);
         this.total += (hours * transferCandidate.candidate.company.company_hourly_rate) + bonus;

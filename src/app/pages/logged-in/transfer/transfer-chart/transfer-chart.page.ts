@@ -86,7 +86,7 @@ export class TransferChartPage implements OnInit {
           // one line for total distributed to candidates
           // let totalPaid = 0;
           // for (const candidatePaid of transfer.paidTransferCandidates) {
-          //   totalPaid += candidatePaid.total_paid;
+          //   totalPaid += candidatePaid.company_total;
           // }
           totalCandidatePaid.push(transfer.total);
 
