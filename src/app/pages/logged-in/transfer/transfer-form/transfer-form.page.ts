@@ -28,8 +28,8 @@ import {
   CalendarResult,
   CalendarComponentOptions
 } from 'ion2-calendar';
-import { DefaultDate } from "ion2-calendar/dist/calendar.model";
-import {EventService} from "../../../../providers/event.service";
+import { DefaultDate } from 'ion2-calendar/dist/calendar.model';
+import {EventService} from '../../../../providers/event.service';
 
 
 @Component({
@@ -149,7 +149,7 @@ export class TransferFormPage implements OnInit {
         // Only overwrite existing records based on currently assigned employees
         // (This is for the case where a that was available during the draft got unassigned)
         if (allTransferCandidateRecordsMapped[transferCandidate.candidate_id]) {
-          transferCandidate.candidate = allTransferCandidateRecordsMapped[transferCandidate.candidate_id].candidate;
+          transferCandidate.candidate = this.removeUnwantedData(allTransferCandidateRecordsMapped[transferCandidate.candidate_id].candidate);
           allTransferCandidateRecordsMapped[transferCandidate.candidate_id] = transferCandidate;
         }
       });
@@ -251,16 +251,17 @@ export class TransferFormPage implements OnInit {
      * Update the transfer data if it already exists
      * Otherwise create a new transfer
      */
+    this.removeUnaccountedUsers();
     const action = this.transfer.transfer_id ?
-      this.transferService.updateTransfer(this.transfer, this.form.value.start_date, this.form.value.end_date) :
-      this.transferService.save(this.transfer, this.form.value.start_date, this.form.value.end_date);
+    this.transferService.updateTransfer(this.transfer, this.form.value.start_date, this.form.value.end_date) :
+    this.transferService.save(this.transfer, this.form.value.start_date, this.form.value.end_date);
 
     action.subscribe(async jsonResponse => {
       loader.dismiss();
 
       // On Success. Show Toast with the response message and close the page
       if (jsonResponse.operation == 'success') {
-        
+
         this.eventService.reloadStats$.next({
           company_id: this.transfer.company_id
         });
@@ -304,10 +305,10 @@ export class TransferFormPage implements OnInit {
    */
   calculateTotal() {
     this.total = 0;
-    
+
     if (this.transfer) {
       this.transfer.transferCandidates.forEach((transferCandidate: TransferCandidate) => {
-        //this.total += this.parseNumber(transferCandidate.company_total);
+        // this.total += this.parseNumber(transferCandidate.company_total);
         const hours = this.parseNumber(transferCandidate.hours);
         const bonus = this.parseNumber(transferCandidate.bonus);
         this.total += (hours * transferCandidate.candidate.company.company_hourly_rate) + bonus;
@@ -387,8 +388,8 @@ export class TransferFormPage implements OnInit {
       const from: CalendarResult = date.from;
       const to: CalendarResult = date.to;
       if (from.string) {
-        this.form.controls.start_date.setValue(from.string)
-        this.transfer.start_date = from.string
+        this.form.controls.start_date.setValue(from.string);
+        this.transfer.start_date = from.string;
       }
       if (to.string) {
         this.form.controls.end_date.setValue(to.string);
@@ -406,8 +407,35 @@ export class TransferFormPage implements OnInit {
       return new Date(date.replace(/-/g, '/'));
     }
   }
-  
+
   clearSelection() {
     this.transfer.start_date = this.transfer.end_date = null;
+  }
+
+  removeUnwantedData(candidate) {
+    return {
+      candidate_id : candidate.candidate_id,
+      candidate_hourly_rate : candidate.candidate_hourly_rate,
+      candidate_name : candidate.candidate_name,
+      candidate_name_ar : candidate.candidate_name_ar,
+      candidate_personal_photo: candidate.candidate_personal_photo,
+      company: {
+        company_id: candidate.company.company_id,
+        company_hourly_rate: candidate.company.company_hourly_rate
+      },
+      store: {
+        store_id: candidate.store.store_id,
+        store_name: candidate.store.store_name
+      },
+    };
+  }
+
+  /**
+   * remove those not paying candidates
+   */
+  removeUnaccountedUsers() {
+    this.transfer.transferCandidates = this.transfer.transferCandidates.filter((candidates, index) => {
+      return (candidates.bonus > 0 || candidates.hours > 0 );
+    });
   }
 }
