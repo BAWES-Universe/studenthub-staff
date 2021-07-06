@@ -413,21 +413,7 @@ export class TransferFormPage implements OnInit {
   }
 
   removeUnwantedData(candidate) {
-    return {
-      candidate_id : candidate.candidate_id,
-      candidate_hourly_rate : candidate.candidate_hourly_rate,
-      candidate_name : candidate.candidate_name,
-      candidate_name_ar : candidate.candidate_name_ar,
-      candidate_personal_photo: candidate.candidate_personal_photo,
-      company: {
-        company_id: candidate.company.company_id,
-        company_hourly_rate: candidate.company.company_hourly_rate
-      },
-      store: {
-        store_id: candidate.store.store_id,
-        store_name: candidate.store.store_name
-      },
-    };
+     return candidate;
   }
 
   /**
