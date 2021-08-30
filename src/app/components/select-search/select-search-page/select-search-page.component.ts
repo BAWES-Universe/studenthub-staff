@@ -56,6 +56,10 @@ export class SelectSearchPageComponent {
    */
   searchFilter(event) {
     
+    if(!this.collection) {
+      return true;
+    }
+    
     this.query = event.target.value.toLowerCase();
 
     if(this.query) {
