@@ -9,6 +9,7 @@ export class Contact {
     contact_email: string;
     contact_password: string;
     contact_receive_email: any;
+    contact_receive_suggestions: any;
     contact_receive_notification: any;
     contact_auth_key: string;
     contact_password_hash: string;

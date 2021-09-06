@@ -34,7 +34,7 @@
         <ng-container *ngIf="average > 0">
 
             <div class="range range-selector">
-                
+
                 <ion-label slot="start" class="range-lower">
                     {{ value.lower | age }}
                 </ion-label>
@@ -43,11 +43,11 @@
                     {{ value.upper | age }}
                 </ion-label>
 
-                <ng5-slider [(value)]="value.lower" [(highValue)]="value.upper" 
+                <ng5-slider [(value)]="value.lower" [(highValue)]="value.upper"
                     (userChangeEnd)="handleChange()"
                     (userChange)="setLabel()" [options]="options"></ng5-slider>
                 <!--
-                <ion-range debounce="500" dualKnobs="true" (ionChange)="handleChange($event)" 
+                <ion-range debounce="500" dualKnobs="true" (ionChange)="handleChange($event)"
                     [value]="value"
                     [min]="options.floor" [max]="options.ceil">
                     <ion-label slot="start">{{ value.lower | age }}</ion-label>

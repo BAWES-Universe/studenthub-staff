@@ -113,6 +113,7 @@ export class CompanyContactFormPage implements OnInit {
         email: [this.model.contact_email, [CustomValidator.emailValidator, Validators.required]],
         //password: [this.model.contact_password, Validators.required],
         receive_email: [this.model.contact_receive_email],
+        receive_suggestions: [this.model.contact_receive_suggestions],
         receive_notification: [this.model.contact_receive_notification],
         emails: new FormArray(emailCtrls),
         phones: new FormArray(phoneCtrls),
@@ -131,6 +132,7 @@ export class CompanyContactFormPage implements OnInit {
   updateModelDataFromForm() {
     this.model.contact_name = this.form.value.name;
     this.model.contact_email = this.form.value.email;
+    this.model.contact_receive_suggestions = this.form.value.receive_suggestions;
     this.model.contact_receive_email = this.form.value.receive_email;
     this.model.contact_receive_notification = this.form.value.receive_notification;
     this.model.contact_password = this.form.value.password;

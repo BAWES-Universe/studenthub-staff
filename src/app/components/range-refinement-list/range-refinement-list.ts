@@ -69,7 +69,7 @@ export class RangeRefinementComponent extends BaseWidget {
 
             setTimeout(_ => {
 
-                this.min = (min === max) ? 0 : Math.ceil(min); 
+                this.min = (min === max) ? 0 : Math.ceil(min);
                 this.max = Math.ceil(max);
 
                 const disabled = this.min === this.max;
@@ -111,7 +111,7 @@ export class RangeRefinementComponent extends BaseWidget {
         };
 
         this.handleChange = () => {
-            
+
             //let range = [e.detail.value.lower, e.detail.value.upper];
 
             let range = [this.value.lower, this.value.upper];
