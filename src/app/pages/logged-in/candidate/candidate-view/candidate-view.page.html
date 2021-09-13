@@ -5,8 +5,8 @@
     </ion-buttons>
 
     <ion-buttons slot="end">
-      <ion-button [disabled]="!candidate" (click)="update()">
-        Update
+      <ion-button [disabled]="!candidate" (click)="updateEmailForm()">
+        Update Email
       </ion-button>
 
       <ion-button (click)="openPopover($event)" *ngIf="candidate">

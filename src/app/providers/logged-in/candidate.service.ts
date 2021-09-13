@@ -355,4 +355,17 @@ export class CandidateService {
     let url = `${this._candidateEndpoint}/appreciation-certificate/${candidateID}/${workHistoryID}`;
     return this._authhttp.pdfget(url, 'appreciation-certification-' + candidateID + '.pdf');
   }
+
+  /**
+   * update candidate email
+   * @param email
+   * @param id
+   */
+  updateCandidateEmail(email, id): Observable<any> {
+    const url = `${this._candidateEndpoint}/update-email/${id}`;
+    return this._authhttp.patch(url, {
+      email
+    });
+  }
+
 }

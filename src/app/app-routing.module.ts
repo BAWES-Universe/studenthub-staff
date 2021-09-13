@@ -399,6 +399,14 @@ const routes: Routes = [
     }
   },
   {
+    path: 'candidate-update-email',
+    loadChildren: () => import('./pages/logged-in/candidate/candidate-update-email/candidate-update-email.module').then(m => m.CandidateUpdateEmailPageModule),
+    canActivate: [AuthService],
+    data: {
+      name: 'CandidateUpdateEmailPage'
+    }
+  },
+  {
     path: 'app-error',
     loadChildren: () => import('./pages/errors/app-error/app-error.module').then( m => m.AppErrorPageModule)
   },

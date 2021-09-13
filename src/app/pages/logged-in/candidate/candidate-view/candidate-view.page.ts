@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import {
   ActionSheetController,
-  AlertController,
+  AlertController, LoadingController,
   ModalController,
   NavController,
   Platform,
@@ -110,6 +110,7 @@ export class CandidateViewPage implements OnInit {
     public modalCtrl: ModalController,
     private fb: FormBuilder,
     private actionSheetCtrl: ActionSheetController,
+    private loadingCtrl: LoadingController,
   ) {
 
   }
@@ -992,5 +993,61 @@ export class CandidateViewPage implements OnInit {
 
       this.downloading = false;
     });
+  }
+
+  async updateEmailForm() {
+    const confirm = await this.alertCtrl.create({
+      header: 'Please provide New Email',
+      inputs: [
+        {
+          name: 'email',
+          type: 'email',
+          placeholder: 'New Email'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: () => {
+            // Handle the functionality when user click on 'cancel' button
+          }
+        },
+        {
+          text: 'Ok',
+          handler: async (data) => {
+
+            if (!data.email) {
+              this.toastCtrl.create({
+                message: this.authService.errorMessage('Email required'),
+                duration: 3000
+              }).then(toast => {
+                toast.present();
+              });
+              return false;
+            }
+            const loading = await this.loadingCtrl.create();
+            loading.present();
+
+            this.candidateService.updateCandidateEmail(data.email, this.candidate_id).subscribe(res => {
+              if (res.operation == 'success') {
+                this.candidate.candidate_email = data.email;
+              }
+              if (res.operation == 'error') {
+                this.toastCtrl.create({
+                  message: this.authService.errorMessage(res.message),
+                  duration: 3000
+                }).then(toast => {
+                  toast.present();
+                });
+              }
+            },
+                err => loading.dismiss(),
+                () => loading.dismiss()
+            );
+          }
+        }
+      ]
+    });
+    confirm.present();
   }
 }
