@@ -142,9 +142,11 @@ export class TabsPage implements OnInit {
 
     this.eventService.userLoggedOut$.subscribe(() => {
       /*if(this.platform.is('mobile')) {
-        this.tabRef.select(this.mobileTaskRef)
-      }*/
+        this.tabRef.select(this.mobileTaskRef.tab.)
+      }
+      todo: have to check alternative
       this.tabRef.select('tasks').then(); 
+      */
     });
   }
 }
