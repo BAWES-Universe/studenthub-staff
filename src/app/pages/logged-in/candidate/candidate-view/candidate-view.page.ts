@@ -1050,4 +1050,21 @@ export class CandidateViewPage implements OnInit {
     });
     confirm.present();
   }
+
+  copy(event, val) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const selBox = document.createElement('textarea');
+    selBox.style.position = 'fixed';
+    selBox.style.left = '0';
+    selBox.style.top = '0';
+    selBox.style.opacity = '0';
+    selBox.innerText = val;
+    document.body.appendChild(selBox);
+    selBox.focus();
+    selBox.select();
+    document.execCommand('copy');
+    document.body.removeChild(selBox);
+  }
 }

@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AlertController, ModalController, PopoverController, ToastController } from '@ionic/angular';
+import {AlertController, ModalController, NavController, PopoverController, ToastController} from '@ionic/angular';
 // model
 import { Candidate } from 'src/app/models/candidate';
 // services
@@ -24,8 +24,8 @@ export class OptionPage implements OnInit {
   public unassinging = false;
   public assigning = false;
   public expiring = false;
- 
-  public generating: boolean = false; 
+
+  public generating: boolean = false;
 
   constructor(
     public translateService: TranslateLabelService,
@@ -35,7 +35,8 @@ export class OptionPage implements OnInit {
     public popoverCtrl: PopoverController,
     public alertCtrl: AlertController,
     public toastCtrl: ToastController,
-    public eventService: EventService
+    public eventService: EventService,
+    public navCtrl: NavController,
   ) { }
 
   ngOnInit() {
@@ -140,7 +141,7 @@ export class OptionPage implements OnInit {
             this.candidateIdCardService.renew(idList).subscribe(async response => {
 
               this.dismiss();
-              
+
               // Dismiss the loader
               this.expiring = false;
 
@@ -228,7 +229,7 @@ export class OptionPage implements OnInit {
 
               this.updatingJobSearchStatus = false;
               this.dismiss();
-              
+
               if (data.operation == 'success') {
                 this.candidate.candidate_job_search_status = this.candidate.candidate_job_search_status == 1 ? 0 : 1;
                 this.eventService.reloadCandiate$.next();
@@ -269,7 +270,7 @@ export class OptionPage implements OnInit {
   }
 
   /**
-   * suggess this candidate 
+   * suggess this candidate
    */
   async suggest() {
     this.popoverCtrl.dismiss({ suggess: true });
@@ -277,5 +278,17 @@ export class OptionPage implements OnInit {
 
   toggleCommitted() {
     this.popoverCtrl.dismiss({ toggleCommitted: true });
+  }
+
+  /**
+   * Loads Form in modal to update
+   */
+  update() {
+    this.navCtrl.navigateForward('candidate-form/' + this.candidate.candidate_id, {
+      state: {
+        model: this.candidate
+      }
+    });
+    this.dismiss();
   }
 }

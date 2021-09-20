@@ -4,7 +4,7 @@
 
     <ion-tab-bar slot="top" *ngIf="!platform.is('mobile')">
 
-      <ion-tab-button tab="tasks" layout="icon-start">
+      <ion-tab-button #browserTaskRef tab="tasks" layout="icon-start">
         <ion-icon name="stats-chart-outline"></ion-icon>
         <ion-label>{{ 'Tasks' | translate }}</ion-label>
       </ion-tab-button>

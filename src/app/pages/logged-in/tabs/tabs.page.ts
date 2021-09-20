@@ -1,5 +1,5 @@
 import { Component, Renderer2, ViewChild, OnInit, ViewEncapsulation } from '@angular/core';
-import { Platform, IonTabs, ActionSheetController } from '@ionic/angular';
+import { Platform, IonTabs, ActionSheetController, IonTabButton } from '@ionic/angular';
 import { Router } from '@angular/router';
 // services
 import { AuthService } from 'src/app/providers/auth.service';
@@ -16,6 +16,10 @@ import { StatisticService } from 'src/app/providers/logged-in/statistic.service'
 export class TabsPage implements OnInit {
 
   @ViewChild('tabRef', { static: true }) tabRef: IonTabs;
+
+  @ViewChild('browserTaskRef', { static: true }) browserTaskRef: IonTabButton;
+  
+  @ViewChild('mobileTaskRef', { static: true }) mobileTaskRef: IonTabButton;
 
   public companyFollowUp: any = 0;
 
@@ -137,7 +141,12 @@ export class TabsPage implements OnInit {
   async eventSubscriptions() {
 
     this.eventService.userLoggedOut$.subscribe(() => {
-      this.tabRef.select('tasks'); 
+      /*if(this.platform.is('mobile')) {
+        this.tabRef.select(this.mobileTaskRef.tab.)
+      }
+      todo: have to check alternative
+      this.tabRef.select('tasks').then(); 
+      */
     });
   }
 }

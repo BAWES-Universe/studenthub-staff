@@ -514,3 +514,10 @@ ion-footer {
     color: #ffffff;
   }
 }
+
+.btn-copy {
+  --background: none;
+  --box-shadow: none;
+  --color: #000;
+  opacity: 0.5;
+}
