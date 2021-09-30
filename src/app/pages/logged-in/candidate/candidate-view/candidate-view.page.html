@@ -370,6 +370,10 @@
                       {{ "Civil ID (not set)" | translate }}
                     </p>
                   </ion-label>
+
+                  <ion-button *ngIf="candidate.candidate_civil_id" slot="end" class="btn-copy" (click)="copy($event, candidate.candidate_civil_id)">
+                    <ion-icon slot="icon-only" name="copy-outline"></ion-icon>
+                  </ion-button>
                 </ion-item>
 
                 <ion-item class="civil-front" [class.required]="!candidate.candidate_civil_photo_front">
