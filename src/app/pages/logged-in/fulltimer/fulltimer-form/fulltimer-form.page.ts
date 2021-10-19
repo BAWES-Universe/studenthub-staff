@@ -18,6 +18,7 @@ import { NationalityPage } from '../../pickers/nationality/nationality.page';
 import { CustomValidator } from '../../../../validators/custom.validator';
 import {FulltimeLocationPage} from '../fulltime-location/fulltime-location.page';
 import {SuggestionService} from '../../../../providers/logged-in/suggestion.service';
+import { UniversityService } from 'src/app/providers/logged-in/university.service';
 
 
 @Component({
@@ -30,6 +31,9 @@ export class FulltimerFormPage implements OnInit, OnDestroy {
   @ViewChild('fileInput', { static: false }) fileInput: ElementRef;
 
   public model: Fulltimer = new Fulltimer();
+
+  public universitylistData = [];
+
   public request_uuid = null;
   public showSuggestion = false;
 
@@ -53,6 +57,10 @@ export class FulltimerFormPage implements OnInit, OnDestroy {
   public browserUploadSubscription: Subscription;
   public uploadSubscription: Subscription;
 
+  // Date values for Date Input
+  public minBirthDate;
+  public maxBirthDate;
+
   constructor(
     public platform: Platform,
     public activatedRoute: ActivatedRoute,
@@ -60,6 +68,7 @@ export class FulltimerFormPage implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private modalCtrl: ModalController,
     private alertCtrl: AlertController,
+    public universityService: UniversityService,
     public sentryService: SentryErrorhandlerService,
     public filepickerService: FilepickerService,
     public awsService: AwsService,
@@ -83,6 +92,10 @@ export class FulltimerFormPage implements OnInit, OnDestroy {
     }
 
     this.initForm();
+    this.loadUniversityList();
+
+    // Set the min and max dates
+    this.setDates();
   }
 
   ngOnDestroy() {
@@ -98,6 +111,31 @@ export class FulltimerFormPage implements OnInit, OnDestroy {
     if (!!this.browserUploadSubscription) {
       this.browserUploadSubscription.unsubscribe();
     }
+  }
+
+  /**
+   * Sets the default dates for min/max validation
+   */
+   setDates() {
+    const today = new Date();
+    // var dd = today.getDate();
+    const mm = today.getMonth() + 1; // 0 is January, so we must add 1
+    const yyyy = today.getFullYear();
+ 
+    this.minBirthDate = new Date((yyyy - 90), mm).toISOString();
+    this.maxBirthDate = new Date((yyyy - 16), mm).toISOString();
+  }
+
+  setGenderOption(value) {
+    this.form.controls.gender.setValue(value);
+    this.form.controls.gender.markAsDirty();
+    this.model.fulltimer_gender = value;
+  }
+
+  setLicenseOption(value) {
+    this.form.controls.driving_license.setValue(value);
+    this.form.controls.driving_license.markAsDirty();
+    this.model.fulltimer_driving_license = value;
   }
 
   initForm() {
@@ -136,6 +174,11 @@ export class FulltimerFormPage implements OnInit, OnDestroy {
         phone: ['', [Validators.required, Validators.pattern('^[0-9-+\s()]*$')]],
         email: ['', [Validators.required, CustomValidator.emailValidator]],
         pdf_cv: [''],
+        university_id: [null],
+        employed: [null],
+        gender: [null],
+        driving_license: [null],
+        birth_date: [null],
         fulltimerTags: new FormArray(tagCtrls),
         location: ['', Validators.required],
         current_salary: ['', Validators.required],
@@ -176,9 +219,25 @@ export class FulltimerFormPage implements OnInit, OnDestroy {
         location: [location, Validators.required],
         current_salary: [this.model.fulltimer_current_salary, Validators.required],
         expected_salary: [this.model.fulltimer_expected_salary, Validators.required],
+        
+        university_id: [this.model.university_id],
+        employed: [this.model.fulltimer_employed],
+        gender: [this.model.fulltimer_gender],
+        driving_license: [this.model.fulltimer_driving_license],
+        birth_date: [this.model.fulltimer_birth_date],
+        
         tempPdfCVLocation: [''],
       });
     }
+  }
+
+  /**
+   * Load list of universities available
+   */
+   loadUniversityList() {
+    this.universityService.listAll().subscribe(response => {
+      this.universitylistData = response;
+    });
   }
 
   // convenience getters for easy access to form fields
@@ -536,6 +595,11 @@ export class FulltimerFormPage implements OnInit, OnDestroy {
     this.model.fulltimerTags = this.form.value.fulltimerTags;
     this.model.fulltimer_current_salary = this.form.value.current_salary;
     this.model.fulltimer_expected_salary = this.form.value.expected_salary;
+    this.model.university_id = this.form.value.university_id;
+    this.model.fulltimer_employed = this.form.value.employed;
+    this.model.fulltimer_gender = this.form.value.gender;
+    this.model.fulltimer_driving_license = this.form.value.driving_license;
+    this.model.fulltimer_birth_date = this.form.value.birth_date;
   }
 
   /**

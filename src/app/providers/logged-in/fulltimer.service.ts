@@ -55,6 +55,11 @@ export class FulltimerService {
       pdf_cv: model.fulltimer_pdf_cv,
       current_salary: model.fulltimer_current_salary,
       expected_salary: model.fulltimer_expected_salary,
+      university_id: model.university_id,
+      employed: model.fulltimer_employed,
+      gender: model.fulltimer_gender,
+      driving_license: model.fulltimer_driving_license,
+      birth_date: model.fulltimer_birth_date,
       tags: model.fulltimerTags
     };
 
@@ -81,6 +86,11 @@ export class FulltimerService {
       pdf_cv: model.fulltimer_pdf_cv,
       current_salary: model.fulltimer_current_salary,
       expected_salary: model.fulltimer_expected_salary,
+      university_id: model.university_id,
+      employed: model.fulltimer_employed,
+      gender: model.fulltimer_gender,
+      driving_license: model.fulltimer_driving_license,
+      birth_date: model.fulltimer_birth_date,
       tags: model.fulltimerTags
     };
 

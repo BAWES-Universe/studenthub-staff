@@ -1,18 +1,37 @@
 <div class="filter-group-wrapper">
     <h4 class="filter-group-name">{{ "Profile" | translate }}</h4>
 
+    <refinement-list data-sort-order="1" [class.is-refined]="arrRefined && arrRefined['fulltimer_gender']"
+        label="{{ 'Gender' | translate }}" operator="or" 
+        [transformItems]="genderTransformItems"
+        attribute="fulltimer_gender"></refinement-list>
+
+    <range-refinement-list data-sort-order="2"
+        [class.is-refined]="arrRefined['fulltimer_birth_timestamp']" title="Age"
+        operator="or" attribute="fulltimer_birth_timestamp"></range-refinement-list>
+
+    <range-refinement-list data-sort-order="3"
+        [class.is-refined]="arrRefined['fulltimer_updated_timestamp']" title="Update By"
+        operator="or" attribute="fulltimer_updated_timestamp"></range-refinement-list>
+
+    <refinement-list data-sort-order="4" [class.is-refined]="arrRefined && arrRefined['fulltimer_driving_license']"
+        label="{{ 'Driving license' | translate }}" operator="or" [transformItems]="booleanTransformItems"
+        attribute="fulltimer_driving_license"></refinement-list>
+
+    <!-- old fields below -->
+
     <refinement-list data-sort-order="5" [class.is-refined]="arrRefined && arrRefined['have_resume']"
         label="Have Resume?" operator="or"
         attribute="have_resume"></refinement-list>
 
     <refinement-list label="Home Location" [searchable]="true"
-        data-sort-order="8" [class.is-refined]="arrRefined['currentLocations.en']"
+        data-sort-order="6" [class.is-refined]="arrRefined['currentLocations.en']"
         searchPlaceholder="Search here..." showMoreLabel="Show more"
         showLessLabel="Show less" showMoreLimit="15" operator="or"
         attribute="currentLocations.en"></refinement-list>
 
     <refinement-list label="Nationality" [searchable]="true"
-        data-sort-order="9" [class.is-refined]="arrRefined['nationality.nationality_name_en']"
+        data-sort-order="7" [class.is-refined]="arrRefined['nationality.nationality_name_en']"
         searchPlaceholder="Search here..." showMoreLabel="Show more"
         showLessLabel="Show less" showMoreLimit="15" operator="or"
         attribute="nationality.nationality_name_en"></refinement-list>
@@ -23,10 +42,61 @@
     -->
 
     <refinement-list label="Tags" [searchable]="true"
-        data-sort-order="1" [class.is-refined]="arrRefined['fulltimerTags.tag']"
+        data-sort-order="8" [class.is-refined]="arrRefined['fulltimerTags.tag']"
         searchPlaceholder="Search here..." showMoreLabel="Show more"
         showLessLabel="Show less" showMoreLimit="15" operator="or"
         attribute="fulltimerTags.tag"></refinement-list>
 
+    <h4 class="filter-group-name">{{ "Education" | translate }}</h4>
+
+    <div class="filter-groups">
+
+        <!--
+        <refinement-list label="{{ 'Skill' | translate }}" [searchable]="true"
+            data-sort-order="1" [class.is-refined]="arrRefined['fulltimerSkills.skill']"
+            searchPlaceholder="{{ 'Search here...' | translate }}" showMoreLabel="{{ 'Show more' | translate }}"
+            showLessLabel="{{ 'Show less' | translate }}" showMoreLimit="15" operator="or"
+            attribute="fulltimerSkills.skill"></refinement-list>
+
+        <refinement-list label="{{ 'Experience' | translate }}" [searchable]="true"
+            data-sort-order="2" [class.is-refined]="arrRefined['fulltimerExperiences.experience']"
+            searchPlaceholder="{{ 'Search here...' | translate }}" showMoreLabel="{{ 'Show more' | translate }}"
+            showLessLabel="{{ 'Show less' | translate }}" showMoreLimit="15" operator="or"
+            attribute="fulltimerExperiences.experience"></refinement-list>
+        -->
+
+        <refinement-list label="{{ 'School/University' | translate }}" [searchable]="true"
+            data-sort-order="3" [class.is-refined]="arrRefined['university.university_name']"
+            searchPlaceholder="{{ 'Search here...' | translate }}" showMoreLabel="{{ 'Show more' | translate }}"
+            showLessLabel="{{ 'Show less' | translate }}" showMoreLimit="15" operator="or"
+            attribute="university.university_name"></refinement-list>
+
+    </div>
+    
+    <h4 class="filter-group-name">{{ "Current Assignment" | translate }}</h4>
+
+    <div class="filter-groups">
+
+        <refinement-list data-sort-order="1" [class.is-refined]="arrRefined && arrRefined['fulltimer_employed']"
+            label="{{ 'Employed' | translate }}" operator="or" 
+            attribute="fulltimer_employed"></refinement-list>
+    </div>
+
+    <!-- 
+            [transformItems]="employedTransformItems" -->
+
 </div>
 
+<!--
+fulltimer_updated_at_timestamp
+fulltimer_birth_timestamp
+
+fulltimer_employed
+fulltimer_gender
+fulltimer_driving_license
+university_id
+
+fulltimerSkills.skill
+fulltimerExperiences.experience
+university.university_name
+-->

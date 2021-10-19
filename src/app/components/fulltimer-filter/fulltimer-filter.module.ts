@@ -6,6 +6,7 @@ import { FulltimerFilterComponent } from './fulltimer-filter';
 import { NgAisModule } from 'angular-instantsearch';
 import { RefinementListModule } from '../refinement-list/refinement-list.module';
 import { CommonModule } from "@angular/common";
+import { RangeRefinementModule } from '../range-refinement-list/range-refinement-list.module';
 
 
 @NgModule({
@@ -17,6 +18,7 @@ import { CommonModule } from "@angular/common";
     TranslateModule.forChild(),
     IonicModule,
     NgAisModule,
+    RangeRefinementModule,
     RefinementListModule
   ],
   exports: [
