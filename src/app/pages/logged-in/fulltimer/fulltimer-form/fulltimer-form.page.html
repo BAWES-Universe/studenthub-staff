@@ -139,6 +139,72 @@
           * required
         </p>
       </div>
+
+      <app-select-search-input
+        *ngIf="universitylistData"
+        formControlName="university_id"
+        placeholder="Select University"
+        [collection]="universitylistData"
+        title="University"
+        valueAttr="university_id"
+        labelAttr="university_name_en"
+        altLabelAttr="university_name_ar"
+        >
+      </app-select-search-input>
+
+      <div class="error-wrapper" *ngIf="!form.controls.university_id.pristine">
+        <p class="error" *ngIf="form.controls.university_id.errors && form.controls.university_id.errors.required">
+          * required
+        </p>
+      </div>
+      
+      <ion-item [class.ion-invalid]="!model.fulltimer_gender">
+        <div tabindex="0"></div>
+        <ion-label>Gender</ion-label>
+        <ion-chip (click)="setGenderOption(1)" [class.active]="model.fulltimer_gender == 1">Male</ion-chip>
+        <ion-chip (click)="setGenderOption(2)" [class.active]="model.fulltimer_gender == 2">Female</ion-chip>
+        <ion-chip (click)="setGenderOption(3)" [class.active]="model.fulltimer_gender == 3">Other</ion-chip>
+      </ion-item>
+
+      <div class="error-wrapper" *ngIf="!form.controls.gender.pristine">
+        <p class="error" *ngIf="form.controls.gender.errors && form.controls.gender.errors.required">
+          * required
+        </p>
+      </div>
+
+      <ion-item [class.ion-invalid]="!model.fulltimer_driving_license">
+        <div tabindex="0"></div>
+        <ion-label>Driving License Available?</ion-label>
+        <ion-chip (click)="setLicenseOption(1)" [class.active]="model.fulltimer_driving_license == 1">Yes</ion-chip>
+        <ion-chip (click)="setLicenseOption(2)" [class.active]="model.fulltimer_driving_license == 2">No</ion-chip>
+      </ion-item>
+
+      <div class="error-wrapper" *ngIf="!form.controls.driving_license.pristine">
+        <p class="error" *ngIf="form.controls.driving_license.errors && form.controls.driving_license.errors.required">
+          * required
+        </p>
+      </div>
+
+      <ion-item>
+        <ion-label position="floating">Birth Date</ion-label>
+        <ion-datetime displayFormat="YYYY-MM-DD" pickerFormat="YYYY-MM-DD" [min]="minBirthDate" [max]="maxBirthDate" formControlName="birth_date"></ion-datetime>
+      </ion-item>
+      <div class="error-wrapper" *ngIf="!form.controls.birth_date.pristine">
+        <p class="error" *ngIf="form.controls.birth_date.errors && form.controls.birth_date.errors.required">
+          * required
+        </p>
+      </div>
+
+      <ion-item>
+        <ion-label>Employed?</ion-label>
+        <ion-toggle slot="end" formControlName="employed"></ion-toggle>
+      </ion-item>
+      <div class="error-wrapper" *ngIf="!form.controls.employed.pristine">
+        <p class="error" *ngIf="form.controls.employed.errors && form.controls.employed.errors.required">
+          * required
+        </p>
+      </div>
+      
       <ion-card>
         <ion-card-header>
           <ion-card-title>Tags </ion-card-title>

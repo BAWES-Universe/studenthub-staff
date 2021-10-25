@@ -649,7 +649,7 @@ export class FulltimeLocationPage implements OnInit, OnDestroy {
 
   highlight(item) {
 
-    if (!this.query) {
+    if (!this.query || !item) {
       return item;
     }
 

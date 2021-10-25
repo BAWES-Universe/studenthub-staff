@@ -35,18 +35,18 @@ export class FulltimerFilterComponent {
         }).filter(item => ['Male', 'Female', 'Other'].indexOf(item.label) > -1);
     }
 
-  assignedTransformItems = (items) => {
+    employedTransformItems = (items) => {
 
         return items.map(item => {
             if (item.name == '0' || item.label == '0') {
-                item.label = item.highlighted = item.name = this.translateLabel.transform('Not Assigned');
+                item.label = item.highlighted = item.name = this.translateLabel.transform('Not Employed');
             }
             else if (item.name == '1' || item.label == '1') {
-                item.label = item.highlighted = item.name = this.translateLabel.transform('Assigned');
+                item.label = item.highlighted = item.name = this.translateLabel.transform('Employed');
             }
 
             return item;
-        }).filter(item => ['Assigned', 'Not Assigned'].indexOf(item.label) > -1);
+        }).filter(item => ['Employed', 'Not Employed'].indexOf(item.label) > -1);
     }
 
     kuwaitiMomTransformItems = (items) => {

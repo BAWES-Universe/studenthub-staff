@@ -25,7 +25,8 @@ export class RecentActivityComponent implements OnInit {
    * @param value
    */
   toDate(value) {
-    if(!value) return;
+    if(!value) 
+    return;
 
     return new Date(value.replace(/-/g, '/') + ' UTC');
   }

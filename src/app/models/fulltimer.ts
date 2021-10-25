@@ -19,6 +19,11 @@ export class Fulltimer {
     fulltimer_phone: any;
     fulltimer_email: string;
     fulltimer_pdf_cv: string;
+    university_id: number;
+    fulltimer_employed: number;
+    fulltimer_gender: number;
+    fulltimer_driving_license: number;
+    fulltimer_birth_date: string;
     fulltimer_current_salary: string;
     fulltimer_expected_salary: string;
     fulltimer_created_datetime: string;

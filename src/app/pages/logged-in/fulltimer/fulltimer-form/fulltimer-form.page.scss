@@ -13,3 +13,14 @@ input.upload {
     height: 100%;
     display: block !important;
 }
+
+.active,
+.button-outline-md:hover:not(.disable-hover) {
+  background: var(--ion-color-primary);
+  color: var(--ion-color-primary-contrast);
+}
+
+ion-item.ion-invalid {
+    border-left: 3px solid red;
+}
+  

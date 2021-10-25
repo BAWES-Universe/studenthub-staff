@@ -40,7 +40,7 @@ export class SelectSearchPageComponent {
 
   highlight(item) {
 
-    if(!this.query) {
+    if(!this.query || !item) {
       return item;
     }
 

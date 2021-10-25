@@ -35,6 +35,7 @@ export class CandidateFormPage implements OnInit {
   public maxDate;
   public minBirthDate;
   public maxBirthDate;
+  
   public loading = false;
   public saving = false;
 
