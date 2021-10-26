@@ -71,7 +71,12 @@
     <ion-list>
       <ion-item>
         <ion-label position="floating">Job Description</ion-label>
-        <ion-input type="text" formControlName="job_description"></ion-input>
+        
+        <ckeditor [config]="editorConfig" #ckeditor [editor]="Editor" 
+          (ready)="onEditorReady()" (change)="onChange($event)">
+        </ckeditor>
+        <!--
+        <ion-input type="text" formControlName="job_description"></ion-input>-->
       </ion-item>
     </ion-list>
 

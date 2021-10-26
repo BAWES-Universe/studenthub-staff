@@ -2,6 +2,11 @@ ion-back-button {
   display: block;
 }
 
+ckeditor {
+  margin: 20px 0 5px 0;
+  padding: 0;
+}
+
 ion-item.field-password {
   ion-input {
       --padding-end: 30px;
