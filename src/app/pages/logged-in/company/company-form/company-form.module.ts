@@ -8,12 +8,14 @@ import { CompanyFormPageRoutingModule } from './company-form-routing.module';
 
 import { CompanyFormPage } from './company-form.page';
 import {ImageUploadModule} from '../../../../components/image-upload/image-upload.module';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
+    CKEditorModule,
     ReactiveFormsModule,
     CompanyFormPageRoutingModule,
     ImageUploadModule

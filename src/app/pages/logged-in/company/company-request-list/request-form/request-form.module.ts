@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
 import { IonicModule } from '@ionic/angular';
 
@@ -13,9 +14,10 @@ import { RequestFormPage } from './request-form.page';
     CommonModule,
     FormsModule,
     IonicModule,
+    CKEditorModule,
     ReactiveFormsModule,
     RequestFormPageRoutingModule
-  ],
+  ], 
   declarations: [RequestFormPage]
 })
 export class RequestFormPageModule {}

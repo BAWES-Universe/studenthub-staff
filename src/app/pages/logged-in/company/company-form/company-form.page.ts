@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AlertController, ToastController, ModalController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
+import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 //validators
 import { CustomValidator } from 'src/app/validators/custom.validator';
 // services
@@ -18,6 +19,9 @@ import { Company } from 'src/app/models/company';
   styleUrls: ['./company-form.page.scss'],
 })
 export class CompanyFormPage implements OnInit {
+
+  @ViewChild('ckeditor', { static: false }) ckeditor: ClassicEditor;
+  @ViewChild('ckeditor_ar', { static: false }) ckeditor_ar: ClassicEditor;
 
   public borderLimit = false;
 
@@ -36,6 +40,15 @@ export class CompanyFormPage implements OnInit {
   public form: FormGroup;
 
   public followup = false;
+
+  public editorConfig = {
+    placeholder: 'Click here add description...',
+    startupFocus: true,
+    width: '100%',
+    toolbar: ['Heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', '|', 'indent', 'outdent'],
+  };
+  
+  public Editor = ClassicEditor;
 
   constructor(
     public activateRoute: ActivatedRoute,
@@ -236,5 +249,59 @@ export class CompanyFormPage implements OnInit {
 
   logScrolling(e) {
     this.borderLimit = (e.detail.scrollTop > 20);
+  }
+  
+  onEditorReady() {
+    const interval = setTimeout(() => {
+      if (this.ckeditor.editorInstance && this.form.value.description_en) {
+        this.ckeditor.editorInstance.setData(this.form.value.description_en);
+        // this.ckeditor.editorInstance.editing.view.focus();
+        // clearInterval(interval);
+      }
+    }, 200);
+  }
+  
+  /**
+   * on note editor change
+   * @param event
+   */
+  onChange(event) {
+
+    if (!event.editor) {
+      return event;
+    }
+
+    const data = event.editor.getData();
+
+    this.form.controls.description_en.setValue(data);
+    this.form.markAsDirty();
+    this.form.updateValueAndValidity();
+  }
+
+  onArabicEditorReady() {
+    const interval = setTimeout(() => {
+      if (this.ckeditor_ar.editorInstance && this.form.value.description_ar) {
+        this.ckeditor_ar.editorInstance.setData(this.form.value.description_ar);
+        // this.ckeditor.editorInstance.editing.view.focus();
+        // clearInterval(interval);
+      }
+    }, 200);
+  }
+  
+  /**
+   * on note editor change
+   * @param event
+   */
+  onArabicEditorChange(event) {
+
+    if (!event.editor) {
+      return event;
+    }
+
+    const data = event.editor.getData();
+
+    this.form.controls.description_ar.setValue(data);
+    this.form.markAsDirty();
+    this.form.updateValueAndValidity();
   }
 }

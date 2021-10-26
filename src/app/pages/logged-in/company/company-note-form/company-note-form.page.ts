@@ -3,6 +3,8 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ModalController, AlertController, PopoverController } from '@ionic/angular';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 // models
+import {Candidate} from 'src/app/models/candidate';
+import {Fulltimer} from 'src/app/models/fulltimer';
 import { Note } from 'src/app/models/note';
 import { Company } from 'src/app/models/company';
 // services
@@ -13,8 +15,6 @@ import { AwsService } from 'src/app/providers/aws.service';
 import { AllCompanyListPage } from '../company-request-list/all-company-list/all-company-list.page';
 import { CompanyRequestListPopupPage } from '../company-request-list/company-request-list-popup/company-request-list-popup.page';
 import { CompanyContactListPage } from '../company-contact/company-contact-list/company-contact-list.page';
-import {Candidate} from 'src/app/models/candidate';
-import {Fulltimer} from 'src/app/models/fulltimer';
 
 
 @Component({
