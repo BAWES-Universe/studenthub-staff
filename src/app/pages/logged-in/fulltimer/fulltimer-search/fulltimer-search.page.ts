@@ -35,6 +35,8 @@ export class FulltimerSearchPage implements OnInit {
 
   @ViewChild('instantSearch', { static: false }) public instantSearch;
 
+  public request_uuid;
+
   public lastQuery;
 
   public eleInfinite;
@@ -525,7 +527,8 @@ export class FulltimerSearchPage implements OnInit {
     const modal = await this.modalCtrl.create({
       component: FulltimerFormPage,
       componentProps: {
-        model: fulltimer
+        model: fulltimer,
+        request_uuid: this.request_uuid
       }
     });
     modal.onDidDismiss().then(e => {
@@ -536,6 +539,12 @@ export class FulltimerSearchPage implements OnInit {
       }
 
       if (e.data && e.data.refresh) {
+
+        if(this.request_uuid) {
+          setTimeout(() => {
+            this.modalCtrl.dismiss({ refresh: true });
+          }, 500);
+        }
 
         this.refreshingFulltimers = true;
 
@@ -571,6 +580,17 @@ export class FulltimerSearchPage implements OnInit {
       this.borderLimit = e.target.scrollTop > 20;
     } else {
       this.borderLimit = (e.detail.scrollTop > 20);
+    }
+  }
+
+  onFulltimerClicked(hit) {
+    //[routerLink]="'/fulltimer/' + hit.objectID"
+    if(!this.request_uuid) {
+      this.navCtrl.navigateForward('/fulltimer/' + hit.objectID);
+    } else {
+      this.modalCtrl.dismiss({
+        fulltimer_uuid: hit.objectID
+      });
     }
   }
 }

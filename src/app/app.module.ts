@@ -65,6 +65,7 @@ import {ModalPopPageModule} from './pages/logged-in/modal-pop/modal-pop.module';
 import {StoreViewPageModule} from './pages/logged-in/store/store-view/store-view.module';
 import { InvitePageModule } from './pages/logged-in/invite/invite.module';
 import {FulltimeLocationPageModule} from './pages/logged-in/fulltimer/fulltime-location/fulltime-location.module';
+import { FulltimerSearchPageModule } from './pages/logged-in/fulltimer/fulltimer-search/fulltimer-search.module';
 
 export function startupServiceFactory(authService) {
   return () => authService.load();
@@ -140,6 +141,7 @@ export function createTranslateLoader(http: HttpClient) {
     ModalPopPageModule,
     StoreViewPageModule,
     InvitePageModule,
+    FulltimerSearchPageModule,
     FulltimeLocationPageModule
   ],
   providers: [

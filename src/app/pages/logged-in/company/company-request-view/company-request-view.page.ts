@@ -28,6 +28,7 @@ import { Invitation } from 'src/app/models/invitation';
 import { CompanyRequestFormPage } from '../company-request-form/company-request-form.page';
 import {Fulltimer} from "../../../../models/fulltimer";
 import {FulltimerFormPage} from "../../fulltimer/fulltimer-form/fulltimer-form.page";
+import { FulltimerSearchPage } from '../../fulltimer/fulltimer-search/fulltimer-search.page';
 
 
 @Component({
@@ -565,7 +566,7 @@ export class CompanyRequestViewPage implements OnInit, OnDestroy {
   }
 
   /**
-   *
+   * select full timer 
    * @param $event
    * @param fulltimer
    */
@@ -576,7 +577,7 @@ export class CompanyRequestViewPage implements OnInit, OnDestroy {
     window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
     const modal = await this.modalCtrl.create({
-      component: FulltimerFormPage,
+      component: FulltimerSearchPage,//FulltimerFormPage,
       componentProps: {
         request_uuid: this.request_uuid,
         model: fulltimer
@@ -589,10 +590,100 @@ export class CompanyRequestViewPage implements OnInit, OnDestroy {
         window.history.back();
       }
 
+      console.log(e.data);
+
       if (e.data && e.data.refresh) {
         this.loadDetail();
+      }
+
+      if(e.data && e.data.fulltimer_uuid) {
+        this.showSuggestionDialog(e.data.fulltimer_uuid);
       }
     });
     return await modal.present();
   }
+
+  /**
+   * show dialog to get reason for suggestion
+   * @param fulltimer_uuid 
+   */
+  async showSuggestionDialog(fulltimer_uuid) {
+    const alert = await this.alertCtrl.create({
+      header: 'Please provide reason for suggestion',
+      inputs: [
+        {
+          name: 'suggestion',
+          type: 'text',
+          placeholder: ''
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+        },
+        {
+          text: 'Submit',
+          handler: async (data) => {
+            if (!data.suggestion) {
+              this.toastCtrl.create({
+                message: this.authService.errorMessage('Reason for suggestion required'),
+                duration: 3000
+              }).then(toast => {
+                toast.present();
+              });
+              return false;
+            }
+
+            this.createSuggestion(fulltimer_uuid, data.suggestion);
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+
+  /**
+   * creating suggestion
+   * @param fulltimer_uuid
+   */
+  async createSuggestion(fulltimer_uuid, suggestion) {
+
+    const params = {
+      suggestion: suggestion,
+      request_uuid: this.request_uuid,
+      fulltimer_uuid,
+      candidate_id: null
+    };
+
+    const loading  = await this.loadingCtrl.create({
+      message: 'Suggesting Please wait...',
+      duration: 2000
+    });
+    loading.present();
+    
+    this.suggestionService.create(params).subscribe(async response => {
+
+        this.loading = false;
+
+        // On Success
+        if (response.operation == 'success') {
+          
+          this.loadDetail();
+        }
+
+        // On Failure
+        if (response.operation == 'error') {
+          const prompt = await this.alertCtrl.create({
+            message: this.authService.errorMessage(response.message),
+            buttons: ['Okay']
+          });
+          prompt.present();
+        }
+      }, () => {
+      },
+      () => {
+        loading.dismiss();
+      }
+      );
+    }
 }

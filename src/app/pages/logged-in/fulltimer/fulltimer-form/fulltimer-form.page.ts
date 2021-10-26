@@ -705,6 +705,7 @@ export class FulltimerFormPage implements OnInit, OnDestroy {
       duration: 2000
     });
     loading.present();
+    
     this.suggestionService.create(params).subscribe(async response => {
 
         this.loading = false;
