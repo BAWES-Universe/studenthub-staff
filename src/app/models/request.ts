@@ -9,7 +9,7 @@ export class Request {
     request_uuid: string;
     company_id: number;
     contact_uuid: string;
-    staff_uuid: string;
+    staff_id: string;
     request_created_by: number;
     request_updated_by: number;
     request_position_type: number;
@@ -23,6 +23,10 @@ export class Request {
     // request_status: Status;
     request_feedback: string;
     num_hours_followup_interval: number;
+    request_cancelled_at: string;
+    request_delivered_at: string;
+    request_assigned_at: string;
+    request_started_at: string;
     request_created_datetime: string;
     request_updated_datetime: string;
     requestCreatedBy: Staff;

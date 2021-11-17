@@ -136,7 +136,7 @@ export class CompanyRequestService {
    */
   view(id): Observable<any> {
     const url = this.companyRequestEndpoint + '/' + id +
-      '?expand=requestCreatedBy,requestUpdatedBy,contact,company,company.companyContact,requestActivities,requestActivities.staff';
+      '?expand=staff,requestCreatedBy,requestUpdatedBy,contact,company,company.companyContact,requestActivities,requestActivities.staff';
     return this._authhttp.get(url);
   }
 
@@ -161,12 +161,12 @@ export class CompanyRequestService {
   /**
    * assign staff to request 
    * @param request_uuid 
-   * @param staff_uuid 
+   * @param staff_id 
    * @returns 
    */
-   assign(request_uuid, staff_uuid): Observable<any>{
+   assign(request_uuid, staff_id): Observable<any>{
     return this._authhttp.patch(`${this.companyRequestEndpoint}/assign/${request_uuid}`, {
-      staff_uuid: staff_uuid
+      staff_id: staff_id
     });
   }
 }

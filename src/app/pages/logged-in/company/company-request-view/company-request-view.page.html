@@ -26,7 +26,7 @@
       {{"CV Search: Invite candidates to apply for this position"}}
     </ion-button>
 
-    <ion-button (click)="assign()" *ngIf="authService.role == 1 && !request.staff">
+    <ion-button (click)="assign()" class="pull-right" *ngIf="authService.role == 1 && request && !request.staff">
       Assign staff
     </ion-button>
 
@@ -73,6 +73,18 @@
         <div class="requested-by-time">on {{ toDate(request.request_created_datetime) | date: 'MMM d, y' }} </div>
       </div>
 
+      <p *ngIf="request.request_started_at && request.staff">
+        Started {{ request.request_started_at | timeAgo }} By {{ request.staff.staff_name }}
+      </p>  
+
+      <p *ngIf="request.request_started_at && request.request_cancelled_at">
+        Cancelled after {{ request.request_started_at | duration : translateService.currentLang : request.request_cancelled_at }} 
+      </p>
+
+      <p *ngIf="request.request_started_at && request.request_delivered_at">
+        Took {{ request.request_started_at | duration : translateService.currentLang : request.request_delivered_at }} to complete
+      </p>
+      
       <h4 class="txt-activities">Recent Activity</h4>
 
       <div class="activity-container">
