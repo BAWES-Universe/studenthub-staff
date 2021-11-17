@@ -65,6 +65,10 @@ export class StaffPage implements OnInit {
     this.modalCtrl.dismiss(model);
   }
 
+  dismiss(data = {}) {
+    this.modalCtrl.dismiss(data);
+  }
+
   /**
    * load more
    * @param event
