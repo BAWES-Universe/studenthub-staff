@@ -66,6 +66,8 @@ import {StoreViewPageModule} from './pages/logged-in/store/store-view/store-view
 import { InvitePageModule } from './pages/logged-in/invite/invite.module';
 import {FulltimeLocationPageModule} from './pages/logged-in/fulltimer/fulltime-location/fulltime-location.module';
 import { FulltimerSearchPageModule } from './pages/logged-in/fulltimer/fulltimer-search/fulltimer-search.module';
+import { StaffPageModule } from './pages/logged-in/pickers/staff/staff.module';
+
 
 export function startupServiceFactory(authService) {
   return () => authService.load();
@@ -142,7 +144,8 @@ export function createTranslateLoader(http: HttpClient) {
     StoreViewPageModule,
     InvitePageModule,
     FulltimerSearchPageModule,
-    FulltimeLocationPageModule
+    FulltimeLocationPageModule,
+    StaffPageModule
   ],
   providers: [
     {

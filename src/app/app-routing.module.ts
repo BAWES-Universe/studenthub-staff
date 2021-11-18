@@ -414,6 +414,10 @@ const routes: Routes = [
     path: '**',
     redirectTo: 'not-found'
   },
+  {
+    path: 'staff',
+    loadChildren: () => import('./pages/logged-in/pickers/staff/staff.module').then( m => m.StaffPageModule)
+  },
 ];
 
 @NgModule({

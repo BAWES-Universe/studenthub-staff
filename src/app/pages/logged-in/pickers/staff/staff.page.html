@@ -1,0 +1,37 @@
+<ion-header [class.add-border]="borderLimit" class="ion-no-border">
+  <ion-toolbar class="container">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/" (click)="dismiss($event)"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Consultant List</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
+  <div class="container">
+    <ion-list *ngIf="!loading">
+      <section>
+
+        <ion-item tappable *ngFor="let staff of staffs" (click)="rowSelected(staff)">
+          <div tabindex="0"></div>
+          <ion-label>
+            {{ staff.staff_name }} 
+            <span *ngIf="authService.staff_id == staff.staff_id">&nbsp;•&nbsp;You</span>
+            <br/>
+            <small>{{ staff.staff_email }}</small><br/>
+          </ion-label>
+          <ion-badge class="company_status_badge" slot="end" color="danger" *ngIf="!staff.staff_status">
+            Inactive
+          </ion-badge>
+          <ion-badge class="company_status_badge" slot="end" color="success" *ngIf="staff.staff_status">
+            Active
+          </ion-badge>
+        </ion-item>
+      </section>
+    </ion-list>
+
+    <loading-modal [loading]="loading || loadMore" type="text-list"></loading-modal>
+  </div>
+  <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>
