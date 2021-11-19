@@ -24,16 +24,31 @@
 
   <h4>I am transferring for work done in the following time period:</h4>
 
-  <ion-button *ngIf="!start_date || !end_date" (click)="openCalendar()">Please select the date Range</ion-button>
-
-  <p class="date-range" *ngIf="this.start_date && this.end_date">
-    From <span *ngIf="this.start_date">{{ toDate(this.start_date) | date}}</span> - To
-    <span *ngIf="this.end_date">{{ toDate(this.end_date) | date}}</span>
-
-    <ion-button class="btn-clear-date-range" fill="clear" (click)="clearSelection()">
-      <ion-icon slot="icon-only" name="close-outline"></ion-icon>
-    </ion-button>
-  </p>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="6">
+        <ion-item>
+          <ion-label position="stacked">Start date</ion-label>
+          <ion-datetime pickerFormat="DD MMMM YYYY" displayFormat="DD MMMM YYYY" 
+            placeholder="DD/MM/YYYY" [(ngModel)]="start_date"></ion-datetime>
+        </ion-item>
+      </ion-col>
+      <ion-col size="6">
+        <ion-item>
+          <ion-label position="stacked">End date</ion-label>
+          <ion-datetime pickerFormat="DD MMMM YYYY" displayFormat="DD MMMM YYYY" 
+          placeholder="DD/MM/YYYY" [(ngModel)]="end_date"></ion-datetime>    
+        </ion-item>
+      </ion-col>
+      <!--
+      <ion-col size="4" *ngIf="startDate || endDate">
+    
+        <ion-button fill="clear" (click)="clearSelection()">
+          <ion-icon name="close-outline"></ion-icon>
+        </ion-button>
+      </ion-col>-->
+    </ion-row>
+  </ion-grid>
 
   <br/>
 
