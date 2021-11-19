@@ -212,7 +212,9 @@ export class CompanyRequestListPage implements OnInit {
     myCalendar.present();
 
     const event: any = await myCalendar.onDidDismiss();
+    
     const date: CalendarResult = event.data;
+
     if (date) {
       if (startDate) {
         this.filters.startDate = event.data.string;
