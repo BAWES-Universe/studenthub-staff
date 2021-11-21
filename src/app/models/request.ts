@@ -35,6 +35,7 @@ export class Request {
     company: Company;
     lastActivity: Note;
     staff: Staff;
+    staffs: Staff[];
 }
 /*
 enum Status {

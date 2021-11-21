@@ -72,6 +72,10 @@
       </ion-badge>
     </ng-container>
 
+    <ion-badge *ngFor="let staff of request.staffs">
+      {{ staff.staff_name }}
+    </ion-badge>
+    
     <div *ngIf="request" class="content-footer" [class.background-grey]="active" [class.background-red]="!active" [class.background-green]="request.request_status == 'delivered'">
       
       <p *ngIf="request.request_started_at && request.staff">

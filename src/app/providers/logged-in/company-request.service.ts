@@ -21,7 +21,7 @@ export class CompanyRequestService {
    */
   list(companyID: number): Observable<any> {
     const url = this.companyRequestEndpoint + '?company_id=' + companyID +
-      '&expand=company,staff,requestCreatedBy,requestUpdatedBy,contact,requestActivities,requestActivities.staff';
+      '&expand=staffs,company,staff,requestCreatedBy,requestUpdatedBy,contact,requestActivities,requestActivities.staff';
     return this._authhttp.get(url);
   }
 
@@ -31,7 +31,7 @@ export class CompanyRequestService {
    */
   listWithPagination(page: number, urlParams: string = ''): Observable<any> {
     const url = this.companyRequestEndpoint + '?page=' + page + urlParams +
-      '&expand=staff,requestCreatedBy,requestUpdatedBy,contact,company,company.companyContact,requestActivities,requestActivities.staff';
+      '&expand=staffs,staff,requestCreatedBy,requestUpdatedBy,contact,company,company.companyContact,requestActivities,requestActivities.staff';
     return this._authhttp.getRaw(url);
   }
 
@@ -39,7 +39,7 @@ export class CompanyRequestService {
    * requests started/active but not by login user
    */
   listActiveRequests(filterParams = '') : Observable<any> {
-    let url = this.companyRequestEndpoint + '/active?' + filterParams + '&expand=staff,lastActivity,lastActivity.createdBy,company';
+    let url = this.companyRequestEndpoint + '/active?' + filterParams + '&expand=staffs,staff,lastActivity,lastActivity.createdBy,company';
     return this._authhttp.get(url);
   }
 
@@ -48,7 +48,7 @@ export class CompanyRequestService {
    */
   listActiveWithPages(page: number, urlParams: string = ''): Observable<any> {
     const url = this.companyRequestEndpoint + '/active?page=' + page + urlParams +
-      '&expand=staff,lastActivity,lastActivity.createdBy,company';
+      '&expand=staffs,staff,lastActivity,lastActivity.createdBy,company';
     return this._authhttp.getRaw(url);
   }
 
@@ -136,7 +136,7 @@ export class CompanyRequestService {
    */
   view(id): Observable<any> {
     const url = this.companyRequestEndpoint + '/' + id +
-      '?expand=staff,requestCreatedBy,requestUpdatedBy,contact,company,company.companyContact,requestActivities,requestActivities.staff';
+      '?expand=staffs,staff,requestCreatedBy,requestUpdatedBy,contact,company,company.companyContact,requestActivities,requestActivities.staff';
     return this._authhttp.get(url);
   }
 
