@@ -1,32 +1,75 @@
-<ion-header>
-  <ion-toolbar>
+<ion-header [class.add-border]="borderLimit" class="ion-no-border">
+  <ion-toolbar class="container">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/view/tasks"></ion-back-button>
+    </ion-buttons>
     <ion-title>Valocity</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
 
-  <table>
-    <thead>
-      <tr>
-        <th>Request</th>
-        <th>Company</th>
-        <th>Owner</th>
-        <th>Other staff</th>
-        <th>Started At</th>
-        <th>Ends At</th>
-        <th>Total time</th>
-      </tr>
-    </thead>
-    <!--
-    <tbody>
-      <tr>
-        <td>{{ request.request_position_title }}</td>
-        <td>{{ request.company.company_name }}</td>
-        <td>{{ request.staff.staff_name }}</td>
-      </tr>
-    </tbody>-->
-  </table>
+  <div class="container">
 
+    <ion-grid>
+      <ion-row>
+        <ion-col size="4">
+          <ion-item>
+            <ion-label position="stacked">Start date</ion-label>
+            <ion-datetime pickerFormat="DD MMMM YYYY" displayFormat="DD MMMM YYYY" 
+              placeholder="DD/MM/YYYY" [(ngModel)]="start_date"></ion-datetime>
+          </ion-item>
+        </ion-col>
+        <ion-col size="4">
+          <ion-item>
+            <ion-label position="stacked">End date</ion-label>
+            <ion-datetime pickerFormat="DD MMMM YYYY" displayFormat="DD MMMM YYYY" 
+            placeholder="DD/MM/YYYY" [(ngModel)]="end_date"></ion-datetime>    
+          </ion-item>
+        </ion-col>
+        <ion-col size="4">
+      
+          <ion-button (click)="loadData(1)">
+            Submit
+          </ion-button>
 
+          <ion-button fill="clear" (click)="clearSelection()">
+            <ion-icon name="close-outline"></ion-icon>
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <ion-list *ngIf="!loading">
+      <section>
+
+        <ion-item tappable *ngFor="let staff of staffs" (click)="rowSelected(staff)">
+          <div tabindex="0"></div>
+          <ion-label>
+            {{ staff.staff_name }} 
+            <span *ngIf="authService.staff_id == staff.staff_id">&nbsp;•&nbsp;You</span>
+            <br/>
+            <small>{{ staff.staff_email }}</small><br/>
+
+            <ion-note>
+              {{ staff.totalCompletedRequests }} requests completed
+            </ion-note>
+          </ion-label>
+          <ion-badge class="company_status_badge" slot="end" color="danger" *ngIf="!staff.staff_status">
+            Inactive
+          </ion-badge>
+          <ion-badge class="company_status_badge" slot="end" color="success" *ngIf="staff.staff_status">
+            Active
+          </ion-badge>
+
+        </ion-item>
+      </section>
+    </ion-list>
+
+    <loading-modal [loading]="loading || loadMore" type="text-list"></loading-modal>
+  </div>
+  
+  <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>

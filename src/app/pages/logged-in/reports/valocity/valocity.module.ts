@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { ValocityPageRoutingModule } from './valocity-routing.module';
 
 import { ValocityPage } from './valocity.page';
+import { LoadingModalModule } from 'src/app/components/loading-modal/loading-modal.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ValocityPageRoutingModule
+    ValocityPageRoutingModule,
+    LoadingModalModule
   ],
   declarations: [ValocityPage]
 })

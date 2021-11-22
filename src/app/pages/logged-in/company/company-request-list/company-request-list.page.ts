@@ -143,12 +143,14 @@ export class CompanyRequestListPage implements OnInit {
 
     if (this.filters.startDate) {
       const d = new Date(this.filters.startDate);
-      urlParams += '&start_date=' + d.getFullYear() + '-' + d.getMonth() + '-' + d.getDate();
+      const month = d.getMonth() + 1;
+      urlParams += '&start_date=' + d.getFullYear() + '-' + month + '-' + d.getDate();
     }
 
     if (this.filters.endDate) {
       const d = new Date(this.filters.endDate);
-      urlParams += '&end_date=' + d.getFullYear() + '-' + d.getMonth() + '-' + d.getDate();
+      const month = d.getMonth() + 1;
+      urlParams += '&end_date=' + d.getFullYear() + '-' + month + '-' + d.getDate();
     }
 
     if (this.filters.position_type) {
