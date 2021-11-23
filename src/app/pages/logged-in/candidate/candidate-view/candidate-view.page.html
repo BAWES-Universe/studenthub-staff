@@ -49,8 +49,9 @@
                 </ion-button>
               </h4>
 
-              <h5 class="hourly-rate" *ngIf="candidate.candidate_hourly_rate">
-                {{ candidate.candidate_hourly_rate | number:'1.0-3' }} KD per hour</h5>
+              <h5 class="hourly-rate" *ngIf="candidate.store && candidate.candidate_hourly_rate">
+                Assigned to work at {{ candidate.store.store_name }} for {{ candidate.candidate_hourly_rate | number:'1.0-3' }} KD per hour
+              </h5>
 
               <div class="birth-date" [class.required]="!candidate.candidate_birth_date">
 
@@ -145,6 +146,11 @@
                       <h5 *ngIf="history.store">{{ history.store.store_name }} @ {{ history.company.company_name }}</h5>
 
                       <h5 *ngIf="!history.store">@ {{ history.company.company_name }}</h5>
+
+                      <p>
+                        for {{ history.candidate_hourly_rate | number:'1.0-3' }} KD per hour
+                      </p>
+
                       <ng-container *ngIf="history.end_date">{{ toDate(history.end_date) | date }}</ng-container>
 
                       <p>
@@ -438,7 +444,7 @@
     <loading-modal [loading]="loading" type="candidate-view"></loading-modal>
   </div>
 </ion-content>
-<ion-footer *ngIf="candidate && (!candidate.candidate_hourly_rate || candidate.isProfileCompleted || candidate.store)" class="container">
+<ion-footer *ngIf="candidate && (candidate.isProfileCompleted || candidate.store)" class="container">
   <ion-grid>
     <ion-row>
 
@@ -462,18 +468,20 @@
         </ion-button>
       </ion-col>
 
-      <ion-col *ngIf="candidate.isProfileCompleted && candidate.candidate_hourly_rate && !candidate.store">
+      <ion-col *ngIf="candidate.isProfileCompleted && !candidate.store">
         <ion-button class="btn-store" [disabled]="assigning" (click)="assingToStore($event)">
           <span *ngIf="!assigning">Assign to store</span>
           <ion-spinner *ngIf="assigning"></ion-spinner>
         </ion-button>
       </ion-col>
 
+      <!--
       <ion-col>
         <ion-button class="btn-hourly-rate" (click)="updateRate($event)">
           Set hourly rate
         </ion-button>
-      </ion-col>
+      </ion-col>-->
+
     </ion-row>
   </ion-grid>
 </ion-footer>

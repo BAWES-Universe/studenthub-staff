@@ -308,12 +308,47 @@ export class CandidateViewPage implements OnInit {
   /**
    * Assign Candidate to Store
    * @param {number} store_id
+   * @param {number} rate
    */
   async assignCandidateToStore(store_id) {
 
+    this.alertCtrl.create({
+      header: 'Set hourly rate',
+      inputs: [
+        {
+          name: 'rate',
+          type: 'text',
+          placeholder: 'Hourly Rate'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+        }, {
+          text: 'Save',
+          handler: (data) => {
+            if(!data || !data.rate) {
+              return false;
+            }
+
+            this.assignCandidateToStoreWithRate(store_id, data.rate);
+          }
+        }
+      ]
+    });
+  }
+
+  /**
+   * assign to store with rates
+   * @param store_id 
+   * @param rate 
+   */
+  assignCandidateToStoreWithRate(store_id, rate) {
+
     this.assigning = true;
 
-    this.candidateService.assignCandidateToStore(this.candidate, store_id).subscribe(async response => {
+    this.candidateService.assignCandidateToStore(this.candidate, store_id, rate).subscribe(async response => {
 
       this.assigning = false;
 
@@ -558,7 +593,9 @@ export class CandidateViewPage implements OnInit {
         }, {
           text: 'Save',
           handler: (data) => {
+            
             this.processing = 'setting_hours';
+
             if (data.rate) {
               this.candidateService.updateHour(this.candidate, data.rate).subscribe(response => {
 

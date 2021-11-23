@@ -1,9 +1,9 @@
 import { Candidate } from './candidate';
 import { Company } from './company';
-import {Brand} from './brand';
-import {Mall} from './mall';
-import { CompanyContact } from './company-contact';
-import {Contact} from "./contact";
+import { Brand } from './brand';
+import { Mall } from './mall';
+import { Contact } from "./contact";
+
 
 export class Store {
     store_id: number;
