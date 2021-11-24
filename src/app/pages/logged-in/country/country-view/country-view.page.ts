@@ -108,14 +108,6 @@ export class CountryViewPage implements OnInit {
       this.loadData(this.currentPage);
     });
   }
-
-  /**
-   * @param $event
-   * @param candidate
-   */
-  loadLogo($event, candidate) {
-    candidate.candidate_personal_photo = null;
-  }
   
   logScrolling(e) {
     this.borderLimit = (e.detail.scrollTop > 20) ? true : false;

@@ -150,6 +150,9 @@ export class ExpiredIdPage implements OnInit {
    * @param date
    */
    toDate(date) {
+    if (!date) 
+      return null;
+
     if (date) {
       return new Date(date.replace(/-/g, '/'));
     }
