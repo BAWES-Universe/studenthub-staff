@@ -116,9 +116,10 @@ export class CandidateComponent implements OnInit {
    * @param date
    */
   toDate(date) {
-    if (date) {
-      return new Date(date.replace(/-/g, '/'));
-    }
+    if (!date) 
+      return null;
+    
+    return new Date(date.replace(/-/g, '/'));
   }
 
   getLatestWorkTime() {

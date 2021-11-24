@@ -222,14 +222,6 @@ export class StoreViewPage implements OnInit {
   }
 
   /**
-   * @param $event
-   * @param candidate
-   */
-  loadLogo($event, candidate) {
-    candidate.candidate_personal_photo = null;
-  }
-
-  /**
    * load all mails
    */
   async loadMall() {

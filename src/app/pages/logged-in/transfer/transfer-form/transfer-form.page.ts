@@ -403,6 +403,9 @@ export class TransferFormPage implements OnInit {
    * @param date
    */
    toDate(date) {
+    if (!date) 
+      return null;
+
     if (date) {
       return new Date(date.replace(/-/g, '/'));
     }
