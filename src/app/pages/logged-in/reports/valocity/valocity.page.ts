@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
+import { daysToWeeks } from 'date-fns';
 //models
 import { Staff } from 'src/app/models/staff';
 //services
@@ -62,7 +63,7 @@ export class ValocityPage implements OnInit {
   }
 
   getUrlParams() {
-    let urlParams = '&expand=totalCompletedRequests';
+    let urlParams = '&expand=totalClosedRequests,timeForCompletedRequests,timeForCancelledRequests,totalInvitations';
 
     if(this.start_date) {
       const date = new Date(this.start_date);
@@ -77,6 +78,27 @@ export class ValocityPage implements OnInit {
     }
 
     return urlParams;
+  }
+
+  /**
+   * valocity of staff
+   * @param staff 
+   */
+  valocity(staff) {
+    if(!staff.totalClosedRequests) 
+      return 0; 
+      
+    const days = Math.ceil((staff.timeForCompletedRequests + staff.timeForCancelledRequests)/ (3600 * 24));
+    return staff.totalClosedRequests/ days;
+  }
+
+  /**
+   * no of hours spent on hours
+   * @param staff 
+   * @returns 
+   */
+  noOfHours(staff) {
+    return (staff.timeForCompletedRequests + staff.timeForCancelledRequests)/ 3600; 
   }
 
   /**

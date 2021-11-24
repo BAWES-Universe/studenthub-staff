@@ -40,36 +40,30 @@
       </ion-row>
     </ion-grid>
 
-    <ion-list *ngIf="!loading">
-      <section>
-
-        <ion-item tappable *ngFor="let staff of staffs" (click)="rowSelected(staff)">
-          <div tabindex="0"></div>
-          <ion-label>
-            {{ staff.staff_name }} 
-            <span *ngIf="authService.staff_id == staff.staff_id">&nbsp;•&nbsp;You</span>
-            <br/>
-            <small>{{ staff.staff_email }}</small><br/>
-
-            <ion-note>
-              {{ staff.totalCompletedRequests }} requests completed
-            </ion-note>
-          </ion-label>
-          <ion-badge class="company_status_badge" slot="end" color="danger" *ngIf="!staff.staff_status">
-            Inactive
-          </ion-badge>
-          <ion-badge class="company_status_badge" slot="end" color="success" *ngIf="staff.staff_status">
-            Active
-          </ion-badge>
-
-        </ion-item>
-      </section>
-    </ion-list>
+    <ion-grid *ngIf="!loading" class="table table-hover table-bordered">
+      <ion-row>
+        <ion-col>Recruiter</ion-col>
+        <ion-col>Request Closed</ion-col>
+        <ion-col>Invited Candidates</ion-col>
+        <ion-col>Number of Hours</ion-col>
+        <ion-col>Velocity</ion-col>
+      </ion-row>
+      <ion-row *ngFor="let staff of staffs">
+        <ion-col>{{ staff.staff_name }} 
+          <span *ngIf="authService.staff_id == staff.staff_id">&nbsp;•&nbsp;You</span>
+        </ion-col>
+        <ion-col>{{ staff.totalClosedRequests }}</ion-col>
+        <ion-col>{{ staff.totalInvitations }}</ion-col>
+        <ion-col>{{ noOfHours(staff) }}</ion-col>
+        <ion-col>{{ valocity(staff) }}</ion-col>
+      </ion-row>
+    </ion-grid>
 
     <loading-modal [loading]="loading || loadMore" type="text-list"></loading-modal>
+
+    <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
+      <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
   </div>
-  
-  <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
-    <ion-infinite-scroll-content></ion-infinite-scroll-content>
-  </ion-infinite-scroll>
+    
 </ion-content>
