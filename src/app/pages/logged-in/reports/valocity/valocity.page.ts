@@ -63,7 +63,7 @@ export class ValocityPage implements OnInit {
   }
 
   getUrlParams() {
-    let urlParams = '&expand=totalClosedRequests,timeForCompletedRequests,timeForCancelledRequests,totalInvitations';
+    let urlParams = '&expand=totalClosedRequests,totalPendingRequests,timeForCompletedRequests,timeForCancelledRequests,totalInvitations';
 
     if(this.start_date) {
       const date = new Date(this.start_date);

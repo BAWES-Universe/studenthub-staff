@@ -44,6 +44,7 @@
       <ion-row>
         <ion-col>Recruiter</ion-col>
         <ion-col>Request Closed</ion-col>
+        <ion-col>Request Pending</ion-col>
         <ion-col>Invited Candidates</ion-col>
         <ion-col>Number of Hours</ion-col>
         <ion-col>Velocity</ion-col>
@@ -53,6 +54,7 @@
           <span *ngIf="authService.staff_id == staff.staff_id">&nbsp;•&nbsp;You</span>
         </ion-col>
         <ion-col>{{ staff.totalClosedRequests }}</ion-col>
+        <ion-col>{{ staff.totalPendingRequests }}</ion-col>
         <ion-col>{{ staff.totalInvitations }}</ion-col>
         <ion-col>{{ noOfHours(staff) }}</ion-col>
         <ion-col>{{ valocity(staff) }}</ion-col>
