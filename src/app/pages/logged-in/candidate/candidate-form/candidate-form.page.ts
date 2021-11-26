@@ -97,7 +97,7 @@ export class CandidateFormPage implements OnInit {
     this.model.candidate_civil_id = this.form.value.civil_id;
     this.model.candidate_civil_expiry_date = this.form.value.expiry_date;
 
-    this.model.candidate_hourly_rate = this.form.value.hourly_rate;
+    //this.model.candidate_hourly_rate = this.form.value.hourly_rate;
     this.model.university_id = Number(this.form.value.university_id);
     this.model.country_id = Number(this.form.value.country_id);
 
@@ -110,6 +110,8 @@ export class CandidateFormPage implements OnInit {
     this.model.candidate_longitude = this.form.value.longitude;
     this.model.candidate_area_uuid = this.form.value.area_uuid;
     this.model.candidate_mom_kuwaiti = this.form.value.candidate_mom_kuwait;
+
+    this.model.candidate_preferred_time = this.form.value.preferred_time;
   }
 
   /**
@@ -233,7 +235,7 @@ export class CandidateFormPage implements OnInit {
         civilfront: ['', Validators.required],
         civilback: ['', Validators.required],
         expiry_date: ['', Validators.required],
-        hourly_rate: ['', Validators.required],
+        //hourly_rate: ['', Validators.required],
         objective: ['', Validators.required],
         gender: ['', Validators.required],
         license: ['', Validators.required],
@@ -243,7 +245,8 @@ export class CandidateFormPage implements OnInit {
         latitude: [''],
         longitude: [''],
         area_uuid: [''],
-        candidate_mom_kuwait: ['']
+        candidate_mom_kuwait: [''],
+        preferred_time: [''],
       });
     } else { // Show Update Form
       this.operation = 'Update';
@@ -262,7 +265,7 @@ export class CandidateFormPage implements OnInit {
         civilfront: [this.model.candidate_civil_photo_front, Validators.required],
         civilback: [this.model.candidate_civil_photo_back, Validators.required],
         expiry_date: [this.model.candidate_civil_expiry_date, Validators.required],
-        hourly_rate: [this.model.candidate_hourly_rate, Validators.required],
+        //hourly_rate: [this.model.candidate_hourly_rate, Validators.required],
         objective: [this.model.candidate_objective, Validators.required],
         gender: [this.model.candidate_gender, Validators.required],
         license: [this.model.candidate_driving_license, Validators.required],
@@ -272,8 +275,10 @@ export class CandidateFormPage implements OnInit {
         latitude: [this.model.candidate_latitude],
         longitude: [this.model.candidate_longitude],
         area_uuid: [this.model.candidate_area_uuid],
-        candidate_mom_kuwait: [this.model.candidate_mom_kuwaiti]
+        candidate_mom_kuwait: [this.model.candidate_mom_kuwaiti],
+        preferred_time: [this.model.candidate_preferred_time],
       });
+      
       this.loadExp();
       this.loadSkill();
     }

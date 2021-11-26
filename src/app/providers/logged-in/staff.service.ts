@@ -15,8 +15,8 @@ export class StaffService {
    * Return list of all staff
    * @returns {Observable<any>}
    */
-  list(page: number = 1): Observable<any>{
-    const url = `${this.staffEndpoint}?page=${page}`;
+  list(page: number = 1, urlParams = ''): Observable<any>{
+    const url = `${this.staffEndpoint}?page=${page}${urlParams}`;
     return this._authhttp.getRaw(url);
   }
 

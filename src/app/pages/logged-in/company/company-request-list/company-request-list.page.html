@@ -25,22 +25,41 @@
             <ion-badge tappable color="primary" (click)="filterByType($event, 2)" [class.active]="filters.position_type == 2">Part Timer</ion-badge>
             <ion-badge tappable color="primary" (click)="filterByType($event, 1)" [class.active]="filters.position_type == 1">Full Timer</ion-badge>
           </ion-col>
-        </ion-row>
+        </ion-row> 
       </ion-grid>
     </div>
+
     <ion-searchbar debounce="500" placeholder="Type to search" (ionChange)="searchByName($event)"></ion-searchbar>
-    <ion-button (click)="selectDate()" [color]="(filters.startDate) ? 'success' : 'primary'">
-      <span *ngIf="!filters.startDate">Select Start Date</span>
-      <span *ngIf="filters.startDate">Selected  : {{filters.startDate}}</span>
-    </ion-button>
-    <ion-button fill="clear" (click)="clearfilter(true)" *ngIf="filters.startDate"><ion-icon name="refresh-outline"></ion-icon></ion-button>
-    <ion-button (click)="selectDate(false)"  [color]="(filters.endDate) ? 'success' : 'primary'">
-      <span *ngIf="!filters.endDate">Select End Date</span>
-      <span *ngIf="filters.endDate">Selected  : {{filters.endDate}}</span>
-    </ion-button>
 
-    <ion-button fill="clear" (click)="clearfilter()" *ngIf="filters.endDate"><ion-icon name="refresh-outline"></ion-icon></ion-button>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="4">
+          <ion-item>
+            <ion-label position="stacked">Start date</ion-label>
+            <ion-datetime pickerFormat="DD MMMM YYYY" displayFormat="DD MMMM YYYY" 
+              placeholder="DD/MM/YYYY" [(ngModel)]="filters.startDate"></ion-datetime>
+          </ion-item>
+        </ion-col>
+        <ion-col size="4">
+          <ion-item>
+            <ion-label position="stacked">End date</ion-label>
+            <ion-datetime pickerFormat="DD MMMM YYYY" displayFormat="DD MMMM YYYY" 
+            placeholder="DD/MM/YYYY" [(ngModel)]="filters.endDate"></ion-datetime>    
+          </ion-item>
+        </ion-col>
+        <ion-col size="4" *ngIf="filters.startDate || filters.endDate">
 
+          <ion-button (click)="list()">
+            Submit
+          </ion-button>
+      
+          <ion-button fill="clear" (click)="clearfilter()">
+            <ion-icon name="refresh-outline"></ion-icon>
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  
     <ion-list>
 
       <request-listing *ngFor="let request of requests" tappable (click)="requestDetail(request)"

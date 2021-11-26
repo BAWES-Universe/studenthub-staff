@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import {
@@ -18,16 +18,17 @@ import { TranslateLabelService } from 'src/app/providers/translate-label.service
 import { CompanyRequestService } from 'src/app/providers/logged-in/company-request.service';
 import { SuggestionService } from 'src/app/providers/logged-in/suggestion.service';
 import { EventService } from 'src/app/providers/event.service';
+import { InvitationService } from 'src/app/providers/logged-in/invitation.service';
 // models
 import { Request } from 'src/app/models/request';
 import { Note } from 'src/app/models/note';
+import { Fulltimer } from "../../../../models/fulltimer";
+import { Invitation } from 'src/app/models/invitation';
 // pages
 import { CompanyNoteFormPage } from '../company-note-form/company-note-form.page';
-import { InvitationService } from 'src/app/providers/logged-in/invitation.service';
-import { Invitation } from 'src/app/models/invitation';
 import { CompanyRequestFormPage } from '../company-request-form/company-request-form.page';
-import {Fulltimer} from "../../../../models/fulltimer";
-import {FulltimerFormPage} from "../../fulltimer/fulltimer-form/fulltimer-form.page";
+import { FulltimerSearchPage } from '../../fulltimer/fulltimer-search/fulltimer-search.page';
+import { StaffPage } from '../../pickers/staff/staff.page';
 
 
 @Component({
@@ -68,6 +69,8 @@ export class CompanyRequestViewPage implements OnInit, OnDestroy {
 
   public internvalSubscribe;
 
+  public segment: string = 'activities';
+
   constructor(
     public modalCtrl: ModalController,
     public alertCtrl: AlertController,
@@ -82,14 +85,14 @@ export class CompanyRequestViewPage implements OnInit, OnDestroy {
     public suggestionService: SuggestionService,
     public invitationService: InvitationService,
     public eventService: EventService,
-    public translateLabelService: TranslateLabelService,
+    public translateService: TranslateLabelService,
     public platform: Platform
   ) {
   }
 
   ngOnInit() {
 
-    if(!this.request_uuid)
+    if (!this.request_uuid)
       this.request_uuid = this.route.snapshot.params.request_uuid;
 
     this.backState = window.history.state;
@@ -98,18 +101,18 @@ export class CompanyRequestViewPage implements OnInit, OnDestroy {
     this.loadDetail();
 
     this.eventService.companyRequestUpdate$.subscribe((data: any) => {
-      if(data && data.request_uuid == this.request_uuid) {
+      if (data && data.request_uuid == this.request_uuid) {
         this.request.request_updated_datetime = data.request_updated_datetime;
       }
     });
 
     this.eventService.noteUpdated$.subscribe((data: any) => {
-      if(data && data.request_uuid == this.request_uuid) {
+      if (data && data.request_uuid == this.request_uuid) {
         this.loadRequestActivities();
       }
     });
 
-    this.internvalSubscribe = setInterval(  _ => {
+    this.internvalSubscribe = setInterval(_ => {
       this.isRequestUpdated();
     }, 6 * 1000);//every 6 seconds
   }
@@ -138,7 +141,7 @@ export class CompanyRequestViewPage implements OnInit, OnDestroy {
    */
   loadDetail(loading = true) {
 
-    if(loading)
+    if (loading)
       this.loading = true;
 
     this.requestService.view(this.request_uuid).subscribe(data => {
@@ -156,12 +159,12 @@ export class CompanyRequestViewPage implements OnInit, OnDestroy {
    * check if request updated, if so reload details
    */
   isRequestUpdated() {
-    if(!this.request) {
+    if (!this.request) {
       return null;
     }
 
     this.requestService.isRequestUpdated(this.request_uuid).subscribe(data => {
-      if(data.request_updated_datetime != this.request.request_updated_datetime) {
+      if (data.request_updated_datetime != this.request.request_updated_datetime) {
         this.loadDetail(false);//refresh without showing loader
       }
     }, () => {
@@ -180,8 +183,7 @@ export class CompanyRequestViewPage implements OnInit, OnDestroy {
   /**
    * load invitations for this request
    */
-  loadInvitations(loading = true)
-  {
+  loadInvitations(loading = true) {
     this.invitationService.list('&request_uuid=' + this.request_uuid).subscribe(invitations => {
 
       this.invitedCandidates = invitations.filter(invitation => invitation.invitation_status == 1);
@@ -260,6 +262,49 @@ export class CompanyRequestViewPage implements OnInit, OnDestroy {
   }
 
   /**
+   * open popup to select consultants 
+   */
+  async assign() {
+
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
+    const modal = await this.modalCtrl.create({
+      component: StaffPage,
+      componentProps: {
+        role: 2 //only consultants
+      }
+    });
+    modal.present();
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
+
+    const { data } = await modal.onWillDismiss();
+
+    if (data && data.staff_id) {
+
+      this.requestService.assign(this.request_uuid, data.staff_id).subscribe(async res => {
+
+        if (res.operation == 'success') {
+          this.request.staff = res.staff;
+        }
+        else {
+          this.alertCtrl.create({
+            message: this.translateService.errorMessage(res.message),
+            buttons: ['Okay']
+          }).then(prompt => {
+            prompt.present();
+          });
+        }
+      });
+    }
+  }
+
+  /**
    * show alert to post update on request
    */
   async showUpdateAlert() {
@@ -326,7 +371,7 @@ export class CompanyRequestViewPage implements OnInit, OnDestroy {
         window.history.back();
       }
 
-      if(e.data && e.data.refresh) {
+      if (e.data && e.data.refresh) {
 
         this.loadDetail(false);
       }
@@ -401,7 +446,7 @@ export class CompanyRequestViewPage implements OnInit, OnDestroy {
               } else {
 
                 this.toastCtrl.create({
-                  message: this.translateLabelService.errorMessage(response.message),
+                  message: this.translateService.errorMessage(response.message),
                   buttons: ['Okay']
                 }).then(prompt => {
                   prompt.present();
@@ -452,8 +497,8 @@ export class CompanyRequestViewPage implements OnInit, OnDestroy {
             this.updatingInterval = true;
 
             const params = {
-              request_uuid : this.request_uuid,
-              num_hours_followup_interval : data.hours,
+              request_uuid: this.request_uuid,
+              num_hours_followup_interval: data.hours,
               reason: data.feedback,
             };
 
@@ -474,7 +519,7 @@ export class CompanyRequestViewPage implements OnInit, OnDestroy {
               } else {
 
                 this.toastCtrl.create({
-                  message: this.translateLabelService.errorMessage(response.message),
+                  message: this.translateService.errorMessage(response.message),
                   buttons: ['Okay']
                 }).then(prompt => {
                   prompt.present();
@@ -554,7 +599,7 @@ export class CompanyRequestViewPage implements OnInit, OnDestroy {
 
               } else {
                 this.toastCtrl.create({
-                  message: this.translateLabelService.errorMessage(response.message),
+                  message: this.translateService.errorMessage(response.message),
                   buttons: ['Ok']
                 }).then(prompt => {
                   prompt.present();
@@ -568,7 +613,7 @@ export class CompanyRequestViewPage implements OnInit, OnDestroy {
   }
 
   /**
-   *
+   * select full timer 
    * @param $event
    * @param fulltimer
    */
@@ -579,7 +624,7 @@ export class CompanyRequestViewPage implements OnInit, OnDestroy {
     window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
     const modal = await this.modalCtrl.create({
-      component: FulltimerFormPage,
+      component: FulltimerSearchPage,//FulltimerFormPage,
       componentProps: {
         request_uuid: this.request_uuid,
         model: fulltimer
@@ -592,10 +637,104 @@ export class CompanyRequestViewPage implements OnInit, OnDestroy {
         window.history.back();
       }
 
+      console.log(e.data);
+
       if (e.data && e.data.refresh) {
         this.loadDetail();
       }
+
+      if (e.data && e.data.fulltimer_uuid) {
+        this.showSuggestionDialog(e.data.fulltimer_uuid);
+      }
     });
     return await modal.present();
+  }
+
+  /**
+   * show dialog to get reason for suggestion
+   * @param fulltimer_uuid 
+   */
+  async showSuggestionDialog(fulltimer_uuid) {
+    const alert = await this.alertCtrl.create({
+      header: 'Please provide reason for suggestion',
+      inputs: [
+        {
+          name: 'suggestion',
+          type: 'text',
+          placeholder: ''
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+        },
+        {
+          text: 'Submit',
+          handler: async (data) => {
+            if (!data.suggestion) {
+              this.toastCtrl.create({
+                message: this.authService.errorMessage('Reason for suggestion required'),
+                duration: 3000
+              }).then(toast => {
+                toast.present();
+              });
+              return false;
+            }
+
+            this.createSuggestion(fulltimer_uuid, data.suggestion);
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+
+  /**
+   * creating suggestion
+   * @param fulltimer_uuid
+   */
+  async createSuggestion(fulltimer_uuid, suggestion) {
+
+    const params = {
+      suggestion: suggestion,
+      request_uuid: this.request_uuid,
+      fulltimer_uuid,
+      candidate_id: null
+    };
+
+    const loading = await this.loadingCtrl.create({
+      message: 'Suggesting Please wait...',
+      duration: 2000
+    });
+    loading.present();
+
+    this.suggestionService.create(params).subscribe(async response => {
+
+      this.loading = false;
+
+      // On Success
+      if (response.operation == 'success') {
+
+        this.loadDetail();
+      }
+
+      // On Failure
+      if (response.operation == 'error') {
+        const prompt = await this.alertCtrl.create({
+          message: this.authService.errorMessage(response.message),
+          buttons: ['Okay']
+        });
+        prompt.present();
+      }
+    }, () => {
+    },
+      () => {
+        loading.dismiss();
+      }
+    );
+  }
+
+  segmentChanged(event) {
+    this.segment = event.target.value;
   }
 }

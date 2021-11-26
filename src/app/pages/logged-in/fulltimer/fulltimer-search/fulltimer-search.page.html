@@ -91,7 +91,7 @@
               <div *ngIf="!refreshingFulltimers" class="fulltimer-wrapper">
                 <!-- <fulltimer [fulltimer]="hit" *ngFor="let hit of hits"></fulltimer>-->
 
-                <ion-card [routerLink]="'/fulltimer/' + hit.objectID" *ngFor="let hit of hits">
+                <ion-card tappable (click)="onFulltimerClicked(hit)" *ngFor="let hit of hits">
                   <ion-card-header>
                     <ion-card-title>
                       {{ hit.fulltimer_name }}

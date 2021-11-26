@@ -21,15 +21,7 @@ import { TransferService } from 'src/app/providers/logged-in/transfer.service';
 import { CompanyService } from 'src/app/providers/logged-in/company.service';
 import { AwsService } from 'src/app/providers/aws.service';
 import { AuthService } from '../../../../providers/auth.service';
-import {
-  CalendarModal,
-  CalendarModalOptions,
-  DayConfig,
-  CalendarResult,
-  CalendarComponentOptions
-} from 'ion2-calendar';
-import { DefaultDate } from 'ion2-calendar/dist/calendar.model';
-import {EventService} from '../../../../providers/event.service';
+import { EventService } from '../../../../providers/event.service';
 
 
 @Component({
@@ -63,11 +55,7 @@ export class TransferFormPage implements OnInit {
   public selected; // max date
   dateRange: { from: string; to: string; };
   type: 'string'; // 'string' | 'js-date' | 'moment' | 'time' | 'object'
-  optionsRange: CalendarComponentOptions = {
-    pickMode: 'range'
-    // pickMode: 'multi'
-  };
-
+  
   constructor(
     public activatedRoute: ActivatedRoute,
     public navCtrl: NavController,
@@ -252,9 +240,10 @@ export class TransferFormPage implements OnInit {
      * Otherwise create a new transfer
      */
     this.removeUnaccountedUsers();
+
     const action = this.transfer.transfer_id ?
-    this.transferService.updateTransfer(this.transfer, this.form.value.start_date, this.form.value.end_date) :
-    this.transferService.save(this.transfer, this.form.value.start_date, this.form.value.end_date);
+      this.transferService.updateTransfer(this.transfer, this.form.value.start_date, this.form.value.end_date) :
+      this.transferService.save(this.transfer, this.form.value.start_date, this.form.value.end_date);
 
     action.subscribe(async jsonResponse => {
       loader.dismiss();
@@ -361,48 +350,11 @@ export class TransferFormPage implements OnInit {
     });
   }
 
-  async openCalendar() {
-    const options: CalendarModalOptions = {
-      canBackwardsSelected: true,
-      pickMode: 'range',
-      title: '',
-      defaultScrollTo: new Date(this.transfer.end_date ? this.transfer.end_date : new Date()),
-      defaultDateRange: {
-        from: new Date(this.transfer.start_date ? this.transfer.start_date : ''),
-        to: new Date(this.transfer.end_date ? this.transfer.end_date : '')
-      }
-    };
-
-    const myCalendar = await this.modalCtrl.create({
-      component: CalendarModal,
-      cssClass: 'modal-calender',
-      componentProps: { options }
-    });
-
-    myCalendar.present();
-
-    const event: any = await myCalendar.onDidDismiss();
-    const date = event.data;
-
-    if (date) {
-      const from: CalendarResult = date.from;
-      const to: CalendarResult = date.to;
-      if (from.string) {
-        this.form.controls.start_date.setValue(from.string);
-        this.transfer.start_date = from.string;
-      }
-      if (to.string) {
-        this.form.controls.end_date.setValue(to.string);
-        this.transfer.end_date = to.string;
-      }
-    }
-  }
-
   /**
    * Make date readable by Safari
    * @param date
    */
-   toDate(date) {
+  toDate(date) {
     if (!date) 
       return null;
 
@@ -416,7 +368,7 @@ export class TransferFormPage implements OnInit {
   }
 
   removeUnwantedData(candidate) {
-     return candidate;
+    return candidate;
   }
 
   /**
@@ -424,7 +376,7 @@ export class TransferFormPage implements OnInit {
    */
   removeUnaccountedUsers() {
     this.transfer.transferCandidates = this.transfer.transferCandidates.filter((candidates, index) => {
-      return (candidates.bonus > 0 || candidates.hours > 0 );
+      return (candidates.bonus > 0 || candidates.hours > 0);
     });
   }
 }

@@ -1,6 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ModalController, AlertController, PopoverController } from '@ionic/angular';
+import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 // services
 import { CompanyRequestService } from 'src/app/providers/logged-in/company-request.service';
 import { EventService } from "../../../../providers/event.service";
@@ -17,6 +18,8 @@ import { CompanyContactListPage } from "../company-contact/company-contact-list/
   styleUrls: ['./company-request-form.page.scss'],
 })
 export class CompanyRequestFormPage implements OnInit {
+  
+  @ViewChild('ckeditor', { static: false }) ckeditor: ClassicEditor;
 
   @Input() company;
 
@@ -30,6 +33,15 @@ export class CompanyRequestFormPage implements OnInit {
   public form: FormGroup;
 
   public borderLimit = false;
+
+  public editorConfig = {
+    placeholder: 'Click here add description...',
+    startupFocus: true,
+    width: '100%',
+    toolbar: ['Heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', '|', 'indent', 'outdent'],
+  };
+  
+  public Editor = ClassicEditor;
 
   constructor(
     public requestService: CompanyRequestService,
@@ -62,6 +74,33 @@ export class CompanyRequestFormPage implements OnInit {
     });
 
     this.operation = (this.model && this.model.request_uuid) ? 'Update' : 'Create';
+  }
+
+  onEditorReady() {
+    const interval = setTimeout(() => {
+      if (this.ckeditor.editorInstance && this.form.value.job_description) {
+        this.ckeditor.editorInstance.setData(this.form.value.job_description);
+        // this.ckeditor.editorInstance.editing.view.focus();
+        // clearInterval(interval);
+      }
+    }, 200);
+  }
+  
+  /**
+   * on note editor change
+   * @param event
+   */
+  onChange(event) {
+
+    if (!event.editor) {
+      return event;
+    }
+
+    const data = event.editor.getData();
+
+    this.form.controls.job_description.setValue(data);
+    this.form.markAsDirty();
+    this.form.updateValueAndValidity();
   }
 
   /**

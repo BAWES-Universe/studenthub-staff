@@ -7,6 +7,7 @@ import { Candidate } from 'src/app/models/candidate';
 import { Country } from 'src/app/models/country';
 import { Note } from 'src/app/models/note';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -131,7 +132,7 @@ export class CandidateService {
       expiry_date: model.candidate_civil_expiry_date,
       photo_front: model.candidate_civil_photo_front,
       photo_back: model.candidate_civil_photo_back,
-      hourly_rate: model.candidate_hourly_rate,
+      //hourly_rate: model.candidate_hourly_rate,
       candidate_status: model.candidate_status,
       candidate_objective: model.candidate_objective,
       candidate_gender: model.candidate_gender,
@@ -142,7 +143,8 @@ export class CandidateService {
       latitude: model.candidate_latitude,
       longitude: model.candidate_longitude,
       area_uuid: model.candidate_area_uuid,
-      mom_kuwait: model.candidate_mom_kuwaiti
+      mom_kuwait: model.candidate_mom_kuwaiti,
+      preferred_time: model.candidate_preferred_time
     };
     return this._authhttp.post(postUrl, params);
   }
@@ -172,7 +174,7 @@ export class CandidateService {
       expiry_date: model.candidate_civil_expiry_date,
       photo_front: model.candidate_civil_photo_front,
       photo_back: model.candidate_civil_photo_back,
-      hourly_rate: model.candidate_hourly_rate,
+      //hourly_rate: model.candidate_hourly_rate,
       candidate_status: model.candidate_status,
       candidate_objective: model.candidate_objective,
       candidate_gender: model.candidate_gender,
@@ -184,6 +186,7 @@ export class CandidateService {
       longitude: model.candidate_longitude,
       area_uuid: model.candidate_area_uuid,
       mom_kuwait: model.candidate_mom_kuwaiti,
+      preferred_time: model.candidate_preferred_time
     };
 
     return this._authhttp.patch(url, params);
@@ -240,9 +243,14 @@ export class CandidateService {
    * @param {number} store_id
    * @returns {Observable<any>}
    */
-  assignCandidateToStore(candidate: Candidate, store_id: number): Observable<any> {
+  assignCandidateToStore(
+      candidate: Candidate, 
+      store_id: number, 
+      rate: number
+  ): Observable<any> {
     const params = {
-      store_id: store_id
+      store_id: store_id,
+      hourly_rate: rate
     };
     const url = `${this._candidateEndpoint}/assign/${candidate.candidate_id}`;
     return this._authhttp.patch(url, params);
@@ -316,6 +324,7 @@ export class CandidateService {
       hourly_rate: rate
     });
   }
+
   /**
    * update candidate hourly rate
    * @param model

@@ -13,7 +13,7 @@ export class CompanyRequestService {
 
   private companyRequestEndpoint = '/requests';
 
-  constructor(private authhttp: AuthHttpService) { }
+  constructor(private _authhttp: AuthHttpService) { }
 
   /**
    * List all requests
@@ -21,8 +21,8 @@ export class CompanyRequestService {
    */
   list(companyID: number): Observable<any> {
     const url = this.companyRequestEndpoint + '?company_id=' + companyID +
-      '&expand=company,staff,requestCreatedBy,requestUpdatedBy,contact,requestActivities,requestActivities.staff';
-    return this.authhttp.get(url);
+      '&expand=staffs,company,staff,requestCreatedBy,requestUpdatedBy,contact,requestActivities,requestActivities.staff';
+    return this._authhttp.get(url);
   }
 
   /**
@@ -31,16 +31,16 @@ export class CompanyRequestService {
    */
   listWithPagination(page: number, urlParams: string = ''): Observable<any> {
     const url = this.companyRequestEndpoint + '?page=' + page + urlParams +
-      '&expand=staff,requestCreatedBy,requestUpdatedBy,contact,company,company.companyContact,requestActivities,requestActivities.staff';
-    return this.authhttp.getRaw(url);
+      '&expand=staffs,staff,requestCreatedBy,requestUpdatedBy,contact,company,company.companyContact,requestActivities,requestActivities.staff';
+    return this._authhttp.getRaw(url);
   }
 
   /**
    * requests started/active but not by login user
    */
   listActiveRequests(filterParams = '') : Observable<any> {
-    let url = this.companyRequestEndpoint + '/active?' + filterParams + '&expand=staff,lastActivity,lastActivity.createdBy,company';
-    return this.authhttp.get(url);
+    let url = this.companyRequestEndpoint + '/active?' + filterParams + '&expand=staffs,staff,lastActivity,lastActivity.createdBy,company';
+    return this._authhttp.get(url);
   }
 
  /**
@@ -48,8 +48,8 @@ export class CompanyRequestService {
    */
   listActiveWithPages(page: number, urlParams: string = ''): Observable<any> {
     const url = this.companyRequestEndpoint + '/active?page=' + page + urlParams +
-      '&expand=staff,lastActivity,lastActivity.createdBy,company';
-    return this.authhttp.getRaw(url);
+      '&expand=staffs,staff,lastActivity,lastActivity.createdBy,company';
+    return this._authhttp.getRaw(url);
   }
 
   /**
@@ -57,7 +57,7 @@ export class CompanyRequestService {
    * @param model
    */
   create(model: Request): Observable<any> {
-    return this.authhttp.post(this.companyRequestEndpoint, {
+    return this._authhttp.post(this.companyRequestEndpoint, {
       company_id: model.company_id,
       contact_uuid: model.contact_uuid,
       position_type: model.request_position_type,
@@ -76,7 +76,7 @@ export class CompanyRequestService {
    */
   cancel(model: Request): Observable<any> {
     const url = `${this.companyRequestEndpoint}/cancel/${model.request_uuid}`;
-    return this.authhttp.patch(url, {
+    return this._authhttp.patch(url, {
       feedback: model.request_feedback
     });
   }
@@ -87,7 +87,7 @@ export class CompanyRequestService {
    */
   updateInterval(param): Observable<any> {
     const url = `${this.companyRequestEndpoint}/update-interval/${param.request_uuid}`;
-    return this.authhttp.patch(url, {
+    return this._authhttp.patch(url, {
       hours: param.num_hours_followup_interval,
       reason: param.reason
     });
@@ -99,7 +99,7 @@ export class CompanyRequestService {
    */
   deliver(model: Request): Observable<any> {
     const url = `${this.companyRequestEndpoint}/deliver/${model.request_uuid}`;
-    return this.authhttp.patch(url, {
+    return this._authhttp.patch(url, {
       feedback: model.request_feedback
     });
   }
@@ -109,7 +109,7 @@ export class CompanyRequestService {
    * @param model
    */
   update(model: Request): Observable<any> {
-    return this.authhttp.patch(`${this.companyRequestEndpoint}/${model.request_uuid}`, {
+    return this._authhttp.patch(`${this.companyRequestEndpoint}/${model.request_uuid}`, {
       company_id: model.company_id,
       contact_uuid: model.contact_uuid,
       position_type: model.request_position_type,
@@ -127,7 +127,7 @@ export class CompanyRequestService {
    * @param model
    */
   delete(model: Request): Observable<any> {
-    return this.authhttp.delete(`${this.companyRequestEndpoint}/${model.request_uuid}`);
+    return this._authhttp.delete(`${this.companyRequestEndpoint}/${model.request_uuid}`);
   }
 
   /**
@@ -136,8 +136,8 @@ export class CompanyRequestService {
    */
   view(id): Observable<any> {
     const url = this.companyRequestEndpoint + '/' + id +
-      '?expand=requestCreatedBy,requestUpdatedBy,contact,company,company.companyContact,requestActivities,requestActivities.staff';
-    return this.authhttp.get(url);
+      '?expand=staffs,staff,requestCreatedBy,requestUpdatedBy,contact,company,company.companyContact,requestActivities,requestActivities.staff';
+    return this._authhttp.get(url);
   }
 
   /**
@@ -146,7 +146,7 @@ export class CompanyRequestService {
    */
   addActivity(params) : Observable<any> {
     let url = this.companyRequestEndpoint + '/add-activity';
-    return this.authhttp.post(url, params);
+    return this._authhttp.post(url, params);
   }
 
   /**
@@ -155,6 +155,18 @@ export class CompanyRequestService {
    */
   isRequestUpdated(request_uuid) : Observable<any> {
     let url = this.companyRequestEndpoint + '/is-request-updated/' + request_uuid;
-    return this.authhttp.get(url);
+    return this._authhttp.get(url);
+  }
+
+  /**
+   * assign staff to request 
+   * @param request_uuid 
+   * @param staff_id 
+   * @returns 
+   */
+   assign(request_uuid, staff_id): Observable<any>{
+    return this._authhttp.patch(`${this.companyRequestEndpoint}/assign/${request_uuid}`, {
+      staff_id: staff_id
+    });
   }
 }

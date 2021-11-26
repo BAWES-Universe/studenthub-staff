@@ -143,6 +143,7 @@ export class CompanyRequestListPopupPage implements OnInit {
     if (this.filters.startDate) {
       urlParams += '&start_date=' + this.filters.startDate;
     }
+    
     if (this.filters.endDate) {
       urlParams += '&end_date=' + this.filters.endDate;
     }

@@ -4,7 +4,6 @@ import { catchError, first, map, retryWhen, take } from 'rxjs/operators';
 import {HttpClient, HttpHeaders, HttpResponse} from '@angular/common/http';
 import {ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree} from '@angular/router';
 import {genericRetryStrategy} from '../util/genericRetryStrategy';
-
 // service
 import {EventService} from './event.service';
 import {environment} from '../../environments/environment';
@@ -25,6 +24,8 @@ export class AuthService {
   public name: string;
   public email: string;
   public theme: string;
+  public role: number;
+
   public navEnable = true;
   public currency_pref = 'USD';
 
@@ -79,6 +80,7 @@ export class AuthService {
           this.email = user.email;
           this.name = user.name;
           this.theme = user.theme;
+          this.role = user.role;
 
           resolve(true);
         } else {
@@ -124,7 +126,8 @@ export class AuthService {
         token: this._accessToken,
         staff_id: this.staff_id,
         name: this.name,
-        email: this.email
+        email: this.email,
+        role: this.role
       })
     }).catch(r => {
       this.eventService.errorStorage$.next();
@@ -144,8 +147,10 @@ export class AuthService {
 
     this._accessToken = null;
     this.staff_id = null;
+    this.role = null;
     this.name = null;
     this.email = null;
+
     Storage.clear().catch(r => {
       this.eventService.errorStorage$.next();
     });
@@ -169,6 +174,7 @@ export class AuthService {
 
     this._accessToken = response.token;
     this.staff_id = response.staff_id;
+    this.role = response.role;
     this.name = response.name;
     this.email = response.email;
 

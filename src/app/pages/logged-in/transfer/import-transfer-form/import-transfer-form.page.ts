@@ -17,16 +17,7 @@ import { TransferService } from "../../../../providers/logged-in/transfer.servic
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 import { AwsService } from 'src/app/providers/aws.service';
 import { SentryErrorhandlerService } from 'src/app/providers/sentry.errorhandler.service';
-import {
-  CalendarModal,
-  CalendarModalOptions,
-  DayConfig,
-  CalendarResult,
-  CalendarComponentOptions
-} from 'ion2-calendar';
-import { DefaultDate } from "ion2-calendar/dist/calendar.model";
-import { Company } from 'src/app/models/company';
-import {EventService} from "../../../../providers/event.service";
+import { EventService } from "../../../../providers/event.service";
 
 
 @Component({
@@ -214,11 +205,11 @@ export class ImportTransferFormPage implements OnInit {
         this.uploading = false;
 
         if (data.operation == 'success') {
-            
+
           this.eventService.reloadStats$.next({
             company_id: this.transfer.company_id
           });
-          
+
           let prompt = await this._alertCtrl.create({
             message: data.message,
             buttons: ["Ok"]
@@ -271,40 +262,6 @@ export class ImportTransferFormPage implements OnInit {
     });
   }
 
-  async openCalendar() {
-    const options: CalendarModalOptions = {
-      canBackwardsSelected: true,
-      pickMode: 'range',
-      title: '',
-      defaultScrollTo: new Date(this.end_date ? this.end_date : new Date()),
-      defaultDateRange: {
-        from: new Date(this.start_date ? this.start_date : ''),
-        to: new Date(this.end_date ? this.end_date : '')
-      }
-    };
-
-    const myCalendar = await this.modalCtrl.create({
-      component: CalendarModal,
-      cssClass: 'modal-calender',
-      componentProps: { options }
-    });
-
-    myCalendar.present();
-
-    const event: any = await myCalendar.onDidDismiss();
-    const date = event.data;
-    if (date) {
-      const from: CalendarResult = date.from;
-      const to: CalendarResult = date.to;
-      if (from.string) {
-        this.start_date = from.string;
-      }
-      if (to.string) {
-        this.end_date = to.string;
-      }
-    }
-  }
-  
   clearSelection() {
     this.start_date = this.end_date = null;
   }
@@ -313,7 +270,7 @@ export class ImportTransferFormPage implements OnInit {
    * Make date readable by Safari
    * @param date
    */
-   toDate(date) {
+  toDate(date) {
     if (!date) 
       return null;
 
@@ -321,7 +278,7 @@ export class ImportTransferFormPage implements OnInit {
       return new Date(date.replace(/-/g, '/'));
     }
   }
-  
+
   dismiss(data = {}) {
     this.modalCtrl.dismiss(data);
   }

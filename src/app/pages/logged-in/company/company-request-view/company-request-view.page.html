@@ -4,7 +4,6 @@
       <ion-back-button icon="assets/images/ic_cancel.svg" defaultHref="/view/company-request-dashboard"></ion-back-button>
     </ion-buttons>
 
-
     <ion-button fill="clear" (click)="update()" slot="end" class="btn-update"
       *ngIf="request && ['delivered', 'cancelled'].indexOf(request.request_status) == -1">
       Update
@@ -26,6 +25,11 @@
                 class="btn-cv-search" routerLink="/view/candidate-search">
       {{"CV Search: Invite candidates to apply for this position"}}
     </ion-button>
+
+    <ion-button (click)="assign()" class="pull-right" *ngIf="authService.role == 1 && request && !request.staff">
+      Assign staff
+    </ion-button>
+
     <br/>
 
     <div *ngIf="request && !loading">
@@ -69,19 +73,57 @@
         <div class="requested-by-time">on {{ toDate(request.request_created_datetime) | date: 'MMM d, y' }} </div>
       </div>
 
-      <h4 class="txt-activities">Recent Activity</h4>
+      <p *ngIf="request.request_started_at && request.staff">
+        Started {{ request.request_started_at | timeAgo }} By {{ request.staff.staff_name }}
+      </p>  
 
-      <div class="activity-container">
+      <p *ngIf="request.request_started_at && request.request_cancelled_at">
+        Cancelled after {{ request.request_started_at | duration : translateService.currentLang : request.request_cancelled_at }} 
+      </p>
 
-        <ng-container *ngFor="let requestActivity of requestActivities;let i = index;">
-          <app-recent-activity tappable [routerLink]="'/note-view/' + requestActivity.note_uuid" [activity]="requestActivity" *ngIf="activityExpanded || i < 2"></app-recent-activity>
-        </ng-container>
+      <p *ngIf="request.request_started_at && request.request_delivered_at">
+        Took {{ request.request_started_at | duration : translateService.currentLang : request.request_delivered_at }} to complete
+      </p>
+      
+    </div>
 
-        <ion-button class="btn-view-notes" *ngIf="requestActivities.length > 2" (click)="toggleActivityExpanded()">
-          <span *ngIf="!activityExpanded">View all {{ requestActivities.length }} notes</span>
-          <span *ngIf="activityExpanded">Collapse</span>
-        </ion-button>
+    <ion-segment (ionChange)="segmentChanged($event)" value="activities">
+
+      <ion-segment-button value="activities">
+        <ion-label>Recent Activity</ion-label>
+      </ion-segment-button>
+      
+      <ion-segment-button *ngIf="invitedCandidates.length > 0 || rejectedCandidates.length > 0 || acceptedInvitations.length > 0" value="invitations">
+        <ion-label>Invitations</ion-label>
+      </ion-segment-button>
+
+      <ion-segment-button *ngIf="suggestedSuggestions.length > 0 || rejectedSuggestions.length > 0 || acceptedSuggestions.length > 0" value="suggestions">
+        <ion-label>Suggestions</ion-label>
+      </ion-segment-button>
+
+    </ion-segment>
+
+    <div *ngIf="segment == 'suggestions'">
+      <div *ngIf="suggestedSuggestions.length > 0">
+        <h4 class="txt-suggested-candidates">Suggested Candidates ({{ suggestedSuggestions.length }})</h4>
+
+        <suggestion tappable [routerLink]="'/suggestion-view/' + suggestion.suggestion_uuid" (onUpdate)="onSuggestionUpdate()" *ngFor="let suggestion of suggestedSuggestions" [model]="suggestion"></suggestion>
       </div>
+
+      <div *ngIf="rejectedSuggestions.length > 0">
+        <h4 class="txt-suggested-candidates">Rejected Suggestions ({{ rejectedSuggestions.length }})</h4>
+
+        <suggestion tappable [routerLink]="'/suggestion-view/' + suggestion.suggestion_uuid" (onUpdate)="onSuggestionUpdate()" *ngFor="let suggestion of rejectedSuggestions" [model]="suggestion"></suggestion>
+      </div>
+
+      <div *ngIf="acceptedSuggestions.length > 0">
+        <h4 class="txt-suggested-candidates">Accepted Suggestions ({{ acceptedSuggestions.length }})</h4>
+
+        <suggestion tappable [routerLink]="'/suggestion-view/' + suggestion.suggestion_uuid" (onUpdate)="onSuggestionUpdate()" *ngFor="let suggestion of acceptedSuggestions" [model]="suggestion"></suggestion>
+      </div>
+    </div>
+
+    <div *ngIf="segment == 'invitations'">
 
       <div *ngIf="invitedCandidates.length > 0">
         <h4 class="txt-suggested-candidates">Invited Candidates ({{ invitedCandidates.length }})</h4>
@@ -103,27 +145,23 @@
         <invitation *ngFor="let invitation of acceptedInvitations" (onUpdate)="onInvitationUpdated()" [model]="invitation"></invitation>
       </div>
 
-      <div *ngIf="suggestedSuggestions.length > 0">
-        <h4 class="txt-suggested-candidates">Suggested Candidates ({{ suggestedSuggestions.length }})</h4>
-
-        <suggestion tappable [routerLink]="'/suggestion-view/' + suggestion.suggestion_uuid" (onUpdate)="onSuggestionUpdate()" *ngFor="let suggestion of suggestedSuggestions" [model]="suggestion"></suggestion>
-      </div>
-
-      <div *ngIf="rejectedSuggestions.length > 0">
-        <h4 class="txt-suggested-candidates">Rejected Suggestions ({{ rejectedSuggestions.length }})</h4>
-
-        <suggestion tappable [routerLink]="'/suggestion-view/' + suggestion.suggestion_uuid" (onUpdate)="onSuggestionUpdate()" *ngFor="let suggestion of rejectedSuggestions" [model]="suggestion"></suggestion>
-      </div>
-
-      <div *ngIf="acceptedSuggestions.length > 0">
-        <h4 class="txt-suggested-candidates">Accepted Suggestions ({{ acceptedSuggestions.length }})</h4>
-
-        <suggestion tappable [routerLink]="'/suggestion-view/' + suggestion.suggestion_uuid" (onUpdate)="onSuggestionUpdate()" *ngFor="let suggestion of acceptedSuggestions" [model]="suggestion"></suggestion>
-      </div>
-
     </div>
-  </div>
 
+    <div *ngIf="segment == 'activities'" class="activity-container">
+
+      <br />
+
+      <ng-container *ngFor="let requestActivity of requestActivities;let i = index;">
+        <app-recent-activity tappable [routerLink]="'/note-view/' + requestActivity.note_uuid" [activity]="requestActivity" *ngIf="activityExpanded || i < 2"></app-recent-activity>
+      </ng-container>
+
+      <ion-button class="btn-view-notes" *ngIf="requestActivities.length > 2" (click)="toggleActivityExpanded()">
+        <span *ngIf="!activityExpanded">View all {{ requestActivities.length }} notes</span>
+        <span *ngIf="activityExpanded">Collapse</span>
+      </ion-button>
+    </div> 
+
+  </div>
 </ion-content>
 
 <ion-footer *ngIf="request && (request.request_status == 'started' || request.request_status == 'pending')">

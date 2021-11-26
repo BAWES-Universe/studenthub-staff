@@ -3,6 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button (click)="dismiss()"></ion-back-button>
     </ion-buttons>
+    
     <ion-title *ngIf="!loading && !company">Select Store</ion-title>
     <ion-title *ngIf="!loading && company">
       {{ company.company_name }}

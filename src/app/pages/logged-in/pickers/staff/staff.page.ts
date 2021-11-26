@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController, Platform } from '@ionic/angular';
+import { ModalController, NavController, Platform } from '@ionic/angular';
 //models
 import { Staff } from 'src/app/models/staff';
 //services
@@ -8,11 +8,11 @@ import { AuthService } from 'src/app/providers/auth.service';
 
 
 @Component({
-  selector: 'app-team-list',
-  templateUrl: './team-list.page.html',
-  styleUrls: ['./team-list.page.scss'],
+  selector: 'app-staff',
+  templateUrl: './staff.page.html',
+  styleUrls: ['./staff.page.scss'],
 })
-export class TeamListPage implements OnInit {
+export class StaffPage implements OnInit {
 
   public borderLimit = false;
 
@@ -26,8 +26,7 @@ export class TeamListPage implements OnInit {
   constructor(
     public authService: AuthService,
     private staffService: StaffService,
-    private navCtrl: NavController,
-    public platform: Platform,
+    public modalCtrl: ModalController
   ) { }
 
   ngOnInit() { 
@@ -43,7 +42,9 @@ export class TeamListPage implements OnInit {
 
     this.loading = loading;
 
-    this.staffService.list(this.currentPage, '&expand=totalCompletedRequests').subscribe(response => {
+    const urlParams = '&role=2';
+
+    this.staffService.list(this.currentPage, urlParams).subscribe(response => {
 
       this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
       this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
@@ -61,12 +62,11 @@ export class TeamListPage implements OnInit {
    * When its selected
    */
   rowSelected(model) {
-    // Load Detail Page
-    this.navCtrl.navigateForward('team-view/' + model.staff_id, {
-      state: {
-        model
-      }
-    });
+    this.modalCtrl.dismiss(model);
+  }
+
+  dismiss(data = {}) {
+    this.modalCtrl.dismiss(data);
   }
 
   /**
@@ -78,7 +78,9 @@ export class TeamListPage implements OnInit {
 
     this.currentPage++;
 
-    this.staffService.list(this.currentPage, '&expand=totalCompletedRequests').subscribe(response => {
+    const urlParams = '&role=2';
+
+    this.staffService.list(this.currentPage, urlParams).subscribe(response => {
 
       this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
       this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));

@@ -47,7 +47,6 @@ import { SuggestPageModule } from './pages/logged-in/suggest/suggest.module';
 import { FulltimerFormPageModule } from './pages/logged-in/fulltimer/fulltimer-form/fulltimer-form.module';
 import { CompanyModule } from './components/company/company.module';
 import { LocationPageModule } from './pages/logged-in/candidate/location/location.module';
-import { CalendarModule } from 'ion2-calendar';
 import { TransferChartPageModule } from './pages/logged-in/transfer/transfer-chart/transfer-chart.module';
 
 import { TransferFormPageModule } from './pages/logged-in/transfer/transfer-form/transfer-form.module';
@@ -65,6 +64,10 @@ import {ModalPopPageModule} from './pages/logged-in/modal-pop/modal-pop.module';
 import {StoreViewPageModule} from './pages/logged-in/store/store-view/store-view.module';
 import { InvitePageModule } from './pages/logged-in/invite/invite.module';
 import {FulltimeLocationPageModule} from './pages/logged-in/fulltimer/fulltime-location/fulltime-location.module';
+import { FulltimerSearchPageModule } from './pages/logged-in/fulltimer/fulltimer-search/fulltimer-search.module';
+import { StaffPageModule } from './pages/logged-in/pickers/staff/staff.module';
+import { DateDropdownModule } from './components/date-dropdown/date-dropdown.module';
+
 
 export function startupServiceFactory(authService) {
   return () => authService.load();
@@ -98,6 +101,7 @@ export function createTranslateLoader(http: HttpClient) {
     UpdateAlertModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.serviceWorker }),
     CKEditorModule,
+    DateDropdownModule,
     SkillFormPageModule,
     ExperienceFormPageModule,
     UploadCvPageModule,
@@ -123,7 +127,6 @@ export function createTranslateLoader(http: HttpClient) {
     NoteModule,
     SuggestPageModule,
     CompanyModule,
-    CalendarModule,
     LocationPageModule,
     TransferFormPageModule,
     ImportTransferFormPageModule,
@@ -140,7 +143,9 @@ export function createTranslateLoader(http: HttpClient) {
     ModalPopPageModule,
     StoreViewPageModule,
     InvitePageModule,
-    FulltimeLocationPageModule
+    FulltimerSearchPageModule,
+    FulltimeLocationPageModule,
+    StaffPageModule
   ],
   providers: [
     {

@@ -1,8 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Location } from '@angular/common';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ModalController, AlertController, PopoverController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
+import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 // services
 import { EventService } from '../../../../../providers/event.service';
 import { CompanyRequestService } from 'src/app/providers/logged-in/company-request.service';
@@ -21,6 +22,8 @@ import { AllCompanyListPage } from '../all-company-list/all-company-list.page';
 })
 export class RequestFormPage implements OnInit {
 
+  @ViewChild('ckeditor', { static: false }) ckeditor: ClassicEditor;
+
   public company;
 
   public saving = false;
@@ -33,6 +36,15 @@ export class RequestFormPage implements OnInit {
   public requestID = null;
 
   public borderLimit = false;
+
+  public editorConfig = {
+    placeholder: 'Click here add description...',
+    startupFocus: true,
+    width: '100%',
+    toolbar: ['Heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', '|', 'indent', 'outdent'],
+  };
+  
+  public Editor = ClassicEditor;
 
   constructor(
     public requestService: CompanyRequestService,
@@ -253,5 +265,32 @@ export class RequestFormPage implements OnInit {
     this.form.controls.additional_info.setValue(null);
     this.form.controls.company_name.setValue(null);
     this.form.controls.location.setValue(null);
+  }
+  
+  onEditorReady() {
+    const interval = setTimeout(() => {
+      if (this.ckeditor.editorInstance && this.form.value.job_description) {
+        this.ckeditor.editorInstance.setData(this.form.value.job_description);
+        // this.ckeditor.editorInstance.editing.view.focus();
+        // clearInterval(interval);
+      }
+    }, 200);
+  }
+  
+  /**
+   * on note editor change
+   * @param event
+   */
+  onChange(event) {
+
+    if (!event.editor) {
+      return event;
+    }
+
+    const data = event.editor.getData();
+
+    this.form.controls.job_description.setValue(data);
+    this.form.markAsDirty();
+    this.form.updateValueAndValidity();
   }
 }

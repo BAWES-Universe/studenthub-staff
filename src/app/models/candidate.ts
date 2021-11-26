@@ -35,6 +35,7 @@ export class Candidate {
     isProfileCompleted: any;
     candidate_job_search_status: any;
     candidate_committed: any;
+    candidate_preferred_time: string;
     age: string;
     candidate_objective: string;
     candidate_gender: any;
