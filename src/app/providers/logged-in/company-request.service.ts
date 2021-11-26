@@ -53,6 +53,15 @@ export class CompanyRequestService {
   }
 
   /**
+   * return request checklist
+   * @returns 
+   */
+  listChecklist(): Observable<any> {
+    const url = this.companyRequestEndpoint + '/list-checklist';
+    return this._authhttp.get(url);
+  }
+
+  /**
    * create request
    * @param model
    */

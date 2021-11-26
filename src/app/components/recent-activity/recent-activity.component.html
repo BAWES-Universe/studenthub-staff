@@ -12,6 +12,10 @@
     <ng-container *ngIf="activity.note_text.length < 100"><span [innerHTML]="activity.note_text"></span></ng-container>
   </p>
 
+  <ion-note *ngIf="activity.requestChecklist">
+    {{ activity.requestChecklist.status_name }}
+  </ion-note>
+  
   <p class="txt-time">
     {{ activity.note_updated_datetime | timeAgo }} on
     {{ toDate(activity.note_created_datetime) | date: 'MMM d, y' }}

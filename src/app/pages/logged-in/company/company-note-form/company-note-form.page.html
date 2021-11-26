@@ -69,5 +69,16 @@
       </ckeditor>
 
     </ion-list>
+    
+    <ion-list>
+      <ion-radio-group formControlName="request_checklist_uuid">
+        <ion-item *ngFor="let item of checklist">
+          <ion-label>{{ item.status_name }}</ion-label>
+          <ion-radio slot="start" [value]="item.request_checklist_uuid"></ion-radio>
+        </ion-item>
+      </ion-radio-group>
+    </ion-list>
+
   </form>
 </ion-content>
+ 
