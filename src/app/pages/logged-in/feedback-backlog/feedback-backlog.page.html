@@ -1,8 +1,7 @@
 <ion-header [class.add-border]="borderLimit" class="ion-no-border">
   <ion-toolbar class="container">
-    <ion-title>Active Requests (<span *ngIf="activeRequests">{{total}}</span>)</ion-title>
+    <ion-title>Feedback backlog </ion-title>
     <ion-buttons slot="end">
-      <ion-button routerLink="/company-request-list">View Older</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -11,6 +10,10 @@
   <div class="container">
 
     <ng-container>
+
+
+    <ion-searchbar debounce="500" placeholder="Type to search" (ionChange)="searchByName($event)"></ion-searchbar>
+      
       <request-listing *ngFor="let request of activeRequests" tappable (click)="requestDetail(request)"
                        [request]="request" [showStatus]="false"></request-listing>
     </ng-container>
@@ -25,9 +28,3 @@
     <ion-icon name="add-outline"></ion-icon>
   </div>
 </ion-content>
-
-<ion-footer class="container desktop-only">
-  <ion-button routerLink="/request-form">
-    <span>Create new request</span>
-  </ion-button>
-</ion-footer>

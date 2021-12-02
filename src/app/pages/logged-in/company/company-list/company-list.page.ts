@@ -59,7 +59,6 @@ export class CompanyListPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    console.log('ionViewWillEnter');
     const state = window.history.state;
 
     if (state.filter) {

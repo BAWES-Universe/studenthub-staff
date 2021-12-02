@@ -470,8 +470,8 @@
         </ion-button>
       </ion-col>
 
-      <ion-col *ngIf="candidate.isProfileCompleted">
-        <ion-button class="btn-invite" (click)="invite()">
+      <ion-col *ngIf="candidate.isProfileCompleted && activeStory">
+        <ion-button class="btn-invite" (click)="inviteCandidate()">
           Invite for client request
         </ion-button>
       </ion-col>

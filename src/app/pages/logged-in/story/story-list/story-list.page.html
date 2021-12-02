@@ -1,0 +1,46 @@
+<ion-header [class.add-border]="borderLimit" class="ion-no-border">
+  <ion-toolbar class="container">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/view/tasks"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Suggestion Backlog</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
+  
+  <div class="container">
+
+    <ion-list *ngIf="!loading">
+      <section>
+
+ 
+
+        <ion-card tappable *ngFor="let story of stories" (click)="rowSelected(story)">
+
+          <ion-card-header>
+            <ion-card-subtitle>
+      
+                <span *ngIf="story.request.request_position_type == 1">Full-time -</span>
+                <span *ngIf="story.request.request_position_type == 2">Part-time -</span>
+              
+              {{story.request.request_position_title}}</ion-card-subtitle>
+            <ion-card-title>for</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            {{story.request.company.company_name}}
+          </ion-card-content>
+        </ion-card>
+
+
+
+      </section>
+    </ion-list>
+
+    <loading-modal [loading]="loading || loadMore" type="text-list"></loading-modal>
+  </div>
+  
+  <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

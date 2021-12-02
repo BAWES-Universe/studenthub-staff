@@ -70,7 +70,7 @@
 
 <!-- move to suggestion if not suggested and accepted -->
 
-<ion-button *ngIf="!model.is_suggested && model.invitation_status == 3" class="btn-suggestion"
+<ion-button *ngIf="!model.is_suggested && model.invitation_status == 3 && activeStory" class="btn-suggestion"
   (click)="suggest($event)">
   Move to suggestion
 </ion-button>

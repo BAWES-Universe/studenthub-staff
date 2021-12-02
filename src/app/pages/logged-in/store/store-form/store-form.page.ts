@@ -53,7 +53,9 @@ export class StoreFormPage implements OnInit {
 
     if (state.model) {
       this.model = state.model;
-    } else {
+    } 
+    
+    else {
       this.model.company_id = this.company_id;
     }
 

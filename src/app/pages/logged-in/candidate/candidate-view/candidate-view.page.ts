@@ -34,6 +34,9 @@ import { CompanyNoteFormPage } from '../../company/company-note-form/company-not
 import { ModalPopPage } from "../../modal-pop/modal-pop.page";
 import { StoreViewPage } from "../../store/store-view/store-view.page";
 import { InvitePage } from '../../invite/invite.page';
+import { StoryService } from 'src/app/providers/logged-in/story.service';
+import { InvitationService } from 'src/app/providers/logged-in/invitation.service';
+import { Request } from 'src/app/models/request';
 
 
 @Component({
@@ -85,12 +88,18 @@ export class CandidateViewPage implements OnInit {
 
   public addingNote = false;
 
+  public activeStory: any;
+  public request: Request;
+  
   public noteForm: FormGroup;
 
   public borderLimit = false;
 
   public company;
   public pendingData = null;
+
+  public form: FormGroup;
+
 
   constructor(
     public navCtrl: NavController,
@@ -100,6 +109,7 @@ export class CandidateViewPage implements OnInit {
     public alertCtrl: AlertController,
     public storeService: StoreService,
     public candidateService: CandidateService,
+    public storyService: StoryService,
     public translateService: TranslateLabelService,
     public awsService: AwsService,
     public toastCtrl: ToastController,
@@ -108,6 +118,7 @@ export class CandidateViewPage implements OnInit {
     public popoverCtrl: PopoverController,
     public noteService: NoteService,
     public modalCtrl: ModalController,
+    public invitationService: InvitationService,
     private fb: FormBuilder,
     private actionSheetCtrl: ActionSheetController,
     private loadingCtrl: LoadingController,
@@ -116,6 +127,13 @@ export class CandidateViewPage implements OnInit {
   }
 
   ngOnInit() {
+
+    if(this.authService.isLogged){
+      this.loadActiveStory();
+    }
+
+    this.initForm();
+
 
     if (!this.candidate_id) {
       this.candidate_id = this.activatedRoute.snapshot.paramMap.get('id');
@@ -139,6 +157,80 @@ export class CandidateViewPage implements OnInit {
     this.initNoteForm();
   }
 
+  initForm() {
+
+    this.form = this.fb.group({
+      reason: ['', Validators.required],
+    });
+  }
+
+  async inviteCandidate() {
+    const confirm = await this.alertCtrl.create({
+      header: 'Please provide feedback',
+      inputs: [
+        {
+          name: 'feedback',
+          type: 'textarea',
+          placeholder: 'Reason'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: () => {
+            // Handle the functionality when user click on 'cancel' button
+          }
+        },
+        {
+          text: 'Ok',
+          handler: async (data) => {
+            this.form.controls.reason.setValue(data.feedback);
+            this.saveSuggestion();
+          }
+        }
+      ]
+    });
+    confirm.present();
+}
+
+
+
+  /**
+   * save suggestion
+   */
+  async saveSuggestion() {
+    this.loading = true;
+    console.log(JSON.stringify(this.form.controls.reason.value));
+    
+    let param = {
+      candidate_id : this.candidate_id,
+      request_uuid : this.request.request_uuid,
+      reason : this.form.controls.reason.value,
+    };
+
+    const loading = await this.loadingCtrl.create();
+    loading.present();
+
+    this.invitationService.create(param).subscribe(async response => {
+
+      this.loading = false;
+
+
+      // On Failure
+      if (response.operation == 'error') {
+        const prompt = await this.alertCtrl.create({
+          message: this.authService.errorMessage(response.message),
+          buttons: ['Okay']
+        });
+        prompt.present();
+      }
+    }, 
+      err => loading.dismiss(),
+      () => loading.dismiss()
+    );
+  }
+
+
   ionViewDidEnter() {
     // const state = window.history.state;
     // if (state.model) {
@@ -152,6 +244,23 @@ export class CandidateViewPage implements OnInit {
 
     this.loadStoreData();
     this.loadTransfersData();
+  }
+
+  /**
+   * Load staff's story
+   */
+  loadActiveStory() {
+
+    this.storyService.loadActiveStory().subscribe(response => {
+      
+      if(response.operation == 'success'){
+        this.activeStory = response.body;
+        this.request = response.body.request;
+      }
+    
+    }, () => {
+      // this.loadingSalaryTransfers = false;
+    });
   }
 
   /**
@@ -496,7 +605,8 @@ export class CandidateViewPage implements OnInit {
     const modal = await this.modalCtrl.create({
       component: InvitePage,
       componentProps: {
-        candidate: this.candidate
+        candidate: this.candidate,
+        story: this.activeStory,
       }
     });
     modal.onDidDismiss().then(e => {

@@ -23,6 +23,17 @@ export class SuggestionService {
   }
 
   /**
+   * List of all suggestions
+   * @returns {Observable<any>}
+   */
+  listAcceptedSuggestion(page:number): Observable<any> {
+    let url = this._endpoint + '/list-accepted-suggesion?page=' + page  + '&expand=note,feedback,feedback.updatedBy,feedbacks,feedbacks.updatedBy,candidate,fulltimer,updatedBy' ;
+    console.log(url);
+    
+    return this._authhttp.get(url);
+  }
+
+  /**
    * get suggestion details
    * @returns {Observable<any>}
    */
@@ -38,6 +49,7 @@ export class SuggestionService {
   create(params) {
     return this._authhttp.post(this._endpoint, {
       suggestion: params.suggestion,
+      story_uuid: params.story_uuid,
       request_uuid: params.request_uuid,
       fulltimer_uuid: params.fulltimer_uuid,
       candidate_id: params.candidate_id

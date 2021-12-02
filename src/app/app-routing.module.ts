@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { InvitationListPageModule } from './pages/logged-in/invitation-list/invitation-list.module';
+import { SuggestionListPageModule } from './pages/logged-in/suggestion-list/suggestion-list.module';
 import { AuthService } from './providers/auth.service';
 import { LoginGuard } from './providers/guards/login-guard.service';
 import { SelectiveLoadingStrategy } from './util/SelectiveLoadingStrategy';
@@ -273,6 +275,30 @@ const routes: Routes = [
     canActivate: [AuthService],
     data: {
       name: 'TeamListPage'
+    }
+  },
+  {
+    path: 'invitation-list',
+    loadChildren: () => import('./pages/logged-in/invitation-list/invitation-list.module').then( m => InvitationListPageModule),
+    canActivate: [AuthService],
+    data: {
+      name: 'invitationListPage'
+    }
+  },
+  {
+    path: 'suggestion-list',
+    loadChildren: () => import('./pages/logged-in/suggestion-list/suggestion-list.module').then( m => SuggestionListPageModule),
+    canActivate: [AuthService],
+    data: {
+      name: 'invitationListPage'
+    }
+  },
+  {
+    path: 'story-view',
+    loadChildren: () => import('./pages/logged-in/story/story-view/story-view.module').then( m => m.StoryViewPageModule),
+    canActivate: [AuthService],
+    data: {
+      name: 'StoryViewPage'
     }
   },
   {

@@ -46,11 +46,30 @@ const routes: Routes = [
         }
       },
 
+
+      {
+        path: 'feedback-backlog',
+        loadChildren: () => import('../feedback-backlog/feedback-backlog.module').then( m => m.FeedbackBacklogPageModule),
+        canActivate: [AuthService],
+        data: {
+          name: 'FeedbackBacklogPage'
+        }
+      },
+
+
       {
         path: 'company-request-dashboard',
         loadChildren: () => import('../company/company-request-dashboard/company-request-dashboard.module').then( m => m.CompanyRequestDashboardPageModule)
       },
 
+      {
+        path: 'story-list',
+        loadChildren: () => import('../story/story-list/story-list.module').then( m => m.StoryListPageModule),
+        canActivate: [AuthService],
+        data: {
+          name: 'StoryPageList'
+        }
+      },
       {
         path: 'report-list',
         loadChildren: () => import('../report-list/report-list.module').then( m => m.ReportListPageModule),
