@@ -101,8 +101,37 @@
       <ion-segment-button *ngIf="suggestedSuggestions.length > 0 || rejectedSuggestions.length > 0 || acceptedSuggestions.length > 0" value="suggestions">
         <ion-label>Suggestions</ion-label>
       </ion-segment-button>
-
+      
+      <ion-segment-button value="story-owners">
+        <ion-label>Story Owners</ion-label>
+      </ion-segment-button>
     </ion-segment>
+
+    <div *ngIf="segment == 'story-owners'">
+      
+      <ion-list *ngIf="request.storyOwners && request.storyOwners.length > 0">
+        <ion-item tappable *ngFor="let staff of request.storyOwners" (click)="staffSelected(staff)">
+          <div tabindex="0"></div>
+          <ion-label>
+            {{ staff.staff_name }} 
+            <span *ngIf="authService.staff_id == staff.staff_id">&nbsp;•&nbsp;You</span>
+            <br/>
+            <small>{{ staff.staff_email }}</small><br/>
+
+            <ion-note>
+              {{ staff.totalCompletedRequests }} requests completed
+            </ion-note>
+          </ion-label>
+          <ion-badge class="company_status_badge" slot="end" color="danger" *ngIf="!staff.staff_status">
+            Inactive
+          </ion-badge>
+          <ion-badge class="company_status_badge" slot="end" color="success" *ngIf="staff.staff_status">
+            Active
+          </ion-badge>
+
+        </ion-item>  
+      </ion-list>
+    </div>
 
     <div *ngIf="segment == 'suggestions'">
       <div *ngIf="suggestedSuggestions.length > 0">

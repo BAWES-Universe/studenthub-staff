@@ -76,6 +76,13 @@
       {{ staff.staff_name }}
     </ion-badge>
     
+    <div *ngIf="request.storyOwners && request.storyOwners.length > 0">
+      <p>Story Owners</p>
+      <ion-badge *ngFor="let storyOwner of request.storyOwners">
+        {{ storyOwner.staff_name }}
+      </ion-badge>
+    </div>
+
     <div *ngIf="request" class="content-footer" [class.background-grey]="active" [class.background-red]="!active" [class.background-green]="request.request_status == 'delivered'">
       
       <p *ngIf="request.request_started_at && request.staff">
@@ -99,4 +106,5 @@
     </div>
 
   </ion-card-content>
+  
 </ion-card>

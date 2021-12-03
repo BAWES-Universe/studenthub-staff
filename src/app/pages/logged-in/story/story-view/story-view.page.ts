@@ -15,6 +15,7 @@ import { InvitationListPage } from '../../invitation-list/invitation-list.page';
 import { IonNav, ModalController, NavController } from '@ionic/angular';
 import { SuggestionService } from 'src/app/providers/logged-in/suggestion.service';
 import { Subject, interval } from 'rxjs';
+import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 
 export interface TimeSpan {
   hours: number;
@@ -40,8 +41,6 @@ export class StoryViewPage implements OnInit {
   public loading = false;
   public loadMore = false;
 
-
-
   public suggestedSuggestions = [];
 
   public acceptedSuggestions = [];
@@ -65,7 +64,8 @@ export class StoryViewPage implements OnInit {
     public navCtrl: NavController,
     private _modalCtrl: ModalController,
     private invitationService: InvitationService,
-    private authService: AuthService,
+    public translateService: TranslateLabelService,
+    public authService: AuthService,
     private changeDetector: ChangeDetectorRef,
     public eventService: EventService,
     public router: Router
@@ -230,9 +230,10 @@ export class StoryViewPage implements OnInit {
     }
   }
 
-
-
-
+  logScrolling(e) {
+    this.borderLimit = (e.detail.scrollTop > 20);
+  }
+  
   /**
    * Make date readable by Safari
    * @param date
