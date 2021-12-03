@@ -24,8 +24,16 @@ export class ValocityPage implements OnInit {
   public currentPage = 1;
   public loading = false;
   public loadMore = false;
+  
   public deleting = false;
+
   public staffs: Staff[] = [];
+
+  totalPendingRequests
+  totalClosedRequests
+  totalInvitations
+  totalNoOfHours
+  totalVelocity
 
   constructor(
     public authService: AuthService,
@@ -50,6 +58,12 @@ export class ValocityPage implements OnInit {
 
     this.staffService.list(this.currentPage, urlParams).subscribe(response => {
 
+      this.totalPendingRequests = parseInt(response.headers.get('X-totalPendingRequests'));
+      this.totalClosedRequests = parseInt(response.headers.get('X-totalClosedRequests'));
+      this.totalInvitations = parseInt(response.headers.get('X-totalInvitations'));
+      this.totalNoOfHours = response.headers.get('X-totalNoOfHours');
+      this.totalVelocity = parseInt(response.headers.get('X-totalVelocity'));
+      
       this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
       this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
       this.staffs = response.body;
@@ -126,6 +140,12 @@ export class ValocityPage implements OnInit {
 
     this.staffService.list(this.currentPage, urlParams).subscribe(response => {
 
+      this.totalPendingRequests = parseInt(response.headers.get('X-totalPendingRequests'));
+      this.totalClosedRequests = parseInt(response.headers.get('X-totalClosedRequests'));
+      this.totalInvitations = parseInt(response.headers.get('X-totalInvitations'));
+      this.totalNoOfHours = response.headers.get('X-totalNoOfHours');
+      this.totalVelocity = parseInt(response.headers.get('X-totalVelocity'));
+      
       this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
       this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
 
