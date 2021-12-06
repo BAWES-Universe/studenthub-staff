@@ -121,7 +121,7 @@ export class StoryViewPage implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.destroyed$.next();
     this.destroyed$.complete();
-    this.subscription.unsubscribe();
+    this.stopTimer();
   }
 
 
@@ -141,7 +141,7 @@ export class StoryViewPage implements OnInit, OnDestroy {
         this.loadTimer();
       }
       if (this.story.story_status != 1) {
-        this.stopTimer()
+        this.stopTimer();
       }
     });
   }
