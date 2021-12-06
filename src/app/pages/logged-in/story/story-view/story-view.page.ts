@@ -1,5 +1,7 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, Optional } from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, Optional} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription, Subject, interval } from 'rxjs';
+
 // services
 import { StaffService } from 'src/app/providers/logged-in/staff.service';
 import { NoteService } from 'src/app/providers/logged-in/note.service';
@@ -14,7 +16,6 @@ import { AuthService } from 'src/app/providers/auth.service';
 import { InvitationListPage } from '../../invitation-list/invitation-list.page';
 import { IonNav, ModalController, NavController } from '@ionic/angular';
 import { SuggestionService } from 'src/app/providers/logged-in/suggestion.service';
-import { Subject, interval } from 'rxjs';
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 
 export interface TimeSpan {
@@ -30,9 +31,9 @@ export interface TimeSpan {
   styleUrls: ['./story-view.page.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class StoryViewPage implements OnInit {
+export class StoryViewPage implements OnInit, OnDestroy {
 
-  
+
   public borderLimit = false;
 
   public story_uuid: any;
@@ -56,6 +57,22 @@ export class StoryViewPage implements OnInit {
   public segment: string = 'invitations';
 
   private destroyed$ = new Subject();
+
+  private subscription: Subscription;
+
+  public dateNow = new Date();
+  // public dDay = new Date('Jan 01 2021 00:00:00');
+  public dDay = null;
+  milliSecondsInASecond = 1000;
+  hoursInADay = 24;
+  minutesInAnHour = 60;
+  SecondsInAMinute  = 60;
+
+  public timeDifference;
+  public secondsToDday;
+  public minutesToDday;
+  public hoursToDday;
+  public daysToDday;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -96,14 +113,17 @@ export class StoryViewPage implements OnInit {
     });
 
     this.changeDetector.detectChanges();
-
+    // this.story.story_last_updated_at
+    // this.subscription = interval(1000)
+    //   .subscribe(x => { this.getTimeDifference(); });
   }
 
   ngOnDestroy() {
     this.destroyed$.next();
     this.destroyed$.complete();
+    this.stopTimer();
   }
-  
+
 
 
   loadData() {
@@ -117,6 +137,12 @@ export class StoryViewPage implements OnInit {
 
       this.loadInvitations();
       this.loadSuggestions();
+      if (this.story.story_status == 1) {
+        this.loadTimer();
+      }
+      if (this.story.story_status != 1) {
+        this.stopTimer();
+      }
     });
   }
 
@@ -193,7 +219,7 @@ export class StoryViewPage implements OnInit {
     });
   }
 
-  
+
 
   /**
    * Loads the create page
@@ -208,7 +234,6 @@ export class StoryViewPage implements OnInit {
         }
       });
     }
- 
   }
 
 
@@ -230,7 +255,7 @@ export class StoryViewPage implements OnInit {
   logScrolling(e) {
     this.borderLimit = (e.detail.scrollTop > 20);
   }
-  
+
   /**
    * Make date readable by Safari
    * @param date
@@ -246,4 +271,29 @@ export class StoryViewPage implements OnInit {
     this.segment = event.target.value;
   }
 
+
+  private getTimeDifference() {
+    this.dDay = new Date(this.dDay);
+    this.timeDifference = this.dDay.getTime() - new Date().getTime();
+    this.allocateTimeUnits(this.timeDifference);
+  }
+
+  private allocateTimeUnits(timeDifference) {
+    this.secondsToDday = Math.floor((timeDifference) / (this.milliSecondsInASecond) % this.SecondsInAMinute);
+    this.minutesToDday = Math.floor((timeDifference) / (this.milliSecondsInASecond * this.minutesInAnHour) % this.SecondsInAMinute);
+    this.hoursToDday = Math.floor((timeDifference) / (this.milliSecondsInASecond * this.minutesInAnHour * this.SecondsInAMinute) % this.hoursInADay);
+    this.daysToDday = Math.floor((timeDifference) / (this.milliSecondsInASecond * this.minutesInAnHour * this.SecondsInAMinute * this.hoursInADay));
+  }
+
+  loadTimer() {
+    this.dDay = this.toDate(this.story.story_last_updated_at);
+    this.subscription = interval(1000)
+      .subscribe(x => { this.getTimeDifference(); });
+  }
+
+  stopTimer() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 }

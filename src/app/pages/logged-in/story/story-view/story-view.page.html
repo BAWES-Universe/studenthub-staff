@@ -10,9 +10,14 @@
 <ion-content [scrollEvents]="true" (ionScroll)="logScrolling($event)">
   <div class="container">
     <!-- <loading-modal [loading]="loading" type="request-detail"></loading-modal> -->
-
+    <div class="timer" *ngIf="story.story_status == 1">
+      <span id="days" *ngIf="daysToDday"> {{daysToDday}} </span>Day(s)
+      <span id="hours" *ngIf="hoursToDday"> {{hoursToDday}} </span>Hrs
+      <span id="minutes"> {{minutesToDday}} </span>Min
+      <span id="seconds"> {{secondsToDday}} </span>S
+    </div>
     <h1>
-      Suggest someone for this position 
+      Suggest someone for this position
 
       <ion-badge color="primary" *ngIf="story">
           <span *ngIf="story.story_status == 0"> Unstarted </span>
@@ -21,9 +26,7 @@
           <span *ngIf="story.story_status == 4"> Rejected </span>
           <span *ngIf="story.story_status == 5"> Accepted </span>
       </ion-badge>
-
     </h1>
-
 
     <br/>
 
@@ -68,16 +71,16 @@
 
       <p *ngIf="request.request_started_at && request.staff">
         Started {{ request.request_started_at | timeAgo }} By {{ request.staff.staff_name }}
-      </p>  
+      </p>
 
       <p *ngIf="request.request_started_at && request.request_cancelled_at">
-        Cancelled after {{ request.request_started_at | duration : translateService.currentLang : request.request_cancelled_at }} 
+        Cancelled after {{ request.request_started_at | duration : translateService.currentLang : request.request_cancelled_at }}
       </p>
 
       <p *ngIf="request.request_started_at && request.request_delivered_at">
         Took {{ request.request_started_at | duration : translateService.currentLang : request.request_delivered_at }} to complete
       </p>
-      
+
     </div>
 
 
@@ -135,14 +138,14 @@
         <ion-button (click)="viewSuggestionList(rejectedSuggestions, 'Rejected Suggestions')" color="danger" fill="solid" expand="block" >
           <span>Rejected Suggestions ({{ rejectedSuggestions.length }})</span>
         </ion-button>
-  
+
 
         <ion-button (click)="viewSuggestionList(acceptedSuggestions, 'Accepted Suggestions')" color="success" fill="solid" expand="block" >
           <span>Accepted Suggestions ({{ acceptedSuggestions.length }})</span>
         </ion-button>
 
       </div>
-      
+
 </div>
 
 </ion-content>
