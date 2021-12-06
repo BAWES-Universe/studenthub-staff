@@ -1,0 +1,27 @@
+<ion-header [class.add-border]="borderLimit" class="ion-no-border">
+  <ion-toolbar class="container">
+
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/view/company-list"></ion-back-button>
+    </ion-buttons>
+
+    <ion-buttons slot="end" *ngIf="company && !loading">
+      <ion-button (click)="update()">
+        Update
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
+  <div  class="container">
+    
+    <h3>Client feedback backlog</h3>
+    
+    <suggestion tappable [routerLink]="'/suggestion-view/' + suggestion.suggestion_uuid" (onUpdate)="onSuggestionUpdate()" 
+      *ngFor="let suggestion of suggestions" [model]="suggestion"></suggestion>
+      
+    <loading-modal [loading]="loading" type="candidate-list"></loading-modal>
+
+  </div>
+</ion-content>

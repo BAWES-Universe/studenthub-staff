@@ -56,8 +56,16 @@
         <ion-col>{{ staff.totalClosedRequests }}</ion-col>
         <ion-col>{{ staff.totalPendingRequests }}</ion-col>
         <ion-col>{{ staff.totalInvitations }}</ion-col>
-        <ion-col>{{ noOfHours(staff) }}</ion-col>
+        <ion-col>{{ noOfHours(staff) | number : '1.0-2' }}</ion-col>
         <ion-col>{{ valocity(staff) }}</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>Total</ion-col>
+        <ion-col>{{ totalClosedRequests }}</ion-col>
+        <ion-col>{{ totalPendingRequests }}</ion-col>
+        <ion-col>{{ totalInvitations }}</ion-col>
+        <ion-col>{{ totalNoOfHours | number : '1.0-2' }}</ion-col>
+        <ion-col>{{ totalVelocity  }}</ion-col>
       </ion-row>
     </ion-grid>
 
