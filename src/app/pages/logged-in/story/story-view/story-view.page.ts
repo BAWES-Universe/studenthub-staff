@@ -134,10 +134,7 @@ export class StoryViewPage implements OnInit {
     })
   }
 
-
-
-  
-    /**
+  /**
    * load candidate suggestions for this request
    */
   loadSuggestions() {

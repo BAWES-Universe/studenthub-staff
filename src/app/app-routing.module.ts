@@ -453,9 +453,17 @@ const routes: Routes = [
     loadChildren: () => import('./pages/errors/app-error/app-error.module').then( m => m.AppErrorPageModule)
   },
   {
+    path: 'client-feedback-backlog',
+    canActivate: [AuthService],
+    loadChildren: () => import('./pages/logged-in/client-feedback-backlog/client-feedback-backlog.module').then( m => m.ClientFeedbackBacklogPageModule),
+    data: {
+      name: 'ClientFeedbackBacklogPage'
+    }
+  },
+  {
     path: '**',
     redirectTo: 'not-found'
-  },
+  }
 ];
 
 @NgModule({
