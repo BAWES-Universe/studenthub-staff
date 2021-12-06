@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { InvitationListPageModule } from './pages/logged-in/invitation-list/invitation-list.module';
-import { SuggestionListPageModule } from './pages/logged-in/suggestion-list/suggestion-list.module';
 import { AuthService } from './providers/auth.service';
 import { LoginGuard } from './providers/guards/login-guard.service';
 import { SelectiveLoadingStrategy } from './util/SelectiveLoadingStrategy';
@@ -278,30 +276,6 @@ const routes: Routes = [
     }
   },
   {
-    path: 'invitation-list',
-    loadChildren: () => import('./pages/logged-in/invitation-list/invitation-list.module').then( m => InvitationListPageModule),
-    canActivate: [AuthService],
-    data: {
-      name: 'invitationListPage'
-    }
-  },
-  {
-    path: 'suggestion-list',
-    loadChildren: () => import('./pages/logged-in/suggestion-list/suggestion-list.module').then( m => SuggestionListPageModule),
-    canActivate: [AuthService],
-    data: {
-      name: 'invitationListPage'
-    }
-  },
-  {
-    path: 'story-view',
-    loadChildren: () => import('./pages/logged-in/story/story-view/story-view.module').then( m => m.StoryViewPageModule),
-    canActivate: [AuthService],
-    data: {
-      name: 'StoryViewPage'
-    }
-  },
-  {
     path: 'team-view',
     loadChildren: () => import('./pages/logged-in/team/team-view/team-view.module').then( m => m.TeamViewPageModule),
     canActivate: [AuthService],
@@ -453,17 +427,9 @@ const routes: Routes = [
     loadChildren: () => import('./pages/errors/app-error/app-error.module').then( m => m.AppErrorPageModule)
   },
   {
-    path: 'client-feedback-backlog',
-    canActivate: [AuthService],
-    loadChildren: () => import('./pages/logged-in/client-feedback-backlog/client-feedback-backlog.module').then( m => m.ClientFeedbackBacklogPageModule),
-    data: {
-      name: 'ClientFeedbackBacklogPage'
-    }
-  },
-  {
     path: '**',
     redirectTo: 'not-found'
-  }
+  },
 ];
 
 @NgModule({

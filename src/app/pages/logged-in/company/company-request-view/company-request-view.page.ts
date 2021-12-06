@@ -215,14 +215,6 @@ export class CompanyRequestViewPage implements OnInit, OnDestroy {
     });
   }
 
-  staffSelected(staff) {
-    this.navCtrl.navigateForward('team-view/' + staff.staff_id, {
-      state: {
-        model: staff
-      }
-    });
-  }
-
   /**
    * load candidate suggestions for this request
    */

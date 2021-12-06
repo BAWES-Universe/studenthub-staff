@@ -25,7 +25,6 @@ export class StaffService {
    * @param staffID
    */
   detail(staffID: number): Observable<any>{
-    const url = `${this.staffEndpoint}/${staffID}`;
-    return this._authhttp.get(url);
+    return this._authhttp.get(`${this.staffEndpoint}/${staffID}`);
   }
 }

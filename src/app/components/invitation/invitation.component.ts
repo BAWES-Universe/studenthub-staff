@@ -9,7 +9,6 @@ import { AwsService } from 'src/app/providers/aws.service';
 import { InvitationService } from 'src/app/providers/logged-in/invitation.service';
 import { SuggestionService } from 'src/app/providers/logged-in/suggestion.service';
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
-import { StoryService } from 'src/app/providers/logged-in/story.service';
 
 
 @Component({
@@ -24,7 +23,6 @@ export class InvitationComponent implements OnInit {
   @Input() model: Invitation;
 
   public loading: boolean = false;
-  public activeStory;
 
   constructor(
     public toastCtrl: ToastController,
@@ -32,15 +30,12 @@ export class InvitationComponent implements OnInit {
     public router: Router,
     public aws: AwsService,
     public authService: AuthService,
-    public storyService: StoryService,
     public translateService: TranslateLabelService,
     public suggestionService: SuggestionService,
     public invitationService: InvitationService
   ) { }
-  
-  ngOnInit() { 
-    this.loadActiveStory();
 
+  ngOnInit() {
   }
 
   doNothing(event) {
@@ -52,23 +47,6 @@ export class InvitationComponent implements OnInit {
     event.preventDefault();
     event.stopPropagation();
     this.router.navigate(['/candidate-view', this.model.candidate_id]);
-  }
-
-
-  /**
-   * Load staff's story
-   */
-  loadActiveStory() {
-
-    this.storyService.loadActiveStory().subscribe(response => {
-      
-      if(response.operation == 'success'){
-        this.activeStory = response.body;
-      }
-    
-    }, () => {
-      // this.loadingSalaryTransfers = false;
-    });
   }
 
   /**
@@ -83,7 +61,6 @@ export class InvitationComponent implements OnInit {
       return new Date(date.replace(/-/g, '/'));
     }
   }
-
 
   /**
    * move to suggestion
@@ -118,7 +95,6 @@ export class InvitationComponent implements OnInit {
               suggestion: data.feedback,
               request_uuid: this.model.request_uuid,
               fulltimer_uuid: null,
-              story_uuid: this.activeStory.story_uuid,
               candidate_id: this.model.candidate_id
             };
 
