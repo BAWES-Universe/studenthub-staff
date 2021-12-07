@@ -14,8 +14,6 @@
     <ion-list *ngIf="!loading">
       <section>
 
- 
-
         <ion-card tappable *ngFor="let story of stories" (click)="rowSelected(story)">
 
           <ion-card-header>
@@ -31,8 +29,6 @@
             {{story.request.company.company_name}}
           </ion-card-content>
         </ion-card>
-
-
 
       </section>
     </ion-list>

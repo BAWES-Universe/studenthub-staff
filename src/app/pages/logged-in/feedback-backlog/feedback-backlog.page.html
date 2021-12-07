@@ -11,7 +11,6 @@
 
     <ng-container>
 
-
     <ion-searchbar debounce="500" placeholder="Type to search" (ionChange)="searchByName($event)"></ion-searchbar>
       
       <request-listing *ngFor="let request of activeRequests" tappable (click)="requestDetail(request)"

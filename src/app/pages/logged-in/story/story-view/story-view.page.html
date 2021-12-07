@@ -84,7 +84,7 @@
     </div>
 
 
-    <ion-segment (ionChange)="segmentChanged($event)" value="invitations">
+    <ion-segment *ngIf="story.story_status == 1" (ionChange)="segmentChanged($event)" value="invitations">
 
 
       <ion-segment-button *ngIf="invitedCandidates.length > 0 || rejectedCandidates.length > 0 || acceptedInvitations.length > 0" value="invitations">
@@ -97,7 +97,7 @@
 
     </ion-segment>
 
-    <div *ngIf="segment == 'invitations'">
+    <div *ngIf="story.story_status == 1 && segment == 'invitations'">
 
 
         <ion-button (click)="viewInvitationList(invitedCandidates, 'Invited Candidates')" color="warning" fill="solid" expand="block" >
@@ -126,8 +126,7 @@
 
      </div>
 
-
-      <div *ngIf="segment == 'suggestions'">
+      <div *ngIf="story.story_status == 1 && segment == 'suggestions'">
 
 
         <ion-button (click)="viewSuggestionList(suggestedSuggestions, 'Suggested Candidates')" color="primary" fill="solid" expand="block" >
