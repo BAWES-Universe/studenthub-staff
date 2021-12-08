@@ -16,7 +16,9 @@ export class ClientFeedbackBacklogPage implements OnInit {
   @ViewChild(IonContent, { static: true }) content: IonContent;
 
   public suggestions: Suggestion[] = [];
-  
+
+  public company = null;
+  public loading = false;
   public borderLimit = false;
 
   constructor(
@@ -45,5 +47,9 @@ export class ClientFeedbackBacklogPage implements OnInit {
 
   logScrolling(e) {
     this.borderLimit = (e.detail.scrollTop > 0);
+  }
+
+  update() {
+
   }
 }
