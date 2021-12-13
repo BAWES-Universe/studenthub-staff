@@ -13,7 +13,6 @@ import { Request } from 'src/app/models/request';
 import { InvitationService } from 'src/app/providers/logged-in/invitation.service';
 import { Invitation } from 'src/app/models/invitation';
 import { AuthService } from 'src/app/providers/auth.service';
-import { InvitationListPage } from '../../invitation-list/invitation-list.page';
 import {AlertController, IonNav, ModalController, NavController} from '@ionic/angular';
 import { SuggestionService } from 'src/app/providers/logged-in/suggestion.service';
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
