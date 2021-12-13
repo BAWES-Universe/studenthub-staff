@@ -447,7 +447,7 @@ const routes: Routes = [
   },
   {
     path: 'invitation-list',
-    loadChildren: () => import('./pages/logged-in/invitation-list/invitation-list.module').then( m => InvitationListPageModule),
+    loadChildren: () => import('./pages/logged-in/invitation-list/invitation-list.module').then( m => m.InvitationListPageModule),
     canActivate: [AuthService],
     data: {
       name: 'invitationListPage'
