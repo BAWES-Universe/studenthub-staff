@@ -149,6 +149,15 @@ export class CompanyRequestService {
     return this._authhttp.get(url);
   }
 
+
+  /**
+   * requests started/active but not by login user
+   */
+  listAllRequestsThatHaveSuggestedCadidates(page: number, urlParams: string = ''): Observable<any> {
+    const url = this.companyRequestEndpoint + '/pending-request?page=' + page + urlParams +
+      '&expand=storyOwners,staffs,staff,lastActivity,lastActivity.createdBy,company';
+    return this._authhttp.getRaw(url);
+  }
   /**
    * add activity
    * @param params
