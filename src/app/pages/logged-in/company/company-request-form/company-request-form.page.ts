@@ -51,7 +51,7 @@ export class CompanyRequestFormPage implements OnInit {
     private authService: AuthService,
     private popoverCtrl: PopoverController,
     private eventService: EventService
-  ) {
+  ) { 
   }
 
   ngOnInit() {
