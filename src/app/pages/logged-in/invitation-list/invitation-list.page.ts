@@ -24,7 +24,6 @@ import { Request } from 'src/app/models/request';
 import { Note } from 'src/app/models/note';
 import { StoryService } from 'src/app/providers/logged-in/story.service';
 import { Invitation } from 'src/app/models/invitation';
-// pages
 
 
 @Component({
@@ -39,9 +38,7 @@ export class InvitationListPage implements OnInit {
   public request: Request;
   public requestActivities: Note[] = [];
 
-
   public invitationList: Invitation[] = [];
-
 
   public request_uuid;
   public loading = false;
@@ -93,10 +90,7 @@ export class InvitationListPage implements OnInit {
     }  else {
       this.dismiss();
     }
-
-   
   }
-
 
   /**
    * close this modal
@@ -104,8 +98,6 @@ export class InvitationListPage implements OnInit {
   dismiss() {
     this.location.back();
   }
-
-
 
   /**
    * Make date readable by Safari
@@ -120,10 +112,7 @@ export class InvitationListPage implements OnInit {
     }
   }
 
-
   logScrolling(e) {
     this.borderLimit = (e.detail.scrollTop > 0);
   }
-
-
 }

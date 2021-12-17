@@ -215,13 +215,11 @@ export class StoryViewPage implements OnInit, OnDestroy {
     });
   }
 
-
-
   /**
    * Loads the create page
    */
   async viewInvitationList(invitationList,invitationStatus) {
-    if(invitationList && invitationList.length > 0 && invitationStatus){
+    if(invitationList && invitationList.length > 0 && invitationStatus) {
       this.navCtrl.navigateForward('invitation-list', {
         state: {
           story: this.story,
