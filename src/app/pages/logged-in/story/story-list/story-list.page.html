@@ -8,7 +8,7 @@
 </ion-header>
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
-  
+
   <div class="container">
 
     <ion-list *ngIf="!loading">
@@ -18,15 +18,22 @@
 
           <ion-card-header>
             <ion-card-subtitle>
-      
+
                 <span *ngIf="story.request.request_position_type == 1">Full-time -</span>
                 <span *ngIf="story.request.request_position_type == 2">Part-time -</span>
-              
+
               {{story.request.request_position_title}}</ion-card-subtitle>
             <ion-card-title>for</ion-card-title>
           </ion-card-header>
           <ion-card-content>
-            {{story.request.company.company_name}}
+            {{story.request.company.company_name}}<br/>
+            <ion-badge color="primary" *ngIf="story">
+              <span *ngIf="story.story_status == 0"> Unstarted </span>
+              <span *ngIf="story.story_status == 1"> Started </span>
+              <span *ngIf="story.story_status == 3"> Delivered </span>
+              <span *ngIf="story.story_status == 4"> Rejected </span>
+              <span *ngIf="story.story_status == 5"> Accepted </span>
+            </ion-badge>
           </ion-card-content>
         </ion-card>
 
@@ -35,7 +42,7 @@
 
     <loading-modal [loading]="loading || loadMore" type="text-list"></loading-modal>
   </div>
-  
+
   <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
     <ion-infinite-scroll-content></ion-infinite-scroll-content>
   </ion-infinite-scroll>

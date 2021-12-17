@@ -29,7 +29,7 @@ export class StoryListPage implements OnInit {
     public platform: Platform,
   ) { }
 
-  ngOnInit() { 
+  ngOnInit() {
     this.loadData(this.currentPage);
   }
 
@@ -77,7 +77,7 @@ export class StoryListPage implements OnInit {
 
     this.currentPage++;
 
-    this.storyService.list(this.currentPage, '&expand=request').subscribe(response => {
+    this.storyService.list(this.currentPage, '&expand=request,request.company').subscribe(response => {
 
       this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
       this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));

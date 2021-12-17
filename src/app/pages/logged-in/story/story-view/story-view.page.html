@@ -32,7 +32,7 @@
 
     <div *ngIf="story && request">
 
-      <ion-button *ngIf="(story.story_status == 0 && !story.staff_id )" color="success" fill="solid" expand="block" (click)="changeStoryStatus(1)">
+      <ion-button *ngIf="((story.story_status == 0 && !story.staff_id) || story.story_status == 4 )" color="success" fill="solid" expand="block" (click)="changeStoryStatus(1)">
         <span>Start</span>
       </ion-button>
 
