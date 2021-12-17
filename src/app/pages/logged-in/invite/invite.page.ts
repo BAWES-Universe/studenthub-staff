@@ -91,6 +91,7 @@ export class InvitePage implements OnInit {
    * load all requests for parttimers
    */
   loadRequests() {
+    
     this.loadingRequests = true;
 
     this.requestService.listActiveRequests().subscribe(data => {

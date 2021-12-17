@@ -11,7 +11,8 @@
   
   <div class="container" *ngIf="invitationList.length > 0">
 
-    <invitation *ngFor="let invitation of invitationList" [model]="invitation"></invitation> 
+    <invitation *ngFor="let invitation of invitationList" [model]="invitation" [story]="story">
+    </invitation> 
     
   </div>
 

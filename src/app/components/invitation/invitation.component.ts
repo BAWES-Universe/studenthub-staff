@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AlertController, ToastController } from '@ionic/angular';
 //models
 import { Invitation } from 'src/app/models/invitation';
+import { Story } from 'src/app/models/request';
 import { AuthService } from 'src/app/providers/auth.service';
 //services
 import { AwsService } from 'src/app/providers/aws.service';
@@ -21,6 +22,8 @@ export class InvitationComponent implements OnInit {
   @Output() onUpdate: EventEmitter<any> = new EventEmitter();
 
   @Input() model: Invitation;
+
+  @Input() story: Story; 
 
   public loading: boolean = false;
 
@@ -70,6 +73,7 @@ export class InvitationComponent implements OnInit {
     if (this.model.is_suggested) {
       return false;
     }
+
     const confirm = await this.alertCtrl.create({
       header: 'Please provide feedback',
       inputs: [
@@ -94,6 +98,7 @@ export class InvitationComponent implements OnInit {
             const param = {
               suggestion: data.feedback,
               request_uuid: this.model.request_uuid,
+              story_uuid: this.story?.story_uuid,
               fulltimer_uuid: null,
               candidate_id: this.model.candidate_id
             };
