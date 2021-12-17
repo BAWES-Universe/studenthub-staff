@@ -3,8 +3,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription, Subject, interval } from 'rxjs';
 
 // services
-import { StaffService } from 'src/app/providers/logged-in/staff.service';
-import { NoteService } from 'src/app/providers/logged-in/note.service';
 import { EventService } from 'src/app/providers/event.service';
 // models
 
@@ -133,7 +131,6 @@ export class StoryViewPage implements OnInit, OnDestroy {
       this.story = res;
       this.request = this.story.request;
 
-      console.log(this.story);
       this.loadInvitations();
       this.loadSuggestions();
       if (this.story.story_status == 1) {

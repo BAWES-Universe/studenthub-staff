@@ -216,6 +216,18 @@ export class CompanyRequestViewPage implements OnInit, OnDestroy {
     });
   }
 
+  staffSelected(staff) {
+    this.navCtrl.navigateForward('team-view/' + staff.staff_id, {
+      state: {
+        model: staff
+      }
+    });
+  }
+
+  storySelected(story) {
+    this.navCtrl.navigateForward('story-view/' + story.story_uuid);
+  }
+
   /**
    * load candidate suggestions for this request
    */
@@ -775,14 +787,5 @@ export class CompanyRequestViewPage implements OnInit, OnDestroy {
       return seconds.toFixed(2) + ' seconds';
     }
 
-  }
-
-  staffSelected(model) {
-    // Load Detail Page
-    this.navCtrl.navigateForward('story-view/' + model.story_uuid, {
-      state: {
-        model
-      }
-    });
   }
 }

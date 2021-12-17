@@ -110,7 +110,7 @@
     <div *ngIf="segment == 'story-owners'">
 
       <ion-list *ngIf="request.stories && request.stories.length > 0">
-        <div *ngFor="let story of request.stories" (click)="staffSelected(story.staff)">
+        <div *ngFor="let story of request.stories" (click)="(story.staff) ? staffSelected(story.staff) : storySelected(story)">
           <ion-item tappable class="story">
             <ng-container *ngIf="story.staff">
               <div tabindex="0"></div>

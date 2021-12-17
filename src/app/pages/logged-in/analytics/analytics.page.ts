@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {NavController, Platform} from '@ionic/angular';
 import {AuthService} from '../../../providers/auth.service';
 import {StaffService} from '../../../providers/logged-in/staff.service';
-import {Staff} from "../../../models/staff";
+import {Staff} from '../../../models/staff';
 
 @Component({
   selector: 'app-analytics',
@@ -44,14 +44,13 @@ export class AnalyticsPage implements OnInit {
   async loadData(page: number, loading = true) {
 
     this.loading = loading;
-
-    this.staffService.list(this.currentPage, '&role=2&expand=totalCompletedRequests,activeStory,activeStory.request,activeStory.request,activeStory.request.company').subscribe(response => {
+    const params = '&role=1&expand=totalCompletedRequests,activeStory,activeStory.request,activeStory.request,activeStory.request.company';
+    this.staffService.list(this.currentPage, params).subscribe(response => {
         this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'), 10);
         this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'), 10);
         this.staffs = response.body;
       },
-      error => {
-      },
+      error => { },
       () => {
         this.loading = false;
       }
