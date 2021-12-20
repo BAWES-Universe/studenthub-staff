@@ -97,6 +97,7 @@ export class CompanyContactFormPage implements OnInit {
         email: ['', [CustomValidator.emailValidator, Validators.required]],
         password: ['', Validators.required],
         receive_email: [true],
+        receive_suggestions: [false],
         receive_notification: [true],
         emails: new FormArray(emailCtrls),
         phones: new FormArray(phoneCtrls),
