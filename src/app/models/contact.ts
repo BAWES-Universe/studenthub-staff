@@ -11,6 +11,8 @@ export class Contact {
     contact_receive_email: any;
     contact_receive_suggestions: any;
     contact_receive_notification: any;
+    contact_email_verification: any;
+    contact_position: any;
     contact_auth_key: string;
     contact_password_hash: string;
     contact_password_reset_token: string;

@@ -39,7 +39,7 @@
 
           <p *ngIf="companyContact.contact_email">
             <a href="mailto:{{ companyContact.contact_email }}" (click)="doNothing($event)">
-              <ion-icon name="mail-outline"></ion-icon> {{ companyContact.contact_email }}
+              <ion-icon name="mail-outline"></ion-icon> {{ companyContact.contact_email }} <strong class="not-verified" *ngIf="companyContact.contact_email_verification == '0'"> &nbsp;&nbsp;Not Verified</strong>
             </a>
           </p>
 

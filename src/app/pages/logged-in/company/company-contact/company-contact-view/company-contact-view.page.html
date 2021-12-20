@@ -14,6 +14,10 @@
         <ion-icon slot="start" name="trash-outline"></ion-icon>
         Delete
       </ion-button>
+      <ion-button (click)="sendVerificationMail()" *ngIf="contact && !contact.contact_email_verification">
+        <ion-icon slot="start" name="mail-open-outline"></ion-icon>
+        Send Verification email
+      </ion-button>
       <ion-button *ngIf="contact" [routerLink]="'/view/company-request-dashboard/' + contact.contact_uuid">
         <ion-icon slot="start" name="eye-outline"></ion-icon>
         View Requests

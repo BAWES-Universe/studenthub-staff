@@ -15,7 +15,7 @@
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
   <div  class="container">
-    
+
     <loading-modal [loading]="loading" type="company-view"></loading-modal>
 
     <div *ngIf="company && !loading">
@@ -29,13 +29,13 @@
                   <img src="{{ aws.cloudinaryUrl + company.company_logo }}" (error)="imageError()">
                 </ion-thumbnail>
 
-                {{ company.company_name }} 
+                {{ company.company_name }}
               </h3>
 
               <ion-badge color="success" *ngIf="company.company_approved_to_hire">
                 <ion-icon name="checkmark-outline"></ion-icon> Approved to hire
               </ion-badge>
-              
+
               <ion-badge color="warning" *ngIf="!company.company_approved_to_hire">
                 <ion-icon name="close-outline"></ion-icon> Not approved to hire
               </ion-badge>
@@ -70,9 +70,9 @@
                 {{ company.company_bonus_commission | number:'1.0-2' }}% commission
               </p>
 
-              <p class="description" *ngIf="company.company_description_en"> {{ company.company_description_en }}</p>
+              <p class="description" *ngIf="company.company_description_en" [innerHtml]="company.company_description_en"></p>
 
-              <p class="description arabic" *ngIf="company.company_description_ar">{{ company.company_description_ar }}</p>
+              <p class="description arabic" *ngIf="company.company_description_ar" [innerHtml]="company.company_description_ar"></p>
 
               <a class="website" href="{{ company.company_website }}" target="_blank" *ngIf="company.company_website">{{ company.company_website }}</a>
 

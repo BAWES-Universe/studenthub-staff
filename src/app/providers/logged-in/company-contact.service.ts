@@ -137,4 +137,14 @@ export class CompanyContactService {
     const url = `${this._endpoint}/${model.contact_uuid}`;
     return this._authhttp.delete(url);
   }
+
+  /**
+   * Deletes
+   * @param {Contact} model
+   * @returns {Observable<any>}
+   */
+  sendEmail(model): Observable<any>{
+    const url = `${this._endpoint}/send-verification-email?contact_uuid=${model.contact_uuid}`;
+    return this._authhttp.get(url);
+  }
 }
