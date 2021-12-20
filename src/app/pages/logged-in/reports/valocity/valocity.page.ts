@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
-import { daysToWeeks } from 'date-fns';
 //models
 import { Staff } from 'src/app/models/staff';
 //services
@@ -33,7 +32,7 @@ export class ValocityPage implements OnInit {
     private navCtrl: NavController
   ) { }
 
-  ngOnInit() { 
+  ngOnInit() {
     this.loadData(this.currentPage);
   }
 
@@ -46,7 +45,7 @@ export class ValocityPage implements OnInit {
 
     this.loading = loading;
 
-    const urlParams = this.getUrlParams(); 
+    const urlParams = this.getUrlParams();
 
     this.staffService.list(this.currentPage, urlParams).subscribe(response => {
 
@@ -70,7 +69,7 @@ export class ValocityPage implements OnInit {
       const month = date.getMonth() + 1;
       urlParams += '&start_date=' + date.getUTCFullYear() + '-' + month + '-' + date.getUTCDay();
     }
-    
+
     if(this.end_date) {
       const date = new Date(this.end_date);
       const month = date.getMonth() + 1;
@@ -82,23 +81,23 @@ export class ValocityPage implements OnInit {
 
   /**
    * valocity of staff
-   * @param staff 
+   * @param staff
    */
   valocity(staff) {
-    if(!staff.totalClosedRequests) 
-      return 0; 
-      
+    if(!staff.totalClosedRequests)
+      return 0;
+
     const days = Math.ceil((staff.timeForCompletedRequests + staff.timeForCancelledRequests)/ (3600 * 24));
     return staff.totalClosedRequests/ days;
   }
 
   /**
    * no of hours spent on hours
-   * @param staff 
-   * @returns 
+   * @param staff
+   * @returns
    */
   noOfHours(staff) {
-    return (staff.timeForCompletedRequests + staff.timeForCancelledRequests)/ 3600; 
+    return (staff.timeForCompletedRequests + staff.timeForCancelledRequests)/ 3600;
   }
 
   /**
@@ -122,7 +121,7 @@ export class ValocityPage implements OnInit {
 
     this.currentPage++;
 
-    const urlParams = this.getUrlParams(); 
+    const urlParams = this.getUrlParams();
 
     this.staffService.list(this.currentPage, urlParams).subscribe(response => {
 

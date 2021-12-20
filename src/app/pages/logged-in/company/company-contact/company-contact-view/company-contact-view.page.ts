@@ -2,7 +2,7 @@ import { Location } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { AlertController, ModalController, Platform } from '@ionic/angular';
+import {AlertController, LoadingController, ModalController, Platform} from '@ionic/angular';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 //models
 import { CompanyContact } from 'src/app/models/company-contact';
@@ -71,6 +71,7 @@ export class CompanyContactViewPage implements OnInit {
     public authService: AuthService,
     public noteService: NoteService,
     public eventService: EventService,
+    public _loadingCtrl: LoadingController,
     public companyContactService: CompanyContactService
   ) { }
 
@@ -121,6 +122,7 @@ export class CompanyContactViewPage implements OnInit {
 
     this.companyContactService.view(this.contact_uuid).subscribe(data => {
       this.contact = data;
+      console.log(this.contact);
       this.loadNotes();
 
       if(!this.noteForm)
@@ -197,14 +199,32 @@ export class CompanyContactViewPage implements OnInit {
     confirm.present();
   }
 
+  async sendVerificationMail() {
+    const loader = await this._loadingCtrl.create();
+    loader.present();
+    this.companyContactService.sendEmail(this.companyContact).subscribe(async response => {
+
+      this.deleting = false;
+
+        const prompt = await this.alertCtrl.create({
+          message: this.authService.errorMessage(response.message),
+          buttons: ['Ok']
+        });
+        prompt.present();
+
+    }, () => {
+      loader.dismiss();
+    }, () => loader.dismiss() );
+  }
+
   /**
    * Make date readable by Safari
    * @param date
    */
   toDate(date) {
-    if (!date) 
+    if (!date)
       return null;
-      
+
     if (date)
       return new Date(date.replace(/-/g, '/'));
   }
