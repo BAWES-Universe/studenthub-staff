@@ -10,13 +10,20 @@
     </ion-avatar>
 
     <ion-label>
-      <h2 class="candidate_name">{{ candidate.candidate_name ?candidate.candidate_name : candidate.candidate_name_ar }}</h2>
+
+      <h2 class="candidate_name">
+        {{ candidate.candidate_name ? candidate.candidate_name : candidate.candidate_name_ar }}
+      </h2>
 
       <p *ngIf="candidate.store">
         {{ candidate.store.store_name }}
         <span *ngIf="candidate.company">@ {{ candidate.company.company_name }} </span>
+        
         <br/>
-        <small *ngIf="latestWorkStartedOn"> Latest Work Started on {{ toDate(latestWorkStartedOn) | date }} </small>
+
+        <small *ngIf="latestWorkStartedOn"> 
+          Latest Work Started on {{ toDate(latestWorkStartedOn) | date }} 
+        </small>
       </p>
 
       <ion-badge *ngIf="candidate.isProfileCompleted == false" color="danger">
