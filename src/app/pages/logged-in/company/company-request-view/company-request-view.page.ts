@@ -20,7 +20,7 @@ import { SuggestionService } from 'src/app/providers/logged-in/suggestion.servic
 import { EventService } from 'src/app/providers/event.service';
 import { InvitationService } from 'src/app/providers/logged-in/invitation.service';
 // models
-import { Request } from 'src/app/models/request';
+import { Request, Story } from 'src/app/models/request';
 import { Note } from 'src/app/models/note';
 import { Fulltimer } from "../../../../models/fulltimer";
 import { Invitation } from 'src/app/models/invitation';
@@ -71,6 +71,8 @@ export class CompanyRequestViewPage implements OnInit, OnDestroy {
 
   public segment: string = 'activities';
 
+  public activeStory: Story;
+  
   constructor(
     public modalCtrl: ModalController,
     public alertCtrl: AlertController,
@@ -146,7 +148,15 @@ export class CompanyRequestViewPage implements OnInit, OnDestroy {
 
     this.requestService.view(this.request_uuid).subscribe(data => {
       this.request = data;
-      console.log(this.request);
+      
+      //my active story 
+
+      this.request.stories.forEach((story) => {
+        if(story.staff_id == this.authService.staff_id) {
+          this.activeStory = story;
+        }
+      })
+
       this.loadRequestActivities();
       this.loadSuggestions();
       this.loadInvitations();

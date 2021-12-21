@@ -70,9 +70,13 @@
 
 <!-- move to suggestion if not suggested and accepted -->
 
-<ion-button *ngIf="!model.is_suggested && model.invitation_status == 3" class="btn-suggestion"
+<ion-button [disabled]="!story" *ngIf="!model.is_suggested && model.invitation_status == 3" class="btn-suggestion"
   (click)="suggest($event)">
   Move to suggestion
 </ion-button>
+
+<p class="txt-danger" *ngIf="!story && !model.is_suggested && model.invitation_status == 3">
+  You need to start story to move this invitation
+</p>
 
 <div class="clearfix"></div>

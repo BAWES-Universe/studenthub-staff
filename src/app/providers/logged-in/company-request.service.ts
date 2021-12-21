@@ -149,7 +149,6 @@ export class CompanyRequestService {
     return this._authhttp.get(url);
   }
 
-
   /**
    * requests started/active but not by login user
    */

@@ -177,13 +177,13 @@
       <div *ngIf="invitedCandidates.length > 0">
         <h4 class="txt-suggested-candidates">Invited Candidates ({{ invitedCandidates.length }})</h4>
 
-        <invitation *ngFor="let invitation of invitedCandidates" [model]="invitation"></invitation>
+        <invitation *ngFor="let invitation of invitedCandidates" [story]="activeStory" [model]="invitation"></invitation>
       </div>
 
       <div *ngIf="rejectedCandidates.length > 0">
         <h4 class="txt-suggested-candidates">Rejected Invitations by Candidates ({{ rejectedCandidates.length }})</h4>
 
-        <invitation *ngFor="let invitation of rejectedCandidates" [model]="invitation"></invitation>
+        <invitation *ngFor="let invitation of rejectedCandidates" [story]="activeStory" [model]="invitation"></invitation>
       </div>
 
       <!-- - ability to move to suggestion -->
@@ -191,7 +191,7 @@
       <div *ngIf="acceptedInvitations.length > 0">
         <h4 class="txt-suggested-candidates">Accepted Invitations by Candidates ({{ acceptedInvitations.length }})</h4>
 
-        <invitation *ngFor="let invitation of acceptedInvitations" (onUpdate)="onInvitationUpdated()" [model]="invitation"></invitation>
+        <invitation *ngFor="let invitation of acceptedInvitations" [story]="activeStory" (onUpdate)="onInvitationUpdated()" [model]="invitation"></invitation>
       </div>
 
     </div>
@@ -218,7 +218,7 @@
     <ion-row *ngIf="request.request_position_type == 1">
       <ion-col size-xs="4">
         <ion-button (click)="suggestCandidate($event)">
-          Suggest a candidate
+          Suggest a fulltimer
         </ion-button>
       </ion-col>
       <ion-col size-xs="4">
