@@ -226,8 +226,8 @@ export class StoryViewPage implements OnInit, OnDestroy {
   }
 
   /**
- * Loads the create page
- */
+   * Loads the create page
+   */
   async viewSuggestionList(suggestedSuggestions, invitationStatus) {
     if (suggestedSuggestions && suggestedSuggestions.length > 0 && invitationStatus) {
       this.navCtrl.navigateForward('suggestion-list', {
@@ -281,6 +281,25 @@ export class StoryViewPage implements OnInit, OnDestroy {
   stopTimer() {
     if (this.subscription) {
       this.subscription.unsubscribe();
+    }
+  }
+
+  /**
+   * show candidate to invite
+   */
+  showCandidates() {
+    if ([2, '2'].indexOf(this.request.request_position_type) > -1) {
+      this.navCtrl.navigateForward('candidate-list', {
+        state: {
+          story: this.story
+        }
+      });
+    } else {
+      this.navCtrl.navigateForward('fulltimer-list', {
+        state: {
+          story: this.story
+        }
+      });
     }
   }
 }

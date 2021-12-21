@@ -15,6 +15,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from 'src/app/models/store';
 import { Candidate } from 'src/app/models/candidate';
 import { Note } from 'src/app/models/note';
+import { Story } from 'src/app/models/request';
 // service
 import { StoreService } from 'src/app/providers/logged-in/store.service';
 import { CandidateService } from 'src/app/providers/logged-in/candidate.service';
@@ -23,6 +24,7 @@ import { EventService } from '../../../../providers/event.service';
 import { NoteService } from '../../../../providers/logged-in/note.service';
 import { AuthService } from '../../../../providers/auth.service';
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
+import { InvitationService } from 'src/app/providers/logged-in/invitation.service';
 // pages
 import { OptionPage } from '../option/option.page';
 import { CandidateCommittedFormPage } from '../candidate-committed-form/candidate-committed-form.page';
@@ -92,6 +94,8 @@ export class CandidateViewPage implements OnInit {
   public company;
   public pendingData = null;
 
+  public story: Story;
+
   constructor(
     public navCtrl: NavController,
     public router: Router,
@@ -101,6 +105,7 @@ export class CandidateViewPage implements OnInit {
     public storeService: StoreService,
     public candidateService: CandidateService,
     public translateService: TranslateLabelService,
+    public invitationService: InvitationService,
     public awsService: AwsService,
     public toastCtrl: ToastController,
     public eventService: EventService,
@@ -116,6 +121,12 @@ export class CandidateViewPage implements OnInit {
   }
 
   ngOnInit() {
+
+    const state = window.history.state;
+
+    if (state.story) {
+      this.story = state.story;
+    }
 
     if (!this.candidate_id) {
       this.candidate_id = this.activatedRoute.snapshot.paramMap.get('id');
@@ -491,12 +502,17 @@ export class CandidateViewPage implements OnInit {
    */
   async invite() {
 
+    if(this.story) {
+      return this.addInvitation();
+    }
+
     window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
     const modal = await this.modalCtrl.create({
       component: InvitePage,
       componentProps: {
-        candidate: this.candidate
+        candidate: this.candidate,
+        //story: this.story
       }
     });
     modal.onDidDismiss().then(e => {
@@ -512,6 +528,64 @@ export class CandidateViewPage implements OnInit {
       }
     });
     await modal.present();
+  }
+
+  async addInvitation() {
+    
+    const confirm = await this.alertCtrl.create({
+      header: 'Please provide feedback',
+      inputs: [
+        {
+          name: 'feedback',
+          type: 'textarea',
+          placeholder: 'Reason'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: () => {
+            // Handle the functionality when user click on 'cancel' button
+          }
+        },
+        {
+          text: 'Ok',
+          handler: async (data) => {
+                    
+            //this.loading = true;
+
+            const params = {
+              request_uuid: this.story.request_uuid,
+              story_uuid: this.story.story_uuid,
+              candidate_id: this.candidate_id,
+              reason: data.feedback
+            };
+
+            this.invitationService.create(params).subscribe(async response => {
+
+              this.loading = false;
+
+              // On Success
+              if (response.operation == 'success') {
+                this.candidate.invited = response.invitedCount;
+              }
+
+              // On Failure
+              if (response.operation == 'error') {
+                const prompt = await this.alertCtrl.create({
+                  message: this.authService.errorMessage(response.message),
+                  buttons: ['Okay']
+                });
+                prompt.present();
+              }
+            }, () => {
+              this.loading = false;
+            });
+          }
+        }
+      ]
+    });
+    confirm.present();
   }
 
   /**
