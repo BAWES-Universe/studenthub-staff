@@ -1,26 +1,24 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, Optional} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, Optional } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription, Subject, interval } from 'rxjs';
-
+import { AlertController, IonNav, ModalController, NavController } from '@ionic/angular';
 // services
 import { EventService } from 'src/app/providers/event.service';
-// models
-
 import { StoryService } from 'src/app/providers/logged-in/story.service';
-import { Request } from 'src/app/models/request';
 import { InvitationService } from 'src/app/providers/logged-in/invitation.service';
-import { Invitation } from 'src/app/models/invitation';
 import { AuthService } from 'src/app/providers/auth.service';
-import {AlertController, IonNav, ModalController, NavController} from '@ionic/angular';
 import { SuggestionService } from 'src/app/providers/logged-in/suggestion.service';
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
+// models
+import { Request } from 'src/app/models/request';
+import { Invitation } from 'src/app/models/invitation';
+
 
 export interface TimeSpan {
   hours: number;
   minutes: number;
   seconds: number;
 }
-
 
 @Component({
   selector: 'app-story-view',
@@ -29,7 +27,6 @@ export interface TimeSpan {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StoryViewPage implements OnInit, OnDestroy {
-
 
   public borderLimit = false;
 
@@ -63,7 +60,7 @@ export class StoryViewPage implements OnInit, OnDestroy {
   milliSecondsInASecond = 1000;
   hoursInADay = 24;
   minutesInAnHour = 60;
-  SecondsInAMinute  = 60;
+  SecondsInAMinute = 60;
 
   public timeDifference;
   public secondsToDday;
@@ -104,6 +101,7 @@ export class StoryViewPage implements OnInit, OnDestroy {
     if (!this.story) {
       this.loadData();
     }
+
     interval(1000).subscribe(() => {
       if (!this.changeDetector['destroyed']) {
         this.changeDetector.detectChanges();
@@ -215,8 +213,8 @@ export class StoryViewPage implements OnInit, OnDestroy {
   /**
    * Loads the create page
    */
-  async viewInvitationList(invitationList,invitationStatus) {
-    if(invitationList && invitationList.length > 0 && invitationStatus) {
+  async viewInvitationList(invitationList, invitationStatus) {
+    if (invitationList && invitationList.length > 0 && invitationStatus) {
       this.navCtrl.navigateForward('invitation-list', {
         state: {
           story: this.story,
@@ -227,11 +225,11 @@ export class StoryViewPage implements OnInit, OnDestroy {
     }
   }
 
-    /**
-   * Loads the create page
-   */
-  async viewSuggestionList(suggestedSuggestions,invitationStatus) {
-    if(suggestedSuggestions && suggestedSuggestions.length > 0 && invitationStatus){
+  /**
+ * Loads the create page
+ */
+  async viewSuggestionList(suggestedSuggestions, invitationStatus) {
+    if (suggestedSuggestions && suggestedSuggestions.length > 0 && invitationStatus) {
       this.navCtrl.navigateForward('suggestion-list', {
         state: {
           story: this.story,
@@ -260,7 +258,6 @@ export class StoryViewPage implements OnInit, OnDestroy {
   segmentChanged(event) {
     this.segment = event.target.value;
   }
-
 
   private getTimeDifference() {
     this.dDay = new Date(this.dDay);
