@@ -175,9 +175,9 @@ export class CandidateViewPage implements OnInit {
    * @param date
    */
   toDate(date) {
-    if (!date) 
+    if (!date)
       return null;
-      
+
     if (date) {
       return new Date(date.replace(/-/g, '/'));
     }
@@ -310,10 +310,9 @@ export class CandidateViewPage implements OnInit {
 
   /**
    * Assign Candidate to Store
-   * @param {number} store_id
-   * @param {number} rate
+   * @param {number} storeID
    */
-  async assignCandidateToStore(store_id) {
+  async assignCandidateToStore(storeID) {
 
     this.alertCtrl.create({
       header: 'Set hourly rate',
@@ -335,17 +334,17 @@ export class CandidateViewPage implements OnInit {
               return false;
             }
 
-            this.assignCandidateToStoreWithRate(store_id, data.rate);
+            this.assignCandidateToStoreWithRate(storeID, data.rate);
           }
         }
       ]
-    });
+    }).then(alert => alert.present() );
   }
 
   /**
    * assign to store with rates
-   * @param store_id 
-   * @param rate 
+   * @param store_id
+   * @param rate
    */
   assignCandidateToStoreWithRate(store_id, rate) {
 
@@ -567,6 +566,7 @@ export class CandidateViewPage implements OnInit {
       translucent: true
     });
     selectPage.onDidDismiss().then(e => {
+      console.log(e);
       if (e.data) {
         this.assignCandidateToStore(e.data.store_id);
       }
@@ -596,7 +596,7 @@ export class CandidateViewPage implements OnInit {
         }, {
           text: 'Save',
           handler: (data) => {
-            
+
             this.processing = 'setting_hours';
 
             if (data.rate) {
