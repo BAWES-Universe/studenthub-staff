@@ -135,11 +135,14 @@
                 </ion-button>
               </ion-item>
 
-              <ion-item>
+              <ion-item class="phone" target="_blank">
                 <div tabindex="0"></div>
-                <ion-label>
+                <ion-label *ngIf="candidate.candidate_preferred_time">
                   <h5>Preferred time to contact</h5>
-                  <p>{{ candidate.candidate_preferred_time }}</p>
+                  <p> {{ candidate.candidate_preferred_time }}</p>
+                </ion-label>
+                <ion-label *ngIf="!candidate.candidate_preferred_time">
+                  <p>Preferred time to contact (not set)</p>
                 </ion-label>
               </ion-item>
 
