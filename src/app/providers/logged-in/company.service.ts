@@ -157,7 +157,8 @@ export class CompanyService {
       logo: model.company_logo,
       followup_interval_weeks: model.company_followup_interval_weeks,
       followup: model.company_followup,
-      approved_to_hire: model.company_approved_to_hire
+      approved_to_hire: model.company_approved_to_hire,
+      password: model.password
     };
 
     return this._authhttp.post(postUrl, params);
