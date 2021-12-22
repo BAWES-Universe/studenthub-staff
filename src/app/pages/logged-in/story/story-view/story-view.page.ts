@@ -186,6 +186,7 @@ export class StoryViewPage implements OnInit, OnDestroy {
    * @param status
    */
   changeStoryStatus(status) {
+
     this.loading = true;
 
     this.storyService.changeStoryStatus(status, this.story.story_uuid).subscribe(async response => {
@@ -194,6 +195,13 @@ export class StoryViewPage implements OnInit, OnDestroy {
 
       // On Success
       if (response.operation == 'success') {
+
+        this.story.story_status = status;
+
+        this.eventService.storyStatusUpdated$.next({
+          story: this.story
+        });
+
         // Close the page
         this.loadData();
       }

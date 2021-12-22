@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import {StoryService} from "../../../providers/logged-in/story.service";
-import {Story} from "../../../models/request";
-import {NavController} from "@ionic/angular";
+import { NavController } from "@ionic/angular";
+//model
+import { Story } from "../../../models/request";
+//services
+import { StoryService } from "../../../providers/logged-in/story.service";
+import { EventService } from 'src/app/providers/event.service';
+
 
 @Component({
   selector: 'app-my-work',
@@ -13,13 +17,18 @@ export class MyWorkPage implements OnInit {
   public segment: string = 'current';
   public currentStory: Story;
   public oldStories: Story[];
+
   constructor(
+    public eventService: EventService,
     public storyService: StoryService,
     public navCtrl: NavController
   ) { }
 
   ngOnInit() {
-
+    this.eventService.storyStatusUpdated$.subscribe(() => {
+      this.loadActiveStories();
+      this.loadAllOtherStories();
+    });
   }
 
   ionViewWillEnter() {
