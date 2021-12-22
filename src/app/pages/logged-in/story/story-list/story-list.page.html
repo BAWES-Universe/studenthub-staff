@@ -26,7 +26,10 @@
             <ion-card-title>for</ion-card-title>
           </ion-card-header>
           <ion-card-content>
-            {{story.request.company.company_name}}<br/>
+            <p *ngIf="story.request.company">
+              {{story.request.company.company_name}}
+            </p>
+            
             <ion-badge color="primary" *ngIf="story">
               <span *ngIf="story.story_status == 0"> Unstarted </span>
               <span *ngIf="story.story_status == 1"> Started </span>
