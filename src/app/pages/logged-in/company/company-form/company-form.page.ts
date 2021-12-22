@@ -47,7 +47,7 @@ export class CompanyFormPage implements OnInit {
     width: '100%',
     toolbar: ['Heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', '|', 'indent', 'outdent'],
   };
-  
+
   public Editor = ClassicEditor;
 
   constructor(
@@ -122,6 +122,7 @@ export class CompanyFormPage implements OnInit {
           common_name_en: ['', Validators.required],
           bonus_commission: ['', Validators.required],
           hourly_rate: ['', Validators.required],
+          password: ['', Validators.required],
           description_en: [''],
           description_ar: [''],
           website: [''],
@@ -152,6 +153,7 @@ export class CompanyFormPage implements OnInit {
           name: [this.model.company_name, Validators.required],
           email: [this.model.company_email, [Validators.required, CustomValidator.emailValidator]],
           bonus_commission: [this.model.company_bonus_commission],
+          password: [''],
           hourly_rate: [this.model.company_hourly_rate, Validators.required],
           common_name_en: [this.model.company_common_name_en, Validators.required],
           common_name_ar: [this.model.company_common_name_ar, Validators.required],
@@ -184,6 +186,9 @@ export class CompanyFormPage implements OnInit {
     this.model.company_followup = this.form.value.followup;
     this.model.company_logo = this.form.value.logo;
     this.model.company_approved_to_hire = this.form.value.approved_to_hire;
+    if (!this.isSubCompany) {
+      this.model.password = this.form.value.password;
+    }
   }
 
   /**
@@ -250,7 +255,7 @@ export class CompanyFormPage implements OnInit {
   logScrolling(e) {
     this.borderLimit = (e.detail.scrollTop > 20);
   }
-  
+
   onEditorReady() {
     const interval = setTimeout(() => {
       if (this.ckeditor.editorInstance && this.form.value.description_en) {
@@ -260,7 +265,7 @@ export class CompanyFormPage implements OnInit {
       }
     }, 200);
   }
-  
+
   /**
    * on note editor change
    * @param event
@@ -287,7 +292,7 @@ export class CompanyFormPage implements OnInit {
       }
     }, 200);
   }
-  
+
   /**
    * on note editor change
    * @param event

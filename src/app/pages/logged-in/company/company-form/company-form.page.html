@@ -20,7 +20,7 @@
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
   <form [formGroup]="form" *ngIf="form">
     <ion-list>
-      
+
         <app-image-upload
                 label="Company Logo" icon="person-outline" prefix="logo"
                 formControlName="logo"
@@ -41,10 +41,15 @@
           <ion-input type="text" formControlName="common_name_ar"></ion-input>
         </ion-item>
 
+      <ion-item *ngIf="!this.isSubCompany">
+        <ion-label position="floating">Password</ion-label>
+        <ion-input type="text" formControlName="password"></ion-input>
+      </ion-item>
+
         <ion-item>
           <ion-label position="floating">Description - English</ion-label>
-              
-          <ckeditor [config]="editorConfig" #ckeditor [editor]="Editor" 
+
+          <ckeditor [config]="editorConfig" #ckeditor [editor]="Editor"
             (ready)="onEditorReady()" (change)="onChange($event)">
           </ckeditor>
           <!--
@@ -53,11 +58,11 @@
 
         <ion-item>
           <ion-label position="floating">Description - Arabic</ion-label>
-          
-          <ckeditor [config]="editorConfig" #ckeditor_ar [editor]="Editor" 
+
+          <ckeditor [config]="editorConfig" #ckeditor_ar [editor]="Editor"
             (ready)="onArabicEditorReady()" (change)="onArabicEditorChange($event)">
           </ckeditor>
-          
+
         </ion-item>
 
         <ion-item>
@@ -96,7 +101,7 @@
         <ion-label>Approved to hire?</ion-label>
         <ion-toggle slot="end" formControlName="approved_to_hire"></ion-toggle>
       </ion-item>
-      
+
     </ion-list>
   </form>
 </ion-content>
