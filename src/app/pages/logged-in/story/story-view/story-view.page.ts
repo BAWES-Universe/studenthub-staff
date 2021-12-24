@@ -198,6 +198,10 @@ export class StoryViewPage implements OnInit, OnDestroy {
 
         this.story.story_status = status;
 
+        this.eventService.storyStatusUpdated$.next({
+          story: this.story
+        });
+
         // story work started
         if (status == 1) {
             this.authService.story = this.story;
@@ -209,10 +213,6 @@ export class StoryViewPage implements OnInit, OnDestroy {
             this.authService.story = null;
             this.authService.saveInStorage();
         }
-
-        this.eventService.storyStatusUpdated$.next({
-          story: this.story
-        });
 
         // Close the page
         this.loadData();

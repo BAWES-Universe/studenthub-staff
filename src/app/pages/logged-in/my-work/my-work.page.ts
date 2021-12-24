@@ -28,6 +28,10 @@ export class MyWorkPage implements OnInit {
 
   ngOnInit() {
     this.eventService.storyStatusUpdated$.subscribe(() => {
+
+      this.currentStory = null;
+      this.oldStories = [];
+
       this.loadActiveStories();
       this.loadAllOtherStories();
     });
