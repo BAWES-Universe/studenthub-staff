@@ -38,6 +38,10 @@
         <ion-icon name="checkmark-outline"></ion-icon> Approved to hire
       </ion-badge>
 
+      <ion-badge slot="end" color="dark" class="old_request" *ngIf="request.is_old">
+        <ion-icon name="checkmark-outline"></ion-icon> Old Request
+      </ion-badge>
+
       <ion-badge slot="end" color="warning" *ngIf="request.company && !request.company.company_approved_to_hire">
         <ion-icon name="close-outline"></ion-icon> Not approved to hire
       </ion-badge>

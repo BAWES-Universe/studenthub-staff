@@ -23,6 +23,7 @@ export class Request {
     // request_status: Status;
     request_feedback: string;
     num_hours_followup_interval: number;
+    is_old: number;
     request_cancelled_at: string;
     request_delivered_at: string;
     request_assigned_at: string;
