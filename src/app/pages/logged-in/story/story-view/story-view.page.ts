@@ -197,6 +197,17 @@ export class StoryViewPage implements OnInit, OnDestroy {
       if (response.operation == 'success') {
 
         this.story.story_status = status;
+        // story work started
+        if (status == 1) {
+            this.authService.story = this.story;
+            this.authService.saveInStorage();
+        }
+
+        // story work stopped
+        if (status == 0) {
+            this.authService.story = null;
+            this.authService.saveInStorage();
+        }
 
         this.eventService.storyStatusUpdated$.next({
           story: this.story
@@ -276,7 +287,8 @@ export class StoryViewPage implements OnInit, OnDestroy {
   private allocateTimeUnits(timeDifference) {
     this.secondsToDday = Math.floor((timeDifference) / (this.milliSecondsInASecond) % this.SecondsInAMinute);
     this.minutesToDday = Math.floor((timeDifference) / (this.milliSecondsInASecond * this.minutesInAnHour) % this.SecondsInAMinute);
-    this.hoursToDday = Math.floor((timeDifference) / (this.milliSecondsInASecond * this.minutesInAnHour * this.SecondsInAMinute) % this.hoursInADay);
+    // this.hoursToDday = Math.floor((timeDifference) / (this.milliSecondsInASecond * this.minutesInAnHour * this.SecondsInAMinute) % this.hoursInADay);
+    this.hoursToDday = Math.floor((timeDifference) / (this.milliSecondsInASecond * this.minutesInAnHour * this.SecondsInAMinute));
     this.daysToDday = Math.floor((timeDifference) / (this.milliSecondsInASecond * this.minutesInAnHour * this.SecondsInAMinute * this.hoursInADay));
   }
 

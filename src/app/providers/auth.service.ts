@@ -25,6 +25,7 @@ export class AuthService {
   public email: string;
   public theme: string;
   public role: number;
+  public story: any;
 
   public navEnable = true;
   public currency_pref = 'USD';
@@ -81,6 +82,7 @@ export class AuthService {
           this.name = user.name;
           this.theme = user.theme;
           this.role = user.role;
+          this.story = user.story;
 
           resolve(true);
         } else {
@@ -127,7 +129,8 @@ export class AuthService {
         staff_id: this.staff_id,
         name: this.name,
         email: this.email,
-        role: this.role
+        role: this.role,
+        story: this.story
       })
     }).catch(r => {
       this.eventService.errorStorage$.next();
@@ -150,6 +153,7 @@ export class AuthService {
     this.role = null;
     this.name = null;
     this.email = null;
+    this.story = null;
 
     Storage.clear().catch(r => {
       this.eventService.errorStorage$.next();
@@ -177,6 +181,7 @@ export class AuthService {
     this.role = response.role;
     this.name = response.name;
     this.email = response.email;
+    this.story = response.story;
 
     // Save to Storage
     this.saveInStorage();

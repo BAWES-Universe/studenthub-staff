@@ -3,6 +3,7 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AuthService } from './providers/auth.service';
 import { LoginGuard } from './providers/guards/login-guard.service';
 import { SelectiveLoadingStrategy } from './util/SelectiveLoadingStrategy';
+import {StoryGuard} from './providers/guards/story-guard.service';
 
 const routes: Routes = [
   {
@@ -296,6 +297,7 @@ const routes: Routes = [
   {
     path: 'candidate-search',
     loadChildren: () => import('./pages/logged-in/candidate/candidate-search/candidate-search.module').then(m => m.CandidateSearchPageModule),
+    canActivate: [StoryGuard, AuthService],
     data: {
       name: 'CandidateSearchPage',
       navDisable: true,
@@ -305,6 +307,7 @@ const routes: Routes = [
   {
     path: 'fulltimer-search',
     loadChildren: () => import('./pages/logged-in/fulltimer/fulltimer-search/fulltimer-search.module').then( m => m.FulltimerSearchPageModule),
+    canActivate: [AuthService, StoryGuard],
     data: {
       name: 'FulltimerSearchPage',
       navDisable: true

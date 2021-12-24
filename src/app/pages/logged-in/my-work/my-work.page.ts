@@ -5,6 +5,7 @@ import { Story } from "../../../models/request";
 //services
 import { StoryService } from "../../../providers/logged-in/story.service";
 import { EventService } from 'src/app/providers/event.service';
+import {AuthService} from "../../../providers/auth.service";
 
 
 @Component({
@@ -21,6 +22,7 @@ export class MyWorkPage implements OnInit {
   constructor(
     public eventService: EventService,
     public storyService: StoryService,
+    public authService: AuthService,
     public navCtrl: NavController
   ) { }
 

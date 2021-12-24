@@ -10,13 +10,6 @@
 
 <ion-content [scrollEvents]="true" (ionScroll)="logScrolling($event)">
   <div class="container">
-    <!-- <loading-modal [loading]="loading" type="request-detail"></loading-modal> -->
-    <div class="timer ion-text-center" *ngIf="story && story.story_status == 1">
-      <span id="days" *ngIf="daysToDday"> {{daysToDday}} </span>Day(s)
-      <span id="hours" *ngIf="hoursToDday"> {{hoursToDday}} </span>Hrs
-      <span id="minutes"> {{minutesToDday}} </span>Min
-      <span id="seconds"> {{secondsToDday}} </span>S
-    </div>
     <h1>
       Suggest someone for this position
 
@@ -44,8 +37,15 @@
       </ion-button>
 
       <ion-button *ngIf="story.story_status == 1 && story.staff_id == authService.staff_id" color="danger" fill="solid"
-        expand="block" (click)="changeStoryStatus(0)">
-        <span>Stop</span>
+        expand="block" (click)="changeStoryStatus(0)" class="stop_btn">
+        <ion-label>
+          <span>Stop</span><br/>
+          <span class="timer ion-text-center" *ngIf="story && story.story_status == 1">
+            <span id="hours" *ngIf="hoursToDday"> {{hoursToDday}} </span> :
+            <span id="minutes"> {{minutesToDday}} </span>:
+            <span id="seconds"> {{secondsToDday}} </span>
+          </span>
+        </ion-label>
       </ion-button>
 
       <ion-button
@@ -176,6 +176,6 @@
 </ion-content>
 <ion-footer>
   <ion-button (click)="showCandidates()">
-    Select applicant to invite 
+    Select applicant to invite
   </ion-button>
 </ion-footer>

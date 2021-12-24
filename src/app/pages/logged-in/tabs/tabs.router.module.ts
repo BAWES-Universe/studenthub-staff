@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { TabsPage } from './tabs.page';
-//services
+// services
 import { AuthService } from '../../../providers/auth.service';
+import {StoryGuard} from '../../../providers/guards/story-guard.service';
 
 
 const routes: Routes = [
@@ -21,6 +22,7 @@ const routes: Routes = [
       {
         path: 'candidate-search',
         loadChildren: () => import('../candidate/candidate-search/candidate-search.module').then(m => m.CandidateSearchPageModule),
+        canActivate: [StoryGuard],
         data: {
           name: 'CandidateSearchPage',
           navDisable: true,
@@ -29,6 +31,7 @@ const routes: Routes = [
       {
         path: 'fulltimer-search',
         loadChildren: () => import('../fulltimer/fulltimer-search/fulltimer-search.module').then( m => m.FulltimerSearchPageModule),
+        canActivate: [StoryGuard],
         data: {
           name: 'FulltimerSearchPage',
           navDisable: true
