@@ -64,6 +64,10 @@ export class SelectSearchPageComponent {
 
     if(this.query) {
       this.displayedCollection = this.collection.filter((collectionItem) => {
+
+        if(!collectionItem[this.labelAttr]) 
+          return null; 
+          
         return collectionItem[this.labelAttr].toLowerCase().indexOf(this.query) >= 0 || 
           (this.altLabelAttr && collectionItem[this.altLabelAttr].toLowerCase().indexOf(this.query) >= 0);
       });
