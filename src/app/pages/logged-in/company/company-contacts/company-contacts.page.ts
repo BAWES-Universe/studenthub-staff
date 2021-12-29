@@ -1,17 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ModalController } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
 // models
 import { CompanyContact } from 'src/app/models/company-contact';
 import { Company } from "../../../../models/company";
+import { Contact } from "../../../../models/contact";
 // services
 import { CompanyService } from "../../../../providers/logged-in/company.service";
 import { CompanyContactService } from 'src/app/providers/logged-in/company-contact.service';
 import { EventService } from 'src/app/providers/event.service';
 // pages
 import { ModalPopPage } from '../../modal-pop/modal-pop.page';
-import {Contact} from "../../../../models/contact";
-import {CompanyContactFormPage} from "../company-contact-form/company-contact-form.page";
+import { CompanyContactFormPage } from "../company-contact-form/company-contact-form.page";
 
 
 @Component({
@@ -32,6 +32,7 @@ export class CompanyContactsPage implements OnInit {
   constructor(
     public router: Router,
     public modalCtrl: ModalController,
+    public navCtrl: NavController,
     public companyContactService: CompanyContactService,
     public companyService: CompanyService,
     public eventService: EventService
@@ -129,7 +130,13 @@ export class CompanyContactsPage implements OnInit {
   }
 
   dismiss() {
-    this.modalCtrl.dismiss();
+    this.modalCtrl.getTop().then(overlay => {
+      if (overlay) {
+        overlay.dismiss({ refresh: false });
+      } else {
+        this.navCtrl.back();
+      }
+    });
   }
 
   logScrolling(e) {
