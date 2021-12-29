@@ -11,6 +11,7 @@ import { LoadingModalModule } from 'src/app/components/loading-modal/loading-mod
 import { PipesModule } from 'src/app/pipes/pipes.module';
 import { RequestListingModule } from 'src/app/components/request-listing/request-listing.module';
 import {StoryItemModule} from 'src/app/components/story-item/story-item.module';
+import { RequestFilterComponent } from 'src/app/components/request-filter/request-filter.component';
 
 @NgModule({
   imports: [
@@ -23,6 +24,9 @@ import {StoryItemModule} from 'src/app/components/story-item/story-item.module';
     StoryItemModule,
     CompanyRequestDashboardPageRoutingModule
   ],
-  declarations: [CompanyRequestDashboardPage]
+  declarations: [
+    CompanyRequestDashboardPage,
+    RequestFilterComponent
+  ]
 })
 export class CompanyRequestDashboardPageModule {}

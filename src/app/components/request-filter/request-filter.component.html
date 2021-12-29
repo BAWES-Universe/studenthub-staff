@@ -1,0 +1,56 @@
+<ion-content>
+  
+  <div class="drager"></div>
+  
+  <h3>
+    Filter Results
+
+    <ion-button (click)="reset()" class="btn-close">
+      Reset
+    </ion-button>
+  </h3>
+
+
+  <ion-item>
+    <ion-label>Request Type</ion-label>
+
+    <ion-button (click)="filterByStatus($event, null)" [class.active]="filters.requestStatus == null">All</ion-button>
+    <ion-button (click)="filterByStatus($event, 'pending')" [class.active]="filters.requestStatus == 'pending'">Pending</ion-button>
+    <ion-button (click)="filterByStatus($event, 'started')" [class.active]="filters.requestStatus == 'started'">Started</ion-button>
+    <ion-button (click)="filterByStatus($event, 'delivered')" [class.active]="filters.requestStatus == 'delivered'">Delivered</ion-button>
+    <ion-button (click)="filterByStatus($event, 'cancelled')" [class.active]="filters.requestStatus == 'cancelled'">Cancelled</ion-button>
+  
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Job Type</ion-label>
+    
+    <ion-button (click)="filterByType($event, null)" [class.active]="filters.position_type == null">All</ion-button>
+    <ion-button (click)="filterByType($event, 2)" [class.active]="filters.position_type == 2">Part-time</ion-button>
+    <ion-button (click)="filterByType($event, 1)" [class.active]="filters.position_type == 1">Full-time</ion-button>
+    
+  </ion-item>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col size="4">
+        <ion-item>
+          <ion-label position="stacked">From</ion-label>
+          <ion-datetime pickerFormat="DD MMMM YYYY" displayFormat="DD MMMM YYYY" 
+            placeholder="DD/MM/YYYY" [(ngModel)]="filters.startDate"></ion-datetime>
+        </ion-item>
+      </ion-col>
+      <ion-col size="4">
+        <ion-item>
+          <ion-label position="stacked">To</ion-label>
+          <ion-datetime pickerFormat="DD MMMM YYYY" displayFormat="DD MMMM YYYY" 
+          placeholder="DD/MM/YYYY" [(ngModel)]="filters.endDate"></ion-datetime>    
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-button class="btn-filter" (click)="filter()">
+    Filter Results
+  </ion-button>
+</ion-content>
