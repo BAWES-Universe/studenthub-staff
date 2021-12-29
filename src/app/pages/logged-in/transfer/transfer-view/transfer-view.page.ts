@@ -335,7 +335,13 @@ export class TransferViewPage implements OnInit {
   }
 
   back() {
-    this.modalCtrl.dismiss();
+    this.modalCtrl.getTop().then(overlay => {
+      if(overlay) {
+        overlay.dismiss();
+      } else {
+        this.navCtrl.back();
+      }
+    });
   }
 
   /**

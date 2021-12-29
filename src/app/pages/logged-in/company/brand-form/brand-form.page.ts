@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { AlertController, ModalController, ToastController, IonButton, ActionSheetController, Platform } from '@ionic/angular';
+import { AlertController, ModalController, ToastController, IonButton, ActionSheetController, Platform, NavController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 // models
 import { Brand } from 'src/app/models/brand';
@@ -48,6 +48,7 @@ export class BrandFormPage implements OnInit {
     public sentryService: SentryErrorhandlerService,
     public awsService: AwsService,
     private _fb: FormBuilder,
+    public navCtrl: NavController,
     public actionSheetCtrl: ActionSheetController,
     private alertCtrl: AlertController,
     public modalCtrl: ModalController,
@@ -101,7 +102,13 @@ export class BrandFormPage implements OnInit {
    * Close the page
    */
   close(){
-    this.modalCtrl.dismiss({ refresh: false });
+    this.modalCtrl.getTop().then(overlay => {
+      if(overlay) {
+        overlay.dismiss({ refresh: false });
+      } else {
+        this.navCtrl.back();
+      }
+    });
   }
 
   /**
