@@ -164,4 +164,60 @@ p {
   text-align: center;
   color: #fff;
   margin-bottom: 16px;
+  --border-radius: 12px;
+  text-transform: inherit;
+}
+.view-request-btn {
+  width: 136px;
+  height: 56px;
+  font-family: Inter;
+  font-size: 16px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  text-align: center;
+  margin-right: 16px;
+  margin-bottom: 15px;
+  --border-radius: 12px;
+  text-transform: inherit;
+}
+.stop-btn {
+  width: 190px;
+  height: 56px;
+  flex-grow: 0;
+  margin-bottom: 15px;
+  --border-radius: 12px;
+  text-transform: inherit;
+  --border-color:#eb5757;
+  color:#eb5757;
+  --color:#eb5757;
+  font-family: Inter;
+  font-size: 16px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  text-align: center;
+}
+.footer::before ,
+.footer-md::before {
+  background-image: none;
+}
+.invite-btn {
+  width: 342px;
+  height: 56px;
+  margin: 0 0 12px;
+  border-radius: 12px;
+  background-color: #4c70f2;
+  font-family: Inter;
+  font-size: 16px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.5;
+  letter-spacing: normal;
+  text-align: center;
+  color: #fff;
+  text-transform: inherit;
 }

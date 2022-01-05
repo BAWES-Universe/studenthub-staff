@@ -12,7 +12,7 @@ import { TranslateLabelService } from 'src/app/providers/translate-label.service
 // models
 import { Request } from 'src/app/models/request';
 import { Invitation } from 'src/app/models/invitation';
-import {StoryViewOptionPage} from "./story-view-option.page";
+import {StoryViewOptionPage} from './story-view-option.page';
 
 
 export interface TimeSpan {
@@ -116,7 +116,7 @@ export class StoryViewPage implements OnInit, OnDestroy {
   loadData() {
     this.loading = true;
 
-    this.storyService.detail(this.story_uuid, '?expand=request,request.contact,request.staffs,request.company').subscribe(res => {
+    this.storyService.detail(this.story_uuid, '?expand=storyActivities,request,request.contact,request.staffs,request.company').subscribe(res => {
 
       this.loading = false;
       this.story = res;
@@ -138,11 +138,8 @@ export class StoryViewPage implements OnInit, OnDestroy {
  */
   loadInvitations(loading = true) {
     this.invitationService.list('&request_uuid=' + this.request.request_uuid).subscribe(invitations => {
-
       this.invitedCandidates = invitations.filter(invitation => invitation.invitation_status == 1);
-
       this.rejectedCandidates = invitations.filter(invitation => invitation.invitation_status == 2);
-
       this.acceptedInvitations = invitations.filter(invitation => invitation.invitation_status == 3);
     });
   }
@@ -155,11 +152,8 @@ export class StoryViewPage implements OnInit, OnDestroy {
     const params = '&request_uuid=' + this.request.request_uuid;
 
     this.suggestionService.list(params).subscribe(data => {
-
       this.suggestedSuggestions = [];
-
       this.acceptedSuggestions = [];
-
       this.rejectedSuggestions = [];
 
       data.forEach(element => {
@@ -231,8 +225,8 @@ export class StoryViewPage implements OnInit, OnDestroy {
       this.navCtrl.navigateForward('invitation-list', {
         state: {
           story: this.story,
-          invitationList: invitationList,
-          invitationStatus: invitationStatus
+          invitationList,
+          invitationStatus
         }
       });
     }
@@ -246,8 +240,8 @@ export class StoryViewPage implements OnInit, OnDestroy {
       this.navCtrl.navigateForward('suggestion-list', {
         state: {
           story: this.story,
-          suggestedSuggestions: suggestedSuggestions,
-          invitationStatus: invitationStatus
+          suggestedSuggestions,
+          invitationStatus
         }
       });
     }
@@ -329,8 +323,12 @@ export class StoryViewPage implements OnInit, OnDestroy {
     popover.present();
     popover.onDidDismiss().then(click => {
       if (click && click.data && click.data.click) {
-        this.navCtrl.navigateForward('request-view/'+  this.request.request_uuid);
+        this.requestView();
       }
     });
+  }
+
+  requestView() {
+    this.navCtrl.navigateForward('request-view/' +  this.request.request_uuid);
   }
 }
