@@ -20,7 +20,6 @@ export class StoryService {
    */
   list(page: number = 1, urlParams = ''): Observable<any>{
     const url = `${this.storyEndpoint}/list?page=${page}${urlParams}`;
-
     return this._authhttp.getRaw(url);
   }
 
@@ -66,6 +65,5 @@ export class StoryService {
       story_uuid,
       status,
     });
-
   }
 }

@@ -248,7 +248,7 @@ export class CompanyRequestViewPage implements OnInit, OnDestroy {
 
     const params = '&request_uuid=' + this.request_uuid;
 
-    this.suggestionService.list(params).subscribe(data => {
+    this.suggestionService.listAll(params).subscribe(data => {
 
       this.suggestedSuggestions = [];
 

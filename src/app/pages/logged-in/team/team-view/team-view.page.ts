@@ -5,6 +5,8 @@ import { ActivatedRoute } from '@angular/router';
 import { StaffService } from 'src/app/providers/logged-in/staff.service';
 import { NoteService } from 'src/app/providers/logged-in/note.service';
 import { EventService } from 'src/app/providers/event.service';
+import { StoryService } from 'src/app/providers/logged-in/story.service';
+import { SuggestionService } from 'src/app/providers/logged-in/suggestion.service';
 import { AuthService } from 'src/app/providers/auth.service';
 // models
 import { Staff } from 'src/app/models/staff';
@@ -31,13 +33,17 @@ export class TeamViewPage implements OnInit {
   public currentPage = 1;
   public notes: Note[] = [];
 
+  public suggestions = [];
+
   public segment = 'details';
 
   constructor(
     private activatedRoute: ActivatedRoute,
     public modalCtrl: ModalController,
     private staffService: StaffService,
-    private noteService: NoteService,
+    public suggestionService: SuggestionService,
+    //private noteService: NoteService,
+    //public storyService: StoryService,
     public authService: AuthService,
     public eventService: EventService
   ) { }
@@ -57,15 +63,17 @@ export class TeamViewPage implements OnInit {
       this.loadData();
     }
 
-    this.eventService.noteUpdated$.subscribe((data: any) => {
+    /*this.eventService.noteUpdated$.subscribe((data: any) => {
       if(data.staff_id == this.staff_id) {
         this.loadNotes();
       }
-    });
+    });*/
   }
 
   ionViewWillEnter() {
-    this.loadNotes();
+    //this.loadNotes();
+    //this.loadStories();
+    this.loadSuggestions();
   }
 
   loadData() {
@@ -84,17 +92,17 @@ export class TeamViewPage implements OnInit {
    * load store list
    * @param page
    */
-  async loadNotes(loading = true) {
+   async loadSuggestions(loading = true) {
 
     this.loading = loading;
 
-    const params = 'staff_id=' + this.staff_id;
+    const params = '&staff_id=' + this.staff_id + '&expand=candidate,fulltimer,request,request.company,note';
 
-    this.noteService.list(params, 1).subscribe(response => {
+    this.suggestionService.list(1, params).subscribe(response => {
 
       this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
       this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
-      this.notes = response.body;
+      this.suggestions = response.body;
     },
       error => {
       },
@@ -113,14 +121,14 @@ export class TeamViewPage implements OnInit {
 
     this.currentPage++;
 
-    const params = 'staff_id=' + this.staff_id;
+    const params = 'staff_id=' + this.staff_id + '&expand=candidate,fulltimer,request,request.company,note';
 
-    this.noteService.list(params, this.currentPage).subscribe(response => {
+    this.suggestionService.list(this.currentPage, params).subscribe(response => {
 
       this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
       this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
 
-      this.notes = this.notes.concat(response.body);
+      this.suggestions = this.suggestions.concat(response.body);
     },
       error => {
       },

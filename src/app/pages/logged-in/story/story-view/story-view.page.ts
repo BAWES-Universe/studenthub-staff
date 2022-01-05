@@ -144,7 +144,7 @@ export class StoryViewPage implements OnInit, OnDestroy {
 
     const params = '&request_uuid=' + this.request.request_uuid;
 
-    this.suggestionService.list(params).subscribe(data => {
+    this.suggestionService.listAll(params).subscribe(data => {
       this.suggestedSuggestions = [];
       this.acceptedSuggestions = [];
       this.rejectedSuggestions = [];

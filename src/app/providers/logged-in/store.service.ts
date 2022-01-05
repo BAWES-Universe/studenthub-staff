@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
 import {Observable} from 'rxjs';
+//services
 import {AuthHttpService} from './authhttp.service';
+//models
 import {Store} from '../../models/store';
 import { CompanyContact } from 'src/app/models/company-contact';
+
 
 @Injectable({
   providedIn: 'root'

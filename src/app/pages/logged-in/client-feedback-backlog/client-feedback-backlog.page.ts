@@ -34,8 +34,7 @@ export class ClientFeedbackBacklogPage implements OnInit {
    */
    loadData() {
 
-    this.suggestionService.list().subscribe(data => {
-
+    this.suggestionService.listAll().subscribe(data => {
       this.suggestions = data;
     });
   }

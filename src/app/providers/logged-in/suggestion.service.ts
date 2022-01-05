@@ -17,9 +17,20 @@ export class SuggestionService {
    * List of all suggestions
    * @returns {Observable<any>}
    */
-  list(params: string = ''): Observable<any> {
+  listAll(params: string = ''): Observable<any> {
     let url = this._endpoint + '?expand=note,feedback,feedback.updatedBy,feedbacks,feedbacks.updatedBy,candidate,fulltimer,updatedBy' + params;
     return this._authhttp.get(url);
+  }
+  
+  /**
+   * list with pagination
+   * @param page 
+   * @param params 
+   * @returns 
+   */
+  list(page: number, params: string = ''): Observable<any> {
+    let url = this._endpoint + '?withPagination=1&'+ params;
+    return this._authhttp.getRaw(url);
   }
 
   /**

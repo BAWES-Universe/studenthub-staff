@@ -53,11 +53,40 @@
     </ion-list>
 
     <div *ngIf="segment == 'work-history'">
+
+      <ion-card [class.warning]="suggestion.suggestion_status != 3" 
+        [class.success]="suggestion.suggestion_status == 3" class="card-story" 
+        *ngFor="let suggestion of suggestions">
+        
+        <h3 *ngIf="suggestion.candidate">{{ suggestion.candidate.candidate_name }}</h3>
+        <h3 *ngIf="suggestion.fulltimer">{{ suggestion.fulltimer.fulltimer_name }}</h3>
+
+        <!--<h3>{{ suggestion.candidate_name }}</h3>-->
+
+        <h4>{{ suggestion.request.request_position_title }}</h4>
+        
+        <h5 *ngIf="suggestion.request.company">{{ suggestion.request.company.company_name }}</h5>
+
+        <p *ngIf="suggestion.note">
+          {{ suggestion.note.note_text }}
+        </p>
+      </ion-card>
+
+      <ion-card class="success card-story">
+        <h3>Sherif Kamal</h3>
+
+        <h4>Chief Accountant</h4>
+        <h5>Food Labs</h5>
+
+        <p>This is the reason for the client. And this is the pending state of the story.</p>
+      </ion-card>
+
+      <!--
       <ion-list>
         <note tappable *ngFor="let note of notes" [routerLink]="'/note-view/' + note.note_uuid" [note]="note" (onChange)="loadNotes()" (onDelete)="loadNotes()"></note>
-      </ion-list>
+      </ion-list>-->
 
-      <no-items message = "No notes yet!" *ngIf="!loading && !loadMore && notes.length == 0"></no-items>
+      <no-items message = "No history yet!" *ngIf="!loading && !loadMore && suggestions.length == 0"></no-items>
 
       <loading-modal [loading]="loading || loadMore" type="text-list"></loading-modal>
     </div>
