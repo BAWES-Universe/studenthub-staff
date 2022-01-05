@@ -13,7 +13,7 @@
     <ng-container *ngIf="staffs && staffs.length > 0">
       <div *ngFor="let staff of staffs">
         <h1>{{staff.staff_name}}</h1>
-        <ng-container *ngIf="staff.activeStory.length > 0">
+        <ng-container *ngIf="staff.activeStory && staff.activeStory.length > 0">
           <ion-card *ngFor="let activity of staff.activeStory">
             <ion-card-content>
               <h2>{{activity.request.request_position_title}} for {{activity.request.company.company_name}}
@@ -21,7 +21,8 @@
             </ion-card-content>
           </ion-card>
         </ng-container>
-        <ng-container *ngIf="staff.activeStory.length == 0">
+
+        <ng-container *ngIf="!staff.activeStory || staff.activeStory.length == 0">
           <ion-card>
             <ion-card-content>
               <h2>No Work record found</h2>
