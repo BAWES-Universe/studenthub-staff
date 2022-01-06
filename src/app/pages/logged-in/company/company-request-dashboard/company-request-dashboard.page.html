@@ -11,16 +11,16 @@
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
-  
+
   <ion-toolbar  class="container">
     <ion-segment mode="md" (ionChange)="segmentChanged($event)" value="request">
 
       <ion-segment-button  mode="md" value="request">
-        <ion-label>All Requests</ion-label>
+        <ion-label>Requests ({{total}})</ion-label>
       </ion-segment-button>
 
       <ion-segment-button  mode="md" value="story">
-        <ion-label>Stories</ion-label>
+        <ion-label>Stories ({{storyTotal}})</ion-label>
       </ion-segment-button>
     </ion-segment>
   </ion-toolbar>

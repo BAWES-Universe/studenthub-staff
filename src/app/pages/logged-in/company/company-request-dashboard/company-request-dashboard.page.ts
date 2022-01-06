@@ -43,7 +43,7 @@ export class CompanyRequestDashboardPage implements OnInit {
   public segment = 'request';
 
   public filters = {
-    requestStatus: null,
+    requestStatus: 'started',
     position_type: null,
     startDate: null,
     endDate: null,
@@ -93,7 +93,7 @@ export class CompanyRequestDashboardPage implements OnInit {
   loadRequests() {
 
     let param = this.urlParams();
-
+    console.log(param);
     this.requestService.listActiveWithPages(1, param).subscribe(response => {
       this.activeRequests = response.body;
       this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
@@ -124,7 +124,7 @@ export class CompanyRequestDashboardPage implements OnInit {
    * @param event
    */
   doInfinite(event) {
-    
+
     let param = this.urlParams();
 
     this.loading = true;
@@ -150,7 +150,7 @@ export class CompanyRequestDashboardPage implements OnInit {
    */
   urlParams() {
     let urlParams = '&followup_interval=1';
-    
+
     if (this.contact_uuid) {
       urlParams += '&contact_uuid=' + this.contact_uuid;
     }
@@ -261,7 +261,7 @@ export class CompanyRequestDashboardPage implements OnInit {
 
   /**
    * open filter
-   * @returns 
+   * @returns
    */
   async openFilter() {
 
@@ -278,9 +278,9 @@ export class CompanyRequestDashboardPage implements OnInit {
     const { data } = await modal.onWillDismiss();
 
     if(data && (
-        data.requestStatus != this.filters.requestStatus || 
-        data.position_type != this.filters.position_type || 
-        data.startDate != this.filters.startDate || 
+        data.requestStatus != this.filters.requestStatus ||
+        data.position_type != this.filters.position_type ||
+        data.startDate != this.filters.startDate ||
         data.endDate != this.filters.endDate
     )) {
       this.filters = data;
@@ -291,10 +291,7 @@ export class CompanyRequestDashboardPage implements OnInit {
 
   searchFilter(event) {
 
-    this.query = event.target.value; 
-
-    //if(event.key.which == 13) {
-      this.loadAllRequest();
-    //}
+    this.query = event.target.value;
+    this.loadAllRequest();
   }
 }

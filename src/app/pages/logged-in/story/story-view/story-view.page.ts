@@ -273,6 +273,7 @@ export class StoryViewPage implements OnInit, OnDestroy {
   }
 
   loadTimer() {
+    console.log(this.story);
     this.dDay = this.toDate(this.story.story_last_updated_at);
     this.subscription = interval(1000)
       .subscribe(x => { this.getTimeDifference(); });
