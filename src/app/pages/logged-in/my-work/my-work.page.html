@@ -21,10 +21,11 @@
             <span *ngIf="story.request.request_position_type == 1">Full-time -</span>
             <span *ngIf="story.request.request_position_type == 2">Part-time -</span>
 
-            {{story.request.request_position_title}}</ion-card-subtitle>
+            <span *ngIf="story.request">{{story.request.request_position_title}}</span>
+          </ion-card-subtitle>
           <ion-card-title>for</ion-card-title>
         </ion-card-header>
-        <ion-card-content>
+        <ion-card-content *ngIf="story && story.company">
           {{story.company.company_name}}
         </ion-card-content>
       </ion-card>

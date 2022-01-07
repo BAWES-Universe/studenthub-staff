@@ -59,6 +59,7 @@ export class Story {
   story_last_updated_at: string;
   request: Request;
   staff: Staff;
+  company: Company;
   storyActivities: StoryActivity[];
   latestStoryActivity: StoryActivity;
 }
