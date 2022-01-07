@@ -97,7 +97,7 @@
 <!-- enable if my active story -->
 <ion-footer class="ion-text-center clear-header">
   <div>
-    <ion-button *ngIf="authService && story && story.story_status == 1" class="invite-btn" (click)="showCandidates()">
+    <ion-button *ngIf="authService && story && story.story_status == 1 && story.request && ['cancelled', 'delivered'].indexOf(story.request.request_status) == -1" class="invite-btn" (click)="showCandidates()">
       Invite Candidates
     </ion-button>
   </div>
@@ -105,10 +105,10 @@
     <ion-button *ngIf="authService && story" class="view-request-btn" fill="outline" (click)="requestView()">
       View Request
     </ion-button>
-    <ion-button *ngIf="authService && story && story.story_status == 0" class="start-btn" (click)="changeStoryStatus(1)">
+    <ion-button *ngIf="authService && story && story.story_status == 0  && story.request && ['cancelled', 'delivered'].indexOf(story.request.request_status) == -1" class="start-btn" (click)="changeStoryStatus(1)">
       Start Work
     </ion-button>
-    <ion-button *ngIf="story && story.story_status == 1 && story.staff_id == authService.staff_id" class="stop-btn" fill="outline" (click)="closeStoryConfirmation()">
+    <ion-button *ngIf="story && story.request && ['cancelled', 'delivered'].indexOf(story.request.request_status) == -1 && story.story_status == 1 && story.staff_id == authService.staff_id" class="stop-btn" fill="outline" (click)="closeStoryConfirmation()">
       <ion-label>
         Stop Work &nbsp;&nbsp;
         <span class="timer ion-text-center">
