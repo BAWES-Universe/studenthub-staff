@@ -5,7 +5,9 @@
       </ion-back-button>
     </ion-buttons>
     <ion-buttons slot="end">
-      <ion-button (click)="openPopover($event)"><ion-icon name="ellipsis-vertical-outline"></ion-icon></ion-button>
+      <ion-button (click)="openPopover($event)">
+        <ion-icon name="ellipsis-vertical-outline"></ion-icon>
+      </ion-button>
     </ion-buttons>
 
   </ion-toolbar>
@@ -14,19 +16,19 @@
     <h2 class="company-name" tappable [routerLink]="'/company-view/' + request.company_id">
       {{ request.company.company_common_name_en? request.company.company_common_name_en: request.company.company_name
       }}
-      <ion-icon name="checkmark-outline"  *ngIf="request.company && request.company.company_approved_to_hire"></ion-icon>
-      <ion-icon name="close-outline"  *ngIf="request.company && !request.company.company_approved_to_hire"></ion-icon>
+      <ion-icon name="checkmark-outline" *ngIf="request.company && request.company.company_approved_to_hire"></ion-icon>
+      <ion-icon name="close-outline" *ngIf="request.company && !request.company.company_approved_to_hire"></ion-icon>
     </h2>
   </ion-toolbar>
 
-  <ion-toolbar  class="container">
+  <ion-toolbar class="container">
     <ion-segment mode="md" (ionChange)="segmentChanged($event)" value="detail">
 
-      <ion-segment-button  mode="md" value="detail">
+      <ion-segment-button mode="md" value="detail">
         <ion-label>Details</ion-label>
       </ion-segment-button>
 
-      <ion-segment-button  mode="md" value="update">
+      <ion-segment-button mode="md" value="update">
         <ion-label>Update</ion-label>
       </ion-segment-button>
     </ion-segment>
@@ -46,7 +48,9 @@
 
     <ion-grid>
       <ion-row>
-        <ion-col class="lbl"><ion-icon src="assets/images/Icon_Status.svg"></ion-icon>&nbsp;Status</ion-col>
+        <ion-col class="lbl">
+          <ion-icon src="assets/images/Icon_Status.svg"></ion-icon>&nbsp;Status
+        </ion-col>
         <ion-col class="value">
           <span *ngIf="story.story_status == 0"> Unstarted </span>
           <span *ngIf="story.story_status == 1"> Started </span>
@@ -56,24 +60,28 @@
         </ion-col>
       </ion-row>
       <ion-row>
-        <ion-col class="lbl"><ion-icon src="assets/images/Icons_Followup.svg"></ion-icon>&nbsp;Follow-up</ion-col>
+        <ion-col class="lbl">
+          <ion-icon src="assets/images/Icons_Followup.svg"></ion-icon>&nbsp;Follow-up
+        </ion-col>
         <ion-col class="value">{{request.num_hours_followup_interval}}</ion-col>
       </ion-row>
       <ion-row>
-        <ion-col class="lbl"><ion-icon src="assets/images/Icon_Date_Compensation.svg"></ion-icon> &nbsp;Compensation</ion-col>
+        <ion-col class="lbl">
+          <ion-icon src="assets/images/Icon_Date_Compensation.svg"></ion-icon> &nbsp;Compensation
+        </ion-col>
         <ion-col class="value">{{request.request_compensation}}</ion-col>
       </ion-row>
     </ion-grid>
 
     <div class="desc">
-        <h2>Job Description</h2>
-        <p [innerHtml]="request.request_job_description"></p>
+      <h2>Job Description</h2>
+      <p [innerHtml]="request.request_job_description"></p>
     </div>
 
     <div class="requested-by">
       Requested <ng-container *ngIf="request.contact">by <span class="requested-by-staff" tappable
-                                                               [routerLink]="'/company-contact-view/' + request.contact_uuid">{{ request.contact.contact_name }}</span>
-      on {{ request.request_created_datetime | timeAgo }}
+          [routerLink]="'/company-contact-view/' + request.contact_uuid">{{ request.contact.contact_name }}</span>
+        on {{ request.request_created_datetime | timeAgo }}
       </ng-container>
     </div>
   </div>
@@ -85,7 +93,9 @@
 
       <ion-card *ngFor="let activity of story.storyActivities" class="activity-list">
         <ion-card-content>
-          <p class="activity"><span *ngIf="activity.staff">{{activity.staff.staff_name}}</span> has worked on story <span>{{activity.activity_created_at | timeAgo}}</span> on <span>{{activity.activity_created_at | date}}</span></p>
+          <p class="activity"><span *ngIf="activity.staff">{{activity.staff.staff_name}}</span> has worked on story
+            <span>{{activity.activity_created_at | timeAgo}}</span> on <span>{{activity.activity_created_at |
+              date}}</span></p>
 
           <ion-badge>Time Spent : {{activity.activity_time_spent | timeSpent}}</ion-badge>
         </ion-card-content>
@@ -93,30 +103,38 @@
     </ng-container>
   </div>
 
+  <!-- enable if my active story -->
+  <ion-footer class="ion-text-center clear-header" *ngIf="story">
+    <ion-grid>
+      <ion-row>
+        <ion-col *ngIf="authService && story.story_status == 1 && story.request && ['cancelled', 'delivered'].indexOf(story.request.request_status) == -1">
+          <ion-button class="invite-btn" (click)="showCandidates()">
+            Invite Candidates
+          </ion-button>
+        </ion-col>
+        <ion-col>
+          <ion-button class="view-request-btn" fill="outline" (click)="requestView()">
+            View Request
+          </ion-button>
+          <ion-button
+            *ngIf="story.story_status == 0  && story.request && ['cancelled', 'delivered'].indexOf(story.request.request_status) == -1"
+            class="start-btn" (click)="changeStoryStatus(1)">
+            Start Work
+          </ion-button>
+          <ion-button *ngIf="story.request && ['cancelled', 'delivered'].indexOf(story.request.request_status) == -1 && story.story_status == 1 && story.staff_id == authService.staff_id"
+            class="stop-btn" fill="outline" (click)="closeStoryConfirmation()">
+            <ion-label>
+              Stop Work &nbsp;&nbsp;
+              <span class="timer ion-text-center">
+                <span id="hours" *ngIf="hoursToDday"> {{hoursToDday}} :</span>
+                <span id="minutes"> {{minutesToDday}} : </span>
+                <span id="seconds"> {{secondsToDday}} </span>
+              </span>
+            </ion-label>
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-footer>
+
 </ion-content>
-<!-- enable if my active story -->
-<ion-footer class="ion-text-center clear-header">
-  <div>
-    <ion-button *ngIf="authService && story && story.story_status == 1 && story.request && ['cancelled', 'delivered'].indexOf(story.request.request_status) == -1" class="invite-btn" (click)="showCandidates()">
-      Invite Candidates
-    </ion-button>
-  </div>
-  <div>
-    <ion-button *ngIf="authService && story" class="view-request-btn" fill="outline" (click)="requestView()">
-      View Request
-    </ion-button>
-    <ion-button *ngIf="authService && story && story.story_status == 0  && story.request && ['cancelled', 'delivered'].indexOf(story.request.request_status) == -1" class="start-btn" (click)="changeStoryStatus(1)">
-      Start Work
-    </ion-button>
-    <ion-button *ngIf="story && story.request && ['cancelled', 'delivered'].indexOf(story.request.request_status) == -1 && story.story_status == 1 && story.staff_id == authService.staff_id" class="stop-btn" fill="outline" (click)="closeStoryConfirmation()">
-      <ion-label>
-        Stop Work &nbsp;&nbsp;
-        <span class="timer ion-text-center">
-          <span id="hours" *ngIf="hoursToDday"> {{hoursToDday}}  :</span>
-          <span id="minutes"> {{minutesToDday}} : </span>
-          <span id="seconds"> {{secondsToDday}} </span>
-        </span>
-      </ion-label>
-    </ion-button>
-  </div>
-</ion-footer>
