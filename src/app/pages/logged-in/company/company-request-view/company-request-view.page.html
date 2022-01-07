@@ -129,6 +129,7 @@
                 <small *ngIf="story.story_status == 3">Status : Delivered</small>
                 <small *ngIf="story.story_status == 4">Status : Rejected</small>
                 <small *ngIf="story.story_status == 5">Status : Accepted</small>
+                <small *ngIf="story.story_status == 6">Status : Cancelled </small>
                 <br/>
                 <ion-note>
                   Time spent : {{ story.story_time_spent | timeSpent }}

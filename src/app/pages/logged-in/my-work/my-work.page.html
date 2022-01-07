@@ -45,7 +45,8 @@
           <ion-card-title>for</ion-card-title>
         </ion-card-header>
         <ion-card-content>
-          {{story.request.company.company_name}}
+          <p *ngIf="story.request.company">{{story.request.company.company_name}}</p>
+
           <br/>
           <strong *ngIf="story.story_status == 0">Status : Un started</strong>
           <strong *ngIf="story.story_status == 1">Status : Started</strong>
@@ -53,6 +54,7 @@
           <strong *ngIf="story.story_status == 3">Status : Delivered</strong>
           <strong *ngIf="story.story_status == 4">Status : Rejected</strong>
           <strong *ngIf="story.story_status == 5">Status : Accepted</strong>
+          <strong *ngIf="story.story_status == 6">Status : Cancelled </strong>
           <br/>
           <strong>
             Time spent : {{ story.story_time_spent | timeSpent }}
