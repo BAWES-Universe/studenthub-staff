@@ -4,6 +4,7 @@ import { NavController, Platform } from '@ionic/angular';
 //services
 import { AuthService } from 'src/app/providers/auth.service';
 import { StoryService } from '../../../../providers/logged-in/story.service';
+import {EventService} from "../../../../providers/event.service";
 
 
 @Component({
@@ -26,9 +27,14 @@ export class StoryListPage implements OnInit {
   constructor(
     public authService: AuthService,
     private storyService: StoryService,
+    private eventService: EventService,
     private navCtrl: NavController,
     public platform: Platform,
-  ) { }
+  ) {
+    this.eventService.storyStatusUpdated$.next( res => {
+      this.loadData(1);
+    });
+  }
 
   ngOnInit() {
     this.loadData(this.currentPage);
