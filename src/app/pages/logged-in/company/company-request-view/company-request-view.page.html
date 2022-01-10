@@ -56,13 +56,13 @@
         {{ request.request_position_title }}
       </b>
 
-      <p class="txt-additional-info">{{ request.request_additional_info }}</p>
+      <p class="txt-additional-info" [innerHtml]="request.request_additional_info"></p>
 
       <p class="txt-additional-info" *ngIf="request.request_location">
         {{ request.request_location }}
       </p>
 
-      <p class="txt-additional-info">{{ request.request_job_description }}</p>
+      <p class="txt-additional-info" [innerHtml]="request.request_job_description"></p>
       <p class="txt-additional-info">{{ request.request_compensation }}</p>
 
       <p *ngIf="updatingInterval" class="txt-additional-info">Number of Hours to Followup Interval: <ion-spinner></ion-spinner></p>
@@ -75,16 +75,16 @@
 
       <p *ngIf="request.request_started_at && request.staff">
         Started {{ request.request_started_at | timeAgo }} By {{ request.staff.staff_name }}
-      </p>  
+      </p>
 
       <p *ngIf="request.request_started_at && request.request_cancelled_at">
-        Cancelled after {{ request.request_started_at | duration : translateService.currentLang : request.request_cancelled_at }} 
+        Cancelled after {{ request.request_started_at | duration : translateService.currentLang : request.request_cancelled_at }}
       </p>
 
       <p *ngIf="request.request_started_at && request.request_delivered_at">
         Took {{ request.request_started_at | duration : translateService.currentLang : request.request_delivered_at }} to complete
       </p>
-      
+
     </div>
 
     <ion-segment (ionChange)="segmentChanged($event)" value="activities">
@@ -92,7 +92,7 @@
       <ion-segment-button value="activities">
         <ion-label>Recent Activity</ion-label>
       </ion-segment-button>
-      
+
       <ion-segment-button *ngIf="invitedCandidates.length > 0 || rejectedCandidates.length > 0 || acceptedInvitations.length > 0" value="invitations">
         <ion-label>Invitations</ion-label>
       </ion-segment-button>
@@ -159,7 +159,7 @@
         <span *ngIf="!activityExpanded">View all {{ requestActivities.length }} notes</span>
         <span *ngIf="activityExpanded">Collapse</span>
       </ion-button>
-    </div> 
+    </div>
 
   </div>
 </ion-content>
