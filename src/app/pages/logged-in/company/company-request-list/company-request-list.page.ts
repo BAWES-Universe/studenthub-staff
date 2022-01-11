@@ -47,6 +47,8 @@ export class CompanyRequestListPage implements OnInit {
 
   public scrollPosition = 0;
 
+  public alertRequestCountUpdated;
+
   constructor(
     public navCtrl: NavController,
     public platform: Platform,
@@ -66,6 +68,34 @@ export class CompanyRequestListPage implements OnInit {
 
     this.eventService.companyRequestUpdate$.subscribe(() => {
       this.list();
+    });
+
+    this.eventService.requestCountUpdated$.subscribe(async () => {
+
+      if(this.alertRequestCountUpdated)
+        return false; 
+
+      this.alertRequestCountUpdated = await this.alertCtrl.create({
+        header: 'Request count updated',
+        subHeader: 'Refresh to view latest update',
+        buttons: [
+          {
+            text: 'Cancel',
+            role: 'cancel',
+            cssClass: 'secondary',
+            handler: (data) => {
+              this.alertRequestCountUpdated = null;
+            }
+          }, {
+            text: 'Refresh',
+            handler: (data) => {
+              this.list();
+              this.alertRequestCountUpdated = null;
+            }
+          }
+        ]
+      }); 
+      this.alertRequestCountUpdated.present();
     });
   }
 

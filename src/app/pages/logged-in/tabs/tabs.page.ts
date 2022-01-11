@@ -27,6 +27,8 @@ export class TabsPage implements OnInit {
 
   public internvalSubscribe;
 
+  public statLoaded; 
+
   constructor(
     public actionSheetCtrl: ActionSheetController,
     public eventService: EventService,
@@ -75,6 +77,14 @@ export class TabsPage implements OnInit {
   async loadStats() {
 
     this.statisticService.get().subscribe(response => {
+
+      //skip for first time 
+
+      if(this.statLoaded && this.totalRequest != response.totalRequests) {
+        this.eventService.requestCountUpdated$.next();
+      }
+
+      this.statLoaded = true; 
 
       this.companyFollowUp = response.requireFollowup;
       this.totalRequest = response.totalRequests;

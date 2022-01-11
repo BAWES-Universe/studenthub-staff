@@ -61,6 +61,21 @@
   <div class="add-request mobile-only" tappable routerLink="/request-form">
     <ion-icon name="add-outline"></ion-icon>
   </div>
+    
+  <div class="update-alert" dir="ltr" *ngIf="alertRequestCountUpdated">
+    <span class="wrapper">
+        <span class="title">Requests updated</span>
+        <span class="btn-refresh">
+            &nbsp;
+            <span class="ag a8k" tabindex="0" role="link" tappable (click)="loadAllRequest()">
+              Refresh
+            </span>
+        </span>
+    </span>
+    <div tabindex="0" role="button" class="btn-close" tappable (click)="closeAlert()">
+        <ion-icon name="close"></ion-icon>
+    </div>
+  </div>
 </ion-content>
 
 <ion-footer class="container desktop-only">
