@@ -36,6 +36,8 @@ export class EventService {
   public reviewRequired$ = new Subject();
   public companyRequestUpdate$ = new Subject();
 
+  public requestCountUpdated$ = new Subject();
+  
   public reloadFollowupList$ = new Subject();
 
   public noteUpdated$ = new Subject();

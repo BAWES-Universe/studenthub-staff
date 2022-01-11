@@ -157,6 +157,7 @@ export class CompanyRequestService {
       '&expand=storyOwners,staffs,staff,lastActivity,lastActivity.createdBy,company';
     return this._authhttp.getRaw(url);
   }
+  
   /**
    * add activity
    * @param params
