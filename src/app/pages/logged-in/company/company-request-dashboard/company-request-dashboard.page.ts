@@ -100,6 +100,18 @@ export class CompanyRequestDashboardPage implements OnInit {
       }); 
       this.alertRequestCountUpdated.present();*/
     });
+
+    this.eventService.companyRequestCancelled$.subscribe(() => {
+      this.loadStories(1);
+    });
+    
+    this.eventService.companyRequestDelivered$.subscribe((request: any) => {
+      this.loadStories(1);
+    });
+
+    this.eventService.storyStatusUpdated$.subscribe(() => {
+      this.loadStories(1);
+    });
   }
 
   ionViewWillEnter() {

@@ -87,8 +87,7 @@
     </div>
   </div>
   <div class="container" *ngIf="request && story && segment == 'update'">
-    <h2>Recent Updates ( {{story.storyActivities.length}})</h2>
-
+    <h2>Recent Updates ({{story.storyActivities.length}})</h2>
 
     <ng-container *ngIf="story.storyActivities && story.storyActivities.length > 0">
 

@@ -16,6 +16,7 @@
           <span *ngIf="story.story_status == 6"> Cancelled </span>
         </ion-badge>
         <ng-container *ngIf="story.request">
+          
           <ion-badge *ngIf="story.request.request_position_type == 1">Full-time</ion-badge>
           <ion-badge *ngIf="story.request.request_location">{{story.request.request_location}}</ion-badge>
           <ion-badge *ngIf="story.request.request_position_type == 2">Part-time</ion-badge>

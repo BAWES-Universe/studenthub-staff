@@ -95,6 +95,19 @@ export class StoryViewPage implements OnInit, OnDestroy {
     });
 
     this.changeDetector.detectChanges();
+    
+    this.eventService.companyRequestCancelled$.subscribe((request: any) => {
+      if(this.story && request.request_uuid == this.story.request_uuid) {
+        this.loadData();
+      }
+    });
+
+    this.eventService.companyRequestDelivered$.subscribe((request: any) => {
+      if(this.story && request.request_uuid == this.story.request_uuid) {
+        this.loadData();
+      }
+    });
+
     // this.story.story_last_updated_at
     // this.subscription = interval(1000)
     //   .subscribe(x => { this.getTimeDifference(); });

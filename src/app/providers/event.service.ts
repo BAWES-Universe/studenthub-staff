@@ -27,6 +27,10 @@ export class EventService {
   public reloadStats$ = new Subject();
   public storyStatusUpdated$ = new Subject();
   
+  public companyRequestCancelled$ = new Subject();
+
+  public companyRequestDelivered$ = new Subject();
+
   public clearCandidateSelection$ = new Subject();
 
   public filterCollapse$ = new Subject();

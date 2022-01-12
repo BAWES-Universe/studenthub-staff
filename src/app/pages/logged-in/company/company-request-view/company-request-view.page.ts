@@ -463,6 +463,12 @@ export class CompanyRequestViewPage implements OnInit, OnDestroy {
                   company_id: this.request.company_id
                 });
 
+                this.eventService.companyRequestCancelled$.next({
+                  company_id: this.request.company_id,
+                  request_updated_datetime: response.request_updated_datetime,
+                  request_uuid: this.request_uuid
+                });
+
                 this.eventService.companyRequestUpdate$.next({
                   company_id: this.request.company_id,
                   request_updated_datetime: response.request_updated_datetime,
@@ -623,6 +629,12 @@ export class CompanyRequestViewPage implements OnInit, OnDestroy {
                   request_uuid: this.request_uuid
                 });
 
+                this.eventService.companyRequestDelivered$.next({
+                  company_id: this.request.company_id,
+                  request_updated_datetime: response.request_updated_datetime,
+                  request_uuid: this.request_uuid
+                });
+                
               } else {
                 this.toastCtrl.create({
                   message: this.translateService.errorMessage(response.message),
