@@ -31,6 +31,10 @@
       <ion-segment-button mode="md" value="update">
         <ion-label>Update</ion-label>
       </ion-segment-button>
+
+      <ion-segment-button mode="md" value="invited">
+        <ion-label>Invited</ion-label>
+      </ion-segment-button>
     </ion-segment>
   </ion-toolbar>
 
@@ -102,6 +106,11 @@
         </ion-card-content>
       </ion-card>
     </ng-container>
+  </div>
+  <div class="container" *ngIf="request && story && segment == 'invited'">
+    <h2>Invited Candidates</h2>
+
+    <invitation *ngFor="let invitation of allInvitedCandidates" [model]="invitation"></invitation>
   </div>
 
   <!-- enable if my active story -->

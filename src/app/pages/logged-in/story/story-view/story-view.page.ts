@@ -41,6 +41,7 @@ export class StoryViewPage implements OnInit, OnDestroy {
   public suggestedSuggestions = [];
   public acceptedSuggestions = [];
   public rejectedSuggestions = [];
+  public allInvitedCandidates: Invitation[] = [];
   public invitedCandidates: Invitation[] = [];
   public rejectedCandidates: Invitation[] = [];
   public acceptedInvitations: Invitation[] = [];
@@ -139,6 +140,7 @@ export class StoryViewPage implements OnInit, OnDestroy {
 
   loadStoryInvitations(loading = true) {
     this.invitationService.list('&story_uuid=' + this.story_uuid).subscribe(invitations => {
+      this.allInvitedCandidates = invitations;
       this.invitedCandidates = invitations.filter(invitation => invitation.invitation_status == 1);
       this.rejectedCandidates = invitations.filter(invitation => invitation.invitation_status == 2);
       this.acceptedInvitations = invitations.filter(invitation => invitation.invitation_status == 3);
