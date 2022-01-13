@@ -14,19 +14,21 @@ import { PipesModule } from 'src/app/pipes/pipes.module';
 import { InvitationModule } from 'src/app/components/invitation/invitation.module';
 import {StoryViewOptionPage} from './story-view-option.page';
 import {StoryCloseConfirmationComponent} from './story-close-confirmation.component';
+import {SuggestionModule} from "../../../../components/suggestion/suggestion.module";
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    NoteModule,
-    PipesModule,
-    IonicModule,
-    InvitationModule,
-    StoryViewPageRoutingModule,
-    NoItemsModule,
-    LoadingModalModule
-  ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        NoteModule,
+        PipesModule,
+        IonicModule,
+        InvitationModule,
+        StoryViewPageRoutingModule,
+        NoItemsModule,
+        LoadingModalModule,
+        SuggestionModule
+    ],
   declarations: [StoryViewPage, StoryViewOptionPage, StoryCloseConfirmationComponent],
   exports: [
     StoryViewOptionPage

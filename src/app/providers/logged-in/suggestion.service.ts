@@ -21,12 +21,12 @@ export class SuggestionService {
     let url = this._endpoint + '?expand=note,feedback,feedback.updatedBy,feedbacks,feedbacks.updatedBy,candidate,fulltimer,updatedBy' + params;
     return this._authhttp.get(url);
   }
-  
+
   /**
    * list with pagination
-   * @param page 
-   * @param params 
-   * @returns 
+   * @param page
+   * @param params
+   * @returns
    */
   list(page: number, params: string = ''): Observable<any> {
     let url = this._endpoint + '?withPagination=1&'+ params;
@@ -51,7 +51,8 @@ export class SuggestionService {
       suggestion: params.suggestion,
       request_uuid: params.request_uuid,
       fulltimer_uuid: params.fulltimer_uuid,
-      candidate_id: params.candidate_id
+      candidate_id: params.candidate_id,
+      story_uuid: params.story_uuid,
     });
   }
 

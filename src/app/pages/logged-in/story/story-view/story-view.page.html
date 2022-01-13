@@ -35,6 +35,10 @@
       <ion-segment-button mode="md" value="invited">
         <ion-label>Invited</ion-label>
       </ion-segment-button>
+
+      <ion-segment-button mode="md" value="suggestion">
+        <ion-label>Suggestions</ion-label>
+      </ion-segment-button>
     </ion-segment>
   </ion-toolbar>
 
@@ -109,7 +113,12 @@
   <div class="container" *ngIf="request && story && segment == 'invited'">
     <h2>Invited Candidates</h2>
 
-    <invitation *ngFor="let invitation of allInvitedCandidates" [model]="invitation"></invitation>
+    <invitation *ngFor="let invitation of allInvitedCandidates" (onUpdate)="loadData()" [model]="invitation"></invitation>
+  </div>
+  <div class="container" *ngIf="request && story && segment == 'suggestion'">
+    <h2>Suggested Candidates</h2>
+
+    <suggestion *ngFor="let suggestion of allSuggestions" [model]="suggestion"></suggestion>
   </div>
 
   <!-- enable if my active story -->
@@ -142,7 +151,7 @@
             </ion-label>
           </ion-button>
 
-          <ion-button *ngIf="story.request && story.story_status < 3 && acceptedInvitations && acceptedInvitations.length > 0"
+          <ion-button *ngIf="story.request && story.story_status < 3 && allSuggestions && allSuggestions.length > 0"
             class="stop-btn" fill="outline" (click)="changeStoryStatus(3)">
             <ion-label>
               Delivery Story

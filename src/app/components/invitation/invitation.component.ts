@@ -34,9 +34,12 @@ export class InvitationComponent implements OnInit {
     public translateService: TranslateLabelService,
     public suggestionService: SuggestionService,
     public invitationService: InvitationService
-  ) { }
+  ) {
+    // console.log(this.model);
+  }
 
   ngOnInit() {
+    // console.log(this.model);
   }
 
   doNothing(event) {
@@ -55,9 +58,9 @@ export class InvitationComponent implements OnInit {
    * @param date
    */
   toDate(date) {
-    if (!date) 
+    if (!date)
       return null;
-      
+
     if (date) {
       return new Date(date.replace(/-/g, '/'));
     }
