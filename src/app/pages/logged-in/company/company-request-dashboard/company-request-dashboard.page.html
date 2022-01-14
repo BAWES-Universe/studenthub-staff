@@ -6,7 +6,7 @@
     </ion-title>
   </ion-toolbar>
   <ion-toolbar  class="container searchbar-wrapper">
-    <ion-searchbar mode="md" [(ngModel)]="query" (ionInput)="searchFilter($event)" debounce=250></ion-searchbar>
+    <ion-searchbar mode="md" [(ngModel)]="query" (ionInput)="searchFilter($event)" debounce=500></ion-searchbar>
 
     <ion-buttons slot="end">
       <ion-button class="setting_btn" (click)="openFilter()">
@@ -61,7 +61,7 @@
   <div class="add-request mobile-only" tappable routerLink="/request-form">
     <ion-icon name="add-outline"></ion-icon>
   </div>
-    
+
   <div class="update-alert" dir="ltr" *ngIf="alertRequestCountUpdated">
     <span class="wrapper">
         <span class="title">Requests updated</span>

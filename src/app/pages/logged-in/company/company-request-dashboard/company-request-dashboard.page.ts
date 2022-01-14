@@ -73,7 +73,7 @@ export class CompanyRequestDashboardPage implements OnInit {
     this.eventService.companyRequestUpdate$.subscribe(() => {
       this.loadAllRequest();
     });
-    
+
     this.eventService.requestCountUpdated$.subscribe(async () => {
 
       this.alertRequestCountUpdated = true;
@@ -97,14 +97,14 @@ export class CompanyRequestDashboardPage implements OnInit {
             }
           }
         ]
-      }); 
+      });
       this.alertRequestCountUpdated.present();*/
     });
 
     this.eventService.companyRequestCancelled$.subscribe(() => {
       this.loadStories(1);
     });
-    
+
     this.eventService.companyRequestDelivered$.subscribe((request: any) => {
       this.loadStories(1);
     });
@@ -248,6 +248,7 @@ export class CompanyRequestDashboardPage implements OnInit {
 
     let param = this.urlParams();
     param += '&expand=request,request.company,latestStoryActivity';
+    param += '&query=' + this.query;
 
     this.storyService.list(this.currentPage, param).subscribe(response => {
 
@@ -340,8 +341,12 @@ export class CompanyRequestDashboardPage implements OnInit {
   }
 
   searchFilter(event) {
-
+    if (this.segment == 'request') {
+      this.loadAllRequest();
+    } else {
+      this.loadStories(1);
+    }
     this.query = event.target.value;
-    this.loadAllRequest();
+
   }
 }
