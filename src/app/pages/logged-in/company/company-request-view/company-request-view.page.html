@@ -221,34 +221,27 @@
 <ion-footer *ngIf="request && (request.request_status == 'started' || request.request_status == 'pending')">
   <ion-grid class="container">
     <ion-row *ngIf="request.request_position_type == 1">
-      <ion-col size-xs="4">
+      <ion-col size-xs="6">
         <ion-button (click)="suggestCandidate($event)">
           Suggest a fulltimer
         </ion-button>
       </ion-col>
-      <ion-col size-xs="4">
+      <ion-col size-xs="6">
         <ion-button (click)="showUpdateAlert()">
           Post an update
-        </ion-button>
-      </ion-col>
-      <ion-col size-xs="4">
-        <ion-button *ngIf="request.request_status == 'started' || request.request_status == 'pending'" (click)="deliveredRequest($event, request)">
-          Mark delivered
         </ion-button>
       </ion-col>
     </ion-row>
 
     <ion-row *ngIf="request.request_position_type == 2">
-      <ion-col size-xs="6">
+      <ion-col size-xs="12">
         <ion-button (click)="showUpdateAlert()">
           Post an update
         </ion-button>
       </ion-col>
-      <ion-col size-xs="6">
-        <ion-button *ngIf="request.request_status == 'started' || request.request_status == 'pending'" (click)="deliveredRequest($event, request)">
+      <!--  <ion-button *ngIf="request.request_status == 'started' || request.request_status == 'pending'" (click)="deliveredRequest($event, request)">
           Mark delivered
-        </ion-button>
-      </ion-col>
+        </ion-button>-->
     </ion-row>
   </ion-grid>
 </ion-footer>
