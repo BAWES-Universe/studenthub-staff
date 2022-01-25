@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController, Platform} from '@ionic/angular';
+import { Platform} from '@ionic/angular';
+import {AuthService} from '../../../providers/auth.service';
 
 @Component({
   selector: 'app-report-list',
@@ -11,8 +12,8 @@ export class ReportListPage implements OnInit {
   public borderLimit = false;
 
   constructor(
-    private navCtrl: NavController,
     public platform: Platform,
+    public authService: AuthService,
   ) { }
 
   ngOnInit() {

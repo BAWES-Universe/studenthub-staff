@@ -48,5 +48,10 @@
       <ion-icon name="stats-chart-outline"  slot="start"></ion-icon>
       Analytics
     </ion-item>
+    <ion-item [routerLink]="['/team-view/'+authService.staff_id]" routerLinkActive="active" lines="none" detail="false">
+      <div tabindex="0"></div>
+      <ion-icon name="person-circle-outline" slot="start"></ion-icon>
+      Profile
+    </ion-item>
   </div>
 </ion-content>

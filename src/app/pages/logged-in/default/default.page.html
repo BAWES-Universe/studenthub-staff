@@ -16,7 +16,7 @@
 
   <div class="container">
 
-    <h2>Hello {{ authService.name }},</h2>
+    <h2 tappable [routerLink]="['/team-view/'+authService.staff_id]">Hello {{ authService.name }},</h2>
 
     <p class="sub-title">We need to work on the following:</p>
 
@@ -24,7 +24,7 @@
 
     <ng-container *ngIf="!loading && statistics">
       <div *ngIf="statistics.activeRequests > 0">
-        
+
         <h3>Recruitment</h3>
         <ion-card class="stats" tappable (click)="scrollToActive()">
           <ion-card-content>

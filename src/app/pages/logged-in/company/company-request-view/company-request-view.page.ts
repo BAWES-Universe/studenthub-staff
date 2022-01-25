@@ -518,46 +518,47 @@ export class CompanyRequestViewPage implements OnInit, OnDestroy {
           text: 'Save',
           handler: (data) => {
 
-            if (!data.feedback || !data.hours) {
+            if (!(data.feedback.trim()) || !(data.hours.trim())) {
               this.alertCtrl.create({
                 message: 'Please provide hours & feedback',
                 buttons: ['Okay']
               }).then(alert => {
                 alert.present();
               });
+            } else {
+              this.updatingInterval = true;
+
+              const params = {
+                request_uuid: this.request_uuid,
+                num_hours_followup_interval: data.hours,
+                reason: data.feedback,
+              };
+
+              this.requestService.updateInterval(params).subscribe(async response => {
+                this.updatingInterval = false;
+                if (response.operation == 'success') {
+
+                  this.request.num_hours_followup_interval = data.hours;
+
+                  this.loadRequestActivities();
+
+                  this.eventService.companyRequestUpdate$.next({
+                    company_id: this.request.company_id,
+                    request_updated_datetime: response.request_updated_datetime,
+                    request_uuid: this.request_uuid
+                  });
+
+                } else {
+
+                  this.toastCtrl.create({
+                    message: this.translateService.errorMessage(response.message),
+                    buttons: ['Okay']
+                  }).then(prompt => {
+                    prompt.present();
+                  });
+                }
+              });
             }
-            this.updatingInterval = true;
-
-            const params = {
-              request_uuid: this.request_uuid,
-              num_hours_followup_interval: data.hours,
-              reason: data.feedback,
-            };
-
-            this.requestService.updateInterval(params).subscribe(async response => {
-              this.updatingInterval = false;
-              if (response.operation == 'success') {
-
-                this.request.num_hours_followup_interval = data.hours;
-
-                this.loadRequestActivities();
-
-                this.eventService.companyRequestUpdate$.next({
-                  company_id: this.request.company_id,
-                  request_updated_datetime: response.request_updated_datetime,
-                  request_uuid: this.request_uuid
-                });
-
-              } else {
-
-                this.toastCtrl.create({
-                  message: this.translateService.errorMessage(response.message),
-                  buttons: ['Okay']
-                }).then(prompt => {
-                  prompt.present();
-                });
-              }
-            });
           }
         }
       ]
