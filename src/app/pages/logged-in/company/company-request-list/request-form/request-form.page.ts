@@ -41,9 +41,10 @@ export class RequestFormPage implements OnInit {
     placeholder: 'Click here add description...',
     startupFocus: true,
     width: '100%',
+    height: '335em',
     toolbar: ['Heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', '|', 'indent', 'outdent'],
   };
-  
+
   public Editor = ClassicEditor;
 
   constructor(
@@ -266,7 +267,7 @@ export class RequestFormPage implements OnInit {
     this.form.controls.company_name.setValue(null);
     this.form.controls.location.setValue(null);
   }
-  
+
   onEditorReady() {
     const interval = setTimeout(() => {
       if (this.ckeditor.editorInstance && this.form.value.job_description) {
@@ -276,7 +277,7 @@ export class RequestFormPage implements OnInit {
       }
     }, 200);
   }
-  
+
   /**
    * on note editor change
    * @param event

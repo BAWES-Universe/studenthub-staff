@@ -18,7 +18,7 @@ import { CompanyContactListPage } from "../company-contact/company-contact-list/
   styleUrls: ['./company-request-form.page.scss'],
 })
 export class CompanyRequestFormPage implements OnInit {
-  
+
   @ViewChild('ckeditor', { static: false }) ckeditor: ClassicEditor;
 
   @Input() company;
@@ -38,9 +38,10 @@ export class CompanyRequestFormPage implements OnInit {
     placeholder: 'Click here add description...',
     startupFocus: true,
     width: '100%',
+    height: 500,
     toolbar: ['Heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', '|', 'indent', 'outdent'],
   };
-  
+
   public Editor = ClassicEditor;
 
   constructor(
@@ -51,7 +52,7 @@ export class CompanyRequestFormPage implements OnInit {
     private authService: AuthService,
     private popoverCtrl: PopoverController,
     private eventService: EventService
-  ) { 
+  ) {
   }
 
   ngOnInit() {
@@ -85,7 +86,7 @@ export class CompanyRequestFormPage implements OnInit {
       }
     }, 200);
   }
-  
+
   /**
    * on note editor change
    * @param event
@@ -193,7 +194,7 @@ export class CompanyRequestFormPage implements OnInit {
     }
 
     popover.onDidDismiss().then((_) => {
-      
+
       if (_ && _.data && _.data.contact) {
         this.form.controls.contact_name.setValue(_.data.contact.contact_name);
         this.form.controls.contact_uuid.setValue(_.data.contact.contact_uuid);

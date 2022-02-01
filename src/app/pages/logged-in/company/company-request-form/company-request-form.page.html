@@ -24,7 +24,7 @@
         <ion-label position="floating">Contact</ion-label>
         <ion-input type="text" formControlName="contact_name" readonly></ion-input>
       </ion-item>
-      
+
       <ion-item *ngIf="model.request_uuid">
         <ion-label position="floating">Contact</ion-label>
         <ion-input type="text" formControlName="contact_name" disabled></ion-input>
@@ -63,11 +63,11 @@
     <ion-list>
       <ion-item>
         <ion-label position="floating">Job Description</ion-label>
-        
-        <ckeditor [config]="editorConfig" #ckeditor [editor]="Editor" 
+
+        <ckeditor [config]="editorConfig" #ckeditor [editor]="Editor"
           (ready)="onEditorReady()" (change)="onChange($event)">
         </ckeditor>
-        
+
       </ion-item>
     </ion-list>
 
@@ -111,7 +111,7 @@
           <ion-spinner *ngIf="saving"></ion-spinner>
         </ion-button>
       </ion-col>
-      <ion-col> 
+      <ion-col>
         <ion-button (click)="resetForm();">Reset</ion-button>
       </ion-col>
     </ion-row>

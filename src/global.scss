@@ -432,7 +432,7 @@ ng5-slider {
   left: auto;
   text-align: right;
 
-  .btn-refresh { 
+  .btn-refresh {
       margin-left: auto;
   }
 
@@ -541,4 +541,8 @@ ng5-slider {
 
 .txt-color-warning {
   color: var(--ion-color-warning, #ffc409);
+}
+
+.ck-content {
+  height:170px!important;
 }
