@@ -8,6 +8,7 @@ import { TranslateLabelService } from '../providers/translate-label.service';
     pure: false
 })
 export class DurationPipe implements PipeTransform {
+    
     public timer: number;
 
     constructor(

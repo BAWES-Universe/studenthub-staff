@@ -13,6 +13,7 @@
 
     <div *ngIf="segment == 'current'">
       <ng-container *ngIf="currentStory">
+        
       <ion-card tappable *ngFor="let story of currentStory" (click)="rowSelected(story)" >
 
         <ion-card-header *ngIf="story.request">

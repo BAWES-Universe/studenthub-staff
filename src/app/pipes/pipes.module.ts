@@ -7,11 +7,13 @@ import { StoreIdPipe } from './store-id.pipe';
 import { TimeAgoPipe } from './timeago.pipe';
 import { DurationPipe } from './duration.pipe';
 import {TimeSpentPipe} from './timespent.pipe';
+import { TimerPipe } from './timer.pipe';
 
 
 // import custom pipes here
 @NgModule({
     declarations: [
+        TimerPipe,
         TimeAgoPipe,
         FileSizePipe,
         GroupByPipe,
@@ -23,6 +25,7 @@ import {TimeSpentPipe} from './timespent.pipe';
     ],
     imports: [],
     exports: [
+        TimerPipe,
         TimeAgoPipe,
         FileSizePipe,
         GroupByPipe,

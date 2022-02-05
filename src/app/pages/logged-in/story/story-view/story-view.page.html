@@ -139,14 +139,17 @@
             class="start-btn" (click)="changeStoryStatus(1)">
             Start Work
           </ion-button>
+
           <ion-button *ngIf="story.request && ['cancelled', 'delivered'].indexOf(story.request.request_status) == -1 && story.story_status == 1 && story.staff_id == authService.staff_id"
             class="stop-btn" fill="outline" (click)="closeStoryConfirmation()">
             <ion-label>
               Stop Work &nbsp;&nbsp;
               <span class="timer ion-text-center">
+                {{ story.story_last_updated_at | timer }}
+                <!--
                 <span id="hours" *ngIf="hoursToDday"> {{hoursToDday}} :</span>
                 <span id="minutes"> {{minutesToDday}} : </span>
-                <span id="seconds"> {{secondsToDday}} </span>
+                <span id="seconds"> {{secondsToDday}} </span>-->
               </span>
             </ion-label>
           </ion-button>

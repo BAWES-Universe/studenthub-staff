@@ -132,18 +132,20 @@ export class StoryViewPage implements OnInit, OnDestroy {
 
       this.loadStoryInvitations();
       this.loadSuggestions();
-      if (this.story.story_status == 1) {
+      
+      /*if (this.story.story_status == 1) {
         this.loadTimer();
       }
+
       if (this.story.story_status != 1) {
         this.stopTimer();
-      }
+      }*/
     });
   }
 
   /**
- * load invitations for this request
- */
+   * load invitations for this request
+   */
   loadRequestInvitations(loading = true) {
     this.invitationService.list('&request_uuid=' + this.request.request_uuid).subscribe(invitations => {
       this.invitedCandidates = invitations.filter(invitation => invitation.invitation_status == 1);
@@ -152,6 +154,10 @@ export class StoryViewPage implements OnInit, OnDestroy {
     });
   }
 
+  /**
+   * load invitations
+   * @param loading 
+   */
   loadStoryInvitations(loading = true) {
     this.invitationService.list('&story_uuid=' + this.story_uuid).subscribe(invitations => {
       this.allInvitedCandidates = invitations;
@@ -298,7 +304,9 @@ export class StoryViewPage implements OnInit, OnDestroy {
   }
 
   loadTimer() {
+    
     this.dDay = this.toDate(this.story.story_last_updated_at);
+
     this.subscription = interval(1000)
       .subscribe(x => { this.getTimeDifference(); });
   }
