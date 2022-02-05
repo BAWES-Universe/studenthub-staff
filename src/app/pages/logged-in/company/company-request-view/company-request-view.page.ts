@@ -151,14 +151,14 @@ export class CompanyRequestViewPage implements OnInit, OnDestroy {
       
       //my active story 
 
-      this.request.stories.forEach((story) => {
-        if(story.staff_id == this.authService.staff_id) {
-          this.activeStory = story;
-        }
-      });
-
-      console.log(this.authService.staff_id, this.activeStory);
-
+      if(this.request.stories) {
+        this.request.stories.forEach((story) => {
+          if(story.staff_id == this.authService.staff_id) {
+            this.activeStory = story;
+          }
+        });
+      }
+    
       this.loadRequestActivities();
       this.loadSuggestions();
       this.loadInvitations();
