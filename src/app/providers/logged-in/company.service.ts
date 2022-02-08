@@ -35,6 +35,17 @@ export class CompanyService {
     return this._authhttp.getRaw(this._companyEndpoint + '?page=' + page + searchParams + '&expand=subCompanies,companyContacts,contacts,contacts.contactEmails,contacts.contactPhones,companyContacts.contactEmails,companyContacts.contactPhones,subCompanies.companyContacts,subCompanies.contacts,subCompanies.companyContacts.contactEmails,subCompanies.companyContacts.contactPhones,requests');
   }
 
+
+  /**
+   * Send payroll email
+   * @param company_id
+   */
+  sendPayrollEmail(company_id): Observable<any> {
+    const url = this._companyEndpoint + '/payroll-email/' + company_id;
+    return this._authhttp.get(url);
+
+  }
+
   /**
    * update follow up
    * @param model

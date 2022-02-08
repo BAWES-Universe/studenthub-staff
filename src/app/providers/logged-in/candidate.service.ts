@@ -231,9 +231,10 @@ export class CandidateService {
    * Removes Candidate from Assigned store
    * @param candidate
    * @param feedback
+   * @param store_id
    */
-  removeFromAssignedStore(candidate: Candidate, feedback: string): Observable<any> {
-    const url = `${this._candidateEndpoint}/unassign/${candidate.candidate_id}?feedback=${feedback}`;
+  removeFromAssignedStore(candidate: Candidate, feedback: string, store_id:number = null): Observable<any> {
+    const url = `${this._candidateEndpoint}/unassign/${candidate.candidate_id}?store_id=${store_id}&feedback=${feedback}`;
     return this._authhttp.delete(url);
   }
 
@@ -244,8 +245,8 @@ export class CandidateService {
    * @returns {Observable<any>}
    */
   assignCandidateToStore(
-      candidate: Candidate, 
-      store_id: number, 
+      candidate: Candidate,
+      store_id: number,
       rate: number
   ): Observable<any> {
     const params = {

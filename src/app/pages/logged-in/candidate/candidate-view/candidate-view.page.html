@@ -169,7 +169,12 @@
                         <ng-container *ngIf="!history.end_date">now</ng-container>
                       </p>
                     </label>
-                    <ion-button slot="end" (click)="downloadCertification(history)"><ion-icon name="cloud-download-outline"></ion-icon>&nbsp;Certificate</ion-button>
+                    <div  slot="end">
+                      <ion-button (click)="downloadCertification(history)"><ion-icon name="cloud-download-outline"></ion-icon>&nbsp;Certificate</ion-button><br/>
+                      <ion-button *ngIf="!history.end_date" class="btn-unassign" (click)="unassignCandidateFromStore(history.store_id)">&nbsp;
+                        Unassign
+                      </ion-button>
+                    </div>
                   </ion-item>
                 </ng-container>
               </div>
@@ -466,7 +471,7 @@
       </ion-col>
 
       <ion-col *ngIf="candidate.store">
-        <ion-button class="btn-unassign" [disabled]="unassinging" (click)="unassignCandidateFromStore()">
+        <ion-button class="btn-unassign" [disabled]="unassinging" (click)="unassignCandidateFromStore(0)">
           <span *ngIf="!unassinging">Unassign from {{ candidate.store.store_name }}</span>
           <ion-spinner *ngIf="unassinging"></ion-spinner>
         </ion-button>

@@ -390,6 +390,30 @@ export class CompanyViewPage implements OnInit {
     });
   }
 
+  /**
+   * send payroll email 
+   */
+  sendPayrollEmail() {
+
+
+    this.companyService.sendPayrollEmail(this.company_id).subscribe(async response => {
+      
+      this.updating = false;
+
+      if (response && response.operation == 'success') {
+        const toast = await this.toastCtrl.create({
+          message: response.message,
+          duration: 3000
+        });
+        toast.present();
+
+      }
+
+    }, () => {
+      this.updating = false;
+    });
+  }
+
   isFollowUpIntervalPassed() {
 
     if (this.company.company_followup_interval_weeks == 0 || !this.company.company_last_followup_datetime) {

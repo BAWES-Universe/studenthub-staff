@@ -508,13 +508,11 @@ ion-footer {
     --background: #333333;
     color: #ffffff;
   }
-
-  .btn-unassign {
-    --background: #eb5757;
-    color: #ffffff;
-  }
 }
-
+.btn-unassign {
+  --background: #eb5757;
+  color: #ffffff;
+}
 .btn-copy {
   --background: none;
   --box-shadow: none;
