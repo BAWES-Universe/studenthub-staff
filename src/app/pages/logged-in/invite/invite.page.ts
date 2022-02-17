@@ -26,11 +26,23 @@ export class InvitePage implements OnInit {
 
   public candidate: Candidate;
 
+  public pageCount = 0;
+  public currentPage = 1;
+  public total = 0;
+
   public activeRequests: Request[] = [];
   public activeRequestsData: Request[] = [];
 
   public form: FormGroup;
   public query;
+
+  public filters: {
+    companyName: string,
+    requestStatus: string,
+  } = {
+    companyName: null,
+    requestStatus: null,
+  };
 
   constructor(
     private fb: FormBuilder,
@@ -93,12 +105,14 @@ export class InvitePage implements OnInit {
   loadRequests() {
     this.loadingRequests = true;
 
-    this.requestService.listActiveRequests().subscribe(data => {
+    this.requestService.listWithPagination(1).subscribe(response => {
 
+      this.activeRequests = response.body;
+      this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
+      this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
+      this.total = parseInt(response.headers.get('X-Pagination-Total-Count'));
       this.loadingRequests = false;
 
-      this.activeRequests = data;
-      this.activeRequestsData = data;
     }, () => {
       this.loadingRequests = false;
     });
@@ -106,17 +120,22 @@ export class InvitePage implements OnInit {
 
   onSearchInput(ev: any) {
     this.query = ev.target.value;
+    const urlParams = '&query=' + this.query;
+    this.loadingRequests = true;
 
-    this.activeRequestsData = this.activeRequests.filter(item => {
-      return (
-        (item.company && item.company.company_name.toLowerCase().indexOf(ev.target.value.toLowerCase()) > -1) ||
-        (item.company && item.company.company_common_name_en && item.company.company_common_name_en.toLowerCase().indexOf(ev.target.value.toLowerCase()) > -1) ||
-        (item.company && item.company.company_common_name_ar && item.company.company_common_name_ar.toLowerCase().indexOf(ev.target.value.toLowerCase()) > -1) || 
-        item.request_position_title.toLowerCase().indexOf(ev.target.value.toLowerCase()) > -1 ||
-        item.request_job_description.toLowerCase().indexOf(ev.target.value.toLowerCase()) > -1 
-      );
+    this.requestService.listWithPagination(1, urlParams).subscribe(response => {
+
+      this.activeRequests = response.body;
+      this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
+      this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
+      this.total = parseInt(response.headers.get('X-Pagination-Total-Count'));
+      this.loadingRequests = false;
+
+    }, () => {
+      this.loadingRequests = false;
     });
   }
+
 
   /**
    * Make date readable by Safari
@@ -169,5 +188,28 @@ export class InvitePage implements OnInit {
 
   logScrolling(e) {
     this.borderLimit = (e.detail.scrollTop > 20);
+  }
+
+  /**
+   * load more on scroll to bottom
+   * @param event
+   */
+  doInfinite(event) {
+    this.loadingRequests = true;
+
+    this.currentPage++;
+    this.requestService.listActiveWithPages(this.currentPage).subscribe(response => {
+        this.activeRequests = this.activeRequests.concat(response.body);
+        this.activeRequestsData = this.activeRequestsData.concat(response.body);
+        this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
+        this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
+        this.total = parseInt(response.headers.get('X-Pagination-Total-Count'));
+      },
+      error => { },
+      () => {
+        this.loadingRequests = false;
+        event.target.complete();
+      }
+    );
   }
 }

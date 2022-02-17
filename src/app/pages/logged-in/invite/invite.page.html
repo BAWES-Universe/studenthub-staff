@@ -28,12 +28,15 @@
       <ion-searchbar (ionChange)="onSearchInput($event)" [value]="query">
       </ion-searchbar>
 
-        <request-listing (click)="selectRequest(request)" *ngFor="let request of activeRequestsData" tappable
+        <request-listing (click)="selectRequest(request)" *ngFor="let request of activeRequests" tappable
           [request]="request" [showStatus]="false"></request-listing>
 
     </ion-list>
 
   </form>
 
+  <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>
 
