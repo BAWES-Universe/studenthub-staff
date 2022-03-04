@@ -24,7 +24,7 @@
 
     <ng-container *ngIf="!loading && statistics">
       <div *ngIf="statistics.activeRequests > 0">
-        
+
         <h3>Recruitment</h3>
         <ion-card class="stats" tappable (click)="scrollToActive()">
           <ion-card-content>
@@ -47,6 +47,15 @@
             </div>
           </ion-card-content>
         </ion-card>
+        <ion-card class="stats" *ngIf="statistics.id_need_generated > 0" routerLink="/generate-id" tappable>
+          <ion-card-content>
+            <div class="count success">{{ statistics.id_need_generated }}</div>
+            <div class="message">
+              <b>Candidates Assigned to work without ID cards.</b>
+            </div>
+          </ion-card-content>
+        </ion-card>
+
         <ion-card class="stats" *ngIf="statistics.missingBankInfo > 0" routerLink="/candidate-bank-info-list" tappable>
           <ion-card-content>
             <div class="count success">{{ statistics.missingBankInfo }}</div>

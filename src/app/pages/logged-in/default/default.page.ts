@@ -16,6 +16,7 @@ export class DefaultPage implements OnInit {
   public borderLimit = false;
 
   public statistics: {
+    id_need_generated: any;
     totalExpiredCards: any;
     assignedExpiredCivilID: any;
     activeRequests: any;
@@ -39,6 +40,7 @@ export class DefaultPage implements OnInit {
 
   ngOnInit() {
     this._events.statistics$.subscribe((response: {
+        id_need_generated: any;
         totalExpiredCards: any;
         assignedExpiredCivilID: any;
         activeRequests: any;

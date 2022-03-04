@@ -36,7 +36,6 @@
   </ion-searchbar>
 
   <form [formGroup]="form">
-    <loading-modal [loading]="loading" type="text-list"></loading-modal>
     <ion-list *ngIf="!loading">
       <ion-item *ngFor="let obj of candidatelistData; let i= index">
         <div tabindex="0"></div>
@@ -44,9 +43,9 @@
         <ion-checkbox [(ngModel)]="candidates[i]" [ngModelOptions]="{standalone: true}"></ion-checkbox>
       </ion-item>
     </ion-list>
-
+    <loading-modal [loading]="loading || loadingMore" type="text-list"></loading-modal>
     <no-items *ngIf="!loading && candidatelistData && candidatelistData.length == 0" message="No data available"></no-items>
-    
+
     <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
       <ion-infinite-scroll-content></ion-infinite-scroll-content>
     </ion-infinite-scroll>
