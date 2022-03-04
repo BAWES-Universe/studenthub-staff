@@ -13,8 +13,9 @@ export class GenerateIdPage implements OnInit {
 
   public pageCount = 0;
   public currentPage = 1;
- 
+
   public loading = false;
+  public loadingMore = false;
   public downloading = false;
   public searchBar = '';
   public cndSegment = 'not-generated';
@@ -91,7 +92,7 @@ export class GenerateIdPage implements OnInit {
 
     this.currentPage = page;
 
-    this.loading = true;
+    this.loadingMore = true;
 
     this.candidateIdCardService.listCandidates(this.searchBar, page).subscribe(response => {
 
@@ -115,8 +116,8 @@ export class GenerateIdPage implements OnInit {
       () => {
         if(event)
           event.target.complete();
-        
-        this.loading = false; 
+
+        this.loadingMore = false;
       });
   }
 
@@ -130,7 +131,7 @@ export class GenerateIdPage implements OnInit {
     this.loading = true;
 
     this.candidateIdCardService.listCandidateIds(this.searchBar, page).subscribe(response => {
-      
+
         this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
         this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
 
@@ -152,7 +153,7 @@ export class GenerateIdPage implements OnInit {
         if(event)
           event.target.complete();
 
-        this.loading = false; 
+        this.loading = false;
       });
   }
 
@@ -166,7 +167,7 @@ export class GenerateIdPage implements OnInit {
 
   /**
    * load more data on scroll to bottom
-   * @param event 
+   * @param event
    */
   doInfinite(event) {
 
@@ -178,7 +179,7 @@ export class GenerateIdPage implements OnInit {
       this.loadGenerated(this.currentPage, event);
     }
   }
-  
+
   logScrolling(e) {
     this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
   }
