@@ -143,7 +143,7 @@ export class GenerateIdPage implements OnInit {
 
     this.currentPage = page;
 
-    this.loading = true;
+    this.loadingMore = true;
 
     this.candidateIdCardService.listCandidateIds(this.searchBar, page).subscribe(response => {
 
@@ -168,7 +168,7 @@ export class GenerateIdPage implements OnInit {
         if(event)
           event.target.complete();
 
-        this.loading = false;
+        this.loadingMore = false;
       });
   }
 
