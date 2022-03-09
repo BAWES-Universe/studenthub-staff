@@ -1,7 +1,7 @@
 <ion-header [class.add-border]="borderLimit" class="ion-no-border">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
+      <ion-back-button defaultHref="/"></ion-back-button>
     </ion-buttons>
 
     <ion-title class="ion-text-left">Generate ID Card</ion-title>
@@ -37,10 +37,11 @@
 
   <form [formGroup]="form">
     <ion-list *ngIf="!loading">
-      <ion-item *ngFor="let obj of candidatelistData; let i= index" [routerLink]="['/candidate-view',obj.candidate_id]">
+      <ion-item *ngFor="let obj of candidatelistData; let i= index">
         <div tabindex="0"></div>
         <ion-label class="candidate_name">{{ obj.candidate_name? obj.candidate_name: obj.candidate_name_ar }}</ion-label>
-<!--        <ion-checkbox [(ngModel)]="candidates[i]" [ngModelOptions]="{standalone: true}"></ion-checkbox>-->
+        <ion-checkbox [(ngModel)]="candidates[i]" slot="start" [ngModelOptions]="{standalone: true}"></ion-checkbox>
+        <ion-button [routerLink]="['/candidate-view',obj.candidate_id]" color="primary">View Detail</ion-button>
       </ion-item>
     </ion-list>
     <loading-modal [loading]="loading || loadingMore" type="text-list"></loading-modal>

@@ -56,13 +56,28 @@ export class GenerateIdPage implements OnInit {
       return false;
     }
 
-    this.downloading = true;
+    this._alertCtrl.create({
+      header: 'Generate Candidates Ids',
+      message: `Do you really want to generate Candidate Ids ?`,
+      buttons: [
+        {
+          text: 'Yes',
+          role: 'Yes',
+          handler: (blah) => {
+            this.downloading = true;
 
-    this.candidateIdCardService.generate(this.candidates).subscribe(response => {
-    }, (err) => {
-    }, () => {
-      this.downloading = false;
-    });
+            this.candidateIdCardService.generate(this.candidates).subscribe(response => {
+            }, (err) => {
+            }, () => {
+              this.downloading = false;
+            });
+          }
+        },
+        {
+          text: 'No'
+        }
+      ]
+    }).then(alert => alert.present());
   }
 
   /**
@@ -181,6 +196,11 @@ export class GenerateIdPage implements OnInit {
   }
 
   logScrolling(e) {
-    this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
+    this.borderLimit = (e.detail.scrollTop > 20);
   }
+
+  redirect(event, obj){
+    console.log(event, obj);
+  }
+
 }
