@@ -45,7 +45,11 @@ export class GenerateIdPage implements OnInit {
    */
   async generate() {
 
-    if (this.candidates.length == 0)
+    let candidate;
+    // candidate = this.candidates.filter((key, value) => value);
+    candidate = Object.keys(this.candidates).filter(k => this.candidates[k] === true);
+
+    if (candidate.length == 0)
     {
       const prompt = await this._alertCtrl.create({
         message: 'Please select candidate(s)',
@@ -66,7 +70,7 @@ export class GenerateIdPage implements OnInit {
           handler: (blah) => {
             this.downloading = true;
 
-            this.candidateIdCardService.generate(this.candidates).subscribe(response => {
+            this.candidateIdCardService.generate(candidate).subscribe(response => {
             }, (err) => {
             }, () => {
               this.downloading = false;
@@ -123,7 +127,7 @@ export class GenerateIdPage implements OnInit {
         this.candidates = [];
 
         this.candidatelistData.forEach((value, index) => {
-          this.candidates[index] = value.candidate_id;
+          this.candidates[value.candidate_id] = false;
         });
 
       },

@@ -40,7 +40,7 @@
       <ion-item *ngFor="let obj of candidatelistData; let i= index">
         <div tabindex="0"></div>
         <ion-label class="candidate_name">{{ obj.candidate_name? obj.candidate_name: obj.candidate_name_ar }}</ion-label>
-        <ion-checkbox [(ngModel)]="candidates[i]" slot="start" [ngModelOptions]="{standalone: true}"></ion-checkbox>
+        <ion-checkbox [(ngModel)]="candidates[obj.candidate_id]" checked="false" slot="start" [ngModelOptions]="{standalone: true}"></ion-checkbox>
         <ion-button [routerLink]="['/candidate-view',obj.candidate_id]" color="primary">View Detail</ion-button>
       </ion-item>
     </ion-list>
