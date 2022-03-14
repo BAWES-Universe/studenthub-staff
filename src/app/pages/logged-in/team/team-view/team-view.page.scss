@@ -4,14 +4,14 @@ ion-header {
 
 ion-content {
   --background: #f7f8fa;
-  --padding-start: 24px; 
-  --padding-end: 24px; 
-  --padding-top: 24px; 
+  --padding-start: 24px;
+  --padding-end: 24px;
+  --padding-top: 24px;
 }
 
 ion-header {
-  padding-left: 24px; 
-  padding-right: 24px;  
+  padding-left: 24px;
+  padding-right: 24px;
 
   ion-buttons {
     margin-inline-start: 0;
@@ -42,17 +42,40 @@ ion-list {
     --padding-end: 0;
 
     ion-label {
-      font-family: Inter;
-      font-size: 16px;
-      font-weight: bold;
-      font-stretch: normal;
-      font-style: normal;
-      line-height: 1.5;
-      letter-spacing: normal;
-      text-align: left;
-      --color: #23233d;
-      opacity: 1;
-      transform: none;
+      //font-family: Inter;
+      //font-size: 16px;
+      //font-weight: bold;
+      //font-stretch: normal;
+      //font-style: normal;
+      //line-height: 1.5;
+      //letter-spacing: normal;
+      //text-align: left;
+      //--color: #23233d;
+      //opacity: 1;
+      //transform: none;
+      h5 {
+        opacity: 1;
+        font-family: Inter;
+        font-size: 16px;
+        font-weight: 600;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.5;
+        letter-spacing: normal;
+        text-align: left;
+        color: #23233d;
+      }
+      p {
+        font-family: Inter;
+        font-size: 16px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.5;
+        letter-spacing: normal;
+        text-align: left;
+        color: #23233d;
+      }
     }
 
     ion-input {
@@ -97,11 +120,10 @@ ion-segment-button.segment-button-checked {
 }
 
 .btn-change-pwd {
-  width: 123px;
-  height: 20px;
-  margin: 16px auto 0 auto;
+
+  margin: 0px 24px 17px 24px;
   font-family: Inter;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 600;
   font-stretch: normal;
   font-style: normal;
@@ -113,6 +135,10 @@ ion-segment-button.segment-button-checked {
   --box-shadow: none;
   text-transform: none;
   display: block;
+  height: 56px;
+  border-radius: 12px;
+  border: solid 2px #4c70f2;
+  background-color: #fff;
 }
 
 .card-story {
@@ -134,7 +160,7 @@ ion-segment-button.segment-button-checked {
   }
 
   h4 {
-    margin: 8px auto 0 17px;  
+    margin: 8px auto 0 17px;
     font-family: Inter;
     font-size: 16px;
     font-weight: 500;
@@ -171,4 +197,8 @@ ion-card.warning {
 
 ion-card.success {
   border-left: 7px solid #29b564;
+}
+ion-footer {
+  background: #f7f8fa;
+  --background: #f7f8fa;
 }
