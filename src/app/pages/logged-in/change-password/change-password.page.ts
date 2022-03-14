@@ -54,7 +54,6 @@ export class ChangePasswordPage implements OnInit {
           duration: 3000
         });
         toast.present();
-        this.authService.logout();
       } else {
         const prompt = await this._alertCtrl.create({
           message: result.message,
