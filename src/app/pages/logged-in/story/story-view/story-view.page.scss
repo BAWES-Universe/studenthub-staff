@@ -43,8 +43,6 @@ ion-content {
 }
 
 ion-segment {
-  margin: 18px 23px 0 23px;
-  width: 385px;
   ion-segment-button {
     font-family: Inter;
     font-size: 16px;
@@ -56,6 +54,7 @@ ion-segment {
     text-align: left;
     color: #68687a;
     text-transform: inherit;
+    min-width: 74px;
   }
 
   ion-segment-button.segment-button-checked {
@@ -105,15 +104,15 @@ ion-col.lbl{
   font-weight: bold;
   font-stretch: normal;
   font-style: normal;
-  line-height: 1.33;
+  line-height: 2;
   letter-spacing: normal;
   color: #68687a;
   text-transform: uppercase;
-  padding-left: 17px;
+  padding-left: 23px;
   ion-icon {
     position: absolute;
     left: 0;
-    font-size: 16px;
+    font-size: 24px;
   }
 }
 ion-col.value {
@@ -153,7 +152,7 @@ p {
   }
 }
 .start-btn {
-  width: 190px;
+  width: 100%;
   height: 56px;
   border-radius: 12px;
   background-color: #219653;
@@ -186,7 +185,7 @@ p {
   text-transform: inherit;
 }
 .stop-btn {
-  min-width: 190px;
+  width:100%;
   height: 56px;
   flex-grow: 0;
   margin-bottom: 15px;
@@ -209,15 +208,15 @@ p {
 }
 
 ion-footer {
-  --background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #fff 20%, #fff 100%);
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #fff 15%, #fff 100%);
-  position: fixed;
-  bottom: 0;
-  min-height: 104px;
-  padding: 24px 24px 9px 24px;
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #fff 20%, #fff 100%);
-  width: 100%;
-  left: 0;
+  --background: #f7f8fa;
+  background: #f7f8fa;
+  //position: fixed;
+  //bottom: 0;
+  //min-height: 104px;
+  //padding: 24px 24px 9px 24px;
+  //width: 100%;
+  //left: 0;
+  padding: 0 28px;
 
   ion-grid, ion-col, ion-row {
     padding: 0;
@@ -226,11 +225,10 @@ ion-footer {
 }
 
 .invite-btn {
-  width: 342px;
+  width: 100%;
   height: 56px;
   margin: 0 0 12px;
-  border-radius: 12px;
-  background-color: #4c70f2;
+  --border-radius: 12px;
   font-family: Inter;
   font-size: 16px;
   font-weight: 600;
@@ -268,4 +266,16 @@ ion-card {
       margin:18px 0 0 0;
     }
   }
+}
+.title-name p{
+  font-family: Inter;
+  font-size: 16px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.5;
+  letter-spacing: normal;
+  text-align: left;
+  color: #3f5dca;
+  margin: 0 20px;
 }
