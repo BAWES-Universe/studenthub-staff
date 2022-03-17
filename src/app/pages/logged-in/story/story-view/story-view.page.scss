@@ -94,7 +94,7 @@ ion-badge {
   letter-spacing: normal;
   text-align: left;
   color: #68687a;
-  margin-right: 8px;
+  margin-right: 5px;
   margin-bottom: 8px;
 }
 
@@ -278,4 +278,13 @@ ion-card {
   text-align: left;
   color: #3f5dca;
   margin: 0 20px;
+}
+.stop-btn.delivery {
+  --border-color: #4c70f2;
+  color: #4c70f2;
+  --color: #4c70f2;
+}
+.timer{
+  font-size: 14px;
+  margin-left: 16px;
 }
