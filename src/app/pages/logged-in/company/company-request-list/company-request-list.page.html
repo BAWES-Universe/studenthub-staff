@@ -19,13 +19,15 @@
             <ion-badge tappable color="primary" (click)="filterByStatus($event, 'started')" [class.active]="filters.requestStatus == 'started'">Started</ion-badge>
             <ion-badge tappable color="primary" (click)="filterByStatus($event, 'delivered')" [class.active]="filters.requestStatus == 'delivered'">Delivered</ion-badge>
             <ion-badge tappable color="primary" (click)="filterByStatus($event, 'cancelled')" [class.active]="filters.requestStatus == 'cancelled'">Cancelled</ion-badge>
+            <ion-badge tappable color="primary" (click)="filterByStatus($event, 're_work')" [class.active]="filters.requestStatus == 're_work'">Re-Work</ion-badge>
+            <ion-badge tappable color="primary" (click)="filterByStatus($event, 'finished_by_recruitment')" [class.active]="filters.requestStatus == 'finished_by_recruitment'">Finished</ion-badge>
           </ion-col>
           <ion-col size-md="6" size-lg="6" size-xs="12" >
             <ion-badge tappable color="primary" (click)="filterByType($event, null)" [class.active]="filters.position_type == null">All Type</ion-badge>
             <ion-badge tappable color="primary" (click)="filterByType($event, 2)" [class.active]="filters.position_type == 2">Part Timer</ion-badge>
             <ion-badge tappable color="primary" (click)="filterByType($event, 1)" [class.active]="filters.position_type == 1">Full Timer</ion-badge>
           </ion-col>
-        </ion-row> 
+        </ion-row>
       </ion-grid>
     </div>
 
@@ -36,15 +38,15 @@
         <ion-col size="4">
           <ion-item>
             <ion-label position="stacked">Start date</ion-label>
-            <ion-datetime pickerFormat="DD MMMM YYYY" displayFormat="DD MMMM YYYY" 
+            <ion-datetime pickerFormat="DD MMMM YYYY" displayFormat="DD MMMM YYYY"
               placeholder="DD/MM/YYYY" [(ngModel)]="filters.startDate"></ion-datetime>
           </ion-item>
         </ion-col>
         <ion-col size="4">
           <ion-item>
             <ion-label position="stacked">End date</ion-label>
-            <ion-datetime pickerFormat="DD MMMM YYYY" displayFormat="DD MMMM YYYY" 
-            placeholder="DD/MM/YYYY" [(ngModel)]="filters.endDate"></ion-datetime>    
+            <ion-datetime pickerFormat="DD MMMM YYYY" displayFormat="DD MMMM YYYY"
+            placeholder="DD/MM/YYYY" [(ngModel)]="filters.endDate"></ion-datetime>
           </ion-item>
         </ion-col>
         <ion-col size="4" *ngIf="filters.startDate || filters.endDate">
@@ -52,14 +54,14 @@
           <ion-button (click)="list()">
             Submit
           </ion-button>
-      
+
           <ion-button fill="clear" (click)="clearfilter()">
             <ion-icon name="refresh-outline"></ion-icon>
           </ion-button>
         </ion-col>
       </ion-row>
     </ion-grid>
-  
+
     <ion-list>
 
       <request-listing *ngFor="let request of requests" tappable (click)="requestDetail(request)"

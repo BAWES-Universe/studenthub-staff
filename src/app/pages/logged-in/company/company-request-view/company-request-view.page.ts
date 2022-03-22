@@ -738,4 +738,54 @@ export class CompanyRequestViewPage implements OnInit, OnDestroy {
   segmentChanged(event) {
     this.segment = event.target.value;
   }
+
+  /**
+   * update request status
+   * @param event
+   * @param status
+   */
+  statusUpdate(event, status = 're_work') {
+    const title = (status == 're_work') ? 'Re-work' : 'Finished';
+    this.alertCtrl.create({
+      header: `Are you sure you want to set status as ${title}?`,
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary'
+        }, {
+          text: 'Yes',
+          handler: (data) => {
+              this.request.request_status = (status == 're_work') ? 're_work' : 'finished_by_recruitment';
+              this.updateStatus();
+          }
+        }
+      ]
+    }).then(alert => { alert.present(); });
+  }
+
+  /**
+   * update status method
+   */
+  updateStatus() {
+    this.requestService.statusUpdate(this.request).subscribe(async response => {
+      this.toastCtrl.create({
+        message: this.translateService.errorMessage(response.message),
+        buttons: ['Okay']
+      }).then(prompt => {
+        prompt.present();
+      });
+    });
+  }
+
+  getStatus(request_status) {
+    if (request_status == 're_work') {
+      return 'Re-Work';
+    } else if (request_status == 'finished_by_recruitment') {
+      return 'Finished by recruitment';
+    } else {
+      return request_status;
+    }
+  }
+
 }
