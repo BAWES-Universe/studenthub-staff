@@ -13,7 +13,7 @@
   </ion-toolbar>
   <ion-toolbar *ngIf="request" class="container title-name">
     <h1>{{request.request_position_title}}</h1>
-    <p [routerLink]="['request-view/' +  request.request_uuid]">View main request</p>
+    <p tappable [routerLink]="['/request-view/' +  request.request_uuid]">View main request</p>
   </ion-toolbar>
 
   <ion-toolbar class="container">
