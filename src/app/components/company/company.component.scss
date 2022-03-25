@@ -5,6 +5,9 @@ ion-card {
   border-radius: 5px;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08), 2px 0 4px 0 rgba(0, 0, 0, 0.12);
   position: relative;
+  ion-card-content {
+    padding-bottom: 16px!important;
+  }
 }
 
 ion-badge {
@@ -47,7 +50,7 @@ h2 {
   }
 }
 p {
-  margin: 5px 0 8px 0;
+  margin: 5px 0 16px 0;
   font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
@@ -106,6 +109,7 @@ ion-badge.danger {
 ion-avatar {
   width: 48px;
   height: 48px;
+  margin-bottom: 16px;
 }
 ion-grid{
   border-top: 1px solid #e2e2e6;

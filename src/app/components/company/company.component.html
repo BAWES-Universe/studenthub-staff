@@ -15,7 +15,7 @@
             <p>{{ company.company_last_followup_datetime | timeAgo }}</p>
           </ng-container>
         </div>
-        <p *ngIf="company.company_description_en">{{company.company_description_en.substr(1,80)}}</p>
+        <p *ngIf="company.company_description_en">{{company.company_description_en.substr(1,90)}}</p>
         <p *ngIf="!company.company_description_en">{{company.company_name}}</p>
         <ion-badge class="company_status_badge danger" slot="start" *ngIf="!company.company_status && !company.parent_company_id">
           Inactive
