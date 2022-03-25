@@ -23,6 +23,7 @@ export class CompanyRequestListPage implements OnInit {
   public companies: Company[] = [];
 
   public loading = false;
+  public total = 0;
 
   public pageCount = 0;
   public currentPage = 1;
@@ -63,7 +64,7 @@ export class CompanyRequestListPage implements OnInit {
   ) { }
 
   ngOnInit() {
-   
+
     this.list();
 
     this.eventService.companyRequestUpdate$.subscribe(() => {
@@ -73,7 +74,7 @@ export class CompanyRequestListPage implements OnInit {
     this.eventService.requestCountUpdated$.subscribe(async () => {
 
       if(this.alertRequestCountUpdated)
-        return false; 
+        return false;
 
       this.alertRequestCountUpdated = await this.alertCtrl.create({
         header: 'Request count updated',
@@ -94,7 +95,7 @@ export class CompanyRequestListPage implements OnInit {
             }
           }
         ]
-      }); 
+      });
       this.alertRequestCountUpdated.present();
     });
   }
@@ -123,9 +124,9 @@ export class CompanyRequestListPage implements OnInit {
       this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
       this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
       this.total = parseInt(response.headers.get('X-Pagination-Total-Count'));
-      
+
       this.requests = response.body;
-      
+
     },
       error => { },
       () => { this.loading = false; }
