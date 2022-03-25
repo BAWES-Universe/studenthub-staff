@@ -1,9 +1,8 @@
 <ion-card tappable>
     <ion-card-content>
-      <ion-avatar>
+      <ion-avatar *ngIf="company.company_logo">
         <img *ngIf="company.company_logo" width="48" src="{{ aws.cloudinaryUrl + company.company_logo }}"
              (error)="loadLogo($event,company)">
-        <img *ngIf="!company.company_logo" src="/assets/icon/icon.png"  width="48">
       </ion-avatar>
 
       <ion-label class="ion-text-wrap">

@@ -1,37 +1,36 @@
 <ion-header [class.add-border]="borderLimit" class="ion-no-border">
-  <ion-toolbar class="container">
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
+  <ion-toolbar class="container title">
+    <ion-title>
+      Clients
+    </ion-title>
+  </ion-toolbar>
+  <ion-toolbar class="container search">
+    <ion-searchbar debounce="500" placeholder="Type to search" (ionChange)="searchByName($event)"></ion-searchbar>
     <ion-buttons slot="end">
-      <ion-button expand="full" (click)="create()">
-        Add Client
+      <ion-button class="ion-text-capitalize setting">
+        <ion-icon name="options"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
-
 </ion-header>
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
   <div class="container">
-    <div class="content">
-      <h1>Clients</h1>
+<!--    <div class="content">-->
 
-      <ion-badge tappable color="primary" (click)="resetStatus()" [class.active]="filters.status == 5 && [1, 0].indexOf(filters.approved_to_hire) == -1">
-        All clients
-      </ion-badge>
-      
-      <ion-badge tappable color="primary" (click)="filterByStatus($event, 1)" [class.active]="filters.status == 1">Active</ion-badge>
-      <ion-badge tappable color="primary" (click)="filterByStatus($event, 2)" [class.active]="filters.status == 2">Inactive</ion-badge>
-      <ion-badge tappable color="primary" (click)="filterByStatus($event, 3)" [class.active]="filters.status == 3">Active + 40 days no payment</ion-badge>
-      <ion-badge tappable color="primary" (click)="filterByStatus($event, 4)" [class.active]="filters.status == 4">Active + 40 days no new request</ion-badge>
-    
-      <ion-badge tappable color="primary" (click)="filterByApprovedToHire($event, 1)" [class.active]="filters.approved_to_hire == 1">Approved to hire</ion-badge>
-      <ion-badge tappable color="primary" (click)="filterByApprovedToHire($event, 0)" [class.active]="filters.approved_to_hire == 0">Not approved to hire</ion-badge>
+<!--      <ion-badge tappable color="primary" (click)="resetStatus()" [class.active]="filters.status == 5 && [1, 0].indexOf(filters.approved_to_hire) == -1">-->
+<!--        All clients-->
+<!--      </ion-badge>-->
 
-    </div>
+<!--      <ion-badge tappable color="primary" (click)="filterByStatus($event, 1)" [class.active]="filters.status == 1">Active</ion-badge>-->
+<!--      <ion-badge tappable color="primary" (click)="filterByStatus($event, 2)" [class.active]="filters.status == 2">Inactive</ion-badge>-->
+<!--      <ion-badge tappable color="primary" (click)="filterByStatus($event, 3)" [class.active]="filters.status == 3">Active + 40 days no payment</ion-badge>-->
+<!--      <ion-badge tappable color="primary" (click)="filterByStatus($event, 4)" [class.active]="filters.status == 4">Active + 40 days no new request</ion-badge>-->
 
-    <ion-searchbar debounce="500" placeholder="Type to search" (ionChange)="searchByName($event)"></ion-searchbar>
+<!--      <ion-badge tappable color="primary" (click)="filterByApprovedToHire($event, 1)" [class.active]="filters.approved_to_hire == 1">Approved to hire</ion-badge>-->
+<!--      <ion-badge tappable color="primary" (click)="filterByApprovedToHire($event, 0)" [class.active]="filters.approved_to_hire == 0">Not approved to hire</ion-badge>-->
+
+<!--    </div>-->
 
     <ion-list>
       <section>

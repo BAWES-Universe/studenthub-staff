@@ -17,7 +17,11 @@
 }
 
 ion-content,ion-list,section {
-  background: #fcfcfc;
+  background: #f7f8fa;
+  --background: #f7f8fa;
+}
+ion-content .container {
+  padding-top: 24px;
 }
 
 ion-badge {
@@ -53,8 +57,50 @@ h1 {
 }
 
 ion-searchbar {
-  padding: 3px 0px;
+  padding: 3px 0 0 23px;
+  --background: #f5f5f7;
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.43;
+  letter-spacing: normal;
+  text-align: left;
+  color: #7d7d8d;
 }
 section {
   padding: 2px;
+}
+
+.setting{
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background-color: #f5f5f7;
+  margin-top: 8px;
+  margin-right: 26px;
+  margin-left: 12px;
+  ion-icon{
+    color:#68687a;
+  }
+}
+
+ion-toolbar.title {
+  padding: 10px 0;
+
+  ion-title {
+    font-family: Inter;
+    font-size: 32px!important;
+    font-weight: bold!important;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.5;
+    letter-spacing: -0.5px;
+    text-align: left;
+    color: #23233d;
+    padding:29px;
+  }
+}
+ion-toolbar.search {
+  padding: 4px 0 13px;
 }
