@@ -1,0 +1,38 @@
+<ion-header [class.add-border]="borderLimit" class="ion-no-border">
+  <ion-buttons slot="start">
+    <ion-back-button (click)="close()"></ion-back-button>
+  </ion-buttons>
+  <ion-toolbar class="container title">
+    <ion-title>
+      Filter Results
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button class="ion-text-capitalize setting" (click)="resetFilter()">
+        Reset
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
+  <div class="container">
+    <div class="content">
+    <h2>Status</h2>
+      <ion-badge tappable color="primary" (click)="resetStatus()" [class.active]="filters.status == 5 && [1, 0].indexOf(filters.approved_to_hire) == -1">
+        All
+      </ion-badge>
+
+      <ion-badge tappable color="primary" (click)="filterByStatus($event, 1)" [class.active]="filters.status == 1">Active</ion-badge>
+      <ion-badge tappable color="primary" (click)="filterByStatus($event, 2)" [class.active]="filters.status == 2">Inactive</ion-badge>
+      <ion-badge tappable color="primary" (click)="filterByStatus($event, 3)" [class.active]="filters.status == 3">Active + 40 days no payment</ion-badge>
+      <ion-badge tappable color="primary" (click)="filterByStatus($event, 4)" [class.active]="filters.status == 4">Active + 40 days no new request</ion-badge>
+
+      <ion-badge tappable color="primary" (click)="filterByApprovedToHire($event, 1)" [class.active]="filters.approved_to_hire == 1">Approved to hire</ion-badge>
+      <ion-badge tappable color="primary" (click)="filterByApprovedToHire($event, 0)" [class.active]="filters.approved_to_hire == 0">Not approved to hire</ion-badge>
+    </div>
+  </div>
+
+</ion-content>
+<ion-footer>
+  <ion-button color="primary" (click)="fetchResult()" expand="block">Filter Results ({{total}})</ion-button>
+</ion-footer>

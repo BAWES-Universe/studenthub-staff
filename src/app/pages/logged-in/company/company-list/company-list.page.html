@@ -7,7 +7,7 @@
   <ion-toolbar class="container search">
     <ion-searchbar debounce="500" placeholder="Type to search" (ionChange)="searchByName($event)"></ion-searchbar>
     <ion-buttons slot="end">
-      <ion-button class="ion-text-capitalize setting">
+      <ion-button class="ion-text-capitalize setting" (click)="filter()">
         <ion-icon name="options"></ion-icon>
       </ion-button>
     </ion-buttons>

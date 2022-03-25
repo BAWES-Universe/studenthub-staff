@@ -1,0 +1,115 @@
+
+.end {
+  ion-badge {
+    display: block;
+    margin-bottom: 4px;
+  }
+}
+
+.contact-list a {
+  text-decoration: none;
+
+  ion-icon {
+      top: 2px;
+      position: relative;
+      color: var(--ion-color-step-600, #666666);
+  }
+}
+
+ion-content,ion-list,section,ion-footer {
+  background: #f7f8fa;
+  --background: #f7f8fa;
+}
+ion-content .container {
+  padding-top: 24px;
+}
+
+ion-badge {
+  border: solid 1px #e2e2e6;
+  background-color: #ffffff;
+  padding: 9px 21px;
+  margin: 0 7px 7px 0;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  font-family: Inter;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.43;
+  text-align: left;
+  border-radius: 8px;
+  color: #68687a;
+}
+ion-badge.active {
+  background-color: #4c70f2;
+  color: #fff;
+}
+
+h1 {
+  margin: 15px 0 24px;
+  font-size: 36px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: left;
+  color: #000;
+}
+
+ion-searchbar {
+  padding: 3px 0 0 23px;
+  --background: #f5f5f7;
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.43;
+  letter-spacing: normal;
+  text-align: left;
+  color: #7d7d8d;
+}
+section {
+  padding: 2px;
+}
+
+.setting{
+  font-family: Inter;
+  font-size: 16px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.5;
+  letter-spacing: normal;
+  text-align: left;
+  color: #4c70f2;
+}
+
+ion-toolbar.title {
+  padding: 10px 0;
+
+  ion-title {
+    font-family: Inter;
+    font-size: 20px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.4;
+    letter-spacing: normal;
+    text-align: left;
+    color: #23233d;
+    padding:29px;
+  }
+}
+ion-toolbar.search {
+  padding: 4px 0 13px;
+}
+ion-buttons, ion-back-button{
+  display: inline-block!important;
+}
+ion-footer {
+  padding: 24px;
+  ion-button {
+    height:56px;
+  }
+}

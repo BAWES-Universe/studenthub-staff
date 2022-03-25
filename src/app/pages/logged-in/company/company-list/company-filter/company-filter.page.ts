@@ -1,25 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import { ModalController, NavController, Platform } from '@ionic/angular';
 // model
 import { Company } from 'src/app/models/company';
 // service
 import { CompanyService } from 'src/app/providers/logged-in/company.service';
-import { AwsService } from '../../../../providers/aws.service';
 import { EventService } from 'src/app/providers/event.service';
-//pages
-import { CompanyFormPage } from 'src/app/pages/logged-in/company/company-form/company-form.page';
-import {CompanyFilterPage} from "./company-filter/company-filter.page";
 
 
 @Component({
-  selector: 'app-company-list',
-  templateUrl: './company-list.page.html',
-  styleUrls: ['./company-list.page.scss'],
+  selector: 'app-company-filter',
+  templateUrl: './company-filter.page.html',
+  styleUrls: ['./company-filter.page.scss'],
 })
-export class CompanyListPage implements OnInit {
+export class CompanyFilterPage implements OnInit {
 
   public borderLimit = false;
-
+  public total = 0;
   public pageCount = 0;
   public currentPage = 1;
   public loading = false;
@@ -43,10 +39,10 @@ export class CompanyListPage implements OnInit {
     public navCtrl: NavController,
     public companyService: CompanyService,
     public platform: Platform,
-    public aws: AwsService,
     public eventService: EventService,
     public _modalCtrl: ModalController
   ) {
+    console.log(this.filters);
   }
 
   ngOnInit() {
@@ -60,17 +56,6 @@ export class CompanyListPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    console.log('ionViewWillEnter');
-    const state = window.history.state;
-
-    if (state.filter) {
-      this.filters.status = state.value;
-    }
-    // if (state.companies) {
-    //   this.companies = state.companies;
-    //   this.loadCompaniesSegmentData();
-    // }
-
     this.loadData(1);
   }
 
@@ -128,6 +113,7 @@ export class CompanyListPage implements OnInit {
 
       this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
       this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
+      this.total = parseInt(response.headers.get('X-Pagination-Total-Count'));
       this.companies = response.body;
     },
       error => { },
@@ -178,59 +164,30 @@ export class CompanyListPage implements OnInit {
   /**
    * Loads the create page
    */
-  async create() {
-    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
-
-    const modal = await this._modalCtrl.create({
-      component: CompanyFormPage,
-      componentProps: {
-        model: new Company(),
-        subcompany: 0
-      }
-    });
-    // Refresh List if required
-    modal.onDidDismiss().then(e => {
-
-      if (!e.data || e.data.from != 'native-back-btn') {
-        window['history-back-from'] = 'onDidDismiss';
-        window.history.back();
-      }
-
-      if (e && e.data && e.data.refresh) {
-        this.loadData(1);
-      }
-    });
-    modal.present();
-  }
-
-
-  /**
-   * Loads the create page
-   */
-  async filter() {
-    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
-
-    const modal = await this._modalCtrl.create({
-      component: CompanyFilterPage,
-      componentProps: {
-        filters: this.filters,
-      }
-    });
-    // Refresh List if required
-    modal.onDidDismiss().then(e => {
-
-      if (!e.data || e.data.from != 'native-back-btn') {
-        window['history-back-from'] = 'onDidDismiss';
-        window.history.back();
-      }
-
-      if (e && e.data && e.data.refresh) {
-        this.filters = e.data.filter;
-        this.loadData(1);
-      }
-    });
-    modal.present();
-  }
+  // async create() {
+  //   window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+  //
+  //   const modal = await this._modalCtrl.create({
+  //     component: CompanyFormPage,
+  //     componentProps: {
+  //       model: new Company(),
+  //       subcompany: 0
+  //     }
+  //   });
+  //   // Refresh List if required
+  //   modal.onDidDismiss().then(e => {
+  //
+  //     if (!e.data || e.data.from != 'native-back-btn') {
+  //       window['history-back-from'] = 'onDidDismiss';
+  //       window.history.back();
+  //     }
+  //
+  //     if (e && e.data && e.data.refresh) {
+  //       this.loadData(1);
+  //     }
+  //   });
+  //   modal.present();
+  // }
 
   logScrolling(e) {
     this.borderLimit = (e.detail.scrollTop > 20);
@@ -284,6 +241,22 @@ export class CompanyListPage implements OnInit {
   searchByName($event) {
     this.filters.name = $event.detail.value;
     this.loadData(1); // reload all result
+  }
+
+  close() {
+    this._modalCtrl.getTop().then(o => {
+      if(o) {
+        o.dismiss({ refresh: false });
+      }
+    });
+  }
+
+  fetchResult() {
+    this._modalCtrl.getTop().then(o => {
+      if(o) {
+        o.dismiss({ refresh: true, filter: this.filters });
+      }
+    });
   }
 }
 
