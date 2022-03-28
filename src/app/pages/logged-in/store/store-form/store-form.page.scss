@@ -1,0 +1,86 @@
+ion-back-button {
+    display: block;
+}
+
+ion-header {
+    box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.05);
+
+    ion-toolbar {
+        padding: 0 24px;
+
+        ion-title {
+            padding: 0;
+        }
+    }
+}
+
+ion-content {
+    --background: #f7f8fa;
+    --padding-start: 24px;
+    --padding-end: 24px;
+    --padding-top: 24px;
+}
+
+ion-title {
+    flex-grow: 0;
+    font-size: 24px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.33;
+    letter-spacing: normal;
+    color: #23233d;
+}
+
+ion-item {
+    --background: #fff;
+    --height: 48px;
+    margin-bottom: 16px;
+    --border-color: #e2e2e6;
+    --border-width: 1px;
+    --border-radius: 8px;
+    background: #fff;
+
+    ion-input {
+        font-size: 14px;
+        font-weight: 500;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.43;
+        letter-spacing: normal;
+        text-align: left;
+        color: #23233d;
+    }
+
+    ion-label {
+        font-family: Inter;
+        font-size: 14px;
+        font-weight: 500;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.43;
+        letter-spacing: normal;
+        text-align: left;
+        color: #68687a;
+    }
+}
+
+.btn-save {
+    height: 56px;
+    border-radius: 12px;
+    --background: #4c70f2;
+    font-size: 16px;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.5;
+    letter-spacing: normal;
+    text-align: center;
+    --color: #fff;
+    text-transform: none;
+    width: calc(100% - 48px);
+    --box-shadow: none;
+    --border-radius: 12px;
+    position: fixed;
+    bottom: 24px;
+}

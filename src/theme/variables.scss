@@ -4,6 +4,20 @@
 @font-face {
   font-family: 'Inter';
   src: url('../assets/fonts/inter/Inter-SemiBold.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('../assets/fonts/inter/Inter-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('../assets/fonts/inter/Inter-SemiBold.ttf') format('truetype');
   font-weight: bold;
   font-style: normal;
 }

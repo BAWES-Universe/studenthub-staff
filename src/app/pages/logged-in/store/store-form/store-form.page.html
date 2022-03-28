@@ -1,25 +1,18 @@
 <ion-header [class.add-border]="borderLimit" class="ion-no-border">
-  <ion-toolbar>
+  <ion-toolbar class="container">
     <ion-buttons slot="start">
-      <ion-button (click)="close()">
-        <ion-icon name="close"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-    <ion-title>{{ operation }}</ion-title>
-    <ion-buttons slot="end">
-      <ion-button color="primary"
-              [disabled]="!form.valid || loading"
-              (click)="save()">
-        <span *ngIf="!loading">Save</span>
-        <ion-spinner *ngIf="loading"></ion-spinner>
-      </ion-button>
-    </ion-buttons>
+      <ion-back-button (click)="close()" defaultHref="/view/company-list"></ion-back-button>
+    </ion-buttons>    
   </ion-toolbar>
+  <ion-toolbar class="container">    
+    <ion-title>{{ operation }}</ion-title>
+  </ion-toolbar> 
 </ion-header>
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
+    
   <form [formGroup]="form">
-    <ion-list>
+    
       <ion-item>
         <ion-label position="floating">Name</ion-label>
         <ion-input type="text" formControlName="name"></ion-input>
@@ -47,7 +40,11 @@
           </ng-container>
         </ion-select>
       </ion-item>
-
-    </ion-list>
+ 
+    <ion-button class="btn-save" [disabled]="!form.valid || loading" (click)="save()">
+      <span *ngIf="!loading">Save</span>
+      <ion-spinner *ngIf="loading"></ion-spinner>
+    </ion-button>
+    
   </form>
 </ion-content>
