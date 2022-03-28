@@ -9,6 +9,7 @@ import { StoreViewPageRoutingModule } from './store-view-routing.module';
 import { StoreViewPage } from './store-view.page';
 import {LoadingModalModule} from "src/app/components/loading-modal/loading-modal.module";
 import { CandidateModule } from 'src/app/components/candidate/candidate.module';
+import { StoreOptionPageModule } from '../store-option/store-option.module';
 
 @NgModule({
     imports: [
@@ -18,8 +19,11 @@ import { CandidateModule } from 'src/app/components/candidate/candidate.module';
         ReactiveFormsModule,
         CandidateModule,
         StoreViewPageRoutingModule,
-        LoadingModalModule
+        LoadingModalModule,
+        StoreOptionPageModule
     ],
-  declarations: [StoreViewPage]
+  declarations: [
+    StoreViewPage
+  ]
 })
 export class StoreViewPageModule {}

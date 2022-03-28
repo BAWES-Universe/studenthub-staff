@@ -71,6 +71,14 @@ export class StoreListPage implements OnInit {
       this.loadData(this.currentPage);
       this.loadCompany();
     });
+
+    this.eventService.storeUpdated$.subscribe(response => {
+      this.loadData(this.currentPage); 
+    });
+
+    this.eventService.storeDeleted$.subscribe(response => {
+      this.loadData(this.currentPage); 
+    });
   }
 
   /**

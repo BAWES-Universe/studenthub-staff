@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {AlertController, ModalController, NavController, NavParams, ToastController} from '@ionic/angular';
+import {ActionSheetController, AlertController, ModalController, NavController, NavParams, PopoverController, ToastController} from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 // model
 import { Store } from '../../../../models/store';
@@ -14,6 +14,7 @@ import { MallService } from '../../../../providers/logged-in/mall.service';
 import { Mall } from '../../../../models/mall';
 import { StoreManagerFormPage } from '../store-manager-form/store-manager-form.page';
 import { AuthService } from '../../../../providers/auth.service';
+import { StoreOptionPage } from '../store-option/store-option.page';
 
 
 @Component({
@@ -38,6 +39,8 @@ export class StoreViewPage implements OnInit {
     public navCtrl: NavController,
     private modalCtrl: ModalController,
     public alertCtrl: AlertController,
+    public popoverCtrl: PopoverController,
+    public actionSheetCtrl: ActionSheetController,
     private activatedRoute: ActivatedRoute,
     public aws: AwsService,
     private storeService: StoreService,
@@ -59,6 +62,7 @@ export class StoreViewPage implements OnInit {
     if (this.navParams && this.navParams.data && this.navParams.data.store_id) {
       this.store_id = this.navParams.data.store_id;
     }
+
     if (this.navParams && this.navParams.data && this.navParams.data.view) {
       this.directView = true;
     }
@@ -280,6 +284,117 @@ export class StoreViewPage implements OnInit {
               }
             }, () => {
               this.updating = false;
+            });
+          }
+        },
+        {
+          text: 'No'
+        }
+      ]
+    });
+    confirm.present();
+  }
+
+  /**
+   * popover for store option
+   * @param event 
+   */
+  async options(event) {
+
+    const popover = await this.popoverCtrl.create({
+      component: StoreOptionPage,
+      cssClass: 'store-option',
+      event: event,
+      translucent: true,
+      showBackdrop: false
+    });
+    await popover.present();
+  
+    const { data } = await popover.onDidDismiss();
+    
+    if(data && data.action == 'delete') {
+      this.delete();
+    }
+    
+    if(data && data.action == 'edit') {
+      this.edit();
+    }
+  }
+
+   /**
+   * open store form
+   */
+    async edit() {
+      window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+  
+      const modal = await this.modalCtrl.create({
+        component: StoreFormPage,
+        componentProps: {
+          company_id: this.company_id,
+          company: this.store.company,
+          model: this.store,
+          brands: this.store.company.brands,
+          malls: this.malls
+        }
+      });
+      modal.onDidDismiss().then(e => {
+  
+        if (!e.data || e.data.from != 'native-back-btn') {
+          window['history-back-from'] = 'onDidDismiss';
+          window.history.back();
+        }
+  
+        if (e.data && e.data.refresh) {
+          this.loadData(); 
+
+          this.eventService.storeUpdated$.next();
+
+        }
+      });
+      return await modal.present();
+  }
+
+  /**
+   * Delete the provided model
+   */
+  async delete() {
+
+    event.preventDefault();
+    event.stopPropagation();
+
+    const confirm = await this.alertCtrl.create({
+      header: 'Delete Store?',
+      message: 'Are you sure you want to delete this Store?',
+      buttons: [
+        {
+          text: 'Yes',
+          handler: () => {
+            this.loading = true;
+
+            this.storeService.delete(this.store).subscribe(async jsonResp => {
+
+              this.loading = false;
+
+              if (jsonResp.operation == 'error') {
+                const alert = await this.alertCtrl.create({
+                  header: 'Deletion Error!',
+                  subHeader: jsonResp.message,
+                  buttons: ['OK']
+                });
+                alert.present();
+              }
+
+              if (jsonResp.operation == 'success') {
+                const toast = await this.toastCtrl.create({
+                  message: jsonResp.message,
+                  duration: 3000
+                });
+                toast.present();
+              }
+              
+              this.navCtrl.back();
+
+              this.eventService.storeDeleted$.next();
             });
           }
         },

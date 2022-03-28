@@ -1,16 +1,29 @@
-<ion-content>
+<ion-header [class.add-border]="borderLimit" class="ion-no-border">
+  <ion-toolbar class="container">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/" (click)="dismiss($event)"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-toolbar class="container">
+    <ion-title>Select Store Manager</ion-title>
 
-  <div class="max-width">
-    <ion-button fill="clear" (click)="dismiss()" class="btn-close">
-      <img src="assets/images/ic_cancel.svg" />
-    </ion-button>
-
-    <h3>Select store manager</h3>
-
-    <ion-list>
-
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()">
+        Cancel
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
+  <div class="container">
+ 
       <ion-item *ngFor="let companyContact of companyContacts" tappable (click)="rowSelected(companyContact)">
         <div tabindex="0"></div>
+        
+        <ion-avatar slot="start">
+          <img src="/assets/icon/icon.png">
+        </ion-avatar>
+
         <ion-label>
           <h4>{{ companyContact.contact_name }}</h4>
           <p>
@@ -21,6 +34,11 @@
 
       <ion-item *ngFor="let companyContact of parentCompanyContacts" tappable (click)="rowSelected(companyContact)">
         <div tabindex="0"></div>
+        
+        <ion-avatar slot="start">
+          <img src="/assets/icon/icon.png">
+        </ion-avatar>
+
         <ion-label>
           <h4>{{ companyContact.contact_name }}</h4>
           <p>
@@ -33,7 +51,7 @@
 
       <h2 class="no-result-found" *ngIf="parentCompanyContacts.length + companyContacts.length == 0 && !loading">
         No contacts added yet!
-      </h2>
-    </ion-list>
+      </h2> 
+
   </div>
 </ion-content>
