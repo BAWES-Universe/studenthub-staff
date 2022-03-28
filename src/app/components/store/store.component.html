@@ -1,0 +1,29 @@
+<ion-card *ngIf="store">
+  <ion-card-content>
+    <h5>{{ store.store_name }}</h5>
+
+    <ion-button class="btn-options" (click)="options($event)">
+      <ion-icon src="assets/icon/icon-option.svg"></ion-icon>
+    </ion-button>
+
+    <p *ngIf="store.store_location">
+      <ion-icon name="location-outline"></ion-icon> {{ store.store_location }}
+    </p>
+    
+    <p *ngIf="store && store.brand" class="icon-location">
+      <ion-icon name="pricetag-outline"></ion-icon> {{ store.brand.brand_name_en }}
+    </p>
+    <!--
+    <p *ngIf="store && store.mall">
+      <ion-icon name="storefront-outline"></ion-icon> {{ store.mall.mall_name_en }}
+    </p>-->
+
+    <ion-badge *ngIf="store.store_total_candidates > 0">
+      {{ store.store_total_candidates }} candidates
+    </ion-badge>
+
+    <ion-badge *ngIf="store.candidatesCount">
+      {{ store.candidatesCount }} candidates
+    </ion-badge>
+  </ion-card-content>
+</ion-card>

@@ -10,6 +10,7 @@ import { MallViewPage } from './mall-view.page';
 import {CandidateModule} from "../../../../components/candidate/candidate.module";
 import {LoadingModalModule} from "../../../../components/loading-modal/loading-modal.module";
 import { NoItemsModule } from 'src/app/components/no-items/no-items.module';
+import { StoreModule } from 'src/app/components/store/store.module';
 
 @NgModule({
   imports: [
@@ -19,7 +20,8 @@ import { NoItemsModule } from 'src/app/components/no-items/no-items.module';
     MallViewPageRoutingModule,
     CandidateModule,
     NoItemsModule,
-    LoadingModalModule
+    LoadingModalModule,
+    StoreModule
   ],
   declarations: [MallViewPage]
 })

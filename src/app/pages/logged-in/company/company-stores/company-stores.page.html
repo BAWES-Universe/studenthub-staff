@@ -22,26 +22,9 @@
       {{ (company.company_common_name_en) ? company.company_common_name_en:company.company_name }}
     </h4>
 
-    <ion-item tappable (click)="storeSelected(store)" *ngFor="let store of company.stores" lines="none">
-      <div tabindex="0"></div>
-      <ion-label>
-        <h5>{{ store.store_name }}</h5>
+    <app-store tappable (onUpdate)="loadData()" (onDelete)="loadData()" (click)="storeSelected(store)" 
+      *ngFor="let store of company.stores" [store]="store"></app-store> 
 
-          <p *ngIf="store.store_location" class="icon-location">
-            <ion-icon name="navigate-outline"></ion-icon> {{ store.store_location }}
-          </p>
-          <p *ngIf="store && store.brand" class="icon-location">
-            <ion-icon name="pricetag-outline"></ion-icon> {{ store.brand.brand_name_en }}
-          </p>
-          <p *ngIf="store && store.mall">
-            <ion-icon name="storefront-outline"></ion-icon> {{ store.mall.mall_name_en }}
-          </p>
-      </ion-label>
-
-      <ion-badge slot="end" *ngIf="store.store_total_candidates > 0">
-        {{ store.store_total_candidates }} staff
-      </ion-badge>
-    </ion-item>
   </ion-list>
 
   <no-items *ngIf="!loading && company.stores && company.stores.length == 0" message="~ No stores data ~"></no-items>

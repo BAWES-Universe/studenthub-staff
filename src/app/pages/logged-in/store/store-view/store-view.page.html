@@ -13,6 +13,7 @@
     
   </ion-toolbar>
   <ion-toolbar *ngIf="store" class="container">
+    
     <ion-title>{{ store.store_name }}</ion-title>
 
     <ion-button *ngIf="!store.storeManager" class="btn-store-manager" (click)="selectStoreManager()">

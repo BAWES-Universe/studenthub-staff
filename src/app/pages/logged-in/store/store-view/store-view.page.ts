@@ -321,37 +321,37 @@ export class StoreViewPage implements OnInit {
     }
   }
 
-   /**
+  /**
    * open store form
    */
-    async edit() {
-      window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
-  
-      const modal = await this.modalCtrl.create({
-        component: StoreFormPage,
-        componentProps: {
-          company_id: this.company_id,
-          company: this.store.company,
-          model: this.store,
-          brands: this.store.company.brands,
-          malls: this.malls
-        }
-      });
-      modal.onDidDismiss().then(e => {
-  
-        if (!e.data || e.data.from != 'native-back-btn') {
-          window['history-back-from'] = 'onDidDismiss';
-          window.history.back();
-        }
-  
-        if (e.data && e.data.refresh) {
-          this.loadData(); 
+  async edit() {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
-          this.eventService.storeUpdated$.next();
+    const modal = await this.modalCtrl.create({
+      component: StoreFormPage,
+      componentProps: {
+        company_id: this.company_id,
+        company: this.store.company,
+        model: this.store,
+        brands: this.store.company?.brands,
+        malls: this.malls
+      }
+    });
+    modal.onDidDismiss().then(e => {
 
-        }
-      });
-      return await modal.present();
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+
+      if (e.data && e.data.refresh) {
+        this.loadData(); 
+
+        this.eventService.storeUpdated$.next();
+
+      }
+    });
+    return await modal.present();
   }
 
   /**
@@ -406,6 +406,9 @@ export class StoreViewPage implements OnInit {
     confirm.present();
   }
 
+  /**
+   * close page
+   */
   close() {
     this.modalCtrl.getTop().then(o => {
       if(o) {

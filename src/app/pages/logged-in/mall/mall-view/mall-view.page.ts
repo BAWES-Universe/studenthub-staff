@@ -1,5 +1,5 @@
 import {Component, OnInit, Optional} from '@angular/core';
-import {AlertController, IonNav, ModalController, NavController, ToastController} from '@ionic/angular';
+import {AlertController, IonNav, ModalController, NavController, PopoverController, ToastController} from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 // services
 import { MallService } from 'src/app/providers/logged-in/mall.service';
@@ -11,6 +11,7 @@ import {EventService} from '../../../../providers/event.service';
 import {ModalPopPage} from "../../modal-pop/modal-pop.page";
 import {CompanyStoresPage} from "../../company/company-stores/company-stores.page";
 import {StoreViewPage} from "../../store/store-view/store-view.page";
+import { StoreOptionPage } from '../../store/store-option/store-option.page';
 
 
 @Component({
@@ -30,6 +31,7 @@ export class MallViewPage implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
+    public popoverCtrl: PopoverController,
     private mallService: MallService,
     private modalCtrl: ModalController,
     private navCtrl: NavController,
@@ -178,5 +180,32 @@ export class MallViewPage implements OnInit {
       }
     });
     modal.present();
+  }
+
+
+  /**
+   * popover for store option
+   * @param event 
+   */
+   async options(event) {
+
+    const popover = await this.popoverCtrl.create({
+      component: StoreOptionPage,
+      cssClass: 'store-option',
+      event: event,
+      translucent: true,
+      showBackdrop: false
+    });
+    await popover.present();
+  
+    const { data } = await popover.onDidDismiss();
+    
+    if(data && data.action == 'delete') {
+      this.delete(event, this.mall);
+    }
+    
+    if(data && data.action == 'edit') {
+      this.update();
+    }
   }
 }

@@ -18,6 +18,7 @@ export class CompanyComponent implements OnInit {
 
   @Input() company: Company;
   @Input() page = null;
+  
   public totalCandidates = 0;
   constructor(
     public router: Router,

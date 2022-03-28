@@ -483,6 +483,10 @@ const routes: Routes = [
     path: 'store-option',
     loadChildren: () => import('./pages/logged-in/store/store-option/store-option.module').then( m => m.StoreOptionPageModule)
   },
+  {
+    path: 'mall-option',
+    loadChildren: () => import('./pages/logged-in/mall/mall-option/mall-option.module').then( m => m.MallOptionPageModule)
+  },
 
 ];
 
