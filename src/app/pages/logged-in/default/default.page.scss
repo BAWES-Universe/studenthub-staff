@@ -1,8 +1,9 @@
-ion-toolbar,
-ion-header,
 ion-content {
-    --background: #fafafa;
-    background: #fafafa;
+    --background: #f7f8fa;
+    background: #f7f8fa;
+}
+ion-header ion-toolbar {
+  padding: 31px 10px 10px;
 }
 
 ion-title,
@@ -11,14 +12,16 @@ ion-header {
     padding-right: 10px;
 }
 
-ion-title {
-    font-size: 18px;
-    font-weight: bold;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: normal;
-    letter-spacing: normal;
-    color: #000000;
+ion-toolbar ion-title {
+  font-family: Inter;
+  font-size: 32px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.5;
+  letter-spacing: -0.5px;
+  text-align: left;
+  color: #23233d;
 }
 
 h2 {
@@ -31,93 +34,64 @@ h2 {
   text-align: left;
   color: #000;
 }
-
-.sub-title {
-  font-size: 16px;
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: 1.65;
-  letter-spacing: normal;
-  text-align: left;
-  color: #000000;
-  margin-top: 10px;
-  margin-bottom: 14px;
-}
-
-ion-card.stats {
-    border-radius: 5px;
-    margin: 0 0 9px 0;
-    --box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.25);
-
-    ion-card-content {
-        padding-inline-start: 0;
-        display: flex;
-        color: #000;
-
-        .count {
-            width: 76px;
-            text-align: center;
-            font-size: 16px;
-            font-weight: bold;
-            font-stretch: normal;
-            font-style: normal;
-            line-height: 1.65;
-            letter-spacing: normal;
-            justify-content: center;
-            align-items: center;
-            display: flex;
-        }
-
-        .success {
-            color: #eb5757;
-        }
-
-        .warning {
-            color: #f2994a;
-        }
-
-        .message {
-            font-size: 14px;
-            font-weight: normal;
-            font-stretch: normal;
-            font-style: normal;
-            line-height: 1.65;
-            letter-spacing: normal;
-            text-align: left;
-            width: calc(100% - 92px);
-        }
+ion-card {
+  padding:0;
+  margin: 0;
+  margin-bottom: 16px;
+  ion-item {
+    padding: 3px 0;
+    span {
+      font-family: Inter;
+      font-size: 24px;
+      font-weight: bold;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: 1.33;
+      letter-spacing: normal;
+      text-align: left;
+      color: #23233d;
     }
-}
-
-@media only screen and (min-device-width: 768px) {
-    .message {
-        line-height: 1.90;
+    p {
+      font-family: Inter;
+      font-size: 16px;
+      font-weight: normal;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: 1.5;
+      letter-spacing: normal;
+      text-align: left;
+      color: #4b4b61;
+      margin-top:13px;
     }
-}
 
-ion-card.danger {
-    background-color: #eb5757;
-    color: #ffffff;
-
-    ion-card-content {
-        color: #ffffff;
+    .item-detail-icon {
+      width: 30px;
+      /* border: 1px solid; */
+      height: 30px;
+      border-radius: 50%;
+      background: #f2f2f2;
+      font-size: 8px;
     }
-}
-
-.clickable {
-    cursor: pointer;
+  }
 }
 
 h3 {
-  font-size: 21px;
-  font-weight: normal;
+  font-family: Inter;
+  font-size: 20px;
+  font-weight: bold;
   font-stretch: normal;
   font-style: normal;
-  line-height: 1.65;
+  line-height: 1.4;
   letter-spacing: normal;
   text-align: left;
-  color: #000;
-  margin-top: 34px;
-  margin-bottom: 11px;
+  color: #23233d;
+  margin-bottom: 16px;
+}
+.name-btn {
+  width: 44px;
+  height: 44px;
+  flex-grow: 0;
+  padding: 10px 10px 10px 11px;
+  border-radius: 44px;
+  background-color: #eeeef0;
 }
