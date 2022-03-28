@@ -32,8 +32,8 @@
 
 html,
 body {
-  font-family: 'effra', sans-serif !important;
-  --ion-font-family: 'effra', sans-serif !important;
+  font-family: Inter, sans-serif !important;
+  --ion-font-family: Inter, sans-serif !important;
 
   ion-label[position="floating"],
   ion-label[position="stacked"] {
@@ -170,15 +170,15 @@ ion-router-outlet {
   //}
 
   ion-title:not([size="small"]) {
-      font-size: 18px;
-      font-weight: bold;
-      font-stretch: normal;
-      font-style: normal;
-      line-height: normal;
-      letter-spacing: normal;
-      color: #000000;
+    font-size: 24px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.33;
+    letter-spacing: normal;
+    color: #23233d;
   }
-
+  
   ion-content {
     --padding-start: 30px;
     --padding-end: 30px;

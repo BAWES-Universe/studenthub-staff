@@ -69,6 +69,7 @@ import { StaffPageModule } from './pages/logged-in/pickers/staff/staff.module';
 import { DateDropdownModule } from './components/date-dropdown/date-dropdown.module';
 import { CalendarModule } from 'ion2-calendar';
 import {CompanyFilterPageModule} from './pages/logged-in/company/company-list/company-filter/company-filter.module';
+import { StoreOptionPageModule } from './pages/logged-in/store/store-option/store-option.module';
 
 export function startupServiceFactory(authService) {
   return () => authService.load();
@@ -148,6 +149,7 @@ export function createTranslateLoader(http: HttpClient) {
     FulltimerSearchPageModule,
     FulltimeLocationPageModule,
     StaffPageModule,
+    StoreOptionPageModule,
     CompanyFilterPageModule
   ],
   providers: [

@@ -479,7 +479,11 @@ const routes: Routes = [
   {
     path: '**',
     redirectTo: 'not-found'
+  },  {
+    path: 'store-option',
+    loadChildren: () => import('./pages/logged-in/store/store-option/store-option.module').then( m => m.StoreOptionPageModule)
   },
+
 ];
 
 @NgModule({
