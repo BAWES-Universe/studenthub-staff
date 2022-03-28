@@ -51,4 +51,7 @@ export class EventService {
   public statistics$ = new Subject();
 
   public transferDeleted$ = new Subject();
+
+  public storeDeleted$ = new Subject();
+  public storeUpdated$ = new Subject();
 }

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CandidateComponent } from './candidate.component';
 import { IonicModule } from '@ionic/angular';
+import { PipesModule } from 'src/app/pipes/pipes.module';
 
 
 
@@ -11,6 +12,7 @@ import { IonicModule } from '@ionic/angular';
   ],
   imports: [ 
     CommonModule,
+    PipesModule,
     IonicModule
   ],
   exports: [

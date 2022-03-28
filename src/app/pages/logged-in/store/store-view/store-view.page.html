@@ -4,11 +4,45 @@
       <ion-back-button *ngIf="!directView"></ion-back-button>
       <ion-back-button *ngIf="directView" (click)="close()"></ion-back-button>
     </ion-buttons>
-
-    <ion-title *ngIf="store">{{ store.store_name }}</ion-title>
-
+    
     <ion-buttons slot="end">
+      <ion-button (click)="options($event)">
+        <ion-icon src="assets/icon/icon-option.svg"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    
+  </ion-toolbar>
+  <ion-toolbar *ngIf="store" class="container">
+    <ion-title>{{ store.store_name }}</ion-title>
 
+    <ion-button *ngIf="!store.storeManager" class="btn-store-manager" (click)="selectStoreManager()">
+      Select store manager
+    </ion-button>
+
+    <ion-item *ngIf="store.storeManager" class="store-manager">
+      
+      <ion-avatar slot="start">
+        <img src="/assets/icon/icon.png">
+      </ion-avatar>
+      
+      <ion-label>
+        <h4>{{ store.storeManager.contact_name }}</h4>
+        <p> {{ store.storeManager.contact_position? store.storeManager.contact_position: "Store Manager" }}</p>
+      </ion-label>
+
+      <ion-buttons slot="end">
+
+        <ion-button color="primary" (click)="selectStoreManager()">
+          <ion-icon src="assets/icon/icon-edit.svg"></ion-icon>
+        </ion-button>
+
+        <ion-button color="danger" (click)="removeStoreManager()">
+          <ion-icon src="assets/icon/icon-trash.svg"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+
+      <!--
       <ion-button (click)="update()">
         <ion-icon slot="start" name="pencil-outline"></ion-icon>
         Update
@@ -17,9 +51,8 @@
       <ion-button (click)="deleteStore($event, store)">
         <ion-icon slot="start" name="trash-outline"></ion-icon>
         Delete
-      </ion-button>
-
-    </ion-buttons>
+      </ion-button>-->
+ 
   </ion-toolbar>
 
   <ion-progress-bar type="indeterminate" *ngIf="updating"></ion-progress-bar>
@@ -28,74 +61,12 @@
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
   <div class="container">
-    <section *ngIf="store">
-      <ion-item>
-        <div tabindex="0"></div>
-        <ion-label>
-          <h3>Store Name</h3>
-          <p>{{ store.store_name }}</p>
-        </ion-label>
-      </ion-item>
-
-      <ion-item>
-        <div tabindex="0"></div>
-        <ion-label>
-          <h3>Store Location</h3>
-          <p *ngIf="store.store_location">{{ store.store_location }}</p>
-        </ion-label>
-      </ion-item>
-
-      <ion-item>
-        <div tabindex="0"></div>
-        <ion-label>
-          <h3>Brand Name</h3>
-          <p *ngIf="store.brand">{{ store.brand.brand_name_en }}</p>
-        </ion-label>
-      </ion-item>
-
-      <ion-item>
-        <div tabindex="0"></div>
-        <ion-label>
-          <h3>Mall Name</h3>
-          <p *ngIf="store.mall">{{ store.mall.mall_name_en }}</p>
-        </ion-label>
-      </ion-item>
-
-      <ion-item>
-        <div tabindex="0"></div>
-
-        <ion-button *ngIf="!store.storeManager" (click)="selectStoreManager()">
-          Select store manager
-        </ion-button>
-
-        <ion-label *ngIf="store.storeManager">
-          <h4>{{ store.storeManager.contact_name }}</h4>
-          <!--<p>
-            {{ store.storeManager.contact_position }}
-          </p>-->
-        </ion-label>
-
-        <ion-buttons slot="end" *ngIf="store.storeManager">
-
-          <ion-button color="primary" (click)="selectStoreManager()">
-            <ion-icon name="pencil-outline"></ion-icon>
-          </ion-button>
-
-          <ion-button color="danger" (click)="removeStoreManager()">
-            <ion-icon name="trash-outline"></ion-icon>
-          </ion-button>
-        </ion-buttons>
-
-      </ion-item>
-    </section>
-
+     
     <ion-list *ngIf="store">
 
-      <ion-item-divider color="light">
-        <ion-label>
-          Candidates &nbsp; <ion-badge color="dark" *ngIf="store.candidates">{{ store.candidates.length }}</ion-badge>
-        </ion-label>
-      </ion-item-divider>
+      <h5>
+        Staff <span *ngIf="store.candidates">({{ store.candidates.length }})</span>
+      </h5>
 
       <candidate tappable (click)="candidateSelected(candidate)" [candidate]="candidate" (refresh)="loadData()" *ngFor="let candidate of store.candidates"></candidate>
 
