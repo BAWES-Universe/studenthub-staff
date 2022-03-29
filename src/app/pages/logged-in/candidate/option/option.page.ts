@@ -27,6 +27,10 @@ export class OptionPage implements OnInit {
 
   public generating: boolean = false;
 
+  public updatingEmail: boolean = false;
+
+  public exportingCv: boolean = false;
+
   constructor(
     public translateService: TranslateLabelService,
     public authService: AuthService,
@@ -288,6 +292,22 @@ export class OptionPage implements OnInit {
     this.popoverCtrl.getTop().then(o => {
       if(o) {
         o.dismiss({ toggleCommitted: true });
+      }
+    }); 
+  }
+
+  async updateEmail() {
+    this.popoverCtrl.getTop().then(o => {
+      if(o) {
+        o.dismiss({ updateEmail: true });
+      }
+    }); 
+  }
+  
+  exportCv() {
+    this.popoverCtrl.getTop().then(o => {
+      if(o) {
+        o.dismiss({ exportCV: true });
       }
     }); 
   }

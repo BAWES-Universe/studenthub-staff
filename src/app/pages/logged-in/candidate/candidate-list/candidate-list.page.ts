@@ -238,13 +238,6 @@ export class CandidateListPage implements OnInit {
   }
 
   /**
-   * Loads the create page
-   */
-  // create() {
-  //   this.navCtrl.navigateForward('candidate-form');
-  // }
-
-  /**
    * load more on scroll to bottom
    * @param event 
    */

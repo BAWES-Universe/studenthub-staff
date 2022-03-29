@@ -1,6 +1,21 @@
+
+ion-header {
+  box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.05);
+
+  ion-toolbar {
+      padding: 0 24px;
+
+      ion-title {
+          padding: 0;
+      }
+  }
+}
+
 ion-content {
-  --padding-start: 30px;
-  --padding-end: 30px;
+  --background: #f7f8fa;
+  --padding-start: 24px;
+  --padding-end: 24px;
+  --padding-top: 24px;
 }
 
 ion-thumbnail {
@@ -90,17 +105,7 @@ h4.candidate-name {
   color: #fff;
   background-color: #eb5757;
 }
-
-.objective {
-  margin: 0 0 12px 0;
-  font-size: 18px;
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  color: black;
-}
+ 
 
 .details ion-item {
   --inner-border-width: 0;
@@ -519,3 +524,46 @@ ion-footer {
   --color: #000;
   opacity: 0.5;
 }
+
+ion-segment-button {
+  text-transform: inherit;
+  font-family: Inter;
+  font-size: 16px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.5;
+  letter-spacing: normal;
+  text-align: center;
+  color: #68687a;
+}
+
+ion-segment-button.segment-button-checked {
+  font-weight: 600;
+  color: #263879;
+  --indicator-color	:#263879;
+  --border-color	:#263879;
+}
+
+h5.title {
+  font-size: 18px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.56;
+  letter-spacing: normal;
+  color: #23233d;
+}
+
+.objective {
+  font-size: 16px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.5;
+  letter-spacing: normal;
+  color: #4b4b61;
+  margin-top: 8px;
+  margin-bottom: 32px;
+}
+

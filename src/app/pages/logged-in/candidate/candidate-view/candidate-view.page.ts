@@ -96,6 +96,8 @@ export class CandidateViewPage implements OnInit {
 
   public story: Story;
 
+  public segment: string = 'activity';
+
   constructor(
     public navCtrl: NavController,
     public router: Router,
@@ -497,6 +499,16 @@ export class CandidateViewPage implements OnInit {
       if (e.data && e.data.toggleCommitted) {
         this.toggleCommitted();
       }
+
+      if (e.data && e.data.updateEmail) {
+        this.updateEmailForm();
+      }
+      
+      if (e.data && e.data.exportCV) {
+        this.exportOption();
+      }
+
+      
     });
   }
 

@@ -377,5 +377,4 @@ export class CandidateService {
       email
     });
   }
-
 }
