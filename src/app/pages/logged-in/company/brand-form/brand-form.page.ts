@@ -136,7 +136,7 @@ export class BrandFormPage implements OnInit {
 
       // On Success
       if (jsonResponse.operation == 'success') {
-        
+
         this.eventService.reloadStats$.next({
           company_id: this.model.company_id
         });
@@ -397,6 +397,7 @@ export class BrandFormPage implements OnInit {
    * Display options to update logo
    */
   async updatePhoto(ev) {
+    ev.preventDefault();
     if (this.platform.is('capacitor')) {
       this.mobileUpload();
     } else {
