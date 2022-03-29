@@ -1,7 +1,25 @@
 <input style='display:none;' type='file' #fileInput (change)="uploadFileViaHtmlFileInput($event)" accept="image/*"/>
-<ion-card (click)="uploadBtnClicked($event)" tappable>
-  <ion-spinner *ngIf="isUploading"></ion-spinner>
-  <ion-icon [name]="icon" *ngIf="!isUploading && !value"></ion-icon>
-  <img [src]='bucketUrl+value' *ngIf="!isUploading && value"/><br/>
-  <ion-label>{{ label }}</ion-label>
-</ion-card>
+<ion-item (click)="!isUploading && uploadBtnClicked($event)" [attr.tappable]="!isUploading">
+
+  <div class="progress-wrapper" *ngIf="isUploading">
+    <ion-progress-bar value="0.5"></ion-progress-bar>  <br />
+    Uploading... {{ newUpload.loaded /newUpload.total }}% 
+  </div>
+  
+  <ion-thumbnail slot="start" *ngIf="!isUploading" [class.icon-wrapper]="!value" 
+    [class.image-wrapper]="value">
+    <ion-icon [src]="iconSrc" *ngIf="iconSrc"></ion-icon>
+    <ion-icon [name]="icon" *ngIf="!iconSrc"></ion-icon>
+    
+    <img [src]='bucketUrl+value' *ngIf="value"/><br/>
+
+  </ion-thumbnail>
+
+  <ion-label *ngIf="!isUploading && !value">{{ labelNoImage }}</ion-label>
+  
+  <ion-label *ngIf="!isUploading && value">
+    <p>{{ getFileName(value) }}</p>
+    <h5>{{ label }}</h5>    
+  </ion-label>
+
+</ion-item>

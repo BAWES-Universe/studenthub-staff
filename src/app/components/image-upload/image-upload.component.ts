@@ -31,6 +31,10 @@ export class ImageUploadComponent implements ControlValueAccessor, OnInit {
   // File prefix when uploading to S3
   @Input() prefix = 'image';
 
+  @Input() iconSrc;
+  
+  @Input() labelNoImage;
+  
   // Used for link generation after upload
   public bucketUrl: string;
   private _bucketUrlTemporary: string;
@@ -38,6 +42,8 @@ export class ImageUploadComponent implements ControlValueAccessor, OnInit {
 
   // Progress variables
   public isUploading = false;
+
+  public newUpload;
 
   // the method set in registerOnChange, it is just
   // a placeholder for a method that takes one parameter,
@@ -164,7 +170,7 @@ export class ImageUploadComponent implements ControlValueAccessor, OnInit {
    */
   processFileUpload(uploadObservable){
     // Create Temporary Transfer Record
-    const newUpload = {
+    this.newUpload = {
       name: 'Preparing file for upload',
       status: 'uploading',
       loaded: 0,
@@ -177,30 +183,32 @@ export class ImageUploadComponent implements ControlValueAccessor, OnInit {
 
     // Process Upload and Display Progress
     uploadObservable.subscribe((progress) => {
+      console.log(progress);
+
       // Update progress, possibly create emitter for this data if needed
       if (progress.loaded &&  progress.loaded != progress.total){
-        newUpload.status = 'uploading';
-        newUpload.loaded = progress.loaded;
-        newUpload.total = progress.total;
+        this.newUpload.status = 'uploading';
+        this.newUpload.loaded = progress.loaded;
+        this.newUpload.total = progress.total;
       }
       // If Multipart upload (big file), Key with capital "K"
       if (progress.key || progress.Key){
-        newUpload.name = progress.key ? progress.key : progress.Key;
-        newUpload.link = this._bucketUrlTemporary + newUpload.name;
+        this.newUpload.name = progress.key ? progress.key : progress.Key;
+        this.newUpload.link = this._bucketUrlTemporary + this.newUpload.name;
       }
     }, (err) => {
       console.log('Error', err);
-      newUpload.status = 'error';
+      this.newUpload.status = 'error';
       // Hide File Upload Indicator based on which file is being uploaded
       this.isUploading = false;
     }, () => {
-      newUpload.status = 'complete';
+      this.newUpload.status = 'complete';
       // Hide File Upload Indicator based on which file is being uploaded
       this.isUploading = false;
       // Switch to temporary bucket url
       this.bucketUrl = this._bucketUrlTemporary;
       // Set the new value of this file upload
-      this.value = newUpload.name;
+      this.value = this.newUpload.name;
     });
   }
 
@@ -246,4 +254,11 @@ export class ImageUploadComponent implements ControlValueAccessor, OnInit {
    * Called on touch/ element blur
    */
   registerOnTouched() {}
+
+  /**
+   * return file name 
+   */
+  getFileName(path) {
+    return path.split(/[\\/]/).pop();  
+  }
 }

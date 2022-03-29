@@ -20,7 +20,12 @@
      
       <h5>Basic Information</h5>
 
-      <app-image-upload label="Company Logo" icon="person-outline" prefix="logo" formControlName="logo">
+      <app-image-upload 
+        label="Change Logo" 
+        labelNoImage="Upload Company Logo"
+        icon="person-outline" prefix="logo" 
+        iconSrc="assets/icon/icon-add-pic.svg"
+        formControlName="logo">
       </app-image-upload>
 
       <ion-item class="input-wrapper">
@@ -105,9 +110,9 @@
 </ion-content>
 <ion-footer class="ion-no-border">
   
-  <ion-button class="btn-save" [disabled]="!form.valid || loading" (click)="save()">
-    <span *ngIf="!loading">{{ operation }}</span>
-    <ion-spinner *ngIf="loading"></ion-spinner>
+  <ion-button class="btn-save" [disabled]="!form.valid || loading || saving" (click)="save()">
+    <span *ngIf="!saving">{{ operation }}</span>
+    <ion-spinner *ngIf="saving"></ion-spinner>
   </ion-button>
 
 </ion-footer>
