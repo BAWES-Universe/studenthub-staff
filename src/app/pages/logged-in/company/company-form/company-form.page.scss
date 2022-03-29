@@ -70,6 +70,7 @@ h5 {
   text-align: left;
   color: #23233d;
 }
+
 .btn-save {
     height: 56px;
     border-radius: 12px;
@@ -83,9 +84,8 @@ h5 {
     text-align: center;
     --color: #fff;
     text-transform: none;
-    width: calc(100% - 66px);
+    width: calc(100% - 48px);
     --box-shadow: none;
     --border-radius: 12px;
-    position: fixed;
-    bottom: 24px;
+    margin: 24px;
 }

@@ -11,12 +11,12 @@
     </ion-buttons>
 
   </ion-toolbar>
-  <ion-toolbar *ngIf="request" class="container title-name">
+  <ion-toolbar *ngIf="request" class="container title-name"  [class.hidden]="borderLimit">
     <h1>{{request.request_position_title}}</h1>
     <p tappable [routerLink]="['/request-view/' +  request.request_uuid]">View main request</p>
   </ion-toolbar>
 
-  <ion-toolbar class="container">
+  <ion-toolbar class="container"  [class.hidden]="borderLimit">
     <ion-segment mode="md" (ionChange)="segmentChanged($event)" value="detail">
 
       <ion-segment-button mode="md" value="detail">

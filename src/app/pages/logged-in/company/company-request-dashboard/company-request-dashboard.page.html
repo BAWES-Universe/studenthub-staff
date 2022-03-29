@@ -5,7 +5,7 @@
       <span *ngIf="segment == 'story'">Stories</span>
     </ion-title>
   </ion-toolbar>
-  <ion-toolbar  class="container searchbar-wrapper">
+  <ion-toolbar  class="container searchbar-wrapper"  [class.hidden]="borderLimit">
     <ion-searchbar mode="md" [(ngModel)]="query" (ionInput)="searchFilter($event)" debounce=500></ion-searchbar>
 
     <ion-buttons slot="end">
@@ -15,7 +15,7 @@
     </ion-buttons>
   </ion-toolbar>
 
-  <ion-toolbar  class="container">
+  <ion-toolbar  class="container"  [class.hidden]="borderLimit">
     <ion-segment mode="md" (ionChange)="segmentChanged($event)" value="request">
 
       <ion-segment-button  mode="md" value="request">

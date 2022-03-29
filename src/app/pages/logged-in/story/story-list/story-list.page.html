@@ -5,7 +5,7 @@
     </ion-buttons>
     <ion-title>Suggestion Backlog <small *ngIf="total && !loading">(Total : {{total}})</small></ion-title>
   </ion-toolbar>
-  <ion-toolbar class="container">
+  <ion-toolbar class="container"  [class.hidden]="borderLimit">
     <ion-button (click)="filter('all')">All </ion-button>
     <ion-button (click)="filter('rejected')">Rejected </ion-button>
     <ion-button (click)="filter('unstarted')">Un Started </ion-button>

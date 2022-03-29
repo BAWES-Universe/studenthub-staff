@@ -4,7 +4,7 @@
       Clients
     </ion-title>
   </ion-toolbar>
-  <ion-toolbar class="container search">
+  <ion-toolbar class="container search" [class.hidden]="borderLimit">
     <ion-searchbar debounce="500" placeholder="Type to search" (ionChange)="searchByName($event)"></ion-searchbar>
     <ion-buttons slot="end">
       <ion-button class="ion-text-capitalize setting" (click)="filter()">

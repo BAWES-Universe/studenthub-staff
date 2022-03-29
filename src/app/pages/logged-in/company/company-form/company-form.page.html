@@ -4,9 +4,8 @@
       <ion-back-button (click)="close()"></ion-back-button>
     </ion-buttons>
   </ion-toolbar>
-  <ion-toolbar class="container">
+  <ion-toolbar class="container" [class.hidden]="borderLimit">
     <ion-title>{{ operation }}</ion-title>
-
     <ion-buttons slot="end">
       <ion-button clear (click)="close()">
         Cancel
@@ -15,7 +14,8 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
+<ion-content [fullscreen]="true" scrollEvents="true" (ionScroll)="logScrolling($event)">
+
   <form [formGroup]="form" *ngIf="form">
      
       <h5>Basic Information</h5>
@@ -96,15 +96,18 @@
         </ion-toggle>
       </ion-item>
 
-      <ion-item class="input-wrapper" *ngIf="!isSubCompany">
+      <ion-item *ngIf="!isSubCompany">
         <ion-label>Approved to hire?</ion-label>
         <ion-toggle slot="end" formControlName="approved_to_hire"></ion-toggle>
       </ion-item>
 
-      <ion-button class="btn-save" [disabled]="!form.valid || loading" (click)="save()">
-        <span *ngIf="!loading">{{ operation }}</span>
-        <ion-spinner *ngIf="loading"></ion-spinner>
-      </ion-button>
-
   </form>
 </ion-content>
+<ion-footer class="ion-no-border">
+  
+  <ion-button class="btn-save" [disabled]="!form.valid || loading" (click)="save()">
+    <span *ngIf="!loading">{{ operation }}</span>
+    <ion-spinner *ngIf="loading"></ion-spinner>
+  </ion-button>
+
+</ion-footer>

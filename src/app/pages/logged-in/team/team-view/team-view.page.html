@@ -6,11 +6,11 @@
     </ion-buttons>
   </ion-toolbar>
 
-  <ion-toolbar class="container">
+  <ion-toolbar class="container"  [class.hidden]="borderLimit">
     <ion-title *ngIf="staff">{{ staff.staff_name }}</ion-title>
   </ion-toolbar>
 
-  <ion-toolbar  class="container">
+  <ion-toolbar  class="container"  [class.hidden]="borderLimit">
     <ion-segment mode="md" (ionChange)="segmentChanged($event)" value="details">
 
       <ion-segment-button  mode="md" value="details">
