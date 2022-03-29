@@ -70,3 +70,83 @@ ion-back-button {
 [dir="rtl"] .progress-wrapper ion-icon {
     left: 20px;
 }
+// new design css
+ion-content, ion-list, ion-footer{
+  background: #f7f8fa;
+  --background: #f7f8fa;
+}
+ion-item {
+  border-radius: 8px;
+  border: solid 1px #e2e2e6;
+  background-color: #fff;
+  margin-bottom: 16px;
+}
+ion-title {
+  font-family: Inter;
+  font-size: 20px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.4;
+  letter-spacing: normal;
+  text-align: left;
+  color: #23233d;
+}
+.cancel {
+  font-family: Inter;
+  font-size: 16px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.5;
+  letter-spacing: normal;
+  text-align: left;
+  color: #4c70f2;
+}
+ion-footer {
+  ion-button {
+    font-family: Inter;
+    font-size: 16px;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.5;
+    letter-spacing: normal;
+    text-align: center;
+    color: #68687a;
+    width: 342px;
+    height: 56px;
+    margin: 0 auto;
+    margin-bottom: 21px;
+  }
+}
+.image-upload {
+  background: #f7f8fa;
+  --background: #f7f8fa;
+  border:0;
+}
+.upload-pic {
+  font-family: Inter;
+  font-size: 14px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.43;
+  letter-spacing: normal;
+  text-align: left;
+  color: #4c70f2;
+}
+.no-logo{
+  border: 1px dashed blue;
+  text-align: center;
+  width: 97px;
+  border-radius: 10px;
+  padding: 14px 0;
+
+  ion-icon {
+    font-size: 65px;
+  }
+}
+ion-col {
+  align-self: center;
+}
