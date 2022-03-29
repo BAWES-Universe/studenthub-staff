@@ -117,7 +117,7 @@ export class CompanyBrandsPage implements OnInit {
       if(o) {
         o.dismiss(data);
       }
-    }); 
+    });
   }
 
   logScrolling(e) {
@@ -132,5 +132,9 @@ export class CompanyBrandsPage implements OnInit {
       this.company = response;
     }, () => {
     });
+  }
+
+  error(brand) {
+    brand.brand_logo = null;
   }
 }
