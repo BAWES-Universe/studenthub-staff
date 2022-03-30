@@ -14,7 +14,7 @@
             <p>{{ company.company_last_followup_datetime | timeAgo }}</p>
           </ng-container>
         </div>
-        <p *ngIf="company.company_description_en">{{company.company_description_en.substr(1,90)}}</p>
+        <p *ngIf="company.company_description_en">{{stripTag(company.company_description_en)}}</p>
         <p *ngIf="!company.company_description_en">{{company.company_name}}</p>
         <ion-badge class="company_status_badge danger" slot="start" *ngIf="!company.company_status && !company.parent_company_id">
           Inactive
@@ -22,14 +22,17 @@
         <ion-badge class="company_status_badge success" slot="start" *ngIf="company.company_status && !company.parent_company_id">
           Active
         </ion-badge>
-        <ion-badge slot="start" color="light" *ngIf="totalCandidates > 0">
-          {{ totalCandidates }} assigned staff
+        <ion-badge slot="start" color="light">
+          {{ totalCandidates }} staff
         </ion-badge>
         <ion-badge slot="start" color="light" *ngIf="company.subCompanies && company.subCompanies.length > 0">
           {{ company.subCompanies.length }} sub-companies
         </ion-badge>
-        <ion-badge slot="start" color="light" *ngIf="company.stores.length > 0">
+        <ion-badge slot="start" color="light">
           {{ company.stores.length }} stores
+        </ion-badge>
+        <ion-badge slot="start" color="light">
+          {{ company.brands.length }} brands
         </ion-badge>
         <ion-badge slot="start" color="light" *ngIf="company.total_candidate && !company.transferInLast40Days">
           40 days passed without payment
@@ -42,7 +45,10 @@
       <ion-grid>
           <ion-row>
             <ion-col><ion-img src="assets/images/doller.svg" ></ion-img> {{company.company_hourly_rate | number:'1.0-3' }} KD / hour</ion-col>
-            <ion-col><ion-img src="assets/images/money.svg" ></ion-img> {{company.company_bonus_commission | number:'1.0-2' }} % </ion-col>
+            <ion-col><ion-img src="assets/images/money.svg" ></ion-img>
+                <span *ngIf="company.company_bonus_commission">{{company.company_bonus_commission | number:'1.0-2' }} %</span>
+                <span *ngIf="!company.company_bonus_commission">0 %</span>
+            </ion-col>
           </ion-row>
       </ion-grid>
 </ion-card>

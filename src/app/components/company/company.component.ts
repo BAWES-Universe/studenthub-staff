@@ -18,7 +18,7 @@ export class CompanyComponent implements OnInit {
 
   @Input() company: Company;
   @Input() page = null;
-  
+
   public totalCandidates = 0;
   constructor(
     public router: Router,
@@ -52,9 +52,9 @@ export class CompanyComponent implements OnInit {
    * @param date
    */
   toDate(date) {
-    if (!date) 
+    if (!date)
       return null;
-      
+
     if (date) {
       return new Date(date.replace(/-/g, '/'));
     }
@@ -80,5 +80,10 @@ export class CompanyComponent implements OnInit {
           }
       });
     }
+  }
+
+  stripTag(str) {
+    const strippedStr = str.replace(/(<([^>]+)>)/gi, '');
+    return (strippedStr.length > 90) ? strippedStr.substr(0,90) + '...' : strippedStr;
   }
 }
