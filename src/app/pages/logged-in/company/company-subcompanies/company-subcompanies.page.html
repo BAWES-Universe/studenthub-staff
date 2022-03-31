@@ -1,33 +1,33 @@
-<ion-header [class.add-border]="borderLimit" class="ion-no-border">
+<ion-header [class.add-border]="borderLimit"  mode="md">
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button (click)="dismiss()"></ion-back-button>
     </ion-buttons>
     <ion-buttons slot="end">
-      <ion-button fill="clear" (click)="create()">
-        Add Subcompany
-      </ion-button>
+      <ion-button><ion-icon class="setting-icon" name="ellipsis-vertical-outline"></ion-icon></ion-button>
     </ion-buttons>
+  </ion-toolbar>
+
+  <ion-toolbar *ngIf="company && company.subCompanies">
+    <ion-title class="main" size="large"><strong>Subcompanies</strong></ion-title>
+    <ion-title class="secondary" size="small" *ngIf="company">
+      {{ (company.company_common_name_en) ?  company.company_common_name_en:company.company_name }}
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
-
-  <ng-container *ngIf="company && company.subCompanies">
-    <h3 class="request-title">
-      Subcompanies
-    </h3>
-    <h4 class="company-name">
-      {{ (company.company_common_name_en) ?  company.company_common_name_en:company.company_name }}
-    </h4>
-    <ion-list>
+    <ion-list *ngIf="company && company.subCompanies">
       <app-company [company]="company" *ngFor="let company of company.subCompanies" (click)="rowSelected(company)">
       </app-company>
     </ion-list>
-  </ng-container>
-  
+
   <no-items *ngIf="!loading && company.subCompanies && company.subCompanies.length ==0" message="~ No subcompany data ~"></no-items>
 
   <loading-modal [loading]="loading" type="company-list"></loading-modal>
+
+  <div class="add-request mobile-only" tappable (click)="create()">
+    <ion-icon name="add-outline"></ion-icon>
+  </div>
 
 </ion-content>
