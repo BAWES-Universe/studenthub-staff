@@ -1,24 +1,25 @@
-<ion-header [class.add-border]="borderLimit" class="ion-no-border">
+<ion-header>
   <ion-toolbar class="container">
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/view/company-list"></ion-back-button>
     </ion-buttons>
-
-    <ion-title *ngIf="brand">{{ brand.brand_name_en }}</ion-title>
-
     <ion-buttons slot="end">
-
-      <ion-button (click)="editBrandSelected($event, brand)">
-        <ion-icon slot="start" name="pencil-outline"></ion-icon>
-        Update
-      </ion-button>
-
-      <ion-button (click)="deleteBrand($event, brand)">
-        <ion-icon slot="start" name="trash-outline"></ion-icon>
-        Delete
-      </ion-button>
-
+      <ion-button (click)="options($event)"><ion-icon class="setting-icon" name="ellipsis-vertical-outline"></ion-icon></ion-button>
     </ion-buttons>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-title *ngIf="brand">{{ brand.brand_name_en }}</ion-title>
+  </ion-toolbar>
+
+  <ion-toolbar>
+    <ion-segment (ionChange)="segmentChanged($event)" value="candidate" mode="md">
+      <ion-segment-button value="candidate">
+        <ion-label>Candidate</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="store">
+        <ion-label>Stores</ion-label>
+      </ion-segment-button>
+    </ion-segment>
   </ion-toolbar>
 </ion-header>
 
@@ -26,28 +27,15 @@
   <div class="container">
     <ion-list *ngIf="brand">
 
-      <ion-item-divider color="light">
-        <ion-label>
-          Candidates &nbsp; <ion-badge color="dark" *ngIf="brand.candidates">{{ brand.candidates.length }}</ion-badge>
-        </ion-label>
-      </ion-item-divider>
-
-      <candidate tappable (click)="rowSelected(candidate)" [candidate]="candidate" (refresh)="loadData()" *ngFor="let candidate of brand.candidates"></candidate>
-
-      <ion-item-divider color="light">
-        <ion-label>
-          Stores &nbsp; <ion-badge color="dark" *ngIf="brand.stores">{{ brand.stores.length }}</ion-badge>
-        </ion-label>
-      </ion-item-divider>
-
-      <ion-item *ngFor="let store of brand.stores" (click)="storeSelected(store)">
-        <div tabindex="0"></div>
-        <ion-label>
-          {{store.store_name}}
-        </ion-label>
-      </ion-item>
+      <div *ngIf="this.segment == 'candidate'">
+        <h2>Candidates <span>({{ brand.candidates.length }})</span></h2>
+          <candidate tappable (click)="rowSelected(candidate)" [candidate]="candidate" (refresh)="loadData()" *ngFor="let candidate of brand.candidates"></candidate>
+      </div>
+      <div *ngIf="this.segment == 'store'">
+        <h2>Stores <span>({{ brand.stores.length }})</span></h2>
+        <app-store [store]="store" [editIcon]="true" [locationLbl]="false" *ngFor="let store of brand.stores"></app-store>
+      </div>
     </ion-list>
-
     <loading-modal [loading]="loading" type="candidate-list"></loading-modal>
   </div>
 </ion-content>

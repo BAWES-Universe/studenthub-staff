@@ -4,3 +4,51 @@ ion-footer {
     margin: 0 auto;
   }
 }
+ion-segment-button {
+  --border-width:0;
+}
+ion-content, ion-list {
+  background:#f7f8fa;
+  --background:#f7f8fa;
+}
+ion-title {
+  font-family: Inter;
+  font-size: 24px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.33;
+  letter-spacing: normal;
+  text-align: left;
+  color: #23233d;
+  padding:0 34px;
+}
+h2 {
+  font-family: Inter;
+  font-size: 18px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.56;
+  letter-spacing: normal;
+  text-align: left;
+  color: #23233d;
+  span {
+    color:#7d7d8d;
+  }
+}
+
+ion-toolbar {
+  --padding-bottom: 0;
+  ion-button {
+    ion-icon {
+      color:#68687a;
+    }
+  }
+}
+
+.segment-button-checked {
+  color: #263879;
+  font-weight: 600;
+  --indicator-color: #263879;
+}

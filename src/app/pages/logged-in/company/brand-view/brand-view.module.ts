@@ -9,6 +9,7 @@ import { BrandViewPageRoutingModule } from './brand-view-routing.module';
 import { BrandViewPage } from './brand-view.page';
 import {LoadingModalModule} from 'src/app/components/loading-modal/loading-modal.module';
 import { CandidateModule } from 'src/app/components/candidate/candidate.module';
+import {StoreModule} from "../../../../components/store/store.module";
 
 @NgModule({
     imports: [
@@ -17,6 +18,7 @@ import { CandidateModule } from 'src/app/components/candidate/candidate.module';
         IonicModule,
         ReactiveFormsModule,
         CandidateModule,
+        StoreModule,
         BrandViewPageRoutingModule,
         LoadingModalModule
     ],

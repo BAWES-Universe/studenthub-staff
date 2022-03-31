@@ -178,7 +178,7 @@ ion-router-outlet {
     letter-spacing: normal;
     color: #23233d;
   }
-  
+
   ion-content {
     --padding-start: 30px;
     --padding-end: 30px;
@@ -323,7 +323,7 @@ ckeditor {
   }
 
   to {
-    opacity: 0;    
+    opacity: 0;
   }
 }
 
@@ -582,7 +582,7 @@ ion-item.input-wrapper {
   background: #fff;
   color: #68687a;
   --color: #68687a;
-  
+
   ion-input {
       font-size: 14px;
       font-weight: 500;
@@ -606,4 +606,7 @@ ion-item.input-wrapper {
       color: #68687a;
       --color: #68687a;
   }
+}
+.store-option .popover-content {
+  box-shadow: 0 8px 25px 0 rgba(0, 0, 0, 0.1)
 }

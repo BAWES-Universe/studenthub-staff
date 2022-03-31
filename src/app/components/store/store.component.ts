@@ -15,17 +15,19 @@ import { StoreService } from 'src/app/providers/logged-in/store.service';
   styleUrls: ['./store.component.scss'],
 })
 export class StoreComponent implements OnInit {
-  
+
   @Output() onUpdate: EventEmitter<any> = new EventEmitter();
-  
+
   @Output() onDelete: EventEmitter<any> = new EventEmitter();
 
   @Input() store: Store;
+  @Input() editIcon = true;
+  @Input() locationLbl = true;
 
   public loading: boolean = false;
 
   constructor(
-    public navCtrl: NavController,    
+    public navCtrl: NavController,
     public alertCtrl: AlertController,
     public modalCtrl: ModalController,
     public popoverCtrl: PopoverController,
@@ -37,12 +39,12 @@ export class StoreComponent implements OnInit {
 
   /**
    * popover for store option
-   * @param event 
+   * @param event
    */
    async options(event) {
 
     event.preventDefault();
-    event.stopPropagation(); 
+    event.stopPropagation();
 
     const popover = await this.popoverCtrl.create({
       component: StoreOptionPage,
@@ -52,13 +54,13 @@ export class StoreComponent implements OnInit {
       showBackdrop: false
     });
     await popover.present();
-  
+
     const { data } = await popover.onDidDismiss();
-    
+
     if(data && data.action == 'delete') {
       this.delete();
     }
-    
+
     if(data && data.action == 'edit') {
       this.edit();
     }
@@ -69,7 +71,7 @@ export class StoreComponent implements OnInit {
    */
     async edit() {
       window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
-  
+
       const modal = await this.modalCtrl.create({
         component: StoreFormPage,
         componentProps: {
@@ -81,14 +83,14 @@ export class StoreComponent implements OnInit {
         }
       });
       modal.onDidDismiss().then(e => {
-  
+
         if (!e.data || e.data.from != 'native-back-btn') {
           window['history-back-from'] = 'onDidDismiss';
           window.history.back();
         }
-  
+
         if (e.data && e.data.refresh) {
-          this.onUpdate.emit(); 
+          this.onUpdate.emit();
         }
       });
       return await modal.present();
@@ -131,10 +133,10 @@ export class StoreComponent implements OnInit {
                 });
                 toast.present();
               }
-              
+
               this.navCtrl.back();
 
-              this.onDelete.emit(); 
+              this.onDelete.emit();
             });
           }
         },

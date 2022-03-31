@@ -2,14 +2,13 @@
   <ion-card-content>
     <h5>{{ store.store_name }}</h5>
 
-    <ion-button class="btn-options" (click)="options($event)">
+    <ion-button class="btn-options" (click)="options($event)" *ngIf="editIcon">
       <ion-icon src="assets/icon/icon-option.svg"></ion-icon>
     </ion-button>
-
-    <p *ngIf="store.store_location">
+    <p *ngIf="locationLbl && store.store_location">
       <ion-icon name="location-outline"></ion-icon> {{ store.store_location }}
     </p>
-    
+
     <p *ngIf="store && store.brand" class="icon-location">
       <ion-icon name="pricetag-outline"></ion-icon> {{ store.brand.brand_name_en }}
     </p>

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Location} from '@angular/common';
-import {AlertController, ModalController, NavController, ToastController} from '@ionic/angular';
+import {AlertController, ModalController, NavController, PopoverController, ToastController} from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 // model
 import { Candidate } from 'src/app/models/candidate';
@@ -11,6 +11,7 @@ import { AwsService } from 'src/app/providers/aws.service';
 import { BrandService } from 'src/app/providers/logged-in/brand.service';
 import { EventService } from 'src/app/providers/event.service';
 import { BrandFormPage } from '../brand-form/brand-form.page';
+import {BrandOptionPage} from "../brand/brand-option/brand-option.page";
 
 
 @Component({
@@ -26,9 +27,11 @@ export class BrandViewPage implements OnInit {
   public deleting = false;
 
   public borderLimit = false;
+  public segment: string = 'candidate';
 
   constructor(
     public navCtrl: NavController,
+    public popoverCtrl: PopoverController,
     private modalCtrl: ModalController,
     private activatedRoute: ActivatedRoute,
     public aws: AwsService,
@@ -174,5 +177,37 @@ export class BrandViewPage implements OnInit {
       }
     });
     modal.present();
+  }
+  segmentChanged(event) {
+    this.segment = event.target.value;
+  }
+
+  /**
+   * popover for store option
+   * @param event
+   */
+  async options(event) {
+
+    event.preventDefault();
+    event.stopPropagation();
+
+    const popover = await this.popoverCtrl.create({
+      component: BrandOptionPage,
+      cssClass: 'store-option',
+      event,
+      translucent: true,
+      showBackdrop: false
+    });
+    await popover.present();
+
+    const { data } = await popover.onDidDismiss();
+
+    if(data && data.action == 'delete') {
+      this.deleteBrand(event, this.brand);
+    }
+
+    if(data && data.action == 'edit') {
+      this.editBrandSelected(event, this.brand);
+    }
   }
 }
