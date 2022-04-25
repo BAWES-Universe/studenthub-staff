@@ -1071,6 +1071,7 @@ export class CandidateViewPage implements OnInit {
   onCivilBackError() {
     this.candidate.candidate_civil_photo_back = null;
   }
+
   onCivilFrontError() {
     this.candidate.candidate_civil_photo_front = null;
   }

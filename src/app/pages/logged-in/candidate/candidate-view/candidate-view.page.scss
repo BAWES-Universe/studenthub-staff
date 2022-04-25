@@ -219,9 +219,10 @@ h4.candidate-name {
     margin-bottom: 16px;
   }
 
+  p,
   a {
     font-size: 14px;
-    font-weight: 500;
+    font-weight: bold;
     font-stretch: normal;
     font-style: normal;
     line-height: 1.43;
@@ -231,10 +232,29 @@ h4.candidate-name {
     padding-inline-start: 32px;
     clear: both;
     display: block;
+    min-height: 24px;
+    margin-bottom: 16px;
+    position: relative;
 
     ion-button {
       float: right;
     }
+
+    .txt-expiring-on {
+      font-weight: normal;
+    }
+  }
+
+  .id-number ion-button {
+    position: absolute;
+    right: 0;
+    top: -5px;
+  }
+
+  .image-id {
+    width: 342px; 
+    border-radius: 16px;
+    background-color: #fff;
   }
 }
 
@@ -350,7 +370,7 @@ h4.candidate-name {
 }
 
 .video {
-  background: url('src/assets/images/ic_video.svg') no-repeat 0 2px;
+  background: url('src/assets/images/ic_video.svg') no-repeat 0 0px;
 
   img {
     width: 90px;
@@ -359,19 +379,23 @@ h4.candidate-name {
 }
 
 .resume {
-  background: url('src/assets/images/ic_ad.svg') no-repeat 0 2px;
+  background: url('src/assets/images/ic_ad.svg') no-repeat 0 0px;
 }
 
 .skills {
-  background: url('src/assets/images/ic_food_tools.svg') no-repeat 0 2px;
+  background: url('src/assets/images/ic_food_tools.svg') no-repeat 0 0px;
 }
 
 .experiences {
-  background: url('src/assets/images/ic_suitcase.svg') no-repeat 0 2px;
+  background: url('src/assets/images/ic_suitcase.svg') no-repeat 0 0px;
 }
 
 .area {
-  background: url('src/assets/images/ic_home_2.svg') no-repeat 0 2px;
+  background: url('src/assets/images/icon-location.svg') no-repeat 0 0px;
+}
+
+.birth-date {
+  background: url('src/assets/images/icon-calendar.svg') no-repeat 0px -1px;
 }
 
 .phone {
@@ -383,36 +407,36 @@ h4.candidate-name {
 }
 
 .email {
-  background: url('src/assets/images/icon-email.svg') no-repeat 0 2px;
+  background: url('src/assets/images/icon-email.svg') no-repeat 0 0px;
 }
 
 .nationality {
-  background: url('src/assets/images/ic_globe.svg') no-repeat 0 2px;
+  background: url('src/assets/images/icon-earth.svg') no-repeat 0 0px;
 }
 
 .gender {
-  background: url('src/assets/images/ic_swipe.svg') no-repeat 0 2px;
+  background: url('src/assets/images/icon-profile.svg') no-repeat 0 0px;
 }
 
 .university {
-  background: url('src/assets/images/md-school.svg') no-repeat 0 2px;
+  background: url('src/assets/images/icon-education.svg') no-repeat 0 0px;
 }
 
 .driving-license {
-  background: url('src/assets/images/ic_car.svg') no-repeat 0 2px;
+  background: url('src/assets/images/icon-car.svg') no-repeat 0 0px;
 }
 
 .mother-nationality {
-  background: url('src/assets/images/ic_username.svg') no-repeat 0 2px;
+  background: url('src/assets/images/icon-profile.svg') no-repeat 0 0px;
 }
 
 .id-number {
-  background: url('src/assets/images/ic_feed.svg') no-repeat 0 2px;
+  background: url('src/assets/images/icon-card.svg') no-repeat 0 0px;
 }
 
 .civil-front,
 .civil-back {
-  background: url('src/assets/images/ic_profile_info.svg') no-repeat 0 2px;
+  background: url('src/assets/images/ic_profile_info.svg') no-repeat 0 0px;
 
   p {
     margin-bottom: 7px;
@@ -420,7 +444,7 @@ h4.candidate-name {
 }
 
 .bank {
-  background: url('src/assets/images/ic_bank.svg') no-repeat 0 2px;
+  background: url('src/assets/images/ic_bank.svg') no-repeat 0 0px;
 
   h5,
   p {
@@ -429,7 +453,7 @@ h4.candidate-name {
 }
 
 .created-at {
-  background: url('src/assets/images/ic_timer.svg') no-repeat 0 2px;
+  background: url('src/assets/images/ic_timer.svg') no-repeat 0 0px;
 
   p {
     margin-bottom: 0 !important;
@@ -459,14 +483,17 @@ h4.candidate-name {
   margin-bottom: 5px;
 }
 
+.txt-updated-on,
 .txt-expiring-on {
-  color: #333333;
+  color: #68687a;
   font-size: 14px;
   font-stretch: normal;
   font-style: normal;
   line-height: normal;
   letter-spacing: normal;
-  opacity: 0.85;
+  font-weight: normal;
+  clear: both;
+  display: block;
 }
 
 ion-grid,
@@ -609,6 +636,46 @@ ion-content {
     }
   }
 
+  .work-experience-wrapper {
+    margin-top: 32px;
+
+    p {
+      border-radius: 8px;
+      box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+      background-color: #fff;
+      margin-top: 16px;
+      padding: 16px;
+    }
+  }
+
+  .skill-wrapper {
+    margin-top: 32px;
+
+    h5 {
+      margin-bottom: 16px;
+    }
+
+    ion-badge {
+    height: 32px;
+    flex-grow: 0; 
+    align-items: center;
+    gap: 10px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    background-color: #fff;
+    font-size: 14px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.43;
+    letter-spacing: normal;
+    text-align: left;
+    color: #4b4b61;
+    margin-inline-end: 8px;
+    margin-bottom: 8px;
+  } 
+  }
+
   .item-salary {
     height: 80px;
     flex-grow: 0;  
@@ -686,6 +753,38 @@ ion-content {
   top: 5px;
 }
 
+.txt-id,
 .txt-general-info {
-  margin-top: 32px;
+  margin-top: 32px !important;
+}
+
+.segment-work-details h5 ion-icon {
+  font-size: 24px;
+    top: 5px;
+    position: relative;
+}
+
+.btn-resume,
+.btn-video {
+  width: 163px;
+    height: 56px; 
+    --padding: 16px;
+    border-radius: 8px;
+    --box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+    --background: #fff;
+    --color: black;
+    font-size: 14px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.43;
+    letter-spacing: normal; 
+    color: #4b4b61;
+    text-transform: none;
+    margin-inline-end: 16px;
+
+    ion-icon {
+      margin-right: 7px; 
+      font-size: 24px;
+    }
 }

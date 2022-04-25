@@ -11,7 +11,8 @@
     </ion-buttons>
   </ion-toolbar>
 
-  <ion-toolbar class="container" *ngIf="candidate" [class.hidden]="borderLimit">
+  <!-- [class.hidden]="borderLimit" -->
+  <ion-toolbar class="container" *ngIf="candidate">
 
     <ion-thumbnail slot="start" *ngIf="candidate.candidate_personal_photo">
       <img (error)="onPhotoError()"
@@ -36,7 +37,8 @@
 
   </ion-toolbar>
 
-  <ion-toolbar class="container" [class.hidden]="borderLimit">
+  <!-- [class.hidden]="borderLimit"-->
+  <ion-toolbar class="container" >
     <!--(ionChange)="segmentChanged($event)"-->
     <ion-segment mode="md" [(ngModel)]="segment">
 
@@ -99,189 +101,98 @@
         </ion-button>
       </a>
 
-      <a class="phone" target="_blank">
-        <span *ngIf="candidate.candidate_preferred_time">
-           {{ candidate.candidate_preferred_time }}
-        </span>
-        <span *ngIf="!candidate.candidate_preferred_time">
-          Preferred time to contact (not set)
-        </span>
-      </a>
+      <p class="phone" *ngIf="candidate.candidate_preferred_time">
+         {{ candidate.candidate_preferred_time }}
+      </p>
 
       <h5 class="txt-general-info">General Information</h5>
  
-      <ion-item class="area" [class.required]="!candidate.country || !candidate.area">
-        <div tabindex="0"></div>
-        <ion-label>
-          <p *ngIf="candidate.area && candidate.country" [innerHtml]="'txt_lives_in' | translate : {
-   area : area(candidate.area, candidate.country)
-  }">
-          </p>
-          <p *ngIf="!candidate.area || !candidate.country">{{ "Address (not set)" | translate }}</p>
-        </ion-label>
-      </ion-item>
+      <p class="area" *ngIf="candidate.area && candidate.country" [class.required]="!candidate.country || !candidate.area">
+        <span  [innerHtml]="'txt_lives_in' | translate : {
+          area : area(candidate.area, candidate.country)
+          }">
+        </span> 
+      </p>
 
-      <ion-item class="nationality" [class.required]="!candidate.nationality">
-        <div tabindex="0"></div>
-        <ion-label>
-          <b *ngIf="candidate.nationality">{{
+      <p class="nationality" *ngIf="candidate.nationality" [class.required]="!candidate.nationality">
+          {{
             translateService.langContent(candidate.nationality.country_nationality_name_en,
-            candidate.nationality.country_nationality_name_ar) }}</b>
-          <p *ngIf="!candidate.nationality">{{ "Nationality (not set)" | translate }} </p>
-        </ion-label>
-      </ion-item>
-
-      <ion-item class="university" [class.required]="!candidate.university">
-        <div tabindex="0"></div>
-        <ion-label>
-          <b *ngIf="candidate.university">{{ translateService.langContent(candidate.university.university_name_en,
-            candidate.university.university_name_ar) }}</b>
-          <p *ngIf="!candidate.university">{{ "University (not set)" | translate }} </p>
-        </ion-label>
-      </ion-item>
-
-
-      <ion-item class="id-number" [class.required]="!candidate.candidate_civil_id">
-        <div tabindex="0"></div>
-        <ion-label>
-          <div *ngIf="candidate.candidate_civil_expiry_date">
-            <span>{{ "Civil ID" | translate }}
-              <b>{{ candidate.candidate_civil_id | translate }}</b></span><br />
-            <span class="txt-expiring-on"> {{ "Expiring on" | translate }} {{
-              toDate(candidate.candidate_civil_expiry_date) | date :'MMMM d, y': undefined: translateService.currentLang
-              }}</span>
-          </div>
-          <p *ngIf="!candidate.candidate_civil_expiry_date || !candidate.candidate_civil_id">
-            {{ "Civil ID (not set)" | translate }}
+            candidate.nationality.country_nationality_name_ar) }} 
           </p>
-        </ion-label>
 
-        <ion-button *ngIf="candidate.candidate_civil_id" slot="end" class="btn-copy"
+      <p class="university" *ngIf="candidate.university" [class.required]="!candidate.university">
+        {{ translateService.langContent(candidate.university.university_name_en,
+            candidate.university.university_name_ar) }}
+      </p>
+
+      <p class="id-number" *ngIf="candidate.candidate_civil_expiry_date" [class.required]="!candidate.candidate_civil_id">
+        {{ candidate.candidate_civil_id | translate }}<br />
+        <span class="txt-expiring-on"> {{ "Expiring on" | translate }} {{
+          toDate(candidate.candidate_civil_expiry_date) | date :'MMMM d, y': undefined: translateService.currentLang
+          }}</span> 
+
+        <ion-button class="btn-copy"
           (click)="copy($event, candidate.candidate_civil_id)">
           <ion-icon slot="icon-only" name="copy-outline"></ion-icon>
         </ion-button>
-      </ion-item>
+      </p>
 
-      <ion-item class="driving-license" [class.required]="!candidate.candidate_driving_license">
-        <div tabindex="0"></div>
-        <ion-label>
-          <span *ngIf="candidate.candidate_driving_license == 1"
+      <p class="driving-license" *ngIf="candidate.candidate_driving_license" [class.required]="!candidate.candidate_driving_license">
+        <span *ngIf="candidate.candidate_driving_license == 1"
             [innerHtml]="'Has Driving License</b>' | translate"></span>
           <span *ngIf="candidate.candidate_driving_license == 2"
-            [innerHtml]="'Has no Driving License</b>' | translate"></span>
-          <p *ngIf="!candidate.candidate_driving_license">{{ "Driving licence (not set)" | translate }} </p>
-        </ion-label>
-      </ion-item>
+            [innerHtml]="'Has no Driving License</b>' | translate"></span> 
+      </p>
 
-      <ion-item class="mother-nationality" [class.required]="!candidate.candidate_mom_kuwaiti">
-        <div tabindex="0"></div>
-        <ion-label>
-          <span *ngIf="candidate.candidate_mom_kuwaiti == 1" [innerHtml]="'Mother is Kuwaiti' | translate"></span>
+      <p class="mother-nationality" *ngIf="candidate.candidate_mom_kuwaiti" [class.required]="!candidate.candidate_mom_kuwaiti">
+         <span *ngIf="candidate.candidate_mom_kuwaiti == 1" [innerHtml]="'Mother is Kuwaiti' | translate"></span>
           <span *ngIf="candidate.candidate_mom_kuwaiti == 2" [innerHtml]="'Mother is not Kuwaiti' | translate"></span>
-          <p *ngIf="!candidate.candidate_mom_kuwaiti">{{ "Candidate mother Kuwaiti? (not set)" | translate }}
-          </p>
-        </ion-label>
-      </ion-item>
+      </p>
 
-
-      <div class="birth-date" [class.required]="!candidate.candidate_birth_date">
-
-        <span *ngIf="candidate.candidate_birth_date">
-
-          <b>{{ candidate.candidate_birth_date | candidateAge }}</b> <br />
-
-          <span class="txt-born-on">
-            Born on
-            <b>{{
+      <p class="birth-date" *ngIf="candidate.candidate_birth_date" [class.required]="!candidate.candidate_birth_date">
+        {{
               toDate(candidate.candidate_birth_date) | date :'MMMM d, y': undefined: translateService.currentLang
-              }}</b>
-          </span>
-        </span>
+              }} ({{ candidate.candidate_birth_date | candidateAge }} )
+      </p>
 
-        <span *ngIf="!candidate.candidate_birth_date">Birth Date (not set) </span>
+      <p class="created-at">
+        Created On {{ toDate(candidate.candidate_created_at) | date}} 
+        <span class="txt-updated-on">Updated On {{ toDate(candidate.candidate_updated_at) | date}} </span>
+      </p>
 
-      </div>
+      <ng-container *ngIf="candidate.candidate_civil_photo_front">
+        <h5 class="txt-id">ID Photo Front</h5>
 
-      <ion-item class="created-at">
-        <div tabindex="0"></div>
-        <ion-label>
-          <p>Created On {{ toDate(candidate.candidate_created_at) | date}}</p>
-          <p>Updated On {{ toDate(candidate.candidate_updated_at) | date}}</p>
-        </ion-label>
-      </ion-item>
+        <img class="image-id" width="342" (error)="onCivilFrontError()" *ngIf="candidate.candidate_civil_photo_front"
+              src="{{ awsService.permanentBucketUrl + 'photos/' + candidate.candidate_civil_photo_front }}" />
+      </ng-container>
 
-
-      <h5>ID Photo Front</h5>
-
-
-      <ion-item class="civil-front" [class.required]="!candidate.candidate_civil_photo_front">
-        <div tabindex="0"></div>
-
-        <ion-label *ngIf="candidate.candidate_civil_photo_front">
-          <p>{{ "ID Photo Front" | translate }}</p>
-          <img width="126" (error)="onCivilFrontError()" *ngIf="candidate.candidate_civil_photo_front"
-            src="{{ awsService.permanentBucketUrl + 'photos/' + candidate.candidate_civil_photo_front }}" />
-        </ion-label>
-
-        <ion-label *ngIf="!candidate.candidate_civil_photo_front">
-          <p>{{ "ID Photo Front (not set)" | translate }}</p>
-        </ion-label>
-      </ion-item>
-
-      <ion-item class="civil-back" [class.required]="!candidate.candidate_civil_photo_back">
-        <div tabindex="0"></div>
-
-        <ion-label *ngIf="candidate.candidate_civil_photo_back">
-          <p>{{ "ID Photo Back" | translate }}</p>
-          <img width="126" (error)="onCivilBackError()" *ngIf="candidate.candidate_civil_photo_back"
-            src="{{ awsService.permanentBucketUrl + 'photos/' + candidate.candidate_civil_photo_back }}" />
-        </ion-label>
-
-        <ion-label *ngIf="!candidate.candidate_civil_photo_back">
-          <p>{{ "ID Photo Back (not set)" | translate }}</p>
-        </ion-label>
-      </ion-item>
+      <ng-container *ngIf="candidate.candidate_civil_photo_front">
+        <h5 class="txt-id">ID Photo Back</h5>
+        <img class="image-id" width="342" (error)="onCivilBackError()" *ngIf="candidate.candidate_civil_photo_back"
+              src="{{ awsService.permanentBucketUrl + 'photos/' + candidate.candidate_civil_photo_back }}" />
+      </ng-container>
 
     </div><!-- END personal-details -->
 
-    <div *ngIf="candidate && segment == 'work-details'">
+    <div  class="segment-work-details" *ngIf="candidate && segment == 'work-details'">
 
-      <ion-item class="resume" target="_blank" href="{{ getResumeUrl(candidate) }}" *ngIf="candidate.candidate_resume">
-        <div tabindex="0"></div>
-        <ion-label>
-          <h5>{{ "CV / Portfolio" | translate }}</h5>
-          <p>Download uploaded PDF file</p>
-        </ion-label>
-      </ion-item>
+      <ion-button class="btn-resume" target="_blank" href="{{ getResumeUrl(candidate) }}" *ngIf="candidate.candidate_resume">
+        <ion-icon src="assets/images/icon-download.svg"></ion-icon> {{ "CV / Portfolio" | translate }}
+      </ion-button>
 
-      <ion-item class="resume required" *ngIf="!candidate.candidate_resume">
-        <div tabindex="0"></div>
-        <ion-label>
-          <p>{{ "CV / Portfolio (not set)" | translate }}</p>
-        </ion-label>
-      </ion-item>
+      <ion-button class="btn-video" *ngIf="candidate.candidate_video" [class.required]="!candidate.candidate_video">
+        <ion-icon src="assets/images/icon-video.svg"></ion-icon> {{ "Intro Video" | translate }}
+      </ion-button>
 
-      <ion-item class="video" [class.required]="!candidate.candidate_video">
-        <div tabindex="0"></div>
-        <ion-label>
-
-          <p *ngIf="!candidate.candidate_video">Introductory video (not set)</p>
-
-          <div *ngIf="candidate.candidate_video">
-            <h5>{{ "Introductory video" | translate }}</h5>
-            <ng-container *ngIf="candidate.candidate_video && candidate.candidate_video_processed">
+      <!-- <ng-container *ngIf="candidate.candidate_video && candidate.candidate_video_processed">
               <video class="manipulation-video" controls="true" preload="none" width="300"
                 poster="{{ awsService.permanentBucketUrl }}candidate-video/{{ candidate.candidate_video }}.jpg">
                 <source src="{{ awsService.permanentBucketUrl }}candidate-video/{{ candidate.candidate_video }}.mp4"
                   type="video/mp4">
                 Your browser does not support HTML5 video tags
               </video>
-            </ng-container>
-          </div>
-
-        </ion-label>
-      </ion-item>
-
+            </ng-container> -->
       <div class="work-history-wrapper">
 
         <h5 class="heading" *ngIf="workHistory.length > 0">StudentHub Assignments</h5>
@@ -318,37 +229,20 @@
           </ion-item>
         </ng-container>
       </div>
+      
+      <div class="work-experience-wrapper" *ngIf="candidate.candidateExperiences && candidate.candidateExperiences.length > 0">
+        <h5> <ion-icon src="assets/images/icon-suitcase.svg"></ion-icon> {{ "Work Experience" | translate }}</h5>
+         <p *ngFor="let candidateExperience of candidate.candidateExperiences">
+            {{ candidateExperience.experience }}
+          </p> 
+      </div>
 
-      <ion-item class="skills" [class.required]="candidate.candidateSkills && candidate.candidateSkills.length == 0">
-        <div tabindex="0"></div>
-        <ion-label *ngIf="candidate.candidateSkills && candidate.candidateSkills.length > 0">
-          <h5>{{ "Skills" | translate }}</h5>
-          <p>
-            <span *ngFor="let candidateSkill of candidate.candidateSkills">
-              {{ candidateSkill.skill }}
-            </span>
-          </p>
-        </ion-label>
-        <ion-label *ngIf="!candidate.candidateSkills || candidate.candidateSkills.length == 0">
-          <p>{{ "Skills (not set)" | translate }}</p>
-        </ion-label>
-      </ion-item>
-
-      <ion-item class="experiences"
-        [class.required]="candidate.candidateExperiences && candidate.candidateExperiences.length == 0">
-        <div tabindex="0"></div>
-        <ion-label *ngIf="candidate.candidateExperiences && candidate.candidateExperiences.length > 0">
-          <h5>{{ "Work Experience" | translate }}</h5>
-          <p *ngIf="candidate.candidateExperiences">
-            <span *ngFor="let candidateExperience of candidate.candidateExperiences">
-              {{ candidateExperience.experience }}
-            </span>
-          </p>
-        </ion-label>
-        <ion-label *ngIf="!candidate.candidateExperiences || candidate.candidateExperiences.length == 0">
-          <p>Work Experience (not set)</p>
-        </ion-label>
-      </ion-item>
+      <div class="skill-wrapper" *ngIf="candidate.candidateSkills && candidate.candidateSkills.length > 0">
+        <h5><ion-icon src="assets/images/icon-puzzle.svg"></ion-icon>  {{ "Skills" | translate }}</h5>
+        <ion-badge *ngFor="let candidateSkill of candidate.candidateSkills">
+            {{ candidateSkill.skill }}
+        </ion-badge>
+      </div>
 
     </div><!-- END work-details -->
 
