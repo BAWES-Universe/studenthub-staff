@@ -87,7 +87,7 @@ export class CompanyContactFormPage implements OnInit {
     }));
 
     if (!this.model.contact_uuid) { // Show Create Form
-      this.operation = "Create";
+      this.operation = "Add New Contact";
 
       this.form = this._fb.group({
         allow_access: [this.companyContact?.allow_access, Validators.required],
@@ -105,7 +105,7 @@ export class CompanyContactFormPage implements OnInit {
 
     } else { // Show Update Form
 
-      this.operation = 'Update';
+      this.operation = 'Update Contact';
 
       this.form = this._fb.group({
         allow_access: [this.companyContact?.allow_access, Validators.required],

@@ -6,6 +6,7 @@ ion-content{
   background: #f7f8fa;
   --background: #f7f8fa;
 }
+
 ion-list {
   background: inherit;
   margin-top: 23px;
@@ -78,6 +79,8 @@ h5 {
   height: 53px;
   border-radius: 50%;
   background: #4c70f2;
+  box-shadow: 0 4px 12px 0 rgba(38, 56, 121, 0.3);
+  
   ion-icon {
     color:#fff;
   }

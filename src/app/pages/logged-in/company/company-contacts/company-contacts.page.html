@@ -1,85 +1,99 @@
+
 <ion-header [class.add-border]="borderLimit" class="ion-no-border">
   <ion-toolbar class="container">
     <ion-buttons slot="start">
       <ion-back-button (click)="dismiss()"></ion-back-button>
     </ion-buttons>
-
     <ion-buttons slot="end">
-      <ion-button fill="clear" (click)="addCompanyContact()">Add Contact</ion-button>
+      <ion-button clear (click)="options()">
+        <ion-icon class="setting-icon" name="ellipsis-vertical-outline"></ion-icon>
+      </ion-button>
     </ion-buttons>
+  </ion-toolbar>
+  <ion-toolbar class="container" [class.hidden]="borderLimit">
+    <ion-title>Contacts</ion-title>
   </ion-toolbar>
 </ion-header>
 
+
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
   <div class="container">
-    <ion-list class="contact-list">
+ 
+    <ion-card *ngFor="let companyContact of companyContacts">
+      
+      <ion-card-header>
+        <ion-item lines="none" tappable (click)="openContactDetail(companyContact)">
+          <div tabindex="0"></div>
+          
+          <ion-thumbnail *ngIf="company && company.company_logo">
+            <img src="{{ aws.cloudinaryUrl + company.company_logo }}" (error)="imageError()">
+          </ion-thumbnail>
 
-      <h3 class="title">
-        Contacts
-      </h3>
+          <ion-label>
+            <h4>{{ companyContact.contact_name }}</h4>
 
-      <h4 class="company-name" *ngIf="company">
-        {{ (company.company_common_name_en) ?  company.company_common_name_en:company.company_name }}
-      </h4>
+            <h2 *ngIf="companyContact.companyContact">
+              {{ companyContact.companyContact.contact_position }}
+            </h2>
 
-      <ion-item *ngFor="let companyContact of companyContacts" tappable (click)="openContactDetail(companyContact)" lines="none">
-        <div tabindex="0"></div>
+            <h2 *ngIf="companyContact.contact_position">
+              {{ companyContact.contact_position }}
+            </h2>
+          </ion-label>
 
-        <ion-label>
-          <h4>{{ companyContact.contact_name }}</h4>
+          <ion-button (click)="toggleOpen(companyContact, $event)" [class.is-open]="companyContact.isOpen">
+            <ion-icon src="assets/images/icon-arrow-down.svg"></ion-icon>
+          </ion-button>
+        </ion-item>
+      </ion-card-header>
+      <ion-card-content *ngIf="companyContact.isOpen">
+        
+        <p *ngIf="companyContact.contact_email">
+          <a href="mailto:{{ companyContact.contact_email }}" (click)="doNothing($event)">
+            <ion-icon src="assets/images/icon-email.svg"></ion-icon> {{ companyContact.contact_email }} <strong class="not-verified" *ngIf="companyContact.contact_email_verification == '0'"> &nbsp;&nbsp;Not Verified</strong>
+          </a>
+        </p>
 
+        <p>
+          <a href="mailto:{{ contactEmail.email_address }}" (click)="doNothing($event)"
+            *ngFor="let contactEmail of companyContact.contactEmails">
+            <ion-icon src="assets/images/icon-email.svg"></ion-icon> {{ contactEmail.email_address }}
+          </a>
+        </p>
 
-          <h2 *ngIf="companyContact.companyContact">
-            {{ companyContact.companyContact.contact_position }}
-          </h2>
+        <p>
+          <a href="tel:{{ contactPhone.phone_number }}" (click)="doNothing($event)"
+            *ngFor="let contactPhone of companyContact.contactPhones">
+            <ion-icon src="assets/images/icon-phone.svg"></ion-icon> {{ contactPhone.phone_number }}
+          </a>
+        </p>
 
-          <h2 *ngIf="companyContact.contact_position">
-            {{ companyContact.contact_position }}
-          </h2>
+        <!--
+        <p>
+          <a *ngIf="companyContact.contactStats.lastNotes">
+            <ion-icon name="time-outline"></ion-icon> Last note was {{ companyContact.contactStats.lastNotes.note_updated_datetime | timeAgo }}
+          </a>
+        </p>
 
-          <p *ngIf="companyContact.contact_email">
-            <a href="mailto:{{ companyContact.contact_email }}" (click)="doNothing($event)">
-              <ion-icon name="mail-outline"></ion-icon> {{ companyContact.contact_email }} <strong class="not-verified" *ngIf="companyContact.contact_email_verification == '0'"> &nbsp;&nbsp;Not Verified</strong>
-            </a>
-          </p>
+        <div class="counts">
+          <ion-badge>
+            {{ companyContact.contactStats.requests }} requests
+          </ion-badge>
+          <ion-badge>
+            {{ companyContact.contactStats.notes }} notes
+          </ion-badge>
+        </div>
+        -->
+      </ion-card-content>
+    </ion-card>
 
-          <p>
-            <a href="mailto:{{ contactEmail.email_address }}" (click)="doNothing($event)"
-              *ngFor="let contactEmail of companyContact.contactEmails">
-              <ion-icon name="mail-outline"></ion-icon> {{ contactEmail.email_address }}
-            </a>
-          </p>
-
-          <p>
-            <a href="tel:{{ contactPhone.phone_number }}" (click)="doNothing($event)"
-              *ngFor="let contactPhone of companyContact.contactPhones">
-              <ion-icon name="call-outline"></ion-icon> {{ contactPhone.phone_number }}
-            </a>
-          </p>
-
-          <!--
-          <p>
-            <a *ngIf="companyContact.contactStats.lastNotes">
-              <ion-icon name="time-outline"></ion-icon> Last note was {{ companyContact.contactStats.lastNotes.note_updated_datetime | timeAgo }}
-            </a>
-          </p>
-
-          <div class="counts">
-            <ion-badge>
-              {{ companyContact.contactStats.requests }} requests
-            </ion-badge>
-            <ion-badge>
-              {{ companyContact.contactStats.notes }} notes
-            </ion-badge>
-          </div>
-          -->
-        </ion-label>
-      </ion-item>
-
-      <loading-modal type="contact-list" [loading]="loading"></loading-modal>
-
-    </ion-list>
+    <loading-modal type="contact-list" [loading]="loading"></loading-modal>
 
     <no-items *ngIf="!loading && companyContacts.length ==0" message="~ No Contact data ~"></no-items>
+
+    <div class="add-request " tappable (click)="addCompanyContact()">
+      <ion-icon name="add-outline"></ion-icon>
+    </div>
+    
   </div>
 </ion-content>

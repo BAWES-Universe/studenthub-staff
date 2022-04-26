@@ -26,3 +26,71 @@ ion-item.field-password {
   background: gainsboro;
 }
 
+ion-content {
+    --padding-start: 24px;
+    --padding-end: 24px;
+    --padding-top: 24px;
+}
+
+ion-content, ion-list, ion-footer{
+    background: #f7f8fa;
+    --background: #f7f8fa;
+  } 
+  ion-title {
+    font-family: Inter;
+    font-size: 20px !important;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.4;
+    letter-spacing: normal;
+    text-align: left;
+    color: #23233d;
+  }
+  .cancel {
+    font-family: Inter;
+    font-size: 16px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.5;
+    letter-spacing: normal;
+    text-align: left;
+    color: #4c70f2;
+  }
+  ion-footer {
+    ion-button {
+      font-family: Inter;
+      font-size: 16px;
+      font-weight: 600;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: 1.5;
+      letter-spacing: normal;
+      text-align: center;
+      color: #68687a;
+      width: 342px;
+      height: 56px;
+      margin: 0 auto;
+      margin-bottom: 21px;
+    }
+  }
+
+  .btn-save {
+    height: 56px;
+    --padding: 16px 102px 16px 103px;
+    border-radius: 12px;
+    --background: #4c70f2;
+    text-transform: none;
+    font-size: 16px;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.5;
+    letter-spacing: normal;
+    text-align: center;
+    color: #fff;
+    margin: 24px 0;
+    --box-shadow: none;
+    width: 100%;
+  }
