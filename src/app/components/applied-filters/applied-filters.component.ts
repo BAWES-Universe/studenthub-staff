@@ -246,7 +246,7 @@ export class AppliedFiltersComponent extends BaseWidget {
                 b = this.haveResumeTransformItems(b);
             }
 
-            else if(b.attributeName == 'candidate_birth_timestamp' || b.attributeName == 'candidate_updated_at_timestamp') {
+            else if(b.attributeName == 'candidate_birth_timestamp' || b.attributeName == 'candidate_created_at_timestamp' || b.attributeName == 'candidate_updated_at_timestamp') {
                 b = this.birthTimestampItems(b);
             }
 
