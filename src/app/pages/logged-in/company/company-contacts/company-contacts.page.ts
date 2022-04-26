@@ -12,6 +12,7 @@ import { EventService } from 'src/app/providers/event.service';
 // pages
 import { ModalPopPage } from '../../modal-pop/modal-pop.page';
 import { CompanyContactFormPage } from "../company-contact-form/company-contact-form.page";
+import { AwsService } from 'src/app/providers/aws.service';
 
 
 @Component({
@@ -35,6 +36,7 @@ export class CompanyContactsPage implements OnInit {
     public navCtrl: NavController,
     public companyContactService: CompanyContactService,
     public companyService: CompanyService,
+    public aws: AwsService,
     public eventService: EventService
   ) { }
 
@@ -141,6 +143,20 @@ export class CompanyContactsPage implements OnInit {
 
   logScrolling(e) {
     this.borderLimit = (e.detail.scrollTop > 20);
+  }
+
+  toggleOpen(companyContact, event) {
+    event.preventDefault();
+    event.stopPropagation();
+    companyContact.isOpen = !companyContact.isOpen;
+  }
+
+  options() {
+
+  }
+
+  imageError() {
+    this.company.company_logo = null;
   }
 
   /**
