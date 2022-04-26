@@ -35,8 +35,7 @@ export class UploadFilePage implements OnInit, OnDestroy {
   public dirty = false;
   public saving = false;
 
-  public currentTarget;
-  public tempLocation;
+  public currentTarget; 
 
   public filePickSubscription: Subscription;
   public browserUploadSubscription: Subscription;
@@ -75,6 +74,15 @@ export class UploadFilePage implements OnInit, OnDestroy {
   }
 
   /**
+   * trigger click event on change logo button
+   */
+   triggerUpdatePhoto($event) {
+    $event.stopPropagation();
+    document.getElementById('btn-upload-pic').click();
+    // this.fileInput.nativeElement.click();
+  }
+
+  /**
    * is given extension is valid/allowed for file upload
    * @param extension
    */
@@ -89,6 +97,15 @@ export class UploadFilePage implements OnInit, OnDestroy {
     }
 
     return allowedExtensions.indexOf(extension) > -1;
+  }
+
+  updatePhoto(ev) {
+    ev.preventDefault();
+    if (this.platform.is('capacitor')) {
+      this.mobileUpload();
+    } else {
+      this.fileInput.nativeElement.click();
+    }
   }
 
   /**
@@ -234,10 +251,15 @@ export class UploadFilePage implements OnInit, OnDestroy {
         this.fileInput.nativeElement.value = null;
       }
       this.dirty = true;
-      this.form.controls.file.setValue(event.Key);
-      this.form.controls.file.markAsDirty();
-      this.fileModel.file_s3_path = event.Key;
-      this.tempLocation = event.Location;
+
+      this.form.controls.file_url.setValue(event.Location);
+      this.form.controls.file_url.markAsDirty();
+      
+      this.form.controls.file_s3_path.setValue(event.Key);
+      this.form.controls.file_s3_path.markAsDirty();
+
+      this.form.updateValueAndValidity();
+        
       this.progress = false;
     } else {
       this.currentTarget = event;
@@ -288,7 +310,8 @@ export class UploadFilePage implements OnInit, OnDestroy {
     this.form = this.fb.group({
       title: ['', Validators.required],
       desc: [''],
-      file: ['', Validators.required]
+      file_s3_path: ['', Validators.required],
+      file_url: ['', Validators.required],
     });
   }
 
@@ -296,7 +319,10 @@ export class UploadFilePage implements OnInit, OnDestroy {
     this.saving = true;
     this.fileModel.file_title = this.form.value.title;
     this.fileModel.file_description = this.form.value.desc;
+    this.fileModel.file_s3_path = this.form.value.file_s3_path;
+
     this.fileModel.company_id = this.company.company_id;
+
     this.companyService.createFile(this.fileModel).subscribe(async jsonResponse => {
       this.saving = false;
 

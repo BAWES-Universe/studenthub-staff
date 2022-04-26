@@ -21,6 +21,7 @@ export class CompanyDocumentsPage implements OnInit {
   public company: Company;
 
   public borderLimit: boolean = false;
+  
   public loading = false;
 
   constructor(

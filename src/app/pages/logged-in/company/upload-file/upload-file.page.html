@@ -1,96 +1,85 @@
-<ion-header [class.add-border]="borderLimit" class="ion-no-border">
+<ion-header mode="md">
     <ion-toolbar>
         <ion-buttons slot="start">
-            <ion-button fill="clear" (click)="dismiss()" class="btn-close">
-                <ion-back-button></ion-back-button>
-            </ion-button>
+            <ion-back-button (click)="dismiss()"></ion-back-button>
         </ion-buttons>
-        <ion-title>
-            Upload File
-        </ion-title>
+    </ion-toolbar>
+    <ion-toolbar>
+        <ion-title>Add New Document</ion-title>
+
         <ion-buttons slot="end">
-            <ion-button color="primary"
-                        [disabled]="!form.valid"
-                        (click)="save()">
-                <span *ngIf="!saving">Save</span>
-                <ion-spinner *ngIf="saving"></ion-spinner>
+            <ion-button clear class="cancel" color="primary" (click)="dismiss()">
+                Cancel
             </ion-button>
         </ion-buttons>
     </ion-toolbar>
 </ion-header>
+
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
-    <div class="">
-        <form [formGroup]="form" *ngIf="form">
-            <ion-list>
-                <ion-item>
-                    <ion-label position="floating">Title</ion-label>
-                    <ion-input type="text" formControlName="title"></ion-input>
-                </ion-item>
 
-                <ion-item>
-                    <ion-label position="floating">Description</ion-label>
-                    <ion-input type="text" formControlName="desc"></ion-input>
-                </ion-item>
-
-                <ion-item lines="none" *ngIf="!progress">
+    <form [formGroup]="form" *ngIf="form">
+        <ion-list>
+      
+            <!-- uploadedFileExtension -->
+            <ion-item class="image-upload" [class.have-image]="form.value.file_s3_path" [class.no-image]="!form.value.file_s3_path">
+                <ion-thumbnail slot="start">
                     
-                    <div tabindex="0"></div>
+                    <img tappable (click)="triggerUpdatePhoto($event)"
+                        *ngIf="form.controls.file_s3_path.value && form.controls.file_s3_path.value.length > 0"
+                        src="{{ form.controls.file_url.value }}">
 
-                    <ion-button class="fileUpload" (click)="mobileUpload();" *ngIf="platform.is('hybrid')">
-                        <ion-icon name="cloud-upload-outline"></ion-icon>&nbsp;&nbsp;
-                        <span *ngIf="this.fileModel.file_s3_path">Replace File</span>
-                        <span *ngIf="!this.fileModel.file_s3_path">Select file</span>
-                    </ion-button>
-
-                    <ion-button  class="fileUpload" *ngIf="!platform.is('hybrid') || platform.is('desktop')">
-                        <ion-icon name="cloud-upload-outline"></ion-icon>&nbsp;&nbsp;
-                        <span *ngIf="this.fileModel.file_s3_path">Replace File</span>
-                        <span *ngIf="!this.fileModel.file_s3_path">Select file</span>
-                        <input class="upload" type='file' #fileInput (change)="browserUpload($event)">
-                        <!-- .png,.jpg,.jpeg,.pdf,.doc,.docx -->
-                    </ion-button>
-
-                    <br/>
-                </ion-item>
-
-                <ion-item lines="none" *ngIf="!progress && this.fileModel.file_s3_path">
-                    
-                    <div tabindex="0"></div>
-
-                    <div class="selected-file">
-
-                        <div class="extension">{{ uploadedFileExtension }}</div>
-
-                        <div class="fileName">{{ this.fileModel.file_s3_path }}</div>
-
-                        <a target="_blank" (click)="$event.stopPropagation()" *ngIf="!tempLocation"
-                           href="{{ awsService.permanentBucketUrl }}candidate-resume/{{ this.fileModel.file_s3_path }}">
-                            <ion-icon name="cloud-download-outline"></ion-icon>
-                        </a>
-
-                        <a target="_blank" (click)="$event.stopPropagation()" *ngIf="tempLocation"
-                           href="{{ tempLocation }}">
-                            <ion-icon name="cloud-download-outline"></ion-icon>
-                        </a>
+                    <div tappable (click)="triggerUpdatePhoto($event)" class="no-logo"
+                        *ngIf="!form.controls.file_s3_path.value || form.controls.file_s3_path.value.length == 0">
+                        <ion-icon src="assets/images/brand-no-image.svg"></ion-icon>
                     </div>
-                </ion-item>
+                    
+                </ion-thumbnail>
+                <ion-label>
+                    <h5 *ngIf="form.value.file_s3_path">{{ form.controls.file_s3_path.value }}</h5>
 
-            </ion-list>
-        </form>
+                    <a id="btn-download" *ngIf="form.value.file_s3_path" target="_blank" [href]="form.controls.file_url.value">
+                        <span >Download</span> 
+                    </a> 
+                    
+                    <a id="btn-upload-pic" tappable #btnChangePhoto (click)="updatePhoto($event);">
+                        <span *ngIf="form.value.file_s3_path">Change Document</span>
+                        <span *ngIf="!form.value.file_s3_path">Upload Document</span>
+                    </a> 
+                </ion-label>
+            </ion-item>
 
-        <div class="progress-wrapper" *ngIf="progress">
-            <div class="progress-box">
-
-                <h4>{{ "Uploading…" }} <span>{{ progress + '%' }}</span></h4>
-
-                <div class="progress-bar">
-                    <div class="progress" [style.width]="progress + '%'"></div>
+            <div class="progress-wrapper" *ngIf="progress">
+                <div class="progress-box">
+        
+                    <h4>{{ "Uploading…" }} <span>{{ progress + '%' }}</span></h4>
+        
+                    <div class="progress-bar">
+                        <div class="progress" [style.width]="progress + '%'"></div>
+                    </div>
+        
+                    <ion-icon *ngIf="currentTarget" tappable src="assets/images/close.svg" (click)="cancelUpload()">
+                    </ion-icon>
                 </div>
-
-                <ion-icon *ngIf="currentTarget" tappable src="assets/images/close.svg" (click)="cancelUpload()">
-                </ion-icon>
             </div>
-        </div>
+        
+            <ion-item class="input-wrapper">
+                <ion-label position="floating">Title</ion-label>
+                <ion-input type="text" formControlName="title"></ion-input>
+            </ion-item>
 
-    </div>
+            <ion-item class="input-wrapper">
+                <ion-label position="floating">Description</ion-label>
+                <ion-input type="text" formControlName="desc"></ion-input>
+            </ion-item>
+         
+        </ion-list>
+    </form>
+
+    <input class="upload" type='file' #fileInput (change)="browserUpload($event)" accept=".jpg,.jpeg,.png">
+
+    <ion-button class="btn-save" [disabled]="!form.valid" (click)="save()">
+        <span *ngIf="!saving">Add New Document</span>
+        <ion-spinner *ngIf="saving"></ion-spinner>
+    </ion-button>
+    
 </ion-content>

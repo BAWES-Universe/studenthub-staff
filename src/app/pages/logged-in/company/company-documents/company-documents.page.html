@@ -1,46 +1,46 @@
-<ion-header [class.add-border]="borderLimit" class="ion-no-border">
+<ion-header [class.add-border]="borderLimit" mode="md">
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button (click)="dismiss()"></ion-back-button>
     </ion-buttons>
-
     <ion-buttons slot="end">
-      <ion-button (click)="uploadDocument()">
-        <span>Add Document</span>
-      </ion-button>
+      <ion-button><ion-icon class="setting-icon" name="ellipsis-vertical-outline"></ion-icon></ion-button>
     </ion-buttons>
-
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-title class="main" size="large"> 
+      Documents <ng-container *ngIf="company && company.files">({{ company.files.length }})</ng-container>
+      </ion-title>
+    <ion-title class="secondary" size="small" *ngIf="company">
+      {{ (company.company_common_name_en) ?  company.company_common_name_en:company.company_name }}
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
 
-  <h3>Documents</h3>
-
-  <h4 *ngIf="company">
-    {{ company.company_name }}
-  </h4>
-
   <div *ngIf="company && company.files">
-    <ion-card class="document" target="_blank" href="{{ awsService.permanentBucketUrl }}{{ file.file_s3_path }}" *ngFor="let file of company.files">
-      <ion-card-content>
-
+    <ion-item target="_blank" href="{{ awsService.permanentBucketUrl }}{{ file.file_s3_path }}" *ngFor="let file of company.files">
+      <ion-thumbnail slot="start">
         <img class="icon" src="assets/images/ic_save.svg" />
-
-        <span class="meta-data">{{ getFileType(file) }}</span>
-        <span class="meta-data">{{ file.file_size | filesize }}</span>
-
+      </ion-thumbnail>
+      <ion-label>
         <h5>{{ file.file_title }}</h5>
-
-        <p class="document-detail">{{file.file_description}}</p>
-
         <p class="date">Uploaded on {{ toDate(file.file_created_datetime) | date: 'MMM d, y' }}</p>
-      </ion-card-content>
-    </ion-card>
+      </ion-label>
+      
+      <ion-note slot="end">{{ file.file_size | filesize }}</ion-note>
+
+      <!-- <span class="meta-data">{{ getFileType(file) }}</span>
+      <p class="document-detail">{{file.file_description}}</p>-->
+    </ion-item>
   </div>
 
   <loading-modal [loading]="loading" type="company-file-list"></loading-modal>
 
   <no-items *ngIf="!loading && company && company.files && company.files.length == 0" message="~ No Document data ~"></no-items>
 
+  <div class="add-request " tappable (click)="uploadDocument()">
+    <ion-icon name="add-outline"></ion-icon>
+  </div>
 </ion-content>
