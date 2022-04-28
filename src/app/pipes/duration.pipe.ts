@@ -27,9 +27,6 @@ export class DurationPipe implements PipeTransform {
 
         const seconds = Math.round(Math.abs((date2.getTime() - date1.getTime()) / 1000));
 
-        // console.log( value);
-        // console.log( utcTimeNow.getDate() , d.getDate());
-        // console.log( ">>>" + (utcTimeNow.getTime() - d.getTime()));
         const timeToUpdate = (Number.isNaN(seconds)) ? 1000 : this.getSecondsUntilUpdate(seconds) * 1000;
 
         this.timer = this.ngZone.runOutsideAngular(() => {

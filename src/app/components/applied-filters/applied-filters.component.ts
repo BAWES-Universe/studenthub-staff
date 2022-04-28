@@ -3,7 +3,7 @@ import { BaseWidget, NgAisInstantSearch } from 'angular-instantsearch';
 import { noop } from "angular-instantsearch/esm2015/utils";
 import { connectCurrentRefinedValues } from "instantsearch.js/es/connectors";
 import { Platform } from "@ionic/angular";
-import { CurrencyPipe } from '@angular/common';
+import { CurrencyPipe, DatePipe } from '@angular/common';
 import { AgePipe } from 'src/app/pipes/age.pipe';
 //services
 import { AuthService } from '../../providers/auth.service';
@@ -221,6 +221,15 @@ export class AppliedFiltersComponent extends BaseWidget {
         return item;
     }
 
+    dateTimestampItems(item) { 
+
+        const agePipe = new DatePipe('en-US');
+
+        item.appliedLabel =  item.operator + ' ' + agePipe.transform(new Date(item.numericValue * 1000), 'yyyy-MM-dd');
+
+        return item;
+    }
+
     /**
      * Return current selection comma(,) separated
      */
@@ -246,7 +255,11 @@ export class AppliedFiltersComponent extends BaseWidget {
                 b = this.haveResumeTransformItems(b);
             }
 
-            else if(b.attributeName == 'candidate_birth_timestamp' || b.attributeName == 'candidate_created_at_timestamp' || b.attributeName == 'candidate_updated_at_timestamp') {
+            else if (b.attributeName == 'candidate_created_at_timestamp') {
+                b = this.dateTimestampItems(b);
+            }
+
+            else if(b.attributeName == 'candidate_birth_timestamp' || b.attributeName == 'candidate_updated_at_timestamp') {
                 b = this.birthTimestampItems(b);
             }
 

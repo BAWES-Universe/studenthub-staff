@@ -637,9 +637,6 @@ export class CompanyRequestViewPage implements OnInit, OnDestroy {
         window['history-back-from'] = 'onDidDismiss';
         window.history.back();
       }
-
-      console.log(e.data);
-
       if (e.data && e.data.refresh) {
         this.loadDetail();
       }

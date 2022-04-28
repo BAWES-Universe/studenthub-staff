@@ -122,7 +122,7 @@ export class CompanyContactViewPage implements OnInit {
 
     this.companyContactService.view(this.contact_uuid).subscribe(data => {
       this.contact = data;
-      console.log(this.contact);
+      
       this.loadNotes();
 
       if(!this.noteForm)

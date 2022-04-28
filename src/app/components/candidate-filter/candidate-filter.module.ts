@@ -7,6 +7,7 @@ import { NgAisModule } from 'angular-instantsearch';
 import { RefinementListModule } from '../refinement-list/refinement-list.module'; 
 import {CommonModule} from "@angular/common";
 import { RangeRefinementModule } from '../range-refinement-list/range-refinement-list.module';
+import { DateRangeRefinementListModule } from '../date-range-refinement-list/date-range-refinement-list.module';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { RangeRefinementModule } from '../range-refinement-list/range-refinement
     IonicModule, 
     NgAisModule, 
     RangeRefinementModule,
-    RefinementListModule
+    RefinementListModule,
+    DateRangeRefinementListModule
   ],
   exports: [
     CandidateFilterComponent

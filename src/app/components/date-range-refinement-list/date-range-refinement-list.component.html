@@ -1,0 +1,38 @@
+<div class="ais-RefinementListComponent" lines="none" [class.open]="open" [class.closed]="!open"
+    dir="ltr">
+
+    <div class="list-header" (click)="toggleOpen()" tappable>
+
+        <div>
+            <ion-icon *ngIf="!open && !dirty" src="assets/images/ic-plus.svg"></ion-icon>
+            <ion-icon *ngIf="!open && dirty" src="assets/images/ic-tick.svg"></ion-icon>
+
+            <span>{{ title }}</span>
+
+            <ion-button fill="clear" class="btn-close" *ngIf="open">
+                <img src="assets/images/ic-cancel.svg">
+            </ion-button>
+        </div>
+
+        <div class="ais-CurrentRefinementComponent" *ngIf="!open && dirty">
+            <ion-button fill="clear" color="dark" class="ais-CurrentRefinementComponent-reset" (click)="handleClearAllClick($event)">
+                <img src="assets/images/ic-cancel.svg">
+            </ion-button>
+
+            <span class="ais-CurrentRefinementComponent-list">
+                {{ date }}
+            </span>
+        </div>
+
+    </div>
+
+    <div class="ais-RefinementListContent">
+
+        <p class="sub-title" *ngIf="subTitle">{{ subTitle }}</p>
+
+        <ion-item class="input-wrapper" (click)="openCalendarPopup()">
+          <ion-input [value]="date" readonly></ion-input>
+          <ion-icon slot="end" name="calendar-outline"></ion-icon>
+        </ion-item>
+    </div>
+</div>

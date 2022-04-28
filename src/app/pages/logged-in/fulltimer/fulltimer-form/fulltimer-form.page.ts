@@ -666,10 +666,7 @@ export class FulltimerFormPage implements OnInit, OnDestroy {
         buttons: [
           {
             text: 'Cancel',
-            role: 'cancel',
-            handler: (blah) => {
-              console.log('Confirm Cancel: blah');
-            }
+            role: 'cancel'
           }, {
             text: 'Show me that fulltimer account',
             handler: () => {
