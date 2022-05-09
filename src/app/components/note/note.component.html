@@ -1,18 +1,42 @@
 
 
 <ion-card>
-  <ion-badge>
-    {{ note.note_type }}
-  </ion-badge>
+  <ion-card-content>
+    
+    <p class="note">
+      <b *ngIf="note.updatedBy">{{ note.updatedBy.staff_name? note.updatedBy.staff_name: note.updatedBy.candidate_name }}:&nbsp;</b>
+      <ng-container *ngIf="note.note_text.length > 100"><span [innerHTML]="note.note_text | slice:0:100"></span>...</ng-container>
+      <ng-container *ngIf="note.note_text.length < 100"><span [innerHTML]="note.note_text"></span></ng-container>
+    </p>
 
-  <p class="note">
-    <b *ngIf="note.updatedBy">{{ note.updatedBy.staff_name? note.updatedBy.staff_name: note.updatedBy.candidate_name }}:&nbsp;</b>
-    <ng-container *ngIf="note.note_text.length > 100"><span [innerHTML]="note.note_text | slice:0:100"></span>...</ng-container>
-    <ng-container *ngIf="note.note_text.length < 100"><span [innerHTML]="note.note_text"></span></ng-container>
-  </p>
+    <p class="txt-time">
+      <b>{{ note.note_updated_datetime | timeAgo }}</b> on
+      <b>{{ toDate(note.note_created_datetime) | date: 'MMM d, y' }}</b>
+    </p>
 
-  <p class="txt-time">
-    {{ note.note_updated_datetime | timeAgo }} on
-    {{ toDate(note.note_created_datetime) | date: 'MMM d, y' }}
-  </p>
+    <ion-badge>
+      {{ note.note_type }}
+    </ion-badge>
+
+  </ion-card-content>
+  <ion-card-header>
+    <a href="/candidate-view/{{ note.candidate_id }}"> 
+      <ion-icon src="assets/images/icon-candidate.svg"></ion-icon> Candidate
+    </a>
+
+    <a href="/fulltimer/{{ note.fulltimer_uuid }}"> 
+      <ion-icon src="assets/images/icon-candidate.svg"></ion-icon> Fulltimer
+    </a>
+
+    <a href="/company-contact-view/{{ note.contact_uuid }}"> 
+      <ion-icon src="assets/images/icon-contact.svg"></ion-icon> Contact
+    </a>
+
+    <a href="/candidate-view/{{ note.request_uuid }}"> 
+      <ion-icon src="assets/images/icon-request.svg"></ion-icon> Request
+    </a>
+
+    <div class="clearfix"></div>
+
+  </ion-card-header>
 </ion-card>

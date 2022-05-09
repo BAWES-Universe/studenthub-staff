@@ -20,6 +20,16 @@
   <ion-toolbar *ngIf="company">
     <ion-title>
       {{ (company.company_common_name_en) ? company.company_common_name_en:company.company_name }}
+      <ion-icon class="active" name="checkmark-circle"  *ngIf="company.company_approved_to_hire"></ion-icon>
+
+      <ion-badge class="company_status_badge danger" slot="start" *ngIf="!company.company_status && !company.parent_company_id">
+        Inactive
+      </ion-badge>
+
+      <ion-badge class="company_status_badge success" slot="start" *ngIf="company.company_status && !company.parent_company_id">
+        Active
+      </ion-badge>
+      
     </ion-title>
   </ion-toolbar>
 
@@ -157,91 +167,80 @@
       
     </div><!-- END .tab-manage -->
 
-    <ion-grid>
-      <ion-row>
-        <ion-col size-xs="12" size-sm="12" size-md="6" size-lg="6" size-xl="6">
-          <div class="left-side">
-            <h3 class="company-name">
+    <div class="tab-activity" *ngIf="segment == 'activity'">
 
-              <ion-thumbnail *ngIf="company.company_logo">
-                <img src="{{ aws.cloudinaryUrl + company.company_logo }}" (error)="imageError()">
-              </ion-thumbnail>
+      <h5>Last Activity <span>({{ notesTotal }})</span></h5>
 
-              {{ company.company_name }}
-            </h3>
+      <note tappable *ngFor="let note of notes" [routerLink]="'/note-view/' + note.note_uuid"
+        from="company-view" [note]="note" (onChange)="loadNotes()" (onDelete)="loadNotes()"></note>
+      
+      <loading-modal [loading]="loadingNotes" type="note-list"></loading-modal>
 
-            <ion-badge color="success" *ngIf="company.company_approved_to_hire">
-              <ion-icon name="checkmark-outline"></ion-icon> Approved to hire
-            </ion-badge>
+      <ion-button class="btn-add-note" *ngIf="notes.length == 0" (click)="addNote()">
+        Add note
+      </ion-button>
 
-            <ion-badge color="warning" *ngIf="!company.company_approved_to_hire">
-              <ion-icon name="close-outline"></ion-icon> Not approved to hire
-            </ion-badge>
+      <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
+        <ion-infinite-scroll-content></ion-infinite-scroll-content>
+      </ion-infinite-scroll>
 
-            <h4 class="company-name-english">
-              {{ company.company_common_name_en }}
-            </h4>
+    </div><!-- END .tab-activity -->
 
-            <h4 class="company-name-arabic arabic">
-              {{ company.company_common_name_ar }}
-            </h4>
+    
+    <div class="tab-details" *ngIf="segment == 'details'">
 
-            <div class="last-activity">
-              <p class="followup">
-                <ng-container *ngIf="company.company_status && !company.parent_company_id">Active.</ng-container>
-                <ng-container *ngIf="!company.company_status && !company.parent_company_id">Inactive.</ng-container>
+      <h5>Client Details</h5>
 
-                <span *ngIf="company.company_followup">
-                  Follow up every {{ company.company_followup_interval_weeks }} weeks
-                </span>
-              </p>
+      <ul>
+        <li>
+          <ion-icon src="assets/images/Icon_Status.svg" ></ion-icon> <b>Status</b>
+          <ion-note *ngIf="!company.company_status && !company.parent_company_id">
+            Inactive
+          </ion-note>
 
-              <p class="last-followup" *ngIf="company.company_last_followup_datetime">
-                Last follow-up was {{ company.company_last_followup_datetime | timeAgo }} on {{
-                toDate(company.company_last_followup_datetime) | date: 'MMM d, y' }}
-              </p>
-            </div>
+          <ion-note *ngIf="company.company_status && !company.parent_company_id">
+            Active 
+          </ion-note>
+        </li>
 
-            <p class="email" *ngIf="company.company_email">{{ company.company_email }}</p>
+        <li>
+          <ion-icon src="assets/images/icon-followup.svg"></ion-icon> <b>last Follow-up</b>
+          <ion-note>{{ toDate(company.company_last_followup_datetime) | date: 'MMM d, y' }}</ion-note>
+        </li>
+        
+        <li>
+          <ion-icon src="assets/images/doller.svg" ></ion-icon> <b>Salary</b>
+          <ion-note>{{company.company_hourly_rate | number:'1.0-3' }} KD / hour</ion-note>
+        </li>
+        
+        <li>
+          <ion-icon src="assets/images/icon-commission.svg" ></ion-icon> <b>Commission</b>
+          <ion-note>
+            <span *ngIf="company.company_bonus_commission">{{company.company_bonus_commission | number:'1.0-2' }} %</span>
+            <span *ngIf="!company.company_bonus_commission">0 %</span>
+          </ion-note>
+        </li>
 
-            <p class="hourly-rate" *ngIf="company.company_hourly_rate">
-              {{ company.company_hourly_rate | number:'1.0-3' }} KD per hour <br />
-              {{ company.company_bonus_commission | number:'1.0-2' }}% commission
-            </p>
+      </ul>
+      
+      <h5>Client Description</h5>
 
-            <p class="description" *ngIf="company.company_description_en" [innerHtml]="company.company_description_en">
-            </p>
+      <p class="description" *ngIf="company.company_description_en" [innerHtml]="company.company_description_en">
+      </p>
 
-            <p class="description arabic" *ngIf="company.company_description_ar"
-              [innerHtml]="company.company_description_ar"></p>
+      <p class="description arabic" *ngIf="company.company_description_ar"
+        [innerHtml]="company.company_description_ar"></p>
 
-            <a class="website" href="{{ company.company_website }}" target="_blank" *ngIf="company.company_website">{{
-              company.company_website }}</a>
+      <a class="website" href="{{ company.company_website }}" target="_blank" *ngIf="company.company_website">{{
+        company.company_website }}</a>
 
-            <h5>Last Activity</h5>
-
-            <note tappable *ngIf="notes.length > 0" [routerLink]="'/note-view/' + notes[0].note_uuid"
-              from="company-view" [note]="notes[0]" (onChange)="loadNotes()" (onDelete)="loadNotes()"></note>
-
-            <ion-button class="btn-view-notes" *ngIf="notesTotal > 0" (click)="openNotes()">
-              <span *ngIf="notes.length > 1">View all {{ notesTotal }} notes</span>
-              <span *ngIf="notes.length == 1">Manage notes</span>
-            </ion-button>
-
-            <ion-button class="btn-add-note" *ngIf="notes.length == 0" (click)="addNote()">
-              Add note
-            </ion-button>
-
-          </div>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-
-  </div>
+    </div><!-- END .tab-details -->
+      
+  </div><!-- END .container -->
 </ion-content>
 <!-- if followup enabled and followup interval passed -->
 <ion-footer *ngIf="!company.parent_company_id && followup && isFollowUpIntervalPassed()" class="container">
   <ion-button (click)="addFollowupNote()">
-    I followed up
+    Follow Up
   </ion-button>
 </ion-footer>

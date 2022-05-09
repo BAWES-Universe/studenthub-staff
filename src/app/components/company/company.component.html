@@ -6,7 +6,8 @@
       </ion-avatar>
 
       <ion-label class="ion-text-wrap">
-        <h2 *ngIf="company.company_common_name_en">{{ company.company_common_name_en }} <ion-icon class="active" name="checkmark-circle"  *ngIf="company.company_approved_to_hire"></ion-icon></h2>
+        <h2 *ngIf="company.company_common_name_en">{{ company.company_common_name_en }} 
+          <ion-icon class="active" name="checkmark-circle"  *ngIf="company.company_approved_to_hire"></ion-icon></h2>
         <h2 *ngIf="!company.company_common_name_en">{{ company.company_name }}</h2>
         <div class="small-detail">
           <ng-container *ngIf="page =='follow'">
@@ -22,6 +23,7 @@
         <ion-badge class="company_status_badge success" slot="start" *ngIf="company.company_status && !company.parent_company_id">
           Active
         </ion-badge>
+
         <ion-badge slot="start" color="light">
           {{ totalCandidates }} staff
         </ion-badge>
