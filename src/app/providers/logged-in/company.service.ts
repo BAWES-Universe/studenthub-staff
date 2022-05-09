@@ -76,7 +76,7 @@ export class CompanyService {
    * @returns {Observable<any>}
    */
   listFollowups(page): Observable<any> {
-    const url = this._companyEndpoint + '/followups?page=' + page + '&expand=subCompanies,subCompanies.stores,stores';
+    const url = this._companyEndpoint + '/followups?page=' + page + '&expand=subCompanies,subCompanies.stores,stores,brands';
     return this._authhttp.getRaw(url);
   }
 
