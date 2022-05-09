@@ -123,7 +123,7 @@
 <ion-footer class="ion-text-center clear-header" *ngIf="story">
   <ion-grid class="container">
     <ion-row>
-      <ion-col *ngIf="authService && story.story_status == 1 && story.request && ['cancelled', 'delivered'].indexOf(story.request.request_status) == -1">
+      <ion-col *ngIf="authService && story.story_status == 1 && story.request && story.staff_id == authService.staff_id && ['cancelled', 'delivered'].indexOf(story.request.request_status) == -1">
         <ion-button class="invite-btn" (click)="showCandidates()">
           Invite Candidates
         </ion-button>
