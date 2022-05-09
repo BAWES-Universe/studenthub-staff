@@ -48,6 +48,8 @@ export class CompanyViewPage implements OnInit {
 
   public notes: Note[] = [];
   public notesTotal = 0;
+  public pageCount = 0;
+  public currentPage = 1;
 
   public loadingNotes = false;
 
@@ -534,9 +536,36 @@ export class CompanyViewPage implements OnInit {
       this.notes = response.body;
 
       this.notesTotal = parseInt(response.headers.get('X-Pagination-Total-Count'));
+      this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'), 10);
+      this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'), 10);
 
     }, () => {
       this.loadingNotes = false;
+    });
+  }
+
+  /**
+   * load more notes on scroll to bottom 
+   * @param event 
+   */
+  doInfinite(event) {
+    this.currentPage++;
+
+    this.loadingNotes = true;
+
+    const params = '&company_id=' + this.company_id;
+
+    this.noteService.list(params, this.currentPage).subscribe(response => {
+
+      this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
+      this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
+
+      this.notes = this.notes.concat(response.body);
+
+      this.loadingNotes = false;
+
+      event.target.complete();
+    }, () => {
     });
   }
 
