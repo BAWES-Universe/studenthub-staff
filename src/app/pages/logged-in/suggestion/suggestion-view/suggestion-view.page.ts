@@ -20,6 +20,8 @@ export class SuggestionViewPage implements OnInit {
 
   public loading: boolean = false;
 
+  public borderLimit;
+  
   constructor(
     public route: ActivatedRoute,
     public aws: AwsService,

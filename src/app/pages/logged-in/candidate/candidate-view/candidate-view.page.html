@@ -38,7 +38,7 @@
   </ion-toolbar>
 
   <!-- [class.hidden]="borderLimit"-->
-  <ion-toolbar class="container" >
+  <ion-toolbar class="container">
     <!--(ionChange)="segmentChanged($event)"-->
     <ion-segment mode="md" [(ngModel)]="segment">
 
@@ -77,23 +77,23 @@
 
       <h5>Contact Information</h5>
 
-      <a class="phone" target="_blank" href="tel:{{ candidate.candidate_phone }}" [class.required]="!candidate.candidate_phone">
-        {{ candidate.candidate_phone }} 
+      <a class="phone" target="_blank" href="tel:{{ candidate.candidate_phone }}"
+        [class.required]="!candidate.candidate_phone">
+        {{ candidate.candidate_phone }}
         <ion-button slot="end" size="small" class="btn-copy" (click)="copy($event, candidate.candidate_phone)">
           <ion-icon slot="icon-only" name="copy-outline"></ion-icon>
-        </ion-button> 
+        </ion-button>
       </a>
 
-      <a class="email" [class.required]="!candidate.candidate_email"
-        href='mailto:{{ candidate.candidate_email }}' target='_blank'>
+      <a class="email" [class.required]="!candidate.candidate_email" href='mailto:{{ candidate.candidate_email }}'
+        target='_blank'>
         {{ candidate.candidate_email }}
         <ion-button slot="end" size="small" class="btn-copy" (click)="copy($event, candidate.candidate_email)">
           <ion-icon slot="icon-only" name="copy-outline"></ion-icon>
         </ion-button>
       </a>
 
-      <a class="whatsapp" target="_blank"
-        href="https://api.whatsapp.com/send?phone={{ candidate.candidate_phone }}"
+      <a class="whatsapp" target="_blank" href="https://api.whatsapp.com/send?phone={{ candidate.candidate_phone }}"
         [class.required]="!candidate.candidate_phone">
         {{ candidate.candidate_phone }}
         <ion-button slot="end" size="small" class="btn-copy" (click)="copy($event, candidate.candidate_phone)">
@@ -102,61 +102,64 @@
       </a>
 
       <p class="phone" *ngIf="candidate.candidate_preferred_time">
-         {{ candidate.candidate_preferred_time }}
+        {{ candidate.candidate_preferred_time }}
       </p>
 
       <h5 class="txt-general-info">General Information</h5>
- 
-      <p class="area" *ngIf="candidate.area && candidate.country" [class.required]="!candidate.country || !candidate.area">
-        <span  [innerHtml]="'txt_lives_in' | translate : {
+
+      <p class="area" *ngIf="candidate.area && candidate.country"
+        [class.required]="!candidate.country || !candidate.area">
+        <span [innerHtml]="'txt_lives_in' | translate : {
           area : area(candidate.area, candidate.country)
           }">
-        </span> 
+        </span>
       </p>
 
       <p class="nationality" *ngIf="candidate.nationality" [class.required]="!candidate.nationality">
-          {{
-            translateService.langContent(candidate.nationality.country_nationality_name_en,
-            candidate.nationality.country_nationality_name_ar) }} 
-          </p>
+        {{
+        translateService.langContent(candidate.nationality.country_nationality_name_en,
+        candidate.nationality.country_nationality_name_ar) }}
+      </p>
 
       <p class="university" *ngIf="candidate.university" [class.required]="!candidate.university">
         {{ translateService.langContent(candidate.university.university_name_en,
-            candidate.university.university_name_ar) }}
+        candidate.university.university_name_ar) }}
       </p>
 
-      <p class="id-number" *ngIf="candidate.candidate_civil_expiry_date" [class.required]="!candidate.candidate_civil_id">
+      <p class="id-number" *ngIf="candidate.candidate_civil_expiry_date"
+        [class.required]="!candidate.candidate_civil_id">
         {{ candidate.candidate_civil_id | translate }}<br />
         <span class="txt-expiring-on"> {{ "Expiring on" | translate }} {{
           toDate(candidate.candidate_civil_expiry_date) | date :'MMMM d, y': undefined: translateService.currentLang
-          }}</span> 
+          }}</span>
 
-        <ion-button class="btn-copy"
-          (click)="copy($event, candidate.candidate_civil_id)">
+        <ion-button class="btn-copy" (click)="copy($event, candidate.candidate_civil_id)">
           <ion-icon slot="icon-only" name="copy-outline"></ion-icon>
         </ion-button>
       </p>
 
-      <p class="driving-license" *ngIf="candidate.candidate_driving_license" [class.required]="!candidate.candidate_driving_license">
+      <p class="driving-license" *ngIf="candidate.candidate_driving_license"
+        [class.required]="!candidate.candidate_driving_license">
         <span *ngIf="candidate.candidate_driving_license == 1"
-            [innerHtml]="'Has Driving License</b>' | translate"></span>
-          <span *ngIf="candidate.candidate_driving_license == 2"
-            [innerHtml]="'Has no Driving License</b>' | translate"></span> 
+          [innerHtml]="'Has Driving License</b>' | translate"></span>
+        <span *ngIf="candidate.candidate_driving_license == 2"
+          [innerHtml]="'Has no Driving License</b>' | translate"></span>
       </p>
 
-      <p class="mother-nationality" *ngIf="candidate.candidate_mom_kuwaiti" [class.required]="!candidate.candidate_mom_kuwaiti">
-         <span *ngIf="candidate.candidate_mom_kuwaiti == 1" [innerHtml]="'Mother is Kuwaiti' | translate"></span>
-          <span *ngIf="candidate.candidate_mom_kuwaiti == 2" [innerHtml]="'Mother is not Kuwaiti' | translate"></span>
+      <p class="mother-nationality" *ngIf="candidate.candidate_mom_kuwaiti"
+        [class.required]="!candidate.candidate_mom_kuwaiti">
+        <span *ngIf="candidate.candidate_mom_kuwaiti == 1" [innerHtml]="'Mother is Kuwaiti' | translate"></span>
+        <span *ngIf="candidate.candidate_mom_kuwaiti == 2" [innerHtml]="'Mother is not Kuwaiti' | translate"></span>
       </p>
 
       <p class="birth-date" *ngIf="candidate.candidate_birth_date" [class.required]="!candidate.candidate_birth_date">
         {{
-              toDate(candidate.candidate_birth_date) | date :'MMMM d, y': undefined: translateService.currentLang
-              }} ({{ candidate.candidate_birth_date | candidateAge }} )
+        toDate(candidate.candidate_birth_date) | date :'MMMM d, y': undefined: translateService.currentLang
+        }} ({{ candidate.candidate_birth_date | candidateAge }} )
       </p>
 
       <p class="created-at">
-        Created On {{ toDate(candidate.candidate_created_at) | date}} 
+        Created On {{ toDate(candidate.candidate_created_at) | date}}
         <span class="txt-updated-on">Updated On {{ toDate(candidate.candidate_updated_at) | date}} </span>
       </p>
 
@@ -164,20 +167,21 @@
         <h5 class="txt-id">ID Photo Front</h5>
 
         <img class="image-id" width="342" (error)="onCivilFrontError()" *ngIf="candidate.candidate_civil_photo_front"
-              src="{{ awsService.permanentBucketUrl + 'photos/' + candidate.candidate_civil_photo_front }}" />
+          src="{{ awsService.permanentBucketUrl + 'photos/' + candidate.candidate_civil_photo_front }}" />
       </ng-container>
 
       <ng-container *ngIf="candidate.candidate_civil_photo_front">
         <h5 class="txt-id">ID Photo Back</h5>
         <img class="image-id" width="342" (error)="onCivilBackError()" *ngIf="candidate.candidate_civil_photo_back"
-              src="{{ awsService.permanentBucketUrl + 'photos/' + candidate.candidate_civil_photo_back }}" />
+          src="{{ awsService.permanentBucketUrl + 'photos/' + candidate.candidate_civil_photo_back }}" />
       </ng-container>
 
     </div><!-- END personal-details -->
 
-    <div  class="segment-work-details" *ngIf="candidate && segment == 'work-details'">
+    <div class="segment-work-details" *ngIf="candidate && segment == 'work-details'">
 
-      <ion-button class="btn-resume" target="_blank" href="{{ getResumeUrl(candidate) }}" *ngIf="candidate.candidate_resume">
+      <ion-button class="btn-resume" target="_blank" href="{{ getResumeUrl(candidate) }}"
+        *ngIf="candidate.candidate_resume">
         <ion-icon src="assets/images/icon-download.svg"></ion-icon> {{ "CV / Portfolio" | translate }}
       </ion-button>
 
@@ -193,8 +197,70 @@
                 Your browser does not support HTML5 video tags
               </video>
             </ng-container> -->
-      <div class="work-history-wrapper">
+     
+      <div class="work-experience-wrapper"
+        *ngIf="candidate.candidateExperiences && candidate.candidateExperiences.length > 0">
+        <h5>
+          <ion-icon src="assets/images/icon-suitcase.svg"></ion-icon> {{ "Work Experience" | translate }}
+        </h5>
+        <p *ngFor="let candidateExperience of candidate.candidateExperiences">
+          {{ candidateExperience.experience }}
+        </p>
+      </div>
 
+      <div class="skill-wrapper" *ngIf="candidate.candidateSkills && candidate.candidateSkills.length > 0">
+        <h5>
+          <ion-icon src="assets/images/icon-puzzle.svg"></ion-icon> {{ "Skills" | translate }}
+        </h5>
+        <ion-badge *ngFor="let candidateSkill of candidate.candidateSkills">
+          {{ candidateSkill.skill }}
+        </ion-badge>
+      </div>
+
+    </div><!-- END work-details -->
+
+    <div *ngIf="candidate && segment == 'financials'">
+
+      <h5 *ngIf="salaryTransfers.length > 0">
+        <ion-icon class="icon-salary" src="assets/images/icon-bank.svg"></ion-icon> Salary Transfers
+      </h5>
+
+      <ion-item class="item-salary" *ngFor="let salary of salaryTransfers | slice:0:3">
+        <ion-label>
+          <h5>KWD {{salary.total | number:'1.3-3' }}</h5>
+          <p>#{{ salary.tc_id }}</p>
+        </ion-label>
+
+        <ion-badge slot="end" *ngIf="salary.status == 'Paid'">Paid</ion-badge>
+        <ion-badge class="badge-unpaid" slot="end" *ngIf="salary.status =='Unpaid'">In Progress</ion-badge>
+
+      </ion-item>
+
+      <ion-button class="btn-view-notes" *ngIf="salaryTransfers.length > 3" (click)="openSalary()">
+        <span>View all {{ salaryTransfers.length }} Transfers</span>
+      </ion-button>
+
+      <div class="bank-detail" *ngIf="candidate.bank">
+        <h5>
+          <ion-icon class="icon-bank" src="assets/images/icon-salary.svg"></ion-icon> {{ candidate.bank.bank_name }}
+        </h5>
+        <p *ngIf="candidate.bank_account_name">{{ candidate.bank_account_name }}</p>
+        <p *ngIf="candidate.candidate_iban">{{ candidate.candidate_iban }}</p>
+      </div>
+
+    </div><!-- END financials -->
+
+    <div *ngIf="candidate && segment == 'activity'">
+
+      <div class="assignment-wrapper">
+        <h5 class="hourly-rate" *ngIf="candidate.store && candidate.candidate_hourly_rate">
+          Assigned to work at {{ candidate.store.store_name }} for {{ candidate.candidate_hourly_rate | number:'1.0-3' }}
+          KD per hour
+        </h5>
+
+        <h5 class="heading"><ion-icon src="assets/images/icon-assignment.svg"></ion-icon> Activity</h5>
+      
+        
         <h5 class="heading" *ngIf="workHistory.length > 0">StudentHub Assignments</h5>
 
         <ng-container *ngFor="let history of workHistory">
@@ -228,104 +294,86 @@
             </div>
           </ion-item>
         </ng-container>
+        
       </div>
       
-      <div class="work-experience-wrapper" *ngIf="candidate.candidateExperiences && candidate.candidateExperiences.length > 0">
-        <h5> <ion-icon src="assets/images/icon-suitcase.svg"></ion-icon> {{ "Work Experience" | translate }}</h5>
-         <p *ngFor="let candidateExperience of candidate.candidateExperiences">
-            {{ candidateExperience.experience }}
-          </p> 
-      </div>
-
-      <div class="skill-wrapper" *ngIf="candidate.candidateSkills && candidate.candidateSkills.length > 0">
-        <h5><ion-icon src="assets/images/icon-puzzle.svg"></ion-icon>  {{ "Skills" | translate }}</h5>
-        <ion-badge *ngFor="let candidateSkill of candidate.candidateSkills">
-            {{ candidateSkill.skill }}
-        </ion-badge>
-      </div>
-
-    </div><!-- END work-details -->
-
-    <div *ngIf="candidate && segment == 'financials'">
-
-      <h5 *ngIf="salaryTransfers.length > 0">
-        <ion-icon class="icon-salary" src="assets/images/icon-bank.svg"></ion-icon> Salary Transfers
-      </h5>
-
-      <ion-item class="item-salary" *ngFor="let salary of salaryTransfers | slice:0:3">
-        <ion-label>
-          <h5>KWD {{salary.total | number:'1.3-3' }}</h5>
-          <p>#{{ salary.tc_id }}</p>
-        </ion-label>
-
-        <ion-badge slot="end" *ngIf="salary.status == 'Paid'">Paid</ion-badge>
-        <ion-badge class="badge-unpaid" slot="end" *ngIf="salary.status =='Unpaid'">In Progress</ion-badge>
-
-      </ion-item>
-
-      <ion-button class="btn-view-notes" *ngIf="salaryTransfers.length > 3" (click)="openSalary()">
-        <span>View all {{ salaryTransfers.length }} Transfers</span>
-      </ion-button>
-
-      <div class="bank-detail" *ngIf="candidate.bank">
-        <h5><ion-icon class="icon-bank" src="assets/images/icon-bank.svg"></ion-icon> {{ candidate.bank.bank_name }}</h5>
-        <p *ngIf="candidate.bank_account_name">{{ candidate.bank_account_name }}</p>
-        <p *ngIf="candidate.candidate_iban">{{ candidate.candidate_iban }}</p>
-      </div>
-
-    </div><!-- END financials -->
-
-    <div *ngIf="candidate && segment == 'activity'">
-
-      <h5 class="hourly-rate" *ngIf="candidate.store && candidate.candidate_hourly_rate">
-        Assigned to work at {{ candidate.store.store_name }} for {{ candidate.candidate_hourly_rate | number:'1.0-3' }}
-        KD per hour
-      </h5>
-
       <div class="suggestion-wrapper">
 
-        <h5 class="heading">Activity</h5>
+        <h5 class="heading"><ion-icon src="assets/images/icon-star.svg"></ion-icon> Activity</h5>
 
-        <ion-item tappable (click)="invitationListPage(1)">
-          <div tabindex="0"></div>
-          <ion-label>Invited</ion-label>
-          <ion-note slot="end">{{ candidate.invited }}</ion-note>
-        </ion-item>
+        <ion-grid>
+          <ion-row>
+            <ion-col size-xs="12" size-sm="12" size-md="4" size-lg="4" size-xl="4">
+              <ion-item tappable (click)="invitationListPage(1)">
+                <div tabindex="0"></div>
+                <ion-label>
+                  <h5>Invited</h5>
+                  <p>{{ candidate.invited }}</p>
+                </ion-label>
+                <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
+              </ion-item>
+            </ion-col>
 
-        <ion-item tappable (click)="invitationListPage(3)">
-          <div tabindex="0"></div>
-          <ion-label>Accepted Invitation</ion-label>
-          <ion-note slot="end">{{ candidate.invitationAccepted }}</ion-note>
-        </ion-item>
+            <ion-col size-xs="12" size-sm="12" size-md="4" size-lg="4" size-xl="4">
+              <ion-item tappable (click)="invitationListPage(3)">
+                <div tabindex="0"></div>
+                <ion-label>
+                  <h5>Accepted Invitation</h5>
+                  <p>{{ candidate.invitationAccepted }}</p>
+                </ion-label>
+                <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
+              </ion-item>
+            </ion-col>
 
-        <ion-item tappable (click)="invitationListPage(2)">
-          <div tabindex="0"></div>
-          <ion-label>Rejected Invitation</ion-label>
-          <ion-note slot="end">{{ candidate.invitationRejected }}</ion-note>
-        </ion-item>
+            <ion-col size-xs="12" size-sm="12" size-md="4" size-lg="4" size-xl="4">
+              <ion-item tappable (click)="invitationListPage(2)">
+                <div tabindex="0"></div>
+                <ion-label>
+                  <h5>Rejected Invitation</h5>
+                  <p>{{ candidate.invitationRejected }}</p>
+                </ion-label>
+                <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
+              </ion-item>
+            </ion-col>
 
-        <ion-item tappable (click)="suggestionListPage(1)">
-          <div tabindex="0"></div>
-          <ion-label>Suggested to client</ion-label>
-          <ion-note slot="end">{{ candidate.suggested }}</ion-note>
-        </ion-item>
+            <ion-col size-xs="12" size-sm="12" size-md="4" size-lg="4" size-xl="4">
+              <ion-item tappable (click)="suggestionListPage(1)">
+                <div tabindex="0"></div>
+                <ion-label>
+                  <h5>Suggested to client</h5>
+                  <p>{{ candidate.suggested }}</p>
+                </ion-label>
+                <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
+              </ion-item>
+            </ion-col>
 
-        <ion-item tappable (click)="suggestionListPage(3)">
-          <div tabindex="0"></div>
-          <ion-label>Accepted by client</ion-label>
-          <ion-note class="accepted" slot="end">{{ candidate.suggestionAccepted }}</ion-note>
-        </ion-item>
-
-        <ion-item tappable (click)="suggestionListPage(2)">
-          <div tabindex="0"></div>
-          <ion-label>Rejected by client</ion-label>
-          <ion-note class="rejected" slot="end">{{ candidate.suggestionRejected }}</ion-note>
-        </ion-item>
+            <ion-col size-xs="12" size-sm="12" size-md="4" size-lg="4" size-xl="4">
+              <ion-item tappable (click)="suggestionListPage(3)">
+                <div tabindex="0"></div>
+                <ion-label>
+                  <h5>Accepted by client</h5>
+                  <p>{{ candidate.suggestionAccepted }}</p>
+                </ion-label>
+                <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
+              </ion-item>
+            </ion-col>
+            <ion-col size-xs="12" size-sm="12" size-md="4" size-lg="4" size-xl="4">
+              <ion-item tappable (click)="suggestionListPage(2)">
+                <div tabindex="0"></div>
+                <ion-label>
+                  <h5>Rejected by client</h5>
+                  <p>{{ candidate.suggestionRejected }}</p>
+                </ion-label>
+                <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
       </div>
 
       <div class="note-wrapper">
 
-        <h5 class="heading">Notes</h5>
+        <h5 class="heading"><ion-icon src="assets/images/icon-note.svg"></ion-icon>  Notes</h5>
 
         <note tappable *ngIf="notes.length > 0" [routerLink]="'/note-view/' + notes[0].note_uuid" from="company-view"
           [note]="notes[0]" (onChange)="loadNotes()" (onDelete)="loadNotes()"></note>

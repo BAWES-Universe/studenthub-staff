@@ -17,7 +17,7 @@
     </ion-buttons> -->
   </ion-toolbar>
 
-  <ion-toolbar *ngIf="company">
+  <ion-toolbar class="container" *ngIf="company">
     <ion-title>
       {{ (company.company_common_name_en) ? company.company_common_name_en:company.company_name }}
       <ion-icon class="active" name="checkmark-circle"  *ngIf="company.company_approved_to_hire"></ion-icon>

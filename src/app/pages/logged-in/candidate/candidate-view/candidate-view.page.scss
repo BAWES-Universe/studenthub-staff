@@ -258,18 +258,25 @@ h4.candidate-name {
   }
 }
 
+.assignment-wrapper,
 .note-wrapper,
 .suggestion-wrapper {
   .heading {
-    margin: 22px 0 24px 0;
-    font-size: 21px;
+    margin: 16px 4px 16px 4px;
+    font-size: 18px;
     font-weight: bold;
     font-stretch: normal;
     font-style: normal;
     line-height: normal;
     letter-spacing: normal;
     text-align: left;
-    color: #000;
+    color: #23233d;
+
+    ion-icon {
+      margin-inline-end: 7px;
+      font-size: 24px;
+      float: left;
+    }
   }
 
   note {
@@ -303,44 +310,51 @@ h4.candidate-name {
 
   ion-item {
     --inner-border-width: 0;
-    --padding-top: 3px;
+    --padding-top: 0;
     --padding-end: 0px;
-    --padding-bottom: 3px;
-    --padding-start: 21px;
-    margin-bottom: 9px;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08), 2px 0 4px 0 rgba(0, 0, 0, 0.12);
+    --padding-bottom: 0;
+    --padding-start: 0;
+    --background: none;
+    margin: 0 4px 16px 4px;
+    padding: 16px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px 0 rgb(0 0 0 / 10%);
+    background-color: #fff;
 
     ion-label {
-      font-size: 14px;
-      font-weight: bold;
-      font-stretch: normal;
-      font-style: normal;
-      line-height: 1.65;
-      letter-spacing: normal;
-      text-align: left;
-      color: #000;
+        margin: 0;
+
+        h5 {
+            font-size: 16px;
+            font-weight: 600;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: 1.5;
+            letter-spacing: normal;
+            text-align: left;
+            color: #23233d;
+            margin: 0 0 4px 0;
+        }
+
+        p {
+            font-size: 14px;
+            font-weight: 500;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: 1.43;
+            letter-spacing: normal;
+            text-align: left;
+            color: #68687a;
+        }
     }
 
-    ion-note {
-      font-weight: bold;
-      font-size: 12px;
-      text-align: center;
-      width: 34px;
-      height: 25px;
-      margin: 13px 0 0;
-      padding: 5px 9px 2px;
-      background-color: #f2f2f2;
-    }
-
-    ion-note.accepted {
-      color: #fff;
-      background: #219653;
-    }
-
-    ion-note.rejected {
-      color: #fff;
-      background: #eb5757;
+    ion-icon {
+        margin: 12px 0 12px 4px;
+        padding: 4px;
+        background-color: #fafafa;
+        font-size: 16px;
+        border-radius: 100%;
+        fill: #7d7d8d;
     }
   }
 }
