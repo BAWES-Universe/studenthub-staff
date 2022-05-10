@@ -26,6 +26,8 @@ export class NoteViewPage implements OnInit {
 
   public deletingNote: boolean = false;
 
+  public borderLimit;
+  
   constructor(
     public alertCtrl: AlertController,
     public modalCtrl: ModalController,

@@ -1,3 +1,32 @@
 ion-label {
     white-space: normal !important;
 }
+
+ion-item {
+    font-size: 14px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.43;
+    letter-spacing: normal;
+    color: #4b4b61;
+    --inner-border-width: 0;
+
+    ion-icon[src] {
+        font-size: 20px;
+    }
+
+    ion-icon[name] {
+        font-size: 24px;
+    }
+    
+    ion-icon {
+        margin-inline-end: 14px;
+        float: left;
+    }
+        
+    ion-icon.warning {
+        color: #29b564;
+        fill: #29b564;
+    }
+}

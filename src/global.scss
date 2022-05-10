@@ -648,8 +648,13 @@ ion-item.input-wrapper:not(.item-has-value) {
   }
 }*/
 
+.candidate-option .popover-content,
 .store-option .popover-content {
   box-shadow: 0 8px 25px 0 rgba(0, 0, 0, 0.1)
+}
+
+.candidate-option .popover-content {
+  min-width: 264px;
 }
 
 .pull-left {

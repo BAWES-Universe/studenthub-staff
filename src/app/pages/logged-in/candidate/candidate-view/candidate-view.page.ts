@@ -485,7 +485,10 @@ export class CandidateViewPage implements OnInit {
       componentProps: {
         candidate: this.candidate
       },
-      event: e
+      event: e,
+      cssClass: 'candidate-option',
+      translucent: true,
+      showBackdrop: false
     });
     popover.present();
 

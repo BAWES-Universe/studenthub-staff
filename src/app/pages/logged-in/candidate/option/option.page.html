@@ -2,40 +2,40 @@
   
   <ion-item [disabled]="updatingEmail" (click)="updateEmail()" tappable>
     <div tabindex="0"></div>
-    <ion-icon src="assets/icon/icon-edit-2.svg"></ion-icon>
-    <span *ngIf="!updatingEmail">Update Email</span>
+    <span *ngIf="!updatingEmail"><ion-icon src="assets/images/icon-update-email.svg"></ion-icon>
+      Update Email</span>
     <ion-spinner *ngIf="updatingEmail"></ion-spinner>
   </ion-item>
 
   <ion-item [disabled]="exportingCv" (click)="exportCv()" tappable>
     <div tabindex="0"></div>
-    <ion-icon src="assets/icon/icon-edit-2.svg"></ion-icon>
-    <span *ngIf="!exportingCv">Export CV as PDF</span>
+    <span *ngIf="!exportingCv"><ion-icon src="assets/images/icon-save-cv.svg"></ion-icon>
+       Export CV as PDF</span>
     <ion-spinner *ngIf="exportingCv"></ion-spinner>
   </ion-item>
 
   <ion-item [disabled]="sendingPassword" (click)="resetPassword()" tappable>
     <div tabindex="0"></div>
-    <ion-icon src="assets/icon/icon-edit-2.svg"></ion-icon>
-    <span *ngIf="!sendingPassword">Send Password Reset Email</span>
+    <span *ngIf="!sendingPassword"><ion-icon src="assets/images/icon-send-password.svg"></ion-icon>
+      Send Password Reset Email</span>
     <ion-spinner *ngIf="sendingPassword"></ion-spinner>
   </ion-item>
 
   <div *ngIf="candidate && candidate.store && candidate.candidateIdCard">
     <ion-item (click)="renewCard()" tappable *ngIf="candidate.candidateIdCard.expired">
       <div tabindex="0"></div>
-      <ion-icon src="assets/icon/icon-edit-2.svg"></ion-icon>
       <ion-spinner *ngIf="expiring"></ion-spinner>
       <span *ngIf="!expiring">
+        <ion-icon src="assets/images/icon-generate-id.svg"></ion-icon>
         Renew the Card
       </span>
     </ion-item>
 
     <ion-item (click)="setExpire()" tappable *ngIf="candidate && !candidate.candidateIdCard.expired">
       <div tabindex="0"></div>
-      <ion-icon src="assets/icon/icon-edit-2.svg"></ion-icon>
       <ion-spinner *ngIf="expiring"></ion-spinner>
       <span *ngIf="!expiring">
+        <ion-icon src="assets/images/icon-generate-id.svg"></ion-icon>
         Expire the Card
       </span>
     </ion-item>
@@ -43,9 +43,9 @@
 
   <ion-item (click)="generateId()" tappable *ngIf="candidate && candidate.store && !candidate.candidateIdCard">
     <div tabindex="0"></div>
-    <ion-icon src="assets/icon/icon-edit-2.svg"></ion-icon>
     <ion-spinner *ngIf="generating"></ion-spinner>
     <span *ngIf="!generating">
+      <ion-icon src="assets/images/icon-generate-id.svg"></ion-icon>
       Generate ID Card
     </span>
   </ion-item>
@@ -55,6 +55,7 @@
       <div tabindex="0"></div>
       <ion-spinner *ngIf="updatingJobSearchStatus"></ion-spinner>
       <span *ngIf="!updatingJobSearchStatus">
+        <ion-icon  class="warning" name="checkmark-circle-outline"></ion-icon>
         Mark as Looking for Job
       </span>
     </ion-item>
@@ -67,6 +68,7 @@
       <div tabindex="0"></div>
       <ion-spinner *ngIf="updatingJobSearchStatus"></ion-spinner>
       <span *ngIf="!updatingJobSearchStatus">
+        <ion-icon  class="warning" name="close-circle-outline"></ion-icon>
         Mark as Not Looking for Job
       </span>
     </ion-item>
@@ -74,10 +76,13 @@
 
   <ion-item tappable (click)="toggleCommitted()">
     <div tabindex="0"></div>
-    <ion-label>
-      <ion-icon src="assets/icon/icon-edit-2.svg"></ion-icon>
-      <span *ngIf="candidate.candidate_committed">Mark as Not committed</span>
-      <span *ngIf="!candidate.candidate_committed">Mark as committed</span>
+    <ion-label *ngIf="candidate.candidate_committed">
+      <ion-icon  class="warning" src="assets/images/icon-mark-as-not.svg"></ion-icon>
+      <span>Mark as Not committed</span>
+    </ion-label>
+    <ion-label *ngIf="!candidate.candidate_committed">
+      <ion-icon name="person-outline" class="warning"></ion-icon>
+      <span>Mark as committed</span>
     </ion-label>
   </ion-item>
 
