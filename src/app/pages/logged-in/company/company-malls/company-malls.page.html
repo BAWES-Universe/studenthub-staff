@@ -4,32 +4,36 @@
       <ion-back-button (click)="dismiss()"></ion-back-button>
     </ion-buttons>
   </ion-toolbar>
+
+  <ion-toolbar *ngIf="company" class="head-area">
+    <h1 class="title">
+      Mall presence <span *ngIf="company.malls">({{company.malls.length}})</span>
+    </h1>
+
+    <h3 class="company-name">
+      {{ (company.company_common_name_en) ?  company.company_common_name_en:company.company_name }}
+    </h3>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)" class="ion-no-padding">
 
   <ion-list *ngIf="company">
-
-    <h3 class="title">
-      Mall presence
-    </h3>
-
-    <h4 class="company-name">
-      {{ (company.company_common_name_en) ?  company.company_common_name_en:company.company_name }}
-    </h4>
-
     <ion-item tappable (click)="mallSelected(mall)" *ngFor="let mall of company.malls" lines="none">
       <div tabindex="0"></div>
       <ion-label>
-        <h5>{{ mall.mall_name_en }}</h5>
+        <ion-text>
+          <h5>{{ mall.mall_name_en }}</h5>
+        </ion-text>
+        <ion-text>
+          <ion-badge color="light" *ngIf="mall.store_count > 0">
+            {{ mall.store_count }} stores
+          </ion-badge>
+          <ion-badge color="light" *ngIf="mall.candidate_count > 0">
+            {{ mall.candidate_count }} staff
+          </ion-badge>
+        </ion-text>
       </ion-label>
-
-      <ion-badge slot="end" color="light" *ngIf="mall.store_count > 0">
-        {{ mall.store_count }} stores
-      </ion-badge>
-      <ion-badge slot="end" color="light" *ngIf="mall.candidate_count > 0">
-        {{ mall.candidate_count }} staff
-      </ion-badge>
     </ion-item>
 
   </ion-list>
