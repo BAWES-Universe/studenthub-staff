@@ -50,6 +50,8 @@ export class CompanyNoteFormPage implements OnInit {
 
   public form: FormGroup;
 
+  public borderLimit: boolean = false;
+
   constructor(
     public noteService: NoteService,
     private fb: FormBuilder,
@@ -327,6 +329,10 @@ export class CompanyNoteFormPage implements OnInit {
     this.form.controls.note.setValue(data);
     this.form.markAsDirty();
     this.form.updateValueAndValidity();
+  }
+
+  logScrolling(e) {
+    this.borderLimit = (e.detail.scrollTop > 20);
   }
 
   /**

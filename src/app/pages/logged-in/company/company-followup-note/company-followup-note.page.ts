@@ -22,6 +22,8 @@ export class CompanyFollowupNotePage implements OnInit {
 
   public model: Note = new Note();
 
+  public borderLimit: boolean = false;
+
   constructor(
     private fb: FormBuilder,
     public modalCtrl: ModalController,
@@ -90,4 +92,9 @@ export class CompanyFollowupNotePage implements OnInit {
       }
     })
   }
+
+  logScrolling(e) {
+    this.borderLimit = (e.detail.scrollTop > 20);
+  }
+
 }

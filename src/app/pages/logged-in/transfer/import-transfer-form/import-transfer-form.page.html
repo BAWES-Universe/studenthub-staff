@@ -1,5 +1,5 @@
-<ion-header>
-  <ion-toolbar>
+<ion-header mode="md" [class.add-border]="borderLimit" class="ion-no-border">
+  <ion-toolbar class="container">
     <ion-buttons slot="start">
       <ion-back-button (click)="dismiss()"></ion-back-button>
     </ion-buttons>
@@ -7,7 +7,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-text-center">
+<ion-content class="ion-text-center" scrollEvents="true" (ionScroll)="logScrolling($event)">
   <!-- Instructions for Create -->
   <section *ngIf="scenario == 'create'">
     <ion-button fill="outline" color="primary" (click)="downloadTemplate()">

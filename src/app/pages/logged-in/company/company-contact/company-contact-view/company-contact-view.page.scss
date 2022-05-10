@@ -40,3 +40,138 @@ ion-content {
     background: #f7f8fa;
     --background: #f7f8fa;
 }
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 16px 4px 24px 4px;
+
+  li {
+      margin-bottom: 10px;
+  }
+
+  ion-icon {
+      font-size: 24px;
+      float: left;
+      margin-inline-end: 4px;
+  }
+
+  b {
+      font-size: 12px;
+      font-weight: bold;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: 1.33;
+      letter-spacing: normal;
+      text-align: left;
+      color: #68687a;
+      text-transform: uppercase;
+  }
+
+  ion-note {
+      float: right;
+      font-family: Inter;
+      font-size: 14px;
+      font-weight: 500;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: 1.43;
+      letter-spacing: normal;
+      text-align: right;
+      color: #4b4b61;
+  }
+}
+
+ion-grid {
+  font-size: 14px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.43;
+  letter-spacing: normal;
+  text-align: left;
+  color: #4b4b61;
+
+  a,
+  b {
+    font-size: 18px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.33;
+    letter-spacing: normal;
+    text-align: left;
+    color: #23233d;
+    margin-top: 4px;
+    text-decoration: none
+  }
+
+  ion-col {
+    padding-bottom: 12px;
+  }
+}
+
+.tab-requests,
+.tab-notes,
+.tab-details {
+    h5 {
+        margin: 4px 4px 16px 4px;
+        margin-right: 4px;
+
+        span {
+            color: #7d7d8d;
+        }
+    }
+}
+
+.tab-requests h5 {
+    margin: 4px 4px 0 4px;
+}
+
+.tab-details ion-badge {
+  height: 24px;
+  flex-grow: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 4px 8px;
+  border-radius: 8px;
+  background-color: #fff2f2;
+  width: 116px;
+  font-size: 12px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.33;
+  letter-spacing: normal;
+  text-align: right;
+  color: #eb5757;
+  margin-top: 4px;
+}
+
+request-listing {
+  margin: 0 4px 0 4px;
+}
+
+note {
+  margin: 0 4px 15px 4px;
+}
+
+.btn-verify {
+  height: 56px;
+  border-radius: 12px;
+  border: solid 2px #eb5757;
+  font-size: 16px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.5;
+  letter-spacing: normal;
+  text-align: center;
+  color: #eb5757;
+  text-transform: capitalize;
+  width: calc(100% - 24px);
+
+}

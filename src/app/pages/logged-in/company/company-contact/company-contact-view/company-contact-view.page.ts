@@ -2,7 +2,7 @@ import { Location } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import {AlertController, LoadingController, ModalController, NavController, Platform} from '@ionic/angular';
+import {AlertController, LoadingController, ModalController, NavController, Platform, PopoverController} from '@ionic/angular';
 //models
 import { CompanyContact } from 'src/app/models/company-contact';
 import { Note } from 'src/app/models/note';
@@ -17,6 +17,7 @@ import { CompanyContactFormPage } from '../../company-contact-form/company-conta
 import { CompanyNotesPage } from '../../company-notes/company-notes.page';
 import { Request } from 'src/app/models/request';
 import { CompanyRequestService } from 'src/app/providers/logged-in/company-request.service';
+import { ActionComponent } from 'src/app/components/action/action.component';
 
 
 @Component({
@@ -71,6 +72,7 @@ export class CompanyContactViewPage implements OnInit {
     public route: ActivatedRoute,
     public alertCtrl: AlertController,
     public modalCtrl: ModalController,
+    public popoverCtrl: PopoverController,
     public authService: AuthService,
     public requestService: CompanyRequestService,
     public noteService: NoteService,
@@ -440,7 +442,52 @@ export class CompanyContactViewPage implements OnInit {
     this.borderLimit = (e.detail.scrollTop > 0) ?  true : false;
   }
 
-  showActions(event) {
+  async showActions(event) {
+    event.preventDefault();
+    event.stopPropagation();
 
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
+    const actions = [
+      {
+        name: "Edit Contact",
+        icon: 'assets/icon/icon-edit-2.svg',
+        trigger: 'edit'
+      },
+      {
+        name: "Delete Contact",
+        icon: 'assets/icon/icon-trash-2.svg',
+        trigger: 'delete'
+      },
+    ];
+
+    const modal = await this.popoverCtrl.create({
+      component: ActionComponent,
+      componentProps: {
+        actions: actions
+      },
+      cssClass: 'store-option',
+      event,
+      translucent: true,
+      showBackdrop: false
+    });
+    modal.present();
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
+
+    const { data } = await modal.onWillDismiss();
+
+    if (data && data.action) {
+      if(data.action.trigger == 'edit') {
+        this.edit()
+      } else if(data.action.trigger == 'delete') {
+        this.delete()
+      }  
+    }
   }
 }

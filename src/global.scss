@@ -655,3 +655,7 @@ ion-item.input-wrapper:not(.item-has-value) {
 .pull-left {
   float: left;
 }
+
+.tab-requests request-listing ion-card {
+  margin-top: 0;
+}

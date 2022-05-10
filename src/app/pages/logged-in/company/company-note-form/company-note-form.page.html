@@ -1,5 +1,5 @@
-<ion-header>
-  <ion-toolbar>
+<ion-header mode="md" [class.add-border]="borderLimit" class="ion-no-border">
+  <ion-toolbar class="container">
     <ion-buttons slot="start">
       <ion-back-button (click)="close()"></ion-back-button>
     </ion-buttons>
@@ -15,7 +15,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
   <form [formGroup]="form" *ngIf="form">
     <ion-list>
       <ng-container *ngIf="this.from !='post-update'">
