@@ -1,5 +1,5 @@
-<ion-header [class.add-border]="borderLimit" mode="md">
-  <ion-toolbar>
+<ion-header mode="md" [class.add-border]="borderLimit" mode="md">
+  <ion-toolbar class="container">
     <ion-buttons slot="start">
       <ion-back-button (click)="dismiss()"></ion-back-button>
     </ion-buttons>
@@ -7,7 +7,7 @@
       <ion-button><ion-icon class="setting-icon" name="ellipsis-vertical-outline"></ion-icon></ion-button>
     </ion-buttons>
   </ion-toolbar>
-  <ion-toolbar>
+  <ion-toolbar class="container">
     <ion-title class="main" size="large"> 
       Documents <ng-container *ngIf="company && company.files">({{ company.files.length }})</ng-container>
       </ion-title>

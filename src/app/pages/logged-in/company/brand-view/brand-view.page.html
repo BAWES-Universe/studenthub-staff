@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header mode="md" [class.add-border]="borderLimit" class="ion-no-border">
   <ion-toolbar class="container">
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/view/company-list"></ion-back-button>
@@ -7,11 +7,11 @@
       <ion-button (click)="options($event)"><ion-icon class="setting-icon" name="ellipsis-vertical-outline"></ion-icon></ion-button>
     </ion-buttons>
   </ion-toolbar>
-  <ion-toolbar>
+  <ion-toolbar class="container">
     <ion-title *ngIf="brand">{{ brand.brand_name_en }}</ion-title>
   </ion-toolbar>
 
-  <ion-toolbar>
+  <ion-toolbar class="container">
     <ion-segment (ionChange)="segmentChanged($event)" value="candidate" mode="md">
       <ion-segment-button value="candidate">
         <ion-label>Candidate</ion-label>

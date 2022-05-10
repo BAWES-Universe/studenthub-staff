@@ -5,7 +5,7 @@ import {ModalController, PopoverController} from '@ionic/angular';
   selector: 'app-story-close-component',
   template: `
     <ion-header>
-      <ion-toolbar>
+      <ion-toolbar class="container">
         <ion-title>Stop work?</ion-title>
         <ion-buttons slot="end">
           <ion-button class="close_btn" (click)="dismiss()"><ion-icon name="close-circle-outline"></ion-icon></ion-button>
