@@ -1,6 +1,6 @@
 import { Staff } from './staff';
 import {Company} from './company';
-import {Request} from './request';
+import {Request, Story} from './request';
 import { CompanyContact } from './company-contact';
 import { Fulltimer } from './fulltimer';
 import { Candidate } from './candidate';
@@ -13,6 +13,7 @@ export class Note {
     contact_uuid: string;
     fulltimer_uuid: string;
     request_uuid: string;
+    story_uuid: string;
     request_checklist_uuid: string;
     staff_id: number;
     note_type: any;
@@ -27,6 +28,7 @@ export class Note {
     fulltimer: Fulltimer;
     company: Company;
     request: Request;
+    story: Story;
     requestChecklist: RequestChecklist;
     createdBy: any;
     updatedBy: any;

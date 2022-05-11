@@ -168,6 +168,7 @@ p {
   margin-bottom: 16px;
   --border-radius: 12px;
   text-transform: inherit;
+  margin-top: 0;
 }
 .view-request-btn {
   width: 136px;
@@ -185,7 +186,7 @@ p {
   text-transform: inherit;
 }
 .stop-btn {
-  width:100%;
+  width:95%;
   height: 56px;
   flex-grow: 0;
   margin-bottom: 15px;
@@ -201,6 +202,7 @@ p {
   font-style: normal;
   letter-spacing: normal;
   text-align: center;
+  margin-top:0;
 }
 .footer::before ,
 .footer-md::before {
@@ -225,7 +227,7 @@ ion-footer {
 }
 
 .invite-btn {
-  width: 100%;
+  width: 95%;
   height: 56px;
   margin: 0 0 12px;
   --border-radius: 12px;
@@ -305,4 +307,19 @@ ion-card {
 }
 .count {
   color: #7d7d8d;
+}
+.post-update-btn {
+  width: 95%;
+  height: 56px;
+  margin: 0 0 12px;
+  --border-radius: 12px;
+  font-family: Inter;
+  font-size: 16px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.5;
+  letter-spacing: normal;
+  text-align: center;
+  text-transform: inherit;
 }

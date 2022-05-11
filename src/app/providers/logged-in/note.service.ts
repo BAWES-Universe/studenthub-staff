@@ -49,6 +49,7 @@ export class NoteService {
       company_id: model.company_id,
       note: model.note_text,
       type: model.note_type,
+      story_uuid: model.story_uuid? model.story_uuid: null,
       contact_uuid: model.contact_uuid? model.contact_uuid: null,
       request_uuid: model.request_uuid? model.request_uuid: null,
       request_checklist_uuid: model.request_checklist_uuid,

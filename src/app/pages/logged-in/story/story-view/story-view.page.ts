@@ -1,7 +1,14 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, Optional } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription, Subject, interval } from 'rxjs';
-import {AlertController, IonNav, ModalController, NavController, PopoverController} from '@ionic/angular';
+import {
+  AlertController,
+  IonNav,
+  ModalController,
+  NavController,
+  PopoverController,
+  ToastController
+} from '@ionic/angular';
 // services
 import { EventService } from 'src/app/providers/event.service';
 import { StoryService } from 'src/app/providers/logged-in/story.service';
@@ -14,6 +21,8 @@ import {Request, Story} from 'src/app/models/request';
 import { Invitation } from 'src/app/models/invitation';
 import {StoryViewOptionPage} from './story-view-option.page';
 import {StoryCloseConfirmationComponent} from "./story-close-confirmation.component";
+import {NoteService} from "../../../../providers/logged-in/note.service";
+import {Note} from "../../../../models/note";
 
 
 export interface TimeSpan {
@@ -35,6 +44,7 @@ export class StoryViewPage implements OnInit, OnDestroy {
   public story_uuid: any;
   public story: Story;
   public request: Request;
+  public notes: Note[];
   public loading = false;
   public loadMore = false;
 
@@ -77,7 +87,9 @@ export class StoryViewPage implements OnInit, OnDestroy {
     public eventService: EventService,
     public router: Router,
     public alertCtrl: AlertController,
-    public popoverCtrl: PopoverController
+    public popoverCtrl: PopoverController,
+    public toastCtrl: ToastController,
+    public noteService: NoteService
   ) { }
 
   ngOnInit() {
@@ -129,10 +141,9 @@ export class StoryViewPage implements OnInit, OnDestroy {
       this.loading = false;
       this.story = res;
       this.request = this.story.request;
-
       this.loadStoryInvitations();
       this.loadSuggestions();
-
+      this.loadNotes();
       /*if (this.story.story_status == 1) {
         this.loadTimer();
       }
@@ -376,5 +387,67 @@ export class StoryViewPage implements OnInit, OnDestroy {
     if (data.click) {
       this.changeStoryStatus(0);
     }
+  }
+
+  updateValue(event) {
+
+    this.alertCtrl.create({
+      header: 'Post an Update',
+      inputs: [
+        {
+          name: 'feedback',
+          type: 'textarea',
+          placeholder: 'update'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary'
+        }, {
+          text: 'Save',
+          handler: (data) => {
+              let note = new Note();
+              note.staff_id = this.authService.staff_id;
+              note.company_id = this.story.request.company.company_id;
+              note.request_uuid = this.story.request.request_uuid;
+              note.story_uuid = this.story.story_uuid;
+              note.note_type = 'Internal Note';
+              note.note_text = data.feedback;
+              this.noteService.create(note).subscribe(async response => {
+                if (response.operation == 'success') {
+                  this.loadNotes();
+                } else {
+
+                  this.toastCtrl.create({
+                    message: this.translateService.errorMessage(response.message),
+                    buttons: ['Okay']
+                  }).then(prompt => {
+                    prompt.present();
+                  });
+                }
+              });
+          }
+        }
+      ]
+    }).then(alert => { alert.present(); });
+  }
+
+  /**
+   * load notes
+   */
+  loadNotes() {
+    const searchParams = this.urlParams();
+
+    this.noteService.list(searchParams, 1).subscribe(async response => {
+
+      this.notes = response.body;
+    });
+  }
+
+  urlParams() {
+    let url = 'story_uuid=' + this.story.story_uuid;
+    return url;
   }
 }
