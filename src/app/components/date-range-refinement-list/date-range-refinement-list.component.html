@@ -20,7 +20,8 @@
             </ion-button>
 
             <span class="ais-CurrentRefinementComponent-list">
-                {{ date }}
+                From {{ lowerDate }}
+                To {{ upperDate }}
             </span>
         </div>
 
@@ -30,8 +31,13 @@
 
         <p class="sub-title" *ngIf="subTitle">{{ subTitle }}</p>
 
-        <ion-item class="input-wrapper" (click)="openCalendarPopup()">
-          <ion-input [value]="date" readonly></ion-input>
+        <ion-item class="input-wrapper" (click)="openCalendarPopup('l')">
+          <ion-input [value]="lowerDate" placeholder="from" readonly></ion-input>
+          <ion-icon slot="end" name="calendar-outline"></ion-icon>
+        </ion-item>
+
+      <ion-item class="input-wrapper" (click)="openCalendarPopup('h')">
+          <ion-input [value]="upperDate"  placeholder="till" readonly></ion-input>
           <ion-icon slot="end" name="calendar-outline"></ion-icon>
         </ion-item>
     </div>
