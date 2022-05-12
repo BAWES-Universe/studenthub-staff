@@ -4,6 +4,7 @@ import { BaseWidget, NgAisInstantSearch } from 'angular-instantsearch';
 import { parseNumberInput, noop } from 'angular-instantsearch/esm2015/utils';
 import {CalendarModal, CalendarModalOptions, CalendarResult} from 'ion2-calendar';
 import { ModalController } from '@ionic/angular';
+import {Options} from "ng5-slider";
 
 @Component({
   selector: 'date-range-refinement-list',
@@ -37,8 +38,13 @@ export class DateRangeRefinementListComponent extends BaseWidget {
   value;
 
   average;
+  lowerDate;
+  upperDate;
 
-  public date;
+  options: Options = {
+    floor: 0,
+    ceil: 1,
+  }
 
   constructor(
       @Inject(forwardRef(() => NgAisInstantSearch))
@@ -96,13 +102,13 @@ export class DateRangeRefinementListComponent extends BaseWidget {
               this.value = disabled ? { lower: lower, upper: upper + 0.0001 } : { lower: lower, upper: upper };
 
               // Due to change detection rules in Angular, we need to re-create the options object to apply the change
-              /*const newOptions: Options = Object.assign({}, this.options);
+              const newOptions: Options = Object.assign({}, this.options);
               newOptions.ceil = Math.max(this.max, this.value.upper);
               newOptions.floor = Math.min(this.min, this.value.lower);
 
               //newOptions.animate = false;
               //newOptions.rightToLeft = this.translateLabel.currentLang == 'ar';
-              this.options = newOptions;*/
+              this.options = newOptions;
 
               this.setLabel(); // update label
           });
@@ -113,7 +119,6 @@ export class DateRangeRefinementListComponent extends BaseWidget {
           //let range = [e.detail.value.lower, e.detail.value.upper];
 
           let range = [this.value.lower, this.value.upper];
-
           this.state.refine(range);
           //this.change.emit();
       };
@@ -200,8 +205,8 @@ export class DateRangeRefinementListComponent extends BaseWidget {
   /**
    * open calender to select range
    */
-  async openCalendarPopup() {
- 
+  async openCalendarPopup(string) {
+
     const options: CalendarModalOptions = {
       canBackwardsSelected: true,
       pickMode: 'single',
@@ -226,10 +231,16 @@ export class DateRangeRefinementListComponent extends BaseWidget {
 
     if (date) {
 
-      this.value.lower = date.unix; 
-      //this.value.upper = date.unix + (60*60*24); 
+      if (string =='l') {
+        this.lowerDate = date.string;
+        this.value.lower = date.unix;
+      } else if (string =='h') {
+        this.upperDate = date.string;
+        this.value.upper = date.unix;
+      }
+      //this.value.upper = date.unix + (60*60*24);
 
-      this.date = date.string; 
+      // this.date = date.from.string + ' - ' + date.to.string;
 
       this.handleChange();
     }

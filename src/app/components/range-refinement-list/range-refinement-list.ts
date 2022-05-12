@@ -111,11 +111,9 @@ export class RangeRefinementComponent extends BaseWidget {
         };
 
         this.handleChange = () => {
-
             //let range = [e.detail.value.lower, e.detail.value.upper];
 
             let range = [this.value.lower, this.value.upper];
-
             this.state.refine(range);
             //this.change.emit();
         };
