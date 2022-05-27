@@ -113,7 +113,11 @@ export class DefaultPage implements OnInit {
   }
 
   scrollToActive() {
-    this.navCtrl.navigateForward('/view/company-request-dashboard');
+    this.navCtrl.navigateForward('/view/company-request-dashboard', {
+      state: {
+        requestStatus: 'need-update'
+      }
+    });
   }
 
   /**

@@ -42,7 +42,15 @@ export class CompanyRequestDashboardPage implements OnInit {
   }
 
   ngOnInit() {
-    this.loadAllRequest();
+    
+    /*const state = window.history.state;
+
+    if(state && state.requestStatus) {
+      this.filters.requestStatus = state.requestStatus;
+    } else {
+      this.loadAllRequest();
+    }*/
+
     this.eventService.companyRequestUpdate$.subscribe(() => {
       this.loadAllRequest();
     });
@@ -50,6 +58,8 @@ export class CompanyRequestDashboardPage implements OnInit {
 
   ionViewWillEnter() {
     this.content.scrollToPoint(0, this.scrollPosition);
+    
+    this.loadAllRequest();
   }
 
   ionViewWillLeave() {
