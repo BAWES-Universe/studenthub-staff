@@ -986,8 +986,24 @@ export class CandidateViewPage implements OnInit {
     });
   }
 
-  logScrolling(e) {
-    this.borderLimit = (e.detail.scrollTop > 20);
+  logScrolling(event) {
+    //console.log(event);
+
+    this.borderLimit = (event.detail.scrollTop > 20);
+    
+    //console.log(event.detail.scrollTop, event);
+
+    //if (event.detail.offsetHeight + event.detail.scrollTop >= event.detail.scrollHeight) {
+    //  console.log("End:" + event.detail.offsetHeight +':'+ event.detail.scrollTop +':'+ event.detail.scrollHeight);
+    //  console.log(event.target.offsetTop, event.target.clientHeight, event.target.offsetHeight)
+    //}
+
+    //scrollHeight 544 
+
+    //offsetTop 266
+
+    //event.detail.scrollTop >= toal height - event.target.clientHeight
+    //scrollHeight
   }
 
   /**
@@ -1121,6 +1137,16 @@ export class CandidateViewPage implements OnInit {
         candidate: this.candidate
       }
     });
+  }
+
+  imageError(history) {
+    history.company.company_logo = null;
+  }
+
+  toggleOpen(history, event) {
+    event.preventDefault();
+    event.stopPropagation();
+    history.isOpen = !history.isOpen;
   }
 
   /**

@@ -253,47 +253,57 @@
     <div *ngIf="candidate && segment == 'activity'">
 
       <div class="assignment-wrapper">
+        <!--
         <h5 class="hourly-rate" *ngIf="candidate.store && candidate.candidate_hourly_rate">
           Assigned to work at {{ candidate.store.store_name }} for {{ candidate.candidate_hourly_rate | number:'1.0-3' }}
           KD per hour
-        </h5>
+        </h5>-->
 
-        <h5 class="heading"><ion-icon src="assets/images/icon-assignment.svg"></ion-icon> Activity</h5>
+        <h5 class="heading" *ngIf="workHistory.length > 0"><ion-icon src="assets/images/icon-assignment.svg"></ion-icon> Assignments</h5>
       
-        
-        <h5 class="heading" *ngIf="workHistory.length > 0">StudentHub Assignments</h5>
+        <ion-card class="card-history" *ngFor="let history of workHistory">
+          <ion-card-header>
+            <ion-item lines="none" *ngIf="history.store">
+              <div tabindex="0"></div>
+              
+              <ion-thumbnail *ngIf="history.company && history.company.company_logo">
+                <img src="{{ awsService.cloudinaryUrl + history.company.company_logo }}" (error)="imageError(history)">
+              </ion-thumbnail>
 
-        <ng-container *ngFor="let history of workHistory">
-          <ion-item lines="none" *ngIf="history.store">
-            <div tabindex="0"></div>
-            <label tappable (click)="openWorkPlace(history)">
-              <h5 *ngIf="history.store">{{ history.store.store_name }} @ {{ history.company.company_name }}</h5>
-
-              <h5 *ngIf="!history.store">@ {{ history.company.company_name }}</h5>
-
-              <p>
-                for {{ history.candidate_hourly_rate | number:'1.0-3' }} KD per hour
-              </p>
-
-              <ng-container *ngIf="history.end_date">{{ toDate(history.end_date) | date }}</ng-container>
-
-              <p>
-                {{ toDate(history.start_date) | date }} to
-                <ng-container *ngIf="history.end_date">{{ toDate(history.end_date) | date }}</ng-container>
-                <ng-container *ngIf="!history.end_date">now</ng-container>
-              </p>
-            </label>
-            <div slot="end">
-              <ion-button (click)="downloadCertification(history)">
-                <ion-icon name="cloud-download-outline"></ion-icon>&nbsp;Certificate
-              </ion-button><br />
-              <ion-button *ngIf="!history.end_date" class="btn-unassign"
-                (click)="unassignCandidateFromStore(history.store_id)">&nbsp;
-                Unassign
+              <ion-label>
+                <h5 *ngIf="history.store">{{ history.store.store_name }}</h5>
+                <a [routerLink]="'/company-view/' + history.company_id">{{ history.company.company_name }}</a>
+              </ion-label>
+              
+              <ion-button (click)="toggleOpen(history, $event)" [class.is-open]="history.isOpen">
+                <ion-icon src="assets/images/icon-arrow-down.svg"></ion-icon>
               </ion-button>
-            </div>
-          </ion-item>
-        </ng-container>
+              
+            </ion-item>
+          </ion-card-header>
+          <ion-card-content *ngIf="history.isOpen">
+
+            <p>
+              {{ history.candidate_hourly_rate | number:'1.0-3' }} KD/hr
+            </p>
+
+            <p>
+              {{ toDate(history.start_date) | date }} to
+              <ng-container *ngIf="history.end_date">{{ toDate(history.end_date) | date }}</ng-container>
+              <ng-container *ngIf="!history.end_date">now</ng-container>
+            </p> 
+              
+            <ion-button class="btn-certificate" (click)="downloadCertification(history)">
+              <ion-icon name="cloud-download-outline"></ion-icon>&nbsp;Certificate
+            </ion-button> 
+
+            <ion-button *ngIf="!history.end_date" class="btn-unassign"
+              (click)="unassignCandidateFromStore(history.store_id)">&nbsp;
+              Unassign
+            </ion-button>
+          
+          </ion-card-content>
+        </ion-card>
         
       </div>
       
@@ -394,44 +404,8 @@
     <loading-modal [loading]="loading" type="candidate-view"></loading-modal>
   </div><!-- END .container -->
 </ion-content>
-<ion-footer *ngIf="candidate && (candidate.isProfileCompleted || candidate.store)" class="container">
-  <ion-grid>
-    <ion-row>
-
-      <ion-col *ngIf="candidate.isProfileCompleted">
-        <ion-button class="btn-export-cv" (click)="exportOption()">
-          <ion-spinner *ngIf="exportingCV"></ion-spinner>
-          <span *ngIf="!exportingCV">Export CV as PDF</span>
-        </ion-button>
-      </ion-col>
-
-      <ion-col *ngIf="candidate.store">
-        <ion-button class="btn-unassign" [disabled]="unassinging" (click)="unassignCandidateFromStore(0)">
-          <span *ngIf="!unassinging">Unassign from {{ candidate.store.store_name }}</span>
-          <ion-spinner *ngIf="unassinging"></ion-spinner>
-        </ion-button>
-      </ion-col>
-
-      <ion-col *ngIf="candidate.isProfileCompleted && this.authService.story && this.authService.story.request">
-        <ion-button class="btn-invite" (click)="invite()">
-          Invite for Client Request
-        </ion-button>
-      </ion-col>
-
-      <ion-col *ngIf="candidate.isProfileCompleted && !candidate.store">
-        <ion-button class="btn-store" [disabled]="assigning" (click)="assingToStore($event)">
-          <span *ngIf="!assigning">Assign to store</span>
-          <ion-spinner *ngIf="assigning"></ion-spinner>
-        </ion-button>
-      </ion-col>
-
-      <!--
-      <ion-col>
-        <ion-button class="btn-hourly-rate" (click)="updateRate($event)">
-          Set hourly rate
-        </ion-button>
-      </ion-col>-->
-
-    </ion-row>
-  </ion-grid>
+<ion-footer *ngIf="candidate && candidate.isProfileCompleted && authService.story && authService.story.request" class="container">
+  <ion-button class="btn-invite" (click)="invite()">
+    Invite for Client Request
+  </ion-button>
 </ion-footer>

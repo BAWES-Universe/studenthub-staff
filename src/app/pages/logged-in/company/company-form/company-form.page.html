@@ -50,21 +50,19 @@
 
       <ion-item class="input-wrapper">
         <ion-label position="floating">Description in English</ion-label>
-
-        <ckeditor [config]="editorConfig" #ckeditor [editor]="Editor" (ready)="onEditorReady()"
+        <ion-textarea formControlName="description_en"></ion-textarea>
+        <!--<ckeditor [config]="editorConfig" #ckeditor [editor]="Editor" (ready)="onEditorReady()"
           (change)="onChange($event)">
-        </ckeditor>
-        <!--
-          <ion-textarea formControlName="description_en"></ion-textarea>-->
+        </ckeditor>-->
       </ion-item>
 
       <ion-item class="input-wrapper">
         <ion-label position="floating">Description in Arabic</ion-label>
-
+        <ion-textarea formControlName="description_at"></ion-textarea>
+        <!--
         <ckeditor [config]="editorConfig" #ckeditor_ar [editor]="Editor" (ready)="onArabicEditorReady()"
           (change)="onArabicEditorChange($event)">
-        </ckeditor>
-
+        </ckeditor>-->
       </ion-item>
 
       <h5>More Information</h5>
@@ -94,14 +92,14 @@
         <ion-input type="text" formControlName="followup_interval_weeks"></ion-input>
       </ion-item>
 
-      <ion-item *ngIf="!isSubCompany">
+      <ion-item *ngIf="!isSubCompany" class="toggle-wrapper">
         <div tabindex="0"></div>
         <ion-label>Followup</ion-label>
-        <ion-toggle formControlName="followup">
+        <ion-toggle slot="end" formControlName="followup">
         </ion-toggle>
       </ion-item>
 
-      <ion-item *ngIf="!isSubCompany">
+      <ion-item *ngIf="!isSubCompany" class="toggle-wrapper">
         <ion-label>Approved to hire?</ion-label>
         <ion-toggle slot="end" formControlName="approved_to_hire"></ion-toggle>
       </ion-item>
