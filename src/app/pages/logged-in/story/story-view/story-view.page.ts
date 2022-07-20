@@ -23,6 +23,7 @@ import {StoryViewOptionPage} from './story-view-option.page';
 import {StoryCloseConfirmationComponent} from "./story-close-confirmation.component";
 import {NoteService} from "../../../../providers/logged-in/note.service";
 import {Note} from "../../../../models/note";
+import { StoryDeliveredComponent } from './story-delivered.component';
 
 
 export interface TimeSpan {
@@ -251,6 +252,15 @@ export class StoryViewPage implements OnInit, OnDestroy {
             this.authService.saveInStorage();
         }
 
+        if(status == 3) {
+          this.showStoryDelivered(
+            response.newStoryActivity,
+            response.totalDelivered, 
+            response.total,
+            response.nextStory
+          );
+        }
+
         // Close the page
         this.loadData();
       }
@@ -385,7 +395,42 @@ export class StoryViewPage implements OnInit, OnDestroy {
   }
 
   /**
-   * open filter
+   * open story delivered popup
+   * @returns
+   */
+  async showStoryDelivered(storyActivity, totalDelivered, total, nextStory = null) {
+
+    const modal = await this._modalCtrl.create({
+      component: StoryDeliveredComponent,
+      componentProps: {
+        totalDelivered: totalDelivered, 
+        total: total,
+        storyActivity: storyActivity,
+        //nextStory: nextStory
+      },
+      cssClass: 'modal-request-filter modal-delivered-story',
+    });
+
+    await modal.present();
+
+    const { data } = await modal.onWillDismiss();
+
+    if (data.action == "request") 
+    {
+      this.navCtrl.navigateForward(['request-view', this.story.request_uuid]);
+    }
+    else if (data.action == "next") 
+    {
+      this.navCtrl.navigateForward(['story-view', nextStory.story_uuid]);
+    }
+    else if (data.action = "back") 
+    {
+      this.navCtrl.back();
+    }
+  }
+
+  /**
+   * open popup to confirm stop working and close
    * @returns
    */
   async closeStoryConfirmation() {

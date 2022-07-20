@@ -15,6 +15,7 @@ import { InvitationModule } from 'src/app/components/invitation/invitation.modul
 import { StoryViewOptionPage } from './story-view-option.page';
 import { StoryCloseConfirmationComponent } from './story-close-confirmation.component';
 import { SuggestionModule } from "../../../../components/suggestion/suggestion.module";
+import { StoryDeliveredComponent } from './story-delivered.component';
 
 @NgModule({
   imports: [
@@ -33,7 +34,8 @@ import { SuggestionModule } from "../../../../components/suggestion/suggestion.m
   declarations: [
     StoryViewPage,
     StoryViewOptionPage,
-    StoryCloseConfirmationComponent
+    StoryCloseConfirmationComponent,
+    StoryDeliveredComponent
   ],
   exports: [
     StoryViewOptionPage
