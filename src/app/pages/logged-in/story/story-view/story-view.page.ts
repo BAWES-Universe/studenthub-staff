@@ -98,6 +98,7 @@ export class StoryViewPage implements OnInit, OnDestroy {
       this.story_uuid = this.activatedRoute.snapshot.paramMap.get('id');
 
     const state = window.history.state;
+
     if (!this.story) {
       this.loadData();
     }
@@ -141,9 +142,22 @@ export class StoryViewPage implements OnInit, OnDestroy {
       this.loading = false;
       this.story = res;
       this.request = this.story.request;
+      
       this.loadStoryInvitations();
+      
       this.loadSuggestions();
+      
       this.loadNotes();
+
+      console.log(this.authService.staff_id);
+
+      if(this.story.story_status == 1 && this.story.staff_id == this.authService.staff_id && 
+        ['cancelled', 'delivered'].indexOf(this.story.request.request_status) == -1) 
+      {
+        this.authService.story = this.story;
+        this.authService.saveInStorage();
+      }
+
       /*if (this.story.story_status == 1) {
         this.loadTimer();
       }
@@ -226,13 +240,14 @@ export class StoryViewPage implements OnInit, OnDestroy {
 
         // story work started
         if (status == 1) {
-            this.authService.story = this.story;
+          this.story.staff_id = this.authService.staff_id;
+            this.authService.story = this.story; 
             this.authService.saveInStorage();
         }
 
         // story work stopped
         if (status == 0 || status == 3) {
-            this.authService.story = null;
+            this.authService.story = null; //todo: move to next story instead of null
             this.authService.saveInStorage();
         }
 

@@ -1,5 +1,5 @@
 <ion-card tappable>
-  <ion-badge *ngIf="model.invitation_status == 1">
+  <!-- <ion-badge *ngIf="model.invitation_status == 1">
     Invited a candidate
   </ion-badge>
 
@@ -10,7 +10,7 @@
   <ion-badge *ngIf="model.invitation_status == 3">
     Accepted by candidate
   </ion-badge>
-
+-->
   <ion-item lines="none" *ngIf="model.candidate">
     <div tabindex="0"></div>
 
@@ -25,17 +25,14 @@
       <h5>{{ model.candidate.candidate_name ?model.candidate.candidate_name : model.candidate.candidate_name_ar }}</h5>
       <p *ngIf="model.note">{{model.note.note_text}}</p>
     </ion-label>
+      
+    <span class="txt-time">
+      {{ model.invitation_created_at | timeAgo }}
+    </span>
   </ion-item>
 
-  <p class="txt-time">
-    {{ model.invitation_created_at | timeAgo }} on
-    {{ toDate(model.invitation_created_at) | date: 'MMM d, y' }}
-  </p>
-
   <p class="invitation-time" *ngIf="model">
-
-    first
-
+ 
     <ng-container *ngIf="
         model.invitation_app_seen_at &&
         (
@@ -43,7 +40,7 @@
           toDate(model.invitation_app_seen_at) > toDate(model.invitation_email_seen_at)
         )
         ">
-      saw the invitation via app at {{ toDate(model.invitation_app_seen_at) | date: 'MMM d, y, h:mm:ss a' }}
+      First saw the invitation via app at {{ toDate(model.invitation_app_seen_at) | date: 'MMM d, y, h:mm:ss a' }}
       (took her
       {{ model.invitation_created_at | duration : translateService.currentLang : model.invitation_app_seen_at }})
     </ng-container>
@@ -55,7 +52,7 @@
           toDate(model.invitation_email_seen_at) > toDate(model.invitation_app_seen_at)
         )
         ">
-      saw the invitation via email at {{ toDate(model.invitation_email_seen_at) | date: 'MMM d, y, h:mm:ss a' }}
+      First saw the invitation via email at {{ toDate(model.invitation_email_seen_at) | date: 'MMM d, y, h:mm:ss a' }}
       (took her
       {{ model.invitation_created_at | duration : translateService.currentLang : model.invitation_email_seen_at }})
     </ng-container>
@@ -66,16 +63,20 @@
 
   </p>
 
-</ion-card>
+  <!-- move to suggestion if not suggested and accepted -->
+  <ion-button [disabled]="loading ||
+    (
+      !model.invitation_created_by_company && (
+        !model.story || authService.staff_id != model.story.staff_id
+      )
+    )"
+    *ngIf="!model.is_suggested && model.invitation_status == 3" class="btn-suggestion"
+    (click)="suggest($event)">
+    <span *ngIf="!loading">Suggest</span>
+    <ion-spinner *ngIf="loading"></ion-spinner>
+  </ion-button>
 
-<!-- move to suggestion if not suggested and accepted -->
-<ion-button [disabled]="!model.invitation_created_by_company && (
-    !model.story || authService.staff_id != model.story.staff_id
-  )"
-  *ngIf="!model.is_suggested && model.invitation_status == 3" class="btn-suggestion"
-  (click)="suggest($event)">
-  Move to suggestion
-</ion-button>
+</ion-card>
 
 <!-- created by staff but missing story from invitation -->
 

@@ -100,7 +100,7 @@
             <span>{{activity.activity_created_at | timeAgo}}</span> on <span>{{activity.activity_created_at |
               date}}</span></p>
 
-          <ion-badge>Time Spent : {{activity.activity_time_spent | timeSpent}}</ion-badge>
+          <ion-badge>Time Spent : {{ activity.activity_time_spent | timeSpent }}</ion-badge>
         </ion-card-content>
       </ion-card>
 
@@ -143,24 +143,36 @@
 </ion-content>
 <ion-footer class="ion-text-center clear-header" *ngIf="story">
   <ion-grid class="container">
+     
     <ion-row>
-      <ion-col>
-        <ion-button class="post-update-btn" fill="outline" (click)="updateValue($event)">
-          Post Update
-        </ion-button>
-      </ion-col>
-      <ion-col *ngIf="authService && story.story_status == 1 && story.request && story.staff_id == authService.staff_id && ['cancelled', 'delivered'].indexOf(story.request.request_status) == -1">
+      
+      <ion-col size="6" size-sm="12" size-md="12" *ngIf="story.story_status == 1 && story.request && story.staff_id == authService.staff_id && 
+        ['cancelled', 'delivered'].indexOf(story.request.request_status) == -1">
         <ion-button class="invite-btn" (click)="showCandidates()">
           Invite Candidates
         </ion-button>
       </ion-col>
-      <ion-col>
+
+      <ion-col *ngIf="segment == 'update'">
+        <ion-button class="post-update-btn" fill="outline" (click)="updateValue($event)">
+          Post Update
+        </ion-button>
+      </ion-col>
+
+      <ion-col *ngIf="story.request && ['cancelled', 'delivered'].indexOf(story.request.request_status) == -1 && 
+        (
+          story.story_status == 0 || 
+          (story.story_status == 1 && story.staff_id == authService.staff_id && allSuggestions.length == 0) || 
+          (story.story_status < 3 && allSuggestions.length > 0)
+        )">
+
         <ion-button
-          *ngIf="story.story_status == 0  && story.request && ['cancelled', 'delivered'].indexOf(story.request.request_status) == -1"
+          *ngIf="story.story_status == 0"
           class="start-btn" (click)="changeStoryStatus(1)">
           Start Work
         </ion-button>
-        <ion-button *ngIf="story.request && ['cancelled', 'delivered'].indexOf(story.request.request_status) == -1 && story.story_status == 1 && story.staff_id == authService.staff_id && allSuggestions.length == 0"
+
+        <ion-button *ngIf="story.story_status == 1 && story.staff_id == authService.staff_id && allSuggestions.length == 0"
                     class="stop-btn" fill="outline" (click)="closeStoryConfirmation()">
           <ion-label>
             Stop Work &nbsp;&nbsp;
@@ -170,10 +182,10 @@
           </ion-label>
         </ion-button>
 
-        <ion-button *ngIf="story.request && story.story_status < 3 && allSuggestions && allSuggestions.length > 0"
+        <ion-button *ngIf="story.story_status < 3 && allSuggestions.length > 0"
                     class="stop-btn delivery" fill="outline" (click)="changeStoryStatus(3)">
           <ion-label>
-            Delivery Story
+            Mark Story as Delivered
             <span class="timer ion-text-center">
                 {{ story.story_last_updated_at | timer }}
             </span>

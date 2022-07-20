@@ -94,6 +94,7 @@ export class InvitationComponent implements OnInit {
         {
           text: 'Ok',
           handler: async (data) => {
+            
             this.loading = true;
 
             const param = {

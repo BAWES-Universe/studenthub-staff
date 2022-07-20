@@ -70,13 +70,13 @@ export class CompanyRequestDashboardPage implements OnInit {
 
     window.analytics.page('Company Request Dashboard Page');
 
-    /*const state = window.history.state;
+    const state = window.history.state;
 
     if(state && state.requestStatus) {
       this.filters.requestStatus = state.requestStatus;
     } else {
       this.loadAllRequest();
-    }*/
+    }
 
     this.eventService.companyRequestUpdate$.subscribe(() => {
       this.loadAllRequest();

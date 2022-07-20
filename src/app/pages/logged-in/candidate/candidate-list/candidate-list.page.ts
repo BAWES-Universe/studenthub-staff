@@ -81,6 +81,7 @@ export class CandidateListPage implements OnInit {
     if (state.story) {
       this.story = state.story;
     }
+    
     window.analytics.page('Candidate List Page');
 
     this.loadData(1);

@@ -129,9 +129,7 @@ export class CandidateViewPage implements OnInit {
 
     if (state.story) {
       this.story = state.story;
-    }
-
-    if (this.authService.story) {
+    } else if (this.authService.story) {
       this.story = this.authService.story;
     }
 
@@ -582,6 +580,9 @@ export class CandidateViewPage implements OnInit {
             this.invitationService.create(params).subscribe(async response => {
 
               this.loading = false;
+
+              //todo:mark as invited for specific story/ request
+              //this.candidate.invited = true;
 
               // On Success
               if (response.operation == 'success') {

@@ -62,6 +62,8 @@ export class FulltimerViewPage implements OnInit {
 
     if (state.story) {
       this.story = state.story;
+    } else if (this.authService.story) {
+      this.story = this.authService.story;
     }
 
     this.loadData();

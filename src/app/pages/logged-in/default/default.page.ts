@@ -143,15 +143,16 @@ export class DefaultPage implements OnInit {
       }
     );
   }
+
   async getAccountInfo() {
-    this.accountService.accountInfo().subscribe( res => {
-      console.log(res);
+    this.accountService.accountInfo().subscribe( res => {  
       if (res && res.story) {
         this.authService.story = res.story;
         this.authService.saveInStorage();
       }
     });
   }
+  
   logout() {
     this.authService.logout();
   }

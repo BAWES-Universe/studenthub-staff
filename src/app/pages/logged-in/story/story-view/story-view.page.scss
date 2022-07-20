@@ -169,6 +169,7 @@ p {
   --border-radius: 12px;
   text-transform: inherit;
   margin-top: 0;
+  --box-shadow: none;
 }
 .view-request-btn {
   width: 136px;
@@ -186,7 +187,7 @@ p {
   text-transform: inherit;
 }
 .stop-btn {
-  width:95%;
+  width:100%;
   height: 56px;
   flex-grow: 0;
   margin-bottom: 15px;
@@ -203,6 +204,7 @@ p {
   letter-spacing: normal;
   text-align: center;
   margin-top:0;
+  --box-shadow: none;
 }
 .footer::before ,
 .footer-md::before {
@@ -227,7 +229,7 @@ ion-footer {
 }
 
 .invite-btn {
-  width: 95%;
+  width: 100%;
   height: 56px;
   margin: 0 0 12px;
   --border-radius: 12px;
@@ -241,6 +243,7 @@ ion-footer {
   text-align: center;
   color: #fff;
   text-transform: inherit;
+  --box-shadow: none;
 }
 .activity {
   font-family: Inter;
@@ -305,11 +308,13 @@ ion-card {
     color: #68687a;
   }
 }
+
 .count {
   color: #7d7d8d;
 }
+
 .post-update-btn {
-  width: 95%;
+  width: calc(100% - 13px);
   height: 56px;
   margin: 0 0 12px;
   --border-radius: 12px;
@@ -322,4 +327,5 @@ ion-card {
   letter-spacing: normal;
   text-align: center;
   text-transform: inherit;
+  float: left;
 }

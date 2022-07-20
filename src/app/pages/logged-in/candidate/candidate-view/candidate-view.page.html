@@ -35,6 +35,7 @@
       </ion-button>
     </h4>
 
+    <ion-badge color="warning" *ngIf="candidate && !candidate.isProfileCompleted">Incomplete profile</ion-badge>
   </ion-toolbar>
 
   <!-- [class.hidden]="borderLimit"-->
@@ -404,7 +405,8 @@
     <loading-modal [loading]="loading" type="candidate-view"></loading-modal>
   </div><!-- END .container -->
 </ion-content>
-<ion-footer *ngIf="candidate && candidate.isProfileCompleted && authService.story && authService.story.request" class="container">
+<ion-footer *ngIf="candidate && candidate.isProfileCompleted && authService.story && authService.story.request && authService.story.story_status == 1 
+  && authService.story.staff_id == authService.staff_id && ['cancelled', 'delivered'].indexOf(authService.story.request.request_status) == -1" class="container">
   <ion-button class="btn-invite" (click)="invite()">
     Invite for Client Request
   </ion-button>

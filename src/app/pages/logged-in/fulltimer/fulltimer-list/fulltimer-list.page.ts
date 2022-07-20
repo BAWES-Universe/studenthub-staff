@@ -7,6 +7,7 @@ import { Fulltimer } from 'src/app/models/fulltimer';
 import { Story } from 'src/app/models/request';
 //pages
 import { FulltimerFormPage } from '../fulltimer-form/fulltimer-form.page';
+import { AuthService } from 'src/app/providers/auth.service';
 
 
 @Component({
@@ -29,6 +30,7 @@ export class FulltimerListPage implements OnInit {
 
   constructor(
     private fulltimerService: FulltimerService,
+    public authService: AuthService,
     private navCtrl: NavController,
     private modalCtrl: ModalController,
     private alertCtrl: AlertController,
@@ -42,7 +44,10 @@ export class FulltimerListPage implements OnInit {
 
     if (state.story) {
       this.story = state.story;
+    } else if (this.authService.story) {
+      this.story = this.authService.story;
     }
+
     window.analytics.page('Fulltimer List Page');
 
     this.loadData(this.currentPage);
