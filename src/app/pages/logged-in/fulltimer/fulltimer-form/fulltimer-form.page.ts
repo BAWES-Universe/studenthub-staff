@@ -214,7 +214,7 @@ export class FulltimerFormPage implements OnInit, OnDestroy {
         longitude: [this.model.fulltimer_longitude, Validators.required],
         name: [this.model.fulltimer_name, Validators.required],
         phone: [this.model.fulltimer_phone, Validators.required],
-        email: [this.model.fulltimer_email, Validators.required],
+        email: [this.model.fulltimer_email, [Validators.required, CustomValidator.emailValidator]],
         pdf_cv: [this.model.fulltimer_pdf_cv, Validators.required],
         fulltimerTags: new FormArray(tagCtrls),
         location: [location, Validators.required],

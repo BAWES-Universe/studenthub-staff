@@ -96,11 +96,37 @@
 
       <ion-card *ngFor="let activity of story.storyActivities" class="activity-list">
         <ion-card-content>
-          <p class="activity"><span *ngIf="activity.staff">{{activity.staff.staff_name}}</span> has worked on story
-            <span>{{activity.activity_created_at | timeAgo}}</span> on <span>{{activity.activity_created_at |
-              date}}</span></p>
+          <p class="activity">
+            
+            <span *ngIf="activity.activity_status == 0">Story generated</span>
 
-          <ion-badge>Time Spent : {{ activity.activity_time_spent | timeSpent }}</ion-badge>
+            <span *ngIf="activity.activity_status == 1 && activity.staff">
+              {{activity.staff.staff_name}} started working on story
+            </span>
+
+            <span *ngIf="activity.activity_status == 2 && activity.staff">
+              {{activity.staff.staff_name}} has stopped working on story
+            </span>
+            
+            <span *ngIf="activity.activity_status == 3 && activity.staff">
+              {{activity.staff.staff_name}} delivered story
+            </span>
+            
+            <span *ngIf="activity.activity_status == 4">
+              Story rejected 
+            </span>
+
+            <span *ngIf="activity.activity_status == 5">
+              Story Accepted
+            </span>
+
+            <span>{{activity.activity_created_at | timeAgo}}</span> on <span>{{activity.activity_created_at |
+              date}}</span>
+          </p>
+
+          <ion-badge *ngIf="activity.activity_time_spent">
+            Time Spent : {{ activity.activity_time_spent | timeSpent }}
+          </ion-badge>
         </ion-card-content>
       </ion-card>
 
