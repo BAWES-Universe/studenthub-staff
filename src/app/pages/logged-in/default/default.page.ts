@@ -152,7 +152,15 @@ export class DefaultPage implements OnInit {
       }
     });
   }
-  
+
+  /**
+   * return name initial for profile photo placeholder 
+   */
+  getInitials() {
+    const initials = this.authService.name.match(/\b\w/g) || [];
+    return ((initials.shift() || '') + (initials.pop() || '')).toUpperCase(); 
+  }
+
   logout() {
     this.authService.logout();
   }

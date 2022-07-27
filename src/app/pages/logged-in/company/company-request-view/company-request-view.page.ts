@@ -383,6 +383,8 @@ export class CompanyRequestViewPage implements OnInit, OnDestroy {
    * update request
    */
   async update() {
+    this.navCtrl.navigateForward(['request-form', this.request_uuid]);
+    /*
     window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
     const modal = await this.modalCtrl.create({
@@ -404,7 +406,7 @@ export class CompanyRequestViewPage implements OnInit, OnDestroy {
         this.loadDetail(false);
       }
     });
-    modal.present();
+    modal.present();*/
   }
 
   /**

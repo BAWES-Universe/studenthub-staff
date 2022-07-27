@@ -3,47 +3,37 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/view/company-request-dashboard"></ion-back-button>
     </ion-buttons>
-
-    <ion-title>
-      {{ operation }} Request
-      <small size="small" *ngIf="company">
-        for <br/>{{ company.company_common_name_en? company.company_common_name_en: company.company_name }}
-      </small>
-    </ion-title>
-
+  </ion-toolbar>
+  <ion-toolbar class="container" [class.hidden]="borderLimit">
+    <ion-title>{{ operation }} Request Details</ion-title>
     <ion-buttons slot="end">
-      <ion-button color="primary" [disabled]="saving || (form && !form.valid)" (click)="save()">
-        <span *ngIf="!saving">Save</span>
-        <ion-spinner *ngIf="saving"></ion-spinner>
+      <ion-button clear (click)="close()">
+        Cancel
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
+
 </ion-header>
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
   <div class="container">
   <form [formGroup]="form" *ngIf="form">
-
-    <ion-list>
-      <ion-item (click)="openClient($event)">
+ 
+      <ion-item class="input-wrapper" (click)="openClient($event)">
         <ion-label position="floating">Company Name</ion-label>
         <ion-input type="text" formControlName="company_name" readonly></ion-input>
       </ion-item>
-    </ion-list>
-
-    <ion-list>
+    
       <!-- [disabled]="!form.controls.company_name.value"  -->
-      <ion-item (click)="form.controls.company_name.value && openContact($event)">
+      <ion-item class="input-wrapper" (click)="form.controls.company_name.value && openContact($event)">
         <ion-label position="floating">Contact</ion-label>
         <ion-input type="text" formControlName="contact_name" readonly></ion-input>
-      </ion-item>
-    </ion-list>
+      </ion-item> 
 
-    <ion-list>
       <ion-radio-group  formControlName="position_type">
         <ion-row>
           <ion-col>
-            <ion-item>
+            <ion-item class="toggle-wrapper">
               <div tabindex="0"></div>
               <ion-radio slot="start" value="1"></ion-radio>
               <ion-label>Full time</ion-label>
@@ -51,7 +41,7 @@
           </ion-col>
 
           <ion-col>
-            <ion-item>
+            <ion-item class="toggle-wrapper">
               <div tabindex="0"></div>
               <ion-radio slot="start" value="2"></ion-radio>
               <ion-label>Part time</ion-label>
@@ -59,17 +49,13 @@
           </ion-col>
         </ion-row>
       </ion-radio-group>
-    </ion-list>
-
-    <ion-list>
-      <ion-item>
+    
+      <ion-item class="input-wrapper">
         <ion-label position="floating">Position title</ion-label>
         <ion-input type="text" formControlName="position_title"></ion-input>
       </ion-item>
-    </ion-list>
-
-    <ion-list>
-      <ion-item>
+    
+      <ion-item class="input-wrapper">
         <ion-label position="floating">Job Description</ion-label>
 
         <ckeditor [config]="editorConfig" #ckeditor [editor]="Editor"
@@ -78,57 +64,40 @@
         <!--
         <ion-input type="text" formControlName="job_description"></ion-input>-->
       </ion-item>
-    </ion-list>
-
-    <ion-list *ngIf="!model.request_uuid">
-      <ion-list>
-        <ion-item>
+     
+        <ion-item *ngIf="!model.request_uuid" class="input-wrapper">
           <ion-label position="floating">Number of employees</ion-label>
           <ion-input type="text" formControlName="number_of_employees"></ion-input>
         </ion-item>
-      </ion-list>
-
-      <ion-item>
+     
+      <ion-item *ngIf="!model.request_uuid" class="input-wrapper">
         <ion-label position="floating">Number of employees per story</ion-label>
         <ion-input type="text" formControlName="no_of_employees_per_story"></ion-input>
       </ion-item>
-    </ion-list>
     
-    <ion-list>
-      <ion-item>
+      <ion-item class="input-wrapper">
         <ion-label position="floating">Location</ion-label>
         <ion-input type="text" formControlName="location"></ion-input>
       </ion-item>
-    </ion-list>
-
-    <ion-list>
-      <ion-item>
+   
+      <ion-item class="input-wrapper">
         <ion-label position="floating">Compensation</ion-label>
         <ion-textarea formControlName="compensation" placeholder="Please provide compensation detail"></ion-textarea>
       </ion-item>
-    </ion-list>
-
-    <ion-list>
-      <ion-item>
+     
+      <ion-item class="input-wrapper">
         <ion-label position="floating">Additional info</ion-label>
         <ion-textarea formControlName="additional_info" placeholder="Female only, Lebanese Jordanian Syrian NO EGYPTIAN"></ion-textarea>
       </ion-item>
-    </ion-list>
+     
   </form>
   </div>
 </ion-content>
-<ion-footer class="container">
-  <ion-grid>
-    <ion-row>
-      <ion-col>
-        <ion-button [disabled]="(form && !form.valid) || saving" (click)="save()">
-          <span *ngIf="!saving">Save</span>
-          <ion-spinner *ngIf="saving"></ion-spinner>
-        </ion-button>
-      </ion-col>
-      <ion-col>
-        <ion-button (click)="resetForm();">Reset</ion-button>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+<ion-footer *ngIf="form" class="ion-no-border">
+  <div class="container">
+    <ion-button class="btn-save" [disabled]="!form.valid || saving" (click)="save()">
+      <span *ngIf="!saving">Save</span>
+      <ion-spinner *ngIf="saving"></ion-spinner>
+    </ion-button>
+  </div>
 </ion-footer>

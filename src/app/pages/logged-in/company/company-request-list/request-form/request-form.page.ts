@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Location } from '@angular/common';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ModalController, AlertController, PopoverController } from '@ionic/angular';
+import { ModalController, AlertController, PopoverController, NavController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 // services
@@ -50,6 +50,7 @@ export class RequestFormPage implements OnInit {
   constructor(
     public requestService: CompanyRequestService,
     private fb: FormBuilder,
+    public navCtrl: NavController,
     private modalCtrl: ModalController,
     private alertCtrl: AlertController,
     private authService: AuthService,
@@ -85,7 +86,7 @@ export class RequestFormPage implements OnInit {
       company_name: [(this.model.company) ? this.model.company.company_name : '', Validators.required],
       company_id: [this.model.company_id, Validators.required],
       contact_name: [{
-        value: (this.model.contact) ? this.model.contact : '',
+        value: (this.model.contact) ? this.model.contact.contact_name : '',
         disabled: this.model.contact? false: true
       }, Validators.required],
 
@@ -95,7 +96,7 @@ export class RequestFormPage implements OnInit {
       job_description: [this.model.request_job_description, Validators.required],
       compensation: [this.model.request_compensation, Validators.required],
       number_of_employees: [this.model.request_number_of_employees, Validators.required],
-      no_of_employees_per_story: [this.model.no_of_employees_per_story, Validators.required],
+      no_of_employees_per_story: [this.model.no_of_employees_per_story?this.model.no_of_employees_per_story:1, Validators.required],
       location: [this.model.request_location],
       additional_info: [this.model.request_additional_info]
     });
@@ -126,6 +127,10 @@ export class RequestFormPage implements OnInit {
     this.modalCtrl.getTop().then(o => {
       if(o) {
         o.dismiss({ refresh: false });
+      }
+      else 
+      {
+        this.navCtrl.back();
       }
     })
   }

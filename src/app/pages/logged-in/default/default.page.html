@@ -3,7 +3,7 @@
     <ion-title>Dashboard</ion-title>
     <ion-buttons slot="end">
       <ion-button [routerLink]="['/team-view/'+authService.staff_id]" fill="clear" class="name-btn">
-        KA
+         {{ getInitials() }}
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
