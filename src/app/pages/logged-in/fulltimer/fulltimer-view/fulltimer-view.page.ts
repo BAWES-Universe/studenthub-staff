@@ -185,9 +185,9 @@ export class FulltimerViewPage implements OnInit {
    * @param date
    */
   toDate(date) {
-    if (!date) 
+    if (!date)
       return null;
-      
+
     if (date) {
       return new Date(date.replace(/-/g, '/'));
     }
@@ -237,10 +237,10 @@ export class FulltimerViewPage implements OnInit {
   }
 
   /**
-   * add suggestion with given story 
+   * add suggestion with given story
    */
   async addSuggestion() {
-    
+
     const confirm = await this.alertCtrl.create({
       header: 'Reason for suggestion',
       inputs: [
@@ -260,14 +260,14 @@ export class FulltimerViewPage implements OnInit {
         {
           text: 'Ok',
           handler: async (data) => {
-                    
+
             //this.loading = true;
 
             const params = {
               request_uuid: this.story.request_uuid,
               story_uuid: this.story.story_uuid,
               fulltimer_uuid: this.fulltimer_uuid,
-              reason: data.feedback
+              suggestion: data.feedback
             };
 
             this.suggestionService.create(params).subscribe(async response => {
