@@ -35,11 +35,9 @@ export class InvitationComponent implements OnInit {
     public suggestionService: SuggestionService,
     public invitationService: InvitationService
   ) {
-    // console.log(this.model);
   }
 
   ngOnInit() {
-    // console.log(this.model);
   }
 
   doNothing(event) {

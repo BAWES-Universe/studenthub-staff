@@ -183,7 +183,6 @@ export class ImageUploadComponent implements ControlValueAccessor, OnInit {
 
     // Process Upload and Display Progress
     uploadObservable.subscribe((progress) => {
-      console.log(progress);
 
       // Update progress, possibly create emitter for this data if needed
       if (progress.loaded &&  progress.loaded != progress.total){

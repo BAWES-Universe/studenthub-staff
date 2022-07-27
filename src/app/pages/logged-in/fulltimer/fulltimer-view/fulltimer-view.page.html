@@ -140,21 +140,22 @@
   </div>
 </ion-content>
 
-<ion-footer *ngIf="fulltimer" class="container">
-
-  <ion-grid>
-    <ion-row>
-      <ion-col *ngIf="fulltimer.fulltimer_pdf_cv">
-        <ion-button class="btn-export-cv" target="_blank" href="{{ getResumeUrl() }}">
-          Download CV
-        </ion-button>
-      </ion-col>
-      <ion-col>
-        <ion-button class="btn-suggest" (click)="suggest()">
-          Suggest for client request
-        </ion-button>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+<ion-footer *ngIf="fulltimer" class="ion-no-border">
+  <div class="container">
+    <ion-grid>
+      <ion-row>
+        <ion-col *ngIf="fulltimer.fulltimer_pdf_cv">
+          <ion-button class="btn-export-cv" target="_blank" href="{{ getResumeUrl() }}">
+            Download CV
+          </ion-button>
+        </ion-col>
+        <ion-col>
+          <ion-button class="btn-suggest" (click)="suggest()">
+            Suggest for client request
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
 
 </ion-footer>

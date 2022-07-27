@@ -107,10 +107,10 @@
   </form>
 </ion-content>
 <ion-footer class="ion-no-border">
-  
-  <ion-button class="btn-save" [disabled]="!form.valid || loading || saving" (click)="save()">
-    <span *ngIf="!saving">{{ operation }}</span>
-    <ion-spinner *ngIf="saving"></ion-spinner>
-  </ion-button>
-
+  <div class="container">
+    <ion-button class="btn-save" [disabled]="!form.valid || loading || saving" (click)="save()">
+      <span *ngIf="!saving">{{ operation }}</span>
+      <ion-spinner *ngIf="saving"></ion-spinner>
+    </ion-button>
+  </div>
 </ion-footer>

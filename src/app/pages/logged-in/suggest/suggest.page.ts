@@ -92,8 +92,7 @@ export class SuggestPage implements OnInit {
    * save suggestion
    */
   save() {
-    console.log(this.form.value);
-    return false;
+
     this.loading = true;
     this.suggestionService.create(this.form.value).subscribe(async response => {
 

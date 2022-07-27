@@ -42,7 +42,6 @@ export class CompanyFilterPage implements OnInit {
     public eventService: EventService,
     public _modalCtrl: ModalController
   ) {
-    console.log(this.filters);
   }
 
   ngOnInit() {

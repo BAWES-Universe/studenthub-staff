@@ -224,14 +224,14 @@
 
   </div>
 </ion-content>
-<ion-footer *ngIf="segment == 'details' || segment == 'activities'"> 
+<ion-footer class="ion-no-border" *ngIf="segment == 'details' || segment == 'activities'"> 
+  <div class="container">
+    <ion-button *ngIf="segment == 'details'" class="btn-update" (click)="update()">
+      Edit Request Details
+    </ion-button>
 
-  <ion-button *ngIf="segment == 'details'" class="btn-update" (click)="update()">
-    Edit Request Details
-  </ion-button>
-
-  <ion-button *ngIf="segment == 'activities'" class="btn-post-update" (click)="showUpdateAlert()">
-    Post update
-  </ion-button>
-  
+    <ion-button *ngIf="segment == 'activities'" class="btn-post-update" (click)="showUpdateAlert()">
+      Post update
+    </ion-button>
+  </div>
 </ion-footer>

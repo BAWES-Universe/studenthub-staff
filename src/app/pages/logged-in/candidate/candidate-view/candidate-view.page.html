@@ -405,9 +405,11 @@
     <loading-modal [loading]="loading" type="candidate-view"></loading-modal>
   </div><!-- END .container -->
 </ion-content>
-<ion-footer *ngIf="candidate && candidate.isProfileCompleted && authService.story && authService.story.request && authService.story.story_status == 1 
-  && authService.story.staff_id == authService.staff_id && ['cancelled', 'delivered'].indexOf(authService.story.request.request_status) == -1" class="container">
-  <ion-button class="btn-invite" (click)="invite()">
-    Invite for Client Request
-  </ion-button>
+<ion-footer class="ion-no-border" *ngIf="candidate && candidate.isProfileCompleted && authService.story && authService.story.request && authService.story.story_status == 1 
+  && authService.story.staff_id == authService.staff_id && ['cancelled', 'delivered'].indexOf(authService.story.request.request_status) == -1">
+  <div class="container">
+    <ion-button class="btn-invite" (click)="invite()">
+      Invite for Client Request
+    </ion-button>
+  </div>
 </ion-footer>

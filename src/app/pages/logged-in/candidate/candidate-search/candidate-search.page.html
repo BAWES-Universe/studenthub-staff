@@ -109,7 +109,7 @@
   </ais-instantsearch>
 
 </ion-content>
-<ion-footer *ngIf="showFilter || candidateService.candidates.length > 0">
+<ion-footer class="ion-no-border" *ngIf="showFilter || candidateService.candidates.length > 0">
 
   <ion-toolbar class="container mobile-only ion-no-padding" *ngIf="showFilter">
     <ion-button [disabled]="loading || nbHits == 0" (click)="dismiss()" expands="full"

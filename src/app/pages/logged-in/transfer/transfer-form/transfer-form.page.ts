@@ -451,8 +451,6 @@ export class TransferFormPage implements OnInit {
 
     const eventCloseData: any = await myCalendar.onDidDismiss();
 
-    console.log(eventCloseData);
-
     const date = eventCloseData.data;
 
     if (date) {

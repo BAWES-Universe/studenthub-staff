@@ -29,20 +29,22 @@
     </ion-list>
   </form>
 </ion-content>
-<ion-footer>
-  <ion-grid>
-    <ion-row>
-      <ion-col>
-        <ion-button expand="full" color="primary" [disabled]="!form || !form.dirty || !form.valid || loading" (click)="save()">
-          <span *ngIf="!loading">Save</span>
-          <ion-spinner *ngIf="loading"></ion-spinner>
-        </ion-button>
-      </ion-col>
-      <ion-col>
-        <ion-button expand="full" (click)="close()">
-          Cancel
-        </ion-button>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+<ion-footer class="ion-no-border">
+  <div class="container">
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-button expand="full" color="primary" [disabled]="!form || !form.dirty || !form.valid || loading" (click)="save()">
+            <span *ngIf="!loading">Save</span>
+            <ion-spinner *ngIf="loading"></ion-spinner>
+          </ion-button>
+        </ion-col>
+        <ion-col>
+          <ion-button expand="full" (click)="close()">
+            Cancel
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
 </ion-footer>

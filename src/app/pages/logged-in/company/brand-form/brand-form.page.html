@@ -71,8 +71,10 @@
   </div>
 </ion-content>
 <ion-footer class="ion-no-border ion-text-center">
-  <ion-button [disabled]="!form || form.invalid || saving" (click)="save()" color="primary" expand="block">
-    <span *ngIf="!saving">Add New Brand</span>
-    <ion-spinner *ngIf="saving"></ion-spinner>
-  </ion-button>
+  <div class="container">
+    <ion-button class="btn-save" [disabled]="!form || form.invalid || saving" (click)="save()">
+      <span *ngIf="!saving">Add New Brand</span>
+      <ion-spinner *ngIf="saving"></ion-spinner>
+    </ion-button>
+  </div>
 </ion-footer>

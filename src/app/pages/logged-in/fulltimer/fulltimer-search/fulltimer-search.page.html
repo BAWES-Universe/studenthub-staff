@@ -170,7 +170,7 @@
 
 </ion-content>
 
-<ion-footer [class.filter-closed]="!showFilter" [class.filter-opened]="showFilter">
+<ion-footer class="ion-no-border" [class.filter-closed]="!showFilter" [class.filter-opened]="showFilter">
   <ion-toolbar class="ion-no-padding">
     <ion-button [disabled]="loading || nbHits == 0" (click)="dismiss()" expands="full" class="btn-view-fulltimers">
       <span *ngIf="!loading || !refreshingFulltimers">

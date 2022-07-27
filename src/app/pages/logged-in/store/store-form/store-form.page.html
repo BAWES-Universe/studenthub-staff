@@ -45,10 +45,13 @@
       </ion-select>
     </ion-item>
 
+  </form>
+</ion-content>
+<ion-footer class="ion-no-border ">
+  <div class="container">
     <ion-button class="btn-save" [disabled]="!form.valid || loading" (click)="save()">
       <span *ngIf="!loading">Save</span>
       <ion-spinner *ngIf="loading"></ion-spinner>
-    </ion-button>
-
-  </form>
-</ion-content>
+    </ion-button>    
+  </div>
+</ion-footer>

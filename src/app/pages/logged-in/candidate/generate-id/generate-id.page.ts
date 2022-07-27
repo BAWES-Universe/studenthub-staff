@@ -204,9 +204,4 @@ export class GenerateIdPage implements OnInit {
   logScrolling(e) {
     this.borderLimit = (e.detail.scrollTop > 20);
   }
-
-  redirect(event, obj){
-    console.log(event, obj);
-  }
-
 }

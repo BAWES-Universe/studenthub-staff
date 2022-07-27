@@ -339,7 +339,6 @@ export class CompanyRequestDashboardPage implements OnInit {
 
     const { data } = await modal.onWillDismiss();
 
-    console.log(data);
     if(data && (
         data.storyStatus != this.filters.storyStatus ||
         data.requestStatus != this.filters.requestStatus ||

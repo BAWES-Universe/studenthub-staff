@@ -239,8 +239,10 @@
   </div><!-- END .container -->
 </ion-content>
 <!-- if followup enabled and followup interval passed -->
-<ion-footer *ngIf="!company.parent_company_id && followup && isFollowUpIntervalPassed()" class="container">
-  <ion-button (click)="addFollowupNote()">
-    Follow Up
-  </ion-button>
+<ion-footer class="ion-no-border" *ngIf="!company.parent_company_id && followup && isFollowUpIntervalPassed()">
+  <div class="container">
+    <ion-button (click)="addFollowupNote()">
+      Follow Up
+    </ion-button>
+  </div>
 </ion-footer>

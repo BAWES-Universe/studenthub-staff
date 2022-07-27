@@ -150,8 +150,6 @@ export class StoryViewPage implements OnInit, OnDestroy {
       
       this.loadNotes();
 
-      console.log(this.authService.staff_id);
-
       if(this.story.story_status == 1 && this.story.staff_id == this.authService.staff_id && 
         ['cancelled', 'delivered'].indexOf(this.story.request.request_status) == -1) 
       {

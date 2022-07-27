@@ -76,6 +76,10 @@ ion-tabs ion-back-button {
   display: none;
 }
 
+ion-footer {
+  background: linear-gradient(180deg, rgba(247, 248, 250, 0) 0%, #F7F8FA 15.1%, #F7F8FA 100%);
+}
+
 ion-footer.filter-opened,
 ion-footer.filter-closed {
   display: none;

@@ -90,7 +90,6 @@ export class RequestListingComponent implements OnInit {
 
   kuwaitCurrentTime(date = new Date(), tzString = 'Asia/Kuwait') {
     const time = new Date((typeof date === "string" ? new Date(date) : date).toLocaleString('en-US', { timeZone: tzString }));
-    // console.log(date, time);
     return time;
   }
 

@@ -48,6 +48,5 @@ ion-title {
     width: calc(100% - 48px);
     --box-shadow: none;
     --border-radius: 12px;
-    position: fixed;
-    bottom: 24px;
+    margin: 24px;
 }

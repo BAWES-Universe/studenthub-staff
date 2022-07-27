@@ -667,7 +667,7 @@ export class CandidateViewPage implements OnInit {
       translucent: true
     });
     selectPage.onDidDismiss().then(e => {
-      console.log(e);
+  
       if (e.data) {
         this.assignCandidateToStore(e.data.store_id);
       }
