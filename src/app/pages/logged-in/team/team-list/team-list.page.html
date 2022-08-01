@@ -8,7 +8,7 @@
 </ion-header>
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
-  
+
   <div class="container">
 
     <ion-list *ngIf="!loading">
@@ -17,13 +17,22 @@
         <ion-item tappable *ngFor="let staff of staffs" (click)="rowSelected(staff)">
           <div tabindex="0"></div>
           <ion-label>
-            {{ staff.staff_name }} 
+            {{ staff.staff_name }}
             <span *ngIf="authService.staff_id == staff.staff_id">&nbsp;•&nbsp;You</span>
             <br/>
             <small>{{ staff.staff_email }}</small><br/>
 
-            <ion-note>
-              {{ staff.totalCompletedRequests }} requests completed
+<!--            <ion-note>-->
+<!--              {{ staff.totalCompletedRequests }} requests completed-->
+<!--            </ion-note><br/>-->
+            <ion-note [class.red]="staff.total_requests == '0'">
+              {{ staff.total_requests }} requests Created
+            </ion-note><br/>
+            <ion-note [class.red]="staff.total_notes == '0'">
+              {{ staff.total_notes }} Notes
+            </ion-note><br/>
+            <ion-note [class.red]="staff.total_assigned == '0'">
+              {{ staff.total_assigned }} Candidate Assigned
             </ion-note>
           </ion-label>
           <ion-badge class="company_status_badge" slot="end" color="danger" *ngIf="!staff.staff_status">
@@ -39,7 +48,7 @@
 
     <loading-modal [loading]="loading || loadMore" type="text-list"></loading-modal>
   </div>
-  
+
   <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
     <ion-infinite-scroll-content></ion-infinite-scroll-content>
   </ion-infinite-scroll>

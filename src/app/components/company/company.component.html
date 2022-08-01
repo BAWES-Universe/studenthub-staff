@@ -26,7 +26,10 @@
       Active
     </ion-badge>
     <ion-badge slot="start" color="light" *ngIf="totalCandidates > 0">
-      {{ totalCandidates }} assigned staff
+      {{ totalCandidates }} Assigned Candidate
+    </ion-badge>
+    <ion-badge slot="start" color="light" *ngIf="company.total_suggestions > 0">
+      {{ company.total_suggestions }} total Suggestions
     </ion-badge>
     <ion-badge slot="start" color="light" *ngIf="company.subCompanies && company.subCompanies.length > 0">
       {{ company.subCompanies.length }} sub-companies
@@ -41,7 +44,7 @@
     <ion-badge slot="start" color="success" *ngIf="company.company_approved_to_hire">
       <ion-icon name="checkmark-outline"></ion-icon> Approved to hire
     </ion-badge>
-    
+
     <ion-badge slot="start" color="warning" *ngIf="!company.company_approved_to_hire">
       <ion-icon name="close-outline"></ion-icon> Not approved to hire
     </ion-badge>
