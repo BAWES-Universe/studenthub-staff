@@ -18,6 +18,7 @@
   <ion-toolbar class="container">
 
     <ion-item class="input-wrapper txt-date-range">
+      <div tabindex="0"></div>
       <ion-label position="floating">Time Period</ion-label>
       <ion-input [value]="range" (click)="openCalendarPopup($event)"></ion-input>
       <ion-icon src="assets/images/icon-date-range.svg"></ion-icon>
@@ -39,136 +40,138 @@
 </ion-header>
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
+  <div class="container">
+    <ng-container *ngIf="segment == 'manual'">
+      <form [formGroup]="form" *ngIf="ready">
 
-  <ng-container *ngIf="segment == 'manual'">
-    <form [formGroup]="form" *ngIf="ready">
+        <!-- store_id pipe returns the transferCandidates grouped by store as object of following format: -->
+        <!-- {name: string, resources: TransferCandidate[]} -->
+        <ion-item-group *ngFor="let group of transfer.transferCandidates | store_name">
 
-      <!-- store_id pipe returns the transferCandidates grouped by store as object of following format: -->
-      <!-- {name: string, resources: TransferCandidate[]} -->
-      <ion-item-group *ngFor="let group of transfer.transferCandidates | store_name">
+          <ion-item-divider><b>{{ group.name }}</b></ion-item-divider>
 
-        <ion-item-divider><b>{{ group.name }}</b></ion-item-divider>
+          <ion-card *ngFor="let transferCandidateRecord of group.resources"
+            id="candidate_{{ transferCandidateRecord.candidate.candidate_id }}">
 
-        <ion-card *ngFor="let transferCandidateRecord of group.resources"
-          id="candidate_{{ transferCandidateRecord.candidate.candidate_id }}">
+            <ion-item>
+              <div tabindex="0"></div>
+              <ion-avatar slot="start">
+                <ion-img *ngIf="!transferCandidateRecord.candidate.candidate_personal_photo" src="/assets/icon/icon.png">
+                </ion-img>
+                <ion-img (ionError)="onImageError(transferCandidateRecord.candidate)"
+                  *ngIf="transferCandidateRecord.candidate.candidate_personal_photo"
+                  src="{{ awsService.cloudinaryUrl + transferCandidateRecord.candidate.candidate_personal_photo }}"></ion-img>
+              </ion-avatar>
+              <h2 class="candidate_name">{{ transferCandidateRecord.candidate.candidate_name?
+                transferCandidateRecord.candidate.candidate_name: transferCandidateRecord.candidate.candidate_name_ar }}
+              </h2>
+            </ion-item>
 
-          <ion-item>
-            <div tabindex="0"></div>
-            <ion-avatar slot="start">
-              <ion-img *ngIf="!transferCandidateRecord.candidate.candidate_personal_photo" src="/assets/icon/icon.png">
-              </ion-img>
-              <ion-img (ionError)="onImageError(transferCandidateRecord.candidate)"
-                *ngIf="transferCandidateRecord.candidate.candidate_personal_photo"
-                src="{{ awsService.cloudinaryUrl + transferCandidateRecord.candidate.candidate_personal_photo }}"></ion-img>
-            </ion-avatar>
-            <h2 class="candidate_name">{{ transferCandidateRecord.candidate.candidate_name?
-              transferCandidateRecord.candidate.candidate_name: transferCandidateRecord.candidate.candidate_name_ar }}
-            </h2>
-          </ion-item>
+            <ion-grid>
+              <ion-row>
+                <!-- Hours Input Column -->
+                <ion-col size-lg="4" size-md="4" size-sm="12" size-xs="12">
+                  <ion-item class="input-wrapper">
 
-          <ion-grid>
-            <ion-row>
-              <!-- Hours Input Column -->
-              <ion-col size-lg="4" size-md="4" size-sm="12" size-xs="12">
-                <ion-item class="input-wrapper">
+                    <ion-label position="floating">
+                      Hours Worked
+                      <span class="error" *ngIf="parseNumber(transferCandidateRecord.hours) < 0">Invalid value</span>
+                    </ion-label>
+                    <ion-input type="number" inputmode="decimal" min="0" (ionChange)="calculateTotal()"
+                      [(ngModel)]="transferCandidateRecord.hours"
+                      formControlName="hours[{{transferCandidateRecord.candidate.candidate_id}}]">
+                    </ion-input>
+                  </ion-item>
+                </ion-col>
 
-                  <ion-label position="floating">
-                    Hours Worked
-                    <span class="error" *ngIf="parseNumber(transferCandidateRecord.hours) < 0">Invalid value</span>
-                  </ion-label>
-                  <ion-input type="number" inputmode="decimal" min="0" (ionChange)="calculateTotal()"
-                    [(ngModel)]="transferCandidateRecord.hours"
-                    formControlName="hours[{{transferCandidateRecord.candidate.candidate_id}}]">
-                  </ion-input>
-                </ion-item>
-              </ion-col>
+                <!-- Bonus Input Column -->
+                <ion-col size-lg="4" size-md="4" size-sm="12" size-xs="12">
+                  <ion-item class="input-wrapper">
+                    <ion-label position="floating">
+                      Bonus (KWD)
+                      <span class="error" *ngIf="parseNumber(transferCandidateRecord.bonus) < 0">Invalid value</span>
+                    </ion-label>
+                    <ion-input type="number" min="0" inputmode="decimal" (ionChange)="calculateTotal()"
+                      [(ngModel)]="transferCandidateRecord.bonus"
+                      formControlName="bonus[{{transferCandidateRecord.candidate.candidate_id}}]">
+                    </ion-input>
+                  </ion-item>
+                </ion-col>
 
-              <!-- Bonus Input Column -->
-              <ion-col size-lg="4" size-md="4" size-sm="12" size-xs="12">
-                <ion-item class="input-wrapper">
-                  <ion-label position="floating">
-                    Bonus (KWD)
-                    <span class="error" *ngIf="parseNumber(transferCandidateRecord.bonus) < 0">Invalid value</span>
-                  </ion-label>
-                  <ion-input type="number" min="0" inputmode="decimal" (ionChange)="calculateTotal()"
-                    [(ngModel)]="transferCandidateRecord.bonus"
-                    formControlName="bonus[{{transferCandidateRecord.candidate.candidate_id}}]">
-                  </ion-input>
-                </ion-item>
-              </ion-col>
+                <!-- Total Calculation Column -->
+                <!-- *ngIf="parseNumber(transferCandidateRecord.hours) > 0" -->
+                <ion-col size-lg="4" size-md="4" size-sm="12" size-xs="12">
+                  <ion-item class="subtotal-wrapper">
+                    <div tabindex="0"></div>
+                    <ion-label>
+                      <p>Subtotal</p>
+                      <h5>
+                        KWD {{ (parseNumber(transferCandidateRecord.hours) *
+                        transferCandidateRecord.candidate.company.company_hourly_rate) +
+                        parseNumber(transferCandidateRecord.bonus) | number:'1.0-3' }}
+                      </h5>
+                    </ion-label>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card>
+        </ion-item-group>
+      </form>
 
-              <!-- Total Calculation Column -->
-              <!-- *ngIf="parseNumber(transferCandidateRecord.hours) > 0" -->
-              <ion-col size-lg="4" size-md="4" size-sm="12" size-xs="12">
-                <ion-item class="subtotal-wrapper">
-                  <div tabindex="0"></div>
-                  <ion-label>
-                    <p>Subtotal</p>
-                    <h5>
-                      KWD {{ (parseNumber(transferCandidateRecord.hours) *
-                      transferCandidateRecord.candidate.company.company_hourly_rate) +
-                      parseNumber(transferCandidateRecord.bonus) | number:'1.0-3' }}
-                    </h5>
-                  </ion-label>
-                </ion-item>
-              </ion-col>
-            </ion-row>
-          </ion-grid>
-        </ion-card>
-      </ion-item-group>
-    </form>
-
-    <div class="total-wrapper">
-      <div class="pull-left">
-        <p>Total Amount </p>
-        <h4>KWD {{ total | number:'1.0-3' }}</h4>
-      </div>
-
-      <ion-button class="btn-save" [disabled]="!form.valid || (total <= 0)" (click)="validate()">
-        Save
-      </ion-button>
-
-      <div class="clearfix"></div>
-
-    </div>
-  </ng-container>
-
-  <ng-container *ngIf="segment == 'excel-sheet-upload'">
-
-    <!-- uploadedFileExtension -->
-    <ion-item class="image-upload no-image">
-      <ion-thumbnail slot="start">
-
-        <div tappable (click)="triggerUpload($event)" class="no-logo">
-          <ion-icon src="assets/images/brand-no-image.svg"></ion-icon>
+      <div class="total-wrapper">
+        <div class="pull-left">
+          <p>Total Amount </p>
+          <h4>KWD {{ total | number:'1.0-3' }}</h4>
         </div>
 
-      </ion-thumbnail>
-      <ion-label>
-        <a id="btn-upload-pic" tappable #btnChangePhoto (click)="upload();">
-          Upload Excel File
-        </a>
-      </ion-label>
-    </ion-item>
+        <ion-button class="btn-save" [disabled]="!form.valid || (total <= 0)" (click)="validate()">
+          Save
+        </ion-button>
 
-    <div class="progress-wrapper" *ngIf="progress">
-      <div class="progress-box">
+        <div class="clearfix"></div>
 
-        <h4>{{ "Uploading…" }} <span>{{ progress + '%' }}</span></h4>
-
-        <div class="progress-bar">
-          <div class="progress" [style.width]="progress + '%'"></div>
-        </div>
-
-        <ion-icon *ngIf="currentTarget" tappable src="assets/images/close.svg" (click)="cancelUpload()">
-        </ion-icon>
       </div>
-    </div>
+    </ng-container>
 
-    <a class="btn-download" tappable (click)="downloadTemplate()">Download Excel Template</a>
+    <ng-container *ngIf="segment == 'excel-sheet-upload'">
 
-    <!-- Upload Form -->
-    <input type='file' #fileInput class="upload" (change)="browserUpload($event)" accept=".xlsx,.xls" />
+      <!-- uploadedFileExtension -->
+      <ion-item class="image-upload no-image">
+        <div tabindex="0"></div>
+        <ion-thumbnail slot="start">
 
-  </ng-container>
+          <div tappable (click)="triggerUpload($event)" class="no-logo">
+            <ion-icon src="assets/images/brand-no-image.svg"></ion-icon>
+          </div>
+
+        </ion-thumbnail>
+        <ion-label>
+          <a id="btn-upload-pic" tappable #btnChangePhoto (click)="upload();">
+            Upload Excel File
+          </a>
+        </ion-label>
+      </ion-item>
+
+      <div class="progress-wrapper" *ngIf="progress">
+        <div class="progress-box">
+
+          <h4>{{ "Uploading…" }} <span>{{ progress + '%' }}</span></h4>
+
+          <div class="progress-bar">
+            <div class="progress" [style.width]="progress + '%'"></div>
+          </div>
+
+          <ion-icon *ngIf="currentTarget" tappable src="assets/images/close.svg" (click)="cancelUpload()">
+          </ion-icon>
+        </div>
+      </div>
+
+      <a class="btn-download" tappable (click)="downloadTemplate()">Download Excel Template</a>
+
+      <!-- Upload Form -->
+      <input type='file' #fileInput class="upload" (change)="browserUpload($event)" accept=".xlsx,.xls" />
+
+    </ng-container>
+  </div>
 </ion-content>

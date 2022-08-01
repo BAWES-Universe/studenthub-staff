@@ -8,8 +8,11 @@
 </ion-header>
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
-  <ion-searchbar [(ngModel)]="searchBar" (ionChange)="loadData(1)" debounce="200" animated></ion-searchbar>
+  
   <div class="container">
+    
+    <ion-searchbar [(ngModel)]="searchBar" (ionChange)="loadData(1)" debounce="200" animated></ion-searchbar>
+
     <loading-modal [loading]="loading" type="text-list"></loading-modal>
     <ion-list>
       <ion-item tappable *ngFor="let university of universities" (click)="rowSelected(university)">

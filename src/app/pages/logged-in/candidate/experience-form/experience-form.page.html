@@ -11,11 +11,11 @@
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
 
-  <div class="max-width">
+  <div class="container max-width">
     <ion-list class="candidateExperiences" *ngIf="experienceList">
 
       <ion-item *ngFor="let s of tmpExperience;let i=index;">
-
+        <div tabindex="0"></div>
         <ion-input id="input[{{ i }}]" placeholder="{{ 'Type a experience'}}"
           [(ngModel)]="experienceList[i]" (ionFocus)="validateExperiences()" (ionChange)="change($event, i, s)"
           type="text" enterkeyhint="{{ 'Next' }}" (keyup)="nextOnEnter($event, i)"></ion-input>

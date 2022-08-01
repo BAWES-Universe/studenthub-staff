@@ -19,95 +19,95 @@
 <ion-content #container scrollEvents="true" (ionScroll)="logScrolling($event)" class="source-browser-page" [attr.dir]="translateService.direction()">
 
   <!-- loader when config not available -->
-
-  <ion-grid *ngIf="!instantSearchConfig" class="dummy">
-    <ion-row>
-      <ion-col  size-xs="0" size-sm="0" size-md="4" size-lg="4" class="desktop-only">
-        <div class="filter-wrapper">
-          <loading-modal [attr.dir]="translateService.direction()" [loading]="true" type="candidate-filter">
-          </loading-modal>
-        </div>
-      </ion-col>
-
-      <ion-col  size-xs="12" size-sm="12" size-md="8" size-lg="8" class="employer-list-wrapper">
-        <div class="cv-list">
-          <div class="list-header">
-            <div class="applied-filters-skeleton">
-              <ion-skeleton-text animated></ion-skeleton-text>
-            </div>
-
-            <div class="searchBox">
-              <ion-skeleton-text animated class="skelton-searchbar"></ion-skeleton-text>
-            </div>
-          </div>
-
-          <div class="loading-candidate">
-            <loading-modal [loading]="true" type="candidate-list"></loading-modal>
-          </div>
-        </div>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-
-  <ais-instantsearch #instantSearch *ngIf="instantSearchConfig" [config]="instantSearchConfig">
-    <ion-grid>
-      <ion-row [class.filter-closed]="!showFilter" [class.filter-opened]="showFilter">
-
-        <ion-col size-sm="12" size-md="4" size-lg="4" class="col-filter">
-          <div class="filter-wrapper" (scroll)="logScrolling($event)">
-            <candidate-filter [class.hidden]="loading && !nbHits"></candidate-filter>
-            <loading-modal [loading]="loading && !nbHits" type="candidate-filter"></loading-modal>
+  <div class="container">
+    <ion-grid *ngIf="!instantSearchConfig" class="dummy">
+      <ion-row>
+        <ion-col  size-xs="0" size-sm="0" size-md="4" size-lg="4" class="desktop-only">
+          <div class="filter-wrapper">
+            <loading-modal [attr.dir]="translateService.direction()" [loading]="true" type="candidate-filter">
+            </loading-modal>
           </div>
         </ion-col>
 
-        <ion-col size-xs="12" size-sm="12" size-md="8" size-lg="8" size-xl="8" class="col-listing employer-list-wrapper">
-
-          <div class="list-header" *ngIf="showSearchBox">
-
-            <div class="applied-filters-wrapper">
-              <applied-filters [loading]="refreshingCandidates" [labelWithoutFilter]="'Showing candidates'"
-                               [labelWithFilter]="'Showing candidates for'">
-              </applied-filters>
-            </div>
-            <div class="searchBox">
-              <ion-searchbar (ionChange)="onSearch($event)" placeholder="{{ 'Type to filter from these results' | translate }}"></ion-searchbar>
-              <!-- <is-search-box [searchAsYouType]="true"
-                placeholder="{{ 'Type to filter from these results' | translate }}">
-              </is-search-box>-->
-            </div>
-
-          </div>
-
-          <ais-infinite-hits class="cv-list">
-            <ng-template let-results="results" let-showMore="showMore" let-hits="hits">
-
-              <div [class.hidden]="refreshingCandidates" class="candidate-wrapper">
-                <candidate tappable (click)="rowSelected(hit)" type='candidate' [candidate]="hit" *ngFor="let hit of hits"></candidate>
+        <ion-col  size-xs="12" size-sm="12" size-md="8" size-lg="8" class="employer-list-wrapper">
+          <div class="cv-list">
+            <div class="list-header">
+              <div class="applied-filters-skeleton">
+                <ion-skeleton-text animated></ion-skeleton-text>
               </div>
 
-              <loading-modal [loading]="refreshingCandidates || loading" type="candidate-list"></loading-modal>
+              <div class="searchBox">
+                <ion-skeleton-text animated class="skelton-searchbar"></ion-skeleton-text>
+              </div>
+            </div>
 
-              <!-- to load more on scroll to bottom, usinng 0(zero) based pagination -->
-
-              <ion-infinite-scroll *ngIf="page + 1 < this.nbPages"
-                (ionInfinite)="doInfinite($event) && showMore($event)">
-                <ion-infinite-scroll-content loadingSpinner=""></ion-infinite-scroll-content>
-              </ion-infinite-scroll>
-
-            </ng-template>
-          </ais-infinite-hits>
-
-          <!-- No results message -->
-
-          <p *ngIf="!loading && !refreshingCandidates && noCandidateList" class="no-candidate-on-filter">
-            {{ "No results found for your search" | translate }}
-          </p>
-
+            <div class="loading-candidate">
+              <loading-modal [loading]="true" type="candidate-list"></loading-modal>
+            </div>
+          </div>
         </ion-col>
       </ion-row>
     </ion-grid>
-  </ais-instantsearch>
 
+    <ais-instantsearch #instantSearch *ngIf="instantSearchConfig" [config]="instantSearchConfig">
+      <ion-grid>
+        <ion-row [class.filter-closed]="!showFilter" [class.filter-opened]="showFilter">
+
+          <ion-col size-sm="12" size-md="4" size-lg="4" class="col-filter">
+            <div class="filter-wrapper" (scroll)="logScrolling($event)">
+              <candidate-filter [class.hidden]="loading && !nbHits"></candidate-filter>
+              <loading-modal [loading]="loading && !nbHits" type="candidate-filter"></loading-modal>
+            </div>
+          </ion-col>
+
+          <ion-col size-xs="12" size-sm="12" size-md="8" size-lg="8" size-xl="8" class="col-listing employer-list-wrapper">
+
+            <div class="list-header" *ngIf="showSearchBox">
+
+              <div class="applied-filters-wrapper">
+                <applied-filters [loading]="refreshingCandidates" [labelWithoutFilter]="'Showing candidates'"
+                                [labelWithFilter]="'Showing candidates for'">
+                </applied-filters>
+              </div>
+              <div class="searchBox">
+                <ion-searchbar (ionChange)="onSearch($event)" placeholder="{{ 'Type to filter from these results' | translate }}"></ion-searchbar>
+                <!-- <is-search-box [searchAsYouType]="true"
+                  placeholder="{{ 'Type to filter from these results' | translate }}">
+                </is-search-box>-->
+              </div>
+
+            </div>
+
+            <ais-infinite-hits class="cv-list">
+              <ng-template let-results="results" let-showMore="showMore" let-hits="hits">
+
+                <div [class.hidden]="refreshingCandidates" class="candidate-wrapper">
+                  <candidate tappable (click)="rowSelected(hit)" type='candidate' [candidate]="hit" *ngFor="let hit of hits"></candidate>
+                </div>
+
+                <loading-modal [loading]="refreshingCandidates || loading" type="candidate-list"></loading-modal>
+
+                <!-- to load more on scroll to bottom, usinng 0(zero) based pagination -->
+
+                <ion-infinite-scroll *ngIf="page + 1 < this.nbPages"
+                  (ionInfinite)="doInfinite($event) && showMore($event)">
+                  <ion-infinite-scroll-content loadingSpinner=""></ion-infinite-scroll-content>
+                </ion-infinite-scroll>
+
+              </ng-template>
+            </ais-infinite-hits>
+
+            <!-- No results message -->
+
+            <p *ngIf="!loading && !refreshingCandidates && noCandidateList" class="no-candidate-on-filter">
+              {{ "No results found for your search" | translate }}
+            </p>
+
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ais-instantsearch>
+  </div>
 </ion-content>
 <ion-footer class="ion-no-border" *ngIf="showFilter || candidateService.candidates.length > 0">
 

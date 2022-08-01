@@ -17,32 +17,36 @@
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
 
-  <ion-list>
-    <ion-card  *ngFor="let brand of brands">
-      <ion-item tappable (click)="brandSelected(brand)" lines="none" class="ion-text-wrap">
-        <div tabindex="0"></div>
-          <ion-thumbnail slot="start" *ngIf="brand.brand_logo">
-            <ion-img *ngIf="brand.brand_logo" [src]="awsService.cloudinaryUrl + 'company-brand/' + brand.brand_logo" (ionError)="error(brand)">
-            </ion-img>
-            <ion-img *ngIf="!brand.brand_logo" src="assets/icon/icon.png"></ion-img>
-          </ion-thumbnail>
-          <ion-label  class="ion-text-wrap">
-            <h5>{{ brand.brand_name_en }}</h5>
-          </ion-label>
-        <ion-button class="toggle-icon" slot="end" fill="clear" *ngIf="!brand.show" (click)="show($event, brand)"><ion-icon name="chevron-down-outline"></ion-icon></ion-button>
-        <ion-button  class="toggle-icon" slot="end" fill="clear" *ngIf="brand.show" (click)="hide($event, brand)"><ion-icon name="chevron-up-outline"></ion-icon></ion-button>
-      </ion-item>
-      <div *ngIf="brand.show" class="brand-badge">
-        <ion-badge color="light">{{brand.store_count}} stores</ion-badge>
-        <ion-badge color="light">{{brand.candidate_count}} staff</ion-badge>
-      </div>
-    </ion-card>
+  <div class="container">
+    <ion-list>
+      <ion-card  *ngFor="let brand of brands">
+        <ion-item tappable (click)="brandSelected(brand)" lines="none" class="ion-text-wrap">
+          <div tabindex="0"></div>
+            <ion-thumbnail slot="start" *ngIf="brand.brand_logo">
+              <ion-img *ngIf="brand.brand_logo" [src]="awsService.cloudinaryUrl + 'company-brand/' + brand.brand_logo" (ionError)="error(brand)">
+              </ion-img>
+              <ion-img *ngIf="!brand.brand_logo" src="assets/icon/icon.png"></ion-img>
+            </ion-thumbnail>
+            <ion-label  class="ion-text-wrap">
+              <h5>{{ brand.brand_name_en }}</h5>
+            </ion-label>
+          <ion-button class="toggle-icon" slot="end" fill="clear" *ngIf="!brand.show" (click)="show($event, brand)"><ion-icon name="chevron-down-outline"></ion-icon></ion-button>
+          <ion-button  class="toggle-icon" slot="end" fill="clear" *ngIf="brand.show" (click)="hide($event, brand)"><ion-icon name="chevron-up-outline"></ion-icon></ion-button>
+        </ion-item>
+        <div *ngIf="brand.show" class="brand-badge">
+          <ion-badge color="light">{{brand.store_count}} stores</ion-badge>
+          <ion-badge color="light">{{brand.candidate_count}} staff</ion-badge>
+        </div>
+      </ion-card>
 
-  </ion-list>
-  <loading-modal type="brand-list" [loading]="loading"></loading-modal>
-  <no-items *ngIf="!loading && brands.length ==0" message="~ No brand data available ~"></no-items>
+    </ion-list>
 
-  <div class="add-request " tappable (click)="addBrand()">
-    <ion-icon name="add-outline"></ion-icon>
+    <loading-modal type="brand-list" [loading]="loading"></loading-modal>
+
+    <no-items *ngIf="!loading && brands.length ==0" message="~ No brand data available ~"></no-items>
+
+    <div class="add-request" tappable (click)="addBrand()">
+      <ion-icon name="add-outline"></ion-icon>
+    </div>
   </div>
 </ion-content>

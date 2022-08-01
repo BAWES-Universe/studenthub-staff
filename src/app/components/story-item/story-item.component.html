@@ -23,12 +23,9 @@
           <ion-badge *ngIf="request.request_location">{{request.request_location}}</ion-badge>
           <ion-badge *ngIf="request.request_position_type == 2">Part-time</ion-badge>
           
-          <!-- todo: should have staff who started working in story -->
-          <ng-container *ngIf="request.staffs"> 
-            <ion-badge *ngFor="let staff of request.staffs">
-              {{ staff.staff_name }}
-            </ion-badge>
-          </ng-container>
+          <ion-badge *ngIf="story.staff">
+            {{ story.staff.staff_name }}
+          </ion-badge> 
           
         </ng-container>
       </div>

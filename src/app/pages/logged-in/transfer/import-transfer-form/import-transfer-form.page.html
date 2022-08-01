@@ -8,61 +8,64 @@
 </ion-header>
 
 <ion-content class="ion-text-center" scrollEvents="true" (ionScroll)="logScrolling($event)">
-  <!-- Instructions for Create -->
-  <section *ngIf="scenario == 'create'">
-    <ion-button fill="outline" color="primary" (click)="downloadTemplate()">
-      Step 1: Download Excel template
+  <div class="container">
+    <!-- Instructions for Create -->
+    <section *ngIf="scenario == 'create'">
+      <ion-button fill="outline" color="primary" (click)="downloadTemplate()">
+        Step 1: Download Excel template
+      </ion-button>
+
+      <h4>Step 2: Fill out the number of hours worked and the bonus amount to be sent in KWD</h4>
+
+      <h4>Step 3: Fill Start and End Date</h4>
+
+
+      <h4>Step 4: Upload the updated Excel file</h4>
+    </section>
+
+    <h4>I am transferring for work done in the following time period:</h4>
+
+    <ion-grid>
+      <ion-row>
+        <ion-col size="6">
+          <ion-item>
+            <div tabindex="0"></div>
+            <ion-label position="stacked">Start date</ion-label>
+            <ion-datetime pickerFormat="DD MMMM YYYY" displayFormat="DD MMMM YYYY" 
+              placeholder="DD/MM/YYYY" [(ngModel)]="start_date"></ion-datetime>
+          </ion-item>
+        </ion-col>
+        <ion-col size="6">
+          <ion-item>
+            <div tabindex="0"></div>
+            <ion-label position="stacked">End date</ion-label>
+            <ion-datetime pickerFormat="DD MMMM YYYY" displayFormat="DD MMMM YYYY" 
+            placeholder="DD/MM/YYYY" [(ngModel)]="end_date"></ion-datetime>    
+          </ion-item>
+        </ion-col>
+        <!--
+        <ion-col size="4" *ngIf="startDate || endDate">
+      
+          <ion-button fill="clear" (click)="clearSelection()">
+            <ion-icon name="close-outline"></ion-icon>
+          </ion-button>
+        </ion-col>-->
+      </ion-row>
+    </ion-grid>
+
+    <br/>
+
+    <!-- Instructions for Update -->
+    <section *ngIf="scenario == 'update'">
+      <h4>Upload the updated Excel file</h4>
+    </section>
+
+    <!-- Upload Form -->
+    <input type='file' #fileInput (change)="browserUpload($event)" accept=".xlsx,.xls"/>
+
+    <ion-button (click)="upload()" [disabled]="uploading || !start_date || !end_date">
+      <span *ngIf="!uploading">Upload</span>
+      <ion-spinner *ngIf="uploading">Uploading...</ion-spinner>
     </ion-button>
-
-    <h4>Step 2: Fill out the number of hours worked and the bonus amount to be sent in KWD</h4>
-
-    <h4>Step 3: Fill Start and End Date</h4>
-
-
-    <h4>Step 4: Upload the updated Excel file</h4>
-  </section>
-
-  <h4>I am transferring for work done in the following time period:</h4>
-
-  <ion-grid>
-    <ion-row>
-      <ion-col size="6">
-        <ion-item>
-          <ion-label position="stacked">Start date</ion-label>
-          <ion-datetime pickerFormat="DD MMMM YYYY" displayFormat="DD MMMM YYYY" 
-            placeholder="DD/MM/YYYY" [(ngModel)]="start_date"></ion-datetime>
-        </ion-item>
-      </ion-col>
-      <ion-col size="6">
-        <ion-item>
-          <ion-label position="stacked">End date</ion-label>
-          <ion-datetime pickerFormat="DD MMMM YYYY" displayFormat="DD MMMM YYYY" 
-          placeholder="DD/MM/YYYY" [(ngModel)]="end_date"></ion-datetime>    
-        </ion-item>
-      </ion-col>
-      <!--
-      <ion-col size="4" *ngIf="startDate || endDate">
-    
-        <ion-button fill="clear" (click)="clearSelection()">
-          <ion-icon name="close-outline"></ion-icon>
-        </ion-button>
-      </ion-col>-->
-    </ion-row>
-  </ion-grid>
-
-  <br/>
-
-  <!-- Instructions for Update -->
-  <section *ngIf="scenario == 'update'">
-    <h4>Upload the updated Excel file</h4>
-  </section>
-
-  <!-- Upload Form -->
-  <input type='file' #fileInput (change)="browserUpload($event)" accept=".xlsx,.xls"/>
-
-  <ion-button (click)="upload()" [disabled]="uploading || !start_date || !end_date">
-    <span *ngIf="!uploading">Upload</span>
-    <ion-spinner *ngIf="uploading">Uploading...</ion-spinner>
-  </ion-button>
-
+  </div>
 </ion-content>

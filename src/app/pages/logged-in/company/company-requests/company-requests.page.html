@@ -10,40 +10,41 @@
 </ion-header>
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
+  <div class="container">
+    <section *ngIf="company">
+      <h3 class="request-title">
+        Requests
+      </h3>
+      <h4 class="company-name">
+        {{ (company.company_common_name_en) ? company.company_common_name_en:company.company_name }}
+      </h4>
 
-  <section *ngIf="company">
-    <h3 class="request-title">
-      Requests
-    </h3>
-    <h4 class="company-name">
-      {{ (company.company_common_name_en) ? company.company_common_name_en:company.company_name }}
-    </h4>
+      <!-- Default Segment -->
+      <ion-segment [(ngModel)]="sections" [value]="sections" *ngIf="requests.length > 0">
+        <ion-segment-button value="part" *ngIf="this.partTimeRequests.length > 0">
+          <ion-label>Part Time</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="full" *ngIf="this.fullTimeRequests.length > 0">
+          <ion-label>Full Time</ion-label>
+        </ion-segment-button>
+      </ion-segment>
 
-    <!-- Default Segment -->
-    <ion-segment [(ngModel)]="sections" [value]="sections" *ngIf="requests.length > 0">
-      <ion-segment-button value="part" *ngIf="this.partTimeRequests.length > 0">
-        <ion-label>Part Time</ion-label>
-      </ion-segment-button>
-      <ion-segment-button value="full" *ngIf="this.fullTimeRequests.length > 0">
-        <ion-label>Full Time</ion-label>
-      </ion-segment-button>
-    </ion-segment>
+      <ng-container *ngIf="sections == 'part' && this.partTimeRequests.length > 0">
+        <request-listing *ngFor="let request of partTimeRequests" tappable (click)="requestDetail(request)"
+                        [request]="request" [showStatus]="false"></request-listing>
+      </ng-container>
+      <ng-container *ngIf="sections == 'full' && this.fullTimeRequests.length > 0">
+        <request-listing *ngFor="let request of fullTimeRequests" tappable (click)="requestDetail(request)"
+                        [request]="request" [showStatus]="false"></request-listing>
+      </ng-container>
+      <no-items *ngIf="!loading && requests.length ==0" message="~ No request data ~"></no-items>
 
-    <ng-container *ngIf="sections == 'part' && this.partTimeRequests.length > 0">
-      <request-listing *ngFor="let request of partTimeRequests" tappable (click)="requestDetail(request)"
-                       [request]="request" [showStatus]="false"></request-listing>
-    </ng-container>
-    <ng-container *ngIf="sections == 'full' && this.fullTimeRequests.length > 0">
-      <request-listing *ngFor="let request of fullTimeRequests" tappable (click)="requestDetail(request)"
-                       [request]="request" [showStatus]="false"></request-listing>
-    </ng-container>
-    <no-items *ngIf="!loading && requests.length ==0" message="~ No request data ~"></no-items>
+    </section>
 
-  </section>
+    <loading-modal [loading]="loading" type="request-list"></loading-modal>
 
-  <loading-modal [loading]="loading" type="request-list"></loading-modal>
-
-  <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
-    <ion-infinite-scroll-content></ion-infinite-scroll-content>
-  </ion-infinite-scroll>
+    <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
+      <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+  </div>
 </ion-content>

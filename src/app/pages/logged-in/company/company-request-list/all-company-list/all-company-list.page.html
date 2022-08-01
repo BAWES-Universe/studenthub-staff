@@ -9,51 +9,53 @@
 </ion-header>
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)" class="ion-no-padding">
-  <ion-searchbar debounce="200" (ionChange) = "search($event)"></ion-searchbar>
-  <ion-list>
-    <section>
-        <div tappable *ngFor="let company of companies">
-          <ion-item tappable (click)="showSub(company)" class="ion-text-wrap">
-            <div tabindex="0"></div>
-            <ion-label  class="ion-text-wrap">
+  <div class="container">
+    <ion-searchbar debounce="200" (ionChange) = "search($event)"></ion-searchbar>
+ 
+    <ion-list>
+      <section>
+          <div tappable *ngFor="let company of companies">
+            <ion-item tappable (click)="showSub(company)" class="ion-text-wrap">
               <div tabindex="0"></div>
-              <strong>{{ company.company_name }}</strong>
-            </ion-label>
+              <ion-label  class="ion-text-wrap">
+                <strong>{{ company.company_name }}</strong>
+              </ion-label>
+              <ng-container *ngIf="!onlyParentcompany && company.subCompanies && company.subCompanies.length > 0">
+                <ion-icon slot="end" *ngIf = "selectedCompany != company.company_id" name="arrow-down-outline"></ion-icon>
+                <ion-icon slot="end" *ngIf = "selectedCompany == company.company_id" name="arrow-up-outline"></ion-icon>
+              </ng-container>
+            </ion-item>
+
             <ng-container *ngIf="!onlyParentcompany && company.subCompanies && company.subCompanies.length > 0">
-              <ion-icon slot="end" *ngIf = "selectedCompany != company.company_id" name="arrow-down-outline"></ion-icon>
-              <ion-icon slot="end" *ngIf = "selectedCompany == company.company_id" name="arrow-up-outline"></ion-icon>
+              <div *ngIf = "selectedCompany == company.company_id">
+                <ion-item tappable (click)="rowSelected(company)" class="ion-text-wrap">
+                  <div tabindex="0"></div>
+                  <ion-label>
+                    <div tabindex="0"></div>
+                    {{ company.company_name }}
+                  </ion-label>
+                </ion-item>
+
+                <ion-item tappable *ngFor="let sub of company.subCompanies" (click)="rowSelected(company)">
+                  <div tabindex="0"></div>
+                  <ion-label>
+                    <div tabindex="0"></div>
+                    {{ sub.company_name }}
+                  </ion-label>
+                </ion-item>
+              </div>
             </ng-container>
-          </ion-item>
 
-          <ng-container *ngIf="!onlyParentcompany && company.subCompanies && company.subCompanies.length > 0">
-            <div *ngIf = "selectedCompany == company.company_id">
-              <ion-item tappable (click)="rowSelected(company)" class="ion-text-wrap">
-                <div tabindex="0"></div>
-                <ion-label>
-                  <div tabindex="0"></div>
-                  {{ company.company_name }}
-                </ion-label>
-              </ion-item>
-
-              <ion-item tappable *ngFor="let sub of company.subCompanies" (click)="rowSelected(company)">
-                <div tabindex="0"></div>
-                <ion-label>
-                  <div tabindex="0"></div>
-                  {{ sub.company_name }}
-                </ion-label>
-              </ion-item>
-            </div>
-          </ng-container>
-
-        </div>
+          </div>
 
 
-    </section>
-  </ion-list>
+      </section>
+    </ion-list>
 
-  <loading-modal [loading]="loading || loadingMore" type="text-list"></loading-modal>
+    <loading-modal [loading]="loading || loadingMore" type="text-list"></loading-modal>
 
-  <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
-    <ion-infinite-scroll-content></ion-infinite-scroll-content>
-  </ion-infinite-scroll>
+    <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
+      <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+  </div>
 </ion-content>

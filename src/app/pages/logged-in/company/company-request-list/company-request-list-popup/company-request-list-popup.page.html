@@ -8,17 +8,18 @@
 </ion-header>
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
+  <div class="container">
+    <ion-list>
+      <request-listing *ngFor="let request of requests" (click)="rowSelected(request)"
+                      [request]="request" [showStatus]="false"></request-listing>
+    </ion-list>
+    
+    <loading-modal type="text-list" [loading]="loading"></loading-modal>
 
-  <ion-list>
-    <request-listing *ngFor="let request of requests" (click)="rowSelected(request)"
-                     [request]="request" [showStatus]="false"></request-listing>
-  </ion-list>
-  <loading-modal type="text-list" [loading]="loading"></loading-modal>
+    <no-items message="~ No request found ~" *ngIf="!loading && requests.length == 0"></no-items>
 
-  <no-items message="~ No request found ~" *ngIf="!loading && requests.length == 0"></no-items>
-
-  <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
-    <ion-infinite-scroll-content></ion-infinite-scroll-content>
-  </ion-infinite-scroll>
-
+    <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
+      <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+  </div>
 </ion-content>

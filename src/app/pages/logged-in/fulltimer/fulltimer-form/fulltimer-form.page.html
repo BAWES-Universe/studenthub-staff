@@ -22,223 +22,237 @@
 </ion-header>
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
-  <form [formGroup]="form">
-    <ion-list>
+  <div class="container">
+    <form [formGroup]="form">
+      <ion-list>
 
-      <ion-item>
-        <ion-label position="floating">Name*</ion-label>
-        <ion-input type="telephone" formControlName="name"></ion-input>
-      </ion-item>
+        <ion-item>
+          <div tabindex="0"></div>
+          <ion-label position="floating">Name*</ion-label>
+          <ion-input type="telephone" formControlName="name"></ion-input>
+        </ion-item>
 
-      <div class="error-wrapper" *ngIf="!form.controls.name.pristine">
-        <p class="error" *ngIf="form.controls.name.errors && form.controls.name.errors.required">
-          * required
-        </p>
-      </div>
+        <div class="error-wrapper" *ngIf="!form.controls.name.pristine">
+          <p class="error" *ngIf="form.controls.name.errors && form.controls.name.errors.required">
+            * required
+          </p>
+        </div>
 
-      <ion-item>
-        <ion-label position="floating">Phone*</ion-label>
-        <ion-input type="telephone" formControlName="phone"></ion-input>
-      </ion-item>
+        <ion-item>
+          <div tabindex="0"></div>
+          <ion-label position="floating">Phone*</ion-label>
+          <ion-input type="telephone" formControlName="phone"></ion-input>
+        </ion-item>
 
-      <div class="error-wrapper" *ngIf="!form.controls.phone.pristine">
-        <p class="error" *ngIf="form.controls.phone.errors && form.controls.phone.errors.required">
-          * required
-        </p>
-      </div>
+        <div class="error-wrapper" *ngIf="!form.controls.phone.pristine">
+          <p class="error" *ngIf="form.controls.phone.errors && form.controls.phone.errors.required">
+            * required
+          </p>
+        </div>
 
-      <ion-item>
-        <ion-label position="floating">Email*</ion-label>
-        <ion-input type="email" formControlName="email"></ion-input>
-      </ion-item>
+        <ion-item>
+          <div tabindex="0"></div>
+          <ion-label position="floating">Email*</ion-label>
+          <ion-input type="email" formControlName="email"></ion-input>
+        </ion-item>
 
-      <div class="error-wrapper" *ngIf="!form.controls.email.pristine">
-        <p class="error" *ngIf="form.controls.email.errors && form.controls.email.errors.required">
-          * required
-        </p>
-      </div>
+        <div class="error-wrapper" *ngIf="!form.controls.email.pristine">
+          <p class="error" *ngIf="form.controls.email.errors && form.controls.email.errors.required">
+            * required
+          </p>
+        </div>
 
-      <ion-item (click)="selectNationality()">
-        <ion-label position="floating">Nationality*</ion-label>
-        <ion-input readonly formControlName="nationality"></ion-input>
-      </ion-item>
+        <ion-item (click)="selectNationality()">
+          <div tabindex="0"></div>
+          <ion-label position="floating">Nationality*</ion-label>
+          <ion-input readonly formControlName="nationality"></ion-input>
+        </ion-item>
 
-      <div class="error-wrapper" *ngIf="!form.controls.nationality_id.pristine">
-        <p class="error" *ngIf="form.controls.nationality_id.errors && form.controls.nationality_id.errors.required">
-          * required
-        </p>
-      </div>
+        <div class="error-wrapper" *ngIf="!form.controls.nationality_id.pristine">
+          <p class="error" *ngIf="form.controls.nationality_id.errors && form.controls.nationality_id.errors.required">
+            * required
+          </p>
+        </div>
 
-      <ion-item tappable>
-        <ion-label position="floating">PDF CV*</ion-label>
-        <ion-input type="text" readonly formControlName="pdf_cv"></ion-input>
-        <ion-buttons slot="end">
+        <ion-item tappable>
+          <div tabindex="0"></div>
+          <ion-label position="floating">PDF CV*</ion-label>
+          <ion-input type="text" readonly formControlName="pdf_cv"></ion-input>
+          <ion-buttons slot="end">
 
-          <!-- download -->
+            <!-- download -->
 
-          <ion-button *ngIf="form.controls.pdf_cv.value || form.controls.tempPdfCVLocation.value"
-            [href]="getResumeUrl()" target="_blank">
-            <ion-icon name="cloud-download-outline"></ion-icon>
-          </ion-button>
+            <ion-button *ngIf="form.controls.pdf_cv.value || form.controls.tempPdfCVLocation.value"
+              [href]="getResumeUrl()" target="_blank">
+              <ion-icon name="cloud-download-outline"></ion-icon>
+            </ion-button>
 
-          <!-- change/ upload -->
+            <!-- change/ upload -->
 
-          <ion-button (click)="mobileUpload();" *ngIf="platform.is('hybrid')">
-            <ion-icon name="cloud-upload-outline"></ion-icon>
-          </ion-button>
+            <ion-button (click)="mobileUpload();" *ngIf="platform.is('hybrid')">
+              <ion-icon name="cloud-upload-outline"></ion-icon>
+            </ion-button>
 
-          <ion-button *ngIf="!platform.is('hybrid')">
-            <ion-icon name="cloud-upload-outline"></ion-icon>
-            <input class="upload" accept=".pdf,.doc,.docx" type='file' #fileInput (change)="browserUpload($event)">
-          </ion-button>
+            <ion-button *ngIf="!platform.is('hybrid')">
+              <ion-icon name="cloud-upload-outline"></ion-icon>
+              <input class="upload" accept=".pdf,.doc,.docx" type='file' #fileInput (change)="browserUpload($event)">
+            </ion-button>
 
-          <!-- remove -->
+            <!-- remove -->
 
-          <ion-button *ngIf="form.controls.pdf_cv.value || form.controls.tempPdfCVLocation.value"
-            (click)="removeResume($event)">
-            <ion-icon name="trash-outline"></ion-icon>
-          </ion-button>
-        </ion-buttons>
-      </ion-item>
+            <ion-button *ngIf="form.controls.pdf_cv.value || form.controls.tempPdfCVLocation.value"
+              (click)="removeResume($event)">
+              <ion-icon name="trash-outline"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-item>
 
-      <div class="error-wrapper" *ngIf="!form.controls.pdf_cv.pristine">
-        <p class="error" *ngIf="form.controls.pdf_cv.errors && form.controls.pdf_cv.errors.required">
-          * required
-        </p>
-      </div>
+        <div class="error-wrapper" *ngIf="!form.controls.pdf_cv.pristine">
+          <p class="error" *ngIf="form.controls.pdf_cv.errors && form.controls.pdf_cv.errors.required">
+            * required
+          </p>
+        </div>
 
-      <ion-item (click)="updateLocation()">
-        <ion-label position="floating">Location*</ion-label>
-        <ion-input readonly formControlName="location"></ion-input>
-      </ion-item>
+        <ion-item (click)="updateLocation()">
+          <div tabindex="0"></div>
+          <ion-label position="floating">Location*</ion-label>
+          <ion-input readonly formControlName="location"></ion-input>
+        </ion-item>
 
-      <div class="error-wrapper" *ngIf="!form.controls.location.pristine">
-        <p class="error" *ngIf="form.controls.location.errors && form.controls.location.errors.required">
-          * required
-        </p>
-      </div>
+        <div class="error-wrapper" *ngIf="!form.controls.location.pristine">
+          <p class="error" *ngIf="form.controls.location.errors && form.controls.location.errors.required">
+            * required
+          </p>
+        </div>
 
-      <ion-item>
-        <ion-label position="floating">Current Salary*</ion-label>
-        <ion-input type="email" formControlName="current_salary"></ion-input>
-      </ion-item>
+        <ion-item>
+          <div tabindex="0"></div>
+          <ion-label position="floating">Current Salary*</ion-label>
+          <ion-input type="email" formControlName="current_salary"></ion-input>
+        </ion-item>
 
-      <div class="error-wrapper" *ngIf="!form.controls.current_salary.pristine">
-        <p class="error" *ngIf="form.controls.current_salary.errors && form.controls.current_salary.errors.required">
-          * required
-        </p>
-      </div>
+        <div class="error-wrapper" *ngIf="!form.controls.current_salary.pristine">
+          <p class="error" *ngIf="form.controls.current_salary.errors && form.controls.current_salary.errors.required">
+            * required
+          </p>
+        </div>
 
-      <ion-item>
-        <ion-label position="floating">Expected Salary*</ion-label>
-        <ion-input type="email" formControlName="expected_salary"></ion-input>
-      </ion-item>
+        <ion-item>
+          <div tabindex="0"></div>
+          <ion-label position="floating">Expected Salary*</ion-label>
+          <ion-input type="email" formControlName="expected_salary"></ion-input>
+        </ion-item>
 
-      <div class="error-wrapper" *ngIf="!form.controls.expected_salary.pristine">
-        <p class="error" *ngIf="form.controls.expected_salary.errors && form.controls.expected_salary.errors.required">
-          * required
-        </p>
-      </div>
+        <div class="error-wrapper" *ngIf="!form.controls.expected_salary.pristine">
+          <p class="error" *ngIf="form.controls.expected_salary.errors && form.controls.expected_salary.errors.required">
+            * required
+          </p>
+        </div>
 
-      <ion-item (click)="selectUniversity()">
-        <ion-label position="floating">Select University</ion-label>
-        <ion-input readonly formControlName="university"></ion-input>
-      </ion-item>
+        <ion-item (click)="selectUniversity()">
+          <div tabindex="0"></div>
+          <ion-label position="floating">Select University</ion-label>
+          <ion-input readonly formControlName="university"></ion-input>
+        </ion-item>
 
-<!--      <app-select-search-input-->
-<!--        *ngIf="universitylistData"-->
-<!--        formControlName="university_id"-->
-<!--        placeholder="Select University"-->
-<!--        [collection]="universitylistData"-->
-<!--        title="University"-->
-<!--        valueAttr="university_id"-->
-<!--        labelAttr="university_name_en"-->
-<!--        altLabelAttr="university_name_ar"-->
-<!--        >-->
-<!--      </app-select-search-input>-->
+  <!--      <app-select-search-input-->
+  <!--        *ngIf="universitylistData"-->
+  <!--        formControlName="university_id"-->
+  <!--        placeholder="Select University"-->
+  <!--        [collection]="universitylistData"-->
+  <!--        title="University"-->
+  <!--        valueAttr="university_id"-->
+  <!--        labelAttr="university_name_en"-->
+  <!--        altLabelAttr="university_name_ar"-->
+  <!--        >-->
+  <!--      </app-select-search-input>-->
 
-      <div class="error-wrapper" *ngIf="!form.controls.university_id.pristine">
-        <p class="error" *ngIf="form.controls.university_id.errors && form.controls.university_id.errors.required">
-          * required
-        </p>
-      </div>
+        <div class="error-wrapper" *ngIf="!form.controls.university_id.pristine">
+          <p class="error" *ngIf="form.controls.university_id.errors && form.controls.university_id.errors.required">
+            * required
+          </p>
+        </div>
 
-      <ion-item [class.ion-invalid]="!model.fulltimer_gender">
-        <div tabindex="0"></div>
-        <ion-label>Gender</ion-label>
-        <ion-chip (click)="setGenderOption(1)" [class.active]="model.fulltimer_gender == 1">Male</ion-chip>
-        <ion-chip (click)="setGenderOption(2)" [class.active]="model.fulltimer_gender == 2">Female</ion-chip>
-        <ion-chip (click)="setGenderOption(3)" [class.active]="model.fulltimer_gender == 3">Other</ion-chip>
-      </ion-item>
+        <ion-item [class.ion-invalid]="!model.fulltimer_gender">
+          <div tabindex="0"></div>
+          <ion-label>Gender</ion-label>
+          <ion-chip (click)="setGenderOption(1)" [class.active]="model.fulltimer_gender == 1">Male</ion-chip>
+          <ion-chip (click)="setGenderOption(2)" [class.active]="model.fulltimer_gender == 2">Female</ion-chip>
+          <ion-chip (click)="setGenderOption(3)" [class.active]="model.fulltimer_gender == 3">Other</ion-chip>
+        </ion-item>
 
-      <div class="error-wrapper" *ngIf="!form.controls.gender.pristine">
-        <p class="error" *ngIf="form.controls.gender.errors && form.controls.gender.errors.required">
-          * required
-        </p>
-      </div>
+        <div class="error-wrapper" *ngIf="!form.controls.gender.pristine">
+          <p class="error" *ngIf="form.controls.gender.errors && form.controls.gender.errors.required">
+            * required
+          </p>
+        </div>
 
-      <ion-item [class.ion-invalid]="!model.fulltimer_driving_license">
-        <div tabindex="0"></div>
-        <ion-label>Driving License Available?</ion-label>
-        <ion-chip (click)="setLicenseOption(1)" [class.active]="model.fulltimer_driving_license == 1">Yes</ion-chip>
-        <ion-chip (click)="setLicenseOption(2)" [class.active]="model.fulltimer_driving_license == 2">No</ion-chip>
-      </ion-item>
+        <ion-item [class.ion-invalid]="!model.fulltimer_driving_license">
+          <div tabindex="0"></div>
+          <ion-label>Driving License Available?</ion-label>
+          <ion-chip (click)="setLicenseOption(1)" [class.active]="model.fulltimer_driving_license == 1">Yes</ion-chip>
+          <ion-chip (click)="setLicenseOption(2)" [class.active]="model.fulltimer_driving_license == 2">No</ion-chip>
+        </ion-item>
 
-      <div class="error-wrapper" *ngIf="!form.controls.driving_license.pristine">
-        <p class="error" *ngIf="form.controls.driving_license.errors && form.controls.driving_license.errors.required">
-          * required
-        </p>
-      </div>
+        <div class="error-wrapper" *ngIf="!form.controls.driving_license.pristine">
+          <p class="error" *ngIf="form.controls.driving_license.errors && form.controls.driving_license.errors.required">
+            * required
+          </p>
+        </div>
 
-      <ion-item>
-        <ion-label position="floating">Birth Date</ion-label>
-        <ion-datetime displayFormat="YYYY-MM-DD" pickerFormat="YYYY-MM-DD" [min]="minBirthDate" [max]="maxBirthDate" formControlName="birth_date"></ion-datetime>
-      </ion-item>
-      <div class="error-wrapper" *ngIf="!form.controls.birth_date.pristine">
-        <p class="error" *ngIf="form.controls.birth_date.errors && form.controls.birth_date.errors.required">
-          * required
-        </p>
-      </div>
+        <ion-item>
+          <div tabindex="0"></div>
+          <ion-label position="floating">Birth Date</ion-label>
+          <ion-datetime displayFormat="YYYY-MM-DD" pickerFormat="YYYY-MM-DD" [min]="minBirthDate" [max]="maxBirthDate" formControlName="birth_date"></ion-datetime>
+        </ion-item>
+        <div class="error-wrapper" *ngIf="!form.controls.birth_date.pristine">
+          <p class="error" *ngIf="form.controls.birth_date.errors && form.controls.birth_date.errors.required">
+            * required
+          </p>
+        </div>
 
-      <ion-item>
-        <ion-label>Employed?</ion-label>
-        <ion-toggle slot="end" formControlName="employed"></ion-toggle>
-      </ion-item>
-      <div class="error-wrapper" *ngIf="!form.controls.employed.pristine">
-        <p class="error" *ngIf="form.controls.employed.errors && form.controls.employed.errors.required">
-          * required
-        </p>
-      </div>
+        <ion-item>
+          <div tabindex="0"></div>
+          <ion-label>Employed?</ion-label>
+          <ion-toggle slot="end" formControlName="employed"></ion-toggle>
+        </ion-item>
+        <div class="error-wrapper" *ngIf="!form.controls.employed.pristine">
+          <p class="error" *ngIf="form.controls.employed.errors && form.controls.employed.errors.required">
+            * required
+          </p>
+        </div>
 
-      <ion-card>
-        <ion-card-header>
-          <ion-card-title>Tags </ion-card-title>
-        </ion-card-header>
-        <ion-card-content>
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Tags </ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
 
-          <div *ngFor="let fulltimerTag of fulltimerTags.controls; let i = index">
-            <ion-item [formGroup]="fulltimerTag">
+            <div *ngFor="let fulltimerTag of fulltimerTags.controls; let i = index">
+              <ion-item [formGroup]="fulltimerTag">
+                <div tabindex="0"></div>
+                
+                <ion-input autocomplete="off1" (ionChange)="onTagChange($event, i)" formControlName="tag"
+                  enterkeyhint="Next"></ion-input>
 
-              <ion-input autocomplete="off1" (ionChange)="onTagChange($event, i)" formControlName="tag"
-                enterkeyhint="Next"></ion-input>
+                <ion-button fill="clear" slot="end" tabindex="-1" *ngIf="fulltimerTags.controls.length -1 != i" (click)="removeTag(i)">
+                  <img src="assets/images/close.svg">
+                </ion-button>
 
-              <ion-button fill="clear" slot="end" tabindex="-1" *ngIf="fulltimerTags.controls.length -1 != i" (click)="removeTag(i)">
-                <img src="assets/images/close.svg">
-              </ion-button>
+              </ion-item>
+            </div>
+          </ion-card-content>
+        </ion-card>
 
-            </ion-item>
-          </div>
-        </ion-card-content>
-      </ion-card>
+        <ion-item class="flip-in-hor-bottom" *ngIf="this.request_uuid">
+          <div tabindex="0"></div>
+          <ion-label position="floating">
+            Reason for suggestion
+          </ion-label>
+          <ion-textarea formControlName="suggestion"></ion-textarea>
+        </ion-item>
 
-      <ion-item class="flip-in-hor-bottom" *ngIf="this.request_uuid">
-        <div tabindex="0"></div>
-        <ion-label position="floating">
-          Reason for suggestion
-        </ion-label>
-        <ion-textarea formControlName="suggestion"></ion-textarea>
-      </ion-item>
-
-    </ion-list>
-  </form>
+      </ion-list>
+    </form>
+  </div>
 </ion-content>

@@ -138,7 +138,7 @@ export class StoryViewPage implements OnInit, OnDestroy {
   loadData() {
     this.loading = true;
 
-    this.storyService.detail(this.story_uuid, '?expand=storyActivities,storyActivities.staff,request,request.contact,request.staffs,request.company').subscribe(res => {
+    this.storyService.detail(this.story_uuid, '?expand=staff,storyActivities,storyActivities.staff,request,request.contact,request.staffs,request.company').subscribe(res => {
 
       this.loading = false;
       this.story = res;
@@ -246,7 +246,7 @@ export class StoryViewPage implements OnInit, OnDestroy {
 
         // story work stopped
         if (status == 0 || status == 3) {
-            this.authService.story = null; //todo: move to next story instead of null
+            this.authService.story = null; 
             this.authService.saveInStorage();
         }
 

@@ -227,6 +227,7 @@
       </h5>
 
       <ion-item class="item-salary" *ngFor="let salary of salaryTransfers | slice:0:3">
+        <div tabindex="0"></div>
         <ion-label>
           <h5>KWD {{salary.total | number:'1.3-3' }}</h5>
           <p>#{{ salary.tc_id }}</p>
@@ -408,8 +409,9 @@
 <ion-footer class="ion-no-border" *ngIf="candidate && candidate.isProfileCompleted && authService.story && authService.story.request && authService.story.story_status == 1 
   && authService.story.staff_id == authService.staff_id && ['cancelled', 'delivered'].indexOf(authService.story.request.request_status) == -1">
   <div class="container">
-    <ion-button class="btn-invite" (click)="invite()">
-      Invite for Client Request
+    <ion-button class="btn-invite" [disabled]="candidate.isAlreadyInvited" (click)="invite()">
+      <span *ngIf="!candidate.isAlreadyInvited">Invite for Client Request</span>
+      <span *ngIf="candidate.isAlreadyInvited">Invitation sent</span>
     </ion-button>
   </div>
 </ion-footer>

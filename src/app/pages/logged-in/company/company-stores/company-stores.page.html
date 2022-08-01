@@ -12,23 +12,24 @@
 </ion-header>
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
-  <ion-list *ngIf="company && company.stores">
+  <div class="container">
+    <ion-list *ngIf="company && company.stores">
 
-    <h3 class="title">
-      Stores
-    </h3>
+      <h3 class="title">
+        Stores
+      </h3>
 
-    <h4 class="company-name">
-      {{ (company.company_common_name_en) ? company.company_common_name_en:company.company_name }}
-    </h4>
+      <h4 class="company-name">
+        {{ (company.company_common_name_en) ? company.company_common_name_en:company.company_name }}
+      </h4>
 
-    <app-store tappable (onUpdate)="loadData()" (onDelete)="loadData()" (click)="storeSelected(store)" 
-      *ngFor="let store of company.stores" [store]="store"></app-store> 
+      <app-store tappable (onUpdate)="loadData()" (onDelete)="loadData()" (click)="storeSelected(store)" 
+        *ngFor="let store of company.stores" [store]="store"></app-store> 
 
-  </ion-list>
+    </ion-list>
 
-  <no-items *ngIf="!loading && company.stores && company.stores.length == 0" message="~ No stores data ~"></no-items>
+    <no-items *ngIf="!loading && company.stores && company.stores.length == 0" message="~ No stores data ~"></no-items>
 
-  <loading-modal [loading]="loading" type="store-card-list"></loading-modal>
-
+    <loading-modal [loading]="loading" type="store-card-list"></loading-modal>
+  </div>
 </ion-content>

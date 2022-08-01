@@ -70,6 +70,7 @@
         <ion-card-content>
           
           <ion-item>
+            <div tabindex="0"></div>
             <ion-label position="floating">Civil ID Number</ion-label>
             <ion-input type="text" formControlName="civil_id"></ion-input>
           </ion-item>
@@ -84,9 +85,11 @@
           </div>
 
           <ion-item>
+            <div tabindex="0"></div>
             <ion-label position="floating">Civil ID Expiry Date</ion-label>
             <ion-datetime displayFormat="YYYY-MM-DD" [min]="todayDate" [max]="maxDate" formControlName="expiry_date"></ion-datetime>
           </ion-item>
+
           <div class="error-wrapper" *ngIf="!form.controls.expiry_date.pristine">
             <p class="error" *ngIf="form.controls.expiry_date.errors && form.controls.expiry_date.errors.required">
               * required
@@ -101,6 +104,7 @@
         </ion-card-header>
         <ion-card-content>
           <ion-item>
+            <div tabindex="0"></div>
             <ion-label position="floating">Name [English]</ion-label>
             <ion-input class="candidate_name" type="text" formControlName="name"></ion-input>
           </ion-item>
@@ -111,6 +115,7 @@
           </div>
 
           <ion-item>
+            <div tabindex="0"></div>
             <ion-label  position="floating">Name [Arabic]</ion-label>
             <ion-input type="text" formControlName="name_ar"></ion-input>
           </ion-item>
@@ -121,6 +126,7 @@
           </div>
 
           <ion-item>
+            <div tabindex="0"></div>
             <ion-label  position="floating">Birth Date</ion-label>
             <ion-datetime displayFormat="YYYY-MM-DD" pickerFormat="YYYY-MM-DD" [min]="minBirthDate" [max]="maxBirthDate" formControlName="birth_date"></ion-datetime>
           </ion-item>
@@ -196,6 +202,7 @@
           </div>
 
           <ion-item>
+            <div tabindex="0"></div>
             <ion-label position="floating">Phone Number</ion-label>
             <ion-input type="text" formControlName="phone"></ion-input>
           </ion-item>
@@ -210,6 +217,7 @@
           </div>
 
           <ion-item>
+            <div tabindex="0"></div>
             <ion-label position="floating">Objective</ion-label>
             <ion-input type="text" formControlName="objective"></ion-input>
           </ion-item>
@@ -221,6 +229,7 @@
           </div>
 
           <ion-item>
+            <div tabindex="0"></div>
             <ion-label position="floating">Preferred time to contact</ion-label>
             <ion-input type="text" formControlName="preferred_time"></ion-input>
           </ion-item>
@@ -253,6 +262,7 @@
           </div>
 
           <ion-item (click)="updateSkills()">
+            <div tabindex="0"></div>
             <ion-label position="floating">Skill</ion-label>
             <ion-input type="text" readonly formControlName="skills"></ion-input>
           </ion-item>
@@ -264,6 +274,7 @@
           </div>
 
           <ion-item (click)="updateExperiences()">
+            <div tabindex="0"></div>
             <ion-label position="floating">Experience</ion-label>
             <ion-input type="text" readonly formControlName="experiences"></ion-input>
           </ion-item>
@@ -275,6 +286,7 @@
           </div>
 
           <ion-item (click)="updateResume()">
+            <div tabindex="0"></div>
             <ion-label position="floating">Candidate CV</ion-label>
             <ion-input type="text" readonly formControlName="resume"></ion-input>
           </ion-item>
@@ -295,6 +307,7 @@
         </ion-card-header>
         <ion-card-content>
           <ion-item>
+            <div tabindex="0"></div>
             <ion-label  position="floating">Hourly Rate (KWD)</ion-label>
             <ion-input type="number" min="0" formControlName="hourly_rate"></ion-input>
           </ion-item>
@@ -314,6 +327,7 @@
         </ion-card-header>
         <ion-card-content>
           <ion-item>
+            <div tabindex="0"></div>
             <ion-label  position="floating">Beneficiary Name</ion-label>
             <ion-input type="text" formControlName="bank_account_name"></ion-input>
           </ion-item>
@@ -325,6 +339,7 @@
           </div>
 
           <ion-item>
+            <div tabindex="0"></div>
             <ion-label  position="floating">IBAN</ion-label>
             <ion-input type="text" formControlName="iban"></ion-input>
           </ion-item>
@@ -344,6 +359,7 @@
         </ion-card-header>
         <ion-card-content>
           <ion-item>
+            <div tabindex="0"></div>
             <ion-label  position="floating">Email</ion-label>
             <ion-input type="email" inputmode="email" formControlName="email"></ion-input>
           </ion-item>

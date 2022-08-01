@@ -1,49 +1,55 @@
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
-  <ion-list *ngIf="!loading">
-    <section>
+  <div class="container">
+    <ion-list *ngIf="!loading">
+      <section>
 
-      <ion-item-sliding *ngFor="let fulltimer of fulltimers" [disabled]="platform.width() > 768">
-        <ion-item tappable (click)="rowSelected(fulltimer)">
-          <div tabindex="0"></div>
-          {{ fulltimer.fulltimer_name }}
+        <ion-item-sliding *ngFor="let fulltimer of fulltimers" [disabled]="platform.width() > 768">
+          <ion-item tappable (click)="rowSelected(fulltimer)">
+            <div tabindex="0"></div>
+            {{ fulltimer.fulltimer_name }}
 
-          <ion-buttons slot="end" *ngIf="platform.width() > 768">
+            <ion-buttons slot="end" *ngIf="platform.width() > 768">
+              <ion-button color="primary" (click)="create($event, fulltimer)">
+                <ion-icon slot="start" name="pencil-outline"></ion-icon>
+                Edit
+              </ion-button>
+              <ion-button color="danger" (click)="delete($event, fulltimer)">
+                <ion-icon slot="start" name="trash-outline"></ion-icon>
+                Delete
+              </ion-button>
+            </ion-buttons>
+
+          </ion-item>
+
+          <ion-item-options side="end">
             <ion-button color="primary" (click)="create($event, fulltimer)">
               <ion-icon slot="start" name="pencil-outline"></ion-icon>
               Edit
             </ion-button>
             <ion-button color="danger" (click)="delete($event, fulltimer)">
-              <ion-icon slot="start" name="trash-outline"></ion-icon>
+              <ion-icon name="trash"></ion-icon>
               Delete
             </ion-button>
-          </ion-buttons>
+          </ion-item-options>
 
-        </ion-item>
+        </ion-item-sliding>
+      </section>
+    </ion-list>
 
-        <ion-item-options side="end">
-          <ion-button color="primary" (click)="create($event, fulltimer)">
-            <ion-icon slot="start" name="pencil-outline"></ion-icon>
-            Edit
-          </ion-button>
-          <ion-button color="danger" (click)="delete($event, fulltimer)">
-            <ion-icon name="trash"></ion-icon>
-            Delete
-          </ion-button>
-        </ion-item-options>
+    <loading-modal [loading]="loading || loadMore" type="text-list"></loading-modal>
 
-      </ion-item-sliding>
-    </section>
-  </ion-list>
-  <loading-modal [loading]="loading || loadMore" type="text-list"></loading-modal>
-  <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
-    <ion-infinite-scroll-content></ion-infinite-scroll-content>
-  </ion-infinite-scroll>
+    <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
+      <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+  </div>
 </ion-content>
 
 <ion-footer class="ion-no-border">
-  <ion-button expand="full" (click)="create($event)">
-    Add New Fulltimer
-  </ion-button>
+  <div class="container">
+    <ion-button expand="full" (click)="create($event)">
+      Add New Fulltimer
+    </ion-button>
+  </div>
 </ion-footer>
 

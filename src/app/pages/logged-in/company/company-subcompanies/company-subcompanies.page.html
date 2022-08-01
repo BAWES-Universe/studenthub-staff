@@ -15,21 +15,21 @@
     </ion-title>
   </ion-toolbar>
   
-
 </ion-header>
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
+  <div class="container">
     <ion-list *ngIf="company && company.subCompanies">
       <app-company [company]="company" *ngFor="let company of company.subCompanies" (click)="rowSelected(company)">
       </app-company>
     </ion-list>
 
-  <no-items *ngIf="!loading && company.subCompanies && company.subCompanies.length ==0" message="~ No subcompany data ~"></no-items>
+    <no-items *ngIf="!loading && company.subCompanies && company.subCompanies.length ==0" message="~ No subcompany data ~"></no-items>
 
-  <loading-modal [loading]="loading" type="company-list"></loading-modal>
+    <loading-modal [loading]="loading" type="company-list"></loading-modal>
 
-  <div class="add-request" tappable (click)="create()">
-    <ion-icon name="add-outline"></ion-icon>
-  </div>
-
+    <div class="add-request" tappable (click)="create()">
+      <ion-icon name="add-outline"></ion-icon>
+    </div>
+  </div> 
 </ion-content>

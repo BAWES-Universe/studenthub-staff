@@ -19,24 +19,25 @@
 </ion-header>
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
+  <div class="container">
+    <form [formGroup]="form" *ngIf="form">
+      <ion-list>
 
-  <form [formGroup]="form" *ngIf="form">
-    <ion-list>
+        <h5>Select Request </h5>
 
-      <h5>Select Request </h5>
+        <ion-searchbar (ionChange)="onSearchInput($event)" [value]="query">
+        </ion-searchbar>
 
-      <ion-searchbar (ionChange)="onSearchInput($event)" [value]="query">
-      </ion-searchbar>
+          <request-listing (click)="selectRequest(request)" *ngFor="let request of activeRequests" tappable
+            [request]="request" [showStatus]="false"></request-listing>
 
-        <request-listing (click)="selectRequest(request)" *ngFor="let request of activeRequests" tappable
-          [request]="request" [showStatus]="false"></request-listing>
+      </ion-list>
 
-    </ion-list>
+    </form>
 
-  </form>
-
-  <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
-    <ion-infinite-scroll-content></ion-infinite-scroll-content>
-  </ion-infinite-scroll>
+    <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
+      <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+  </div>
 </ion-content>
 

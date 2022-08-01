@@ -19,28 +19,28 @@
 </ion-header>
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
+  <div class="container">
+    <form [formGroup]="form" *ngIf="form">
+      <ion-list>
 
-  <form [formGroup]="form" *ngIf="form">
-    <ion-list>
+        <div [class.hidden]="form.controls.request_uuid.value">
+          <h5>Select Request </h5>
 
-      <div [class.hidden]="form.controls.request_uuid.value">
-        <h5>Select Request </h5>
+          <request-listing (click)="selectRequest(request)" *ngFor="let request of activeRequests" tappable 
+            [request]="request" [showStatus]="false"></request-listing>
+        </div>
 
-        <request-listing (click)="selectRequest(request)" *ngFor="let request of activeRequests" tappable 
-          [request]="request" [showStatus]="false"></request-listing>
-      </div>
+        <ion-item class="flip-in-hor-bottom" [class.hidden]="!form.controls.request_uuid.value">
+          <div tabindex="0"></div>
+          <ion-label position="floating">
+            Reason for suggestion
+          </ion-label>
+          <ion-textarea formControlName="suggestion"></ion-textarea>
+        </ion-item>
 
-      <ion-item class="flip-in-hor-bottom" [class.hidden]="!form.controls.request_uuid.value">
-        <div tabindex="0"></div>
-        <ion-label position="floating">
-          Reason for suggestion
-        </ion-label>
-        <ion-textarea formControlName="suggestion"></ion-textarea>
-      </ion-item>
+      </ion-list>
 
-    </ion-list>
-
-  </form>
-  
+    </form>
+  </div>
 </ion-content>
 

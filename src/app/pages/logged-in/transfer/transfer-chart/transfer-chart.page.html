@@ -7,18 +7,20 @@
 </ion-header>
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
-  <loading-modal [loading]="loading" type="chart"></loading-modal>
-  <ion-card class="welcome-card" [hidden]="loading || (statsData && !statsData.length)">
-    <ion-card-header [hidden]="!legendDisplay">
-      <ion-card-title> Completed / Received / InProgress Transfer/ Profit, Total Candidates, Total Paid Candidate,
-        Candidate Average Payment,Average Profit/Candidate</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <canvas #statsChart></canvas>
-    </ion-card-content>
-  </ion-card>
+  <div class="container">
+    <loading-modal [loading]="loading" type="chart"></loading-modal>
+    <ion-card class="welcome-card" [hidden]="loading || (statsData && !statsData.length)">
+      <ion-card-header [hidden]="!legendDisplay">
+        <ion-card-title> Completed / Received / InProgress Transfer/ Profit, Total Candidates, Total Paid Candidate,
+          Candidate Average Payment,Average Profit/Candidate</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <canvas #statsChart></canvas>
+      </ion-card-content>
+    </ion-card>
 
-  <canvas #statsChart></canvas>
+    <canvas #statsChart></canvas>
 
-  <no-items *ngIf="!loading && company && company.parentTransfers.length == 0" message="~ No transfer Data ~"></no-items>
+    <no-items *ngIf="!loading && company && company.parentTransfers.length == 0" message="~ No transfer Data ~"></no-items>
+  </div>
 </ion-content>

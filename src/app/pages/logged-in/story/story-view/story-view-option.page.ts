@@ -4,7 +4,7 @@ import {PopoverController} from '@ionic/angular';
 @Component({
   selector: 'app-option',
   template: `
-    <ion-item lines="none" tappable (click)="dismiss(true)">View original request</ion-item>
+    <ion-item lines="none" tappable (click)="dismiss(true)"><div tabindex="0"></div>View original request</ion-item>
   `,
 })
 export class StoryViewOptionPage implements OnInit {

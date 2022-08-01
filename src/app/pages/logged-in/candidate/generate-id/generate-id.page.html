@@ -18,38 +18,40 @@
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
 
-  <ion-segment [(ngModel)]="cndSegment" (ionChange)="segmentChanged($event)" color="primary">
-    <ion-segment-button value="not-generated">
-      Not Generated
-    </ion-segment-button>
-    <ion-segment-button value="generated">
-      Already Generated
-    </ion-segment-button>
-  </ion-segment>
+  <div class="container">
+    <ion-segment [(ngModel)]="cndSegment" (ionChange)="segmentChanged($event)" color="primary">
+      <ion-segment-button value="not-generated">
+        Not Generated
+      </ion-segment-button>
+      <ion-segment-button value="generated">
+        Already Generated
+      </ion-segment-button>
+    </ion-segment>
 
-  <ion-searchbar
-    [(ngModel)]="searchBar"
-    (ionChange) ="search()"
-    debounce="200"
-    animated="true"
-  >
-  </ion-searchbar>
+    <ion-searchbar
+      [(ngModel)]="searchBar"
+      (ionChange) ="search()"
+      debounce="200"
+      animated="true"
+    >
+    </ion-searchbar>
 
-  <form [formGroup]="form">
-    <ion-list *ngIf="!loading">
-      <ion-item *ngFor="let obj of candidatelistData; let i= index">
-        <div tabindex="0"></div>
-        <ion-label class="candidate_name">{{ obj.candidate_name? obj.candidate_name: obj.candidate_name_ar }}</ion-label>
-        <ion-checkbox [(ngModel)]="candidates[obj.candidate_id]" checked="false" slot="start" [ngModelOptions]="{standalone: true}"></ion-checkbox>
-        <ion-button [routerLink]="['/candidate-view',obj.candidate_id]" color="primary">View Detail</ion-button>
-      </ion-item>
-    </ion-list>
-    <loading-modal [loading]="loading || loadingMore" type="text-list"></loading-modal>
-    <no-items *ngIf="!loading && candidatelistData && candidatelistData.length == 0" message="No data available"></no-items>
+    <form [formGroup]="form">
+      <ion-list *ngIf="!loading">
+        <ion-item *ngFor="let obj of candidatelistData; let i= index">
+          <div tabindex="0"></div>
+          <ion-label class="candidate_name">{{ obj.candidate_name? obj.candidate_name: obj.candidate_name_ar }}</ion-label>
+          <ion-checkbox [(ngModel)]="candidates[obj.candidate_id]" checked="false" slot="start" [ngModelOptions]="{standalone: true}"></ion-checkbox>
+          <ion-button [routerLink]="['/candidate-view',obj.candidate_id]" color="primary">View Detail</ion-button>
+        </ion-item>
+      </ion-list>
+      <loading-modal [loading]="loading || loadingMore" type="text-list"></loading-modal>
+      <no-items *ngIf="!loading && candidatelistData && candidatelistData.length == 0" message="No data available"></no-items>
 
-    <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
-      <ion-infinite-scroll-content></ion-infinite-scroll-content>
-    </ion-infinite-scroll>
+      <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
+        <ion-infinite-scroll-content></ion-infinite-scroll-content>
+      </ion-infinite-scroll>
 
-  </form>
+    </form>
+  </div>
 </ion-content>

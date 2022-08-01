@@ -16,20 +16,22 @@
 </ion-header>
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
-  <form [formGroup]="form" *ngIf="form">
+  <div class="container">
+    <form [formGroup]="form" *ngIf="form">
 
-    <ion-item lines="none" *ngIf="['Suggested', 'Accepted', 'Rejected'].indexOf(form.controls.type.value) == -1">
-      <div tabindex="0"></div>
-      <ion-select formControlName="type">
-        <ion-select-option>Internal Note</ion-select-option>
-        <ion-select-option>Phone Call</ion-select-option>
-        <ion-select-option>Email</ion-select-option>
-        <ion-select-option>Meeting</ion-select-option>
-        <ion-select-option>Interview</ion-select-option>
-        <ion-select-option>Task</ion-select-option>
-      </ion-select>
-    </ion-item>
+      <ion-item lines="none" *ngIf="['Suggested', 'Accepted', 'Rejected'].indexOf(form.controls.type.value) == -1">
+        <div tabindex="0"></div>
+        <ion-select formControlName="type">
+          <ion-select-option>Internal Note</ion-select-option>
+          <ion-select-option>Phone Call</ion-select-option>
+          <ion-select-option>Email</ion-select-option>
+          <ion-select-option>Meeting</ion-select-option>
+          <ion-select-option>Interview</ion-select-option>
+          <ion-select-option>Task</ion-select-option>
+        </ion-select>
+      </ion-item>
 
-    <ckeditor [config]="editorConfig" #ckeditor [editor]="Editor" (ready)="onEditorReady()" (change)="onChange($event)"></ckeditor>
-  </form>
+      <ckeditor [config]="editorConfig" #ckeditor [editor]="Editor" (ready)="onEditorReady()" (change)="onChange($event)"></ckeditor>
+    </form>
+  </div>
 </ion-content>

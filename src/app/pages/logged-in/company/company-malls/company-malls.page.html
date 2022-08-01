@@ -18,29 +18,31 @@
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)" class="ion-no-padding">
 
-  <ion-list *ngIf="company">
-    <ion-item tappable (click)="mallSelected(mall)" *ngFor="let mall of company.malls" lines="none">
-      <div tabindex="0"></div>
-      <ion-label>
-        <ion-text>
-          <h5>{{ mall.mall_name_en }}</h5>
-        </ion-text>
-        <ion-text>
-          <ion-badge color="light" *ngIf="mall.store_count > 0">
-            {{ mall.store_count }} stores
-          </ion-badge>
-          <ion-badge color="light" *ngIf="mall.candidate_count > 0">
-            {{ mall.candidate_count }} staff
-          </ion-badge>
-        </ion-text>
-      </ion-label>
-    </ion-item>
+  <div class="container">
+    <ion-list *ngIf="company">
+      <ion-item tappable (click)="mallSelected(mall)" *ngFor="let mall of company.malls" lines="none">
+        <div tabindex="0"></div>
+        <ion-label>
+          <ion-text>
+            <h5>{{ mall.mall_name_en }}</h5>
+          </ion-text>
+          <ion-text>
+            <ion-badge color="light" *ngIf="mall.store_count > 0">
+              {{ mall.store_count }} stores
+            </ion-badge>
+            <ion-badge color="light" *ngIf="mall.candidate_count > 0">
+              {{ mall.candidate_count }} staff
+            </ion-badge>
+          </ion-text>
+        </ion-label>
+      </ion-item>
 
-  </ion-list>
+    </ion-list>
 
-  <ion-list>
-    <loading-modal [loading]="loading" type="mall-list"></loading-modal>
-  </ion-list>
+    <ion-list>
+      <loading-modal [loading]="loading" type="mall-list"></loading-modal>
+    </ion-list>
 
-  <no-items *ngIf="!loading && company.malls.length ==0" message="~ No mall data available ~"></no-items>
+    <no-items *ngIf="!loading && company.malls.length ==0" message="~ No mall data available ~"></no-items>
+  </div>
 </ion-content>

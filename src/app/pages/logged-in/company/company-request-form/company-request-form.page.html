@@ -20,11 +20,13 @@
     <form [formGroup]="form" *ngIf="form">
 
       <ion-item class="input-wrapper" tappable (click)="openClient($event)" *ngIf="!model.request_uuid">
+        <div tabindex="0"></div>
         <ion-label position="floating">Contact</ion-label>
         <ion-input type="text" formControlName="contact_name" readonly></ion-input>
       </ion-item>
 
       <ion-item class="input-wrapper" *ngIf="model.request_uuid">
+        <div tabindex="0"></div>
         <ion-label position="floating">Contact</ion-label>
         <ion-input type="text" formControlName="contact_name" disabled></ion-input>
       </ion-item>
@@ -50,11 +52,13 @@
       </ion-radio-group> 
  
       <ion-item class="input-wrapper">
+        <div tabindex="0"></div>
         <ion-label position="floating">Position title</ion-label>
         <ion-input type="text" formControlName="position_title"></ion-input>
       </ion-item> 
  
       <ion-item class="input-wrapper">
+        <div tabindex="0"></div>
         <ion-label position="floating">Job Description</ion-label>
 
         <ckeditor [config]="editorConfig" #ckeditor [editor]="Editor"
@@ -64,26 +68,31 @@
       </ion-item> 
  
       <ion-item *ngIf="!model.request_uuid" class="input-wrapper">
+        <div tabindex="0"></div>
         <ion-label position="floating">Number of employees</ion-label>
         <ion-input type="text" formControlName="number_of_employees"></ion-input>
       </ion-item>
       
       <ion-item *ngIf="!model.request_uuid" class="input-wrapper">
+        <div tabindex="0"></div>
         <ion-label position="floating">Number of employees per story</ion-label>
         <ion-input type="text" formControlName="no_of_employees_per_story"></ion-input>
       </ion-item>
  
       <ion-item class="input-wrapper">
+        <div tabindex="0"></div>
         <ion-label position="floating">Location</ion-label>
         <ion-input type="text" formControlName="location"></ion-input>
       </ion-item> 
 
       <ion-item class="input-wrapper">
+        <div tabindex="0"></div>
         <ion-label position="floating">Compensation</ion-label>
         <ion-textarea formControlName="compensation" placeholder="Please provide compensation detail"></ion-textarea>
       </ion-item> 
 
       <ion-item class="input-wrapper">
+        <div tabindex="0"></div>
         <ion-label position="floating">Additional info</ion-label>
         <ion-textarea formControlName="additional_info" placeholder="Female only, Lebanese Jordanian Syrian NO EGYPTIAN"></ion-textarea>
       </ion-item> 

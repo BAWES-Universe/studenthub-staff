@@ -16,69 +16,72 @@
 </ion-header>
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
-  <form [formGroup]="form" *ngIf="form">
-    <ion-list>
-      <ng-container *ngIf="this.from !='post-update'">
-        
-        <ion-item *ngIf="['Suggested', 'Accepted', 'Rejected'].indexOf(form.controls.type.value) == -1">
-          <div tabindex="0"></div>
-          <ion-label position="floating">Note Type</ion-label>
-          <ion-select formControlName="type" interface="popover">
-            <ion-select-option>Internal Note</ion-select-option>
-            <ion-select-option>Phone Call</ion-select-option>
-            <ion-select-option>Email</ion-select-option>
-            <ion-select-option>Meeting</ion-select-option>
-            <ion-select-option>Interview</ion-select-option>
-            <ion-select-option>Task</ion-select-option>
-          </ion-select>
-        </ion-item>
+  <div class="container">
+    <form [formGroup]="form" *ngIf="form">
+      <ion-list>
+        <ng-container *ngIf="this.from !='post-update'">
+          
+          <ion-item *ngIf="['Suggested', 'Accepted', 'Rejected'].indexOf(form.controls.type.value) == -1">
+            <div tabindex="0"></div>
+            <ion-label position="floating">Note Type</ion-label>
+            <ion-select formControlName="type" interface="popover">
+              <ion-select-option>Internal Note</ion-select-option>
+              <ion-select-option>Phone Call</ion-select-option>
+              <ion-select-option>Email</ion-select-option>
+              <ion-select-option>Meeting</ion-select-option>
+              <ion-select-option>Interview</ion-select-option>
+              <ion-select-option>Task</ion-select-option>
+            </ion-select>
+          </ion-item>
 
-        <ion-item (click)="openClient($event)" *ngIf="this.from !='company-view'" tappable>
-          <div tabindex="0"></div>
-          <ion-label position="floating">Company Name</ion-label>
-          <ion-input type="text" formControlName="company_name" readonly tappable></ion-input>
-        </ion-item>
+          <ion-item (click)="openClient($event)" *ngIf="this.from !='company-view'" tappable>
+            <div tabindex="0"></div>
+            <ion-label position="floating">Company Name</ion-label>
+            <ion-input type="text" formControlName="company_name" readonly tappable></ion-input>
+          </ion-item>
 
-        <ion-item (click)="openContact($event)" tappable>
-          <div tabindex="0"></div>
-          <ion-label position="floating">Contact</ion-label>
-          <ion-input type="text" formControlName="contact_name" readonly tappable></ion-input>
-        </ion-item>
+          <ion-item (click)="openContact($event)" tappable>
+            <div tabindex="0"></div>
+            <ion-label position="floating">Contact</ion-label>
+            <ion-input type="text" formControlName="contact_name" readonly tappable></ion-input>
+          </ion-item>
 
-        <ion-item (click)="openRequest($event)" tappable>
-          <div tabindex="0"></div>
-          <ion-label position="floating">Request</ion-label>
-          <ion-input type="text" formControlName="request_name" readonly tappable></ion-input>
-        </ion-item>
-      </ng-container>
+          <ion-item (click)="openRequest($event)" tappable>
+            <div tabindex="0"></div>
+            <ion-label position="floating">Request</ion-label>
+            <ion-input type="text" formControlName="request_name" readonly tappable></ion-input>
+          </ion-item>
+        </ng-container>
 
-      <ion-item-divider class="ckeditor-title">
-        <ion-label *ngIf="fulltimer && fulltimer.fulltimer_uuid"  class="ion-text-wrap">
-          {{fulltimer.fulltimer_name}} (Fulltimer) note is about
-        </ion-label>
-        <ion-thumbnail slot="start" *ngIf="candidate && candidate.candidate_id && candidate.candidate_personal_photo">
-          <img (error)="onPhotoError()"
-               src="{{ awsService.cloudinaryUrl + 'candidate-photo/' + candidate.candidate_personal_photo }}" />
-        </ion-thumbnail>
-        <ion-label *ngIf="candidate && candidate.candidate_id" class="ion-text-wrap">
-          {{candidate.candidate_name}} (Candidate) note is about
-        </ion-label>
-      </ion-item-divider>
+        <ion-item-divider class="ckeditor-title">
+          <ion-label *ngIf="fulltimer && fulltimer.fulltimer_uuid"  class="ion-text-wrap">
+            {{fulltimer.fulltimer_name}} (Fulltimer) note is about
+          </ion-label>
+          <ion-thumbnail slot="start" *ngIf="candidate && candidate.candidate_id && candidate.candidate_personal_photo">
+            <img (error)="onPhotoError()"
+                src="{{ awsService.cloudinaryUrl + 'candidate-photo/' + candidate.candidate_personal_photo }}" />
+          </ion-thumbnail>
+          <ion-label *ngIf="candidate && candidate.candidate_id" class="ion-text-wrap">
+            {{candidate.candidate_name}} (Candidate) note is about
+          </ion-label>
+        </ion-item-divider>
 
-      <ckeditor [config]="editorConfig" #ckeditor [editor]="Editor" (ready)="onEditorReady()" (change)="onChange($event)">
-      </ckeditor>
+        <ckeditor [config]="editorConfig" #ckeditor [editor]="Editor" (ready)="onEditorReady()" (change)="onChange($event)">
+        </ckeditor>
 
-    </ion-list>
-    
-    <ion-list>
-      <ion-radio-group formControlName="request_checklist_uuid">
-        <ion-item *ngFor="let item of checklist">
-          <ion-label>{{ item.status_name }}</ion-label>
-          <ion-radio slot="start" [value]="item.request_checklist_uuid"></ion-radio>
-        </ion-item>
-      </ion-radio-group>
-    </ion-list>
+      </ion-list>
+      
+      <ion-list>
+        <ion-radio-group formControlName="request_checklist_uuid">
+          <ion-item *ngFor="let item of checklist">
+            <div tabindex="0"></div>
+            <ion-label>{{ item.status_name }}</ion-label>
+            <ion-radio slot="start" [value]="item.request_checklist_uuid"></ion-radio>
+          </ion-item>
+        </ion-radio-group>
+      </ion-list>
 
-  </form>
+    </form>
+  </div>
 </ion-content>
  

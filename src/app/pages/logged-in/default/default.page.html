@@ -22,6 +22,7 @@
         <h3>Continue where you left off</h3>
         <ion-card class="stats pending-story" tappable [routerLink]="['/story-view/'+ authService.story.story_uuid]">
           <ion-item class="ion" detail lines="none">
+            <div tabindex="0"></div>
             <ion-label class="ion-text-wrap">
               <span>{{ authService.story.request.request_position_title }}</span>
               <p *ngIf="authService.story && authService.story.company">{{ authService.story.company.company_name }}</p>
@@ -36,6 +37,7 @@
         <h3>Recruitment Tasks</h3>
         <ion-card class="stats" tappable>
           <ion-item (click)="scrollToActive()" class="ion" detail lines="none">
+            <div tabindex="0"></div>
             <ion-label class="ion-text-wrap">
               <span>{{ statistics.activeRequests }}</span>
               <p><b>Active requests that need an update.</b> These active requests haven't received an update in a while.</p>
@@ -48,6 +50,7 @@
         <h3>Operations</h3>
         <ion-card (click)="showExpiredIDs()" *ngIf="statistics.totalExpiredCards > 0" tappable class="danger stats">
           <ion-item class="ion" detail lines="none">
+            <div tabindex="0"></div>
             <ion-label class="ion-text-wrap">
               <span>{{ statistics.totalExpiredCards }}</span>
               <p><b>Candidates with expired ID cards</b> that need renewal. Let’s unassign or renew ASAP.</p>
@@ -56,6 +59,7 @@
         </ion-card>
         <ion-card class="stats" *ngIf="statistics.id_need_generated > 0" routerLink="/generate-id" tappable>
           <ion-item class="ion" detail lines="none">
+            <div tabindex="0"></div>
             <ion-label class="ion-text-wrap">
               <span>{{ statistics.id_need_generated }}</span>
               <p><b>Candidates Assigned to work without ID cards.</b></p>
@@ -65,6 +69,7 @@
 
         <ion-card class="stats" *ngIf="statistics.missingBankInfo > 0" routerLink="/candidate-bank-info-list" tappable>
           <ion-item class="ion" detail lines="none">
+            <div tabindex="0"></div>
             <ion-label class="ion-text-wrap">
               <span>{{ statistics.missingBankInfo }}</span>
               <p><b>Candidates missing bank info</b> so we can't pay them.</p>
@@ -73,6 +78,7 @@
         </ion-card>
         <ion-card class="stats" *ngIf="statistics.assignedExpiredCivilID > 0" routerLink="/assigned-expired-civil" tappable>
           <ion-item class="ion" detail lines="none">
+            <div tabindex="0"></div>
             <ion-label class="ion-text-wrap">
               <span>{{ statistics.assignedExpiredCivilID }}</span>
               <p>Candidates are assigned to work but have <b>expired civil id.</b> </p>
@@ -81,6 +87,7 @@
         </ion-card>
         <ion-card class="stats" *ngIf="statistics.assignedIdleCandidates > 0" routerLink="/assigned-idle-candidates" tappable>
           <ion-item class="ion" detail lines="none">
+            <div tabindex="0"></div>
             <ion-label class="ion-text-wrap">
               <span>{{ statistics.assignedIdleCandidates }}</span>
               <p>Candidates are assigned to work but have <b>not received any payments in the past two months.</b></p>
@@ -89,6 +96,7 @@
         </ion-card>
         <ion-card class="stats" *ngIf="statistics.incompleteAssignedToWork > 0" tappable routerLink="/incomplete-candidate-list">
           <ion-item class="ion" detail lines="none">
+            <div tabindex="0"></div>
             <ion-label class="ion-text-wrap">
               <span>{{ statistics.incompleteAssignedToWork }}</span>
               <p>Candidates are assigned to work but have <b>incomplete profiles.</b></p>
@@ -100,6 +108,7 @@
         <h3>Sales</h3>
         <ion-card class="danger stats" *ngIf="statistics.companyMoreThen40DaysWithoutPayment > 0" tappable (click)="companyList()">
           <ion-item class="ion" detail lines="none">
+            <div tabindex="0"></div>
             <ion-label class="ion-text-wrap">
               <span>{{ statistics.companyMoreThen40DaysWithoutPayment }}</span>
               <p><b>Urgent! Companies with assigned staff that have not made a payment in 40 days</b></p>
@@ -109,6 +118,7 @@
 
         <ion-card class="stats" tappable *ngIf="statistics.requireFollowup > 0" routerLink="/company-followup-list">
           <ion-item class="ion" detail lines="none">
+            <div tabindex="0"></div>
             <ion-label class="ion-text-wrap">
               <span>{{ statistics.requireFollowup }}</span>
               <p><b>Clients requiring followup.</b> We need to collect feedback and try to up-sell additional services.</p>
@@ -118,6 +128,7 @@
 
         <ion-card class="stats" tappable *ngIf="statistics.last40daysNoRequest > 0" routerLink="/view/company-list">
           <ion-item class="ion" detail lines="none">
+            <div tabindex="0"></div>
             <ion-label class="ion-text-wrap">
               <span>{{ statistics.last40daysNoRequest }}</span>
               <p><b>Active clients which haven't made a request in over 40 days.</b> Why aren't they making requests?</p>

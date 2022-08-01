@@ -263,7 +263,7 @@ export class CompanyRequestDashboardPage implements OnInit {
     this.loading = loading;
 
     let param = this.urlParams();
-    param += '&expand=request,request.company,latestStoryActivity';
+    param += '&expand=staff,request,request.company,latestStoryActivity';
     param += '&query=' + this.query;
 
     this.storyService.list(this.currentPage, param).subscribe(response => {
@@ -290,7 +290,7 @@ export class CompanyRequestDashboardPage implements OnInit {
     this.currentPage++;
 
     let param = this.urlParams();
-    param += '&expand=request,request.company,latestStoryActivity';
+    param += '&expand=staff,request,request.company,latestStoryActivity';
 
     this.storyService.list(this.currentPage, param).subscribe(response => {
 

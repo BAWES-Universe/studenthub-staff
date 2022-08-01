@@ -123,6 +123,7 @@
 
           <ion-col *ngIf="stats.malls > 0"  size-xs="12" size-sm="12" size-md="4" size-lg="4" size-xl="4">
             <ion-item tappable (click)="openMalls()">
+              <div tabindex="0"></div>
               <ion-label>
                 <h5>Malls present in</h5>
                 <p>{{ stats.malls }}</p>

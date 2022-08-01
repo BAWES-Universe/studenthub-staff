@@ -18,41 +18,43 @@
 </ion-header>
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
-  
-  <ng-container *ngIf="company && company.parentTransfers">
+  <div class="container">
+    <ng-container *ngIf="company && company.parentTransfers">
 
-    <ion-item tappable (click)="openTransferDetailPage(transfer)" *ngFor="let transfer of company.parentTransfers">
-      <ion-label>
-        <h5>KWD {{ transfer.company_total | number:'1.3-3' }}</h5>
-        <p>Transfer #{{ transfer.transfer_id}}</p>
-      </ion-label>
+      <ion-item tappable (click)="openTransferDetailPage(transfer)" *ngFor="let transfer of company.parentTransfers">
+        <div tabindex="0"></div>
+        
+        <ion-label>
+          <h5>KWD {{ transfer.company_total | number:'1.3-3' }}</h5>
+          <p>Transfer #{{ transfer.transfer_id}}</p>
+        </ion-label>
 
-      <ion-badge slot="end" class="status status_{{transfer.transfer_status}}" *ngIf="transfer.transfer_status==10"> Draft </ion-badge>
-      
-      <ion-badge slot="end" class="status status_{{transfer.transfer_status}}" *ngIf="transfer.transfer_status==5"> Locked,
-        Pending Payment </ion-badge>
+        <ion-badge slot="end" class="status status_{{transfer.transfer_status}}" *ngIf="transfer.transfer_status==10"> Draft </ion-badge>
+        
+        <ion-badge slot="end" class="status status_{{transfer.transfer_status}}" *ngIf="transfer.transfer_status==5"> Locked,
+          Pending Payment </ion-badge>
 
-      <ion-badge slot="end" class="status status_{{transfer.transfer_status}}" *ngIf="transfer.transfer_status==1"> Payment Sent,
-        Confirm Received </ion-badge>
-      
-      <ion-badge slot="end" class="status status_{{transfer.transfer_status}}" *ngIf="transfer.transfer_status==3"> Received &
-        Distribution in Progress </ion-badge>
-      
-      <ion-badge slot="end" class="status badge-paid status_{{transfer.transfer_status}}" *ngIf="transfer.transfer_status==4"> Completed
-      </ion-badge>
+        <ion-badge slot="end" class="status status_{{transfer.transfer_status}}" *ngIf="transfer.transfer_status==1"> Payment Sent,
+          Confirm Received </ion-badge>
+        
+        <ion-badge slot="end" class="status status_{{transfer.transfer_status}}" *ngIf="transfer.transfer_status==3"> Received &
+          Distribution in Progress </ion-badge>
+        
+        <ion-badge slot="end" class="status badge-paid status_{{transfer.transfer_status}}" *ngIf="transfer.transfer_status==4"> Completed
+        </ion-badge>
 
-    </ion-item>
-  
-  </ng-container>
+      </ion-item>
+    
+    </ng-container>
 
-  <loading-modal type="transfer-list" [loading]="loading"></loading-modal>
+    <loading-modal type="transfer-list" [loading]="loading"></loading-modal>
 
-  <no-items *ngIf="!loading && company && company.parentTransfers.length == 0" message="~ No transfer Data ~"></no-items>
-  
-  <ion-fab *ngIf="company && !company.parent_company_id" slot="fixed">
-    <ion-fab-button (click)="createNewTransfer()">
-      <ion-icon name="add-outline"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
-
+    <no-items *ngIf="!loading && company && company.parentTransfers.length == 0" message="~ No transfer Data ~"></no-items>
+    
+    <ion-fab *ngIf="company && !company.parent_company_id" slot="fixed">
+      <ion-fab-button (click)="createNewTransfer()">
+        <ion-icon name="add-outline"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+  </div>
 </ion-content> 

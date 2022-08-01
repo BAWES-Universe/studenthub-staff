@@ -35,24 +35,27 @@ export class StoryService {
    * detail
    * @param storyUuid
    */
-  detail(storyUuid: number, urlParams): Observable<any>{
-    return this._authhttp.get(`${this.storyEndpoint}/${storyUuid}${urlParams}`);
+  detail(storyUuid: number, urlParams): Observable<any> {
+    const url = `${this.storyEndpoint}/${storyUuid}${urlParams}`;
+    return this._authhttp.get(url);
   }
 
   /**
    * detail
    * @param storyUuid
    */
-  loadActiveStory(urlParams= '?expand=request,request.company'): Observable<any>{
-    return this._authhttp.get(`${this.storyEndpoint}/active-story${urlParams}`);
+  loadActiveStory(urlParams= '?expand=staff,request,request.company'): Observable<any> {
+    const url = `${this.storyEndpoint}/active-story${urlParams}`;
+    return this._authhttp.get(url);
   }
 
  /**
    * detail
    * @param storyUuid
    */
-  listAllOldHistory(urlParams= '?expand=request,request.company'): Observable<any>{
-    return this._authhttp.get(`${this.storyEndpoint}/all-old-stories${urlParams}`);
+  listAllOldHistory(urlParams= '?expand=staff,request,request.company'): Observable<any> {
+    const url = `${this.storyEndpoint}/all-old-stories${urlParams}`;
+    return this._authhttp.get(url);
   }
 
   /**

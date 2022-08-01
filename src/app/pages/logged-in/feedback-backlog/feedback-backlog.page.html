@@ -22,8 +22,10 @@
     </ion-infinite-scroll>
 
     <loading-modal [loading]="loading" type="request-list"></loading-modal>
+    
+    <div class="add-request mobile-only" tappable routerLink="/request-form">
+      <ion-icon name="add-outline"></ion-icon>
+    </div>
   </div>
-  <div class="add-request mobile-only" tappable routerLink="/request-form">
-    <ion-icon name="add-outline"></ion-icon>
-  </div>
+  
 </ion-content>

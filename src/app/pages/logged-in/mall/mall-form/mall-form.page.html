@@ -16,18 +16,22 @@
 </ion-header>
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
-  <form [formGroup]="form">
-    <ion-list>
-      <ion-item>
-        <ion-label position="floating">Name English</ion-label>
-        <ion-input type="text" formControlName="name_en"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating">Name Arabic</ion-label>
-        <ion-input type="text" formControlName="name_ar"></ion-input>
-      </ion-item>
-    </ion-list>
-  </form>
+  <div class="container">
+    <form [formGroup]="form">
+      <ion-list>
+        <ion-item>
+          <div tabindex="0"></div>
+          <ion-label position="floating">Name English</ion-label>
+          <ion-input type="text" formControlName="name_en"></ion-input>
+        </ion-item>
+        <ion-item>
+          <div tabindex="0"></div>
+          <ion-label position="floating">Name Arabic</ion-label>
+          <ion-input type="text" formControlName="name_ar"></ion-input>
+        </ion-item>
+      </ion-list>
+    </form>
+  </div>
 </ion-content>
 <ion-footer class="ion-no-border">
   <div class="container">

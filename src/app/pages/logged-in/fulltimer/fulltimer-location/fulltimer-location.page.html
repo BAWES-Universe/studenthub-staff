@@ -13,51 +13,51 @@
 </ion-header>
 
 <ion-content>
+  <div class="container">
+    <h3 *ngIf="!query">In which area do you currently live?</h3>
 
-  <h3 *ngIf="!query">In which area do you currently live?</h3>
+    <p *ngIf="!query">This will help us link   you to jobs that are close to where you live</p>
 
-  <p *ngIf="!query">This will help us link   you to jobs that are close to where you live</p>
+    <ng-container *ngIf="!selected">
+      
+      <ion-item lines="none" [class.country-wrapper]="!country_name">
+        <div tabindex="0"></div>
+        <ion-select #select [(ngModel)]="country_name" placeholder="Select country" (ionChange)="onCountryChange($event)" interface="popover">
+          <ion-select-option value="Kuwait">Kuwait</ion-select-option>
+          <ion-select-option value="Bahrain">Bahrain</ion-select-option>
+          <ion-select-option value="Saudi Arabia">Saudi Arabia</ion-select-option>
+          <ion-select-option value="United Arab Emirates">United Arab Emirates</ion-select-option>
+          <ion-select-option value="Qatar">Qatar</ion-select-option>
+        </ion-select>
+      </ion-item>
 
-  <ng-container *ngIf="!selected">
+      <ion-item lines="none" *ngIf="country_name">
+        <div tabindex="0"></div>
+        <ion-searchbar mode="md" debounce="100" placeholder="{{ placeholders[country_name] }}"  #searchInput [value]="query" (ionChange)="getItems($event)"></ion-searchbar>
+      </ion-item>
+
+    </ng-container>
+
+    <ng-container *ngIf="selected">
+      <ion-item *ngIf="area && country && area.area_name_en && country.country_name_en" class="selected_area" lines="none">
+        <div tabindex="0"></div>
+        <ion-label>
+          area.area_name_en <span *ngIf="country.country_name_en">, {{ country.country_name_en }}</span>
+        </ion-label>
+        <ion-icon tappable slot="end" name="close-outline" (click)="reset()"></ion-icon>
+      </ion-item>
+    </ng-container>
     
-    <ion-item lines="none" [class.country-wrapper]="!country_name">
-      <div tabindex="0"></div>
-      <ion-select #select [(ngModel)]="country_name" placeholder="Select country" (ionChange)="onCountryChange($event)" interface="popover">
-        <ion-select-option value="Kuwait">Kuwait</ion-select-option>
-        <ion-select-option value="Bahrain">Bahrain</ion-select-option>
-        <ion-select-option value="Saudi Arabia">Saudi Arabia</ion-select-option>
-        <ion-select-option value="United Arab Emirates">United Arab Emirates</ion-select-option>
-        <ion-select-option value="Qatar">Qatar</ion-select-option>
-      </ion-select>
-    </ion-item>
+    <loading-modal [loading]="loading" type="text-list"></loading-modal>
 
-    <ion-item lines="none" *ngIf="country_name">
-      <div tabindex="0"></div>
-      <ion-searchbar mode="md" debounce="100" placeholder="{{ placeholders[country_name] }}"  #searchInput [value]="query" (ionChange)="getItems($event)"></ion-searchbar>
-    </ion-item>
+    <ion-list class="places-wrapper" *ngIf="query && !loading">
 
-  </ng-container>
-
-  <ng-container *ngIf="selected">
-    <ion-item *ngIf="area && country && area.area_name_en && country.country_name_en" class="selected_area" lines="none">
-      <div tabindex="0"></div>
-      <ion-label>
-         area.area_name_en <span *ngIf="country.country_name_en">, {{ country.country_name_en }}</span>
-      </ion-label>
-      <ion-icon tappable slot="end" name="close-outline" (click)="reset()"></ion-icon>
-    </ion-item>
-  </ng-container>
-  
-  <loading-modal [loading]="loading" type="text-list"></loading-modal>
-
-  <ion-list class="places-wrapper" *ngIf="query && !loading">
-
-    <ion-item class="item" *ngFor="let place of this.places" tappable (click)="placeSelected(place)">
-      <div tabindex="0"></div>
-      <ion-label>
-        <div class="location"> <ion-icon src="assets/images/ic_location.svg" ></ion-icon>&nbsp;&nbsp;{{ place.structured_formatting.main_text }} <small class="country">{{ place.structured_formatting.secondary_text }}</small></div>
-      </ion-label>
-    </ion-item>
-  </ion-list>
-
+      <ion-item class="item" *ngFor="let place of this.places" tappable (click)="placeSelected(place)">
+        <div tabindex="0"></div>
+        <ion-label>
+          <div class="location"> <ion-icon src="assets/images/ic_location.svg" ></ion-icon>&nbsp;&nbsp;{{ place.structured_formatting.main_text }} <small class="country">{{ place.structured_formatting.secondary_text }}</small></div>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+  </div>
 </ion-content>

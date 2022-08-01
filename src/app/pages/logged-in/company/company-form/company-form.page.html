@@ -16,95 +16,109 @@
 
 <ion-content [fullscreen]="true" scrollEvents="true" (ionScroll)="logScrolling($event)">
 
-  <form [formGroup]="form" *ngIf="form">
-     
-      <h5>Basic Information</h5>
+  <div class="container">
+    <form [formGroup]="form" *ngIf="form">
+      
+        <h5>Basic Information</h5>
 
-      <app-image-upload 
-        label="Change Logo" 
-        labelNoImage="Upload Company Logo"
-        icon="person-outline" prefix="logo" 
-        iconSrc="assets/icon/icon-add-pic.svg"
-        formControlName="logo">
-      </app-image-upload>
+        <app-image-upload 
+          label="Change Logo" 
+          labelNoImage="Upload Company Logo"
+          icon="person-outline" prefix="logo" 
+          iconSrc="assets/icon/icon-add-pic.svg"
+          formControlName="logo">
+        </app-image-upload>
 
-      <ion-item class="input-wrapper">
-        <ion-label position="floating">Company Name as Per License</ion-label>
-        <ion-input type="text" formControlName="name"></ion-input>
-      </ion-item>
+        <ion-item class="input-wrapper">
+          <div tabindex="0"></div>
+          <ion-label position="floating">Company Name as Per License</ion-label>
+          <ion-input type="text" formControlName="name"></ion-input>
+        </ion-item>
 
-      <ion-item class="input-wrapper">
-        <ion-label position="floating">Common Name in English</ion-label>
-        <ion-input type="text" formControlName="common_name_en"></ion-input>
-      </ion-item>
+        <ion-item class="input-wrapper">
+          <div tabindex="0"></div>
+          <ion-label position="floating">Common Name in English</ion-label>
+          <ion-input type="text" formControlName="common_name_en"></ion-input>
+        </ion-item>
 
-      <ion-item class="input-wrapper">
-        <ion-label position="floating">Common Name in Arabic</ion-label>
-        <ion-input type="text" formControlName="common_name_ar"></ion-input>
-      </ion-item>
+        <ion-item class="input-wrapper">
+          <div tabindex="0"></div>
+          <ion-label position="floating">Common Name in Arabic</ion-label>
+          <ion-input type="text" formControlName="common_name_ar"></ion-input>
+        </ion-item>
 
-      <ion-item class="input-wrapper" *ngIf="!this.isSubCompany">
-        <ion-label position="floating">Password</ion-label>
-        <ion-input type="text" formControlName="password"></ion-input>
-      </ion-item>
+        <ion-item class="input-wrapper" *ngIf="!this.isSubCompany">
+          <div tabindex="0"></div>
+          <ion-label position="floating">Password</ion-label>
+          <ion-input type="text" formControlName="password"></ion-input>
+        </ion-item>
 
-      <ion-item class="input-wrapper">
-        <ion-label position="floating">Description in English</ion-label>
-        <ion-textarea formControlName="description_en"></ion-textarea>
-        <!--<ckeditor [config]="editorConfig" #ckeditor [editor]="Editor" (ready)="onEditorReady()"
-          (change)="onChange($event)">
-        </ckeditor>-->
-      </ion-item>
+        <ion-item class="input-wrapper">
+          <div tabindex="0"></div>
+          <ion-label position="floating">Description in English</ion-label>
+          <ion-textarea formControlName="description_en"></ion-textarea>
+          <!--<ckeditor [config]="editorConfig" #ckeditor [editor]="Editor" (ready)="onEditorReady()"
+            (change)="onChange($event)">
+          </ckeditor>-->
+        </ion-item>
 
-      <ion-item class="input-wrapper">
-        <ion-label position="floating">Description in Arabic</ion-label>
-        <ion-textarea formControlName="description_ar"></ion-textarea>
-        <!--
-        <ckeditor [config]="editorConfig" #ckeditor_ar [editor]="Editor" (ready)="onArabicEditorReady()"
-          (change)="onArabicEditorChange($event)">
-        </ckeditor>-->
-      </ion-item>
+        <ion-item class="input-wrapper">
+          <div tabindex="0"></div>
+          <ion-label position="floating">Description in Arabic</ion-label>
+          <ion-textarea formControlName="description_ar"></ion-textarea>
+          <!--
+          <ckeditor [config]="editorConfig" #ckeditor_ar [editor]="Editor" (ready)="onArabicEditorReady()"
+            (change)="onArabicEditorChange($event)">
+          </ckeditor>-->
+        </ion-item>
 
-      <h5>More Information</h5>
+        <h5>More Information</h5>
 
-      <ion-item class="input-wrapper" *ngIf="!isSubCompany">
-        <ion-label position="floating">Email</ion-label>
-        <ion-input type="text" formControlName="email"></ion-input>
-      </ion-item>
+        <ion-item class="input-wrapper" *ngIf="!isSubCompany">
+          <div tabindex="0"></div>
+          <ion-label position="floating">Email</ion-label>
+          <ion-input type="text" formControlName="email"></ion-input>
+        </ion-item>
 
-      <ion-item class="input-wrapper">
-        <ion-label position="floating">Website</ion-label>
-        <ion-input type="text" formControlName="website"></ion-input>
-      </ion-item>
+        <ion-item class="input-wrapper">
+          <div tabindex="0"></div>
+          <ion-label position="floating">Website</ion-label>
+          <ion-input type="text" formControlName="website"></ion-input>
+        </ion-item>
 
-      <ion-item class="input-wrapper">
-        <ion-label position="floating">Hourly Rate</ion-label>
-        <ion-input type="text" formControlName="hourly_rate"></ion-input>
-      </ion-item>
+        <ion-item class="input-wrapper">
+          <div tabindex="0"></div>
+          <ion-label position="floating">Hourly Rate</ion-label>
+          <ion-input type="text" formControlName="hourly_rate"></ion-input>
+        </ion-item>
 
-      <ion-item class="input-wrapper">
-        <ion-label position="floating">Bonus Commission(%)</ion-label>
-        <ion-input type="text" formControlName="bonus_commission"></ion-input>
-      </ion-item>
+        <ion-item class="input-wrapper">
+          <div tabindex="0"></div>
+          <ion-label position="floating">Bonus Commission(%)</ion-label>
+          <ion-input type="text" formControlName="bonus_commission"></ion-input>
+        </ion-item>
 
-      <ion-item class="input-wrapper" *ngIf="!isSubCompany">
-        <ion-label position="floating">Followup interval</ion-label>
-        <ion-input type="text" formControlName="followup_interval_weeks"></ion-input>
-      </ion-item>
+        <ion-item class="input-wrapper" *ngIf="!isSubCompany">
+          <div tabindex="0"></div>
+          <ion-label position="floating">Followup interval</ion-label>
+          <ion-input type="text" formControlName="followup_interval_weeks"></ion-input>
+        </ion-item>
 
-      <ion-item *ngIf="!isSubCompany" class="toggle-wrapper">
-        <div tabindex="0"></div>
-        <ion-label>Followup</ion-label>
-        <ion-toggle slot="end" formControlName="followup">
-        </ion-toggle>
-      </ion-item>
+        <ion-item *ngIf="!isSubCompany" class="toggle-wrapper">
+          <div tabindex="0"></div>
+          <ion-label>Followup</ion-label>
+          <ion-toggle slot="end" formControlName="followup">
+          </ion-toggle>
+        </ion-item>
 
-      <ion-item *ngIf="!isSubCompany" class="toggle-wrapper">
-        <ion-label>Approved to hire?</ion-label>
-        <ion-toggle slot="end" formControlName="approved_to_hire"></ion-toggle>
-      </ion-item>
+        <ion-item *ngIf="!isSubCompany" class="toggle-wrapper">
+          <div tabindex="0"></div>
+          <ion-label>Approved to hire?</ion-label>
+          <ion-toggle slot="end" formControlName="approved_to_hire"></ion-toggle>
+        </ion-item>
 
-  </form>
+    </form>
+  </div>
 </ion-content>
 <ion-footer class="ion-no-border">
   <div class="container">

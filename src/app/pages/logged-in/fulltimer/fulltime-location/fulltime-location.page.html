@@ -9,6 +9,7 @@
     </ion-toolbar>
 </ion-header>
 <ion-content [scrollEvents]="true" (ionScroll)="logScrolling($event)" [attr.dir]="translateService.direction()" class='contentArea ion-padding'>
+    <div class="container">
     <div class="desktop-view">
 
         <div class='page-title'>
@@ -46,5 +47,5 @@
     </div>
 
     <ion-spinner class="loader" *ngIf="loading"></ion-spinner>
-
+    </div>
 </ion-content>

@@ -1,6 +1,7 @@
 <input style='display:none;' type='file' #fileInput (change)="uploadFileViaHtmlFileInput($event)" accept="image/*"/>
 <ion-item (click)="!isUploading && uploadBtnClicked($event)" [attr.tappable]="!isUploading">
-
+  <div tabindex="0"></div>
+  
   <div class="progress-wrapper" *ngIf="isUploading">
     <ion-progress-bar value="0.5"></ion-progress-bar>  <br />
     Uploading... {{ newUpload.loaded /newUpload.total }}% 

@@ -6,10 +6,10 @@ import { PopoverController } from '@ionic/angular';
     selector: 'app-request-option',
     template: `
     <ion-item *ngIf="['delivered', 'cancelled'].indexOf(request.request_status) == -1" lines="none" tappable (click)="dismiss('update')">
-        Update
+        <div tabindex="0"></div> Update
     </ion-item>
     
-    <ion-item lines="none" tappable (click)="dismiss('cancel')">Cancel</ion-item>
+    <ion-item lines="none" tappable (click)="dismiss('cancel')"><div tabindex="0"></div>Cancel</ion-item>
   `,
 })
 export class RequestOptionPage implements OnInit {

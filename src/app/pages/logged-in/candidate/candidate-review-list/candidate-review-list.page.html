@@ -16,7 +16,7 @@
 </ion-header>
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
-
+  <div class="container">
   <!-- When No Candidates left for Review -->
   <section class="ion-padding ion-text-center" *ngIf="!loading && candidates.length == 0">
     <h1>All done!</h1>
@@ -35,5 +35,5 @@
     </ion-infinite-scroll>
 
   </section>
-
+  </div>
 </ion-content>

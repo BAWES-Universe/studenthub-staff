@@ -49,7 +49,7 @@ export class StoryListPage implements OnInit {
 
     this.loading = loading;
 
-    let param = '&expand=request,request.company';
+    let param = '&expand=staff,request,request.company';
     if (this.storyStatus) {
       param += '&story_status=' + this.storyStatus;
     }
@@ -89,7 +89,7 @@ export class StoryListPage implements OnInit {
 
     this.currentPage++;
 
-    let param = '&expand=request,request.company';
+    let param = '&expand=staff,request,request.company';
     if (this.storyStatus) {
       param += '&story_status=' + this.storyStatus;
     }

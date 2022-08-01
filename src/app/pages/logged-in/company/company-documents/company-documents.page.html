@@ -19,28 +19,31 @@
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
 
-  <div *ngIf="company && company.files">
-    <ion-item target="_blank" href="{{ awsService.permanentBucketUrl }}{{ file.file_s3_path }}" *ngFor="let file of company.files">
-      <ion-thumbnail slot="start">
-        <img class="icon" src="assets/images/ic_save.svg" />
-      </ion-thumbnail>
-      <ion-label>
-        <h5>{{ file.file_title }}</h5>
-        <p class="date">Uploaded on {{ toDate(file.file_created_datetime) | date: 'MMM d, y' }}</p>
-      </ion-label>
-      
-      <ion-note slot="end">{{ file.file_size | filesize }}</ion-note>
+  <div class="container">
+    <div *ngIf="company && company.files">
+      <ion-item target="_blank" href="{{ awsService.permanentBucketUrl }}{{ file.file_s3_path }}" *ngFor="let file of company.files">
+        <div tabindex="0"></div>
+        <ion-thumbnail slot="start">
+          <img class="icon" src="assets/images/ic_save.svg" />
+        </ion-thumbnail>
+        <ion-label>
+          <h5>{{ file.file_title }}</h5>
+          <p class="date">Uploaded on {{ toDate(file.file_created_datetime) | date: 'MMM d, y' }}</p>
+        </ion-label>
+        
+        <ion-note slot="end">{{ file.file_size | filesize }}</ion-note>
 
-      <!-- <span class="meta-data">{{ getFileType(file) }}</span>
-      <p class="document-detail">{{file.file_description}}</p>-->
-    </ion-item>
-  </div>
+        <!-- <span class="meta-data">{{ getFileType(file) }}</span>
+        <p class="document-detail">{{file.file_description}}</p>-->
+      </ion-item>
+    </div>
 
-  <loading-modal [loading]="loading" type="company-file-list"></loading-modal>
+    <loading-modal [loading]="loading" type="company-file-list"></loading-modal>
 
-  <no-items *ngIf="!loading && company && company.files && company.files.length == 0" message="~ No Document data ~"></no-items>
+    <no-items *ngIf="!loading && company && company.files && company.files.length == 0" message="~ No Document data ~"></no-items>
 
-  <div class="add-request " tappable (click)="uploadDocument()">
-    <ion-icon name="add-outline"></ion-icon>
+    <div class="add-request " tappable (click)="uploadDocument()">
+      <ion-icon name="add-outline"></ion-icon>
+    </div>
   </div>
 </ion-content>

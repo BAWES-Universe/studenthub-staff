@@ -41,18 +41,21 @@
   <div class="container">
     <ion-list *ngIf="staff && segment == 'details'">
         <ion-item lines="none">
+          <div tabindex="0"></div>
           <ion-label>
             <h5>Name</h5>
             <p>{{ staff.staff_name }}</p>
           </ion-label>
         </ion-item>
         <ion-item lines="none">
+          <div tabindex="0"></div>
           <ion-label>
             <h5>Email</h5>
             <p>{{ staff.staff_email }}</p>
           </ion-label>
         </ion-item>
         <ion-item lines="none">
+          <div tabindex="0"></div>
           <ion-label>
             <h5>Password</h5>
             <p>*********</p>
@@ -96,8 +99,8 @@
   </ion-infinite-scroll>
 </ion-content>
 <ion-footer *ngIf="staff && segment == 'details'" class="ion-text-center ion-no-border ion-transparent">
-  <div class="container">
-    <ion-button *ngIf="authService.staff_id == staff_id" [routerLink]="['/change-password/']" class="btn-change-pwd">
+  <div class="container"> <!--  [routerLink]="['/change-password/']"-->
+    <ion-button *ngIf="authService.staff_id == staff_id" (click)="changePassword()" class="btn-change-pwd">
       Change Password
     </ion-button>
   </div>

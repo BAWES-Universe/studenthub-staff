@@ -168,6 +168,10 @@ export class CandidateViewPage implements OnInit {
 
     this.loadStoreData();
     this.loadTransfersData();
+
+    if(this.story) {
+      this.checkAlreadyInvited();
+    }
   }
 
   /**
@@ -417,12 +421,17 @@ export class CandidateViewPage implements OnInit {
     });
   }
 
+  /**
+   * load candidate details
+   * @param loading 
+   */
   loadCandidateDetail(loading = true) {
     this.loading = loading;
 
     this.candidateService.detail(this.candidate_id).subscribe(response => {
 
       this.loading = false;
+
       this.candidate = response;
       if (this.candidate && this.candidate.pendingField && this.candidate.pendingField.length > 0) {
         this.pendingData = 'Total ' + this.candidate.pendingField.length + ' pending fields\n ' + this.candidate.pendingField.join(',');
@@ -546,6 +555,9 @@ export class CandidateViewPage implements OnInit {
     await modal.present();
   }
 
+  /**
+   * invite for request
+   */
   async addInvitation() {
 
     const confirm = await this.alertCtrl.create({
@@ -581,11 +593,11 @@ export class CandidateViewPage implements OnInit {
 
               this.loading = false;
 
-              //todo:mark as invited for specific story/ request
-              //this.candidate.invited = true;
-
               // On Success
               if (response.operation == 'success') {
+
+                this.candidate.isAlreadyInvited = true; 
+
                 this.candidate.invited = response.invitedCount;
 
                 this.toastCtrl.create({
@@ -1236,6 +1248,18 @@ export class CandidateViewPage implements OnInit {
     document.body.removeChild(selBox);
   }
 
+  /**
+   * check if already invited for given story
+   */
+  checkAlreadyInvited() {
+    this.invitationService.isAlreadyInvited(this.candidate_id, this.story).subscribe(res => {
+      this.candidate.isAlreadyInvited = res.isAlreadyInvited;
+    });
+  }
+
+  /**
+   * open salary listing page
+   */
   openSalary() {
     this.router.navigate(['candidate-salary-list', this.candidate_id], {
       state: {

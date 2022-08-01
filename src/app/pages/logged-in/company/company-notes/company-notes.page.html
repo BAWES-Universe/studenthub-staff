@@ -12,87 +12,89 @@
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
 
-  <ion-list class="title-list" *ngIf="!addNewNote">
-    <h3 class="title">
-      Notes
-    </h3>
-    <h4 class="company-name" *ngIf="company">
-      {{ (company.company_common_name_en) ?  company.company_common_name_en:company.company_name }}
-    </h4>
-  </ion-list>
+  <div class="container">
+    <ion-list class="title-list" *ngIf="!addNewNote">
+      <h3 class="title">
+        Notes
+      </h3>
+      <h4 class="company-name" *ngIf="company">
+        {{ (company.company_common_name_en) ?  company.company_common_name_en:company.company_name }}
+      </h4>
+    </ion-list>
 
-  <ng-container *ngIf="addNewNote">
-    <form [formGroup]="noteForm" [class.editor-inactive]="!editorFocused" [class.editor-focused]="editorFocused"
-      *ngIf="noteForm">
-      <ion-item *ngIf="['Suggested', 'Accepted', 'Rejected'].indexOf(noteForm.controls.type.value) == -1">
-        <div tabindex="0"></div>
-        <ion-label position="floating">Note Type</ion-label>
-        <ion-select formControlName="type" interface="popover">
-          <ion-select-option>Internal Note</ion-select-option>
-          <ion-select-option>Phone Call</ion-select-option>
-          <ion-select-option>Email</ion-select-option>
-          <ion-select-option>Meeting</ion-select-option>
-          <ion-select-option>Interview</ion-select-option>
-          <ion-select-option>Task</ion-select-option>
-        </ion-select>
-      </ion-item>
+    <ng-container *ngIf="addNewNote">
+      <form [formGroup]="noteForm" [class.editor-inactive]="!editorFocused" [class.editor-focused]="editorFocused"
+        *ngIf="noteForm">
+        <ion-item *ngIf="['Suggested', 'Accepted', 'Rejected'].indexOf(noteForm.controls.type.value) == -1">
+          <div tabindex="0"></div>
+          <ion-label position="floating">Note Type</ion-label>
+          <ion-select formControlName="type" interface="popover">
+            <ion-select-option>Internal Note</ion-select-option>
+            <ion-select-option>Phone Call</ion-select-option>
+            <ion-select-option>Email</ion-select-option>
+            <ion-select-option>Meeting</ion-select-option>
+            <ion-select-option>Interview</ion-select-option>
+            <ion-select-option>Task</ion-select-option>
+          </ion-select>
+        </ion-item>
 
-      <ion-item>
-        <div tabindex="0"></div>
-        <ion-label position="floating">Contact</ion-label>
-        <ion-select formControlName="contact" interface="popover">
-          <ion-select-option value="{{ companyContact.contact_uuid }}" *ngFor="let companyContact of companyContacts">
-            {{ companyContact.contact_name }}
-          </ion-select-option>
-        </ion-select>
-      </ion-item>
-
-      <!--
-      <ion-item>
-        <div tabindex="0"></div>
-        <ion-label position="floating">Request</ion-label>
-        <ion-select formControlName="request" interface="popover">
-          <ng-container *ngFor="let request of requests">
-            <ion-select-option value="{{ request.request_uuid }}" *ngIf="request.request_status == 'started'">
-              {{ request.request_position_title }} -
-              <span *ngIf="request.request_position_type == 1">Fulltime</span>
-              <span *ngIf="request.request_position_type == 2">Partime</span>
+        <ion-item>
+          <div tabindex="0"></div>
+          <ion-label position="floating">Contact</ion-label>
+          <ion-select formControlName="contact" interface="popover">
+            <ion-select-option value="{{ companyContact.contact_uuid }}" *ngFor="let companyContact of companyContacts">
+              {{ companyContact.contact_name }}
             </ion-select-option>
-          </ng-container>
-        </ion-select>
-      </ion-item>-->
+          </ion-select>
+        </ion-item>
 
-      <ckeditor [config]="editorConfig" #ckeditor [editor]="Editor" (focus)="onEditorFocus()"
-        (change)="onChange($event)"></ckeditor>
+        <!--
+        <ion-item>
+          <div tabindex="0"></div>
+          <ion-label position="floating">Request</ion-label>
+          <ion-select formControlName="request" interface="popover">
+            <ng-container *ngFor="let request of requests">
+              <ion-select-option value="{{ request.request_uuid }}" *ngIf="request.request_status == 'started'">
+                {{ request.request_position_title }} -
+                <span *ngIf="request.request_position_type == 1">Fulltime</span>
+                <span *ngIf="request.request_position_type == 2">Partime</span>
+              </ion-select-option>
+            </ng-container>
+          </ion-select>
+        </ion-item>-->
 
-      <ion-item lines="none">
-        <div tabindex="0"></div>
+        <ckeditor [config]="editorConfig" #ckeditor [editor]="Editor" (focus)="onEditorFocus()"
+          (change)="onChange($event)"></ckeditor>
 
-        <ion-buttons slot="start">
+        <ion-item lines="none">
+          <div tabindex="0"></div>
 
-          <ion-button [disabled]="addingNote || !noteForm.valid" (click)="addNote()">
-            Submit
-            <ion-spinner *ngIf="addingNote"></ion-spinner>
-          </ion-button>
+          <ion-buttons slot="start">
 
-          <ion-button color="danger" (click)="cancelAddNote()">
-            <span>Cancel</span>
-          </ion-button>
+            <ion-button [disabled]="addingNote || !noteForm.valid" (click)="addNote()">
+              Submit
+              <ion-spinner *ngIf="addingNote"></ion-spinner>
+            </ion-button>
 
-        </ion-buttons>
-      </ion-item>
-    </form>
-  </ng-container>
+            <ion-button color="danger" (click)="cancelAddNote()">
+              <span>Cancel</span>
+            </ion-button>
 
-  <ion-list *ngIf="!addNewNote">
-    <note tappable *ngFor="let note of notes" (click)="openDetail(note)" from="company-view" [note]="note" (onChange)="loadNotes()" (onDelete)="loadNotes()"></note>
+          </ion-buttons>
+        </ion-item>
+      </form>
+    </ng-container>
 
-    <loading-modal [loading]="loadingNotes" type="note-list"></loading-modal>
+    <ion-list *ngIf="!addNewNote">
+      <note tappable *ngFor="let note of notes" (click)="openDetail(note)" from="company-view" [note]="note" (onChange)="loadNotes()" (onDelete)="loadNotes()"></note>
 
-  </ion-list>
+      <loading-modal [loading]="loadingNotes" type="note-list"></loading-modal>
 
-  <ion-infinite-scroll *ngIf="currentPage < pageCount"
-                       (ionInfinite)="doInfinite($event)">
-    <ion-infinite-scroll-content></ion-infinite-scroll-content>
-  </ion-infinite-scroll>
+    </ion-list>
+
+    <ion-infinite-scroll *ngIf="currentPage < pageCount"
+                        (ionInfinite)="doInfinite($event)">
+      <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+  </div>
 </ion-content>

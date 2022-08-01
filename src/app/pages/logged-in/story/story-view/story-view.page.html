@@ -10,6 +10,7 @@
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
+  
   <ion-toolbar *ngIf="request" class="container title-name"  [class.hidden]="borderLimit">
     <h1>{{request.request_position_title}}</h1>
     <p tappable [routerLink]="['/request-view/' +  request.request_uuid]">View main request</p>
@@ -40,15 +41,17 @@
 
 <ion-content [scrollEvents]="true" (ionScroll)="logScrolling($event)">
   <div class="container" *ngIf="request && story && segment == 'detail'">
+    
     <h2>Job Details</h2>
+
     <ion-badge *ngIf="request.request_position_type == 1">Full-time</ion-badge>
     <ion-badge *ngIf="request.request_location">{{story.request.request_location}}</ion-badge>
     <ion-badge *ngIf="request.request_position_type == 2">Part-time</ion-badge>
     
-    <ion-badge *ngFor="let staff of request.staffs">
-      {{ staff.staff_name }}
-    </ion-badge>
-
+    <ion-badge *ngIf="story.staff">
+      {{ story.staff.staff_name }}
+    </ion-badge> 
+    
     <ion-grid>
       <ion-row>
         <ion-col class="lbl">

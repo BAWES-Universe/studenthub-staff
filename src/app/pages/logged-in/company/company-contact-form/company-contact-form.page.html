@@ -17,121 +17,131 @@
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
   
-  <form [formGroup]="form" *ngIf="form">
-    <ion-list>
+  <div class="container">
+    <form [formGroup]="form" *ngIf="form">
+      <ion-list>
 
-      <ion-item class="input-wrapper">
-        <ion-label position="floating">Name</ion-label>
-        <ion-input type="text" formControlName="name"></ion-input>
-      </ion-item>
-
-      <ion-item class="input-wrapper">
-        <ion-label position="floating">Position</ion-label>
-        <ion-input type="text" formControlName="position"></ion-input>
-      </ion-item>
-
-      <ion-item class="input-wrapper">
-        <ion-label position="floating">Primary Email</ion-label>
-        <ion-input type="text" formControlName="email" (ionChange)="checkEmailAvailable($event)"></ion-input>
-      </ion-item>
-
-      <ion-item  class="input-wrapper field-password" *ngIf="form.controls.password">
-        <ion-label position="floating">Password</ion-label>
-        <ion-input type="{{ type }}" formControlName="password"></ion-input>
-
-        <ion-button class="btn-password" fill="clear" (click)="togglePasswordVisibility()">
-          <ion-icon *ngIf="type == 'password'" name="eye"></ion-icon>
-          <ion-icon *ngIf="type != 'password'" name="eye-off"></ion-icon>
-        </ion-button>
-      </ion-item>
-
-      <ion-item  class="input-wrapper" *ngIf="contact">
-        <div tabindex="0"></div>
-        <ion-label>
-          <h2>Found contact with given email </h2>
-          <h4>{{ contact.contact_name }}</h4>
-
-          <h5 *ngIf="contact.company">
-            {{ contact.company.company_common_name_en? contact.company.company_common_name_en: contact.company.company_name }}
-          </h5>
-        </ion-label>
-      </ion-item>
-
-      <ion-item class="toggle-wrapper">
-        <ion-label>Allowed to login and use system</ion-label>
-        <ion-toggle slot="end" formControlName="allow_access"></ion-toggle>
-      </ion-item>
-
-      <div *ngIf="!contact">
-
-        <ion-item class="toggle-wrapper">
-          <ion-label>Send invoices and receipts</ion-label>
-          <ion-toggle slot="end" formControlName="receive_email"></ion-toggle>
+        <ion-item class="input-wrapper">
+          <div tabindex="0"></div>
+          <ion-label position="floating">Name</ion-label>
+          <ion-input type="text" formControlName="name"></ion-input>
         </ion-item>
 
-        <ion-item class="toggle-wrapper">
+        <ion-item class="input-wrapper">
+          <div tabindex="0"></div>
+          <ion-label position="floating">Position</ion-label>
+          <ion-input type="text" formControlName="position"></ion-input>
+        </ion-item>
+
+        <ion-item class="input-wrapper">
+          <div tabindex="0"></div>
+          <ion-label position="floating">Primary Email</ion-label>
+          <ion-input type="text" formControlName="email" (ionChange)="checkEmailAvailable($event)"></ion-input>
+        </ion-item>
+
+        <ion-item  class="input-wrapper field-password" *ngIf="form.controls.password">
+          <div tabindex="0"></div>
+          <ion-label position="floating">Password</ion-label>
+          <ion-input type="{{ type }}" formControlName="password"></ion-input>
+
+          <ion-button class="btn-password" fill="clear" (click)="togglePasswordVisibility()">
+            <ion-icon *ngIf="type == 'password'" name="eye"></ion-icon>
+            <ion-icon *ngIf="type != 'password'" name="eye-off"></ion-icon>
+          </ion-button>
+        </ion-item>
+
+        <ion-item  class="input-wrapper" *ngIf="contact">
+          <div tabindex="0"></div>
           <ion-label>
-            Receives suggested candidates<br/>
-            <small>Receives suggested candidates via email (CC) even when they’re not the requester</small>
+            <h2>Found contact with given email </h2>
+            <h4>{{ contact.contact_name }}</h4>
+
+            <h5 *ngIf="contact.company">
+              {{ contact.company.company_common_name_en? contact.company.company_common_name_en: contact.company.company_name }}
+            </h5>
           </ion-label>
-          <ion-toggle slot="end" formControlName="receive_suggestions"></ion-toggle>
         </ion-item>
 
         <ion-item class="toggle-wrapper">
-          <ion-label>Receive Notification?</ion-label>
-          <ion-toggle slot="end" formControlName="receive_notification"></ion-toggle>
+          <div tabindex="0"></div>
+          <ion-label>Allowed to login and use system</ion-label>
+          <ion-toggle slot="end" formControlName="allow_access"></ion-toggle>
         </ion-item>
-      </div>
 
-    </ion-list>
+        <div *ngIf="!contact">
 
+          <ion-item class="toggle-wrapper">
+            <div tabindex="0"></div>
+            <ion-label>Send invoices and receipts</ion-label>
+            <ion-toggle slot="end" formControlName="receive_email"></ion-toggle>
+          </ion-item>
+
+          <ion-item class="toggle-wrapper">
+            <div tabindex="0"></div>
+            <ion-label>
+              Receives suggested candidates<br/>
+              <small>Receives suggested candidates via email (CC) even when they’re not the requester</small>
+            </ion-label>
+            <ion-toggle slot="end" formControlName="receive_suggestions"></ion-toggle>
+          </ion-item>
+
+          <ion-item class="toggle-wrapper">
+            <div tabindex="0"></div>
+            <ion-label>Receive Notification?</ion-label>
+            <ion-toggle slot="end" formControlName="receive_notification"></ion-toggle>
+          </ion-item>
+        </div>
+
+      </ion-list>
+
+      
+      <ng-container *ngIf="!contact">
     
-    <ng-container *ngIf="!contact">
-   
-      <h5>Other Emails </h5>
+        <h5>Other Emails </h5>
 
-      <div *ngFor="let email of emails.controls; let i = index">
-        <ion-item [formGroup]="email" class="input-wrapper">
+        <div *ngFor="let email of emails.controls; let i = index">
+          <ion-item [formGroup]="email" class="input-wrapper">
+            <div tabindex="0"></div>
+            <ion-input type="email" autocomplete="off1" (ionChange)="onEmailChange($event, i)" formControlName="email_address" inputmode="email"
+              enterkeyhint="Next"></ion-input>
 
-          <ion-input type="email" autocomplete="off1" (ionChange)="onEmailChange($event, i)" formControlName="email_address" inputmode="email"
-            enterkeyhint="Next"></ion-input>
+            <ion-button fill="clear" slot="end" tabindex="-1" *ngIf="emails.controls.length -1 != i" (click)="removeEmail(i)">
+              <img src="assets/images/close.svg">
+            </ion-button>
 
-          <ion-button fill="clear" slot="end" tabindex="-1" *ngIf="emails.controls.length -1 != i" (click)="removeEmail(i)">
-            <img src="assets/images/close.svg">
-          </ion-button>
+          </ion-item>
+        </div>
+      </ng-container>
 
-        </ion-item>
-      </div>
-    </ng-container>
+      <ng-container *ngIf="!contact">
+    
+        <h5>Phones</h5>
 
-    <ng-container *ngIf="!contact">
-  
-      <h5>Phones</h5>
+        <div *ngFor="let phone of phones.controls; let i = index">
+          <ion-item [formGroup]="phone" class="input-wrapper">
+            <div tabindex="0"></div>
+            <ion-input type="telephone" autocomplete="off1" (ionChange)="onPhoneChange($event, i)" formControlName="phone_number" inputmode="telephone"
+                  enterkeyhint="Next"></ion-input>
 
-      <div *ngFor="let phone of phones.controls; let i = index">
-        <ion-item [formGroup]="phone" class="input-wrapper">
+            <ion-button fill="clear" slot="end" tabindex="-1" *ngIf="phones.controls.length -1 != i" (click)="removePhone(i)">
+              <img src="assets/images/close.svg">
+            </ion-button>
 
-          <ion-input type="telephone" autocomplete="off1" (ionChange)="onPhoneChange($event, i)" formControlName="phone_number" inputmode="telephone"
-                enterkeyhint="Next"></ion-input>
+          </ion-item>
+        </div> 
+      </ng-container>
 
-          <ion-button fill="clear" slot="end" tabindex="-1" *ngIf="phones.controls.length -1 != i" (click)="removePhone(i)">
-            <img src="assets/images/close.svg">
-          </ion-button>
+    </form>
 
-        </ion-item>
-      </div> 
-    </ng-container>
-
-  </form>
-  <ion-button class="btn-save" *ngIf="!contact" [disabled]="!form || !form.valid" (click)="save()">
-    <span *ngIf="!saving">Add New Contact</span>
-    <ion-spinner *ngIf="saving"></ion-spinner>
-  </ion-button>
-  
-  <ion-button class="btn-save" *ngIf="contact" [disabled]="addingToTeam" (click)="addToTeam()">
-    <span *ngIf="!addingToTeam">Add To Team</span>
-    <ion-spinner *ngIf="addingToTeam"></ion-spinner>
-  </ion-button>
-  
+    <ion-button class="btn-save" *ngIf="!contact" [disabled]="!form || !form.valid" (click)="save()">
+      <span *ngIf="!saving">Add New Contact</span>
+      <ion-spinner *ngIf="saving"></ion-spinner>
+    </ion-button>
+    
+    <ion-button class="btn-save" *ngIf="contact" [disabled]="addingToTeam" (click)="addToTeam()">
+      <span *ngIf="!addingToTeam">Add To Team</span>
+      <ion-spinner *ngIf="addingToTeam"></ion-spinner>
+    </ion-button>
+  </div>
 </ion-content>
 

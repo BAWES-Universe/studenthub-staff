@@ -145,7 +145,7 @@ export class TeamViewPage implements OnInit {
   }
 
   /**
-   * todo: ability to update password
+   * ability to update password
    */
   async changePassword() {
     // this.navController.navigateForward('/change-password');

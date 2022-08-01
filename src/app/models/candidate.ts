@@ -56,6 +56,7 @@ export class Candidate {
     candidate_longitude: any;
     suggested: number;
     invited: any;
+    isAlreadyInvited: boolean;//is invitation sent for given story
     invitationAccepted: any;
     invitationRejected: any;
     suggestionAccepted: any;
