@@ -9,7 +9,7 @@
         - KWD {{ transfer.company_total | number:'1.0-3' }}
       </span>
     </ion-title>
-    <ion-buttons slot="end" *ngIf="transfer && transfer.transfer_status==10">
+    <ion-buttons slot="end" *ngIf="!viewOnly && transfer && transfer.transfer_status==10">
       <ion-button color="danger" *ngIf="transfer && (transfer.transfer_status==10)"
         (click)="delete(transfer)">
         Delete
@@ -20,6 +20,7 @@
 
 <ion-content>
   <div class="container">
+
     <loading-modal [loading]="loading" type="transfer-view"></loading-modal>
 
     <ng-container *ngIf="!loading">
@@ -29,7 +30,7 @@
       </h2>
       <div>{{transferStatusDescription}}</div>
 
-      <section *ngIf="transfer">
+      <section *ngIf="transfer && !viewOnly">
         <!-- If Transfer Locked -->
         <ion-button fill="outline" (click)="paymentSent(transfer)"
           *ngIf="transfer && (transfer.transfer_status==5)">
@@ -43,7 +44,7 @@
           <ion-icon name="create" slot="start"></ion-icon>
           Edit Transfer
         </ion-button>
-        
+
         <ion-button fill="outline" (click)="importTransfer(transfer)"
           *ngIf="transfer && (transfer.transfer_status==10)">
           <ion-icon name="create" slot="start"></ion-icon>
@@ -137,7 +138,7 @@
             <h2 class="candidate_name" *ngIf="resource.candidate">
               {{ resource.candidate.candidate_name? resource.candidate.candidate_name: resource.candidate.candidate_name_ar }}
             </h2>
-            
+
             <h2 class="candidate_name txt-color-warning" *ngIf="!resource.candidate">
               Deleted Account
             </h2>

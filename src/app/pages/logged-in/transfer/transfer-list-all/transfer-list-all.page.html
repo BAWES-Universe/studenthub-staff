@@ -1,0 +1,72 @@
+<ion-header [class.add-border]="borderLimit" class="ion-no-border">
+  <ion-toolbar class="container">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/view/tasks"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Transfer List</ion-title>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="4">
+          <ion-item>
+            <ion-label position="stacked">Start date</ion-label>
+            <ion-datetime pickerFormat="DD MMMM YYYY" displayFormat="DD MMMM YYYY"
+                          placeholder="DD/MM/YYYY" [(ngModel)]="start_date"></ion-datetime>
+          </ion-item>
+        </ion-col>
+        <ion-col size="4">
+          <ion-item>
+            <ion-label position="stacked">End date</ion-label>
+            <ion-datetime pickerFormat="DD MMMM YYYY" displayFormat="DD MMMM YYYY"
+                          placeholder="DD/MM/YYYY" [(ngModel)]="end_date"></ion-datetime>
+          </ion-item>
+        </ion-col>
+        <ion-col size="4">
+
+          <ion-button (click)="loadData(1)">
+            Submit
+          </ion-button>
+
+          <ion-button fill="clear" (click)="clearSelection()">
+            Reset
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-toolbar>
+</ion-header>
+<ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
+
+  <div class="container">
+  <ion-list *ngIf="transfers && !loading">
+
+    <ion-card *ngFor="let transfer of transfers" tappable [routerLink]="['/transfer-view/'+transfer.transfer_id+'/only']">
+      <ion-card-content>
+        <p><strong>Transfer #{{ transfer.transfer_id}}</strong></p>
+        <h2><strong>KWD {{ transfer.company_total | number:'1.3-3' }}</strong></h2>
+        <p>
+          <strong>Status: </strong>
+          <span class="status status_{{transfer.transfer_status}}" *ngIf="transfer.transfer_status==10"> Draft </span>
+          <span class="status status_{{transfer.transfer_status}}" *ngIf="transfer.transfer_status==5"> Locked,
+            Pending Payment </span>
+          <span class="status status_{{transfer.transfer_status}}" *ngIf="transfer.transfer_status==1"> Payment Sent,
+            Confirm Received </span>
+          <span class="status status_{{transfer.transfer_status}}" *ngIf="transfer.transfer_status==3"> Received &
+            Distribution in Progress </span>
+          <span class="status status_{{transfer.transfer_status}}" *ngIf="transfer.transfer_status==4"> Completed
+          </span>
+        </p>
+        <p><strong>Created on: </strong> {{transfer.transfer_created_at}}</p>
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
+
+  <loading-modal type="transfer-list" [loading]="loading || loadingMore"></loading-modal>
+
+  <no-items *ngIf="!loading && transfers && transfers.length == 0" message="~ No transfer Data ~"></no-items>
+  <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+  </div>
+</ion-content>
