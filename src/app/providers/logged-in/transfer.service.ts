@@ -22,6 +22,16 @@ export class TransferService {
 
   constructor(private _authhttp: AuthHttpService) { }
 
+
+  /**
+   * list of Transfer
+   * @returns {Observable<any>}
+   */
+  list(page, param): Observable<any> {
+    const url = `${this._transferEndpoint}?page=${page}&${param}`;
+    return this._authhttp.getRaw(url);
+  }
+
   /**
    * Details of each Transfer
    * @param {number} transfer_id

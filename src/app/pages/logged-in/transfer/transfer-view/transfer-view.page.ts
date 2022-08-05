@@ -24,6 +24,7 @@ export class TransferViewPage implements OnInit {
   public invoices: Invoice[] = []; // unpaid invoices
   public receipts: Invoice[] = []; // paid invoices
   public loading = false;
+  public viewOnly = null;
 
   public transferStatus = '';
   public transferStatusDescription = '';
@@ -47,6 +48,7 @@ export class TransferViewPage implements OnInit {
     window.analytics.page('Transfer View Page');
 
     this.transfer_id = this.activatedRoute.snapshot.paramMap.get('id');
+    this.viewOnly = this.activatedRoute.snapshot.paramMap.get('view');
 
     this.loadData();
   }
@@ -62,9 +64,9 @@ export class TransferViewPage implements OnInit {
     this.loading = true;
 
     this.transferService.transferIdDetails(this.transfer_id).subscribe(response => {
-      
+
       this.transfer = response;
-      
+
       this._updateTransferStatus();
 
       this.receipts = [];
@@ -228,7 +230,7 @@ export class TransferViewPage implements OnInit {
 
       if(e.data && e.data.refresh) {
         this.loadData();
-        
+
         this.eventService.reloadStats$.next({
           company_id: this.transfer.company_id
         });
@@ -354,14 +356,14 @@ export class TransferViewPage implements OnInit {
    * @param date
    */
    toDate(date) {
-    if (!date) 
+    if (!date)
       return null;
 
     if (date) {
       return new Date(date.replace(/-/g, '/'));
     }
   }
-  
+
   loadLogo($event, candidate) {
     candidate.candidate_personal_photo = null;
   }
