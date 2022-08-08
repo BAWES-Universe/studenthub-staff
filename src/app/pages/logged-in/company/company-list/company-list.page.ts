@@ -21,6 +21,7 @@ export class CompanyListPage implements OnInit {
 
   public pageCount = 0;
   public currentPage = 1;
+  public totalCount = null;
   public loading = false;
   public loadingMore = false;
   public active = 1;
@@ -34,7 +35,7 @@ export class CompanyListPage implements OnInit {
     approved_to_hire: number
   } = {
       name: null,
-      status: 5,
+      status: 6,
       approved_to_hire: null
     };
 
@@ -129,6 +130,7 @@ export class CompanyListPage implements OnInit {
 
       this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
       this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
+      this.totalCount = parseInt(response.headers.get('X-Pagination-Total-Count'));
       this.companies = response.body;
     },
       error => { },
