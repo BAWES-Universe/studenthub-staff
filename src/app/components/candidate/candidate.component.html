@@ -10,7 +10,10 @@
     </ion-avatar>
 
     <ion-label>
-      <h2 class="candidate_name">{{ candidate.candidate_name ?candidate.candidate_name : candidate.candidate_name_ar }}</h2>
+      <h2 class="candidate_name">
+        {{ candidate.candidate_name ?candidate.candidate_name : candidate.candidate_name_ar }} &nbsp;
+        <ion-icon class="verified" src="../../assets/images/ic_verified.svg" *ngIf="candidate.isProfileCompleted" title="Completed Profile"></ion-icon>
+      </h2>
 
       <p *ngIf="candidate.store">
         {{ candidate.store.store_name }}
@@ -36,5 +39,4 @@
   </ion-item>
 
 </ion-card>
- 
- 
+

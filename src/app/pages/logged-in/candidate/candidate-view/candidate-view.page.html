@@ -34,8 +34,8 @@
               </ion-thumbnail>
 
               <h2 class="candidate-name" [title]=pendingData *ngIf="candidate.candidate_name">
-                {{ candidate.candidate_name }}
-
+                {{ candidate.candidate_name }} &nbsp;
+                <ion-icon class="verified" src="../../../../assets/images/ic_verified.svg" *ngIf="candidate.isProfileCompleted" title="Completed Profile"></ion-icon>
                 <ion-button size="small" class="btn-copy" (click)="copy($event, candidate.candidate_name)">
                   <ion-icon slot="icon-only" name="copy-outline"></ion-icon>
                 </ion-button>

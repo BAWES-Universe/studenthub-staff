@@ -14,8 +14,15 @@ ion-card {
   border-radius: 4px;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08), 2px 0 4px 0 rgba(0, 0, 0, 0.12);
   background-color: #ffffff;
-    
+
   ion-card-title {
     text-transform: capitalize;
   }
+}
+.verified{
+  position: absolute;
+  top: 3px;
+}
+.candidate_name {
+  position:relative;
 }
