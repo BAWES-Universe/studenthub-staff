@@ -17,7 +17,7 @@
           <ion-item>
             <div tabindex="0"></div>
             <ion-label position="stacked">Start date</ion-label>
-            <ion-datetime pickerFormat="DD MMMM YYYY" displayFormat="DD MMMM YYYY" 
+            <ion-datetime pickerFormat="DD MMMM YYYY" displayFormat="DD MMMM YYYY"
               placeholder="DD/MM/YYYY" [(ngModel)]="start_date"></ion-datetime>
           </ion-item>
         </ion-col>
@@ -25,17 +25,17 @@
           <ion-item>
             <div tabindex="0"></div>
             <ion-label position="stacked">End date</ion-label>
-            <ion-datetime pickerFormat="DD MMMM YYYY" displayFormat="DD MMMM YYYY" 
-            placeholder="DD/MM/YYYY" [(ngModel)]="end_date"></ion-datetime>    
+            <ion-datetime pickerFormat="DD MMMM YYYY" displayFormat="DD MMMM YYYY"
+            placeholder="DD/MM/YYYY" [(ngModel)]="end_date"></ion-datetime>
           </ion-item>
         </ion-col>
         <ion-col size="4">
-      
+
           <ion-button (click)="loadData(1)">
             Submit
           </ion-button>
 
-          <ion-button fill="clear" (click)="clearSelection()">
+          <ion-button (click)="clearSelection()" *ngIf="start_date || end_date">
             <ion-icon name="close-outline"></ion-icon>
           </ion-button>
         </ion-col>
@@ -52,7 +52,7 @@
         <ion-col>Velocity</ion-col>
       </ion-row>
       <ion-row *ngFor="let staff of staffs">
-        <ion-col>{{ staff.staff_name }} 
+        <ion-col>{{ staff.staff_name }}
           <span *ngIf="authService.staff_id == staff.staff_id">&nbsp;•&nbsp;You</span>
         </ion-col>
         <ion-col>{{ staff.totalClosedRequests }}</ion-col>
@@ -77,5 +77,5 @@
       <ion-infinite-scroll-content></ion-infinite-scroll-content>
     </ion-infinite-scroll>
   </div>
-    
+
 </ion-content>
