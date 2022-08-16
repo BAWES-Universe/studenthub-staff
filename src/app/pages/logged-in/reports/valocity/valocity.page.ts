@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
-//models
+import { Platform } from '@ionic/angular';
+
+// models
 import { Staff } from 'src/app/models/staff';
-//services
+// services
 import { AuthService } from 'src/app/providers/auth.service';
 import { StaffService } from 'src/app/providers/logged-in/staff.service';
 
@@ -23,22 +25,24 @@ export class ValocityPage implements OnInit {
   public currentPage = 1;
   public loading = false;
   public loadMore = false;
-  
+
   public deleting = false;
 
   public staffs: Staff[] = [];
 
-  totalPendingRequests
-  totalClosedRequests
-  totalInvitations
-  totalNoOfHours
-  totalVelocity
+  totalPendingRequests = 0;
+  totalClosedRequests = 0;
+  totalInvitations = 0;
+  totalNoOfHours = 0;
+  totalVelocity = 0;
 
   constructor(
     public authService: AuthService,
     private staffService: StaffService,
-    private navCtrl: NavController
-  ) { }
+    private navCtrl: NavController,
+    public _platform: Platform,
+  ) {
+  }
 
   ngOnInit() {
     window.analytics.page('Valocity Page');
@@ -59,15 +63,16 @@ export class ValocityPage implements OnInit {
 
     this.staffService.list(this.currentPage, urlParams).subscribe(response => {
 
-      this.totalPendingRequests = parseInt(response.headers.get('X-totalPendingRequests'));
-      this.totalClosedRequests = parseInt(response.headers.get('X-totalClosedRequests'));
-      this.totalInvitations = parseInt(response.headers.get('X-totalInvitations'));
-      this.totalNoOfHours = response.headers.get('X-totalNoOfHours');
-      this.totalVelocity = parseInt(response.headers.get('X-totalVelocity'));
-      
+      // this.totalPendingRequests = parseInt(response.headers.get('X-totalPendingRequests'));
+      // this.totalClosedRequests = parseInt(response.headers.get('X-totalClosedRequests'));
+      // this.totalInvitations = parseInt(response.headers.get('X-totalInvitations'));
+      // this.totalNoOfHours = response.headers.get('X-totalNoOfHours');
+      // this.totalVelocity = parseInt(response.headers.get('X-totalVelocity'));
+
       this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
       this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
       this.staffs = response.body;
+      this.totalRecord(this.staffs);
     },
       error => {
       },
@@ -80,13 +85,13 @@ export class ValocityPage implements OnInit {
   getUrlParams() {
     let urlParams = '&expand=totalClosedRequests,totalPendingRequests,timeForCompletedRequests,timeForCancelledRequests,totalInvitations';
 
-    if(this.start_date) {
+    if (this.start_date) {
       const date = new Date(this.start_date);
       const month = date.getMonth() + 1;
       urlParams += '&start_date=' + date.getUTCFullYear() + '-' + month + '-' + date.getUTCDay();
     }
 
-    if(this.end_date) {
+    if (this.end_date) {
       const date = new Date(this.end_date);
       const month = date.getMonth() + 1;
       urlParams += '&end_date=' + date.getUTCFullYear() + '-' + month + '-' + date.getUTCDay();
@@ -100,11 +105,21 @@ export class ValocityPage implements OnInit {
    * @param staff
    */
   valocity(staff) {
-    if(!staff.totalClosedRequests)
-      return 0;
 
-    const days = Math.ceil((staff.timeForCompletedRequests + staff.timeForCancelledRequests)/ (3600 * 24));
-    return staff.totalClosedRequests/ days;
+    if (!staff.totalClosedRequests) {
+      return 0;
+    }
+    if (!staff.timeForCompletedRequests) {
+      return 0;
+    }
+    if (!staff.timeForCancelledRequests) {
+      return 0;
+    }
+
+    const days = Math.ceil((staff.timeForCompletedRequests + staff.timeForCancelledRequests) / (3600 * 24));
+    const velocity = staff.totalClosedRequests / days;
+    this.totalVelocity += velocity;
+    return velocity;
   }
 
   /**
@@ -113,7 +128,18 @@ export class ValocityPage implements OnInit {
    * @returns
    */
   noOfHours(staff) {
-    return (staff.timeForCompletedRequests + staff.timeForCancelledRequests)/ 3600;
+    return (staff.timeForCompletedRequests + staff.timeForCancelledRequests) / 3600;
+  }
+
+  totalRecord(staffs) {
+    this._platform.ready().then(() => {
+      staffs.forEach ((staff, i) => {
+        this.totalNoOfHours += (staff.timeForCompletedRequests + staff.timeForCancelledRequests) / 3600;
+        this.totalClosedRequests += staff.totalClosedRequests;
+        this.totalPendingRequests += staff.totalPendingRequests;
+        this.totalInvitations += staff.totalInvitations;
+      });
+    });
   }
 
   /**
@@ -141,16 +167,17 @@ export class ValocityPage implements OnInit {
 
     this.staffService.list(this.currentPage, urlParams).subscribe(response => {
 
-      this.totalPendingRequests = parseInt(response.headers.get('X-totalPendingRequests'));
-      this.totalClosedRequests = parseInt(response.headers.get('X-totalClosedRequests'));
-      this.totalInvitations = parseInt(response.headers.get('X-totalInvitations'));
-      this.totalNoOfHours = response.headers.get('X-totalNoOfHours');
-      this.totalVelocity = parseInt(response.headers.get('X-totalVelocity'));
-      
+      // this.totalPendingRequests = parseInt(response.headers.get('X-totalPendingRequests'));
+      // this.totalClosedRequests = parseInt(response.headers.get('X-totalClosedRequests'));
+      // this.totalInvitations = parseInt(response.headers.get('X-totalInvitations'));
+      // this.totalNoOfHours = response.headers.get('X-totalNoOfHours');
+      // this.totalVelocity = parseInt(response.headers.get('X-totalVelocity'));
+
       this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
       this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
 
       this.staffs = this.staffs.concat(response.body);
+      this.totalRecord(this.staffs);
     },
       error => {
       },
