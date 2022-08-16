@@ -45,26 +45,33 @@
     <ion-grid *ngIf="!loading" class="table table-hover table-bordered">
       <ion-row>
         <ion-col>Recruiter</ion-col>
-        <ion-col class="ion-text-center">Request Closed</ion-col>
-        <ion-col class="ion-text-center">Request Pending</ion-col>
+        <!--<ion-col class="ion-text-center">Request Closed</ion-col>
+        <ion-col class="ion-text-center">Request Pending</ion-col>-->
+         <ion-col class="ion-text-center">Completed Stories</ion-col> 
         <ion-col class="ion-text-center">Invited Candidates</ion-col>
         <ion-col class="ion-text-center">Number of Hours</ion-col>
-        <ion-col class="ion-text-center">Velocity</ion-col>
+        <ion-col class="ion-text-center">Velocity By Story</ion-col>
       </ion-row>
       <ion-row *ngFor="let staff of staffs">
         <ion-col>{{ staff.staff_name }}
           <span *ngIf="authService.staff_id == staff.staff_id">&nbsp;•&nbsp;You</span>
         </ion-col>
-        <ion-col class="ion-text-center">{{ staff.totalClosedRequests }}</ion-col>
-        <ion-col class="ion-text-center">{{ staff.totalPendingRequests }}</ion-col>
+        
+        <!--<ion-col class="ion-text-center">{{ staff.totalClosedRequests }}</ion-col>
+        <ion-col class="ion-text-center">{{ staff.totalPendingRequests }}</ion-col>-->
+        
+        <ion-col class="ion-text-center">{{ staff.totalCompletedStories }}</ion-col>
         <ion-col class="ion-text-center">{{ staff.totalInvitations }}</ion-col>
         <ion-col class="ion-text-center">{{ noOfHours(staff) | number : '1.0-3' }}</ion-col>
-        <ion-col class="ion-text-center">{{ valocity(staff) | number : '1.0-3' }}</ion-col>
+        <ion-col class="ion-text-center">{{ staff.valocity | number : '1.0-3' }}</ion-col>
       </ion-row>
+      <!---->
       <ion-row class="border-top">
         <ion-col>Total</ion-col>
-        <ion-col class="ion-text-center" *ngIf="totalClosedRequests">{{ totalClosedRequests }}</ion-col>
-        <ion-col class="ion-text-center" *ngIf="totalPendingRequests">{{ totalPendingRequests }}</ion-col>
+        
+        <!--<ion-col class="ion-text-center" *ngIf="totalClosedRequests">{{ totalClosedRequests }}</ion-col>
+        <ion-col class="ion-text-center" *ngIf="totalPendingRequests">{{ totalPendingRequests }}</ion-col>-->
+        <ion-col class="ion-text-center" *ngIf="totalInvitations">{{ totalCompletedStories }}</ion-col>
         <ion-col class="ion-text-center" *ngIf="totalInvitations">{{ totalInvitations }}</ion-col>
         <ion-col class="ion-text-center" *ngIf="totalNoOfHours">{{ totalNoOfHours | number : '1.0-3' }}</ion-col>
         <ion-col class="ion-text-center" *ngIf="totalVelocity">{{ totalVelocity | number : '1.0-3'  }}</ion-col>

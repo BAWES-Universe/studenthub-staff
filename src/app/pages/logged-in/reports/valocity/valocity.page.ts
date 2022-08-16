@@ -35,6 +35,7 @@ export class ValocityPage implements OnInit {
   totalInvitations = 0;
   totalNoOfHours = 0;
   totalVelocity = 0;
+  totalCompletedStories = 0;
 
   constructor(
     public authService: AuthService,
@@ -63,12 +64,6 @@ export class ValocityPage implements OnInit {
 
     this.staffService.list(this.currentPage, urlParams).subscribe(response => {
 
-      // this.totalPendingRequests = parseInt(response.headers.get('X-totalPendingRequests'));
-      // this.totalClosedRequests = parseInt(response.headers.get('X-totalClosedRequests'));
-      // this.totalInvitations = parseInt(response.headers.get('X-totalInvitations'));
-      // this.totalNoOfHours = response.headers.get('X-totalNoOfHours');
-      // this.totalVelocity = parseInt(response.headers.get('X-totalVelocity'));
-
       this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
       this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
       this.staffs = response.body;
@@ -82,9 +77,13 @@ export class ValocityPage implements OnInit {
     );
   }
 
+  /**
+   * return url params
+   * @returns 
+   */
   getUrlParams() {
-    let urlParams = '&expand=totalClosedRequests,totalPendingRequests,timeForCompletedRequests,timeForCancelledRequests,totalInvitations';
-
+    let urlParams = '&expand=totalCompletedStories,timeForCompletedStories,totalInvitations';
+//totalClosedRequests,totalPendingRequests,timeForCompletedRequests,timeForCancelledRequests,
     if (this.start_date) {
       const date = new Date(this.start_date);
       const month = date.getMonth() + 1;
@@ -109,9 +108,11 @@ export class ValocityPage implements OnInit {
     if (!staff.totalClosedRequests) {
       return 0;
     }
+
     if (!staff.timeForCompletedRequests) {
       return 0;
     }
+    
     if (!staff.timeForCancelledRequests) {
       return 0;
     }
@@ -123,21 +124,49 @@ export class ValocityPage implements OnInit {
   }
 
   /**
+   * valocity by story delivered
+   * @param staff 
+   * @returns 
+   */
+  valocityByStory(staff) {
+
+    if (!staff.totalCompletedStories) {
+      return 0;
+    }
+
+    const days = Math.ceil(staff.timeForCompletedStories / (3600 * 24));
+    
+    return staff.totalCompletedStories / days;
+  }
+
+  /**
    * no of hours spent on hours
    * @param staff
    * @returns
    */
   noOfHours(staff) {
-    return (staff.timeForCompletedRequests + staff.timeForCancelledRequests) / 3600;
+    //return (staff.timeForCompletedRequests + staff.timeForCancelledRequests) / 3600;
+    return staff.timeForCompletedStories > 0 ? staff.timeForCompletedStories / 3600: 0;
   }
 
   totalRecord(staffs) {
     this._platform.ready().then(() => {
       staffs.forEach ((staff, i) => {
-        this.totalNoOfHours += (staff.timeForCompletedRequests + staff.timeForCancelledRequests) / 3600;
-        this.totalClosedRequests += staff.totalClosedRequests;
-        this.totalPendingRequests += staff.totalPendingRequests;
+        
+        this.totalNoOfHours += staff.timeForCompletedStories / 3600;
+
+        //this.totalNoOfHours += (staff.timeForCompletedRequests + staff.timeForCancelledRequests) / 3600;
+
+        //this.totalClosedRequests += staff.totalClosedRequests;
+        //this.totalPendingRequests += staff.totalPendingRequests;
+
+        this.totalCompletedStories += staff.totalCompletedStories;
+
         this.totalInvitations += staff.totalInvitations;
+
+        staff.valocity = this.valocityByStory(staff);
+
+        this.totalVelocity += staff.valocity;
       });
     });
   }
@@ -166,12 +195,6 @@ export class ValocityPage implements OnInit {
     const urlParams = this.getUrlParams();
 
     this.staffService.list(this.currentPage, urlParams).subscribe(response => {
-
-      // this.totalPendingRequests = parseInt(response.headers.get('X-totalPendingRequests'));
-      // this.totalClosedRequests = parseInt(response.headers.get('X-totalClosedRequests'));
-      // this.totalInvitations = parseInt(response.headers.get('X-totalInvitations'));
-      // this.totalNoOfHours = response.headers.get('X-totalNoOfHours');
-      // this.totalVelocity = parseInt(response.headers.get('X-totalVelocity'));
 
       this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
       this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
