@@ -36,6 +36,7 @@ export class ValocityPage implements OnInit {
   totalNoOfHours = 0;
   totalVelocity = 0;
   totalCompletedStories = 0;
+  totalStoryEmployees = 0;
 
   constructor(
     public authService: AuthService,
@@ -82,7 +83,7 @@ export class ValocityPage implements OnInit {
    * @returns 
    */
   getUrlParams() {
-    let urlParams = '&expand=totalCompletedStories,timeForCompletedStories,totalInvitations';
+    let urlParams = '&expand=totalStoryEmployees,totalCompletedStories,timeForCompletedStories,totalInvitations';
 //totalClosedRequests,totalPendingRequests,timeForCompletedRequests,timeForCancelledRequests,
     if (this.start_date) {
       const date = new Date(this.start_date);
@@ -130,13 +131,13 @@ export class ValocityPage implements OnInit {
    */
   valocityByStory(staff) {
 
-    if (!staff.totalCompletedStories) {
+    if (!staff.totalStoryEmployees) {
       return 0;
     }
 
     const days = Math.ceil(staff.timeForCompletedStories / (3600 * 24));
     
-    return staff.totalCompletedStories / days;
+    return staff.totalStoryEmployees / days;
   }
 
   /**
@@ -161,6 +162,7 @@ export class ValocityPage implements OnInit {
         //this.totalPendingRequests += staff.totalPendingRequests;
 
         this.totalCompletedStories += staff.totalCompletedStories;
+        this.totalStoryEmployees += staff.totalStoryEmployees? Number(staff.totalStoryEmployees): 0;
 
         this.totalInvitations += staff.totalInvitations;
 
