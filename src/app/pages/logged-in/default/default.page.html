@@ -38,7 +38,7 @@
       </div>
 
       <div *ngIf="statistics.totalExpiredCards > 0 || statistics.missingBankInfo > 0 || statistics.assignedExpiredCivilID > 0 || statistics.assignedIdleCandidates > 0 || statistics.incompleteAssignedToWork > 0">
-        <h3>Operations</h3>
+        <h3>Customer Operations</h3>
         <ion-card (click)="showExpiredIDs()" *ngIf="statistics.totalExpiredCards > 0" tappable class="danger stats">
           <ion-card-content>
             <div class="count">{{ statistics.totalExpiredCards }}</div>
