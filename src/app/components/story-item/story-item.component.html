@@ -1,7 +1,7 @@
 <ion-card tappable>
   <ion-card-content>
     <div class="inner-card-content">
-      
+
       <h1>({{ request.request_number_of_employees }}) {{request.request_position_title}}</h1>
 
       <h3 *ngIf="request.company">
@@ -18,15 +18,15 @@
           <span *ngIf="story.story_status == 6"> Cancelled </span>
         </ion-badge>
         <ng-container *ngIf="request">
-          
+
           <ion-badge *ngIf="request.request_position_type == 1">Full-time</ion-badge>
-          <ion-badge *ngIf="request.request_location">{{request.request_location}}</ion-badge>
+          <ion-badge *ngIf="request.request_location">{{request.request_location.length > 30 ? request.request_location.substr(0,30)+'...' : request.request_location }}</ion-badge>
           <ion-badge *ngIf="request.request_position_type == 2">Part-time</ion-badge>
-          
+
           <ion-badge *ngIf="story.staff">
             {{ story.staff.staff_name }}
-          </ion-badge> 
-          
+          </ion-badge>
+
         </ng-container>
       </div>
 

@@ -43,7 +43,7 @@ export class CompanyRequestDashboardPage implements OnInit {
   public segment = 'request';
 
   public filters = {
-    storyStatus: null,//'1'
+    storyStatus: null,//'9' for unstarted
     requestStatus: null,//'started',
     position_type: null,
     startDate: null,
