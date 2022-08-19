@@ -233,7 +233,13 @@
             </span>
           </ion-label>
         </ion-button>
+
       </ion-col>
     </ion-row>
   </ion-grid>
+  <ion-button *ngIf="story.story_status == 3" class="start-btn delivery" (click)="changeStoryStatus(1)">
+    <ion-label>
+      Re Work
+    </ion-label>
+  </ion-button>
 </ion-footer>
