@@ -5,6 +5,10 @@ import { CompanyFormPage } from './company-form.page';
 
 const routes: Routes = [
   {
+    path: '',
+    component: CompanyFormPage
+  },
+  {
     path: ':company_id',
     component: CompanyFormPage
   }

@@ -4,6 +4,7 @@ import { AuthService } from './providers/auth.service';
 import { LoginGuard } from './providers/guards/login-guard.service';
 import { SelectiveLoadingStrategy } from './util/SelectiveLoadingStrategy';
 import {StoryGuard} from './providers/guards/story-guard.service';
+import {CompanyFormPage} from "./pages/logged-in/company/company-form/company-form.page";
 
 const routes: Routes = [
   {
@@ -161,6 +162,15 @@ const routes: Routes = [
     canActivate: [AuthService],
     data: {
       name: 'CompanyViewPage',
+      navDisable: true,
+    }
+  },
+  {
+    path: 'company-form',
+    loadChildren: () => import('./pages/logged-in/company/company-form/company-form.module').then(m => m.CompanyFormPageModule),
+    canActivate: [AuthService],
+    data: {
+      name: 'CompanyFormPage',
       navDisable: true,
     }
   },

@@ -7,7 +7,8 @@
 
     <ion-buttons slot="end" *ngIf="company && !loading">
       <ion-button fill="clear" class="btn-actions" (click)="showActions($event)">
-        <ion-icon class="setting-icon" name="ellipsis-vertical-outline"></ion-icon>
+<!--        <ion-icon class="setting-icon" name="ellipsis-vertical-outline"></ion-icon>-->
+        Update
       </ion-button>
     </ion-buttons>
     <!-- <ion-buttons slot="end" *ngIf="company && !loading">
@@ -29,7 +30,7 @@
       <ion-badge class="company_status_badge success" slot="start" *ngIf="company.company_status && !company.parent_company_id">
         Active
       </ion-badge>
-      
+
     </ion-title>
   </ion-toolbar>
 
@@ -64,7 +65,7 @@
 
     <div class="tab-manage" *ngIf="segment == 'manage'">
       <ion-grid>
-        <ion-row> 
+        <ion-row>
           <ion-col size-xs="12" size-sm="12" size-md="4" size-lg="4" size-xl="4">
             <ion-item tappable (click)="openRequests()">
               <div tabindex="0"></div>
@@ -165,7 +166,7 @@
           </ion-col>
         </ion-row>
       </ion-grid>
-      
+
     </div><!-- END .tab-manage -->
 
     <div class="tab-activity" *ngIf="segment == 'activity'">
@@ -174,7 +175,7 @@
 
       <note tappable *ngFor="let note of notes" [routerLink]="'/note-view/' + note.note_uuid"
         from="company-view" [note]="note" (onChange)="loadNotes()" (onDelete)="loadNotes()"></note>
-      
+
       <loading-modal [loading]="loadingNotes" type="note-list"></loading-modal>
 
       <ion-button class="btn-add-note" *ngIf="notes.length == 0" (click)="addNote()">
@@ -187,7 +188,7 @@
 
     </div><!-- END .tab-activity -->
 
-    
+
     <div class="tab-details" *ngIf="segment == 'details'">
 
       <h5>Client Details</h5>
@@ -200,7 +201,7 @@
           </ion-note>
 
           <ion-note *ngIf="company.company_status && !company.parent_company_id">
-            Active 
+            Active
           </ion-note>
         </li>
 
@@ -208,12 +209,12 @@
           <ion-icon src="assets/images/icon-followup.svg"></ion-icon> <b>last Follow-up</b>
           <ion-note>{{ toDate(company.company_last_followup_datetime) | date: 'MMM d, y' }}</ion-note>
         </li>
-        
+
         <li>
           <ion-icon src="assets/images/doller.svg" ></ion-icon> <b>Salary</b>
           <ion-note>{{company.company_hourly_rate | number:'1.0-3' }} KD / hour</ion-note>
         </li>
-        
+
         <li>
           <ion-icon src="assets/images/icon-commission.svg" ></ion-icon> <b>Commission</b>
           <ion-note>
@@ -223,7 +224,7 @@
         </li>
 
       </ul>
-      
+
       <h5>Client Description</h5>
 
       <p class="description" *ngIf="company.company_description_en" [innerHtml]="company.company_description_en">
@@ -236,7 +237,7 @@
         company.company_website }}</a>
 
     </div><!-- END .tab-details -->
-      
+
   </div><!-- END .container -->
 </ion-content>
 <!-- if followup enabled and followup interval passed -->

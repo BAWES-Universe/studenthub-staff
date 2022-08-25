@@ -4,7 +4,8 @@ ion-back-button {
 
 ion-header {
   box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.05);
-
+  background: #fff;
+  --background: #fff;
   ion-toolbar {
     padding: 0 24px;
 
@@ -42,7 +43,7 @@ ion-item.field-password {
       --padding-end: 30px;
   }
 
-  .btn-password { 
+  .btn-password {
       position: absolute;
       bottom: 0;
       z-index: 111;
@@ -54,7 +55,7 @@ ion-item.field-password {
       ion-icon {
           font-size: 22px;
           color: #000;
-      } 
+      }
   }
 }
 

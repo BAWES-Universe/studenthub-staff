@@ -9,6 +9,7 @@ import { EventService } from 'src/app/providers/event.service';
 //pages
 import { CompanyFormPage } from 'src/app/pages/logged-in/company/company-form/company-form.page';
 import {CompanyFilterPage} from "./company-filter/company-filter.page";
+import {Router} from "@angular/router";
 
 
 @Component({
@@ -46,7 +47,8 @@ export class CompanyListPage implements OnInit {
     public platform: Platform,
     public aws: AwsService,
     public eventService: EventService,
-    public _modalCtrl: ModalController
+    public _modalCtrl: ModalController,
+    public router: Router
   ) {
   }
 
@@ -183,28 +185,29 @@ export class CompanyListPage implements OnInit {
    * Loads the create page
    */
   async create() {
-    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
-
-    const modal = await this._modalCtrl.create({
-      component: CompanyFormPage,
-      componentProps: {
-        model: new Company(),
-        subcompany: 0
-      }
-    });
-    // Refresh List if required
-    modal.onDidDismiss().then(e => {
-
-      if (!e.data || e.data.from != 'native-back-btn') {
-        window['history-back-from'] = 'onDidDismiss';
-        window.history.back();
-      }
-
-      if (e && e.data && e.data.refresh) {
-        this.loadData(1);
-      }
-    });
-    modal.present();
+    return this.router.navigate(['company-form']);
+    // window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+    //
+    // const modal = await this._modalCtrl.create({
+    //   component: CompanyFormPage,
+    //   componentProps: {
+    //     model: new Company(),
+    //     subcompany: 0
+    //   }
+    // });
+    // // Refresh List if required
+    // modal.onDidDismiss().then(e => {
+    //
+    //   if (!e.data || e.data.from != 'native-back-btn') {
+    //     window['history-back-from'] = 'onDidDismiss';
+    //     window.history.back();
+    //   }
+    //
+    //   if (e && e.data && e.data.refresh) {
+    //     this.loadData(1);
+    //   }
+    // });
+    // modal.present();
   }
 
 

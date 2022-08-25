@@ -1,7 +1,8 @@
 <ion-header mode="md" [class.add-border]="borderLimit" class="ion-no-border">
   <ion-toolbar class="container">
     <ion-buttons slot="start">
-      <ion-back-button icon="assets/images/icon-back.svg" (click)="close()"></ion-back-button>
+<!--      <ion-back-button icon="assets/images/icon-back.svg" (click)="close()"></ion-back-button>-->
+      <ion-back-button defaultHref="/"></ion-back-button>
     </ion-buttons>
   </ion-toolbar>
   <ion-toolbar class="container" [class.hidden]="borderLimit">
@@ -18,13 +19,13 @@
 
   <div class="container">
     <form [formGroup]="form" *ngIf="form">
-      
+
         <h5>Basic Information</h5>
 
-        <app-image-upload 
-          label="Change Logo" 
+        <app-image-upload
+          label="Change Logo"
           labelNoImage="Upload Company Logo"
-          icon="person-outline" prefix="logo" 
+          icon="person-outline" prefix="logo"
           iconSrc="assets/icon/icon-add-pic.svg"
           formControlName="logo">
         </app-image-upload>
@@ -121,7 +122,7 @@
   </div>
 </ion-content>
 <ion-footer class="ion-no-border">
-  <div class="container">
+  <div class="container" *ngIf="form">
     <ion-button class="btn-save" [disabled]="!form.valid || loading || saving" (click)="save()">
       <span *ngIf="!saving">{{ operation }}</span>
       <ion-spinner *ngIf="saving"></ion-spinner>
