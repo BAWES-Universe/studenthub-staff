@@ -3,12 +3,12 @@
     <ion-buttons slot="start">
       <ion-back-button icon="assets/images/icon-back.svg" (click)="dismiss()"></ion-back-button>
     </ion-buttons>
-    <ion-buttons slot="end">
-      <ion-button><ion-icon class="setting-icon" name="ellipsis-vertical-outline"></ion-icon></ion-button>
-    </ion-buttons>
+<!--    <ion-buttons slot="end">-->
+<!--      <ion-button><ion-icon class="setting-icon" name="ellipsis-vertical-outline"></ion-icon></ion-button>-->
+<!--    </ion-buttons>-->
   </ion-toolbar>
   <ion-toolbar class="container">
-    <ion-title class="main" size="large"> 
+    <ion-title class="main" size="large">
       Documents <ng-container *ngIf="company && company.files">({{ company.files.length }})</ng-container>
       </ion-title>
     <ion-title class="secondary" size="small" *ngIf="company">
@@ -30,7 +30,7 @@
           <h5>{{ file.file_title }}</h5>
           <p class="date">Uploaded on {{ toDate(file.file_created_datetime) | date: 'MMM d, y' }}</p>
         </ion-label>
-        
+
         <ion-note slot="end">{{ file.file_size | filesize }}</ion-note>
 
         <!-- <span class="meta-data">{{ getFileType(file) }}</span>
