@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AlertController, IonContent, ModalController, NavController } from '@ionic/angular';
 // models
-import { Request } from 'src/app/models/request';
+import {Request, Story} from 'src/app/models/request';
 // services
 import { CompanyRequestService } from 'src/app/providers/logged-in/company-request.service';
 import { EventService } from 'src/app/providers/event.service';
@@ -32,7 +32,7 @@ export class CompanyRequestDashboardPage implements OnInit {
   public contact_uuid = null;
   public pageCount = 0;
   public currentPage = 1;
-  public stories: any[] = [];
+  public stories: Story[] = [];
 
   storyPageCount = 0;
   storyCurrentPage = 0;

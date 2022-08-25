@@ -50,7 +50,7 @@
         <request-listing *ngFor="let request of activeRequests" tappable (click)="requestDetail(request)"
                          [request]="request" [showStatus]="false"></request-listing>
 
-      <no-items message="~ No Request Found ~" *ngIf="!loading && activeRequests.length == '0'"></no-items>
+      <no-items message="~ No Request Found ~" *ngIf="!loading && activeRequests.length == 0"></no-items>
       <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
         <ion-infinite-scroll-content></ion-infinite-scroll-content>
       </ion-infinite-scroll>
@@ -63,7 +63,7 @@
         <ng-container *ngIf="!loading">
           <app-story-item *ngFor="let story of stories" [story]="story" (click)="rowSelected(story)"></app-story-item>
       </ng-container>
-      <no-items message="~ No Story Found ~" *ngIf="!loading && stories.length == '0'"></no-items>
+      <no-items message="~ No Story Found ~" *ngIf="!loading && stories.length == 0"></no-items>
       <ion-infinite-scroll *ngIf="storyCurrentPage < storyPageCount" (ionInfinite)="doInfiniteStories($event)">
         <ion-infinite-scroll-content></ion-infinite-scroll-content>
       </ion-infinite-scroll>
