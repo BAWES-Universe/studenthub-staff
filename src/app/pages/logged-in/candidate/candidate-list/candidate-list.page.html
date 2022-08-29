@@ -74,8 +74,8 @@
               <ion-item>
                 <ion-label position="floating" color="primary">Export data</ion-label>
                 <ion-select [(ngModel)]="filters.page" [value]="filters.page" okText="Okay" cancelText="Dismiss">
-                  <ion-select-option [selected]="filters.page == 1" value="1">0 - 20,000</ion-select-option>
-                  <ion-select-option [selected]="filters.page == 2" value="2">20,001 - 40,000</ion-select-option>
+                  <ion-select-option value="1">0 - 20,000</ion-select-option>
+                  <ion-select-option value="2">20,001 - 40,000</ion-select-option>
                 </ion-select>
               </ion-item>
             </ion-col>
