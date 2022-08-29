@@ -7,18 +7,18 @@
     <ion-title>Assigned Incomplete Candidates
       <span *ngIf="!loading && totalCount">({{totalCount}})</span></ion-title>
 
-<!--    <ion-buttons slot="end">-->
-<!--      <ion-button color="primary" [disabled]="candidateIdCardService.candidates.length == 0 || downloading" (click)="generate()">-->
-<!--        <span *ngIf="!downloading">Download Zip</span>-->
-<!--        <ion-spinner *ngIf="downloading"></ion-spinner>-->
-<!--      </ion-button>-->
-<!--    </ion-buttons>-->
+    <ion-buttons slot="end">
+      <ion-button color="primary" (click)="exportData()" *ngIf="candidates && candidates.length > 0">
+        <span *ngIf="!exporting">Export</span>
+        <ion-spinner *ngIf="exporting"></ion-spinner>
+      </ion-button>
+    </ion-buttons>
 
   </ion-toolbar>
 </ion-header>
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
-  
+
   <div  class="container">
     <ion-searchbar
       [(ngModel)]="SearchBar"

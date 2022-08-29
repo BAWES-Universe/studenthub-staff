@@ -27,6 +27,7 @@ export class AssignedIdleCandidatesPage implements OnInit {
   public loading: boolean = false;
   public paginationLoading = false;
   public downloading: boolean = false;
+  public exporting: boolean = false;
 
   public borderLimit = false;
 
@@ -80,8 +81,8 @@ export class AssignedIdleCandidatesPage implements OnInit {
       this.candidates = response.body;
     },
     error => { },
-    () => { 
-      this.loading = false; 
+    () => {
+      this.loading = false;
     });
   }
 
@@ -115,9 +116,40 @@ export class AssignedIdleCandidatesPage implements OnInit {
       }
     });
   }
-  
+
   logScrolling(e) {
     this.borderLimit = (e.detail.scrollTop > 20);
+  }
+
+  /**
+   * export id cards
+   */
+  async exportData() {
+    const alert = await this.alertCtrl.create({
+      header: 'Are you sure you want to export the file?',
+      cssClass: 'custom-alert',
+      buttons: [
+        {
+          text: 'No',
+          cssClass: 'alert-button-cancel',
+        },
+        {
+          text: 'Yes',
+          cssClass: 'alert-button-confirm',
+          handler: async () => {
+            this.exporting = true;
+            this.candidateService.export('&task=assigned_idle', 1, 'assigned-idle-candidates.xlsx').subscribe(response => {
+              this.exporting = false;
+            }, (err) => {
+              this.exporting = false;
+            }, () => {
+              this.exporting = false;
+            });
+          }
+        },
+      ],
+    });
+    await alert.present();
   }
 }
 

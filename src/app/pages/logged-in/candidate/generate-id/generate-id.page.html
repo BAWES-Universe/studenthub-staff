@@ -11,6 +11,10 @@
         <span *ngIf="!downloading">Download Zip</span>
         <ion-spinner *ngIf="downloading"></ion-spinner>
       </ion-button>
+      <ion-button color="primary" (click)="exportData()" *ngIf="candidatelistData && candidatelistData.length > 0">
+        <span *ngIf="!exporting">Export</span>
+        <ion-spinner *ngIf="exporting"></ion-spinner>
+      </ion-button>
     </ion-buttons>
 
   </ion-toolbar>
@@ -20,10 +24,10 @@
 
   <ion-segment [(ngModel)]="cndSegment" (ionChange)="segmentChanged($event)" color="primary">
     <ion-segment-button value="not-generated">
-      Not Generated
+      Not Generated <span *ngIf="nonGenCount">({{nonGenCount}})</span>
     </ion-segment-button>
     <ion-segment-button value="generated">
-      Already Generated
+      Already Generated <span *ngIf="genCount">({{genCount}})</span>
     </ion-segment-button>
   </ion-segment>
 

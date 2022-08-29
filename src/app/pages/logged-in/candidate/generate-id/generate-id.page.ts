@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 import {AlertController} from '@ionic/angular';
 // service
 import {CandidateIdCardService} from 'src/app/providers/logged-in/candidate.id.card.service';
+import {CandidateService} from "../../../../providers/logged-in/candidate.service";
 
 @Component({
   selector: 'app-generate-id',
@@ -12,10 +13,13 @@ import {CandidateIdCardService} from 'src/app/providers/logged-in/candidate.id.c
 export class GenerateIdPage implements OnInit {
 
   public pageCount = 0;
+  public genCount = 0;
+  public nonGenCount = 0;
   public currentPage = 1;
 
   public loading = false;
   public loadingMore = false;
+  public exporting = false;
   public downloading = false;
   public searchBar = '';
   public cndSegment = 'not-generated';
@@ -28,6 +32,7 @@ export class GenerateIdPage implements OnInit {
 
   constructor(
     public candidateIdCardService: CandidateIdCardService,
+    public candidateService: CandidateService,
     private _fb: FormBuilder,
     private _alertCtrl: AlertController
   ) {
@@ -118,6 +123,7 @@ export class GenerateIdPage implements OnInit {
     this.candidateIdCardService.listCandidates(this.searchBar, page).subscribe(response => {
 
         this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
+        this.nonGenCount = parseInt(response.headers.get('X-Pagination-Total-Count'));
         this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
 
         if(this.currentPage == 1) {
@@ -154,6 +160,7 @@ export class GenerateIdPage implements OnInit {
     this.candidateIdCardService.listCandidateIds(this.searchBar, page).subscribe(response => {
 
         this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
+        this.genCount = parseInt(response.headers.get('X-Pagination-Total-Count'));
         this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
 
         if(this.currentPage == 1) {
@@ -207,6 +214,37 @@ export class GenerateIdPage implements OnInit {
 
   redirect(event, obj){
     console.log(event, obj);
+  }
+
+  /**
+   * export id cards
+   */
+  async exportData() {
+    const alert = await this._alertCtrl.create({
+      header: 'Are you sure you want to export the file?',
+      cssClass: 'custom-alert',
+      buttons: [
+        {
+          text: 'No',
+          cssClass: 'alert-button-cancel',
+        },
+        {
+          text: 'Yes',
+          cssClass: 'alert-button-confirm',
+          handler: async () => {
+            this.exporting = true;
+            this.candidateService.export('&task=generate_ids', 1, 'generate-ids.xlsx').subscribe(response => {
+              this.exporting = false;
+            }, (err) => {
+              this.exporting = false;
+            }, () => {
+              this.exporting = false;
+            });
+          }
+        },
+      ],
+    });
+    await alert.present();
   }
 
 }

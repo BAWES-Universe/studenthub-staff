@@ -12,6 +12,10 @@
         <span *ngIf="!renewLoader">Renew Cards</span>
         <ion-spinner *ngIf="renewLoader"></ion-spinner>
       </ion-button>
+      <ion-button color="primary" (click)="exportData()" *ngIf="candidatelistData && candidatelistData.length > 0">
+        <span *ngIf="!exporting">Export</span>
+        <ion-spinner *ngIf="exporting"></ion-spinner>
+      </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>

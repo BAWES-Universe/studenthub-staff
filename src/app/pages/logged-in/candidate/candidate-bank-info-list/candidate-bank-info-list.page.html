@@ -4,6 +4,12 @@
       <ion-back-button defaultHref="/"></ion-back-button>
     </ion-buttons>
     <ion-title>Candidates Missing Bank Info ({{this.totalCount}})</ion-title>
+    <ion-buttons slot="end">
+      <ion-button color="primary" (click)="exportData()" *ngIf="candidates && candidates.length > 0">
+        <span *ngIf="!exporting">Export</span>
+        <ion-spinner *ngIf="exporting"></ion-spinner>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
