@@ -26,6 +26,7 @@ export class IncompleteCandidateListPage implements OnInit {
   public candidates: Candidate[];
 
   public loading: boolean = false;
+  public exporting: boolean = false;
   public paginationLoading = false;
   public downloading: boolean = false;
 
@@ -144,7 +145,7 @@ export class IncompleteCandidateListPage implements OnInit {
       () => { event.target.complete(); }
     );
   }
-  
+
   /**
    * When its selected
    */
@@ -155,9 +156,40 @@ export class IncompleteCandidateListPage implements OnInit {
       }
     });
   }
-  
+
   logScrolling(e) {
-    this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
+    this.borderLimit = (e.detail.scrollTop > 20);
+  }
+
+  /**
+   * export id cards
+   */
+  async exportData() {
+    const alert = await this.alertCtrl.create({
+      header: 'Are you sure you want to export the file?',
+      cssClass: 'custom-alert',
+      buttons: [
+        {
+          text: 'No',
+          cssClass: 'alert-button-cancel',
+        },
+        {
+          text: 'Yes',
+          cssClass: 'alert-button-confirm',
+          handler: async () => {
+            this.exporting = true;
+            this.candidateService.export('&task=incomplete_profile', 1, 'incomplete-profile-candidates.xlsx').subscribe(response => {
+              this.exporting = false;
+            }, (err) => {
+              this.exporting = false;
+            }, () => {
+              this.exporting = false;
+            });
+          }
+        },
+      ],
+    });
+    await alert.present();
   }
 }
 

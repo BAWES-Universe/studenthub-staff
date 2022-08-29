@@ -4,6 +4,7 @@ import {AlertController, LoadingController, NavController} from '@ionic/angular'
 // services
 import { CandidateIdCardService } from 'src/app/providers/logged-in/candidate.id.card.service';
 import { EventService } from 'src/app/providers/event.service';
+import {CandidateService} from "../../../../providers/logged-in/candidate.service";
 
 
 @Component({
@@ -26,6 +27,7 @@ export class ExpiredIdPage implements OnInit {
 
   public loading = false;
   public renewLoader: boolean = false;
+  public exporting: boolean = false;
 
   public checkAll = null;
 
@@ -33,6 +35,7 @@ export class ExpiredIdPage implements OnInit {
 
   constructor(
     public candidateIdCardService: CandidateIdCardService,
+    public candidateService: CandidateService,
     private _fb: FormBuilder,
     private _alertCtrl: AlertController,
     private _events: EventService,
@@ -151,15 +154,46 @@ export class ExpiredIdPage implements OnInit {
    * @param date
    */
    toDate(date) {
-    if (!date) 
+    if (!date)
       return null;
 
     if (date) {
       return new Date(date.replace(/-/g, '/'));
     }
   }
-  
+
   logScrolling(e) {
-    this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
+    this.borderLimit = (e.detail.scrollTop > 20);
+  }
+
+  /**
+   * export id cards
+   */
+  async exportData() {
+    const alert = await this._alertCtrl.create({
+      header: 'Are you sure you want to export the file?',
+      cssClass: 'custom-alert',
+      buttons: [
+        {
+          text: 'No',
+          cssClass: 'alert-button-cancel',
+        },
+        {
+          text: 'Yes',
+          cssClass: 'alert-button-confirm',
+          handler: async () => {
+            this.exporting = true;
+            this.candidateService.export('&task=expired_ids', 1, 'expired-ids.xlsx').subscribe(response => {
+              this.exporting = false;
+            }, (err) => {
+              this.exporting = false;
+            }, () => {
+              this.exporting = false;
+            });
+          }
+        },
+      ],
+    });
+    await alert.present();
   }
 }
