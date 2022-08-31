@@ -499,6 +499,14 @@ const routes: Routes = [
     }
   },
   {
+    path: 'my-work',
+    canActivate: [AuthService],
+    loadChildren: () => import('./pages/logged-in/my-work/my-work-routing.module').then( m => m.MyWorkPageModule),
+    data: {
+      name: 'MyWorkPage'
+    }
+  },
+  {
     path: 'app-error',
     loadChildren: () => import('./pages/errors/app-error/app-error.module').then( m => m.AppErrorPageModule)
   },
