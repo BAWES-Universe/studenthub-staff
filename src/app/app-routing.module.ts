@@ -501,7 +501,7 @@ const routes: Routes = [
   {
     path: 'my-work',
     canActivate: [AuthService],
-    loadChildren: () => import('./pages/logged-in/my-work/my-work-routing.module').then( m => m.MyWorkPageModule),
+    loadChildren: () => import('./pages/logged-in/my-work/my-work.module').then( m => m.MyWorkPageModule),
     data: {
       name: 'MyWorkPage'
     }
