@@ -80,7 +80,7 @@ export class ValocityPage implements OnInit {
 
   /**
    * return url params
-   * @returns 
+   * @returns
    */
   getUrlParams() {
     let urlParams = '&expand=totalStoryEmployees,totalCompletedStories,timeForCompletedStories,totalInvitations';
@@ -113,7 +113,7 @@ export class ValocityPage implements OnInit {
     if (!staff.timeForCompletedRequests) {
       return 0;
     }
-    
+
     if (!staff.timeForCancelledRequests) {
       return 0;
     }
@@ -126,17 +126,17 @@ export class ValocityPage implements OnInit {
 
   /**
    * valocity by story delivered
-   * @param staff 
-   * @returns 
+   * @param staff
+   * @returns
    */
   valocityByStory(staff) {
 
-    if (!staff.totalStoryEmployees) {
+    if (!staff.totalStoryEmployees || !staff.timeForCompletedStories) {
       return 0;
     }
 
     const days = Math.ceil(staff.timeForCompletedStories / (3600 * 24));
-    
+
     return staff.totalStoryEmployees / days;
   }
 
@@ -153,7 +153,7 @@ export class ValocityPage implements OnInit {
   totalRecord(staffs) {
     this._platform.ready().then(() => {
       staffs.forEach ((staff, i) => {
-        
+
         this.totalNoOfHours += staff.timeForCompletedStories / 3600;
 
         //this.totalNoOfHours += (staff.timeForCompletedRequests + staff.timeForCancelledRequests) / 3600;
@@ -161,7 +161,7 @@ export class ValocityPage implements OnInit {
         //this.totalClosedRequests += staff.totalClosedRequests;
         //this.totalPendingRequests += staff.totalPendingRequests;
 
-        this.totalCompletedStories += staff.totalCompletedStories;
+        this.totalCompletedStories += Number(staff.totalCompletedStories);
         this.totalStoryEmployees += staff.totalStoryEmployees? Number(staff.totalStoryEmployees): 0;
 
         this.totalInvitations += staff.totalInvitations;

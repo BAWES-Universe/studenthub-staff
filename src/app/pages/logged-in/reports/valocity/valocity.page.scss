@@ -4,3 +4,10 @@ ion-grid ion-row:first-child ion-col {
 .border-top {
   border-top:1px solid;
 }
+.staff-name {
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 68px;
+}

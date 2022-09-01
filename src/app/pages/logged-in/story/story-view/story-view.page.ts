@@ -60,6 +60,7 @@ export class StoryViewPage implements OnInit, OnDestroy {
   public segment: string = 'detail';
   private destroyed$ = new Subject();
   private subscription: Subscription;
+  public alertConfirmReload;
 
   public dateNow = new Date();
   // public dDay = new Date('Jan 01 2021 00:00:00');
@@ -68,7 +69,7 @@ export class StoryViewPage implements OnInit, OnDestroy {
   hoursInADay = 24;
   minutesInAnHour = 60;
   SecondsInAMinute = 60;
-
+  public internvalSubscribe;
   public timeDifference;
   public secondsToDday;
   public minutesToDday;
@@ -94,6 +95,9 @@ export class StoryViewPage implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    this.internvalSubscribe = setInterval(_ => {
+      this.isStoryUpdated();
+    }, 6 * 1000);//every 6 seconds
 
   }
 
@@ -510,5 +514,56 @@ export class StoryViewPage implements OnInit, OnDestroy {
   urlParams() {
     let url = 'story_uuid=' + this.story.story_uuid;
     return url;
+  }
+
+  /**
+   * check if request updated, confirm reload
+   */
+  isStoryUpdated() {
+
+    if (!this.story || this.alertConfirmReload) {
+      return null;
+    }
+
+    this.storyService.isUpdated(this.story_uuid).subscribe(data => {
+      if (data.story_last_updated_at != this.story.story_last_updated_at) {
+        this.confirmReload(data.story_last_updated_at);
+      }
+    }, () => {
+    }, () => {
+      this.loading = false;
+    });
+  }
+
+  /**
+   * confirm data reload when request get updated
+   */
+  async confirmReload(request_updated_datetime) {
+
+    //this.loadDetail(false);//refresh without showing loader
+
+    this.alertConfirmReload = await this.alertCtrl.create({
+      header: 'Story updated',
+      subHeader: 'Refresh to view latest update',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            //to ignore current update
+            this.story.story_last_updated_at = request_updated_datetime;
+            this.alertConfirmReload = null;
+          }
+        }, {
+          text: 'Refresh',
+          handler: (data) => {
+            this.loadData();
+            this.alertConfirmReload = null;
+          }
+        }
+      ]
+    });
+    this.alertConfirmReload.present();
   }
 }

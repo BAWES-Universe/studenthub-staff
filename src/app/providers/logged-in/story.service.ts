@@ -69,4 +69,13 @@ export class StoryService {
       status,
     });
   }
+
+  /**
+   * check if request updated
+   * @param story_uuid
+   */
+  isUpdated(story_uuid): Observable<any> {
+    const url = `${this.storyEndpoint}/is-story-updated/${story_uuid}`;
+    return this._authhttp.get(url);
+  }
 }

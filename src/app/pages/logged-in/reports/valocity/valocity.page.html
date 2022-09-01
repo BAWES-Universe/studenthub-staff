@@ -47,20 +47,20 @@
         <ion-col>Recruiter</ion-col>
         <!--<ion-col class="ion-text-center">Request Closed</ion-col>
         <ion-col class="ion-text-center">Request Pending</ion-col>-->
-        <ion-col class="ion-text-center">Completed Stories</ion-col> 
-        <ion-col class="ion-text-center">Story Employee</ion-col>  
+        <ion-col class="ion-text-center">Completed Stories</ion-col>
+        <ion-col class="ion-text-center">Story Employee</ion-col>
         <ion-col class="ion-text-center">Invited Candidates</ion-col>
         <ion-col class="ion-text-center">Number of Hours</ion-col>
         <ion-col class="ion-text-center">Velocity By Story</ion-col>
       </ion-row>
       <ion-row *ngFor="let staff of staffs">
-        <ion-col>{{ staff.staff_name }}
+        <ion-col class="staff-name">{{ staff.staff_name }}
           <span *ngIf="authService.staff_id == staff.staff_id">&nbsp;•&nbsp;You</span>
         </ion-col>
-        
+
         <!--<ion-col class="ion-text-center">{{ staff.totalClosedRequests }}</ion-col>
         <ion-col class="ion-text-center">{{ staff.totalPendingRequests }}</ion-col>-->
-        
+
         <ion-col class="ion-text-center">{{ staff.totalCompletedStories }}</ion-col>
         <ion-col class="ion-text-center">{{ staff.totalStoryEmployees }}</ion-col>
         <ion-col class="ion-text-center">{{ staff.totalInvitations }}</ion-col>
@@ -70,7 +70,7 @@
       <!---->
       <ion-row class="border-top">
         <ion-col>Total</ion-col>
-        
+
         <!--<ion-col class="ion-text-center" *ngIf="totalClosedRequests">{{ totalClosedRequests }}</ion-col>
         <ion-col class="ion-text-center" *ngIf="totalPendingRequests">{{ totalPendingRequests }}</ion-col>-->
         <ion-col class="ion-text-center" *ngIf="totalInvitations">{{ totalCompletedStories }}</ion-col>
