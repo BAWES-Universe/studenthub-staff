@@ -5,7 +5,7 @@
     </ion-buttons>
 
     <ion-buttons slot="end">
-      <ion-button (click)="update()">
+      <ion-button (click)="update()" *ngIf="!loading && !suggesting">
         Update
       </ion-button>
 
@@ -150,8 +150,9 @@
           </ion-button>
         </ion-col>
         <ion-col>
-          <ion-button class="btn-suggest" (click)="suggest()">
-            Suggest for client request
+          <ion-button class="btn-suggest" (click)="suggest()" [disabled]="suggesting">
+            <span *ngIf="!suggesting">Suggest for client request</span>
+            <ion-spinner *ngIf="suggesting"></ion-spinner>
           </ion-button>
         </ion-col>
       </ion-row>

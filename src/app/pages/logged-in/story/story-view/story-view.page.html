@@ -27,7 +27,7 @@
         <ion-label>Update</ion-label>
       </ion-segment-button>
 
-      <ion-segment-button mode="md" value="invited">
+      <ion-segment-button mode="md" value="invited" *ngIf="request && request.request_position_type == 2">
         <ion-label>Invited</ion-label>
       </ion-segment-button>
 
@@ -180,7 +180,10 @@
   </div>
   <div class="container" *ngIf="request && story && segment == 'suggestion'">
     <h2>Suggested Candidates <span class="count">({{allSuggestions.length}})</span></h2>
-    <no-items message="~ No suggestion ~" *ngIf="allSuggestions.length == 0"></no-items>
+    <div *ngIf="allSuggestions.length == 0" class="ion-text-center no-invi">
+      <img src="assets/images/no-invitation.png"/>
+      <p class="ion-text-center">There are no suggested candidates!</p>
+    </div>
     <suggestion *ngFor="let suggestion of allSuggestions" [model]="suggestion" [showBadge]="false"></suggestion>
   </div>
 
@@ -194,7 +197,8 @@
       <ion-col size="6" size-sm="12" size-md="12" *ngIf="story.story_status == 1 && story.request && story.staff_id == authService.staff_id &&
         ['cancelled', 'delivered'].indexOf(story.request.request_status) == -1">
         <ion-button class="invite-btn" (click)="showCandidates()">
-          Invite Candidates
+          <span *ngIf="request && request.request_position_type == 2">Invite Candidates</span>
+          <span *ngIf="request && request.request_position_type == 1">Suggest Candidates</span>
         </ion-button>
       </ion-col>
 

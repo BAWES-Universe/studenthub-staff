@@ -27,25 +27,13 @@
         <ion-label>Stories</ion-label>
       </ion-segment-button>
 
-      <ion-segment-button *ngIf="request && request.request_position_type != 1 && (invitedCandidates.length > 0 || rejectedCandidates.length > 0 || acceptedInvitations.length > 0)" mode="md" value="invited">
-        <ion-label>Invite</ion-label>
+      <ion-segment-button mode="md" value="invited"  *ngIf="request && request.request_position_type == 2">
+        <ion-label>Invited</ion-label>
       </ion-segment-button>
 
-<!--      <ion-segment-button *ngIf="acceptedInvitations.length > 0" mode="md" value="accepted-invitation">-->
-<!--        <ion-label>Accepted Invitation</ion-label>-->
-<!--      </ion-segment-button>-->
-
-      <ion-segment-button *ngIf="request && request.request_position_type == 1" mode="md" value="suggested">
+      <ion-segment-button mode="md" value="suggested">
         <ion-label>Suggested</ion-label>
       </ion-segment-button>
-
-<!--      <ion-segment-button mode="md" value="accepted" *ngIf="acceptedSuggestions.length > 0">-->
-<!--        <ion-label>Accepted</ion-label>-->
-<!--      </ion-segment-button>-->
-<!--      -->
-<!--      <ion-segment-button mode="md" value="rejected" *ngIf="rejectedSuggestions.length > 0">-->
-<!--        <ion-label>Rejected</ion-label>-->
-<!--      </ion-segment-button>-->
 
     </ion-segment>
   </ion-toolbar>
@@ -54,12 +42,10 @@
 
 <ion-content [scrollEvents]="true" (ionScroll)="logScrolling($event)">
 
-  <div *ngIf="segment == 'invited'">
+  <div class="container" *ngIf="segment == 'invited' && request && request.request_position_type == 2">
     <ion-button size="small" [class.selected]="section == 'invited'" (click)="changeSection('invited')">Invited</ion-button>
     <ion-button size="small" [class.selected]="section == 'acpt_inv'" (click)="changeSection('acpt_inv')">Accepted Invite</ion-button>
     <ion-button size="small" [class.selected]="section == 'suggest'" (click)="changeSection('suggest')">Suggested</ion-button>
-    <ion-button size="small" [class.selected]="section == 'acpt_sug'" (click)="changeSection('acpt_sug')">Accepted Sug.</ion-button>
-    <ion-button size="small" [class.selected]="section == 'rej_inv'" (click)="changeSection('rej_inv')">Rejected Sug.</ion-button>
   </div>
 
   <div class="container">
@@ -163,9 +149,6 @@
     </div>
 
     <div *ngIf="segment == 'invited'">
-
-      <ng-container *ngIf="section == 'invited'">
-
         <div *ngIf="invitedCandidates.length > 0">
           <h4 class="txt-suggested-candidates">Invited Candidates <span class="count">({{ invitedCandidates.length }})</span></h4>
 
@@ -185,14 +168,14 @@
 
           <invitation *ngFor="let invitation of acceptedInvitations" (onUpdate)="onInvitationUpdated()" [model]="invitation"></invitation>
         </div>
-      </ng-container>
-      <ng-container *ngIf="section == 'acpt_inv'">
         <div>
           <h4 class="txt-suggested-candidates">Accepted Invitations <span class="count">({{ acceptedInvitations.length }})</span></h4>
           <invitation *ngFor="let invitation of acceptedInvitations" (onUpdate)="onInvitationUpdated()" [model]="invitation"></invitation>
         </div>
-      </ng-container>
-      <ng-container *ngIf="section == 'suggest'">
+    </div>
+
+    <div *ngIf="segment == 'suggested'">
+
         <div>
           <div *ngIf="suggestedSuggestions.length > 0">
             <h4 class="txt-suggested-candidates">Suggested Candidates <span class="count">({{ suggestedSuggestions.length }})</span></h4>
@@ -212,15 +195,6 @@
             <suggestion tappable [routerLink]="'/suggestion-view/' + suggestion.suggestion_uuid" (onUpdate)="onSuggestionUpdate()" *ngFor="let suggestion of acceptedSuggestions" [model]="suggestion"></suggestion>
           </div>
         </div>
-      </ng-container>
-      <ng-container *ngIf="section == 'acpt_sug'">
-          <h4 class="txt-suggested-candidates">Accepted Suggestions <span class="count">({{ acceptedSuggestions.length }})</span></h4>
-          <suggestion tappable [routerLink]="'/suggestion-view/' + suggestion.suggestion_uuid" (onUpdate)="onSuggestionUpdate()" *ngFor="let suggestion of acceptedSuggestions" [model]="suggestion"></suggestion>
-      </ng-container>
-      <ng-container *ngIf="section == 'rej_inv'">
-          <h4 class="txt-suggested-candidates">Rejected Suggestions <span class="count">({{ rejectedSuggestions.length }})</span></h4>
-          <suggestion tappable [routerLink]="'/suggestion-view/' + suggestion.suggestion_uuid" (onUpdate)="onSuggestionUpdate()" *ngFor="let suggestion of rejectedSuggestions" [model]="suggestion"></suggestion>
-      </ng-container>
     </div>
   </div>
 </ion-content>

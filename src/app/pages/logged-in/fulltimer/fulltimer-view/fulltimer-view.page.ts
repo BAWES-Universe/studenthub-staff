@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController, ModalController, NavController } from '@ionic/angular';
+import {AlertController, ModalController, NavController, ToastController} from '@ionic/angular';
 import { ActivatedRoute, Router } from '@angular/router';
 // services
 import { FulltimerService } from 'src/app/providers/logged-in/fulltimer.service';
@@ -33,6 +33,7 @@ export class FulltimerViewPage implements OnInit {
   public fulltimer: Fulltimer;
 
   public loading = false;
+  public suggesting = false;
 
   public notes: Note[] = [];
 
@@ -51,6 +52,7 @@ export class FulltimerViewPage implements OnInit {
     public alertCtrl: AlertController,
     public noteService: NoteService,
     public eventService: EventService,
+    public toastCtrl: ToastController,
   ) { }
 
   ngOnInit() {
@@ -261,7 +263,7 @@ export class FulltimerViewPage implements OnInit {
           text: 'Ok',
           handler: async (data) => {
 
-            //this.loading = true;
+            this.suggesting = true;
 
             const params = {
               request_uuid: this.story.request_uuid,
@@ -272,10 +274,18 @@ export class FulltimerViewPage implements OnInit {
 
             this.suggestionService.create(params).subscribe(async response => {
 
-              this.loading = false;
+              this.suggesting = false;
 
               // On Success
               if (response.operation == 'success') {
+                this.toastCtrl.create({
+                  message: this.authService.errorMessage(response.message),
+                  duration: 2000,
+                  position: 'top',
+                  buttons: ['Okay']
+                }).then(prompt => {
+                  prompt.present();
+                });
                 //this.candidate.invited = response.suggestionCount;
                 this.loadNotes();
               }
@@ -289,7 +299,7 @@ export class FulltimerViewPage implements OnInit {
                 prompt.present();
               }
             }, () => {
-              this.loading = false;
+              this.suggesting = false;
             });
           }
         }

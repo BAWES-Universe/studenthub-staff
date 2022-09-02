@@ -87,6 +87,16 @@ export class SuggestionComponent implements OnInit {
             this.suggestionService.accept(this.model.suggestion_uuid, data.reason).subscribe(async response => {
 
               if (response.operation == 'success') {
+
+                this.toastCtrl.create({
+                  message: this.authService.errorMessage(response.message),
+                  duration: 2000,
+                  position:'top',
+                  buttons: ['Okay']
+                }).then(prompt => {
+                  prompt.present();
+                });
+
                 this.model.suggestion_status = 3;
 
                 this.onUpdate.emit();
@@ -146,6 +156,15 @@ export class SuggestionComponent implements OnInit {
             this.suggestionService.reject(this.model.suggestion_uuid, data.reason).subscribe(async response => {
 
               if (response.operation == 'success') {
+                this.toastCtrl.create({
+                  message: this.authService.errorMessage(response.message),
+                  duration: 2000,
+                  position:'top',
+                  buttons: ['Okay']
+                }).then(prompt => {
+                  prompt.present();
+                });
+
                 this.model.suggestion_status = 2;
 
                 this.onUpdate.emit();

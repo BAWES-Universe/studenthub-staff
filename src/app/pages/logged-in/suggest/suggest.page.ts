@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AlertController, ModalController } from '@ionic/angular';
+import {AlertController, ModalController, ToastController} from '@ionic/angular';
 // models
 import { Candidate } from 'src/app/models/candidate';
 import { Fulltimer } from 'src/app/models/fulltimer';
@@ -37,6 +37,7 @@ export class SuggestPage implements OnInit {
     private fb: FormBuilder,
     public modalCtrl: ModalController,
     public alertCtrl: AlertController,
+    public toastCtrl: ToastController,
     public authService: AuthService,
     public eventService: EventService,
     public suggestionService: SuggestionService,
@@ -100,6 +101,13 @@ export class SuggestPage implements OnInit {
 
       // On Success
       if (response.operation == 'success') {
+        this.toastCtrl.create({
+          message: this.authService.errorMessage(response.message),
+          duration: 2000,
+          position: 'top'
+        }).then(toast => {
+          toast.present();
+        });
         // Close the page
         this.close(true, response.suggestionCount);
       }

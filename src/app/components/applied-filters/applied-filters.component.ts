@@ -240,7 +240,6 @@ export class AppliedFiltersComponent extends BaseWidget {
         }*/
 
         for (let b of this.state.refinements) {
-            console.log(b.attributeName);
             if (b.attributeName == 'candidate_committed') {
                 b = this.committedTransformItems(b);
             }
