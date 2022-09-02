@@ -215,13 +215,11 @@ export class AppliedFiltersComponent extends BaseWidget {
 
     birthTimestampItems(item) {
         const agePipe = new AgePipe();
-
         item.appliedLabel =  item.operator + ' ' + agePipe.transform(item.numericValue);
-
         return item;
     }
 
-    dateTimestampItems(item) { 
+    dateTimestampItems(item) {
 
         const agePipe = new DatePipe('en-US');
 
@@ -242,7 +240,7 @@ export class AppliedFiltersComponent extends BaseWidget {
         }*/
 
         for (let b of this.state.refinements) {
-
+            console.log(b.attributeName);
             if (b.attributeName == 'candidate_committed') {
                 b = this.committedTransformItems(b);
             }
@@ -259,7 +257,7 @@ export class AppliedFiltersComponent extends BaseWidget {
                 b = this.dateTimestampItems(b);
             }
 
-            else if(b.attributeName == 'candidate_birth_timestamp' || b.attributeName == 'candidate_updated_at_timestamp') {
+            else if(b.attributeName == 'candidate_birth_timestamp' || b.attributeName == 'candidate_updated_at_timestamp' || b.attributeName == 'fulltimer_birth_timestamp') {
                 b = this.birthTimestampItems(b);
             }
 
