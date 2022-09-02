@@ -114,7 +114,7 @@ export class StoryViewPage implements OnInit, OnDestroy {
     }
 
     interval(1000).subscribe(() => {
-      if (!this.changeDetector.destroyed) {
+      if (!this.changeDetector) {
         this.changeDetector.detectChanges();
       }
     });
