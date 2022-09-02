@@ -143,6 +143,9 @@ export class StoryViewPage implements OnInit, OnDestroy {
     this.destroyed$.next();
     this.destroyed$.complete();
     this.stopTimer();
+    if (this.internvalSubscribe) {
+      clearInterval(this.internvalSubscribe);
+    }
   }
 
   loadData() {
@@ -157,7 +160,6 @@ export class StoryViewPage implements OnInit, OnDestroy {
       this.loadStoryInvitations();
       this.loadSuggestions();
       this.loadNotes();
-      this.sortNotes();
 
       if (this.story.story_status == 1 && this.story.staff_id == this.authService.staff_id &&
         ['cancelled', 'delivered'].indexOf(this.story.request.request_status) == -1)
