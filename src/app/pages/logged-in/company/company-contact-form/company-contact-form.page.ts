@@ -9,6 +9,7 @@ import { Contact } from 'src/app/models/contact';
 import { CompanyContact } from 'src/app/models/company-contact';
 //validator
 import { CustomValidator } from 'src/app/validators/custom.validator';
+import {AuthService} from "../../../../providers/auth.service";
 
 
 @Component({
@@ -45,7 +46,8 @@ export class CompanyContactFormPage implements OnInit {
     private _fb: FormBuilder,
     private modalCtrl: ModalController,
     private _alertCtrl: AlertController,
-    private eventService: EventService
+    private eventService: EventService,
+    private authService: AuthService
   ) { }
 
   ngOnInit() {
@@ -262,7 +264,7 @@ export class CompanyContactFormPage implements OnInit {
       // On Failure
       if (data.operation == "error") {
         let prompt = await this._alertCtrl.create({
-          message: JSON.stringify(data.message),
+          message: this.authService.errorMessage(data.message),
           buttons: ["Okay"]
         });
         prompt.present();
@@ -309,7 +311,7 @@ export class CompanyContactFormPage implements OnInit {
       // On Failure
       if (jsonResponse.operation == "error") {
         let prompt = await this._alertCtrl.create({
-          message: JSON.stringify(jsonResponse.message),
+          message: this.authService.errorMessage(jsonResponse.message),
           buttons: ["Ok"]
         });
         prompt.present();
