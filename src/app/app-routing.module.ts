@@ -39,7 +39,7 @@ const routes: Routes = [
   {
     path: 'incomplete-candidate-list',
     loadChildren: () => import('./pages/logged-in/candidate/incomplete-candidate-list/incomplete-candidate-list.module').then(m => m.IncompleteCandidateListPageModule),
-    canActivate: [AuthService, StoryGuard],
+    canActivate: [AuthService],
     data: {
       name: 'IncompleteCandidateListPage'
     }
