@@ -42,12 +42,6 @@
 
 <ion-content [scrollEvents]="true" (ionScroll)="logScrolling($event)">
 
-  <div class="container" *ngIf="segment == 'invited' && request && request.request_position_type == 2">
-    <ion-button size="small" [class.selected]="section == 'invited'" (click)="changeSection('invited')">Invited</ion-button>
-    <ion-button size="small" [class.selected]="section == 'acpt_inv'" (click)="changeSection('acpt_inv')">Accepted Invite</ion-button>
-    <ion-button size="small" [class.selected]="section == 'suggest'" (click)="changeSection('suggest')">Suggested</ion-button>
-  </div>
-
   <div class="container">
 
     <!--
@@ -149,6 +143,7 @@
     </div>
 
     <div *ngIf="segment == 'invited'">
+
         <div *ngIf="invitedCandidates.length > 0">
           <h4 class="txt-suggested-candidates">Invited Candidates <span class="count">({{ invitedCandidates.length }})</span></h4>
 
@@ -168,10 +163,7 @@
 
           <invitation *ngFor="let invitation of acceptedInvitations" (onUpdate)="onInvitationUpdated()" [model]="invitation"></invitation>
         </div>
-        <div>
-          <h4 class="txt-suggested-candidates">Accepted Invitations <span class="count">({{ acceptedInvitations.length }})</span></h4>
-          <invitation *ngFor="let invitation of acceptedInvitations" (onUpdate)="onInvitationUpdated()" [model]="invitation"></invitation>
-        </div>
+        
     </div>
 
     <div *ngIf="segment == 'suggested'">
