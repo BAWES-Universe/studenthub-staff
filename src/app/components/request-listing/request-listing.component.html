@@ -25,15 +25,16 @@
             </ion-badge>
           </ng-container>
 
-          <ion-badge *ngFor="let staff of request.storyOwners">
-            {{ staff.staff_name }}
-          </ion-badge>
-
-          <ion-badge>
+          <ion-badge class="status">
             <span *ngIf="request.request_status == 'started'">Started</span>
+            <span *ngIf="request.request_status == 'delivered'">Delivered</span>
+            <span *ngIf="request.request_status == 'cancelled'">Cancelled</span>
             <span *ngIf="request.request_status == 're_work'">Re Work</span>
+            <span *ngIf="request.request_status == 'pending'">Pending</span>
           </ion-badge>
         </div>
+
+        <p *ngFor="let staff of request.storyOwners" class="working">{{ staff.staff_name }} is working on it</p>
       </div>
 
       <div *ngIf="request" class="content-footer ion-text-center" [class.background-grey]="active" [class.background-red]="!active" [class.background-green]="request.request_status == 'delivered'">
