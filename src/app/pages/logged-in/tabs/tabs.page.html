@@ -30,12 +30,12 @@
         <ion-label>{{ 'Feedback Backlog' | translate }}</ion-label>
       </ion-tab-button>-->
 
-      <ion-tab-button tab="candidate-search" layout="icon-start" *ngIf="this.authService.story">
+      <ion-tab-button tab="candidate-search" layout="icon-start">
         <ion-icon name="person-outline"></ion-icon>
         <ion-label>{{ 'Part-timers' | translate }}</ion-label>
       </ion-tab-button>
 
-      <ion-tab-button tab="fulltimer-search" layout="icon-start" *ngIf="this.authService.story">
+      <ion-tab-button tab="fulltimer-search" layout="icon-start">
         <ion-icon name="person-outline"></ion-icon>
         <ion-label>{{ 'Full-timers' | translate }}</ion-label>
       </ion-tab-button>
@@ -65,11 +65,11 @@
         <ion-badge>{{ totalRequest }}</ion-badge>
       </ion-tab-button>
 
-      <ion-tab-button (click)="showCandidateActions()" *ngIf="this.authService.story">
+      <ion-tab-button (click)="showCandidateActions()">
         <ion-icon name="person-outline"></ion-icon>
         <ion-label>{{ 'Candidates' | translate }}</ion-label>
       </ion-tab-button>
-      
+
       <ion-tab-button tab="company-list">
         <ion-icon name="earth-outline"></ion-icon>
         <ion-label>{{ 'Clients' | translate }}</ion-label>

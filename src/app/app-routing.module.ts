@@ -31,7 +31,7 @@ const routes: Routes = [
   {
     path: 'candidate-list',
     loadChildren: () => import('./pages/logged-in/candidate/candidate-list/candidate-list.module').then(m => m.CandidateListPageModule),
-    canActivate: [AuthService, StoryGuard],
+    canActivate: [AuthService],
     data: {
       name: 'CandidateListPage'
     }
