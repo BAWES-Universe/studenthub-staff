@@ -293,15 +293,15 @@ export class CompanyRequestDashboardPage implements OnInit {
    */
   doInfiniteStories(event) {
 
-    this.currentPage++;
+    this.storyCurrentPage++;
 
     let param = this.urlParams();
     param += '&expand=staff,request,request.company,latestStoryActivity';
 
-    this.storyService.list(this.currentPage, param).subscribe(response => {
+    this.storyService.list(this.storyCurrentPage, param).subscribe(response => {
 
-      this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
-      this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
+      this.storyPageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
+      this.storyCurrentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
 
       this.stories = this.stories.concat(response.body);
     },
