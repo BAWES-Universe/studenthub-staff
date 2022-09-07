@@ -24,6 +24,7 @@ import {StoryCloseConfirmationComponent} from './story-close-confirmation.compon
 import {NoteService} from '../../../../providers/logged-in/note.service';
 import {Note} from '../../../../models/note';
 import { StoryDeliveredComponent } from './story-delivered.component';
+import { StaffPage } from '../../pickers/staff/staff.page';
 
 
 export interface TimeSpan {
@@ -81,7 +82,7 @@ export class StoryViewPage implements OnInit, OnDestroy {
     public suggestionService: SuggestionService,
     private storyService: StoryService,
     public navCtrl: NavController,
-    private _modalCtrl: ModalController,
+    private modalCtrl: ModalController,
     private invitationService: InvitationService,
     public translateService: TranslateLabelService,
     public authService: AuthService,
@@ -410,7 +411,7 @@ export class StoryViewPage implements OnInit, OnDestroy {
    */
   async showStoryDelivered(storyActivity, totalDelivered, total, nextStory = null) {
 
-    const modal = await this._modalCtrl.create({
+    const modal = await this.modalCtrl.create({
       component: StoryDeliveredComponent,
       componentProps: {
         totalDelivered,
@@ -445,7 +446,7 @@ export class StoryViewPage implements OnInit, OnDestroy {
    */
   async closeStoryConfirmation() {
 
-    const modal = await this._modalCtrl.create({
+    const modal = await this.modalCtrl.create({
       component: StoryCloseConfirmationComponent,
       cssClass: 'modal-request-filter close-story',
     });
@@ -571,6 +572,51 @@ export class StoryViewPage implements OnInit, OnDestroy {
       ]
     });
     this.alertConfirmReload.present();
+  }
+
+  
+  /**
+   * open popup to select consultants
+   */
+   async assign() {
+
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
+    const modal = await this.modalCtrl.create({
+      component: StaffPage,
+      componentProps: {
+        role: 2 //only consultants
+      }
+    });
+    modal.present();
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
+
+    const { data } = await modal.onWillDismiss();
+
+    if (data && data.staff_id) {
+
+      this.storyService.assign(this.story_uuid, data.staff_id).subscribe(async res => {
+
+        if (res.operation == 'success') {
+          this.story.staff = res.staff;
+        }
+        else 
+        {
+          this.alertCtrl.create({
+            message: this.translateService.errorMessage(res.message),
+            buttons: ['Okay']
+          }).then(prompt => {
+            prompt.present();
+          });
+        }
+      });
+    }
   }
 
   sortNotes(){

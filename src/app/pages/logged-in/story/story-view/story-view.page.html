@@ -210,6 +210,12 @@
         </ion-button>
       </ion-col>
 
+      <ion-col *ngIf="authService.role == 1 && story && !story.staff">
+        <ion-button (click)="assign()" fill="outline" class="btn-assign">
+          Assign staff
+        </ion-button>
+      </ion-col>
+
       <ion-col *ngIf="story.request && ['cancelled', 'delivered'].indexOf(story.request.request_status) == -1 &&
         (
           story.story_status == 0 ||
@@ -245,6 +251,8 @@
         </ion-button>
 
       </ion-col>
+
+
     </ion-row>
   </ion-grid>
   <div  class="container">

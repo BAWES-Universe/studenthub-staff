@@ -71,6 +71,19 @@ export class StoryService {
   }
 
   /**
+   * assign staff to request
+   * @param request_uuid
+   * @param staff_id
+   * @returns
+   */
+  assign(request_uuid, staff_id): Observable<any> {
+    const url = `${this.storyEndpoint}/assign/${request_uuid}`;
+    return this._authhttp.patch(url, {
+      staff_id: staff_id
+    });
+  }
+
+  /**
    * check if request updated
    * @param story_uuid
    */
