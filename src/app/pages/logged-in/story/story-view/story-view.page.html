@@ -210,7 +210,8 @@
         </ion-button>
       </ion-col>
 
-      <ion-col *ngIf="authService.role == 1 && story && !story.staff">
+      <!-- authService.role == 1 &&  -->
+      <ion-col *ngIf="story && !story.staff">
         <ion-button (click)="assign()" fill="outline" class="btn-assign">
           Assign staff
         </ion-button>

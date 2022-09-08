@@ -24,7 +24,7 @@ export class CompanyRequestDashboardPage implements OnInit {
 
   public borderLimit = false;
 
-  public activeRequests: Request[] = [];
+  public requests: Request[] = [];
 
   public scrollPosition = 0;
 
@@ -158,8 +158,8 @@ export class CompanyRequestDashboardPage implements OnInit {
 
     let param = this.urlParams();
 
-    this.requestService.listActiveWithPages(1, param).subscribe(response => {
-      this.activeRequests = response.body;
+    this.requestService.listWithPagination(1, param).subscribe(response => {
+      this.requests = response.body;
       this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
       this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
       this.total = parseInt(response.headers.get('X-Pagination-Total-Count'));
@@ -195,8 +195,8 @@ export class CompanyRequestDashboardPage implements OnInit {
 
     this.currentPage++;
 
-    this.requestService.listActiveWithPages(this.currentPage, param).subscribe(response => {
-      this.activeRequests = this.activeRequests.concat(response.body);
+    this.requestService.listWithPagination(this.currentPage, param).subscribe(response => {
+      this.requests = this.requests.concat(response.body);
       this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
       this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
       this.total = parseInt(response.headers.get('X-Pagination-Total-Count'));
@@ -250,7 +250,6 @@ export class CompanyRequestDashboardPage implements OnInit {
     if (this.filters.storyStatus) {
       urlParams += '&story_status=' + this.filters.storyStatus;
     }
-
 
     return urlParams;
   }
