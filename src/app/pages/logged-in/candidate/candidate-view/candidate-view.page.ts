@@ -70,7 +70,6 @@ export class CandidateViewPage implements OnInit {
   public unapproving = false;
   public downloading = false;
   public inviting = false;
-  public invitation: Invitation = [];
 
   public processing = null;
 
@@ -1278,10 +1277,7 @@ export class CandidateViewPage implements OnInit {
     this.invitationService.isAlreadyInvited(this.candidate_id, this.story).subscribe(res => {
       if (this.candidate) {
         this.candidate.isAlreadyInvited = res.isAlreadyInvited;
-        this.invitation = res.model;
       }
-      // console.log(this.candidate);
-      console.log(this.invitation);
     });
   }
 
