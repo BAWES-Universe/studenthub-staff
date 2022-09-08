@@ -183,6 +183,7 @@ export class CandidateViewPage implements OnInit {
       this.loadingSalaryTransfers = false;
 
       this.salaryTransfers = response;
+      
     }, () => {
       this.loadingSalaryTransfers = false;
     });

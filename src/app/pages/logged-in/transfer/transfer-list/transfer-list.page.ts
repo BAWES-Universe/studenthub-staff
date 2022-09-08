@@ -189,6 +189,19 @@ export class TransferListPage implements OnInit {
     });
   }
 
+  /**
+   * Make date readable by Safari
+   * @param date
+   */
+  toDate(date) {
+    if (!date)
+      return null;
+
+    if (date) {
+      return new Date(date.replace(/-/g, '/'));
+    }
+  }
+
   logScrolling(e) {
     this.borderLimit = (e.detail.scrollTop > 20);
   }

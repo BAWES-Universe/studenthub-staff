@@ -27,6 +27,11 @@
         <ion-label>
           <h5>KWD {{ transfer.company_total | number:'1.3-3' }}</h5>
           <p>Transfer #{{ transfer.transfer_id}}</p>
+        
+          <p class="txt-time">
+            {{ transfer.transfer_created_at | timeAgo }} on
+            {{ toDate(transfer.transfer_created_at) | date: 'MMM d, y' }}
+          </p>
         </ion-label>
 
         <ion-badge slot="end" class="status status_{{transfer.transfer_status}}" *ngIf="transfer.transfer_status==10"> Draft </ion-badge>

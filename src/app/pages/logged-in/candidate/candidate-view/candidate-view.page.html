@@ -227,6 +227,11 @@
         <ion-icon class="icon-salary" src="assets/images/icon-bank.svg"></ion-icon> Salary Transfers
       </h5>
 
+      <p *ngIf="salaryTransfers.length == 0">No Salary transfered yet</p>
+
+      <transfer [transferCandidate]="salary" *ngFor="let salary of salaryTransfers | slice:0:3"></transfer>
+
+      <!--
       <ion-item class="item-salary" *ngFor="let salary of salaryTransfers | slice:0:3">
         <div tabindex="0"></div>
         <ion-label>
@@ -237,7 +242,7 @@
         <ion-badge slot="end" *ngIf="salary.status == 'Paid'">Paid</ion-badge>
         <ion-badge class="badge-unpaid" slot="end" *ngIf="salary.status =='Unpaid'">In Progress</ion-badge>
 
-      </ion-item>
+      </ion-item>-->
 
       <ion-button class="btn-view-notes" *ngIf="salaryTransfers.length > 3" (click)="openSalary()">
         <span>View all {{ salaryTransfers.length }} Transfers</span>
