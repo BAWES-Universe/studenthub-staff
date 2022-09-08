@@ -71,6 +71,18 @@ export class StoryService {
   }
 
   /**
+   * detail
+   * @param storyUuid
+   */
+  create(params): Observable<any>{
+    const url = `${this.storyEndpoint}/create-story`;
+    return this._authhttp.post(url, {
+      request_uuid: params.request_uuid,
+      employee: params.employee
+    });
+  }
+
+  /**
    * assign staff to request
    * @param request_uuid
    * @param staff_id
