@@ -243,7 +243,8 @@ export class StoryViewPage implements OnInit, OnDestroy {
       // On Success
       if (response.operation == 'success') {
 
-        this.story.story_status = status;
+        // incase of rework set it to 1
+        this.story.story_status = (status == 7) ? 1 : status;
 
         this.eventService.storyStatusUpdated$.next({
           story: this.story
@@ -574,7 +575,7 @@ export class StoryViewPage implements OnInit, OnDestroy {
     this.alertConfirmReload.present();
   }
 
-  
+
   /**
    * open popup to select consultants
    */
@@ -606,7 +607,7 @@ export class StoryViewPage implements OnInit, OnDestroy {
         if (res.operation == 'success') {
           this.story.staff = res.staff;
         }
-        else 
+        else
         {
           this.alertCtrl.create({
             message: this.translateService.errorMessage(res.message),

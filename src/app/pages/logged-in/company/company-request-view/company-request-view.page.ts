@@ -590,6 +590,8 @@ export class CompanyRequestViewPage implements OnInit, OnDestroy {
         this.update();
       } else if(e.data.action == 'cancel') {
         this.cancelledRequest(e, this.request);
+      } else if(e.data.action == 'rework') {
+        this.statusUpdate(null, 're_work');
       }
     });
   }

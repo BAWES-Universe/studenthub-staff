@@ -8,8 +8,9 @@ import { PopoverController } from '@ionic/angular';
     <ion-item *ngIf="['delivered', 'cancelled'].indexOf(request.request_status) == -1" lines="none" tappable (click)="dismiss('update')">
         <div tabindex="0"></div> Update
     </ion-item>
-    
+
     <ion-item lines="none" tappable (click)="dismiss('cancel')"><div tabindex="0"></div>Cancel</ion-item>
+    <ion-item *ngIf="request.request_status == 'delivered'" lines="none" tappable (click)="dismiss('rework')"><div tabindex="0"></div>Set as Rework</ion-item>
   `,
 })
 export class RequestOptionPage implements OnInit {
