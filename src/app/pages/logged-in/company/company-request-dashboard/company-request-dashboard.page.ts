@@ -379,6 +379,8 @@ export class CompanyRequestDashboardPage implements OnInit {
 
   getStoryStatus(status) {
     switch(status) {
+      case '0':
+        return 'Pending';
       case '1':
         return 'Started';
       case '2':
@@ -391,6 +393,8 @@ export class CompanyRequestDashboardPage implements OnInit {
         return 'Accepted';
       case '6':
         return 'Cancelled';
+      case '7':
+        return 'Re-Work';  
       case '9':
         return 'Unstarted';
       case '10':

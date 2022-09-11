@@ -34,7 +34,13 @@
     <div *ngIf="filters.requestStatus || filters.storyStatus || filters.position_type || filters.startDate || filters.endDate || filters.story_position_type" class="filter-tag">
       
       <ng-container *ngIf="segment == 'request'">
-        <ion-badge *ngIf="filters.requestStatus">{{this.filters.requestStatus}}</ion-badge>
+        
+        <ng-container [ngSwitch]="filters.requestStatus">
+          <ion-badge *ngSwitchCase="'re_work'">Re-Work</ion-badge>
+          <ion-badge *ngSwitchCase="'finished_by_recruitment'">Finished</ion-badge>
+          <ion-badge *ngSwitchDefault>{{ filters.requestStatus }}</ion-badge>
+       </ng-container>
+       
         <ion-badge *ngIf="filters.position_type">{{getPosition(this.filters.position_type)}}</ion-badge>
         <ion-badge *ngIf="filters.startDate">{{getDate(this.filters.startDate)}}</ion-badge>
         <ion-badge *ngIf="filters.endDate">{{getDate(this.filters.endDate)}}</ion-badge>

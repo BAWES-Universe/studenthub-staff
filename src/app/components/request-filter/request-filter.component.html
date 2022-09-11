@@ -13,6 +13,7 @@
     <ion-button class="btn-option" (click)="filterByStatus($event, null)" [class.active]="filters.requestStatus == null">All</ion-button>
     <ion-button class="btn-option" (click)="filterByStatus($event, 'latest')" [class.active]="filters.requestStatus == 'latest'">latest</ion-button>
     <ion-button class="btn-option" (click)="filterByStatus($event, 'pending')" [class.active]="filters.requestStatus == 'pending'">Pending</ion-button>
+    <ion-button class="btn-option" (click)="filterByStatus($event, 're_work')" [class.active]="filters.requestStatus == 're_work'">Re-work</ion-button>
     <ion-button class="btn-option" (click)="filterByStatus($event, 'started')" [class.active]="filters.requestStatus == 'started'">Started</ion-button>
     <ion-button class="btn-option" (click)="filterByStatus($event, 'delivered')" [class.active]="filters.requestStatus == 'delivered'">Delivered</ion-button>
     <ion-button class="btn-option" (click)="filterByStatus($event, 'cancelled')" [class.active]="filters.requestStatus == 'cancelled'">Cancelled</ion-button>
@@ -31,6 +32,9 @@
     <ion-button class="btn-option" (click)="filterByStoryStatus($event, '10')" [class.active]="filters.storyStatus == '10'">latest</ion-button>
     <ion-button class="btn-option" (click)="filterByStoryStatus($event, '9')" [class.active]="filters.storyStatus == '9'">Unstarted</ion-button>
     <ion-button class="btn-option" (click)="filterByStoryStatus($event, '1')" [class.active]="filters.storyStatus == '1'">Started</ion-button>
+    <!--
+    <ion-button class="btn-option" (click)="filterByStoryStatus($event, '7')" [class.active]="filters.storyStatus == '7'">Re-Work</ion-button>
+-->
     <ion-button class="btn-option" (click)="filterByStoryStatus($event, '2')" [class.active]="filters.storyStatus == '2'">Finihsed</ion-button>
     <ion-button class="btn-option" (click)="filterByStoryStatus($event, '3')" [class.active]="filters.storyStatus == '3'">Delivered</ion-button>
     <ion-button class="btn-option" (click)="filterByStoryStatus($event, '4')" [class.active]="filters.storyStatus == '4'">Rejected</ion-button>

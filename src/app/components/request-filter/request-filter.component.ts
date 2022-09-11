@@ -9,6 +9,7 @@ import { ModalController } from '@ionic/angular';
 export class RequestFilterComponent implements OnInit {
 
   @Input() tab = null;
+  
   public filters = {
     requestStatus: null,
     storyStatus: null,
