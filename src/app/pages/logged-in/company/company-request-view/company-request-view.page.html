@@ -217,17 +217,18 @@
           Post update
         </ion-button>
       </ion-col>
-      <ion-col size-xs="6" size-md="6" size-lg="6" *ngIf="(request.request_status == 'started' || request.request_status == 'pending' || request.request_status == 're_work' ) &&  suggestedSuggestions.length > 0" >
+
+      <ion-col size-xs="6" size-md="6" size-lg="6" *ngIf="(request.request_status == 'finished_by_recruitment' )" >
         <ion-button class="btn-update" (click)="deliveredRequest($event, request)">
           Mark delivered
         </ion-button>
       </ion-col>
-      <ion-col  size-xs="6" size-md="6" size-lg="6" *ngIf="(request.request_status == 'started' && request.request_status != 'delivered')" >
+      <ion-col  size-xs="6" size-md="6" size-lg="6" *ngIf="(request.request_status != 'delivered')" >
         <ion-button  class="btn-update" (click)="statusUpdate($event, 'finished_by_recruitment')">
           Finished by recruitment
         </ion-button>
       </ion-col>
-      <ion-col size-xs="6" size-md="6" size-lg="6" *ngIf="request.request_status == 'finished_by_recruitment'" >
+      <ion-col size-xs="6" size-md="6" size-lg="6" *ngIf="request.request_status == 'finished_by_recruitment' || request.request_status == 'delivered'" >
         <ion-button  class="btn-update" (click)="statusUpdate($event, 're_work')">
           Re-work
         </ion-button>

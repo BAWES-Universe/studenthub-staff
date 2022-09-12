@@ -47,7 +47,7 @@ export class CompanyRequestViewPage implements OnInit, OnDestroy {
   public requestActivities: Note[] = [];
 
   public allInvitedCandidates = [];
-  
+
   public allSuggestions = [];
 
   public suggestedSuggestions = [];
@@ -75,7 +75,7 @@ export class CompanyRequestViewPage implements OnInit, OnDestroy {
 
   public activityExpanded: boolean = false;
 
-  public alertRequestUpdated: boolean = false; 
+  public alertRequestUpdated: boolean = false;
 
   public internvalSubscribe;
 
@@ -114,6 +114,9 @@ export class CompanyRequestViewPage implements OnInit, OnDestroy {
     const model = window.history.state.model;
 
     this.loadDetail();
+    this.loadRequestActivities();
+    this.loadSuggestions();
+    this.loadInvitations();
 
     this.eventService.companyRequestUpdate$.subscribe((data: any) => {
       if (data && data.request_uuid == this.request_uuid) {
@@ -160,10 +163,10 @@ export class CompanyRequestViewPage implements OnInit, OnDestroy {
       this.loading = true;
 
     this.requestService.view(this.request_uuid).subscribe(data => {
-      
-      //hide update alert 
 
-      this.alertRequestUpdated = false; 
+      //hide update alert
+
+      this.alertRequestUpdated = false;
 
       this.request = data;
 
@@ -176,10 +179,6 @@ export class CompanyRequestViewPage implements OnInit, OnDestroy {
           }
         });
       }
-
-      this.loadRequestActivities();
-      this.loadSuggestions();
-      this.loadInvitations();
     }, () => {
     }, () => {
       this.loading = false;
@@ -274,7 +273,7 @@ export class CompanyRequestViewPage implements OnInit, OnDestroy {
 
     this.suggestionService.listAll(params).subscribe(data => {
 
-      this.allSuggestions = data; 
+      this.allSuggestions = data;
 
       this.suggestedSuggestions = [];
 
