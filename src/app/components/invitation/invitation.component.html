@@ -65,11 +65,7 @@
 
   <!-- move to suggestion if not suggested and accepted -->
   <ion-button [disabled]="loading ||
-    (
-      !model.invitation_created_by_company && (
-        !model.story || authService.staff_id != model.story.staff_id
-      )
-    )"
+    (!model.invitation_created_by_company && !model.story)"
     *ngIf="!model.is_suggested && model.invitation_status == 3" class="btn-suggestion"
     (click)="suggest($event)">
     <span *ngIf="!loading">Suggest</span>
