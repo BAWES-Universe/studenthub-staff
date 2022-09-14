@@ -507,6 +507,14 @@ const routes: Routes = [
     }
   },
   {
+    path: 'candidate-assigned-history',
+    canActivate: [AuthService],
+    loadChildren: () => import('./pages/logged-in/candidate/candidate-assigned-history/candidate-assigned-history.module').then( m => m.CandidateAssignedHistoryPageModule),
+    data: {
+      name: 'CandidateAssignedHistoryPage'
+    }
+  },
+  {
     path: 'app-error',
     loadChildren: () => import('./pages/errors/app-error/app-error.module').then( m => m.AppErrorPageModule)
   },

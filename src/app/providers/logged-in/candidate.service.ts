@@ -89,6 +89,15 @@ export class CandidateService {
   }
 
   /**
+   * List of all candidates
+   * @returns {Observable<any>}
+   */
+  export(search: string, page: number = 1, fileName= 'candidate-work-history.xlsx'): Observable<any> {
+    const url = this._candidateEndpoint + '/export-assigned-history?page=' + page + search;
+    return this._authhttp.excelget(url, fileName);
+  }
+
+  /**
    * List of all candidates asigned to store
    * @returns {Observable<any>}
    */
@@ -392,5 +401,14 @@ export class CandidateService {
     return this._authhttp.patch(url, {
       date: civil
     });
+  }
+
+  /**
+   * List of all candidates
+   * @returns {Observable<any>}
+   */
+  listAssignHistoryList(search: string, page: number): Observable<any> {
+    const url = this._candidateEndpoint + '/assigned-history-list?page=' + page + search + '&expand=store,company,candidate';
+    return this._authhttp.getRaw(url);
   }
 }

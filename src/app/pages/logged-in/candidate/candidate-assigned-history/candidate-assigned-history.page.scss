@@ -1,0 +1,88 @@
+ion-content {
+  --padding-start: 20px;
+  --padding-end: 20px;
+}
+
+ion-list {
+  background: transparent;
+}
+
+ion-checkbox {
+  display: block;
+  position: relative;
+}
+
+ion-badge {
+  font-size: 9px;
+  margin-right: 12px;
+}
+
+.nationality1 {
+  background: url('src/assets/images/icon-earth.svg') no-repeat 0 0px;
+}
+
+ion-card {
+  margin: 0 10px 13.5px 10px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+
+  ion-card-title {
+    text-transform: capitalize;
+  }
+
+  ion-avatar,
+  ion-thubmnail {
+    width: 48px;
+    height: 48px;
+    flex-grow: 0;
+    border-radius: 44px;
+    background-color: #eeeef0;
+    margin-inline-end: 12px;
+  }
+
+  ion-label {
+    margin-top: 14px;
+    margin-bottom: 14px;
+  }
+
+  h2 {
+    height: 24px;
+    align-self: stretch;
+    flex-grow: 0;
+    font-family: Inter;
+    font-size: 16px;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.5;
+    letter-spacing: normal;
+    color: #23233d;
+    margin-bottom: 4px;
+  }
+
+  p {
+    height: 20px;
+    align-self: stretch;
+    flex-grow: 0;
+    font-family: Inter;
+    font-size: 14px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.43;
+    letter-spacing: normal;
+    color: #68687a;
+  }
+
+  .sep {
+    color: #c5c5cc;
+  }
+}
+.verified{
+  position: absolute;
+  top: 3px;
+}
+.candidate_name {
+  position:relative;
+}
