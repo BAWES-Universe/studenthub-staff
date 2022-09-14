@@ -43,7 +43,6 @@ export class CandidateAssignedHistoryPage implements OnInit {
       phone: null,
       start_date: null,
       end_date: null,
-      type: null,
       page: 1
     };
 
@@ -127,9 +126,6 @@ export class CandidateAssignedHistoryPage implements OnInit {
       urlParams += '&end_date=' + date.getUTCFullYear() + '-' + month + '-' + day;
     }
 
-    if (this.filters.type) {
-      urlParams += '&type=' + this.filters.type;
-    }
     if (this.filters.page) {
       urlParams += '&export_page=' + this.filters.page;
     }
@@ -249,7 +245,6 @@ export class CandidateAssignedHistoryPage implements OnInit {
               this.exporting = false;
             }, () => {
               this.exporting = false;
-              this.deselect();
             });
           }
         },
