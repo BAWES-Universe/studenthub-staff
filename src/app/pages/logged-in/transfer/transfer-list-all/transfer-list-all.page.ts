@@ -20,11 +20,13 @@ export class TransferListAllPage implements OnInit {
   public borderLimit: boolean = false;
 
   public loading: boolean = false;
+  public downloading: boolean = false;
   public loadingMore: boolean = false;
   public pageCount;
   public currentPage;
   public start_date; // max date
   public end_date; // max date
+  public type; // max date
 
   constructor(
     public router: Router,
@@ -81,6 +83,13 @@ export class TransferListAllPage implements OnInit {
     this.loadData(1);
   }
 
+  export() {
+    this.downloading = true;
+    this.transferService.exportCompanyTransfer(this.getUrlParams()).subscribe(data => {
+      this.downloading = false;
+    });
+  }
+
   getUrlParams() {
     let urlParams = 'expand=transferCandidates,transferCandidates.candidate,invoices,createdBy,updatedBy';
     if (this.start_date) {
@@ -95,6 +104,10 @@ export class TransferListAllPage implements OnInit {
       const month = (date.getMonth() + 1).toString().padStart(2, '0');
       const day   = date.getDate().toString().padStart(2, '0');
       urlParams += '&end_date=' + date.getUTCFullYear() + '-' + month + '-' + day;
+    }
+
+    if (this.type) {
+      urlParams += `&transfer_status=${this.type}`;
     }
 
     return urlParams;

@@ -127,6 +127,14 @@ export class TransferService {
   }
 
   /**
+   * download transfer Template
+   */
+  exportCompanyTransfer(param: any): Observable<any> {
+    const url = `${this._transferEndpoint}/export-companies-transfer?${param}`;
+    return this._authhttp.excelget(url, `transfer-list.xlsx`);
+  }
+
+  /**
    * upload excel file to create new transfer
    */
   uploadTransferExcel(file: string, start_date, end_date, company_id): Observable<any> {
