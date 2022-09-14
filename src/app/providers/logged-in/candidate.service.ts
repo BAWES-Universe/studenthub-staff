@@ -92,7 +92,7 @@ export class CandidateService {
    * List of all candidates
    * @returns {Observable<any>}
    */
-  export(search: string, page: number = 1, fileName= 'candidate-work-history.xlsx'): Observable<any> {
+  exportAssigned(search: string, page: number = 1, fileName= 'candidate-work-history.xlsx'): Observable<any> {
     const url = this._candidateEndpoint + '/export-assigned-history?page=' + page + search;
     return this._authhttp.excelget(url, fileName);
   }

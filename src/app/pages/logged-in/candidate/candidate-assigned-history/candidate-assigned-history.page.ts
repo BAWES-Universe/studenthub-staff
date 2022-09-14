@@ -142,7 +142,6 @@ export class CandidateAssignedHistoryPage implements OnInit {
       name: null,
       email: null,
       phone: null,
-      type: null,
       page: 1
     };
     this.loadData(1); // reload all result
@@ -239,7 +238,7 @@ export class CandidateAssignedHistoryPage implements OnInit {
           handler: async () => {
             this.exporting = true;
             const search = this.urlParams();
-            this.candidateService.export(search).subscribe(response => {
+            this.candidateService.exportAssigned(search).subscribe(response => {
               this.exporting = false;
             }, (err) => {
               this.exporting = false;
