@@ -214,12 +214,13 @@
 <ion-footer *ngIf="request && (request.request_status == 'started' || request.request_status == 'pending' || request.request_status == 'finished_by_recruitment' || request.request_status == 're_work')">
   <ion-grid class="container">
     <ion-row>
-      <ion-col size-xs="6" size-md="6" size-lg="6">
-        <ion-button *ngIf="segment == 'details' && request.request_status != 'finished_by_recruitment' " class="btn-update" (click)="update()">
+      <ion-col size-xs="6" size-md="6" size-lg="6" *ngIf="segment == 'details' && request.request_status != 'finished_by_recruitment' " >
+        <ion-button class="btn-update" (click)="update()">
           Edit Request
         </ion-button>
-
-        <ion-button *ngIf="segment == 'activities'" class="btn-post-update" (click)="showUpdateAlert()">
+      </ion-col>
+      <ion-col size-xs="6" size-md="6" size-lg="6" *ngIf="segment == 'activities'">
+        <ion-button class="btn-post-update" (click)="showUpdateAlert()">
           Post update
         </ion-button>
       </ion-col>
@@ -229,7 +230,7 @@
           Mark delivered
         </ion-button>
       </ion-col>
-      <ion-col  size-xs="6" size-md="6" size-lg="6" *ngIf="(request.request_status != 'delivered')" >
+      <ion-col  size-xs="6" size-md="6" size-lg="6" *ngIf="(request.request_status != 'delivered' && request.request_status != 'finished_by_recruitment')" >
         <ion-button  class="btn-update" (click)="statusUpdate($event, 'finished_by_recruitment')">
           Finished by recruitment
         </ion-button>
