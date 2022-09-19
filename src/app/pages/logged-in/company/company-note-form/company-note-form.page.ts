@@ -157,7 +157,7 @@ export class CompanyNoteFormPage implements OnInit {
       if(o) {
         o.dismiss({ refresh: false });
       }
-    }); 
+    });
   }
 
   /**
@@ -256,7 +256,7 @@ export class CompanyNoteFormPage implements OnInit {
         return null;
       }
 
-      if (!this.form.controls.company_id.value) {
+      if (!this.form.controls.company_id.value && e.data && e.data.company) {
         this.form.controls.company_name.setValue(e.data.company.company_name);
         this.form.controls.company_id.setValue(e.data.company.company_id);
       }

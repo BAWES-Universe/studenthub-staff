@@ -63,7 +63,7 @@
 
       <ion-grid>
         <ion-row>
-          <ion-col *ngIf="companyContact.contact_position" size-lg="4" size-md="4" size-sm="6" size-xs="12" class="ion-align-self-center">
+          <ion-col *ngIf="companyContact && companyContact.contact_position" size-lg="4" size-md="4" size-sm="6" size-xs="12" class="ion-align-self-center">
             Position<br /> <b>{{ companyContact.contact_position }}</b>
           </ion-col>
 

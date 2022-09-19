@@ -137,7 +137,7 @@
       </ng-container>
     </div>
 
-    <div *ngIf="segment == 'stories' && request.stories">
+    <div *ngIf="segment == 'stories' && request && request.stories">
 
       <h2>Stories <span class="count">({{ request.stories.length}})</span></h2>
 
