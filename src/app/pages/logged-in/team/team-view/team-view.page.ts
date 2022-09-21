@@ -24,7 +24,7 @@ import {Story} from "../../../../models/request";
 export class TeamViewPage implements OnInit {
 
   public borderLimit = false;
-
+w
   public staff_id: any;
   public staff: Staff;
   public loading = false;
