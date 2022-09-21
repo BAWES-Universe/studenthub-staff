@@ -74,3 +74,19 @@ export class Candidate {
     notes: Note[];
     pendingField: any[];
 }
+export class CandidateWorkingHour {
+  candidate_working_hour_uuid: string;
+  candidate_id: number;
+  store_id: number;
+  date: string;
+  start_time: string;
+  end_time: string;
+  total_time: number;
+  start_location_lat: string;
+  start_location_long: string;
+  end_location_lat: string;
+  end_location_long: string;
+  created_at: string;
+  updated_at: string;
+  store:Store;
+}

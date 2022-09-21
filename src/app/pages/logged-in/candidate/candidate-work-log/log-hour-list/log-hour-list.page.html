@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{"Time Log" | translate}}  | {{totalHours | timeSpent}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content [scrollEvents]="true" (ionScroll)="logScrolling($event)" [attr.dir]="translateService.direction()">
+
+  <ion-progress-bar *ngIf="loading" type="indeterminate"></ion-progress-bar>
+
+  <div class="max-width">
+    <ion-list *ngIf="candidateWorkingHourData">
+      <ion-item *ngFor="let hours of candidateWorkingHourData">
+          <ion-label>
+            <p>From: {{hours.start_time}}</p>
+            <p>Till : {{hours.end_time}}</p>
+            <p>Total : {{hours.total_time | timeSpent}}</p>
+            <p>Store : {{hours.store.store_name}} @ {{hours.store.company.company_common_name_en}}</p>
+          </ion-label>
+      </ion-item>
+    </ion-list>
+    <p *ngIf="!candidateWorkingHourData">No record found</p>
+
+    <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
+      <ion-infinite-scroll-content>
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+  </div>
+</ion-content>

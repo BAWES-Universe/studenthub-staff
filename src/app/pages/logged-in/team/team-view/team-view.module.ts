@@ -11,6 +11,7 @@ import {LoadingModalModule} from 'src/app/components/loading-modal/loading-modal
 import { NoItemsModule } from 'src/app/components/no-items/no-items.module';
 import { NoteModule } from 'src/app/components/note/note.module';
 import { ChangePasswordComponent } from 'src/app/components/change-password/change-password.component';
+import {PipesModule} from "../../../../pipes/pipes.module";
 
 @NgModule({
   imports: [
@@ -21,6 +22,7 @@ import { ChangePasswordComponent } from 'src/app/components/change-password/chan
     IonicModule,
     TeamViewPageRoutingModule,
     NoItemsModule,
+    PipesModule,
     LoadingModalModule
   ],
   declarations: [

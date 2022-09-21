@@ -515,6 +515,22 @@ const routes: Routes = [
     }
   },
   {
+    path: 'log-date-list',
+    canActivate: [AuthService],
+    loadChildren: () => import('./pages/logged-in/candidate/candidate-work-log/log-date-list/log-date-list.module').then( m => m.LogDateListPageModule),
+    data: {
+      name: 'LogDateListPage'
+    }
+  },
+  {
+    path: 'log-hour-list',
+    canActivate: [AuthService],
+    loadChildren: () => import('./pages/logged-in/candidate/candidate-work-log/log-hour-list/log-hour-list.module').then( m => m.LogHourListPageModule),
+    data: {
+      name: 'LogHourListPage'
+    }
+  },
+  {
     path: 'app-error',
     loadChildren: () => import('./pages/errors/app-error/app-error.module').then( m => m.AppErrorPageModule)
   },

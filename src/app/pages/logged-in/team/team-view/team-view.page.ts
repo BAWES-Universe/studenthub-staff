@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import {ModalController, NavController} from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 // services
 import { StaffService } from 'src/app/providers/logged-in/staff.service';
@@ -13,6 +13,7 @@ import { Staff } from 'src/app/models/staff';
 import { Note } from 'src/app/models/note';
 //components
 import { ChangePasswordComponent } from 'src/app/components/change-password/change-password.component';
+import {Story} from "../../../../models/request";
 
 
 @Component({
@@ -23,7 +24,7 @@ import { ChangePasswordComponent } from 'src/app/components/change-password/chan
 export class TeamViewPage implements OnInit {
 
   public borderLimit = false;
-
+w
   public staff_id: any;
   public staff: Staff;
   public loading = false;
@@ -32,6 +33,8 @@ export class TeamViewPage implements OnInit {
   public pageCount = 0;
   public currentPage = 1;
   public notes: Note[] = [];
+  public currentStory: Story[];
+  public oldStories: Story[];
 
   public suggestions = [];
 
@@ -43,13 +46,15 @@ export class TeamViewPage implements OnInit {
     private staffService: StaffService,
     public suggestionService: SuggestionService,
     //private noteService: NoteService,
-    //public storyService: StoryService,
+    public storyService: StoryService,
     public authService: AuthService,
-    public eventService: EventService
+    public eventService: EventService,
+    public navCtrl: NavController
   ) { }
 
   ngOnInit() {
     window.analytics.page('Team View Page');
+
 
     if(!this.staff_id)
       this.staff_id = this.activatedRoute.snapshot.paramMap.get('id');
@@ -75,6 +80,9 @@ export class TeamViewPage implements OnInit {
     //this.loadNotes();
     //this.loadStories();
     this.loadSuggestions();
+    if (this.authService.staff_id == this.staff_id) {
+      this.loadProfileData();
+    }
   }
 
   loadData() {
@@ -155,5 +163,60 @@ export class TeamViewPage implements OnInit {
     });
 
     await modal.present();
+  }
+
+  loadProfileData() {
+    this.eventService.companyRequestCancelled$.subscribe((request) => {
+
+      this.currentStory = null;
+      this.oldStories = [];
+
+      this.loadActiveStories();
+      this.loadAllOtherStories();
+    });
+
+    this.eventService.companyRequestDelivered$.subscribe((request: any) => {
+
+      this.currentStory = null;
+      this.oldStories = [];
+
+      this.loadActiveStories();
+      this.loadAllOtherStories();
+    });
+
+    this.eventService.storyStatusUpdated$.subscribe(() => {
+
+      this.currentStory = null;
+      this.oldStories = [];
+
+      this.loadActiveStories();
+      this.loadAllOtherStories();
+    });
+
+    this.loadActiveStories();
+    this.loadAllOtherStories();
+  }
+
+  loadActiveStories() {
+    this.storyService.loadActiveStory().subscribe(res => {
+      if(res.body)
+        this.currentStory = res.body;
+    });
+  }
+
+  loadAllOtherStories() {
+    this.storyService.listAllOldHistory().subscribe(res => {
+      if(res.body)
+        this.oldStories = res.body;
+    });
+  }
+
+  rowSelected(model) {
+    // Load Detail Page
+    this.navCtrl.navigateForward('story-view/' + model.story_uuid, {
+      state: {
+        model
+      }
+    });
   }
 }

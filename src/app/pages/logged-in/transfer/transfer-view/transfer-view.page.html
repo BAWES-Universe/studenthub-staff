@@ -168,7 +168,7 @@
 
   </div>
 </ion-content>
-<ion-footer class="ion-no-border" *ngIf="segment == 'invoices' && transfer.invoices && transfer.invoices.length > 0">
+<ion-footer class="ion-no-border" *ngIf="segment == 'invoices' && transfer && transfer.invoices && transfer.invoices.length > 0">
   <div class="container">
     <ion-button (click)="downloadLatestInvoice()" >
       Download Invoice
