@@ -578,51 +578,51 @@ export class CompanyViewPage implements OnInit {
    * @param event
    */
    async showActions(event) {
-    return this.router.navigate(['company-form', this.company_id], {
-      state: {
-        model: this.company
+    // return this.router.navigate(['company-form', this.company_id], {
+    //   state: {
+    //     model: this.company
+    //   }
+    // });
+
+    event.preventDefault();
+    event.stopPropagation();
+
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
+    const actions = [
+      {
+        name: "Edit Client",
+        icon: 'assets/icon/icon-edit-2.svg',
+        trigger: 'edit'
+      },
+    ];
+
+    const modal = await this.popoverCtrl.create({
+      component: ActionComponent,
+      componentProps: {
+        actions
+      },
+      cssClass: 'store-option',
+      event,
+      translucent: true,
+      showBackdrop: false
+    });
+    modal.present();
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
       }
     });
 
-    // event.preventDefault();
-    // event.stopPropagation();
-    //
-    // window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
-    //
-    // const actions = [
-    //   {
-    //     name: "Edit Client",
-    //     icon: 'assets/icon/icon-edit-2.svg',
-    //     trigger: 'edit'
-    //   },
-    // ];
-    //
-    // const modal = await this.popoverCtrl.create({
-    //   component: ActionComponent,
-    //   componentProps: {
-    //     actions
-    //   },
-    //   cssClass: 'store-option',
-    //   event,
-    //   translucent: true,
-    //   showBackdrop: false
-    // });
-    // modal.present();
-    // modal.onDidDismiss().then(e => {
-    //
-    //   if (!e.data || e.data.from != 'native-back-btn') {
-    //     window['history-back-from'] = 'onDidDismiss';
-    //     window.history.back();
-    //   }
-    // });
-    //
-    // const { data } = await modal.onWillDismiss();
-    //
-    // if (data && data.action) {
-    //   if(data.action.trigger == 'edit') {
-    //     this.update();
-    //   }
-    // }
+    const { data } = await modal.onWillDismiss();
+
+    if (data && data.action) {
+      if(data.action.trigger == 'edit') {
+        this.update();
+      }
+    }
   }
 
   /**
@@ -643,30 +643,30 @@ export class CompanyViewPage implements OnInit {
    * Loads Form in modal to update
    */
   async update() {
-    return this.router.navigate(['/company-form/' + this.company_id]);
-    // window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
-    //
-    // const modal = await this.modalCtrl.create({
-    //   component: CompanyFormPage,
-    //   componentProps: {
-    //     model: Object.assign({}, this.company),
-    //     company_id: this.company_id,
-    //     subcompany: 0
-    //   }
-    // });
-    // // Refresh List if required
-    // modal.onDidDismiss().then(e => {
-    //
-    //   if (!e.data || e.data.from != 'native-back-btn') {
-    //     window['history-back-from'] = 'onDidDismiss';
-    //     window.history.back();
-    //   }
-    //
-    //   if (e && e.data && e.data.refresh) {
-    //     this.loadData(true);
-    //   }
-    // });
-    // modal.present();
+    // return this.router.navigate(['/company-form/' + this.company_id]);
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
+    const modal = await this.modalCtrl.create({
+      component: CompanyFormPage,
+      componentProps: {
+        model: Object.assign({}, this.company),
+        company_id: this.company_id,
+        subcompany: 0
+      }
+    });
+    // Refresh List if required
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+
+      if (e && e.data && e.data.refresh) {
+        this.loadData(true);
+      }
+    });
+    modal.present();
   }
 
   logScrolling(e) {

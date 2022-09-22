@@ -87,8 +87,8 @@
 
           <ion-col size-lg="4" size-md="4" size-sm="6" size-xs="12" class="ion-align-self-center">
             Allow access?<br />
-            <b *ngIf="companyContact.allow_access">Yes</b>
-            <b *ngIf="!companyContact.allow_access">No</b>
+            <b *ngIf="companyContact && companyContact.allow_access">Yes</b>
+            <b *ngIf="companyContact && !companyContact.allow_access">No</b>
           </ion-col>
 
           <ion-col size-lg="4" size-md="4" size-sm="6" size-xs="12" class="ion-align-self-center">
