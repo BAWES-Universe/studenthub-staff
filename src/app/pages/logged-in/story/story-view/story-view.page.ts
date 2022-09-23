@@ -453,6 +453,10 @@ export class StoryViewPage implements OnInit, OnDestroy {
 
     const { data } = await modal.onWillDismiss();
 
+    if (!data){
+      return null;
+    }
+
     if (data.action == 'request')
     {
       this.navCtrl.navigateForward(['request-view', this.story.request_uuid]);
