@@ -2,6 +2,14 @@ ion-header {
   --background: #ffffff!important;
 }
 
+ion-title, ion-header{
+  padding-left: 10px;
+  padding-right: 10px;
+}
+ion-toolbar.title{
+  padding: 31px 10px 10px;
+}
+
 ion-content {
   background: #f7f8fa;
   --background: #f7f8fa;
@@ -86,7 +94,7 @@ ion-toolbar ion-title {
   line-height: 1.5;
   letter-spacing: -0.5px;
   color: #23233d;
-  padding: 20px;
+  //padding: 20px;
   text-align: justify;
 }
 

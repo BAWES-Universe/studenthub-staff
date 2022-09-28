@@ -20,9 +20,9 @@ ion-content,ion-list,section {
   background: #f7f8fa;
   --background: #f7f8fa;
 }
-ion-content .container {
-  padding-top: 24px;
-}
+//ion-content .container {
+//  padding-top: 24px;
+//}
 
 ion-badge {
   border: solid 1px #4354a4;
@@ -118,10 +118,11 @@ ion-toolbar.search {
     color:#fff;
   }
 }
-ion-toolbar.filter {
-  padding: 0 24px;
-  --min-height: 35px;
+.filter-tag {
+  padding: 12px 0 0;
   ion-badge {
+    text-transform: capitalize;
+    margin-right:12px;
     background: #3880ff;
     margin: 0;
     font-size: 12px;
