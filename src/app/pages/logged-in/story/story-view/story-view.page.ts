@@ -308,6 +308,11 @@ export class StoryViewPage implements OnInit, OnDestroy {
           buttons: ['Okay']
         });
         prompt.present();
+
+        /// in case if its alrady working
+        if (response.data) {
+          this.navCtrl.navigateForward(['story-view', response.data.story_uuid]);
+        }
       }
     }, () => {
       this.loading = false;
