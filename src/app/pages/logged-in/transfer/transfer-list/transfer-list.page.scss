@@ -1,5 +1,4 @@
 ion-item {
-  height: 80px;
   flex-grow: 0;
   display: flex;
   flex-direction: column;
@@ -11,7 +10,7 @@ ion-item {
   background-color: #fff;
   --inner-border-width: 0;
   margin-bottom: 16px;
-  
+
   ion-badge {
     padding: 4px 8px;
     border-radius: 8px;
@@ -24,7 +23,7 @@ ion-item {
     letter-spacing: normal;
     color: #ca7f3e;
     height: 28px;
-    margin: 16px 0px 0 0;
+    margin: 16px 0 0 0;
   }
 
   .badge-paid {
@@ -56,7 +55,7 @@ ion-item {
   }
 
   .txt-time {
-    margin: 7px 0 2px 0px;
+    margin: 7px 0 2px 0;
     font-size: 12px;
     font-weight: normal;
     font-stretch: normal;
@@ -87,9 +86,9 @@ ion-title {
 ion-content {
   background: #f7f8fa;
   --background: #f7f8fa;
-  --padding-start: 24px; 
-  --padding-end: 24px; 
-  --padding-top: 24px; 
+  --padding-start: 24px;
+  --padding-end: 24px;
+  --padding-top: 24px;
 }
 
 ion-title.main {
@@ -126,7 +125,7 @@ ion-title.secondary {
   border-radius: 50%;
   background: #4c70f2;
   box-shadow: 0 4px 12px 0 rgba(38, 56, 121, 0.3);
-  
+
   ion-icon {
     color:#fff;
   }

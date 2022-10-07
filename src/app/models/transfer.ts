@@ -9,7 +9,7 @@ export class Transfer {
 	company_total: any;
 	payment_received_on: string;
 	start_date: string;
-    end_date: string;
+  end_date: string;
 	transfer_status: number;
 	transfer_created_at: string;
 	transfer_updated_at: string;

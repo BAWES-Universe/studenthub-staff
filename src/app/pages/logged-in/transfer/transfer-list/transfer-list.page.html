@@ -8,7 +8,7 @@
     </ion-buttons>
   </ion-toolbar>
   <ion-toolbar class="container">
-    <ion-title class="main" size="large"> 
+    <ion-title class="main" size="large">
       Transfers <ng-container *ngIf="company && company.parentTransfers">({{ company.parentTransfers.length }})</ng-container>
       </ion-title>
     <ion-title class="secondary" size="small" *ngIf="company">
@@ -23,43 +23,44 @@
 
       <ion-item tappable (click)="openTransferDetailPage(transfer)" *ngFor="let transfer of company.parentTransfers">
         <div tabindex="0"></div>
-        
+
         <ion-label>
           <h5>KWD {{ transfer.company_total | number:'1.3-3' }}</h5>
           <p>Transfer #{{ transfer.transfer_id}}</p>
-        
           <p class="txt-time">
-            {{ transfer.transfer_created_at | timeAgo }} on
+            created {{ transfer.transfer_created_at | timeAgo }} on
             {{ toDate(transfer.transfer_created_at) | date: 'MMM d, y' }}
+          </p>
+          <p class="txt-time">
+            duration : {{ toDate(transfer.start_date) | date: 'MMM d, y' }}-{{ toDate(transfer.end_date) | date: 'MMM d, y' }}
           </p>
         </ion-label>
 
         <ion-badge slot="end" class="status status_{{transfer.transfer_status}}" *ngIf="transfer.transfer_status==10"> Draft </ion-badge>
-        
+
         <ion-badge slot="end" class="status status_{{transfer.transfer_status}}" *ngIf="transfer.transfer_status==5"> Locked,
           Pending Payment </ion-badge>
 
         <ion-badge slot="end" class="status status_{{transfer.transfer_status}}" *ngIf="transfer.transfer_status==1"> Payment Sent,
           Confirm Received </ion-badge>
-        
+
         <ion-badge slot="end" class="status status_{{transfer.transfer_status}}" *ngIf="transfer.transfer_status==3"> Received &
           Distribution in Progress </ion-badge>
-        
+
         <ion-badge slot="end" class="status badge-paid status_{{transfer.transfer_status}}" *ngIf="transfer.transfer_status==4"> Completed
         </ion-badge>
 
       </ion-item>
-    
+
     </ng-container>
 
     <loading-modal type="transfer-list" [loading]="loading"></loading-modal>
 
     <no-items *ngIf="!loading && company && company.parentTransfers.length == 0" message="~ No transfer Data ~"></no-items>
-    
-    <ion-fab *ngIf="company && !company.parent_company_id" slot="fixed">
-      <ion-fab-button (click)="createNewTransfer()">
-        <ion-icon name="add-outline"></ion-icon>
-      </ion-fab-button>
-    </ion-fab>
   </div>
-</ion-content> 
+  <ion-fab *ngIf="company && !company.parent_company_id" slot="fixed">
+    <ion-fab-button (click)="createNewTransfer()">
+      <ion-icon name="add-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>
