@@ -41,7 +41,7 @@ export class StoryItemComponent implements OnInit {
       this.request = this.story.request;
     }
 
-    this.eventService.storyStatusUpdated$.subscribe((story) => {
+    this.eventService.storyStatusUpdated$.subscribe((story: any) => {
       if (this.story.story_uuid == story.story.story_uuid) {
         this.story = story.story;
       }
