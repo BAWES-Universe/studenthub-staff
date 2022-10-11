@@ -60,7 +60,7 @@ export class StoryItemComponent implements OnInit {
       return new Date(date.replace(/-/g, '/'));
     }
   }
-  async startStory(event, story): void {
+  async startStory(event, story) {
     event.preventDefault();
     event.stopPropagation();
     const alert = await this.alertCtrl.create({
@@ -88,7 +88,7 @@ export class StoryItemComponent implements OnInit {
    * @param event
    * @param story
    */
-  async stopStory(event, story): void {
+  async stopStory(event, story) {
     event.preventDefault();
     event.stopPropagation();
     const alert = await this.alertCtrl.create({
@@ -116,7 +116,7 @@ export class StoryItemComponent implements OnInit {
    * @param event
    * @param story
    */
-  async deliverStory(event, story): void {
+  async deliverStory(event, story) {
     event.preventDefault();
     event.stopPropagation();
     const alert = await this.alertCtrl.create({
