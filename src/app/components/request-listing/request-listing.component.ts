@@ -49,7 +49,7 @@ export class RequestListingComponent implements OnInit {
     }
 
     this.eventService.companyRequestUpdate$.subscribe((request: any) => {
-      if (this.request.request_uuid == request.request.request_uuid) {
+      if (request && request.request && request.request.request_uuid == this.request.request_uuid) {
         this.request = request.request;
       }
     });
