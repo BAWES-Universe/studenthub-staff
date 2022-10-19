@@ -1,5 +1,11 @@
 <ion-content [attr.dir]="translateService.direction()">
 
+  <ion-item [disabled]="updatingEmail" (click)="update()" tappable *ngIf="authService.role == 2">
+    <div tabindex="0"></div>
+    <span *ngIf="!updatingEmail"><ion-icon src="assets/images/icon-update-email.svg"></ion-icon>
+      Update Profile</span>
+  </ion-item>
+
   <ion-item [disabled]="updatingEmail" (click)="updateEmail()" tappable>
     <div tabindex="0"></div>
     <span *ngIf="!updatingEmail"><ion-icon src="assets/images/icon-update-email.svg"></ion-icon>
