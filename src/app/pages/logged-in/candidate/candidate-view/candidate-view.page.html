@@ -5,7 +5,7 @@
     </ion-buttons>
 
     <ion-buttons slot="end">
-      <ion-button (click)="openPopover($event)" *ngIf="candidate && !candidate.deleted">
+      <ion-button (click)="openPopover($event)" *ngIf="candidate && !candidate?.deleted">
         <ion-icon src="assets/icon/icon-option.svg"></ion-icon>
       </ion-button>
     </ion-buttons>
