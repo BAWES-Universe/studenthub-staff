@@ -61,6 +61,7 @@ export class Candidate {
     invitationRejected: any;
     suggestionAccepted: any;
     suggestionRejected: any;
+    deleted: any;
     store: Store;
     company: Company;
     university: University;

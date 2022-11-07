@@ -5,7 +5,7 @@
     </ion-buttons>
 
     <ion-buttons slot="end">
-      <ion-button (click)="openPopover($event)" *ngIf="candidate">
+      <ion-button (click)="openPopover($event)" *ngIf="candidate && !candidate.deleted">
         <ion-icon src="assets/icon/icon-option.svg"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -20,7 +20,7 @@
     </ion-thumbnail>
 
     <h2 class="candidate-name" [title]=pendingData *ngIf="candidate.candidate_name">
-      {{ candidate.candidate_name }}
+      {{ candidate.candidate_name }}<ion-badge color="danger" *ngIf="candidate.deleted">Deleted</ion-badge>
 
       <ion-button size="small" class="btn-copy" (click)="copy($event, candidate.candidate_name)">
         <ion-icon slot="icon-only" name="copy-outline"></ion-icon>
