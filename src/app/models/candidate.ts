@@ -33,6 +33,7 @@ export class Candidate {
     candidate_status: string;
     approved: number;
     isProfileCompleted: any;
+    civilExpired: any;
     candidate_job_search_status: any;
     candidate_committed: any;
     candidate_preferred_time: string;

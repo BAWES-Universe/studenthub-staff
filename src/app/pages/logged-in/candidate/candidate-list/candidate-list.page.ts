@@ -32,6 +32,7 @@ export class CandidateListPage implements OnInit {
     name: string,
     email: string,
     phone: number,
+    civil: number,
     type: string,
     page: number
   } = {
@@ -39,6 +40,7 @@ export class CandidateListPage implements OnInit {
       email: null,
       phone: null,
       type: null,
+    civil: null,
       page: 1
     };
 
@@ -83,7 +85,7 @@ export class CandidateListPage implements OnInit {
     if (state.story) {
       this.story = state.story;
     }
-    
+
     window.analytics.page('Candidate List Page');
 
     this.loadData(1);
@@ -113,6 +115,9 @@ export class CandidateListPage implements OnInit {
     if (this.filters.page) {
       urlParams += '&export_page=' + this.filters.page;
     }
+    if (this.filters.civil) {
+      urlParams += '&civil=' + this.filters.civil;
+    }
     urlParams += '&export_limit=5000';
 
     return urlParams;
@@ -126,6 +131,7 @@ export class CandidateListPage implements OnInit {
       name: null,
       email: null,
       phone: null,
+      civil: null,
       type: null,
       page: 1
     };
@@ -248,7 +254,7 @@ export class CandidateListPage implements OnInit {
 
   /**
    * load more on scroll to bottom
-   * @param event 
+   * @param event
    */
   doInfinite(event) {
 
