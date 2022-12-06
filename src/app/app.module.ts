@@ -74,6 +74,7 @@ import { StoreModule } from './components/store/store.module';
 import { ActionComponent } from './components/action/action.component';
 import { ActionComponentModule } from './components/action/action.module';
 import {UniversityPageModule} from './pages/logged-in/pickers/university/university.module';
+import { CandidateAssignFormPageModule } from './pages/logged-in/candidate-assign-form/candidate-assign-form.module';
 
 export function startupServiceFactory(authService) {
   return () => authService.load();
@@ -163,7 +164,8 @@ declare global {
     StoreModule,
     UniversityPageModule,
     CompanyFilterPageModule,
-    ActionComponentModule
+    ActionComponentModule,
+    CandidateAssignFormPageModule
   ],
   exports: [
     ActionComponentModule

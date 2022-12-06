@@ -537,7 +537,11 @@ const routes: Routes = [
   {
     path: '**',
     redirectTo: 'not-found'
+  },  {
+    path: 'candidate-assign-form',
+    loadChildren: () => import('./pages/logged-in/candidate-assign-form/candidate-assign-form.module').then( m => m.CandidateAssignFormPageModule)
   },
+
 ];
 
 @NgModule({

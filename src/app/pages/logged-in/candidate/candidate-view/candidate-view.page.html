@@ -300,9 +300,9 @@
             </p>
 
             <p>
-              {{ toDate(history.start_date) | date }} to
-              <ng-container *ngIf="history.end_date">{{ toDate(history.end_date) | date }}</ng-container>
-              <ng-container *ngIf="!history.end_date">now</ng-container>
+              {{ toDate(history.start_date) | date }} 
+              <ng-container *ngIf="history.end_date">to {{ toDate(history.end_date) | date }}</ng-container>
+              <ng-container *ngIf="!history.end_date && !isFutureDate(history.start_date)">to now</ng-container>
             </p>
 
             <ion-button class="btn-certificate" (click)="downloadCertification(history)">

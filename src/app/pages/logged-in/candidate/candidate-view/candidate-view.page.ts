@@ -43,6 +43,7 @@ import { CompanyNoteFormPage } from '../../company/company-note-form/company-not
 import { ModalPopPage } from "../../modal-pop/modal-pop.page";
 import { StoreViewPage } from "../../store/store-view/store-view.page";
 import { InvitePage } from '../../invite/invite.page';
+import { CandidateAssignFormPage } from '../../candidate-assign-form/candidate-assign-form.page';
 
 
 
@@ -209,6 +210,10 @@ export class CandidateViewPage implements OnInit {
     }
   }
 
+  isFutureDate(date) {
+    return new Date(date) > new Date();
+  }
+
   /**
    * Load list of all stores then set store name and id as per candidate data
    */
@@ -338,32 +343,30 @@ export class CandidateViewPage implements OnInit {
    * @param {number} storeID
    */
   async assignCandidateToStore(storeID) {
+    
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
-    this.alertCtrl.create({
-      header: 'Set hourly rate',
-      inputs: [
-        {
-          name: 'rate',
-          type: 'text',
-          placeholder: 'Hourly Rate'
+    const modal = await this.modalCtrl.create({
+      component: ModalPopPage,
+      componentProps: {
+        activatedRoutePath: CandidateAssignFormPage,
+        activatedRoutePathProps: {
+          view: 'direct',
         }
-      ],
-      buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel',
-        }, {
-          text: 'Save',
-          handler: (data) => {
-            if(!data || !data.rate) {
-              return false;
-            }
+      }
+    });
+    modal.onDidDismiss().then(e => {
 
-            this.assignCandidateToStoreWithRate(storeID, data.rate);
-          }
-        }
-      ]
-    }).then(alert => alert.present() );
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+
+      if(e.data && e.data.rate)
+        this.assignCandidateToStoreWithRate(storeID, e.data.rate, e.data.start_date);
+
+    });
+    modal.present();
   }
 
   /**
@@ -371,11 +374,11 @@ export class CandidateViewPage implements OnInit {
    * @param store_id
    * @param rate
    */
-  assignCandidateToStoreWithRate(store_id, rate) {
+  assignCandidateToStoreWithRate(store_id, rate, start_date = null) {
 
     this.assigning = true;
 
-    this.candidateService.assignCandidateToStore(this.candidate, store_id, rate).subscribe(async response => {
+    this.candidateService.assignCandidateToStore(this.candidate, store_id, rate, start_date).subscribe(async response => {
 
       this.assigning = false;
 
