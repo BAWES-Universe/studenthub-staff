@@ -33,6 +33,7 @@ export class CandidateListPage implements OnInit {
     email: string,
     phone: number,
     civil: number,
+    civilId: number,
     type: string,
     page: number
   } = {
@@ -40,7 +41,8 @@ export class CandidateListPage implements OnInit {
       email: null,
       phone: null,
       type: null,
-    civil: null,
+      civil: null,
+      civilId: null,
       page: 1
     };
 
@@ -118,6 +120,9 @@ export class CandidateListPage implements OnInit {
     if (this.filters.civil) {
       urlParams += '&civil=' + this.filters.civil;
     }
+    if (this.filters.civilId) {
+      urlParams += '&civilId=' + this.filters.civilId;
+    }
     urlParams += '&export_limit=5000';
 
     return urlParams;
@@ -132,6 +137,7 @@ export class CandidateListPage implements OnInit {
       email: null,
       phone: null,
       civil: null,
+      civilId: null,
       type: null,
       page: 1
     };

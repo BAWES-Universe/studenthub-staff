@@ -40,7 +40,7 @@
       <ion-card-content>
         <ion-grid>
           <ion-row>
-            <ion-col size-md="3" size-lg="2" size-sm="6" size-xs="12">
+            <ion-col size-md="3" size-lg="3" size-sm="6" size-xs="12">
               <!-- Filter by Major -->
               <ion-item>
                 <div tabindex="0"></div>
@@ -48,7 +48,7 @@
                 <ion-input type="text" [(ngModel)]="filters.name"></ion-input>
               </ion-item>
             </ion-col>
-            <ion-col size-md="3" size-lg="2" size-sm="6" size-xs="12">
+            <ion-col size-md="3" size-lg="3" size-sm="6" size-xs="12">
               <!-- Filter by Tag -->
               <ion-item>
                 <div tabindex="0"></div>
@@ -56,7 +56,7 @@
                 <ion-input type="text" [(ngModel)]="filters.email"></ion-input>
               </ion-item>
             </ion-col>
-            <ion-col size-md="2" size-lg="2" size-sm="6" size-xs="12">
+            <ion-col size-md="2" size-lg="3" size-sm="6" size-xs="12">
               <!-- Filter by Tag -->
               <ion-item>
                 <div tabindex="0"></div>
@@ -64,11 +64,19 @@
                 <ion-input type="text" [(ngModel)]="filters.phone"></ion-input>
               </ion-item>
             </ion-col>
-            <ion-col size-md="3" size-lg="2" size-sm="6" size-xs="12">
+            <ion-col size-md="2" size-lg="3" size-sm="6" size-xs="12">
               <!-- Filter by Tag -->
               <ion-item>
                 <div tabindex="0"></div>
                 <ion-label position="floating" color="primary">Civil ID</ion-label>
+                <ion-input type="text" [(ngModel)]="filters.civilId"></ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col size-md="3" size-lg="3" size-sm="6" size-xs="12">
+              <!-- Filter by Tag -->
+              <ion-item>
+                <div tabindex="0"></div>
+                <ion-label position="floating" color="primary">Civil Status</ion-label>
                 <ion-select [(ngModel)]="filters.civil" [value]="filters.civil" okText="Okay" cancelText="Dismiss">
                   <ion-select-option value="0">All</ion-select-option>
                   <ion-select-option value="1">Active</ion-select-option>
@@ -76,7 +84,7 @@
                 </ion-select>
               </ion-item>
             </ion-col>
-            <ion-col size-md="2" size-lg="2" size-sm="6" size-xs="12">
+            <ion-col size-md="3" size-lg="3" size-sm="6" size-xs="12">
               <ion-item>
                 <div tabindex="0"></div>
                 <ion-label position="floating" color="primary">Type</ion-label>
@@ -86,7 +94,7 @@
                 </ion-select>
               </ion-item>
             </ion-col>
-            <ion-col size-md="2" size-lg="2" size-sm="6" size-xs="12">
+            <ion-col size-md="3" size-lg="3" size-sm="6" size-xs="12">
               <ion-item>
                 <ion-label position="floating" color="primary">Export data</ion-label>
                 <ion-select [(ngModel)]="filters.page" [value]="filters.page" okText="Okay" cancelText="Dismiss">
@@ -99,15 +107,15 @@
                 </ion-select>
               </ion-item>
             </ion-col>
+            <ion-col size-md="3" size-lg="3" size-sm="6" size-xs="12" class="ion-text-center">
+              <div class="ctrl-btns">
+                <ion-button (click)="loadData(1);">Submit</ion-button>
+                <ion-button (click)="resetFilter();" color="secondary">Reset</ion-button>
+              </div>
+            </ion-col>
           </ion-row>
         </ion-grid>
       </ion-card-content>
-
-      <ion-card-header>
-        <ion-button (click)="loadData(1);">Submit</ion-button>
-        <ion-button (click)="resetFilter();" color="secondary">Reset</ion-button>
-      </ion-card-header>
-
     </ion-card>
 
     <ion-list>
