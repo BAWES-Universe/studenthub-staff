@@ -8,6 +8,7 @@ import {AuthHttpService} from "./authhttp.service";
 export class CountryService {
 
   private _countryEndpoint: string = "/countries";
+  
   constructor(private _authhttp: AuthHttpService) { }
 
   /**
