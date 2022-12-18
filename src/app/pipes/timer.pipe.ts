@@ -18,6 +18,7 @@ export class TimerPipe implements PipeTransform {
     ) { }
 
     transform(start: any, end: any = null): string| number {
+        
         this.removeTimer();
 
         const date1 = new Date(start.replace(/-/g, '/') + ' GMT+03:00');

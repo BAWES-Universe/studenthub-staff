@@ -3,9 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button icon="assets/images/icon-back.svg" (click)="close()"></ion-back-button>
     </ion-buttons>
-
-    <ion-title>Invite this profile</ion-title>
-
+    <ion-title>Leave request</ion-title>
     <ion-buttons slot="end">
       <ion-button color="primary" [disabled]="!form || !form.dirty || !form.valid || loading" (click)="save()">
         <span *ngIf="!loading">Save</span>
@@ -13,29 +11,26 @@
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
-
 </ion-header>
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
   <div class="container">
-    <form [formGroup]="form" *ngIf="form">
+    <form [formGroup]="form">
       <ion-list>
-
-        <h5>Select Request </h5>
-
-        <ion-searchbar (ionChange)="onSearchInput($event)" [value]="query">
-        </ion-searchbar>
-
-          <request-listing (click)="selectRequest(request)" *ngFor="let request of activeRequests" tappable
-            [request]="request" [showStatus]="false"></request-listing>
-
+            
+        <ion-item class="input-wrapper txt-date-range">
+          <div tabindex="0"></div>
+          <ion-label position="floating">Time Period</ion-label>
+          <ion-input [value]="range" (click)="openCalendarPopup($event)"></ion-input>
+          <ion-icon src="assets/images/icon-date-range.svg"></ion-icon>
+        </ion-item>
+        
+        <ion-item>
+          <div tabindex="0"></div>
+          <ion-label position="floating">Note</ion-label>
+          <ion-input type="text" formControlName="note"></ion-input>
+        </ion-item>
       </ion-list>
-
     </form>
-
-    <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
-      <ion-infinite-scroll-content></ion-infinite-scroll-content>
-    </ion-infinite-scroll>
   </div>
 </ion-content>
-

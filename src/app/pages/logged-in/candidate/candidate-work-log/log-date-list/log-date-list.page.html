@@ -11,14 +11,17 @@
   <ion-progress-bar *ngIf="loading" type="indeterminate"></ion-progress-bar>
 
   <div class="max-width">
-    <ion-list *ngIf="candidateWorkingHourData">
-      <ion-item [routerLink]="['/log-hour-list',hours.candidate_id,hours.date]" *ngFor="let hours of candidateWorkingHourData">
-          <ion-label>
-            {{hours.date}}<br/>
-            <small>{{hours.total_time | timeSpent}}</small>
-          </ion-label>
-      </ion-item>
-    </ion-list>
+    <div *ngIf="candidateWorkingHourData">
+      <ng-container *ngFor="let hour of candidateWorkingHourData">
+        <h2>{{hour.date | date : 'mediumDate'}}</h2>
+        <ion-card [routerLink]="['/log-hour-list',hour.candidate_id,hour.date]" >
+          <ion-card-content>
+            <h3>{{secondsToTime(hour.total_time)}}</h3>
+            <span>{{getStartTime(hour) | date: "shortTime"}} -> {{getEndTime(hour) | date: "shortTime"}}</span>
+          </ion-card-content>
+        </ion-card>
+      </ng-container>
+    </div>
     <p *ngIf="candidateWorkingHourData && candidateWorkingHourData.length == 0">No record found</p>
 
     <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">

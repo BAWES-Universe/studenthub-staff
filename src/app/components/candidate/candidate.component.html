@@ -49,6 +49,10 @@
         Incomplete Profile
       </ion-badge>
 
+      <ion-badge *ngIf="candidate.civilExpired" color="danger">
+        Civil Expired
+      </ion-badge>
+
       <ion-badge *ngIf="!candidate.candidate_email_verification" color="danger">
         Email Not Verified
       </ion-badge>

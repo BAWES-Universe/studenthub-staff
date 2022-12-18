@@ -1,9 +1,7 @@
 <ion-header mode="md" [class.add-border]="borderLimit" class="ion-no-border">
   <ion-toolbar class="container">
     <ion-buttons slot="start">
-      <ion-button (click)="close()">
-        <ion-icon name="close"></ion-icon>
-      </ion-button>
+      <ion-back-button icon="assets/images/icon-back.svg" (click)="close()"></ion-back-button>
     </ion-buttons>
     <ion-title>{{ operation }}</ion-title>
     <ion-buttons slot="end">

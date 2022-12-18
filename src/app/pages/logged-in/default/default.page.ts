@@ -1,10 +1,15 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { AlertController, ModalController, NavController } from '@ionic/angular';
+//models
+import { StaffLeave } from 'src/app/models/staff-leave';
 // services
 import { AuthService } from 'src/app/providers/auth.service';
 import { EventService } from 'src/app/providers/event.service';
+import { DailyStandupService } from 'src/app/providers/logged-in/daily-standup.service';
 import { StatisticService } from 'src/app/providers/logged-in/statistic.service';
 import {AccountService} from "../../../providers/logged-in/account.service";
+//pages
+import { LeaveRequestPage } from '../leave-request/leave-request.page';
 
 
 @Component({
@@ -14,7 +19,17 @@ import {AccountService} from "../../../providers/logged-in/account.service";
 })
 export class DefaultPage implements OnInit {
 
+  public loadingSession: boolean = false; 
+
+  public savingAnswer = false; 
+
   public borderLimit = false;
+
+  public dailyStandupQuestion; 
+
+  public staff_work_session;
+
+  public leave: StaffLeave;
 
   public statistics: {
     id_need_generated: any;
@@ -33,9 +48,12 @@ export class DefaultPage implements OnInit {
   public loading = false;
 
   constructor(
+    public modalCtrl: ModalController,
     public navCtrl: NavController,
+    public _alertCtrl: AlertController,
     public authService: AuthService,
     public accountService: AccountService,
+    public dailyStandupService: DailyStandupService,
     public statisticService: StatisticService,
     private _events: EventService,
   ) { }
@@ -58,7 +76,12 @@ export class DefaultPage implements OnInit {
     }) => {
       this.statistics = response;
     });
+
     this.getAccountInfo();
+
+    //check session 
+
+    this.getSession();
   }
 
   /**
@@ -79,6 +102,101 @@ export class DefaultPage implements OnInit {
       });
 
       this._events.reviewRequired$.next(this.statistics.profileApprovalRequire);
+    },
+      error => { },
+      () => { this.loading = false; }
+    );
+  }
+  
+  getSession() {
+    this.loadingSession = true; 
+
+    this.dailyStandupService.getSession().subscribe(async response => {
+
+      this.loadingSession = false; 
+    
+      if(response.session) {
+        this.staff_work_session = response.session;
+
+        this.getStandupQuestion();
+      }
+
+      this.leave = response.leave;
+    });
+  }
+
+  startSession() {
+    this.loadingSession = true; 
+
+    this.dailyStandupService.startSession().subscribe(async response => {
+      
+      if(response.operation == 'success') {
+
+        this.staff_work_session = response.model;
+
+        this.getStandupQuestion();
+
+      } else {
+        this.loadingSession = false; 
+
+        let prompt = await this._alertCtrl.create({
+          message: this.authService.errorMessage(response.message),
+          buttons: ["Ok"]
+        });
+        prompt.present();
+      }
+    });
+  }
+
+  endSession() {
+    this.loadingSession = true; 
+
+    this.dailyStandupService.endSession().subscribe(async response => {
+
+      this.loadingSession = false; 
+
+      if(response.operation == 'success') {
+        this.staff_work_session = null;// response.model;
+      }
+    });
+  }
+
+  /*leaveRequest(model): Observable<any>{
+    const url = `${this._endpoint}/leave-request`;
+    return this._authhttp.post(url, {
+      from_date: model.from_date,
+      to_date: model.to_date,
+      note: model.note,
+    });
+  }*/
+
+  getStandupQuestion() {
+    this.dailyStandupService.question().subscribe(async question => {
+      this.dailyStandupQuestion = question;
+      this.loadingSession = false; 
+    });
+  }
+
+  async saveAnswer() {
+ 
+    const question_uuid = this.dailyStandupQuestion.question_uuid;
+    const answer = this.dailyStandupQuestion.answer;
+
+    this.savingAnswer = true;
+
+    this.dailyStandupService.answer(question_uuid, answer).subscribe(async response => {
+      this.savingAnswer = false;
+
+      if(response.operation == 'success')
+        this.getStandupQuestion();
+      else {
+        let prompt = await this._alertCtrl.create({
+          message: this.authService.errorMessage(response.message),
+          buttons: ["Ok"]
+        });
+        prompt.present();
+      }
+
     },
       error => { },
       () => { this.loading = false; }
@@ -163,5 +281,21 @@ export class DefaultPage implements OnInit {
 
   logout() {
     this.authService.logout();
+  }
+
+  async leaveRequest() {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
+    const modal = await this.modalCtrl.create({
+      component: LeaveRequestPage
+    });
+    modal.present();
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
   }
 }

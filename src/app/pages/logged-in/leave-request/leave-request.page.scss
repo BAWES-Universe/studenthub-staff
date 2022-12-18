@@ -1,0 +1,16 @@
+ion-back-button {
+    display: block;
+}
+
+.txt-date-range {
+    --padding-start: 16px;
+    --padding-end: 16px;
+    --padding-top: 0;
+    height: auto;
+  
+    ion-icon {
+      position: absolute;
+      right: 0;
+      top: 15px;
+    }
+  }

@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/"></ion-back-button>
     </ion-buttons>
-    <ion-title>{{"Time Log" | translate}}  | {{totalHours | timeSpent}}</ion-title>
+    <ion-title *ngIf="candidateWorkingHourData">{{candidateWorkingHourData.date | date : 'mediumDate'}}</ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content [scrollEvents]="true" (ionScroll)="logScrolling($event)" [attr.dir]="translateService.direction()">
@@ -12,20 +12,31 @@
 
   <div class="max-width">
     <ion-list *ngIf="candidateWorkingHourData">
-      <ion-item *ngFor="let hours of candidateWorkingHourData">
-          <ion-label>
-            <p>From: {{hours.start_time}}</p>
-            <p>Till : {{hours.end_time}}</p>
-            <p>Total : {{hours.total_time | timeSpent}}</p>
-            <p>Store : {{hours.store.store_name}} @ {{hours.store.company.company_common_name_en}}</p>
-          </ion-label>
-      </ion-item>
+
+      <ion-card class="main-card">
+        <ion-card-content>
+          <h4>Total Time</h4>
+          <h3>{{secondsToTime(candidateWorkingHourData.total_time)}}</h3>
+          <ion-grid>
+            <ion-row>
+              <ion-col><span>Start Time:</span> {{getStartTime() | date: "shortTime"}}</ion-col>
+              <ion-col><span>End Time:</span> {{getEndTime() | date: "shortTime"}}</ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-card-content>
+      </ion-card>
+
+      <div class="lbl">Session ({{candidateWorkingHourData.dateListByCandidate.length}})</div>
+
+      <ng-container *ngFor="let hour of candidateWorkingHourData.dateListByCandidate">
+        <ion-card class="sub-card">
+          <ion-card-content>
+            <h3>{{secondsToTime(hour.total_time)}}</h3>
+            <span>{{hour.start_time | date: "shortTime"}} -> {{hour.end_time | date: "shortTime"}}</span>
+          </ion-card-content>
+        </ion-card>
+      </ng-container>
     </ion-list>
     <p *ngIf="!candidateWorkingHourData">No record found</p>
-
-    <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
-      <ion-infinite-scroll-content>
-      </ion-infinite-scroll-content>
-    </ion-infinite-scroll>
   </div>
 </ion-content>
