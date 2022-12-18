@@ -1,5 +1,5 @@
 {
-  "appId": "io.ionic.starter",
+  "appId": "co.studenthub.staff",
   "appName": "payroll-staff-new",
   "bundledWebRuntime": false,
   "npmClient": "npm",

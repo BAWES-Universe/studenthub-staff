@@ -39,9 +39,17 @@
             <span *ngIf="!isLoading">Sign in</span>
           </ion-button>
         </div>
+        
       </form>
       <!-- END Login Form -->
     </ion-card-content>
+    <ion-card-header>
+      
+      <ion-button class="btn-login-bawes" fill="outline" (click)="loginWithRedirect()">
+        {{ "Log in with BAWES" | translate }} <ion-icon slot="end" src="assets/img/icon-bawes.svg"></ion-icon>
+      </ion-button>
+      
+    </ion-card-header>
   </ion-card>
 
 </ion-content>

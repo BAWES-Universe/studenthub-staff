@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {AlertController} from '@ionic/angular';
+import {AlertController, Platform} from '@ionic/angular';
 import {AuthService} from '../../../providers/auth.service';
 import {CustomValidator} from '../../../validators/custom.validator';
+import { AuthService as Auth0Service } from '@auth0/auth0-angular';
 
 @Component({
   selector: 'app-login',
@@ -26,7 +27,9 @@ export class LoginPage implements OnInit {
   public type: string = 'password';
 
   constructor(
+    public platform: Platform,
     private _fb: FormBuilder,
+    public auth0: Auth0Service,
     private _auth: AuthService,
     private _alertCtrl: AlertController
   ){
@@ -101,6 +104,14 @@ export class LoginPage implements OnInit {
         alert.present();
       }
     });
+  }
+
+  /**
+   * redirec to auth0
+   */
+  loginWithRedirect() {
+    const url = this.platform.is('hybrid') ? `co.studenthub.staff://view/tasks`: null;
+    this.auth0.loginWithRedirect({ redirect_uri: url })
   }
 
   togglePasswordVisibility() {

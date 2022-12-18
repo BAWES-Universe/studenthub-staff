@@ -1,4 +1,4 @@
-import { Component, OnInit, ApplicationRef } from '@angular/core';
+import { Component, OnInit, NgZone, ApplicationRef } from '@angular/core';
 import {
   AlertController,
   NavController,
@@ -12,12 +12,16 @@ import { SwUpdate } from '@angular/service-worker';
 import { concat, interval } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { DOCUMENT } from '@angular/common';
+import { App, URLOpenListenerEvent } from '@capacitor/app';
 // services
 import { EventService } from './providers/event.service';
 import { AuthService } from './providers/auth.service';
 import { TranslateLabelService } from './providers/translate-label.service';
 import {StoryService} from './providers/logged-in/story.service';
 import {CompanyRequestService} from './providers/logged-in/company-request.service';
+import { AuthService as Auth0Service } from '@auth0/auth0-angular';
+import { Router } from '@angular/router';
 
 const { SplashScreen } = Plugins;
 
@@ -31,6 +35,7 @@ export class AppComponent implements OnInit {
   public updatesAvailable = false;
 
   constructor(
+    public router: Router,
     public updates: SwUpdate,
     public appRef: ApplicationRef,
     private platform: Platform,
@@ -44,11 +49,46 @@ export class AppComponent implements OnInit {
     public requestService: CompanyRequestService,
     public translateService: TranslateLabelService,
     public toastCtrl: ToastController,
+    public auth: Auth0Service,
+    public zone: NgZone,
   ) {
     this.initializeApp();
   }
 
   initializeApp() {
+    App.addListener('appUrlOpen', (event: URLOpenListenerEvent) => {
+      this.zone.run(() => {
+          // Example url: https://beerswift.app/tabs/tab2
+          // slug = /tabs/tab2
+         
+          // If no match, do nothing - let regular routing
+          // logic take over
+
+          //if (event.url?.startsWith(callbackUri)) {
+            // If the URL is an authentication callback URL..
+            if (
+              event.url.includes('state=') &&
+              (event.url.includes('error=') || event.url.includes('code='))
+            ) {
+              // Call handleRedirectCallback and close the browser
+              this.auth
+                .handleRedirectCallback(event.url)
+                //.pipe(mergeMap(() => Browser.close()))
+                .subscribe((result) => {
+                });
+            } else {
+              const slug = event.url.split(".co").pop();
+
+              if (slug) {
+                //this.navCtrl.
+                this.router.navigateByUrl(slug);
+              }
+
+              //Browser.close();
+            }
+          //}
+      });
+    });
 
     // this language will be used as a fallback when a translation isn't found in the current language
     this.translateService.setDefaultLang('en');
@@ -81,6 +121,20 @@ export class AppComponent implements OnInit {
 
     this.platform.ready().then(() => {
 
+      /**
+       * todo: need to test in mobile app
+       * when user comming back from auth0
+       */
+      this.auth.isAuthenticated$.subscribe(isAuthenticated => {
+        
+        if(!isAuthenticated || this.authService.isLogged) return null;
+      
+        //this.auth.idTokenClaims$.subscribe(r => {
+        this.auth.getAccessTokenSilently().subscribe(r => {  
+          this.authService.useTokenForAuth(r).then();
+        });
+      });
+      
       if (this.platform.is('hybrid')) {
         SplashScreen.hide();
       }

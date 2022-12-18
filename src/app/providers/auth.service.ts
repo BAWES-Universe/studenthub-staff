@@ -7,8 +7,10 @@ import {genericRetryStrategy} from '../util/genericRetryStrategy';
 // service
 import {EventService} from './event.service';
 import {environment} from '../../environments/environment';
+import { AuthService as Auth0Service } from '@auth0/auth0-angular';
 
 import { Plugins } from '@capacitor/core';
+import { AlertController, LoadingController } from '@ionic/angular';
 
 const { Storage } = Plugins;
 
@@ -39,10 +41,14 @@ export class AuthService {
   private _urlBasicAuth = '/auth/login';
   private _urlUpdatePass = '/auth/update-password';
   private _urlResetPassRequest = '/auth/request-reset-password';
+  public _urlLoginAuth0 = 'auth/login-auth0';
 
   constructor(
     public _http: HttpClient,
+    public auth: Auth0Service,
     public router: Router,
+    public alertCtrl: AlertController,
+    public loadingCtrl: LoadingController,
     public eventService: EventService,
     public rendererFactory: RendererFactory2
   ) {
@@ -267,6 +273,82 @@ export class AuthService {
       first(),
       map((res: HttpResponse<any>) => res)
     );
+  }
+
+  /**
+   * Login by Auth0 accessToken
+   */
+  async useTokenForAuth(accessToken, showLoader = true) {
+
+    let loading;
+
+    if (showLoader) {
+      loading = await this.loadingCtrl.create({
+        spinner: 'crescent',
+        message: 'Logging in...'
+      });
+      loading.present();
+    }
+
+    const url = environment.apiEndpoint + this._urlLoginAuth0;
+
+    const headers = this._buildAuthHeaders();
+
+    return this._http.post(url, {
+      accessToken: accessToken,
+    }, {
+      headers: headers
+    })
+      .pipe(
+        retryWhen(genericRetryStrategy()),
+        catchError((err) => this._handleError(err)),
+        first(),
+        map((res) => res)
+      )
+      .subscribe(async response => {
+
+        if (response.operation == 'success') {
+
+          this.setAccessToken(response, true);
+
+        } else if (response.code == 1) {
+ 
+          const alert = await this.alertCtrl.create({
+            message: 'No account with login email', // JSON.stringify(err)
+            buttons: ['Okay']
+          });
+          await alert.present();
+
+          this.auth.logout();
+
+        } else if (response.operation == 'error') {
+
+          const alert = await this.alertCtrl.create({
+            message: 'Error getting login by Auth0 API', // JSON.stringify(err)
+            buttons: ['Okay']
+          });
+          await alert.present();
+
+        }
+
+        //this.eventService.googleLoginFinished$.next({});
+
+      }, err => {
+
+        //this.eventService.googleLoginFinished$.next(err);
+      },
+      () => {
+        if (loading) {
+          loading.dismiss();
+        }
+      });
+  }
+
+  _buildAuthHeaders() {
+    return new HttpHeaders({
+      //Language: this.language_pref || 'en',
+      'Content-Type': 'application/json'
+    });
   }
 
   /**
