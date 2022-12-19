@@ -13,7 +13,7 @@ import { concat, interval } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { DOCUMENT } from '@angular/common';
-import { App, URLOpenListenerEvent } from '@capacitor/app';
+//import { App, URLOpenListenerEvent } from '@capacitor/app';
 // services
 import { EventService } from './providers/event.service';
 import { AuthService } from './providers/auth.service';
@@ -23,7 +23,7 @@ import {CompanyRequestService} from './providers/logged-in/company-request.servi
 import { AuthService as Auth0Service } from '@auth0/auth0-angular';
 import { Router } from '@angular/router';
 
-const { SplashScreen } = Plugins;
+const { App, SplashScreen } = Plugins;
 
 @Component({
   selector: 'app-root',
@@ -56,7 +56,7 @@ export class AppComponent implements OnInit {
   }
 
   initializeApp() {
-    App.addListener('appUrlOpen', (event: URLOpenListenerEvent) => {
+    App.addListener('appUrlOpen', (event) => {
       this.zone.run(() => {
           // Example url: https://beerswift.app/tabs/tab2
           // slug = /tabs/tab2
@@ -181,7 +181,13 @@ export class AppComponent implements OnInit {
     this.eventService.userLoggedOut$.subscribe((logoutReason) => {
       // Set root to Login Page
       this.navCtrl.navigateRoot(['/login']);
-
+      
+      this.auth.isAuthenticated$.subscribe(isAuthenticated => {
+        if(isAuthenticated) {
+          this.auth.logout({ returnTo: document.location.origin });
+        }
+      })
+      
       // Show Message explaining logout reason if there's one set
       if (logoutReason) {
         console.log(logoutReason);

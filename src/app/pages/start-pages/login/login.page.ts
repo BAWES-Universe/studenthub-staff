@@ -27,8 +27,8 @@ export class LoginPage implements OnInit {
   public type: string = 'password';
 
   constructor(
-    public platform: Platform,
     private _fb: FormBuilder,
+    public platform: Platform,
     public auth0: Auth0Service,
     private _auth: AuthService,
     private _alertCtrl: AlertController

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {Platform} from "@ionic/angular";
 
 import {Plugins, CameraResultType, CameraSource} from '@capacitor/core';
+
 const { Camera } = Plugins;
 
 @Injectable({

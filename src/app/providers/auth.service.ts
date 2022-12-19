@@ -41,7 +41,7 @@ export class AuthService {
   private _urlBasicAuth = '/auth/login';
   private _urlUpdatePass = '/auth/update-password';
   private _urlResetPassRequest = '/auth/request-reset-password';
-  public _urlLoginAuth0 = 'auth/login-auth0';
+  public _urlLoginAuth0 = '/auth/login-auth0';
 
   constructor(
     public _http: HttpClient,
@@ -319,7 +319,7 @@ export class AuthService {
           });
           await alert.present();
 
-          this.auth.logout();
+          this.auth.logout({ returnTo: document.location.origin });
 
         } else if (response.operation == 'error') {
 
