@@ -20,7 +20,7 @@
     </ion-thumbnail>
 
     <h2 class="candidate-name" [title]=pendingData *ngIf="candidate.candidate_name">
-      {{ candidate.candidate_name }}<ion-badge color="danger" *ngIf="candidate.deleted">Deleted</ion-badge>
+      {{ candidate.candidate_name }} <small>({{candidate.candidate_id}})</small><ion-badge color="danger" *ngIf="candidate.deleted">Deleted</ion-badge>
 
       <ion-button size="small" class="btn-copy" (click)="copy($event, candidate.candidate_name)">
         <ion-icon slot="icon-only" name="copy-outline"></ion-icon>
@@ -300,7 +300,7 @@
             </p>
 
             <p>
-              {{ toDate(history.start_date) | date }} 
+              {{ toDate(history.start_date) | date }}
               <ng-container *ngIf="history.end_date">to {{ toDate(history.end_date) | date }}</ng-container>
               <ng-container *ngIf="!history.end_date && !isFutureDate(history.start_date)">to now</ng-container>
             </p>
