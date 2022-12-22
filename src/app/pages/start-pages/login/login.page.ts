@@ -110,7 +110,7 @@ export class LoginPage implements OnInit {
    * redirec to auth0
    */
   loginWithRedirect() {
-    const url = this.platform.is('hybrid') ? `co.studenthub.staff://view/tasks`: null;
+    const url = this.platform.is('hybrid') ? `co.studenthub.staff://view/tasks`: document.location.origin;
     this.auth0.loginWithRedirect({ redirect_uri: url })
   }
 

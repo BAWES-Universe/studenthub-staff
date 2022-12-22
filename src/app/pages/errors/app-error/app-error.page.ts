@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastController, NavController, LoadingController, ModalController } from '@ionic/angular';
-import { Plugins } from '@capacitor/core';
 import { StorageService } from 'src/app/providers/storage.service';
 
-const { Storage } = Plugins;
 
 @Component({
   selector: 'pogi-app-error',

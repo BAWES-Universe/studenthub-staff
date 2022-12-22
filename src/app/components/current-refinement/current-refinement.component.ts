@@ -1,8 +1,10 @@
 import { Component, Inject, forwardRef, Input, ViewEncapsulation, Optional } from '@angular/core';
 import { BaseWidget, NgAisIndex, NgAisInstantSearch } from 'angular-instantsearch';
 import { noop } from "angular-instantsearch/esm2015/utils";
-import { connectCurrentRefinedValues } from "instantsearch.js/es/connectors";
 import { AgePipe } from 'src/app/pipes/age.pipe';
+import { connectCurrentRefinements } from "instantsearch.js/es/connectors";
+import { CurrentRefinementsRenderState } from 'instantsearch.js/es/connectors/current-refinements/connectCurrentRefinements';
+
 
 @Component({
     selector: 'current-refinement',
@@ -52,7 +54,7 @@ export class CurrentRefinementComponent extends BaseWidget {
 
         //connectCurrentRefinedValues
         if(this.instantSearchInstance) { 
-            this.createWidget(connectCurrentRefinedValues, options);
+            this.createWidget(connectCurrentRefinements, options);
             super.ngOnInit();
         }
     }

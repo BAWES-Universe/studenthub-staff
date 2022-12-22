@@ -109,7 +109,7 @@ import { ModalController, PopoverController } from '@ionic/angular';
         font-weight: 400;
         font-size: 14px;
         float: right;
-        color: #68687A';
+        color: #68687A;
     }
 
     .btn-close {

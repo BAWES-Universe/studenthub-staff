@@ -119,8 +119,8 @@
             <ion-label  position="floating">Name [Arabic]</ion-label>
             <ion-input type="text" formControlName="name_ar"></ion-input>
           </ion-item>
-          <div class="error-wrapper" *ngIf="!form.controls['name']_ar.pristine">
-            <p class="error" *ngIf="form.controls['name']_ar.errors && form.controls['name']_ar.errors.required">
+          <div class="error-wrapper" *ngIf="!form.controls['name_ar'].pristine">
+            <p class="error" *ngIf="form.controls['name_ar'].errors && form.controls['name_ar'].errors.required">
               * required
             </p>
           </div>

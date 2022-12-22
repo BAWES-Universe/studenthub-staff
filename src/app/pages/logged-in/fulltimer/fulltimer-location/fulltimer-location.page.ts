@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertController, ModalController } from '@ionic/angular';
-import { Plugins } from '@capacitor/core';
 import { environment } from 'src/environments/environment';
+import { Geolocation } from '@capacitor/geolocation';
 //models
 import { Fulltimer } from 'src/app/models/fulltimer';
 //services
@@ -12,8 +12,6 @@ import { AccountService } from 'src/app/providers/logged-in/account.service';
 
 
 declare var google;
-
-const { Geolocation } = Plugins;
 
 @Component({
   selector: 'app-fulltimer-location',

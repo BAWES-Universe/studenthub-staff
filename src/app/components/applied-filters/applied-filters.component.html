@@ -24,21 +24,21 @@
 
   <div class="clearfix"></div>
 
-  <div [class]="cx()" *ngIf="!isHidden()">
-    <span [class]="cx('list')" *ngIf="this.platform.is('mobile') && state.refinements">
+  <div [class]="cx()"><!--  *ngIf="!isHidden()" -->
+    <span [class]="cx('list')" *ngIf="this.platform.is('mobile') && state.items">
         <div class="outer-slider">
             <div class="inner-element">
                 <ion-button (click)="toggleCurrentSelection(currentSelection)" class="skip-hover" *ngFor="let currentSelection of currentSelections()">
-                  {{ currentSelection.appliedLabel? currentSelection.appliedLabel : currentSelection.computedLabel}}
+                  {{ currentSelection.label? currentSelection.label : currentSelection.label}}
                   <ion-icon name="close"></ion-icon>
                 </ion-button>
             </div>
         </div>
     </span>
 
-      <span [class]="cx('list')" *ngIf="this.platform.is('desktop') && state.refinements">
+      <span [class]="cx('list')" *ngIf="this.platform.is('desktop') && state.items"> <!-- refinements -->
         <ion-button (click)="toggleCurrentSelection(currentSelection)"  *ngFor="let currentSelection of currentSelections()" class="skip-hover">
-          {{ currentSelection.appliedLabel? currentSelection.appliedLabel : currentSelection.computedLabel}}
+          {{ currentSelection.label? currentSelection.label : currentSelection.label}}
             <ion-icon name="close"></ion-icon>
         </ion-button>
     </span>

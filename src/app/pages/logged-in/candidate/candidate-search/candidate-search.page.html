@@ -55,7 +55,7 @@
 
           <ion-col size-sm="12" size-md="4" size-lg="4" class="col-filter">
             <div class="filter-wrapper" (scroll)="logScrolling($event)">
-              <candidate-filter [class.hidden]="loading && !nbHits"></candidate-filter>
+              <!-- todo <candidate-filter [class.hidden]="loading && !nbHits"></candidate-filter>-->
               <loading-modal [loading]="loading && !nbHits" type="candidate-filter"></loading-modal>
             </div>
           </ion-col>
@@ -65,9 +65,9 @@
             <div class="list-header" *ngIf="showSearchBox">
 
               <div class="applied-filters-wrapper">
-                <applied-filters [loading]="refreshingCandidates" [labelWithoutFilter]="'Showing candidates'"
+                <!-- <applied-filters [loading]="refreshingCandidates" [labelWithoutFilter]="'Showing candidates'"
                                 [labelWithFilter]="'Showing candidates for'">
-                </applied-filters>
+                </applied-filters> todo -->
               </div>
               <div class="searchBox">
                 <ion-searchbar (ionChange)="onSearch($event)" placeholder="{{ 'Type to filter from these results' | translate }}"></ion-searchbar>

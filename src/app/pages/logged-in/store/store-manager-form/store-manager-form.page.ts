@@ -34,7 +34,7 @@ export class StoreManagerFormPage implements OnInit {
 
   ngOnInit() {
     
-    if (this.navParams && this.navParams.data && this.navParams.data.view) {
+    if (this.navParams && this.navParams.data && this.navParams.data['view']) {
       this.directView = true;
     }
     window.analytics.page('Store Manager Form Page');

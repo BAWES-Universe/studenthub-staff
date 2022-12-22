@@ -15,6 +15,7 @@ import { DOCUMENT } from '@angular/common';
 import { App, URLOpenListenerEvent } from '@capacitor/app';
 import { SplashScreen } from '@capacitor/splash-screen';
 import { Router } from '@angular/router';
+import { Storage } from '@ionic/storage-angular';
 // services
 import { EventService } from './providers/event.service';
 import { AuthService } from './providers/auth.service';
@@ -22,6 +23,7 @@ import { TranslateLabelService } from './providers/translate-label.service';
 import {StoryService} from './providers/logged-in/story.service';
 import {CompanyRequestService} from './providers/logged-in/company-request.service';
 import { AuthService as Auth0Service } from '@auth0/auth0-angular';
+import { StorageService } from './providers/storage.service';
 
 
 @Component({
@@ -49,12 +51,17 @@ export class AppComponent implements OnInit {
     public translateService: TranslateLabelService,
     public toastCtrl: ToastController,
     public auth: Auth0Service,
+    public storage: Storage,
+    public storageService: StorageService,
     public zone: NgZone,
   ) {
     this.initializeApp();
   }
 
-  initializeApp() {
+  async initializeApp() {
+    if(!this.storageService._storage)
+      this.storageService._storage = await this.storage.create();
+
     App.addListener('appUrlOpen', (event) => {
       this.zone.run(() => {
           // Example url: https://beerswift.app/tabs/tab2

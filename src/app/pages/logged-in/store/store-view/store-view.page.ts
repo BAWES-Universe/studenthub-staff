@@ -59,11 +59,11 @@ export class StoreViewPage implements OnInit {
       this.store_id = this.activatedRoute.snapshot.paramMap.get('id');
     }
 
-    if (this.navParams && this.navParams.data && this.navParams.data.store_id) {
-      this.store_id = this.navParams.data.store_id;
+    if (this.navParams && this.navParams.data && this.navParams.data['store_id']) {
+      this.store_id = this.navParams.data['store_id'];
     }
 
-    if (this.navParams && this.navParams.data && this.navParams.data.view) {
+    if (this.navParams && this.navParams.data && this.navParams.data['view']) {
       this.directView = true;
     }
 

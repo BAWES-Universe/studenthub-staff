@@ -115,7 +115,7 @@ export class CompanyRequestViewPage implements OnInit, OnDestroy {
     window.analytics.page('Company Request View Page');
 
     if (!this.request_uuid)
-      this.request_uuid = this.route.snapshot.params.request_uuid;
+      this.request_uuid = this.route.snapshot.params['request_uuid'];
 
     this.backState = window.history.state;
     const model = window.history.state.model;

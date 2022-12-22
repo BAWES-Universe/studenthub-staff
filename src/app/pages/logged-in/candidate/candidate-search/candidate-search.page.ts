@@ -1,6 +1,5 @@
 import {Component, ViewChild, OnInit, ChangeDetectorRef, ViewRef} from '@angular/core';
 import { NavController, Platform, MenuController, PopoverController, IonContent, AlertController } from '@ionic/angular';
-import { Plugins } from '@capacitor/core';
 // import { Storage } from '@ionic/storage';
 import { environment } from '../../../../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -315,11 +314,49 @@ export class CandidateSearchPage implements OnInit {
       transferState = _a.transferState,
       makeStateKey = _a.makeStateKey;
 
-    const client = algoliasearch(appId, apiKey, {});
+    const client = algoliasearch(appId, apiKey, {
+      requester: {
+        send({ headers, method, url, data }) {
+            
+          const transferStateKey = makeStateKey(`ngais(${data})`);
+
+            if (transferState.hasKey(transferStateKey) && !this.refreshingFulltimers) {
+                const response = JSON.parse(transferState.get(transferStateKey, JSON.stringify({})));
+                return Promise.resolve({
+                    status: response.status,
+                    content: JSON.stringify(response.body),
+                    isTimedOut: false,
+                });
+            }
+
+            return new Promise((resolve, reject) => {
+                httpClient
+                    .request(method, url, {
+                    headers,
+                    body: data,
+                    observe: 'response',
+                })
+                    .subscribe(response => {
+                    
+                    this.processResponse(response, transferState, transferStateKey);
+
+                    resolve({
+                        status: response.status,
+                        content: JSON.stringify(response.body),
+                        isTimedOut: false,
+                    });
+                }, response => reject({
+                    status: response.status,
+                    body: response.body,
+                }));
+            });
+        },
+      }
+    });
 
     client.addAlgoliaAgent('angular-instantsearch ' + VERSION);
 
-    client._request = (rawUrl, opts, fromResetKey = false) => {
+    /*client._request = (rawUrl, opts, fromResetKey = false) => {
 
       if (this.instantSearchConfig.searchClient) {
         opts.headers['x-algolia-api-key'] = this.instantSearchConfig.searchClient.apiKey;
@@ -379,7 +416,7 @@ export class CandidateSearchPage implements OnInit {
               });
             }
           });
-        }*/
+        }*
 
         //if key got time out
 
@@ -415,7 +452,7 @@ export class CandidateSearchPage implements OnInit {
 
           });
       });
-    };
+    };*/
     return client;
   }
 

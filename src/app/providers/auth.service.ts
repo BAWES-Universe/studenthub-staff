@@ -4,6 +4,7 @@ import { catchError, first, map, retryWhen, take } from 'rxjs/operators';
 import {HttpClient, HttpHeaders, HttpResponse} from '@angular/common/http';
 import {ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree} from '@angular/router';
 import {genericRetryStrategy} from '../util/genericRetryStrategy';
+import { Storage } from '@ionic/storage-angular';
 // service
 import {EventService} from './event.service';
 import {environment} from '../../environments/environment';
@@ -42,6 +43,7 @@ export class AuthService {
   public _urlLoginAuth0 = '/auth/login-auth0';
 
   constructor(
+    public storage: Storage,
     public _http: HttpClient,
     public auth: Auth0Service,
     public router: Router,
@@ -90,7 +92,9 @@ export class AuthService {
           resolve(true);
         } else {
           resolve(false);
-          this.logout('invalid access');
+
+          this.router.navigate(['login']);
+          //this.logout('invalid access');
         }
       }).catch(r => {
         this.eventService.errorStorage$.next({});
@@ -197,26 +201,35 @@ export class AuthService {
   }
 
   // This is the method you want to call at bootstrap
-  async load(): Promise<any> {
+  load(): Promise<any> {
+   
+    return new Promise((resolve, reject) => {
+      this.storage.create().then(storage => {
 
-    this.storageService.get('loggedInStaff').then(staff => {
+        this.storageService._storage = storage;
 
-      if (staff && staff.token) {
-        return this.setAccessToken(staff);
-      } else {
-        // return this.logout('error with store variables',true);
-      }
-    }).catch(r => {
-      this.eventService.errorStorage$.next({});
-    });
+        this.storageService.get('theme').then(ret => {
 
-    this.storageService.get('theme').then(ret => {
+          if (ret) {
+            this.setTheme(ret);
+          }
+        }).catch(r => {
+          this.eventService.errorStorage$.next({});
+        });
 
-      if (ret.value) {
-        this.setTheme(ret.value);
-      }
-    }).catch(r => {
-      this.eventService.errorStorage$.next({});
+        this.storageService.get('loggedInStaff').then(staff => {
+
+          if (staff && staff.token) {
+            this.setAccessToken(staff);
+          } else {
+            // return this.logout('error with store variables',true);
+          }
+        }).catch(r => {
+          this.eventService.errorStorage$.next({});
+        });
+
+        resolve(true);
+      });
     });
   }
 

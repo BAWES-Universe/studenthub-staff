@@ -26,7 +26,7 @@
                 <ion-col size="4">
                   <img tappable (click)="triggerUpdatePhoto($event)"
                       *ngIf="form.controls['logo'].value && form.controls['logo'].value.length > 0"
-                      src="{{ form.controls['logo']_path.value }}">
+                      src="{{ form.controls['logo_path'].value }}">
 
                   <div tappable (click)="triggerUpdatePhoto($event)" class="no-logo"
                       *ngIf="!form.controls['logo'].value || form.controls['logo'].value.length == 0">

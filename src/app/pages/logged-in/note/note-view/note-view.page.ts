@@ -41,7 +41,7 @@ export class NoteViewPage implements OnInit {
     window.analytics.page('Note View Page');
 
     if(!this.note_uuid)
-      this.note_uuid = this.route.snapshot.params.note_uuid;
+      this.note_uuid = this.route.snapshot.params['note_uuid'];
 
     if(!this.note)
       this.loadData();

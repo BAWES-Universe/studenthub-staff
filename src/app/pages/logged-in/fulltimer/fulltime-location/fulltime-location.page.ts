@@ -1,17 +1,14 @@
 import {Component, OnInit, ViewChild, NgZone, OnDestroy} from '@angular/core';
 import { AlertController, ModalController, Platform, IonContent } from '@ionic/angular';
 import { ActivatedRoute, Router } from '@angular/router';
-
 import { Subscription } from 'rxjs';
-import { Plugins } from '@capacitor/core';
+import { Geolocation } from '@capacitor/geolocation';
 // models
 import {GoogleMapService} from '../../../../providers/logged-in/google-map.service';
 import {AuthService} from '../../../../providers/auth.service';
 import {TranslateLabelService} from '../../../../providers/translate-label.service';
 import {Fulltimer} from "../../../../models/fulltimer";
 
-
-const { Geolocation } = Plugins;
 
 @Component({
   selector: 'app-fulltime-location',

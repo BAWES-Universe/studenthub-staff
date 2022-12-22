@@ -32,7 +32,7 @@ export class SuggestionViewPage implements OnInit {
     window.analytics.page('Suggestion View Page');
 
     if(!this.suggestion_uuid)
-      this.suggestion_uuid = this.route.snapshot.params.suggestion_uuid;
+      this.suggestion_uuid = this.route.snapshot.params['suggestion_uuid'];
       
     this.loadData();
   }

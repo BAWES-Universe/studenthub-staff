@@ -27,11 +27,11 @@ export class RefinementListComponent extends BaseWidget {
     @Output() change: EventEmitter<any> = new EventEmitter();
 
     public open: boolean = false;
-    public autoHideContainer: boolean = false;
 
+    public override state; 
+    
     public limit;
     public sortBy;
-    public state;
 
     //NgAisInstantSearch
 
@@ -70,7 +70,7 @@ export class RefinementListComponent extends BaseWidget {
         });
     }
 
-    public ngOnInit() {
+    public override ngOnInit() {
         if(this.instantSearchInstance) {
             this.createWidget(connectRefinementList, {
                 limit: parseNumberInput(this.limit),
@@ -83,10 +83,6 @@ export class RefinementListComponent extends BaseWidget {
             });
             super.ngOnInit();
         }
-    }
-
-    ngOnDestroy() {
-        //don't destroy refinement list
     }
 
     /**

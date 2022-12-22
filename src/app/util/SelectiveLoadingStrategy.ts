@@ -5,14 +5,14 @@ export class SelectiveLoadingStrategy implements PreloadingStrategy {
   routes: { [name: string]: { route: Route; load: Function } } = {};
 
   preload(route: Route, load: Function): Observable<any> {
-    if (route.data && route.data.name) {
-      this.routes[route.data.name] = {
+    if (route.data && route.data['name']) {
+      this.routes[route.data['name']] = {
         route,
         load
       };
     }
 
-    if (route.data && route.data.preload) {
+    if (route.data && route.data['preload']) {
       return load();
     }
 

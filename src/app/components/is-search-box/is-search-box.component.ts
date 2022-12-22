@@ -25,7 +25,7 @@ export class IsSearchBoxComponent extends BaseWidget {
     @Output() focus: EventEmitter<any> = new EventEmitter();
     @Output() blur: EventEmitter<any> = new EventEmitter();
 
-    state;
+    override state;
 
     modelChanged: Subject<{query: string, code: number }> = new Subject();
 

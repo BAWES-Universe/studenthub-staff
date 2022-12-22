@@ -85,9 +85,9 @@ export class CompanyContactViewPage implements OnInit {
     window.analytics.page('Company Contact View Page');
 
     if(!this.contact_uuid)
-      this.contact_uuid = this.route.snapshot.params.contact_uuid;
+      this.contact_uuid = this.route.snapshot.params['contact_uuid'];
 
-    this.company_id = this.route.snapshot.params.company_id;
+    this.company_id = this.route.snapshot.params['company_id'];
 
     const model = window.history.state.model;
 

@@ -11,6 +11,7 @@ import { LoadingModalModule } from 'src/app/components/loading-modal/loading-mod
 import { PipesModule } from 'src/app/pipes/pipes.module';
 import {RequestListingModule} from "../../../../components/request-listing/request-listing.module";
 import { NoteModule } from 'src/app/components/note/note.module';
+import { TransferChartPageModule } from '../../transfer/transfer-chart/transfer-chart.module';
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import { NoteModule } from 'src/app/components/note/note.module';
     PipesModule,
     NoteModule,
     RequestListingModule,
+    TransferChartPageModule,
     CompanyViewPageRoutingModule,
   ],
   declarations: [CompanyViewPage]

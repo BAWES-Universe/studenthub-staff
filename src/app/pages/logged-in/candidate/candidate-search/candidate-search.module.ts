@@ -23,7 +23,7 @@ import { TranslateModule } from '@ngx-translate/core';
     FormsModule,
     IonicModule,
     NgAisModule,
-    CandidateFilterModule,
+   // CandidateFilterModule,
     AppliedFiltersModule,
     LoadingModalModule,
     CandidateModule,

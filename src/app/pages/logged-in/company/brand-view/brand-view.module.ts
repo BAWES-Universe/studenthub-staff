@@ -10,6 +10,7 @@ import { BrandViewPage } from './brand-view.page';
 import {LoadingModalModule} from 'src/app/components/loading-modal/loading-modal.module';
 import { CandidateModule } from 'src/app/components/candidate/candidate.module';
 import {StoreModule} from "../../../../components/store/store.module";
+import { BrandOptionPageModule } from '../brand/brand-option/brand-option.module';
 
 @NgModule({
     imports: [
@@ -19,6 +20,7 @@ import {StoreModule} from "../../../../components/store/store.module";
         ReactiveFormsModule,
         CandidateModule,
         StoreModule,
+        BrandOptionPageModule,
         BrandViewPageRoutingModule,
         LoadingModalModule
     ],

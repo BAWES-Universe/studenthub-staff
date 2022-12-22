@@ -14,7 +14,6 @@ const routes: Routes = [
   {
     path: 'login',
     loadChildren: () => import('./pages/start-pages/login/login.module').then(m => m.LoginPageModule),
-    canActivate: [LoginGuard],
     data: {
       name: 'LoginPage'
     }
@@ -468,7 +467,7 @@ const routes: Routes = [
   },
   {
     path: 'change-password',
-    loadChildren: () => import('./pages/logged-in/change-password/change-password-routing.module').then( m => m.ChangePasswordPageRoutingModule),
+    loadChildren: () => import('./pages/logged-in/change-password/change-password.module').then( m => m.ChangePasswordPageModule),
     canActivate: [AuthService],
     data: {
       name: 'ChangePasswordPage'
@@ -476,7 +475,8 @@ const routes: Routes = [
   },
   {
     path: 'candidate-salary-list',
-    loadChildren: () => import('./pages/logged-in/candidate/candidate-salary-list/candidate-salary-list-routing.module').then( m => m.CandidateSalaryListPageRoutingModule),
+    loadChildren: () => import('./pages/logged-in/candidate/candidate-salary-list/candidate-salary-list.module').then(m => 
+      m.CandidateSalaryListPageModule),
     canActivate: [AuthService],
     data: {
       name: 'CandidateSalaryListPage'

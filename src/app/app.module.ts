@@ -16,9 +16,7 @@ import { SentryErrorhandlerService } from './providers/sentry.errorhandler.servi
 import { TranslateLabelService } from './providers/translate-label.service';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { AuthModule } from '@auth0/auth0-angular';
-import { FileChooser } from '@ionic-native/file-chooser/ngx';
-import { FilePath } from '@ionic-native/file-path/ngx';
-import { IOSFilePicker } from '@ionic-native/file-picker/ngx';
+
 
 import { SkillFormPageModule } from './pages/logged-in/candidate/skill-form/skill-form.module';
 import { ExperienceFormPageModule } from './pages/logged-in/candidate/experience-form/experience-form.module';
@@ -78,8 +76,8 @@ import { CandidateAssignFormPageModule } from './pages/logged-in/candidate-assig
 import { LeaveRequestPageModule } from './pages/logged-in/leave-request/leave-request.module';
 
 import { File } from '@awesome-cordova-plugins/file/ngx';
-import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
 import { IonicStorageModule } from '@ionic/storage-angular';
+import { StorageService } from './providers/storage.service';
 
 export function startupServiceFactory(authService) {
   return () => authService.load();
@@ -185,13 +183,10 @@ declare global {
       // Provider for APP_INITIALIZER
       provide: APP_INITIALIZER,
       useFactory: startupServiceFactory,
-      deps: [AuthService],
+      deps: [AuthService, StorageService],
       multi: true
     },
     File,
-    FileChooser,
-    FilePath,
-    IOSFilePicker,
     SwUpdate,
     TranslateLabelService,
     SelectiveLoadingStrategy,

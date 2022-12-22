@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { ModalController, IonInput, AlertController } from '@ionic/angular';
-import { Plugins } from '@capacitor/core';
 import { environment } from 'src/environments/environment';
+import { Geolocation } from '@capacitor/geolocation';
 // models
 import { Candidate } from 'src/app/models/candidate';
 // services
@@ -12,8 +12,6 @@ import { GoogleMapService } from 'src/app/providers/logged-in/google-map.service
 
 
 declare var google;
-
-const { Geolocation } = Plugins;
 
 @Component({
   selector: 'app-location',

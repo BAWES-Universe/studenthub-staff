@@ -173,7 +173,6 @@ export class TransferChartPage implements OnInit {
         datasets: [
           {
             label: 'Transfers (' + allTransfers.length + ')',
-            display: false,
             data: allTransfers,
             pointBackgroundColor: pointBackgroundColors,
             pointBorderColor: pointBackgroundColors,
@@ -223,69 +222,70 @@ export class TransferChartPage implements OnInit {
         ]
       },
       options: {
-        legend: {
-          display: this.legendDisplay,
-          position: 'bottom'
+        plugins: {
+          legend: {
+            display: this.legendDisplay,
+            position: 'bottom'
+          },
+          tooltip: {
+            callbacks: {
+              label: (context) => {
+
+                let label = '';
+                // let label = context.label || '';Complete/payment received/inprogress
+                if (context.datasetIndex == 0) {
+                  if (allTransfers[context.dataIndex].status == '4') {
+                    label += '\nTransfer Completed on ' + context.label + '\n';
+                  } else if (allTransfers[context.dataIndex].status == '1') {
+                    label += '\nConfirm Received on ' + context.label + '\n';
+                  } else if (allTransfers[context.dataIndex].status == '3') {
+                    label += '\nDistribution in Progress on ' + context.label + '\n';
+                  }
+                }
+
+
+                if (context.datasetIndex == 1) {
+                  label += '\nProfit on ' + context.label + '\n';
+                } else if (context.datasetIndex == 2) {
+                  label += '\nTotal Candidates on ' + context.label + '\n';
+                } else if (context.datasetIndex == 3) {
+                  label += '\nTotal Candidates Paid on ' + context.label + '\n';
+                } else if (context.datasetIndex == 4) {
+                  label += '\nAverage Candidates Payment on ' + context.label + '\n';
+                } else if (context.datasetIndex == 5) {
+                  label += '\nAverage Profit Per Candidate on ' + context.label + '\n';
+                }
+
+                if (context.datasetIndex == 2) {
+                  label += 'are ' + allTransfers[context.dataIndex].totalCandidateTransferTotal;
+                } else if (!isNaN(context.parsed.y)) {
+                  label += new Intl.NumberFormat('en-US', {
+                    style: 'currency',
+                    currency: 'KWD'
+                  }).format(context.parsed.y);
+                }
+                return label;
+              }
+            }
+          }
         },
         scales: {
-          xAxes: [{
+          x: {
             // display: false,
             type: 'category',
             labels: xAxis,
-          }],
-          yAxes: [{
+          },
+          y: {
             ticks: {
-              beginAtZero: true,
-              callback: (value) => {
+              callback: (value: number) => {
                 return (new Intl.NumberFormat('en-US', {
                   style: 'currency',
                   currency: 'KWD',
-                })).format(value);
+                })).format(value + 0);
               }
-            }
-          }]
-        },
-        tooltips: {
-          callbacks: {
-            label: (context) => {
-
-              let label = '';
-              // let label = context.label || '';Complete/payment received/inprogress
-              if (context.datasetIndex == 0) {
-                if (allTransfers[context.index].status == '4') {
-                  label += '\nTransfer Completed on ' + context.label + '\n';
-                } else if (allTransfers[context.index].status == '1') {
-                  label += '\nConfirm Received on ' + context.label + '\n';
-                } else if (allTransfers[context.index].status == '3') {
-                  label += '\nDistribution in Progress on ' + context.label + '\n';
-                }
-              }
-
-
-              if (context.datasetIndex == 1) {
-                label += '\nProfit on ' + context.label + '\n';
-              } else if (context.datasetIndex == 2) {
-                label += '\nTotal Candidates on ' + context.label + '\n';
-              } else if (context.datasetIndex == 3) {
-                label += '\nTotal Candidates Paid on ' + context.label + '\n';
-              } else if (context.datasetIndex == 4) {
-                label += '\nAverage Candidates Payment on ' + context.label + '\n';
-              } else if (context.datasetIndex == 5) {
-                label += '\nAverage Profit Per Candidate on ' + context.label + '\n';
-              }
-
-              if (context.datasetIndex == 2) {
-                label += 'are ' + allTransfers[context.index].totalCandidateTransferTotal;
-              } else if (!isNaN(context.yLabel)) {
-                label += new Intl.NumberFormat('en-US', {
-                  style: 'currency',
-                  currency: 'KWD'
-                }).format(context.yLabel);
-              }
-              return label;
             }
           }
-        }
+        },
       }
     });
   }
