@@ -100,7 +100,7 @@
     </ion-label>
   </ion-item>
 
-  <ion-item *ngIf="candidate.isProfileCompleted && !candidate.store" tappable>
+  <ion-item *ngIf="candidate.isProfileCompleted && !candidate.store && !candidate.civilExpired" tappable>
     <div tabindex="0"></div>
     <ion-label (click)="assingToStore()">
       <span *ngIf="!assigning">Assign to store</span>
