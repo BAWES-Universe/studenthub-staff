@@ -317,7 +317,9 @@ export class CandidateSearchPage implements OnInit {
     const client = algoliasearch(appId, apiKey, {
       requester: {
         send({ headers, method, url, data }) {
-            
+       
+          //httpClient.getSecuredApiKeyRemainingValidity(); 
+
           const transferStateKey = makeStateKey(`ngais(${data})`);
 
             if (transferState.hasKey(transferStateKey) && !this.refreshingFulltimers) {
@@ -345,10 +347,15 @@ export class CandidateSearchPage implements OnInit {
                         content: JSON.stringify(response.body),
                         isTimedOut: false,
                     });
-                }, response => reject({
+                }, response => {
+                  
+                  
+
+                  return reject({
                     status: response.status,
                     body: response.body,
-                }));
+                  });
+                });
             });
         },
       }

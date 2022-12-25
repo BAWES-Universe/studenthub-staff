@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
+import { format, parseISO } from 'date-fns';
 
 @Component({
   selector: 'app-candidate-assign-form',
@@ -49,7 +50,11 @@ export class CandidateAssignFormPage implements OnInit {
   }
 
   save() {
-    this.modalCtrl.dismiss(this.form.value);
+    let params = this.form.value;
+    
+    params.start_date = format(parseISO(this.form.controls['start_date'].value), 'yyyy-MM-dd HH:mm:ss');//, { timeZone: '+3:30' }
+
+    this.modalCtrl.dismiss(params);
   }
 
   close() {

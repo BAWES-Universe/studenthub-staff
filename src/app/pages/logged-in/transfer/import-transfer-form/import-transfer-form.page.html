@@ -31,16 +31,14 @@
           <ion-item>
             <div tabindex="0"></div>
             <ion-label position="stacked">Start date</ion-label>
-            <ion-datetime pickerFormat="DD MMMM YYYY" displayFormat="DD MMMM YYYY" 
-              placeholder="DD/MM/YYYY" [(ngModel)]="start_date"></ion-datetime>
+            <ion-datetime presentation="date" [(ngModel)]="start_date"></ion-datetime>
           </ion-item>
         </ion-col>
         <ion-col size="6">
           <ion-item>
             <div tabindex="0"></div>
             <ion-label position="stacked">End date</ion-label>
-            <ion-datetime pickerFormat="DD MMMM YYYY" displayFormat="DD MMMM YYYY" 
-            placeholder="DD/MM/YYYY" [(ngModel)]="end_date"></ion-datetime>    
+            <ion-datetime presentation="date" [(ngModel)]="end_date"></ion-datetime>    
           </ion-item>
         </ion-col>
         <!--

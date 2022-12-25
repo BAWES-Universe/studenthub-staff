@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { Platform } from '@ionic/angular';
-
+import { format, parseISO } from 'date-fns';
 // models
 import { Staff } from 'src/app/models/staff';
 // services
@@ -86,15 +86,11 @@ export class ValocityPage implements OnInit {
     let urlParams = '&expand=totalStoryEmployees,totalCompletedStories,timeForCompletedStories,totalInvitations';
 //totalClosedRequests,totalPendingRequests,timeForCompletedRequests,timeForCancelledRequests,
     if (this.start_date) {
-      const date = new Date(this.start_date);
-      const month = date.getMonth() + 1;
-      urlParams += '&start_date=' + date.getUTCFullYear() + '-' + month + '-' + date.getUTCDay();
+      urlParams += '&start_date=' + format(parseISO(this.start_date), 'yyyy-MM-dd');
     }
 
     if (this.end_date) {
-      const date = new Date(this.end_date);
-      const month = date.getMonth() + 1;
-      urlParams += '&end_date=' + date.getUTCFullYear() + '-' + month + '-' + date.getUTCDay();
+      urlParams += '&end_date=' + format(parseISO(this.end_date), 'yyyy-MM-dd');
     }
 
     return urlParams;

@@ -47,15 +47,13 @@
             <ion-col  size-md="3" size-lg="3" size-sm="6" size-xs="12">
               <ion-item>
                 <ion-label position="stacked">Start date</ion-label>
-                <ion-datetime pickerFormat="DD MMMM YYYY" displayFormat="DD MMMM YYYY"
-                              placeholder="DD/MM/YYYY" [(ngModel)]="filters.start_date"></ion-datetime>
+                <ion-datetime presentation="date" [(ngModel)]="filters.start_date"></ion-datetime>
               </ion-item>
             </ion-col>
             <ion-col  size-md="3" size-lg="3" size-sm="6" size-xs="12">
               <ion-item>
                 <ion-label position="stacked">End date</ion-label>
-                <ion-datetime pickerFormat="DD MMMM YYYY" displayFormat="DD MMMM YYYY"
-                              placeholder="DD/MM/YYYY" [(ngModel)]="filters.end_date"></ion-datetime>
+                <ion-datetime presentation="date" [(ngModel)]="filters.end_date"></ion-datetime>
               </ion-item>
             </ion-col>
             <ion-col  size-md="4" size-lg="4" size-sm="6" size-xs="12">

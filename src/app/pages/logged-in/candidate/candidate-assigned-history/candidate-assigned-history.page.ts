@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AlertController, NavController, PopoverController, ToastController } from '@ionic/angular';
+import { format, parseISO } from 'date-fns';
 // models
 import { Candidate } from 'src/app/models/candidate';
 import { Story } from 'src/app/models/request';
@@ -115,17 +116,11 @@ export class CandidateAssignedHistoryPage implements OnInit {
     }
 
     if (this.filters.start_date) {
-      const date = new Date(this.filters.start_date);
-      const month = (date.getMonth() + 1).toString().padStart(2, '0');
-      const day   = date.getDate().toString().padStart(2, '0');
-      urlParams += '&start_date=' + date.getUTCFullYear() + '-' + month + '-' + day;
+      urlParams += '&start_date=' + format(parseISO(this.filters.start_date), 'yyyy-MM-dd');
     }
 
     if (this.filters.end_date) {
-      const date = new Date(this.filters.end_date);
-      const month = (date.getMonth() + 1).toString().padStart(2, '0');
-      const day   = date.getDate().toString().padStart(2, '0');
-      urlParams += '&end_date=' + date.getUTCFullYear() + '-' + month + '-' + day;
+      urlParams += '&end_date=' + format(parseISO(this.filters.end_date), 'yyyy-MM-dd');
     }
 
     if (this.filters.page) {

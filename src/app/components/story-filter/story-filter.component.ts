@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-
+import { format, parseISO } from 'date-fns';
 
 @Component({
   selector: 'app-story-filter',
@@ -26,6 +26,10 @@ export class StoryFilterComponent implements OnInit {
   }
 
   filter() {
+
+    this.filters.startDate = format(parseISO(this.filters.startDate), 'yyyy-MM-dd');
+    this.filters.endDate = format(parseISO(this.filters.endDate), 'yyyy-MM-dd');
+
     this.modalCtrl.dismiss(this.filters);
   }
 

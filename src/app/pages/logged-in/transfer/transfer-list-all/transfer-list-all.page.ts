@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController, ModalController } from '@ionic/angular';
+import { format, parseISO } from 'date-fns';
 // models
 import { Transfer } from 'src/app/models/transfer';
 // services
@@ -92,18 +93,13 @@ export class TransferListAllPage implements OnInit {
 
   getUrlParams() {
     let urlParams = 'expand=transferCandidates,transferCandidates.candidate,invoices,createdBy,updatedBy';
+
     if (this.start_date) {
-      const date = new Date(this.start_date);
-      const month = (date.getMonth() + 1).toString().padStart(2, '0');
-      const day   = date.getDate().toString().padStart(2, '0');
-      urlParams += '&start_date=' + date.getUTCFullYear() + '-' + month + '-' + day;
+      urlParams += '&start_date=' + format(parseISO(this.start_date), 'yyyy-MM-dd');
     }
 
     if (this.end_date) {
-      const date = new Date(this.end_date);
-      const month = (date.getMonth() + 1).toString().padStart(2, '0');
-      const day   = date.getDate().toString().padStart(2, '0');
-      urlParams += '&end_date=' + date.getUTCFullYear() + '-' + month + '-' + day;
+      urlParams += '&end_date=' + format(parseISO(this.end_date), 'yyyy-MM-dd');
     }
 
     if (this.type) {

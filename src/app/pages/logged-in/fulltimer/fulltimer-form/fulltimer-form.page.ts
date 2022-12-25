@@ -3,6 +3,7 @@ import {ActivatedRoute} from '@angular/router';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {AlertController, LoadingController, ModalController, NavController, Platform} from '@ionic/angular';
 import { Subscription } from 'rxjs';
+import { format, parseISO } from 'date-fns';
 // service
 import { AuthService } from '../../../../providers/auth.service';
 import { CountryService } from 'src/app/providers/logged-in/country.service';
@@ -547,7 +548,7 @@ export class FulltimerFormPage implements OnInit, OnDestroy {
     this.model.fulltimer_employed = this.form.value.employed;
     this.model.fulltimer_gender = this.form.value.gender;
     this.model.fulltimer_driving_license = this.form.value.driving_license;
-    this.model.fulltimer_birth_date = this.form.value.birth_date;
+    this.model.fulltimer_birth_date = format(parseISO(this.form.controls['birth_date'].value), 'yyyy-MM-dd');//, { timeZone: '+3:30' }
   }
 
   /**

@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AlertController, IonContent, ModalController, NavController, Platform, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { format, parseISO } from 'date-fns';
 // models
 import { Company } from 'src/app/models/company';
 import { Request } from 'src/app/models/request';
@@ -176,15 +177,11 @@ export class CompanyRequestListPage implements OnInit {
     }
 
     if (this.filters.startDate) {
-      const d = new Date(this.filters.startDate);
-      const month = d.getMonth() + 1;
-      urlParams += '&start_date=' + d.getFullYear() + '-' + month + '-' + d.getDate();
+      urlParams += '&start_date=' + format(parseISO(this.filters.startDate), 'yyyy-MM-dd');//, { timeZone: '+3:30' }
     }
 
     if (this.filters.endDate) {
-      const d = new Date(this.filters.endDate);
-      const month = d.getMonth() + 1;
-      urlParams += '&end_date=' + d.getFullYear() + '-' + month + '-' + d.getDate();
+      urlParams += '&end_date=' + format(parseISO(this.filters.endDate), 'yyyy-MM-dd');//, { timeZone: '+3:30' }
     }
 
     if (this.filters.position_type) {

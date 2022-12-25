@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import {AlertController, ModalController, NavController, ToastController} from '@ionic/angular';
 import { CustomValidator } from 'src/app/validators/custom.validator';
+import { format, parseISO } from 'date-fns';
 // service
 import { CandidateService } from 'src/app/providers/logged-in/candidate.service';
 import { UniversityService } from 'src/app/providers/logged-in/university.service';
@@ -94,10 +95,14 @@ export class CandidateFormPage implements OnInit {
     this.model.candidate_name_ar = this.form.value.name_ar;
 
     this.model.candidate_phone = this.form.value.phone;
-    this.model.candidate_birth_date = this.form.value.birth_date;
+    
+    this.model.candidate_birth_date = format(parseISO(this.form.controls['birth_date'].value), 'yyyy-MM-dd');
+    
     this.model.candidate_civil_id = this.form.value.civil_id;
-    this.model.candidate_civil_expiry_date = this.form.value.expiry_date;
 
+    this.model.candidate_civil_expiry_date = format(parseISO(this.form.controls['expiry_date'].value), 
+      'yyyy-MM-dd');//, { timeZone: '+3:30' }
+      
     //this.model.candidate_hourly_rate = this.form.value.hourly_rate;
     this.model.university_id = Number(this.form.value.university_id);
     this.model.country_id = Number(this.form.value.country_id);
