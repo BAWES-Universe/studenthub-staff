@@ -81,10 +81,7 @@ export class RangeRefinementComponent extends BaseWidget {
                 this.state.range = state.range;
                 this.state.start = state.start;
             }
-                 
-
-            console.log('update State', this.state);
-
+                
             // update the slider state
             const { range: {min, max}, start, } = state;
             //const min = state.range.min, max = 0; 
@@ -133,10 +130,10 @@ export class RangeRefinementComponent extends BaseWidget {
         };
 
         this.handleChange = (e) => {
-            console.log('handle', e, this.value,)
+          
            // let range = [e.detail.value.lower, e.detail.value.upper];
                 //[this.value.lower, this.value.upper]
-                console.log(this.state);
+         
              //   this.state.range.lower = [this.value.lower, this.value.upper];
             this.state.refine([this.value.lower, this.value.upper]);
             //this.change.emit();

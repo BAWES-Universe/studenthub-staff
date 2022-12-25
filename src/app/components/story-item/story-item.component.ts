@@ -75,9 +75,6 @@ export class StoryItemComponent implements OnInit {
           },
           {
             text: 'No',
-            handler:  () => {
-              console.log('Cancelled clicked');
-            }
           }
       ]
     });
@@ -103,9 +100,6 @@ export class StoryItemComponent implements OnInit {
         },
         {
           text: 'No',
-          handler:  () => {
-            console.log('Cancelled clicked');
-          }
         }
       ]
     });
@@ -131,9 +125,6 @@ export class StoryItemComponent implements OnInit {
         },
         {
           text: 'No',
-          handler:  () => {
-            console.log('Cancelled clicked');
-          }
         }
       ]
     });
@@ -159,9 +150,6 @@ export class StoryItemComponent implements OnInit {
         },
         {
           text: 'No',
-          handler:  () => {
-            console.log('Cancelled clicked');
-          }
         }
       ]
     });

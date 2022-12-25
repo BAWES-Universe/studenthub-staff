@@ -1,0 +1,3 @@
+<ion-infinite-scroll [class.isLastPage]="state && state.isLastPage" [disabled]="state && state.isLastPage" (ionInfinite)="doInfinite($event)"> 
+  <ion-infinite-scroll-content loadingSpinner=""></ion-infinite-scroll-content>
+</ion-infinite-scroll>

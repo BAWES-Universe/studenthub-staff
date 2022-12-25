@@ -15,6 +15,7 @@ import { CandidateModule } from '../../../../components/candidate/candidate.modu
 import { NoItemsModule } from '../../../../components/no-items/no-items.module';
 import { NgAisModule } from 'angular-instantsearch';
 import { TranslateModule } from '@ngx-translate/core';
+import { BawesAisPaginationModuleModule } from 'src/app/components/bawes-ais-pagination/bawes-ais-pagination-module.module';
 
 
 @NgModule({
@@ -24,6 +25,7 @@ import { TranslateModule } from '@ngx-translate/core';
     IonicModule,
     NgAisModule,
     CandidateFilterModule,
+    BawesAisPaginationModuleModule,
     AppliedFiltersModule,
     LoadingModalModule,
     CandidateModule,

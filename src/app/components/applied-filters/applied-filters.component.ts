@@ -80,9 +80,6 @@ export class AppliedFiltersComponent extends BaseWidget {
             setTimeout(() => { // to protect dual request
                 super.ngOnInit();
             },500);
-
-           // console.log(this.state, this.state.);
-
         }
     }
 
@@ -107,7 +104,6 @@ export class AppliedFiltersComponent extends BaseWidget {
 
     committedTransformItems = (item) => {
 
-        console.log(item);
         //if(!items)
         //    return [];
 

@@ -53,7 +53,7 @@
     </ion-row>
   </ion-grid>
 
-  <ais-instantsearch #instantSearch *ngIf="instantSearchConfig" (onRender)="onRender($event)" [config]="instantSearchConfig">
+  <ais-instantsearch #instantSearch index-name="fulltimer-search" *ngIf="instantSearchConfig" (onRender)="onRender($event)" [config]="instantSearchConfig">
     <ion-grid>
       <ion-row [class.filter-closed]="!showFilter" [class.filter-opened]="showFilter">
 
@@ -144,21 +144,31 @@
 
               </div>
 
-              <loading-modal [loading]="refreshingFulltimers || loading" type="fulltimer"></loading-modal> 
+             <!--  <loading-modal [loading]="refreshingFulltimers || loading" type="fulltimer"></loading-modal> 
 
-              <!-- to load more on scroll to bottom, usinng 0(zero) based pagination  -->
-
-              <!-- <ais-pagination let-nbPages="nbPages"></ais-pagination> *ngIf="page + 1 < this.nbPages"-->
+              to load more on scroll to bottom, usinng 0(zero) based pagination  --
+              <!-- <ais-pagination let-nbPages="nbPages"></ais-pagination> *ngIf="page + 1 < this.nbPages"
 
                 <ion-infinite-scroll  
                   (ionInfinite)="doInfinite($event) && showMore()"> 
                   <ion-infinite-scroll-content loadingSpinner=""></ion-infinite-scroll-content>
                 </ion-infinite-scroll>
               
+          <ais-pagination>
+            <ng-template let-showMoreHandler="showMoreHandler" let-state="state">
+              <ion-infinite-scroll [disabled]="state.isLastPage" (ionInfinite)="showMoreHandler($event)"> 
+                <ion-infinite-scroll-content loadingSpinner=""></ion-infinite-scroll-content>
+              </ion-infinite-scroll>
+            </ng-template>
+          </ais-pagination>
+        -->
+              
             </ng-template>
           </ais-infinite-hits>
 
-          <ais-pagination></ais-pagination>
+
+          <bawes-ais-pagination></bawes-ais-pagination>
+          
           <!-- No results message -->
 
           <p *ngIf="!loading && !refreshingFulltimers && noFulltimerList" class="no-fulltimer-on-filter">

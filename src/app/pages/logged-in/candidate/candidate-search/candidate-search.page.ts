@@ -338,7 +338,7 @@ export class CandidateSearchPage implements OnInit {
                 })
                     .subscribe(response => {
                     
-                    this.processResponse(response, transferState, transferStateKey);
+                    //this.processResponse(response, transferState, transferStateKey);
 
                     resolve({
                         status: response.status,

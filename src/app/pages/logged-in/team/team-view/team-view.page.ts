@@ -155,7 +155,7 @@ export class TeamViewPage implements OnInit {
    * @param event
    */
   doInfiniteStories(event) {
-    console.log('more');
+  
     this.loadMore = true;
 
     this.storiesCurrentPage++;

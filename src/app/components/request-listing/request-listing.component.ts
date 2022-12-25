@@ -146,9 +146,6 @@ export class RequestListingComponent implements OnInit {
         },
         {
           text: 'No',
-          handler:  () => {
-            console.log('Cancelled clicked');
-          }
         }
       ]
     });
@@ -171,9 +168,6 @@ export class RequestListingComponent implements OnInit {
         },
         {
           text: 'No',
-          handler:  () => {
-            console.log('Cancelled clicked');
-          }
         }
       ]
     });
@@ -196,9 +190,6 @@ export class RequestListingComponent implements OnInit {
         },
         {
           text: 'No',
-          handler:  () => {
-            console.log('Cancelled clicked');
-          }
         }
       ]
     });
@@ -220,9 +211,6 @@ export class RequestListingComponent implements OnInit {
         },
         {
           text: 'No',
-          handler:  () => {
-            console.log('Cancelled clicked');
-          }
         }
       ]
     });

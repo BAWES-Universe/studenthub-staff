@@ -13,6 +13,7 @@ import { LoadingModalModule } from '../../../../components/loading-modal/loading
 import { NoItemsModule } from '../../../../components/no-items/no-items.module';
 import { NgAisModule } from 'angular-instantsearch';
 import { FulltimerFilterModule } from 'src/app/components/fulltimer-filter/fulltimer-filter.module';
+import { BawesAisPaginationModuleModule } from 'src/app/components/bawes-ais-pagination/bawes-ais-pagination-module.module';
 
 @NgModule({
   imports: [
@@ -20,6 +21,7 @@ import { FulltimerFilterModule } from 'src/app/components/fulltimer-filter/fullt
     FormsModule,
     IonicModule,
     FulltimerSearchPageRoutingModule,
+    BawesAisPaginationModuleModule,
     NgAisModule,
     FulltimerFilterModule,
     AppliedFiltersModule,
