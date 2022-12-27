@@ -196,13 +196,14 @@ export class AuthService {
 
     if (this._accessToken) {
       this.isLogged = true;
-      this.eventService.userLogined$.next({ redirect });
+      // this.eventService.userLogined$.next({ redirect });
+      this.router.navigate(['/']);
     }
   }
 
   // This is the method you want to call at bootstrap
   load(): Promise<any> {
-   
+
     return new Promise((resolve, reject) => {
       this.storage.create().then(storage => {
 
@@ -315,7 +316,7 @@ export class AuthService {
           this.setAccessToken(response, true);
 
         } else if (response.code == 1) {
- 
+
           const alert = await this.alertCtrl.create({
             message: 'No account with login email', // JSON.stringify(err)
             buttons: ['Okay']
