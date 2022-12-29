@@ -1,7 +1,7 @@
 <ion-header mode="md" [class.add-border]="borderLimit" class="ion-no-border">
   <ion-toolbar class="container">
     <ion-buttons slot="start">
-      <ion-back-button icon="assets/images/icon-back.svg" (click)="close()" defaultHref="/view/company-list"></ion-back-button>
+      <ion-back-button icon="assets/images/icon-back.svg" (click)="close()"></ion-back-button>
     </ion-buttons>
   </ion-toolbar>
   <ion-toolbar class="container">
@@ -57,6 +57,6 @@
     <ion-button class="btn-save" [disabled]="!form.valid || loading" (click)="save()">
       <span *ngIf="!loading">Save</span>
       <ion-spinner *ngIf="loading"></ion-spinner>
-    </ion-button>    
+    </ion-button>
   </div>
 </ion-footer>

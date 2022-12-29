@@ -120,7 +120,7 @@ export class StoreFormPage implements OnInit {
   /**
    * Close the page
    */
-  close() {    
+  close() {
     this._modelCtrl.getTop().then(o => {
       if(o) {
         o.dismiss({ refresh: false });

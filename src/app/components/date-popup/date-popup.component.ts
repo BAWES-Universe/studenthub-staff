@@ -34,7 +34,7 @@ export class DatePopupComponent implements OnInit {
    * close update prompt
    */
   close($event) {
-    console.log($event);
+    // console.log($event);
     const dateFromIonDatetime = $event.detail.value;
     const formattedString = format(parseISO(dateFromIonDatetime), 'MMM d, yyyy');
     this.onClose.emit({modified: formattedString,original: $event.detail.value});

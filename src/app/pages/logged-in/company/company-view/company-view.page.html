@@ -18,19 +18,20 @@
     </ion-buttons> -->
   </ion-toolbar>
 
-  <ion-toolbar class="container" *ngIf="company">
+  <ion-toolbar class="container ion-text-wrap" *ngIf="company">
     <ion-title>
-      {{ (company.company_common_name_en) ? company.company_common_name_en:company.company_name }}
-      <ion-icon class="active" name="checkmark-circle"  *ngIf="company.company_approved_to_hire"></ion-icon>
+      <div class="ion-text-wrap">
+        {{ (company.company_common_name_en) ? company.company_common_name_en:company.company_name }}
+        <ion-icon class="active" name="checkmark-circle"  *ngIf="company.company_approved_to_hire"></ion-icon>
 
-      <ion-badge class="company_status_badge danger" slot="start" *ngIf="!company.company_status && !company.parent_company_id">
-        Inactive
-      </ion-badge>
+        <ion-badge class="company_status_badge danger" slot="start" *ngIf="!company.company_status && !company.parent_company_id">
+          Inactive
+        </ion-badge>
 
-      <ion-badge class="company_status_badge success" slot="start" *ngIf="company.company_status && !company.parent_company_id">
-        Active
-      </ion-badge>
-
+        <ion-badge class="company_status_badge success" slot="start" *ngIf="company.company_status && !company.parent_company_id">
+          Active
+        </ion-badge>
+      </div>
     </ion-title>
   </ion-toolbar>
 

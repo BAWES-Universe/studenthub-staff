@@ -8,7 +8,7 @@
     </ion-buttons>
   </ion-toolbar>
   <ion-toolbar class="container">
-    <ion-title class="main" size="large">Brands <strong *gngIf="brands">{{brands.length}}</strong></ion-title>
+    <ion-title class="main" size="large">Brands <strong *ngIf="brands">{{brands.length}}</strong></ion-title>
     <ion-title class="secondary" size="small" *ngIf="company">
       {{ (company.company_common_name_en) ?  company.company_common_name_en:company.company_name }}
     </ion-title>
