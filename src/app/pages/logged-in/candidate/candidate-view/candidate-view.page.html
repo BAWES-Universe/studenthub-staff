@@ -54,10 +54,10 @@
 
   </ion-toolbar>
 
-  <!-- [class.hidden]="borderLimit"-->
+
   <ion-toolbar class="container">
-    <!--(ionChange)="segmentChanged($event)"-->
-    <ion-segment mode="md" [(ngModel)]="segment">
+
+    <ion-segment mode="md" *ngIf="!platform.is('mobile')" (ionChange)="segmentChanged($event)" [value]="segment">
 
       <ion-segment-button mode="md" value="activity">
         <ion-label>Activity</ion-label>
@@ -75,6 +75,13 @@
         <ion-label>Financials</ion-label>
       </ion-segment-button>
     </ion-segment>
+
+    <ion-select *ngIf="platform.is('mobile')" interface="popover" (ionChange)="segmentChanged($event)" [value]="segment">
+      <ion-select-option value="activity">Activity</ion-select-option>
+      <ion-select-option value="work-details">Work Details</ion-select-option>
+      <ion-select-option value="personal-details">Personal Details</ion-select-option>
+      <ion-select-option value="financials">Financials</ion-select-option>
+    </ion-select>
   </ion-toolbar>
 
   <ion-progress-bar type="indeterminate" *ngIf="approving || unapproving"></ion-progress-bar>

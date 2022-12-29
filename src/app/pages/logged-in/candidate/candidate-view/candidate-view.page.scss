@@ -896,3 +896,11 @@ ion-content {
 .verified {
   font-size: 20px;
 }
+ion-toolbar {
+  ion-select {
+    padding: 10px;
+    border: 1px solid;
+    border-radius: 12px;
+    background: #f7f8fa;
+  }
+}

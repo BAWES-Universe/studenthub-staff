@@ -35,7 +35,8 @@ export class TransferListAllPage implements OnInit {
     public alertCtrl: AlertController,
     public modalCtrl: ModalController,
     public transferService: TransferService
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
     window.analytics.page('Transfer List Page');
@@ -95,11 +96,11 @@ export class TransferListAllPage implements OnInit {
     let urlParams = 'expand=transferCandidates,transferCandidates.candidate,invoices,createdBy,updatedBy';
 
     if (this.start_date) {
-      urlParams += '&start_date=' + format(parseISO(this.start_date), 'yyyy-MM-dd');
+      urlParams += '&start_date=' + this.start_date;
     }
 
     if (this.end_date) {
-      urlParams += '&end_date=' + format(parseISO(this.end_date), 'yyyy-MM-dd');
+      urlParams += '&end_date=' + this.end_date;
     }
 
     if (this.type) {
@@ -107,5 +108,13 @@ export class TransferListAllPage implements OnInit {
     }
 
     return urlParams;
+  }
+
+  filterDate($event, type) {
+    if (type == 'startDate') {
+      this.start_date = format(parseISO($event.original), 'yyyy-MM-dd');
+    } else {
+      this.end_date = format(parseISO($event.original), 'yyyy-MM-dd');
+    }
   }
 }

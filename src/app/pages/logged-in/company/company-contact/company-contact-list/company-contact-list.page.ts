@@ -27,6 +27,7 @@ export class CompanyContactListPage implements OnInit {
   public loading = false;
 
   public query = '';
+  public type;
 
   public borderLimit = false;
   public selectedContact = null;
@@ -39,11 +40,14 @@ export class CompanyContactListPage implements OnInit {
   }
 
   ngOnInit() {
+
+    console.log(this.type);
+    console.log(this.company);
     window.analytics.page('Company Contact List Page');
 
     if (this.company && this.company.companyContacts) {
       this.contactList = this.company.contacts;
-    } else 
+    } else
     if (this.company && this.company.company_id) {
       this.loadCompanyContacts();
     } else {
@@ -134,11 +138,21 @@ export class CompanyContactListPage implements OnInit {
      * dismiss on back button clicked
      */
     if (!companyContact) {
-      this.modalCtrl.getTop().then(o => {
-        if(o) {
-          o.dismiss();
-        }
-      });
+      if (this.type == 'mod') {
+        this.modalCtrl.getTop().then(o => {
+          if (o) {
+            o.dismiss();
+          }
+        });
+      } else  {
+        this.popupCtrl.getTop().then(overlay => {
+          if (overlay) {
+            this.popupCtrl.dismiss({  });
+          } else {
+            this.modalCtrl.dismiss({  });
+          }
+        });
+      }
     }
 
     /**

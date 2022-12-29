@@ -11,6 +11,7 @@ import {LoadingModalModule} from "../../../../components/loading-modal/loading-m
 import {NoItemsModule} from "../../../../components/no-items/no-items.module";
 import { CandidateModule } from 'src/app/components/candidate/candidate.module';
 import {PipesModule} from "../../../../pipes/pipes.module";
+import {DatePopupModule} from "../../../../components/date-popup/date-popup.module";
 
 @NgModule({
     imports: [
@@ -21,7 +22,8 @@ import {PipesModule} from "../../../../pipes/pipes.module";
         CandidateModule,
         CandidateAssignedHistoryPageRoutingModule,
         LoadingModalModule,
-        NoItemsModule
+        NoItemsModule,
+        DatePopupModule
     ],
   declarations: [CandidateAssignedHistoryPage]
 })

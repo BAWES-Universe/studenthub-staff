@@ -56,3 +56,13 @@ ion-list {
 ion-card{
   margin: 13px 2px;
 }
+ion-input.filter {
+  --border-color: #e2e2e6;
+  --border-width: 0px;
+  --border-radius: 8px;
+  background: #fff;
+  color: #68687a;
+  --color: #68687a;
+  border: 1px solid #e2e2e6;
+  border-radius: 8px;
+}

@@ -343,7 +343,7 @@ export class CandidateViewPage implements OnInit {
    * @param {number} storeID
    */
   async assignCandidateToStore(storeID) {
-    
+
     window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
     const modal = await this.modalCtrl.create({
@@ -1355,5 +1355,9 @@ export class CandidateViewPage implements OnInit {
         candidate: this.candidate
       }
     });
+  }
+
+  segmentChanged(event) {
+    this.segment = event.detail.value;
   }
 }

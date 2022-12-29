@@ -172,14 +172,16 @@ export class CompanyNoteFormPage implements OnInit {
         component: CompanyContactListPage,
         event: e,
         componentProps: {
-          company: this.company
+          company: this.company,
+          type:'pop'
         }
       });
     } else {
       popover = await this.modalCtrl.create({
         component: CompanyContactListPage,
         componentProps: {
-          company: this.company
+          company: this.company,
+          type:'mod'
         }
       });
     }
@@ -191,6 +193,7 @@ export class CompanyNoteFormPage implements OnInit {
       }
 
       if (!this.form.controls['company_id'].value) {
+
         this.form.controls['company_name'].setValue(e.data.contact.company.company_name);
         this.form.controls['company_id'].setValue(e.data.contact.company.company_id);
       }
@@ -257,6 +260,9 @@ export class CompanyNoteFormPage implements OnInit {
       }
 
       if (!this.form.controls['company_id'].value && e.data && e.data.company) {
+
+        this.company = e.data.company;
+
         this.form.controls['company_name'].setValue(e.data.company.company_name);
         this.form.controls['company_id'].setValue(e.data.company.company_id);
       }

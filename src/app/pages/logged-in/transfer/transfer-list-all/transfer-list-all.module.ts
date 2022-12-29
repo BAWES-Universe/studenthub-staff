@@ -9,16 +9,18 @@ import { TransferListAllPageRoutingModule } from './transfer-list-all-routing.mo
 import { TransferListAllPage } from './transfer-list-all.page';
 import {LoadingModalModule} from 'src/app/components/loading-modal/loading-modal.module';
 import {NoItemsModule} from 'src/app/components/no-items/no-items.module';
+import {DatePopupModule} from "../../../../components/date-popup/date-popup.module";
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    LoadingModalModule,
-    NoItemsModule,
-    TransferListAllPageRoutingModule
-  ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        IonicModule,
+        LoadingModalModule,
+        NoItemsModule,
+        TransferListAllPageRoutingModule,
+        DatePopupModule
+    ],
   declarations: [TransferListAllPage]
 })
 export class TransferListAllPageModule {}

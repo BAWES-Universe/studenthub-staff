@@ -170,6 +170,7 @@ export class MallViewPage implements OnInit {
         activatedRoutePathProps: {
           store_id: store.store_id,
           view: 'direct',
+          directView: 'direct',
         }
       }
     });
@@ -186,7 +187,7 @@ export class MallViewPage implements OnInit {
 
   /**
    * popover for store option
-   * @param event 
+   * @param event
    */
    async options(event) {
 
@@ -198,13 +199,13 @@ export class MallViewPage implements OnInit {
       showBackdrop: false
     });
     await popover.present();
-  
+
     const { data } = await popover.onDidDismiss();
-    
+
     if(data && data.action == 'delete') {
       this.delete(event, this.mall);
     }
-    
+
     if(data && data.action == 'edit') {
       this.update();
     }

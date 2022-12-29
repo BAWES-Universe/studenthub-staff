@@ -1,19 +1,19 @@
 <ion-header mode="md" [class.add-border]="borderLimit" class="ion-no-border">
   <ion-toolbar class="container">
     <ion-buttons slot="start">
-      <ion-back-button icon="assets/images/icon-back.svg" *ngIf="!directView"></ion-back-button>
+      <ion-back-button icon="assets/images/icon-back.svg" *ngIf="!directView" defaultHref="/"></ion-back-button>
       <ion-back-button icon="assets/images/icon-back.svg" *ngIf="directView" (click)="close()"></ion-back-button>
     </ion-buttons>
-    
+
     <ion-buttons slot="end">
       <ion-button (click)="options($event)">
         <ion-icon src="assets/icon/icon-option.svg"></ion-icon>
       </ion-button>
     </ion-buttons>
-    
+
   </ion-toolbar>
   <ion-toolbar *ngIf="store" class="container">
-    
+
     <ion-title>{{ store.store_name }}</ion-title>
 
     <ion-button *ngIf="!store.storeManager" class="btn-store-manager" (click)="selectStoreManager()">
@@ -22,11 +22,11 @@
 
     <ion-item *ngIf="store.storeManager" class="store-manager">
       <div tabindex="0"></div>
-      
+
       <ion-avatar slot="start">
         <img src="/assets/icon/icon.png">
       </ion-avatar>
-      
+
       <ion-label>
         <h4>{{ store.storeManager.contact_name }}</h4>
         <p> {{ store.storeManager.contact_position? store.storeManager.contact_position: "Store Manager" }}</p>
@@ -54,7 +54,7 @@
         <ion-icon slot="start" name="trash-outline"></ion-icon>
         Delete
       </ion-button>-->
- 
+
   </ion-toolbar>
 
   <ion-progress-bar type="indeterminate" *ngIf="updating"></ion-progress-bar>
@@ -63,7 +63,7 @@
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
   <div class="container">
-     
+
     <ion-list *ngIf="store">
 
       <h5>

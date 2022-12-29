@@ -254,5 +254,13 @@ export class CandidateAssignedHistoryPage implements OnInit {
     });
     await alert.present();
   }
+
+  filterDate($event, type) {
+    if (type == 'startDate') {
+      this.filters.start_date = format(parseISO($event.original), 'yyyy-MM-dd');
+    } else {
+      this.filters.end_date = format(parseISO($event.original), 'yyyy-MM-dd');
+    }
+  }
 }
 

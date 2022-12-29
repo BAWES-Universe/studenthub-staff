@@ -86,11 +86,11 @@ export class ValocityPage implements OnInit {
     let urlParams = '&expand=totalStoryEmployees,totalCompletedStories,timeForCompletedStories,totalInvitations';
 //totalClosedRequests,totalPendingRequests,timeForCompletedRequests,timeForCancelledRequests,
     if (this.start_date) {
-      urlParams += '&start_date=' + format(parseISO(this.start_date), 'yyyy-MM-dd');
+      urlParams += '&start_date=' + this.start_date;
     }
 
     if (this.end_date) {
-      urlParams += '&end_date=' + format(parseISO(this.end_date), 'yyyy-MM-dd');
+      urlParams += '&end_date=' + this.end_date;
     }
 
     return urlParams;
@@ -215,5 +215,13 @@ export class ValocityPage implements OnInit {
 
   clearSelection() {
     this.start_date = this.end_date = null;
+  }
+
+  filterDate($event, type) {
+    if (type == 'startDate') {
+      this.start_date = format(parseISO($event.original), 'yyyy-MM-dd');
+    } else {
+      this.end_date = format(parseISO($event.original), 'yyyy-MM-dd');
+    }
   }
 }

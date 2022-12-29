@@ -46,14 +46,16 @@
             </ion-col>
             <ion-col  size-md="3" size-lg="3" size-sm="6" size-xs="12">
               <ion-item>
-                <ion-label position="stacked">Start date</ion-label>
-                <ion-datetime presentation="date" [(ngModel)]="filters.start_date"></ion-datetime>
+                <ion-label position="floating" color="primary">Start date</ion-label>
+                <ion-input [(ngModel)]="filters.start_date" id="startDate" class="filter ion-text-start"></ion-input>
+                <app-date-popup alignment="center" side="bottom" key="startDate" (onClose)="filterDate($event,'startDate')"></app-date-popup>
               </ion-item>
             </ion-col>
             <ion-col  size-md="3" size-lg="3" size-sm="6" size-xs="12">
               <ion-item>
-                <ion-label position="stacked">End date</ion-label>
-                <ion-datetime presentation="date" [(ngModel)]="filters.end_date"></ion-datetime>
+                <ion-label position="floating" color="primary">End date</ion-label>
+                <ion-input [(ngModel)]="filters.end_date" id="endDate" class="filter ion-text-start"></ion-input>
+                <app-date-popup alignment="center" side="bottom" key="endDate" (onClose)="filterDate($event,'end_date')"></app-date-popup>
               </ion-item>
             </ion-col>
             <ion-col  size-md="4" size-lg="4" size-sm="6" size-xs="12">
