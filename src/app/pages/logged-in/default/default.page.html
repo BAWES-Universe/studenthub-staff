@@ -13,47 +13,47 @@
 
   <div class="container">
 
-    
+
     <loading-modal type="stats" [loading]="loading"></loading-modal>
 
     <ng-container *ngIf="!loading && statistics">
-      
+
       <h3>Continue where you left off</h3>
 
       <ion-card class="stats card-session">
         <ion-card-content>
-          
-        <div  *ngIf="!staff_work_session">
+
+        <div  *ngIf="!staff_work_session.session">
           <h3>Work session</h3>
 
           <ion-button size="small" class="btn-start-session" [disabled]="loadingSession" (click)="startSession()">
             <ion-spinner *ngIf="loadingSession"></ion-spinner>
             <span *ngIf="!loadingSession">Start Session</span>
-          </ion-button> 
+          </ion-button>
         </div>
 
-        <div *ngIf="staff_work_session" class="">
-          
+        <div *ngIf="staff_work_session.session" class="">
+
           <div *ngIf="!dailyStandupQuestion">
 
             <h3>Work session</h3>
 
-            <p *ngIf="staff_work_session.created_at"> {{ staff_work_session.created_at | timer }} </p>
+            <p class="timer" *ngIf="staff_work_session.session.created_at"> {{ staff_work_session.session.created_at | timer }} </p>
 
             <ion-button size="small" color="danger" class="btn-end-session" [disabled]="loadingSession" (click)="endSession()">
               <ion-spinner *ngIf="loadingSession"></ion-spinner>
               <span *ngIf="!loadingSession">End Session</span>
-            </ion-button> 
+            </ion-button>
           </div>
 
-          <ng-container *ngIf="dailyStandupQuestion">
 
+          <ng-container *ngIf="dailyStandupQuestion">
             <h3>{{ dailyStandupQuestion.question }}</h3>
 
             <ion-item>
               <ion-textarea [(ngModel)]="dailyStandupQuestion.answer"></ion-textarea>
             </ion-item>
-            
+
             <ion-button size="small" (click)="saveAnswer()">
               <ion-spinner *ngIf="savingAnswer"></ion-spinner>
               <span *ngIf="!savingAnswer">Save answer</span>
@@ -62,7 +62,7 @@
         </div>
         </ion-card-content>
       </ion-card>
-      
+
       <div *ngIf="authService.story">
 
         <ion-card class="stats pending-story" tappable [routerLink]="['/story-view/'+ authService.story.story_uuid]">
