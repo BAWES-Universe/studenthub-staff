@@ -26,9 +26,11 @@ export class DefaultPage implements OnInit {
   public staff_work_session: {
     leave: any,
     session: any
+    time: any
   } = {
     leave : null,
-    session: null
+    session: null,
+    time: null
   };
 
   public statistics: {
@@ -154,6 +156,7 @@ export class DefaultPage implements OnInit {
 
       if(response.operation == 'success') {
         this.staff_work_session.session = null;// response.model;
+        this.staff_work_session.time = null;// response.model;
       }
     });
   }
@@ -278,5 +281,13 @@ export class DefaultPage implements OnInit {
 
   logout() {
     this.authService.logout();
+  }
+
+  getTime() {
+    if (new Date(this.staff_work_session.session.created_at).toString() !== 'Invalid Date') {
+      return this.staff_work_session.session.created_at;
+    } else {
+      return this.staff_work_session.time;
+    }
   }
 }

@@ -38,7 +38,7 @@
 
             <h3>Work session</h3>
 
-            <p class="timer" *ngIf="staff_work_session.session.created_at"> {{ staff_work_session.session.created_at | timer }} </p>
+            <p class="timer" *ngIf="staff_work_session.session.created_at"> {{ getTime() | timer }} </p>
 
             <ion-button size="small" color="danger" class="btn-end-session" [disabled]="loadingSession" (click)="endSession()">
               <ion-spinner *ngIf="loadingSession"></ion-spinner>
