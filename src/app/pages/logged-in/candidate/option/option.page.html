@@ -103,6 +103,7 @@
   <ion-item *ngIf="candidate.isProfileCompleted && !candidate.store && !candidate.civilExpired" tappable>
     <div tabindex="0"></div>
     <ion-label (click)="assingToStore()">
+      <ion-icon class="warning" name="checkmark-circle-outline"></ion-icon>
       <span *ngIf="!assigning">Assign to store</span>
       <ion-spinner *ngIf="assigning"></ion-spinner>
     </ion-label>

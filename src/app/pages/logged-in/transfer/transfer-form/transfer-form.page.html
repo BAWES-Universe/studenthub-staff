@@ -63,7 +63,7 @@
                   src="{{ awsService.cloudinaryUrl + transferCandidateRecord.candidate.candidate_personal_photo }}"></ion-img>
               </ion-avatar>
               <h2 class="candidate_name">{{ transferCandidateRecord.candidate.candidate_name?
-                transferCandidateRecord.candidate.candidate_name: transferCandidateRecord.candidate.candidate_name_ar }}<ion-badge color="danger" *ngIf="transferCandidateRecord.candidate.civilExpired">Civil Expired</ion-badge>
+                transferCandidateRecord.candidate.candidate_name: transferCandidateRecord.candidate.candidate_name_ar }} <ion-badge color="danger" *ngIf="transferCandidateRecord.candidate.civilExpired">Civil Expired</ion-badge>
               </h2>
             </ion-item>
 

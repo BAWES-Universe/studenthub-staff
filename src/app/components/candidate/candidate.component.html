@@ -59,6 +59,7 @@
       <ion-badge *ngIf="candidate.deleted" color="danger">
         Deleted
       </ion-badge>
+      <p><small>Created on: {{candidate.candidate_created_at}} | Updated On: {{candidate.candidate_updated_at}}</small></p>
     </ion-label>
 
     <ion-checkbox *ngIf="type == 'candidate'" #checkbox
