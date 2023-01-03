@@ -58,7 +58,7 @@ export class LoginPage implements OnInit {
 
       if (res.operation == 'success'){
         // Successfully logged in, set the access token within AuthService
-        this._auth.setAccessToken(res);
+        this._auth.setAccessToken(res, true);
       }else if (res.operation == 'error'){
         const alert = await this._alertCtrl.create({
           header: 'Unable to Log In',

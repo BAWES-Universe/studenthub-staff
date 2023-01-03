@@ -196,8 +196,7 @@ export class AuthService {
 
     if (this._accessToken) {
       this.isLogged = true;
-      // this.eventService.userLogined$.next({ redirect });
-      this.router.navigate(['/']);
+      this.eventService.userLogined$.next({ redirect });
     }
   }
 

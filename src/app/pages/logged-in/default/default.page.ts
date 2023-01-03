@@ -127,7 +127,6 @@ export class DefaultPage implements OnInit {
       if(response) {
         this.staff_work_session.session = response.session;
         this.staff_work_session.leave = response.leave;
-        console.log(this.staff_work_session,response);
         this.getStandupQuestion();
       }
 
