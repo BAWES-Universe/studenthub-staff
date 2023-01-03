@@ -23,6 +23,7 @@ export class DefaultPage implements OnInit {
 
   public dailyStandupQuestion;
 
+  public counter = null;
   public staff_work_session: {
     leave: any,
     session: any
@@ -130,10 +131,7 @@ export class DefaultPage implements OnInit {
     this.dailyStandupService.startSession().subscribe(async response => {
 
       if(response.operation == 'success') {
-
-        this.staff_work_session.session = response.model;
-
-        this.getStandupQuestion();
+        this.getSession();
 
       } else {
         this.loadingSession = false;
@@ -281,17 +279,5 @@ export class DefaultPage implements OnInit {
 
   logout() {
     this.authService.logout();
-  }
-
-  getTime() {
-    console.log("start time");
-    if (this.staff_work_session.session && new Date(this.staff_work_session.session.created_at).toString() !== 'Invalid Date') {
-      console.log(this.staff_work_session.session.created_at, "time 1");
-      return this.staff_work_session.session.created_at;
-    } else {
-      this.staff_work_session.session.created_at = this.staff_work_session.time;
-      console.log(this.staff_work_session.session.created_at, "time 2");
-      return this.staff_work_session.time;
-    }
   }
 }
