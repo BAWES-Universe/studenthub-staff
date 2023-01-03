@@ -26,7 +26,7 @@ export class RangeRefinementComponent extends BaseWidget {
 
     @Output() change: EventEmitter<any> = new EventEmitter();
 
-    
+
     public override state: RangeRenderState = {
         range: {min: 0, max: 1},
         refine: noop,
@@ -34,10 +34,10 @@ export class RangeRefinementComponent extends BaseWidget {
         sendEvent: noop,
         format: noop,
         start: [0, 1],
-    }; 
-    
+    };
+
     slider;
-    
+
     handleChange;
     formatTooltip;
 
@@ -46,7 +46,7 @@ export class RangeRefinementComponent extends BaseWidget {
 
     value;
 
-    average;
+    average = 0;
 
     options: Options = {
         floor: 0,
@@ -81,10 +81,10 @@ export class RangeRefinementComponent extends BaseWidget {
                 this.state.range = state.range;
                 this.state.start = state.start;
             }
-                
+
             // update the slider state
             const { range: {min, max}, start, } = state;
-            //const min = state.range.min, max = 0; 
+            //const min = state.range.min, max = 0;
 
             //setTimeout(_ => {
 
@@ -130,10 +130,10 @@ export class RangeRefinementComponent extends BaseWidget {
         };
 
         this.handleChange = (e) => {
-          
+
            // let range = [e.detail.value.lower, e.detail.value.upper];
                 //[this.value.lower, this.value.upper]
-         
+
              //   this.state.range.lower = [this.value.lower, this.value.upper];
             this.state.refine([this.value.lower, this.value.upper]);
             //this.change.emit();
