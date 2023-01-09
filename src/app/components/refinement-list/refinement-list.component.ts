@@ -1,7 +1,7 @@
 import { Component, Inject, forwardRef, Input, Output, EventEmitter, Optional } from '@angular/core';
 import { BaseWidget, NgAisIndex, NgAisInstantSearch } from 'angular-instantsearch';
 import { connectRefinementList } from "instantsearch.js/es/connectors";
-import { parseNumberInput, noop } from "angular-instantsearch/esm2015/utils"; 
+import { parseNumberInput, noop } from "angular-instantsearch/esm2015/utils";
 //services
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 import { EventService } from 'src/app/providers/event.service';
@@ -28,8 +28,8 @@ export class RefinementListComponent extends BaseWidget {
 
     public open: boolean = false;
 
-    public override state; 
-    
+    public state;
+
     public limit;
     public sortBy;
 
@@ -49,7 +49,7 @@ export class RefinementListComponent extends BaseWidget {
 
         this.state = {
             canRefine: false,
-            canToggleShowMore: true,    
+            canToggleShowMore: true,
             createURL: noop,
             isShowingMore: false,
             items: [],
@@ -57,20 +57,20 @@ export class RefinementListComponent extends BaseWidget {
             toggleShowMore: noop,
             searchForItems: noop,
             isFormSearch: false
-        }; 
+        };
 
         this.updateState = (state, isFirstRendering) => {
             return Promise.resolve().then(() => {
                 this.state = state;
-            });        
+            });
         };
-         
+
         this.eventService.filterCollapse$.subscribe(() => {
             this.open = false;
         });
     }
 
-    public override ngOnInit() {
+    public ngOnInit() {
         if(this.instantSearchInstance) {
             this.createWidget(connectRefinementList, {
                 limit: parseNumberInput(this.limit),
@@ -96,7 +96,7 @@ export class RefinementListComponent extends BaseWidget {
     /**
      * @return {?}
      * */
-    get items() { 
+    get items() {
         return typeof this.transformItems === "function"
             ? this.transformItems(this.state.items)
             : this.state.items;
@@ -113,7 +113,7 @@ export class RefinementListComponent extends BaseWidget {
 
         if (this.state.canRefine) {
             // update UI directly, it will update the checkbox state
- 
+
             item.isRefined = !item.isRefined;
 
             // refine through Algolia API
@@ -121,9 +121,9 @@ export class RefinementListComponent extends BaseWidget {
             this.state.refine(item.value);
 
             if (
-                this.isRefined() && 
+                this.isRefined() &&
                 this.instantSearchInstance.instantSearchInstance.helper.state &&
-                this.instantSearchInstance.instantSearchInstance.helper.state.disjunctiveFacetsRefinements && 
+                this.instantSearchInstance.instantSearchInstance.helper.state.disjunctiveFacetsRefinements &&
                 !this.instantSearchInstance.instantSearchInstance.helper.state.disjunctiveFacetsRefinements[this.attribute]
             )
                 this.instantSearchInstance.instantSearchInstance.helper.state.disjunctiveFacetsRefinements[this.attribute] = [];
@@ -133,16 +133,16 @@ export class RefinementListComponent extends BaseWidget {
     }
 
     /**
-     * Can show `show more` button or not 
+     * Can show `show more` button or not
      * @return boolean
      */
-    canShowMore() { 
+    canShowMore() {
         return this.state.canToggleShowMore
             && typeof this.state.toggleShowMore != 'undefined';
     }
 
     /**
-     * Is current filter value selected 
+     * Is current filter value selected
      */
     isRefined() {
         for (let i of this.state.items) {
@@ -151,10 +151,10 @@ export class RefinementListComponent extends BaseWidget {
         }
     }
 
-    /** 
-     * Toggle filter open/close 
+    /**
+     * Toggle filter open/close
      */
-    toggleOpen() { 
+    toggleOpen() {
         this.open = !this.open;
     }
-} 
+}

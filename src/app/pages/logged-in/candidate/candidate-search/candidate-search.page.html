@@ -66,7 +66,7 @@
               <div class="applied-filters-wrapper">
                 <applied-filters [loading]="refreshingCandidates" [labelWithoutFilter]="'Showing candidates'"
                                 [labelWithFilter]="'Showing candidates for'">
-                </applied-filters> 
+                </applied-filters>
               </div>
               <div class="searchBox">
                 <ion-searchbar (ionChange)="onSearch($event)" placeholder="{{ 'Type to filter from these results' | translate }}"></ion-searchbar>
@@ -84,7 +84,7 @@
                   <candidate tappable (click)="rowSelected(hit)" type='candidate' [candidate]="hit" *ngFor="let hit of hits"></candidate>
                 </div>
 
-                <!-- to load more on scroll to bottom, usinng 0(zero) based pagination 
+                <!-- to load more on scroll to bottom, usinng 0(zero) based pagination
 
                 <ion-infinite-scroll *ngIf="page + 1 < this.nbPages"
                   (ionInfinite)="doInfinite($event) && showMore($event)">
@@ -93,7 +93,7 @@
 
               </ng-template>
             </ais-infinite-hits>
-            
+
             <bawes-ais-pagination></bawes-ais-pagination>
 
             <!-- No results message -->
