@@ -1,10 +1,10 @@
 <div class="component-content" dir="ltr">
   <h3 *ngIf="total > -1 && !loading">
 
-    <span *ngIf="state && state.refinements && state.refinements.length == 0 && total">
+    <span *ngIf="state && state.items.length == 0 && total">
         {{ total }} {{ labelWithoutFilter }}
     </span>
-    <span *ngIf="state && state.refinements && state.refinements.length > 0 && total">
+    <span *ngIf="state && state.items.length > 0 && total">
       {{ total }}  {{ labelWithFilter }}
     </span>
   </h3>
@@ -25,7 +25,7 @@
   <div class="clearfix"></div>
 
   <div [class]="cx()"><!--  *ngIf="!isHidden()" -->
-    <span [class]="cx('list')" *ngIf="this.platform.is('mobile') && state.items">
+    <span [class]="cx('list')" *ngIf="this.platform.is('mobile') && state && state.items">
         <div class="outer-slider">
             <div class="inner-element">
                 <ion-button (click)="toggleCurrentSelection(currentSelection)" class="skip-hover" *ngFor="let currentSelection of currentSelections()">
@@ -36,7 +36,7 @@
         </div>
     </span>
 
-      <span [class]="cx('list')" *ngIf="this.platform.is('desktop') && state.items"> <!-- refinements -->
+      <span [class]="cx('list')" *ngIf="this.platform.is('desktop') && state && state.items"> <!-- refinements -->
         <ion-button (click)="toggleCurrentSelection(currentSelection)"  *ngFor="let currentSelection of currentSelections()" class="skip-hover">
           {{ currentSelection.label? currentSelection.label : currentSelection.label}}
             <ion-icon name="close"></ion-icon>

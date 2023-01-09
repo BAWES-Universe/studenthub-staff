@@ -1,8 +1,10 @@
 import { Component, Inject, forwardRef, Input, Optional } from '@angular/core';
-import { BaseWidget, NgAisIndex, NgAisInstantSearch } from 'angular-instantsearch';
-import { noop } from "angular-instantsearch/esm2015/utils";
-import { connectCurrentRefinements } from "instantsearch.js/es/connectors";
-import { CurrentRefinementsRenderState } from 'instantsearch.js/es/connectors/current-refinements/connectCurrentRefinements';
+import { TypedBaseWidget, NgAisIndex, NgAisInstantSearch } from 'angular-instantsearch';
+import connectCurrentRefinements, {
+  CurrentRefinementsWidgetDescription,
+  CurrentRefinementsConnectorParams
+} from 'instantsearch.js/es/connectors/current-refinements/connectCurrentRefinements';
+
 import { Platform } from "@ionic/angular";
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { AgePipe } from 'src/app/pipes/age.pipe';
@@ -13,14 +15,15 @@ import { AuthService } from '../../providers/auth.service';
 
 /**
  * Display filter selection
+ * Ref: https://www.algolia.com/doc/api-reference/widgets/current-refinements/angular/
  */
 @Component({
     selector: 'applied-filters',
     templateUrl: './applied-filters.component.html',
     styleUrls: ['./applied-filters.component.scss'],
 })
-export class AppliedFiltersComponent extends BaseWidget {
-
+export class AppliedFiltersComponent extends TypedBaseWidget<CurrentRefinementsWidgetDescription, CurrentRefinementsConnectorParams> {
+    public state: CurrentRefinementsWidgetDescription['renderState']; // Rendering options
     @Input() loading;
     @Input() transformItems;
     @Input() attributes;
@@ -29,33 +32,26 @@ export class AppliedFiltersComponent extends BaseWidget {
     @Input() labelWithFilter;
     @Input() labelWithoutFilter;
 
-    public override state: CurrentRefinementsRenderState;
+
     public total;
 
     public average = null;
 
-    constructor(
-        @Inject(forwardRef(() => NgAisInstantSearch))
-        public instantSearchInstance,
-        @Optional()
-        public parentIndex: NgAisIndex,
-        public authService: AuthService,
-        public platform: Platform,
-        public currencyPipe: CurrencyPipe
-    ) {
-        super('AppliedFiltersComponent');
-
-        /*this.state = {
-            clearAllClick: noop,
-            clearAllURL: noop,
-            createURL: noop,
-            refine: noop,
-            items: []
-        };*/
+  constructor(
+    @Inject(forwardRef(() => NgAisIndex))
+    @Optional()
+    public parentIndex: NgAisIndex,
+    @Inject(forwardRef(() => NgAisInstantSearch))
+    public instantSearchInstance: NgAisInstantSearch,
+    public authService: AuthService,
+    public platform: Platform,
+    public currencyPipe: CurrencyPipe
+  ) {
+    super('AppliedFiltersComponent');
 
         if (this.instantSearchInstance) {
             this.instantSearchInstance.change.subscribe(() => {
-
+              // console.log(this.instantSearchInstance);
                 let lastResults = this.instantSearchInstance.instantSearchInstance.helper.lastResults;
 
                 if (lastResults) {
@@ -68,15 +64,14 @@ export class AppliedFiltersComponent extends BaseWidget {
     /**
      * Initialize widget
      */
-    public override ngOnInit() {
-
+    public ngOnInit() {
+        // console.log(this.state);
         let options = {
             includedAttributes: this.attributes
         };
 
         if (this.instantSearchInstance) {
             this.createWidget(connectCurrentRefinements, options);
-
             setTimeout(() => { // to protect dual request
                 super.ngOnInit();
             },500);
@@ -217,8 +212,9 @@ export class AppliedFiltersComponent extends BaseWidget {
     }
 
     birthTimestampItems(item) {
+      // console.log(item);
         const agePipe = new AgePipe();
-        item.label =  item.operator + ' ' + agePipe.transform(item.numericValue);
+        item.label =  item.operator + ' ' + agePipe.transform(item.value);
         return item;
     }
 
@@ -226,7 +222,7 @@ export class AppliedFiltersComponent extends BaseWidget {
 
         const agePipe = new DatePipe('en-US');
 
-        item.label =  item.operator + ' ' + agePipe.transform(new Date(item.numericValue * 1000), 'yyyy-MM-dd');
+        item.label =  item.operator + ' ' + agePipe.transform(new Date(item.value * 1000), 'yyyy-MM-dd');
 
         return item;
     }
