@@ -6,7 +6,7 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-// import {IonicStorageModule, Storage} from '@ionic/storage';
+
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { UpdateAlertModule } from './components/update-alert/update-alert.module';
 import { ServiceWorkerModule, SwUpdate } from '@angular/service-worker';
@@ -79,6 +79,7 @@ import { File } from '@awesome-cordova-plugins/file/ngx';
 import { IonicStorageModule } from '@ionic/storage-angular';
 import { StorageService } from './providers/storage.service';
 import {DatePopupModule} from "./components/date-popup/date-popup.module";
+import {EvaluationReportViewPageModule} from "./pages/logged-in/candidate/evaluation/evaluation-report-view/evaluation-report-view.module";
 
 export function startupServiceFactory(authService) {
   return () => authService.load();
@@ -175,7 +176,8 @@ declare global {
     ActionComponentModule,
     CandidateAssignFormPageModule,
     LeaveRequestPageModule,
-    DatePopupModule
+    DatePopupModule,
+    EvaluationReportViewPageModule
   ],
   exports: [
     ActionComponentModule

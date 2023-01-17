@@ -416,6 +416,15 @@
                 <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
               </ion-item>
             </ion-col>
+            <ion-col size-xs="12" size-sm="12" size-md="4" size-lg="4" size-xl="4">
+              <ion-item tappable [routerLink]="['/evaluation-report-list/',candidate.candidate_id]">
+                <div tabindex="0"></div>
+                <ion-label>
+                  <h5>Evaluation Report</h5>
+                </ion-label>
+                <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
+              </ion-item>
+            </ion-col>
           </ion-row>
         </ion-grid>
       </div>

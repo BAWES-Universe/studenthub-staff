@@ -551,6 +551,30 @@ const routes: Routes = [
     }
   },
   {
+    path: 'evaluation-report-list',
+    loadChildren: () => import('./pages/logged-in/candidate/evaluation/evaluation-report-list/evaluation-report-list.module').then( m => m.EvaluationReportListPageModule),
+    canActivate: [AuthService],
+    data: {
+      name: 'EvaluationReportListPage'
+    }
+  },
+  {
+    path: 'evaluation-report-form',
+    loadChildren: () => import('./pages/logged-in/candidate/evaluation/evaluation-report-form/evaluation-report-form.module').then( m => m.EvaluationReportFormPageModule),
+    canActivate: [AuthService],
+    data: {
+      name: 'EvaluationReportFormPage'
+    }
+  },
+  {
+    path: 'evaluation-report-view',
+    loadChildren: () => import('./pages/logged-in/candidate/evaluation/evaluation-report-view/evaluation-report-view.module').then( m => m.EvaluationReportViewPageModule),
+    canActivate: [AuthService],
+    data: {
+      name: 'EvaluationReportViewPage'
+    }
+  },
+  {
     path: '**',
     redirectTo: 'not-found'
   },
