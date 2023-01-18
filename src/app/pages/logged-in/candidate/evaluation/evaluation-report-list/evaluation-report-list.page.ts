@@ -26,6 +26,9 @@ export class EvaluationReportListPage implements OnInit {
 
   ngOnInit() {
     this.candidateID = this.activeRoute.snapshot.params['candidateID'];
+  }
+
+  ionViewWillEnter() {
     this.loadData();
   }
 
