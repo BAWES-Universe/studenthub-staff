@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button (click)="close($event)"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      <div class="ion-text-wrap">Evaluation Report View - {{report.department}}</div>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-list>
+      <ion-item *ngFor="let answer of report.questionAnswer">
+        <ion-label>
+          <h3 class="ion-text-wrap">{{answer.question}} (Rating: {{answer.rating}})</h3>
+          <p class="ion-text-wrap">{{answer.answer}}</p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+</ion-content>

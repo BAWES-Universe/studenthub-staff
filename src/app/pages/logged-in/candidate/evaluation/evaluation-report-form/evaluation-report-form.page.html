@@ -1,0 +1,46 @@
+<ion-header mode="md" class="ion-no-border">
+  <ion-toolbar class="container">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Evaluation Report Form</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="save($event)" [disabled]="form.invalid">Save</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div *ngIf="form" class="container">
+    <form [formGroup]="form">
+      <ion-list>
+        <ion-item>
+          <ion-label position="stacked">Select Date</ion-label>
+          <ion-input type="date" formControlName="date" ></ion-input>
+        </ion-item>
+        <ion-item *ngIf="department && department.length > 0">
+          <ion-label position="stacked">Select Department</ion-label>
+          <ion-select formControlName="dept" [value]="departmentID" (ionChange)="changeDepartment($event)" interface="popover">
+            <ion-select-option *ngFor="let dept of department" [value]="dept.id">{{dept.name}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <div *ngIf="questionList && questionList.length > 0">
+          <ion-grid>
+          <ng-container *ngFor="let ques of questionAnswer">
+            <ion-item *ngIf="ques.question == 'General Notes' ">
+              <ion-label position="stacked">{{ques.question}}</ion-label>
+              <ion-textarea [autoGrow]="true" [ngModelOptions]="{standalone: true}" [(ngModel)]="ques.answer"></ion-textarea>
+            </ion-item>
+              <ion-row  *ngIf="ques.question != 'General Notes' ">
+                <ion-col><ion-label>{{ques.question}}</ion-label></ion-col>
+                <ion-col><ion-input type="text" [ngModelOptions]="{standalone: true}" placeholder="Rating" [(ngModel)]="ques.rating"></ion-input></ion-col>
+                <ion-col><ion-input type="text" [ngModelOptions]="{standalone: true}" placeholder="Comment" [(ngModel)]="ques.answer"></ion-input></ion-col>
+              </ion-row>
+          </ng-container>
+          </ion-grid>
+        </div>
+      </ion-list>
+    </form>
+  </div>
+</ion-content>

@@ -1,0 +1,31 @@
+<ion-header mode="md" class="ion-no-border">
+  <ion-toolbar class="container">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Evaluation Report List <small>({{totalRecord}})</small></ion-title>
+    <ion-buttons slot="end">
+      <ion-button [routerLink]="['/evaluation-report-form', candidateID]">Generate New Report</ion-button>
+    </ion-buttons>
+    <ion-progress-bar type="indeterminate" *ngIf="loading"></ion-progress-bar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-list *ngIf="reports && reports.length > 0">
+    <ion-item *ngFor="let report of reports" (click)="viewDetail(report)" tappable>
+      <ion-label>
+        <h3>Department: {{report.department}}</h3>
+        <small>For: {{report.date}}</small>
+        <p>by {{report.staff.staff_name}}</p>
+        <p>Created On: {{report.created_at | date}}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+  <no-items message="~ No record found ~" *ngIf="!loading && reports && reports.length == 0"></no-items>
+  <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)" *ngIf="currentPage < totalPages">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+</ion-content>
