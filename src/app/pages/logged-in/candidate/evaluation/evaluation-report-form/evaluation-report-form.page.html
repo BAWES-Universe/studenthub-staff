@@ -14,17 +14,30 @@
   <div *ngIf="form" class="container">
     <form [formGroup]="form">
       <ion-list>
-        <ion-item>
-          <ion-label position="stacked">Select Date</ion-label>
-          <ion-input type="date" formControlName="date" ></ion-input>
-        </ion-item>
-        <ion-item *ngIf="department && department.length > 0">
-          <ion-label position="stacked">Select Department</ion-label>
-          <ion-select formControlName="dept" [value]="departmentID" (ionChange)="changeDepartment($event)" interface="popover">
-            <ion-select-option *ngFor="let dept of department" [value]="dept.id">{{dept.name}}</ion-select-option>
-          </ion-select>
-        </ion-item>
-
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <ion-item>
+                <ion-label position="stacked">Select Start Date</ion-label>
+                <ion-input type="date" formControlName="start_date" ></ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col>
+              <ion-item>
+                <ion-label position="stacked">Select End Date</ion-label>
+                <ion-input type="date" formControlName="end_date" ></ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col>
+              <ion-item *ngIf="department && department.length > 0">
+                <ion-label position="stacked">Select Department</ion-label>
+                <ion-select formControlName="dept" [value]="departmentID" (ionChange)="changeDepartment($event)" interface="popover">
+                  <ion-select-option *ngFor="let dept of department" [value]="dept.id">{{dept.name}}</ion-select-option>
+                </ion-select>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
         <div *ngIf="questionList && questionList.length > 0">
           <ion-grid>
           <ng-container *ngFor="let ques of questionAnswer">
@@ -34,7 +47,17 @@
             </ion-item>
               <ion-row  *ngIf="ques.question != 'General Notes' ">
                 <ion-col><ion-label>{{ques.question}}</ion-label></ion-col>
-                <ion-col><ion-input type="text" [ngModelOptions]="{standalone: true}" placeholder="Rating" [(ngModel)]="ques.rating"></ion-input></ion-col>
+                <ion-col>
+<!--                  <ion-input type="text" [ngModelOptions]="{standalone: true}" placeholder="Rating" [(ngModel)]="ques.rating"></ion-input>-->
+
+                <ion-select formControlName="rating" [ngModelOptions]="{standalone: true}" placeholder="Rating" [(ngModel)]="ques.rating" interface="popover">
+                  <ion-select-option value="1">1/5</ion-select-option>
+                  <ion-select-option value="2">2/5</ion-select-option>
+                  <ion-select-option value="3">3/5</ion-select-option>
+                  <ion-select-option value="4">4/5</ion-select-option>
+                  <ion-select-option value="5">5/5</ion-select-option>
+                </ion-select>
+                </ion-col>
                 <ion-col><ion-input type="text" [ngModelOptions]="{standalone: true}" placeholder="Comment" [(ngModel)]="ques.answer"></ion-input></ion-col>
               </ion-row>
           </ng-container>
