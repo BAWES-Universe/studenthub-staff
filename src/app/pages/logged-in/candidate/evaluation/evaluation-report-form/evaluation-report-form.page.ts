@@ -41,7 +41,9 @@ export class EvaluationReportFormPage implements OnInit {
   initForm() {
     this.form = this.formBuilder.group({
       dept:['',Validators.required],
-      date:['',Validators.required]
+      start_date:['',Validators.required],
+      end_date:['',Validators.required],
+      rating:['',Validators.required]
     })
   }
 
@@ -72,7 +74,8 @@ export class EvaluationReportFormPage implements OnInit {
   save($event) {
     let data = {
       dept:this.form.controls.dept.value,
-      date:this.form.controls.date.value,
+      start_date:this.form.controls.start_date.value,
+      end_date:this.form.controls.end_date.value,
       questionAnswer:this.questionAnswer,
       candidateID:this.candidateID,
     }

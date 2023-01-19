@@ -52,7 +52,8 @@ export class CandidateEvaluationService {
     let url = `${this.endPoint}`
     return this.authHttp.post(url,{
       dept:data.dept,
-      date:data.date,
+      start_date:data.start_date,
+      end_date:data.end_date,
       questionAnswer:data.questionAnswer,
       candidateID:data.candidateID,
     });
@@ -68,5 +69,15 @@ export class CandidateEvaluationService {
       {'id':5, 'name': 'Outdoor Sales Representative'}
       ]
     )
+  }
+
+  /**
+   * download file
+   * @param reportUUID
+   * @param name
+   */
+  downloadReport(reportUUID,name) {
+    let url = `${this.endPoint}/pdf/${reportUUID}`
+    return this.authHttp.pdfget(url,name);
   }
 }
