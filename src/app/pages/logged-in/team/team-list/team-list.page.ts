@@ -16,6 +16,7 @@ export class TeamListPage implements OnInit {
 
   public borderLimit = false;
 
+  public totalCount = 0;
   public pageCount = 0;
   public currentPage = 1;
   public loading = false;
@@ -30,7 +31,7 @@ export class TeamListPage implements OnInit {
     public platform: Platform,
   ) { }
 
-  ngOnInit() { 
+  ngOnInit() {
     window.analytics.page('Team List Page');
 
     this.loadData(this.currentPage);
@@ -49,6 +50,7 @@ export class TeamListPage implements OnInit {
 
       this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
       this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
+      this.totalCount = parseInt(response.headers.get('X-Pagination-Total-Count'));
       this.staffs = response.body;
     },
       error => {

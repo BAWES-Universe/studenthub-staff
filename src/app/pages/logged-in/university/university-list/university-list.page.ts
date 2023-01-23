@@ -11,6 +11,7 @@ import {University} from "src/app/models/university";
 export class UniversityListPage implements OnInit {
 
   public pageCount = 0;
+  public totalCount = 0;
   public currentPage = 1;
 
   public loading = false;
@@ -41,6 +42,7 @@ export class UniversityListPage implements OnInit {
 
         this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
         this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
+        this.totalCount = parseInt(response.headers.get('X-Pagination-Total-Count'));
 
         this.universities = response.body;
 

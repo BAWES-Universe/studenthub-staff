@@ -28,6 +28,7 @@ export class TransferListAllPage implements OnInit {
   public start_date; // max date
   public end_date; // max date
   public type; // max date
+  public totalCount = 1;
 
   constructor(
     public router: Router,
@@ -51,6 +52,7 @@ export class TransferListAllPage implements OnInit {
       this.transfers = data.body;
       this.pageCount = parseInt(data.headers.get('X-Pagination-Page-Count'), 10);
       this.currentPage = parseInt(data.headers.get('X-Pagination-Current-Page'), 10);
+      this.totalCount = parseInt(data.headers.get('X-Pagination-Total-Count'), 10);
 
       this.loading = false;
     });

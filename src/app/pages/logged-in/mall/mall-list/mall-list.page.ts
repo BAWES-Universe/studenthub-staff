@@ -17,6 +17,7 @@ export class MallListPage implements OnInit {
   public borderLimit = false;
 
   public pageCount = 0;
+  public totalCount = 0;
   public currentPage = 1;
   public loading = false;
   public loadMore = false;
@@ -51,6 +52,7 @@ export class MallListPage implements OnInit {
 
         this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
         this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
+        this.totalCount = parseInt(response.headers.get('X-Pagination-Total-Count'));
         this.malls = response.body;
       },
       error => {

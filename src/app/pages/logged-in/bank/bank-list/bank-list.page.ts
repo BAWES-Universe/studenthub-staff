@@ -20,6 +20,7 @@ export class BankListPage implements OnInit {
   public borderLimit = false;
   public deleting = false;
 
+  public totalCount = 0;
   public pageCount = 0;
   public currentPage = 1;
   public totalStudents = 0;
@@ -58,6 +59,7 @@ export class BankListPage implements OnInit {
 
       this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
       this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
+      this.totalCount = parseInt(response.headers.get('X-Pagination-Total-Count'));
 
       this.banks = response.body;
       for (const bank of this.banks) {
@@ -92,6 +94,6 @@ export class BankListPage implements OnInit {
   }
 
   logScrolling(e) {
-    this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
+    this.borderLimit = (e.detail.scrollTop > 20);
   }
 }

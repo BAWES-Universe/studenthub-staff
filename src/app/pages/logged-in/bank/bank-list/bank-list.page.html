@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button icon="assets/images/icon-back.svg" defaultHref="/view/tasks"></ion-back-button>
     </ion-buttons>
-    <ion-title>Bank</ion-title>
+    <ion-title>Bank <small>({{totalCount}})</small></ion-title>
     <ion-progress-bar type="indeterminate" *ngIf="deleting"></ion-progress-bar>
   </ion-toolbar>
 </ion-header>
@@ -12,7 +12,7 @@
   <div class="container">
     <ion-list>
       <ion-item-sliding *ngFor="let bankMember of banks">
-        <ion-item tappable>
+        <ion-item>
           <div tabindex="0"></div>
           <ion-label>
             {{ bankMember.bank_name }}
@@ -30,8 +30,8 @@
     <ion-infinite-scroll-content></ion-infinite-scroll-content>
   </ion-infinite-scroll>
 </ion-content>
-<ion-footer class="ion-no-border">
+<ion-footer>
   <ion-toolbar class="container">
-    <ion-title class="ion-text-center">Total Students : #{{this.totalStudents}}</ion-title>
+    <ion-title class="ion-text-center">Total Students : {{this.totalStudents}}</ion-title>
   </ion-toolbar>
 </ion-footer>

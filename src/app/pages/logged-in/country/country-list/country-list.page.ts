@@ -17,6 +17,7 @@ export class CountryListPage implements OnInit {
   public borderLimit = false;
 
   public pageCount = 0;
+  public totalCount = 0;
   public currentPage = 1;
 
   public loading = false;
@@ -37,16 +38,17 @@ export class CountryListPage implements OnInit {
 
   /**
    *  Load list of country
-   * @param page 
+   * @param page
    */
   async loadData(page: number) {
-  
+
     this.loading = true;
 
     this.countryService.list(page).subscribe(response => {
 
       this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
       this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
+      this.totalCount = parseInt(response.headers.get('X-Pagination-Total-Count'));
 
       this.countries = response.body;
 
@@ -70,7 +72,7 @@ export class CountryListPage implements OnInit {
 
   /**
    * load more countries on scroll to bottom
-   * @param event 
+   * @param event
    */
   doInfinite(event) {
     this.loading = true;
@@ -89,7 +91,7 @@ export class CountryListPage implements OnInit {
       }
     );
   }
-  
+
   logScrolling(e) {
     this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
   }
