@@ -303,6 +303,15 @@ const routes: Routes = [
       navDisable: true
     }
   },
+  {
+    path: 'fulltimer-form',
+    loadChildren: () => import('./pages/logged-in/fulltimer/fulltimer-form/fulltimer-form.module').then( m => m.FulltimerFormPageModule),
+    canActivate: [AuthService],
+    data: {
+      name: 'FulltimerFormPage',
+      navDisable: true
+    }
+  },
 
   {
     path: 'candidate-search',

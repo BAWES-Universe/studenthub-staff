@@ -37,7 +37,7 @@ export class FulltimerSearchPage implements OnInit {
 
   public eleInfinite;
 
-  public showFilter: boolean = false; 
+  public showFilter: boolean = false;
 
   public loading: boolean;
 
@@ -222,7 +222,7 @@ export class FulltimerSearchPage implements OnInit {
   }
 
   onSearch(event) {
-    if(this.instantSearch && this.instantSearch.instantSearchInstance) 
+    if(this.instantSearch && this.instantSearch.instantSearchInstance)
       this.instantSearch.instantSearchInstance.helper.setQuery(event.target.value).search();
   }
 
@@ -254,10 +254,10 @@ export class FulltimerSearchPage implements OnInit {
       makeStateKey = _a.makeStateKey;
 
     const client = algoliasearch(appId, apiKey, {
-      
+
       requester: {
         send({ headers, method, url, data }) {
-            
+
           const transferStateKey = makeStateKey(`ngais(${data})`);
 
             if (transferState.hasKey(transferStateKey) && !this.refreshingFulltimers) {
@@ -277,7 +277,7 @@ export class FulltimerSearchPage implements OnInit {
                     observe: 'response',
                 })
                     .subscribe(response => {
-                    
+
                    // this.processResponse(response, transferState, transferStateKey);
 
                     resolve({
@@ -356,7 +356,7 @@ export class FulltimerSearchPage implements OnInit {
             body: opts.body,
             observe: 'response'
           }).subscribe(resp => {
- 
+
             this.processResponse(resp, transferState, transferStateKey);
 
             resolve(this.resolveResponse(resp));
@@ -381,7 +381,7 @@ export class FulltimerSearchPage implements OnInit {
   }
 
   resetKey(opts, rawUrl, resolve,  transferState, transferStateKey) {
- 
+
     this.algoliaService.getKey(true).then(response => {
 
       //this.instantSearch.searchClient.api
@@ -410,7 +410,7 @@ export class FulltimerSearchPage implements OnInit {
    * @param transferStateKey
    */
   processResponse(resp, transferState = null, transferStateKey = null) {
- 
+
     if (transferState) {
       transferState.set(transferStateKey, JSON.stringify(resp));
     }
@@ -422,7 +422,7 @@ export class FulltimerSearchPage implements OnInit {
 
     if (resp.body && resp.body.results && resp.body.results[0]) {
       const results = resp.body.results[0];
-     
+
       setTimeout(() => {
         this.nbHits = results.nbHits;
         this.nbPages = results.nbPages;
@@ -437,11 +437,11 @@ export class FulltimerSearchPage implements OnInit {
     setTimeout(() => {
 
       this.showSearchBox = (
-        !this.noFulltimerList || 
+        !this.noFulltimerList ||
         (
-          this.instantSearch && 
-          this.instantSearch.instantSearchInstance && 
-          this.instantSearch.instantSearchInstance.helper.state.query && 
+          this.instantSearch &&
+          this.instantSearch.instantSearchInstance &&
+          this.instantSearch.instantSearchInstance.helper.state.query &&
           this.instantSearch.instantSearchInstance.helper.state.query.length > 0
         )
       );
@@ -451,7 +451,7 @@ export class FulltimerSearchPage implements OnInit {
         !(this.changeDetector as ViewRef).destroyed) {
         this.changeDetector.detectChanges();
       }
-      
+
       if (this.eleInfinite) {
         this.eleInfinite.complete();
       }
@@ -536,7 +536,7 @@ export class FulltimerSearchPage implements OnInit {
 
     return {
       indexName: environment.algoliaFulltimerIndex,
-      
+
       /*onStateChange({ uiState, setUiState }) {
         // Custom logic
         setUiState(uiState);
@@ -551,14 +551,14 @@ export class FulltimerSearchPage implements OnInit {
       })
     };
   }
-  
+
   /**
    * Loads the create page
    */
-  async create($event, fulltimer: Fulltimer = new Fulltimer()) {
+  async createModal($event, fulltimer: Fulltimer = new Fulltimer()) {
     $event.preventDefault();
     $event.stopPropagation();
-    
+
     window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
     const modal = await this.modalCtrl.create({
@@ -586,7 +586,7 @@ export class FulltimerSearchPage implements OnInit {
         this.refreshingFulltimers = true;
 
         //refresh listing
-        
+
         setTimeout(() => {
           this.refreshFulltimers();
         }, 2000);//give time to backend to sync with algolia
@@ -599,16 +599,16 @@ export class FulltimerSearchPage implements OnInit {
    * Refresh fulltimer list
    */
   async refreshFulltimers() {
-    
+
     if (!this.instantSearch) {
       return null;
     }
 
     this.nbPages = 0;
-    
+
     this.loading = true;
     this.refreshingFulltimers = true;
-  
+
     this.instantSearch.instantSearchInstance.helper.clearCache().setPage(0).setQuery('').search();
   }
 
