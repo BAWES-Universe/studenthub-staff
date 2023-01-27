@@ -185,8 +185,8 @@ export class FulltimerFormPage implements OnInit, OnDestroy {
         birth_date: [null],
         fulltimerTags: new FormArray(tagCtrls),
         location: ['', Validators.required],
-        current_salary: ['', Validators.required],
-        expected_salary: ['', Validators.required],
+        current_salary: [''],
+        expected_salary: [''],
         tempPdfCVLocation: [''],
       });
 
@@ -228,8 +228,8 @@ export class FulltimerFormPage implements OnInit, OnDestroy {
         pdf_cv: [this.model.fulltimer_pdf_cv, Validators.required],
         fulltimerTags: new FormArray(tagCtrls),
         location: [location, Validators.required],
-        current_salary: [this.model.fulltimer_current_salary, Validators.required],
-        expected_salary: [this.model.fulltimer_expected_salary, Validators.required],
+        current_salary: [this.model.fulltimer_current_salary],
+        expected_salary: [this.model.fulltimer_expected_salary],
         university: [null],
         university_id: [this.model.university_id],
         employed: [this.model.fulltimer_employed],
@@ -568,6 +568,8 @@ export class FulltimerFormPage implements OnInit, OnDestroy {
     this.modalCtrl.getTop().then(o => {
       if(o) {
         o.dismiss(data);
+      } else {
+        this.navCtrl.back();
       }
     });
   }

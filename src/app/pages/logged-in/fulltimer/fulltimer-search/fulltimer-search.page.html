@@ -10,10 +10,10 @@
       <ion-button (click)="openFilter()" class="btn-filter mobile-only" *ngIf="!showFilter">
         <ion-icon slot="start" src="assets/images/ic-filter.svg"></ion-icon> Filter
       </ion-button>
-  
-      <ion-button class="btn-add-filter" (click)="create($event)">
+
+      <ion-button class="btn-add-filter" routerLink="/fulltimer-form">
         Add Fulltimer
-      </ion-button>  
+      </ion-button>
 
     </ion-buttons>
 
@@ -59,7 +59,7 @@
 
         <ion-col size-sm="12" size-md="4" size-lg="4" class="col-filter">
           <div class="filter-wrapper" (scroll)="logScrolling($event)">
-            <fulltimer-filter></fulltimer-filter><!--  [class.hidden]="loading && !nbHits" todo 
+            <fulltimer-filter></fulltimer-filter><!--  [class.hidden]="loading && !nbHits" todo
             <loading-modal [loading]="loading && !nbHits" type="candidate-filter"></loading-modal>-->
           </div>
         </ion-col>
@@ -144,31 +144,31 @@
 
               </div>
 
-             <!--  <loading-modal [loading]="refreshingFulltimers || loading" type="fulltimer"></loading-modal> 
+             <!--  <loading-modal [loading]="refreshingFulltimers || loading" type="fulltimer"></loading-modal>
 
               to load more on scroll to bottom, usinng 0(zero) based pagination  --
               <!-- <ais-pagination let-nbPages="nbPages"></ais-pagination> *ngIf="page + 1 < this.nbPages"
 
-                <ion-infinite-scroll  
-                  (ionInfinite)="doInfinite($event) && showMore()"> 
+                <ion-infinite-scroll
+                  (ionInfinite)="doInfinite($event) && showMore()">
                   <ion-infinite-scroll-content loadingSpinner=""></ion-infinite-scroll-content>
                 </ion-infinite-scroll>
-              
+
           <ais-pagination>
             <ng-template let-showMoreHandler="showMoreHandler" let-state="state">
-              <ion-infinite-scroll [disabled]="state.isLastPage" (ionInfinite)="showMoreHandler($event)"> 
+              <ion-infinite-scroll [disabled]="state.isLastPage" (ionInfinite)="showMoreHandler($event)">
                 <ion-infinite-scroll-content loadingSpinner=""></ion-infinite-scroll-content>
               </ion-infinite-scroll>
             </ng-template>
           </ais-pagination>
         -->
-              
+
             </ng-template>
           </ais-infinite-hits>
 
 
           <bawes-ais-pagination></bawes-ais-pagination>
-          
+
           <!-- No results message -->
 
           <p *ngIf="!loading && !refreshingFulltimers && noFulltimerList" class="no-fulltimer-on-filter">
