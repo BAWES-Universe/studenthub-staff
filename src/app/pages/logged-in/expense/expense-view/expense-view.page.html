@@ -1,0 +1,42 @@
+<ion-header mode="md" [class.add-border]="borderLimit" class="ion-no-border">
+  <ion-toolbar class="container">
+    <ion-buttons slot="start">
+      <ion-back-button icon="assets/images/icon-back.svg" (click)="dismiss()" defaultHref="/view/company-list"></ion-back-button>
+    </ion-buttons>
+    
+    <ion-buttons slot="end">
+      <ion-button (click)="options($event)">
+        <ion-icon src="assets/icon/icon-option.svg"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    
+  </ion-toolbar>
+  <ion-toolbar *ngIf="mall" class="container" [class.hidden]="borderLimit">
+    
+    <ion-title>{{ mall.mall_name_en }}</ion-title>
+
+    <p>{{ mall.candidate_count }} staff</p>
+  </ion-toolbar>
+ 
+</ion-header>
+
+<ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
+  <div class="container">
+    
+    <ion-list *ngIf="mall">
+
+      <h5>
+        Stores <span *ngIf="mall.stores">({{ mall.stores.length }})</span>
+      </h5>
+
+      <app-store tappable (onUpdate)="loadData()" (onDelete)="loadData()" (click)="rowSelected(store)" [store]="store" 
+        *ngFor="let store of mall.stores"></app-store> 
+
+    </ion-list>
+
+    <no-items *ngIf="!loading && mall.stores && mall.stores.length == 0" message="No store added yet!"></no-items>
+
+    <loading-modal [loading]="loading" type="candidate-list"></loading-modal>
+  </div>
+
+</ion-content>
