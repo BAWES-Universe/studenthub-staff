@@ -1,72 +1,86 @@
-
 <ion-content>
   <div class="container">
+    <ion-list>
+    <ion-list-header>
+      Personal Section
+    </ion-list-header>
+      <ion-item [routerLink]="['/team-view/'+authService.staff_id]" routerLinkActive="active" lines="none" detail="false">
+        <div tabindex="0"></div>
+        <ion-icon name="person-circle-outline" slot="start"></ion-icon>
+        Profile
+      </ion-item>
+      <ion-item [routerLink]="['/my-work']" routerLinkActive="active" lines="none" detail="false">
+        <div tabindex="0"></div>
+        <ion-icon name="person-circle-outline" slot="start"></ion-icon>
+        My Work
+      </ion-item>
+      <ion-item [routerLink]="['/my-expenses']" routerLinkActive="active" lines="none" detail="false">
+        <div tabindex="0"></div>
+        <ion-icon name="cash" slot="start"></ion-icon>
+        My Expenses
+      </ion-item>
+    </ion-list>
+    <ion-list>
+      <ion-list-header>
+        Other Section
+      </ion-list-header>
+      <ion-item routerLink="/valocity" routerLinkActive="active" lines="none" detail="false">
+        <div tabindex="0"></div>
+        <ion-icon slot="start" name="stats-chart-outline"></ion-icon>
+        <ion-label>
+          Velocity
+        </ion-label>
+      </ion-item>
 
-    <ion-item routerLink="/valocity" routerLinkActive="active" lines="none" detail="false">
-      <div tabindex="0"></div>
-      <ion-icon slot="start" name="stats-chart-outline"></ion-icon>
-      <ion-label>
-        Velocity
-      </ion-label>
-    </ion-item>
+      <ion-item routerLink="/team-list" routerLinkActive="active" lines="none" detail="false">
+        <div tabindex="0"></div>
+        <ion-icon slot="start" name="people-outline"></ion-icon>
+        <ion-label>
+          Team
+        </ion-label>
+      </ion-item>
 
-    <ion-item routerLink="/team-list" routerLinkActive="active" lines="none" detail="false">
-      <div tabindex="0"></div>
-      <ion-icon slot="start" name="people-outline"></ion-icon>
-      <ion-label>
-        Team
-      </ion-label>
-    </ion-item>
+      <ion-item routerLink="/mall-list" routerLinkActive="active"  lines="none" detail="false">
+        <div tabindex="0"></div>
+        <ion-icon slot="start" name="business-outline"></ion-icon>
+        <ion-label>
+          Malls
+        </ion-label>
+      </ion-item>
 
-    <ion-item routerLink="/mall-list" routerLinkActive="active"  lines="none" detail="false">
-      <div tabindex="0"></div>
-      <ion-icon slot="start" name="business-outline"></ion-icon>
-      <ion-label>
-        Malls
-      </ion-label>
-    </ion-item>
+      <ion-item routerLink="/university-list" routerLinkActive="active"  lines="none" detail="false">
+        <div tabindex="0"></div>
+        <ion-icon name="school-outline" slot="start"></ion-icon>
+        University
+      </ion-item>
 
-    <ion-item routerLink="/university-list" routerLinkActive="active"  lines="none" detail="false">
-      <div tabindex="0"></div>
-      <ion-icon name="school-outline" slot="start"></ion-icon>
-      University
-    </ion-item>
+      <ion-item routerLink="/country-list" routerLinkActive="active" lines="none" detail="false">
+        <div tabindex="0"></div>
+        <ion-icon name="globe-outline" slot="start"></ion-icon>
+        Nationality
+      </ion-item>
 
-    <ion-item routerLink="/country-list" routerLinkActive="active" lines="none" detail="false">
-      <div tabindex="0"></div>
-      <ion-icon name="globe-outline" slot="start"></ion-icon>
-      Nationality
-    </ion-item>
+      <ion-item routerLink="/bank-list" routerLinkActive="active" lines="none" detail="false">
+        <div tabindex="0"></div>
+        <ion-icon name="globe-outline" slot="start"></ion-icon>
+        Bank
+      </ion-item>
 
-    <ion-item routerLink="/bank-list" routerLinkActive="active" lines="none" detail="false">
-      <div tabindex="0"></div>
-      <ion-icon name="globe-outline" slot="start"></ion-icon>
-      Bank
-    </ion-item>
-
-    <ion-item routerLink="/analytics" routerLinkActive="active" lines="none" detail="false">
-      <div tabindex="0"></div>
-      <ion-icon name="stats-chart-outline"  slot="start"></ion-icon>
-      Analytics
-    </ion-item>
-    <ion-item [routerLink]="['/team-view/'+authService.staff_id]" routerLinkActive="active" lines="none" detail="false">
-      <div tabindex="0"></div>
-      <ion-icon name="person-circle-outline" slot="start"></ion-icon>
-      Profile
-    </ion-item><ion-item [routerLink]="['/my-work']" routerLinkActive="active" lines="none" detail="false">
-      <div tabindex="0"></div>
-      <ion-icon name="person-circle-outline" slot="start"></ion-icon>
-      My Work
-    </ion-item>
-    <ion-item routerLink="/transfer-list" routerLinkActive="active" lines="none" detail="false">
-      <div tabindex="0"></div>
-      <ion-icon name="cash" slot="start"></ion-icon>
-      Transfer List
-    </ion-item>
-    <ion-item routerLink="/candidate-assigned-history" routerLinkActive="active" lines="none" detail="false">
-      <div tabindex="0"></div>
-      <ion-icon name="cash" slot="start"></ion-icon>
-      Candidate Assigned History
-    </ion-item>
+      <ion-item routerLink="/analytics" routerLinkActive="active" lines="none" detail="false">
+        <div tabindex="0"></div>
+        <ion-icon name="stats-chart-outline"  slot="start"></ion-icon>
+        Analytics
+      </ion-item>
+      <ion-item routerLink="/transfer-list" routerLinkActive="active" lines="none" detail="false">
+        <div tabindex="0"></div>
+        <ion-icon name="cash" slot="start"></ion-icon>
+        Transfer List
+      </ion-item>
+      <ion-item routerLink="/candidate-assigned-history" routerLinkActive="active" lines="none" detail="false">
+        <div tabindex="0"></div>
+        <ion-icon name="cash" slot="start"></ion-icon>
+        Candidate Assigned History
+      </ion-item>
+    </ion-list>
   </div>
 </ion-content>

@@ -584,6 +584,30 @@ const routes: Routes = [
     }
   },
   {
+    path: 'my-expenses',
+    loadChildren: () => import('./pages/logged-in/expense/expense-list/expense-list.module').then( m => m.ExpenseListPageModule),
+    canActivate: [AuthService],
+    data: {
+      name: 'ExpenseListPage'
+    }
+  },
+  {
+    path: 'expenses-form',
+    loadChildren: () => import('./pages/logged-in/expense/expense-form/expense-form.module').then( m => m.ExpenseFormPageModule),
+    canActivate: [AuthService],
+    data: {
+      name: 'ExpenseFormPage'
+    }
+  },
+  {
+    path: 'expenses-view',
+    loadChildren: () => import('./pages/logged-in/expense/expense-view/expense-view.module').then( m => m.ExpenseViewPageModule),
+    canActivate: [AuthService],
+    data: {
+      name: 'ExpenseViewPage'
+    }
+  },
+  {
     path: '**',
     redirectTo: 'not-found'
   },

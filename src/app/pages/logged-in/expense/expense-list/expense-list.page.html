@@ -1,0 +1,41 @@
+<ion-header mode="md" [class.add-border]="borderLimit" class="ion-no-border">
+  <ion-toolbar class="container">
+    <ion-buttons slot="start">
+      <ion-back-button icon="assets/images/icon-back.svg" defaultHref="/view/tasks"></ion-back-button>
+    </ion-buttons>
+    <ion-title>My Expense List <small>({{totalCount}})</small></ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
+  <div class="container">
+    <ion-list *ngIf="!loading">
+      <section>
+        <ion-item tappable  *ngFor="let expense of expenses" lines="none">
+          <div tabindex="0"></div>
+          <ion-label>
+            <ion-text>
+              <p><b>Purchase Date:</b> {{ expense.purchase_date }}</p>
+              <p><b>Category:</b> {{expense.categoryLbl}}</p>
+              <p><b>Supplier:</b> {{expense.supplier}}</p>
+              <p><b>Amount:</b> {{expense.currency}} / {{expense.total_amount}}</p>
+              <p><b>Status:</b> {{expense.statusLbl}}</p>
+            </ion-text>
+          </ion-label>
+        </ion-item>
+      </section>
+    </ion-list>
+    <loading-modal [loading]="loading || loadMore" type="mall-list"></loading-modal>
+  </div>
+  <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <div class="container">
+    <ion-button [routerLink]="'/expenses-form'">
+      Add New Expenses
+    </ion-button>
+  </div>
+</ion-footer>
+
