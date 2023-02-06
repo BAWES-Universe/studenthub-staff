@@ -608,6 +608,30 @@ const routes: Routes = [
     }
   },
   {
+    path: 'leave-request-form',
+    loadChildren: () => import('./pages/logged-in/leave/leave-request-form/leave-request-form.module').then( m => m.LeaveRequestFormPageModule),
+    canActivate: [AuthService],
+    data: {
+      name: 'LeaveRequestFormPage'
+    }
+  },
+  {
+    path: 'leave-request-list',
+    loadChildren: () => import('./pages/logged-in/leave/leave-request-list/leave-request-list.module').then( m => m.LeaveRequestListPageModule),
+    canActivate: [AuthService],
+    data: {
+      name: 'LeaveRequestListPage'
+    }
+  },
+  {
+    path: 'leave-request-view',
+    loadChildren: () => import('./pages/logged-in/leave/leave-request-view/leave-request-view.module').then( m => m.LeaveRequestViewPageModule),
+    canActivate: [AuthService],
+    data: {
+      name: 'LeaveRequestViewPage'
+    }
+  },
+  {
     path: '**',
     redirectTo: 'not-found'
   },

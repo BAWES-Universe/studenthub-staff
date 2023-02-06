@@ -8,7 +8,7 @@ import {AuthHttpService} from "./authhttp.service";
 export class DailyStandupService {
 
   private _endpoint: string = "/daily-standup";
-  
+
   constructor(private _authhttp: AuthHttpService) { }
 
   /**
@@ -22,7 +22,7 @@ export class DailyStandupService {
 
   /**
    * load current session
-   * @returns 
+   * @returns
    */
   getSession(): Observable<any>{
     const url = `${this._endpoint}/session`;
@@ -31,7 +31,7 @@ export class DailyStandupService {
 
   /**
    * start session
-   * @returns 
+   * @returns
    */
   startSession(): Observable<any>{
     const url = `${this._endpoint}/start-session`;
@@ -41,7 +41,7 @@ export class DailyStandupService {
 
   /**
    * end session
-   * @returns 
+   * @returns
    */
   endSession(): Observable<any>{
     const url = `${this._endpoint}/end-session`;
@@ -51,8 +51,8 @@ export class DailyStandupService {
 
   /**
    * leave request
-   * @param model 
-   * @returns 
+   * @param model
+   * @returns
    */
   leaveRequest(model): Observable<any>{
     const url = `${this._endpoint}/leave-request`;
@@ -60,14 +60,15 @@ export class DailyStandupService {
       from_date: model.from_date,
       to_date: model.to_date,
       note: model.note,
+      type: model.type,
     });
   }
 
   /**
-   * answer 
-   * @param question_uuid 
-   * @param answer 
-   * @returns 
+   * answer
+   * @param question_uuid
+   * @param answer
+   * @returns
    */
   answer(question_uuid, answer): Observable<any>{
     const url = `${this._endpoint}/answer/${question_uuid}`;

@@ -1,0 +1,38 @@
+<ion-header mode="md" [class.add-border]="borderLimit" class="ion-no-border">
+  <ion-toolbar class="container">
+    <ion-buttons slot="start">
+      <ion-back-button icon="assets/images/icon-back.svg" defaultHref="/view/tasks"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Leave Request List <small>({{totalCount}})</small></ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content scrollEvents="true">
+  <div class="container">
+    <ion-list *ngIf="!loading">
+        <ion-item *ngFor="let leave of staffLeaves" lines="none">
+          <div tabindex="0"></div>
+          <ion-label>
+            <ion-text>
+              <p><b>Duration:</b> {{ leave.from_date }} - {{ leave.to_date }}</p>
+              <p><b>Category:</b> {{leave.categoryLbl}}</p>
+              <p><b>Note:</b> {{leave.note}}</p>
+              <p><b>Status:</b> {{leave.statusLbl}}</p>
+              <p><b>File:</b> <a target="_blank" href="{{getFileUrl(leave)}}">Download</a></p>
+            </ion-text>
+          </ion-label>
+          <ion-button color="danger" slot="end" *ngIf="!leave.status" (click)="delete($event, leave.staff_leave_uuid)">Delete</ion-button>
+        </ion-item>
+    </ion-list>
+    <loading-modal [loading]="loading || loadMore" type="mall-list"></loading-modal>
+  </div>
+  <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <div class="container">
+    <ion-button expand="full" routerLink="/leave-request-form">Create New Leave Request</ion-button>
+  </div>
+</ion-footer>
+
