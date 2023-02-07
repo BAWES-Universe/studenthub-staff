@@ -31,7 +31,9 @@ export class LeaveRequestListPage implements OnInit {
 
   ngOnInit() {
     window.analytics.page('Staff Leave List');
+  }
 
+  ionViewWillEnter() {
     this.loadData(this.currentPage);
   }
 
