@@ -73,8 +73,8 @@ export class LeaveRequestFormPage implements OnInit, OnDestroy {
       from_date: [null, Validators.required],
       to_date: [null, Validators.required],
       type: [null, Validators.required],
-      note: [null, Validators.required],
-      file: [null, Validators.required],
+      note: [null],
+      file: [null],
     });
   }
 

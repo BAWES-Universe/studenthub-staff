@@ -9,14 +9,18 @@
 <ion-content scrollEvents="true">
   <div class="container">
     <ion-list *ngIf="!loading">
-        <ion-item *ngFor="let leave of staffLeaves" lines="none">
+        <ion-item *ngFor="let leave of staffLeaves">
           <div tabindex="0"></div>
           <ion-label>
             <ion-text>
               <p><b>Duration:</b> {{ leave.from_date }} - {{ leave.to_date }}</p>
               <p><b>Category:</b> {{leave.categoryLbl}}</p>
-              <p><b>Note:</b> {{leave.note}}</p>
-              <p><b>Status:</b> {{leave.statusLbl}}</p>
+              <p class="ion-text-wrap"><b>Note:</b> {{leave.note}}</p>
+              <p><b>Status: </b>
+                <ion-badge color ="warning" *ngIf="!leave.status">{{leave.statusLbl}}</ion-badge>
+                <ion-badge color ="success" *ngIf="leave.status == 1">{{leave.statusLbl}}</ion-badge>
+                <ion-badge color ="danger" *ngIf="leave.status == 2">{{leave.statusLbl}}</ion-badge>
+              </p>
               <p><b>File:</b> <a target="_blank" href="{{getFileUrl(leave)}}">Download</a></p>
             </ion-text>
           </ion-label>
