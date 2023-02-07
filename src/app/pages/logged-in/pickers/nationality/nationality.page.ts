@@ -61,7 +61,7 @@ export class NationalityPage implements OnInit {
   }
 
   onSearchInput(ev: any) {
-    
+
     this.query = ev.target.value;
 
     if (this.countryList) {
@@ -76,7 +76,7 @@ export class NationalityPage implements OnInit {
 
   /**
    * load countries
-   * @param page 
+   * @param page
    */
   loadData(page: number) {
 
@@ -84,13 +84,9 @@ export class NationalityPage implements OnInit {
 
     this.loading = true;
 
-    this.countrySubscription = this.countryService.list(1).subscribe(response => {
-
-      this.totalPage = parseInt(response.headers.get('X-Pagination-Page-Count'));
-      this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
-
-      this.countries = response.body;
-      this.countryList = response.body;
+    this.countrySubscription = this.countryService.listAll().subscribe(response => {
+      this.countries = response;
+      this.countryList = response;
     },
       error => { },
       () => {
@@ -130,7 +126,7 @@ export class NationalityPage implements OnInit {
 
   /**
    * close modal
-   * @param data 
+   * @param data
    */
   dismiss(data = {}) {
     this.modalCtrl.getTop().then(overlay => {

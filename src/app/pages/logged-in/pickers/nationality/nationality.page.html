@@ -26,11 +26,6 @@
       </ion-item>
 
       <loading-modal [loading]="loading" type="text-list"></loading-modal>
-
-      <ion-infinite-scroll *ngIf="currentPage < totalPage" (ionInfinite)="doInfinite($event)">
-        <ion-infinite-scroll-content></ion-infinite-scroll-content>
-      </ion-infinite-scroll>
-
       <h2 class="no-result-found" *ngIf="countries && countries.length == 0 && !loading && query">
         No results found!
       </h2>
