@@ -39,35 +39,32 @@
 
           <p *ngIf="leave">On leave from {{ leave.from_date }} to {{ leave.to_date }}.</p>
         </div>
+          <ion-grid *ngIf="staff_work_session.session">
+            <ion-row>
+              <ion-col size-xs="12" size-sm="12" size-md="6" size-lg="6">
+                <h3>Work session</h3>
+                <p class="timer" *ngIf="staff_work_session.session.created_at"> {{ staff_work_session.session.created_at | timer }} </p>
+                <ion-button size="small" color="danger" class="btn-end-session" [disabled]="loadingSession" (click)="endSession()">
+                  <ion-spinner *ngIf="loadingSession"></ion-spinner>
+                  <span *ngIf="!loadingSession">End Session</span>
+                </ion-button>
+              </ion-col>
+              <ion-col size-xs="12" size-sm="12" size-md="6" size-lg="6" *ngIf="dailyStandupQuestion">
+                <ng-container *ngIf="dailyStandupQuestion">
+                  <h3>{{ dailyStandupQuestion.question }}</h3>
 
-        <div *ngIf="staff_work_session.session" class="">
+                  <ion-item>
+                    <ion-textarea [(ngModel)]="dailyStandupQuestion.answer"></ion-textarea>
+                  </ion-item>
 
-          <div *ngIf="!dailyStandupQuestion">
-
-            <h3>Work session</h3>
-
-            <p class="timer" *ngIf="staff_work_session.session.created_at"> {{ staff_work_session.session.created_at | timer }} </p>
-
-            <ion-button size="small" color="danger" class="btn-end-session" [disabled]="loadingSession" (click)="endSession()">
-              <ion-spinner *ngIf="loadingSession"></ion-spinner>
-              <span *ngIf="!loadingSession">End Session</span>
-            </ion-button>
-          </div>
-
-
-          <ng-container *ngIf="dailyStandupQuestion">
-            <h3>{{ dailyStandupQuestion.question }}</h3>
-
-            <ion-item>
-              <ion-textarea [(ngModel)]="dailyStandupQuestion.answer"></ion-textarea>
-            </ion-item>
-
-            <ion-button size="small" (click)="saveAnswer()">
-              <ion-spinner *ngIf="savingAnswer"></ion-spinner>
-              <span *ngIf="!savingAnswer">Save answer</span>
-            </ion-button>
-          </ng-container>
-        </div>
+                  <ion-button size="small" (click)="saveAnswer()">
+                    <ion-spinner *ngIf="savingAnswer"></ion-spinner>
+                    <span *ngIf="!savingAnswer">Save answer</span>
+                  </ion-button>
+                </ng-container>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
         </ion-card-content>
       </ion-card>
 
