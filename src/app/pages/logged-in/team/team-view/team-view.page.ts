@@ -78,6 +78,10 @@ export class TeamViewPage implements OnInit {
         this.loadNotes();
       }
     });*/
+
+    this.eventService.changePassword$.subscribe((request) => {
+      this.changePassword();
+    });
   }
 
   ionViewWillEnter() {
@@ -155,7 +159,7 @@ export class TeamViewPage implements OnInit {
    * @param event
    */
   doInfiniteStories(event) {
-  
+
     this.loadMore = true;
 
     this.storiesCurrentPage++;

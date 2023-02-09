@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { AlertController, ModalController, NavController } from '@ionic/angular';
+import {AlertController, ModalController, NavController, PopoverController} from '@ionic/angular';
 //models
 import { StaffLeave } from 'src/app/models/staff-leave';
 // services
@@ -10,6 +10,8 @@ import { StatisticService } from 'src/app/providers/logged-in/statistic.service'
 import {AccountService} from "../../../providers/logged-in/account.service";
 //pages
 import { LeaveRequestPage } from '../leave-request/leave-request.page';
+import {MenuOptionPage} from "src/app/pages/logged-in/default/menu-option/menu-option.page";
+import {ChangePasswordComponent} from "src/app/components/change-password/change-password.component";
 
 
 @Component({
@@ -64,6 +66,7 @@ export class DefaultPage implements OnInit {
     public accountService: AccountService,
     public dailyStandupService: DailyStandupService,
     public statisticService: StatisticService,
+    public popoverCtrl: PopoverController,
     private _events: EventService,
   ) { }
 
@@ -304,5 +307,36 @@ export class DefaultPage implements OnInit {
         window.history.back();
       }
     });
+  }
+
+  /**
+   * Display Popover with Additional Actions (Change Password and Logout)
+   * @param e
+   */
+  async openPopover(e) {
+    const popover = await this.popoverCtrl.create({
+      component: MenuOptionPage,
+      event: e,
+      cssClass: 'candidate-option',
+      translucent: true,
+      showBackdrop: false
+    });
+    popover.present();
+
+    popover.onDidDismiss().then(e => {
+
+      if (e.data && e.data.changePassword) {
+        this.changePassword();
+      }
+    })
+  }
+
+  async changePassword() {
+    const modal = await this.modalCtrl.create({
+      component: ChangePasswordComponent,
+      cssClass: 'modal-change-password'
+    });
+
+    await modal.present();
   }
 }

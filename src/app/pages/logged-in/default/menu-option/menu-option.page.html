@@ -1,0 +1,29 @@
+<ion-content [attr.dir]="translateService.direction()">
+
+  <ion-list>
+    <ion-item (click)="page('/team-view/'+authService.staff_id)" tappable>
+      <div tabindex="0"></div>
+      <span>My Profile</span>
+    </ion-item>
+    <ion-item (click)="page('my-work')" tappable>
+      <div tabindex="0"></div>
+      <span>My Work</span>
+    </ion-item>
+    <ion-item (click)="page('leave-request-list')" tappable>
+      <div tabindex="0"></div>
+      <span>Leave Management</span>
+    </ion-item>
+    <ion-item (click)="page('my-expenses')" tappable>
+      <div tabindex="0"></div>
+      <span>Expense Management</span>
+    </ion-item>
+    <ion-item (click)="changePassword($event)" tappable>
+      <div tabindex="0"></div>
+      <span>Change Password</span>
+    </ion-item>
+    <ion-item (click)="page('logout')"tappable>
+      <div tabindex="0"></div>
+      <span>Logout</span>
+    </ion-item>
+  </ion-list>
+</ion-content>
