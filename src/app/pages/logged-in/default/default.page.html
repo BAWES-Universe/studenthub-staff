@@ -2,7 +2,7 @@
   <ion-toolbar class="container">
     <ion-title>Dashboard</ion-title>
     <ion-buttons slot="end">
-      <ion-button [routerLink]="['/team-view/'+authService.staff_id]" fill="clear" class="name-btn">
+      <ion-button (click)="openPopover($event)" fill="clear" class="name-btn">
          {{ getInitials() }}
       </ion-button>
     </ion-buttons>
