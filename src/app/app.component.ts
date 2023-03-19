@@ -7,9 +7,9 @@ import {
   ModalController,
   ToastController
 } from '@ionic/angular';
-import { SwUpdate } from '@angular/service-worker';
+import { SwUpdate, VersionReadyEvent } from '@angular/service-worker';
 import { concat, interval } from 'rxjs';
-import { first } from 'rxjs/operators';
+import { filter, first, map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { DOCUMENT } from '@angular/common';
 import { App, URLOpenListenerEvent } from '@capacitor/app';
@@ -236,12 +236,9 @@ export class AppComponent implements OnInit {
 
     if (
       !this.platform.is('capacitor') && 'serviceWorker' in navigator &&
-      environment.serviceWorker &&
-      window.location.hostname != 'localhost'
+      environment.serviceWorker 
+      //&& window.location.hostname != 'localhost'
     ) {
-
-      navigator.serviceWorker.register('./ngsw-worker.js');
-
       // Allow the app to stabilize first, before starting polling for updates with `interval()`.
       const appIsStable$ = this.appRef.isStable.pipe(first(isStable => isStable === true));
       const updateInterval$ = interval(60 * 1000); // every minute
@@ -252,17 +249,21 @@ export class AppComponent implements OnInit {
           console.log('checking for update');
         });
       });
-
-      this.updates.available.subscribe((e) => {
-        console.log('updates available');
-        this.updatesAvailable = true;
-      });
-
-      this.updates.activated.subscribe((e) => {
-        console.log('update activated');
+      
+      const updatesAvailable = this.updates.versionUpdates.pipe(
+        filter((evt): evt is VersionReadyEvent => {
+          console.log(evt);
+          return evt.type === 'VERSION_READY';
+        }),
+        map(evt => ({
+          type: 'UPDATE_AVAILABLE',
+          current: evt.currentVersion,
+          available: evt.latestVersion,
+        })));
+ 
+      updatesAvailable.subscribe(() => {
+        console.log('update available');
         this.updatesAvailable = false;
-      }, reason => {
-        console.error('service worker update activation failed', reason);
       });
     }
   }
