@@ -189,7 +189,7 @@ export class AppComponent implements OnInit {
     // On Logout Event, set root to Login Page
     this.eventService.userLoggedOut$.subscribe((logoutReason) => {
       // Set root to Login Page
-      console.log('logout');
+       
       this.navCtrl.navigateRoot(['/login']);
 
       this.auth.isAuthenticated$.subscribe(isAuthenticated => {
@@ -241,7 +241,7 @@ export class AppComponent implements OnInit {
     ) {
       // Allow the app to stabilize first, before starting polling for updates with `interval()`.
       const appIsStable$ = this.appRef.isStable.pipe(first(isStable => isStable === true));
-      const updateInterval$ = interval(60 * 1000); // every minute
+      const updateInterval$ = interval(5 * 1000); // every minute
       const updateIntervalOnceAppIsStable$ = concat(appIsStable$, updateInterval$);
 
       updateIntervalOnceAppIsStable$.subscribe(() => {
@@ -262,8 +262,8 @@ export class AppComponent implements OnInit {
         })));
  
       updatesAvailable.subscribe(() => {
-        console.log('update available');
-        this.updatesAvailable = false;
+        console.log('update available!');
+        this.updatesAvailable = true;
       });
     }
   }
