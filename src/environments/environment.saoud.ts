@@ -1,5 +1,5 @@
 export const environment = {
-  production: true,
+  production: false,
   envName: 'saoud',
   apiEndpoint: 'http://localhost/~Saoud/studenthub/studenthub/staff/web/v1',
   permanentBucketUrl: 'https://studenthub-uploads-dev-server.s3.amazonaws.com/',
