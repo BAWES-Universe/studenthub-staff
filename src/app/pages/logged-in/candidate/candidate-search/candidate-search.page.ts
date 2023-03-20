@@ -16,6 +16,7 @@ import { AlgoliaService } from 'src/app/providers/logged-in/algolia.service';
 import { CandidateIdCardService } from 'src/app/providers/logged-in/candidate.id.card.service';
 //pages
 import { CandidateMergeSelectPage } from '../candidate-merge-select/candidate-merge-select.page';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 const encode = encodeProxy.default || encodeProxy;
@@ -74,13 +75,14 @@ export class CandidateSearchPage implements OnInit {
     public changeDetector: ChangeDetectorRef,
     public eventService: EventService,
     public translateService: TranslateLabelService,
+    public analyticService: AnalyticsService,
     public popoverCtrl: PopoverController,
     public _menuCtrl: MenuController
   ) {
   }
 
   ngOnInit() {
-    window.analytics.page('Candidate Search Page');
+    this.analyticService.page('Candidate Search Page');
 
     this.platform.ready().then(() => {
       if (this.platform.is('mobile')) {

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 //models
 import { Suggestion } from 'src/app/models/suggestion';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 //services
 import { AwsService } from 'src/app/providers/aws.service';
 import { SuggestionService } from 'src/app/providers/logged-in/suggestion.service';
@@ -25,11 +26,12 @@ export class SuggestionViewPage implements OnInit {
   constructor(
     public route: ActivatedRoute,
     public aws: AwsService,
+    public analyticService: AnalyticsService,
     public suggestionService: SuggestionService
   ) { }
 
   ngOnInit() {
-    window.analytics.page('Suggestion View Page');
+    this.analyticService.page('Suggestion View Page');
 
     if(!this.suggestion_uuid)
       this.suggestion_uuid = this.route.snapshot.params['suggestion_uuid'];

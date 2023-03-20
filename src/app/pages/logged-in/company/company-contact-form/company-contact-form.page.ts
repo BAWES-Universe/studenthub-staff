@@ -10,6 +10,7 @@ import { CompanyContact } from 'src/app/models/company-contact';
 //validator
 import { CustomValidator } from 'src/app/validators/custom.validator';
 import {AuthService} from "../../../../providers/auth.service";
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -47,11 +48,12 @@ export class CompanyContactFormPage implements OnInit {
     private modalCtrl: ModalController,
     private _alertCtrl: AlertController,
     private eventService: EventService,
+    public analyticService: AnalyticsService,
     private authService: AuthService
   ) { }
 
   ngOnInit() {
-    window.analytics.page('Company Contact Form Page');
+    this.analyticService.page('Company Contact Form Page');
 
     const state = window.history.state;
 

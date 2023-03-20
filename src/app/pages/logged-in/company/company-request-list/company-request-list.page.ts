@@ -10,6 +10,7 @@ import { CompanyService } from 'src/app/providers/logged-in/company.service';
 import { AwsService } from 'src/app/providers/aws.service';
 import { CompanyRequestService } from 'src/app/providers/logged-in/company-request.service';
 import { EventService } from 'src/app/providers/event.service';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -57,6 +58,7 @@ export class CompanyRequestListPage implements OnInit {
     public companyService: CompanyService,
     public eventService: EventService,
     public requestService: CompanyRequestService,
+    public analyticService: AnalyticsService,
     public aws: AwsService,
     public alertCtrl: AlertController,
     public toastCtrl: ToastController,
@@ -65,7 +67,7 @@ export class CompanyRequestListPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    window.analytics.page('Company Request List Page');
+    this.analyticService.page('Company Request List Page');
 
     this.list();
 

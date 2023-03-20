@@ -7,6 +7,7 @@ import { AwsService } from 'src/app/providers/aws.service';
 import { CandidateIdCardService } from 'src/app/providers/logged-in/candidate.id.card.service';
 // models
 import {Candidate} from 'src/app/models/candidate';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -37,13 +38,14 @@ export class CandidateBankInfoListPage implements OnInit {
     public aws: AwsService,
     public candidateIdCardService: CandidateIdCardService,
     public candidateService: CandidateService,
+    public analyticService: AnalyticsService,
     public toastCtrl: ToastController,
     public alertCtrl: AlertController,
   ) {
   }
 
   ngOnInit() {
-    window.analytics.page('Candidate Bank Info List Page');
+    this.analyticService.page('Candidate Bank Info List Page');
   }
 
   ionViewWillEnter() {

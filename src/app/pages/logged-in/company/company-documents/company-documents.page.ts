@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 //models
 import { Company } from 'src/app/models/company';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 //services
 import { AwsService } from 'src/app/providers/aws.service';
 import { EventService } from 'src/app/providers/event.service';
@@ -29,11 +30,12 @@ export class CompanyDocumentsPage implements OnInit {
     public activatedRoute: ActivatedRoute,
     public awsService: AwsService,
     public eventService: EventService,
-    public companyService: CompanyService
+    public companyService: CompanyService,
+    public analyticService: AnalyticsService
   ) { }
 
   ngOnInit() {
-    window.analytics.page('Company Document List Page');
+    this.analyticService.page('Company Document List Page');
 
     this.loadData();
   }

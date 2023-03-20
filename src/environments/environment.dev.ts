@@ -10,5 +10,6 @@ export const environment = {
     cloudinaryUrl: 'https://res.cloudinary.com/studenthub/image/upload/c_thumb,w_200,h_200,g_face,q_auto:low/v1596525812/dev/',
     environmentName: 'Dev Server',
     marker: null,//'assets/images/car.svg',
-    serviceWorker: true
+    serviceWorker: true,
+    mixpanelKey: 'ac62dbe81767f8871f754c7bdf6669d6'
 };

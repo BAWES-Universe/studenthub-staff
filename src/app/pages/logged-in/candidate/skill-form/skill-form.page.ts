@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController, ToastController, AlertController } from '@ionic/angular';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -25,11 +26,12 @@ export class SkillFormPage implements OnInit {
   constructor(
     public alertCtrl: AlertController,
     public toastCtrl: ToastController,
-    public modalCtrl: ModalController
+    public modalCtrl: ModalController,
+    public analyticService: AnalyticsService
   ) { }
 
   ngOnInit() {
-    window.analytics.page('Skill Form Page');
+    this.analyticService.page('Skill Form Page');
 
     if (this.skillList.length > 0) {
       this.skillList.map((data, index) => {

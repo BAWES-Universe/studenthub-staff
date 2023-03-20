@@ -11,6 +11,7 @@ import {environment} from '../../environments/environment';
 import { AuthService as Auth0Service } from '@auth0/auth0-angular';
 import { AlertController, LoadingController } from '@ionic/angular';
 import { StorageService } from './storage.service';
+import { AnalyticsService } from './analytics.service';
 
 
 @Injectable({
@@ -51,6 +52,7 @@ export class AuthService {
     public loadingCtrl: LoadingController,
     public eventService: EventService,
     public storageService: StorageService,
+    public analyticService: AnalyticsService,
     public rendererFactory: RendererFactory2
   ) {
     this.renderer = this.rendererFactory.createRenderer(null, null);
@@ -186,7 +188,7 @@ export class AuthService {
     this.email = response.email;
     this.story = response.story;
 
-    window.analytics.identify(this.staff_id, {
+    this.analyticService.user(this.staff_id, {
       name: this.name,
       email: this.email,
     });

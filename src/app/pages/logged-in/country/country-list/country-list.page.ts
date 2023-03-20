@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
 //models
 import { Country } from 'src/app/models/country';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 //services
 import { CountryService } from 'src/app/providers/logged-in/country.service';
 
@@ -26,12 +27,13 @@ export class CountryListPage implements OnInit {
   constructor(
     public navCtrl: NavController,
     public countryService: CountryService,
+    public analyticService: AnalyticsService,
     public activatedRoute: ActivatedRoute
   ) {
   }
 
   ngOnInit() {
-    window.analytics.page('Country List Page');
+    this.analyticService.page('Country List Page');
 
     this.loadData(this.currentPage);
   }

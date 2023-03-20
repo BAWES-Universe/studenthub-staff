@@ -10,6 +10,7 @@ import {ExpenseService} from "../../../../providers/logged-in/expense.service";
 import {AwsService} from "../../../../providers/aws.service";
 import {Subscription} from "rxjs";
 import {SentryErrorhandlerService} from "../../../../providers/sentry.errorhandler.service";
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -46,12 +47,13 @@ export class ExpenseFormPage implements OnInit, OnDestroy {
     private modelCtrl: ModalController,
     private navCtrl: NavController,
     private alertCtrl: AlertController,
-    private authService: AuthService
+    private authService: AuthService,
+    public analyticService: AnalyticsService
   ) {
   }
 
   ngOnInit() {
-    window.analytics.page('Mall Form Page');
+    this.analyticService.page('Mall Form Page');
 
     if(!this.mallUUID)
       this.mallUUID = this.activatedRoute.snapshot.paramMap.get('id');

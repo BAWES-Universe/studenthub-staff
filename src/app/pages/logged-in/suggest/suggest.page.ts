@@ -5,6 +5,7 @@ import {AlertController, ModalController, ToastController} from '@ionic/angular'
 import { Candidate } from 'src/app/models/candidate';
 import { Fulltimer } from 'src/app/models/fulltimer';
 import { Request } from 'src/app/models/request';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 import { AuthService } from 'src/app/providers/auth.service';
 import { EventService } from 'src/app/providers/event.service';
 import { SuggestionService } from 'src/app/providers/logged-in/suggestion.service';
@@ -40,12 +41,13 @@ export class SuggestPage implements OnInit {
     public toastCtrl: ToastController,
     public authService: AuthService,
     public eventService: EventService,
+    public analyticService: AnalyticsService,
     public suggestionService: SuggestionService,
     public requestService: CompanyRequestService
   ) { }
 
   ngOnInit() {
-    window.analytics.page('Suggest Page');
+    this.analyticService.page('Suggest Page');
 
     this.initForm();
     this.loadRequests();

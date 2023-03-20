@@ -9,6 +9,7 @@ import { Candidate } from 'src/app/models/candidate';
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 import { AccountService } from 'src/app/providers/logged-in/account.service';
 import { GoogleMapService } from 'src/app/providers/logged-in/google-map.service';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 declare var google;
@@ -58,11 +59,12 @@ export class LocationPage implements OnInit {
     public alertCtrl: AlertController,
     public accountService: AccountService,
     public googleMapService: GoogleMapService,
-    public translateService: TranslateLabelService
+    public translateService: TranslateLabelService,
+    public analyticService: AnalyticsService
   ) { }
 
   ngOnInit() {
-    window.analytics.page('Location Page');
+    this.analyticService.page('Location Page');
 
     this._initForm();
     if (

@@ -10,6 +10,7 @@ import { CompanyService } from "../../../../providers/logged-in/company.service"
 // pages
 import { BrandFormPage } from '../brand-form/brand-form.page';
 import { Router } from '@angular/router';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -32,11 +33,12 @@ export class CompanyBrandsPage implements OnInit {
     public modalCtrl: ModalController,
     public awsService: AwsService,
     public brandService: BrandService,
-    public companyService: CompanyService
+    public companyService: CompanyService,
+    public analyticService: AnalyticsService
   ) { }
 
   ngOnInit() {
-    window.analytics.page('Company Brands Page');
+    this.analyticService.page('Company Brands Page');
 
     // if (this.company) {
     //   this.brands = this.company.brands;

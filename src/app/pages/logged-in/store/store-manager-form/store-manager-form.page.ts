@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ModalController, NavParams } from '@ionic/angular';
 //models
 import { CompanyContact } from 'src/app/models/company-contact';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 //services
 import { CompanyContactService } from 'src/app/providers/logged-in/company-contact.service';
 import {Contact} from "../../../../models/contact";
@@ -29,7 +30,8 @@ export class StoreManagerFormPage implements OnInit {
   constructor(
     public modalCtrl: ModalController,
     private navParams: NavParams,
-    public comapnyContactService: CompanyContactService
+    public comapnyContactService: CompanyContactService,
+    public analyticService: AnalyticsService
   ) { }
 
   ngOnInit() {
@@ -37,7 +39,7 @@ export class StoreManagerFormPage implements OnInit {
     if (this.navParams && this.navParams.data && this.navParams.data['view']) {
       this.directView = true;
     }
-    window.analytics.page('Store Manager Form Page');
+    this.analyticService.page('Store Manager Form Page');
 
     this.loadData();
   }

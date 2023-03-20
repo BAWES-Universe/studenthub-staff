@@ -4,6 +4,7 @@ import { AlertController, ModalController } from '@ionic/angular';
 //models
 import { Company } from 'src/app/models/company';
 import { Transfer } from 'src/app/models/transfer';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 import { EventService } from 'src/app/providers/event.service';
 //services
 import { CompanyService } from 'src/app/providers/logged-in/company.service';
@@ -31,11 +32,12 @@ export class TransferListPage implements OnInit {
     public alertCtrl: AlertController,
     public modalCtrl: ModalController,
     public eventService: EventService,
+    public analyticService: AnalyticsService,
     public companyService: CompanyService
   ) { }
 
   ngOnInit() {
-    window.analytics.page('Transfer List Page');
+    this.analyticService.page('Transfer List Page');
 
     this.loadData();
 

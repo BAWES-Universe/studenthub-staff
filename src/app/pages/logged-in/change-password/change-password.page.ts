@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 //services
 import { AuthService } from 'src/app/providers/auth.service';
 import { AccountService } from 'src/app/providers/logged-in/account.service';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -30,11 +31,12 @@ export class ChangePasswordPage implements OnInit {
     public modalCtrl: ModalController,
     public accountService: AccountService,
     public authService: AuthService,
+    public analyticService: AnalyticsService
   ) {
   }
 
   ngOnInit() {
-    window.analytics.page('Change Password Page');
+    this.analyticService.page('Change Password Page');
 
     this.form = this._fb.group({
       password: ['', Validators.required],

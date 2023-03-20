@@ -11,6 +11,7 @@ import {Store} from 'src/app/models/store';
 import {Mall} from 'src/app/models/mall';
 import {Brand} from "../../../../models/brand";
 import {EventService} from "../../../../providers/event.service";
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -39,12 +40,13 @@ export class StoreFormPage implements OnInit {
     private _alertCtrl: AlertController,
     public mallService: MallService,
     private authService: AuthService,
+    public analyticService: AnalyticsService,
     private eventService: EventService
   ) {
   }
 
   ngOnInit() {
-    window.analytics.page('Store Form Page');
+    this.analyticService.page('Store Form Page');
 
     if(!this.store_id)
       this.store_id = this.activatedRoute.snapshot.paramMap.get('id');

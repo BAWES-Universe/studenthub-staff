@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { AlertController, ModalController } from '@ionic/angular';
 // models
 import { Note } from 'src/app/models/note';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 import { EventService } from 'src/app/providers/event.service';
 // services
 import { NoteService } from 'src/app/providers/logged-in/note.service';
@@ -34,11 +35,12 @@ export class NoteViewPage implements OnInit {
     public route: ActivatedRoute,
     public location: Location,
     public eventService: EventService,
+    public analyticService: AnalyticsService,
     public noteService: NoteService
   ) { }
 
   ngOnInit() {
-    window.analytics.page('Note View Page');
+    this.analyticService.page('Note View Page');
 
     if(!this.note_uuid)
       this.note_uuid = this.route.snapshot.params['note_uuid'];

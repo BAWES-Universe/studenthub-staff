@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 //models
 import { Company } from 'src/app/models/company';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 //servies
 import { CompanyService } from 'src/app/providers/logged-in/company.service';
 import { MallViewPage } from '../../mall/mall-view/mall-view.page';
@@ -23,11 +24,12 @@ export class CompanyMallsPage implements OnInit {
   constructor(
     public router: Router,
     public modalCtrl: ModalController,
+    public analyticService: AnalyticsService,
     public companyService: CompanyService
   ) { }
 
   ngOnInit() {
-    window.analytics.page('Company Mall List Page');
+    this.analyticService.page('Company Mall List Page');
 
     this.loadData();
   }

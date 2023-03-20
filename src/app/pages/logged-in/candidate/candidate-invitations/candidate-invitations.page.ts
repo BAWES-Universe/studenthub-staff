@@ -9,6 +9,7 @@ import { CandidateService } from 'src/app/providers/logged-in/candidate.service'
 import { InvitationService } from 'src/app/providers/logged-in/invitation.service';
 import {SuggestionService} from "../../../../providers/logged-in/suggestion.service";
 import {AuthService} from "../../../../providers/auth.service";
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 @Component({
   selector: 'app-candidate-invitations',
@@ -36,6 +37,7 @@ export class CandidateInvitationsPage implements OnInit {
     public candidateService: CandidateService,
     public invitationService: InvitationService,
     public suggestionService: SuggestionService,
+    public analyticService: AnalyticsService,
     public alertCtrl: AlertController,
     public authService: AuthService,
     public navCtrl: NavController
@@ -43,7 +45,7 @@ export class CandidateInvitationsPage implements OnInit {
 
   ngOnInit() {
 
-    window.analytics.page('Candidate Invitations Page');
+    this.analyticService.page('Candidate Invitations Page');
 
     if (!this.candidate_id) {
       this.candidate_id = this.activatedRoute.snapshot.paramMap.get('candidate_id');

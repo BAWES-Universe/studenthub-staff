@@ -10,6 +10,7 @@ import { Note } from 'src/app/models/note';
 import { SuggestionService } from 'src/app/providers/logged-in/suggestion.service';
 import { NoteService } from '../../../../providers/logged-in/note.service';
 import {FulltimerService} from "../../../../providers/logged-in/fulltimer.service";
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -35,12 +36,13 @@ export class FulltimerSuggestionsPage implements OnInit {
     public eventService: EventService,
     public fulltimerService: FulltimerService,
     public suggestionService: SuggestionService,
+    public analyticService: AnalyticsService,
     public noteService: NoteService
   ) {
   }
 
   ngOnInit() {
-    window.analytics.page('Fulltimer Suggestions Page');
+    this.analyticService.page('Fulltimer Suggestions Page');
 
     if (!this.fulltimer_uuid) {
       this.fulltimer_uuid = this.activatedRoute.snapshot.paramMap.get('id');

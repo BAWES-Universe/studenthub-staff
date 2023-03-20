@@ -9,6 +9,7 @@ import { Note } from 'src/app/models/note';
 // services
 import { SuggestionService } from 'src/app/providers/logged-in/suggestion.service';
 import { NoteService } from '../../../../providers/logged-in/note.service';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -34,12 +35,13 @@ export class CandidateSuggestionsPage implements OnInit {
     public eventService: EventService,
     public candidateService: CandidateService,
     public suggestionService: SuggestionService,
-    public noteService: NoteService
+    public noteService: NoteService,
+    public analyticService: AnalyticsService
   ) {
   }
 
   ngOnInit() {
-    window.analytics.page('Candidate Suggestions Page');
+    this.analyticService.page('Candidate Suggestions Page');
 
     if (!this.candidate_id) {
       this.candidate_id = this.activatedRoute.snapshot.paramMap.get('candidate_id');

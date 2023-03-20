@@ -3,6 +3,7 @@ import {StaffLeaveService} from "src/app/providers/logged-in/staff-leave.service
 import {StaffLeave} from "../../../../models/staff-leave";
 import {AlertController, NavController, ToastController} from "@ionic/angular";
 import {AwsService} from "../../../../providers/aws.service";
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 @Component({
   selector: 'app-leave-request-list',
@@ -26,11 +27,12 @@ export class LeaveRequestListPage implements OnInit {
     public navCtrl: NavController,
     public alertCtrl: AlertController,
     public toastCtrl: ToastController,
-    public awsService: AwsService
+    public awsService: AwsService,
+    public analyticService: AnalyticsService,
   ) { }
 
   ngOnInit() {
-    window.analytics.page('Staff Leave List');
+    this.analyticService.page('Staff Leave List');
   }
 
   ionViewWillEnter() {

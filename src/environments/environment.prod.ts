@@ -10,4 +10,5 @@ export const environment = {
   algoliaCacheDuration: 5 * 60 * 1000, // 5 min in millisecond
   marker: null,//'assets/images/car.svg',
   environmentName: 'Production Server',
+  mixpanelKey: '1571d4a3355f1a2fec86bd0ba6dc912b'
 };

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastController, NavController, LoadingController, ModalController } from '@ionic/angular';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 import { StorageService } from 'src/app/providers/storage.service';
 
 
@@ -15,11 +16,12 @@ export class AppErrorPage implements OnInit {
     public navCtrl: NavController,
     public toastCtrl: ToastController,
     private loadingCtrl: LoadingController,
-    public storageService: StorageService
+    public storageService: StorageService,
+    public analyticService: AnalyticsService
   ) { }
 
   ngOnInit() {
-    window.analytics.page('App Error Page');
+    this.analyticService.page('App Error Page');
   }
 
   ionViewWillEnter() {

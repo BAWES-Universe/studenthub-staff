@@ -10,6 +10,7 @@ import { Request } from 'src/app/models/request';
 import { AuthService } from "../../../../providers/auth.service";
 //pages
 import { CompanyContactListPage } from "../company-contact/company-contact-list/company-contact-list.page";
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -51,12 +52,13 @@ export class CompanyRequestFormPage implements OnInit {
     private alertCtrl: AlertController,
     private authService: AuthService,
     private popoverCtrl: PopoverController,
-    private eventService: EventService
+    private eventService: EventService,
+    public analyticService: AnalyticsService
   ) {
   }
 
   ngOnInit() {
-    window.analytics.page('Company Request Form Page');
+    this.analyticService.page('Company Request Form Page');
 
     if (this.request) {
       this.model = this.request;

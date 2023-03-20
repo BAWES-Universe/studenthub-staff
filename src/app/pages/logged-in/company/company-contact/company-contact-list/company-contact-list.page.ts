@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ModalController, PopoverController } from '@ionic/angular';
 // models
 import { Company } from 'src/app/models/company';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 // services
 import { CompanyContactService } from 'src/app/providers/logged-in/company-contact.service';
 import {Contact} from '../../../../../models/contact';
@@ -34,6 +35,7 @@ export class CompanyContactListPage implements OnInit {
 
   constructor(
     public companyContactService: CompanyContactService,
+    public analyticService: AnalyticsService,
     public popupCtrl: PopoverController,
     public modalCtrl: ModalController
   ) {
@@ -43,7 +45,7 @@ export class CompanyContactListPage implements OnInit {
 
     console.log(this.type);
     console.log(this.company);
-    window.analytics.page('Company Contact List Page');
+    this.analyticService.page('Company Contact List Page');
 
     if (this.company && this.company.companyContacts) {
       this.contactList = this.company.contacts;

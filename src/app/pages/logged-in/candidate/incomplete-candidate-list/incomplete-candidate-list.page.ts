@@ -8,6 +8,7 @@ import { CandidateService } from 'src/app/providers/logged-in/candidate.service'
 import { AwsService } from 'src/app/providers/aws.service';
 import { CandidateIdCardService } from 'src/app/providers/logged-in/candidate.id.card.service';
 import { EventService } from 'src/app/providers/event.service';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -39,13 +40,14 @@ export class IncompleteCandidateListPage implements OnInit {
     public candidateIdCardService: CandidateIdCardService,
     public candidateService: CandidateService,
     public eventService: EventService,
+    public analyticService: AnalyticsService,
     public toastCtrl: ToastController,
     public alertCtrl: AlertController,
   ) {
   }
 
   ngOnInit() {
-    window.analytics.page('Incomplete Candidate List Page');
+    this.analyticService.page('Incomplete Candidate List Page');
   }
 
   /**

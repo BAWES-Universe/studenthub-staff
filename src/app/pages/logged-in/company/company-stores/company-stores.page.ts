@@ -4,6 +4,7 @@ import {AlertController, IonNav, ModalController, Platform, ToastController} fro
 //models
 import { Company } from 'src/app/models/company';
 import { Store } from 'src/app/models/store';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 //services
 import { EventService } from 'src/app/providers/event.service';
 import { CompanyService } from 'src/app/providers/logged-in/company.service';
@@ -39,11 +40,12 @@ export class CompanyStoresPage implements OnInit {
     public eventService: EventService,
     public companyService: CompanyService,
     public storeService: StoreService,
+    public analyticService: AnalyticsService,
     @Optional() public nav: IonNav
   ) { }
 
   ngOnInit() {
-    window.analytics.page('Company Stores Page');
+    this.analyticService.page('Company Stores Page');
 
     this.loadData();
   }

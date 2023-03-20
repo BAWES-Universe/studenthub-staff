@@ -5,6 +5,7 @@ import { Staff } from 'src/app/models/staff';
 //services
 import { StaffService } from 'src/app/providers/logged-in/staff.service';
 import { AuthService } from 'src/app/providers/auth.service';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -27,12 +28,13 @@ export class TeamListPage implements OnInit {
   constructor(
     public authService: AuthService,
     private staffService: StaffService,
+    public analyticService: AnalyticsService,
     private navCtrl: NavController,
     public platform: Platform,
   ) { }
 
   ngOnInit() {
-    window.analytics.page('Team List Page');
+    this.analyticService.page('Team List Page');
 
     this.loadData(this.currentPage);
   }

@@ -14,6 +14,7 @@ import { Note } from 'src/app/models/note';
 //components
 import { ChangePasswordComponent } from 'src/app/components/change-password/change-password.component';
 import {Story} from "../../../../models/request";
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -53,11 +54,12 @@ export class TeamViewPage implements OnInit {
     public storyService: StoryService,
     public authService: AuthService,
     public eventService: EventService,
+    public analyticService: AnalyticsService,
     public navCtrl: NavController
   ) { }
 
   ngOnInit() {
-    window.analytics.page('Team View Page');
+    this.analyticService.page('Team View Page');
 
 
     if(!this.staff_id)

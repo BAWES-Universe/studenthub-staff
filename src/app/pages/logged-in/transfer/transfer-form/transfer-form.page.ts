@@ -26,6 +26,7 @@ import { AuthService } from '../../../../providers/auth.service';
 import { EventService } from '../../../../providers/event.service';
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 import { SentryErrorhandlerService } from 'src/app/providers/sentry.errorhandler.service';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -95,13 +96,14 @@ export class TransferFormPage implements OnInit {
     public _toastCtrl: ToastController,
     private _fb: FormBuilder,
     private _authService: AuthService,
+    public analyticService: AnalyticsService,
     private modalCtrl: ModalController,
     private eventService: EventService
   ) {
   }
 
   ngOnInit() {
-    window.analytics.page('Transfer Form Page');
+    this.analyticService.page('Transfer Form Page');
 
     this.min = '1930/01/01';
 

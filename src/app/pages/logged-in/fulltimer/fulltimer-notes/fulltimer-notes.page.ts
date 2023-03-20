@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 //models
 import { Note } from 'src/app/models/note';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 //services
 import { EventService } from 'src/app/providers/event.service';
 import { FulltimerService } from 'src/app/providers/logged-in/fulltimer.service';
@@ -33,13 +34,14 @@ export class FulltimerNotesPage implements OnInit {
     public activatedRoute: ActivatedRoute,
     public eventService: EventService,
     public fulltimerService: FulltimerService,
+    public analyticService: AnalyticsService,
     public noteService: NoteService
   ) {
   }
 
   ngOnInit() {
 
-    window.analytics.page('Fulltimer Notes Page');
+    this.analyticService.page('Fulltimer Notes Page');
 
     if(!this.fulltimer_uuid)
       this.fulltimer_uuid = this.activatedRoute.snapshot.paramMap.get('fulltimer_uuid');

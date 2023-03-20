@@ -13,6 +13,7 @@ import { Request } from 'src/app/models/request';
 // pages
 import { CompanyContactListPage } from '../../company-contact/company-contact-list/company-contact-list.page';
 import { AllCompanyListPage } from '../all-company-list/all-company-list.page';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -57,12 +58,13 @@ export class RequestFormPage implements OnInit {
     private popoverCtrl: PopoverController,
     private location: Location,
     private eventService: EventService,
+    public analyticService: AnalyticsService,
     private route: ActivatedRoute
   ) {
   }
 
   ngOnInit() { 
-    window.analytics.page('Request Form Page');
+    this.analyticService.page('Request Form Page');
   }
 
   ionViewWillEnter() {

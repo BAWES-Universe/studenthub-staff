@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {LoadingController, NavController} from "@ionic/angular";
 import {UniversityService} from "src/app/providers/logged-in/university.service";
 import {University} from "src/app/models/university";
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 @Component({
   selector: 'app-university-list',
@@ -21,11 +22,12 @@ export class UniversityListPage implements OnInit {
 
   constructor(
     public navCtrl: NavController,
-    public universityService: UniversityService
+    public universityService: UniversityService,
+    public analyticService: AnalyticsService
   ) {}
 
   ngOnInit() {
-    window.analytics.page('University List Page');
+    this.analyticService.page('University List Page');
 
     this.loadData(this.currentPage);
   }

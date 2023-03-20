@@ -15,6 +15,7 @@ import { SkillFormPage } from '../skill-form/skill-form.page';
 import { ExperienceFormPage } from '../experience-form/experience-form.page';
 import { UploadCvPage } from '../upload-cv/upload-cv.page';
 import {LocationPage} from '../location/location.page';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -48,6 +49,7 @@ export class CandidateFormPage implements OnInit {
     public candidateService: CandidateService,
     public universityService: UniversityService,
     public countryService: CountryService,
+    public analyticService: AnalyticsService,
     private _fb: FormBuilder,
     private modalCtrl: ModalController,
     private _alertCtrl: AlertController,
@@ -56,7 +58,7 @@ export class CandidateFormPage implements OnInit {
   }
 
   ngOnInit() {
-    window.analytics.page('Candidate Form Page');
+    this.analyticService.page('Candidate Form Page');
 
     if(!this.candidate_id)
       this.candidate_id = this.activatedRoute.snapshot.paramMap.get('id');

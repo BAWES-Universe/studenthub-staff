@@ -7,6 +7,7 @@ import { CountryService } from 'src/app/providers/logged-in/country.service';
 //models
 import { Fulltimer } from 'src/app/models/fulltimer';
 import { Country } from 'src/app/models/country';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -43,11 +44,12 @@ export class NationalityPage implements OnInit {
     public modalCtrl: ModalController,
     public alertCtrl: AlertController,
     public countryService: CountryService,
-    public translateService: TranslateLabelService
+    public translateService: TranslateLabelService,
+    public analyticService: AnalyticsService
   ) { }
 
   ngOnInit() {
-    window.analytics.page('Nationality Page');
+    this.analyticService.page('Nationality Page');
 
     this.loadData(this.currentPage);
   }

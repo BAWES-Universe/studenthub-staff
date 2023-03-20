@@ -9,6 +9,7 @@ import { EventService } from 'src/app/providers/event.service';
 import { StoryService } from '../../../../providers/logged-in/story.service';
 //components
 import { RequestFilterComponent } from 'src/app/components/request-filter/request-filter.component';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -63,13 +64,14 @@ export class CompanyRequestDashboardPage implements OnInit {
     public modalCtrl: ModalController,
     public activatedRoute: ActivatedRoute,
     private storyService: StoryService,
+    public analyticService: AnalyticsService
   ) {
   }
 
   ngOnInit() {
     this.contact_uuid = this.activatedRoute.snapshot.paramMap.get('id');
 
-    window.analytics.page('Company Request Dashboard Page');
+    this.analyticService.page('Company Request Dashboard Page');
 
     const state = window.history.state;
 

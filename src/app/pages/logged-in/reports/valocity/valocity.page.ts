@@ -4,6 +4,7 @@ import { Platform } from '@ionic/angular';
 import { format, parseISO } from 'date-fns';
 // models
 import { Staff } from 'src/app/models/staff';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 // services
 import { AuthService } from 'src/app/providers/auth.service';
 import { StaffService } from 'src/app/providers/logged-in/staff.service';
@@ -41,13 +42,14 @@ export class ValocityPage implements OnInit {
   constructor(
     public authService: AuthService,
     private staffService: StaffService,
+    public analyticService: AnalyticsService,
     private navCtrl: NavController,
     public _platform: Platform,
   ) {
   }
 
   ngOnInit() {
-    window.analytics.page('Valocity Page');
+    this.analyticService.page('Valocity Page');
 
     this.loadData(this.currentPage);
   }

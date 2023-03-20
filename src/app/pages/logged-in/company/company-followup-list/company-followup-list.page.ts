@@ -6,6 +6,7 @@ import { Company } from 'src/app/models/company';
 import { CompanyService } from 'src/app/providers/logged-in/company.service';
 import { AwsService } from 'src/app/providers/aws.service';
 import { EventService } from 'src/app/providers/event.service';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -30,11 +31,12 @@ export class CompanyFollowupListPage implements OnInit {
     public platform: Platform,
     public eventService: EventService,
     public companyService: CompanyService,
-    public aws: AwsService
+    public aws: AwsService,
+    public analyticService: AnalyticsService
   ) { }
 
   ngOnInit() {
-    window.analytics.page('Company Followup List Page');
+    this.analyticService.page('Company Followup List Page');
 
     this.loadCompanyList(1);
 

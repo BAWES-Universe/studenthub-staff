@@ -8,6 +8,7 @@ import { TranslateLabelService } from 'src/app/providers/translate-label.service
 import { CandidateService } from 'src/app/providers/logged-in/candidate.service';
 import { EventService } from 'src/app/providers/event.service';
 import { CandidateIdCardService } from 'src/app/providers/logged-in/candidate.id.card.service';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -40,11 +41,12 @@ export class OptionPage implements OnInit {
     public alertCtrl: AlertController,
     public toastCtrl: ToastController,
     public eventService: EventService,
+    public analyticService: AnalyticsService,
     public navCtrl: NavController,
   ) { }
 
   ngOnInit() {
-    window.analytics.page('Option Page');
+    this.analyticService.page('Option Page');
   }
 
   /**

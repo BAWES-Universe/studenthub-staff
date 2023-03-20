@@ -4,6 +4,7 @@ import {AlertController, ModalController, ToastController} from '@ionic/angular'
 // models
 import { Candidate } from 'src/app/models/candidate';
 import { Request, Story } from 'src/app/models/request';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 import { AuthService } from 'src/app/providers/auth.service';
 import { EventService } from 'src/app/providers/event.service';
 import { InvitationService } from 'src/app/providers/logged-in/invitation.service';
@@ -54,11 +55,12 @@ export class InvitePage implements OnInit {
     public authService: AuthService,
     public eventService: EventService,
     public invitationService: InvitationService,
-    public requestService: CompanyRequestService
+    public requestService: CompanyRequestService,
+    public analyticService: AnalyticsService
   ) { }
 
   ngOnInit() {
-    window.analytics.page('Invite Page');
+    this.analyticService.page('Invite Page');
 
     this.initForm();
     this.loadRequests();

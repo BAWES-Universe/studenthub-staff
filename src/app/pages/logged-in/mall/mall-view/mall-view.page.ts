@@ -12,6 +12,7 @@ import {ModalPopPage} from "../../modal-pop/modal-pop.page";
 import {CompanyStoresPage} from "../../company/company-stores/company-stores.page";
 import {StoreViewPage} from "../../store/store-view/store-view.page";
 import { StoreOptionPage } from '../../store/store-option/store-option.page';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -38,11 +39,12 @@ export class MallViewPage implements OnInit {
     private alertCtrl: AlertController,
     private toastCtrl: ToastController,
     private eventService: EventService,
+    public analyticService: AnalyticsService,
     @Optional() public nav: IonNav
   ) { }
 
   ngOnInit() {
-    window.analytics.page('Mall View Page');
+    this.analyticService.page('Mall View Page');
 
     if (!this.mall_uuid) {
       this.mall_uuid = this.activatedRoute.snapshot.paramMap.get('id');

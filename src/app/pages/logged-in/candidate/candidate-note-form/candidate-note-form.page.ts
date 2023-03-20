@@ -10,6 +10,7 @@ import { Note } from '../../../../models/note';
 //pages
 import { AllCompanyListPage } from "../../company/company-request-list/all-company-list/all-company-list.page";
 import { CompanyRequestListPopupPage } from "../../company/company-request-list/company-request-list-popup/company-request-list-popup.page";
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -51,12 +52,13 @@ export class CandidateNoteFormPage implements OnInit {
     private alertCtrl: AlertController,
     public noteService: NoteService,
     private authService: AuthService,
+    public analyticService: AnalyticsService,
   ) {
 
   }
 
   ngOnInit() {
-    window.analytics.page('Candidate Note Form Page');
+    this.analyticService.page('Candidate Note Form Page');
 
     if (this.note) {
       this.model = this.note;

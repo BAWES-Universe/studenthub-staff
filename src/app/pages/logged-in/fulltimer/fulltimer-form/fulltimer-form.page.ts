@@ -20,6 +20,7 @@ import {FulltimeLocationPage} from '../fulltime-location/fulltime-location.page'
 import {SuggestionService} from '../../../../providers/logged-in/suggestion.service';
 import { UniversityService } from 'src/app/providers/logged-in/university.service';
 import {UniversityPage} from "../../pickers/university/university.page";
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -77,12 +78,13 @@ export class FulltimerFormPage implements OnInit, OnDestroy {
     private authService: AuthService,
     private navCtrl: NavController,
     private suggestionService: SuggestionService,
+    public analyticService: AnalyticsService,
     private loadingCtrl: LoadingController
   ) {
   }
 
   ngOnInit() {
-    window.analytics.page('Fulltimer Form Page');
+    this.analyticService.page('Fulltimer Form Page');
 
     this.fulltimerUUID = this.activatedRoute.snapshot.paramMap.get('id');
 

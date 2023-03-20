@@ -6,6 +6,7 @@ import {MallService} from 'src/app/providers/logged-in/mall.service';
 import {Mall} from 'src/app/models/mall';
 
 import {MallFormPage} from '../mall-form/mall-form.page';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 @Component({
   selector: 'app-mall-list',
@@ -30,11 +31,12 @@ export class MallListPage implements OnInit {
     private modalCtrl: ModalController,
     private alertCtrl: AlertController,
     public platform: Platform,
-    private toastCtrl: ToastController
+    private toastCtrl: ToastController,
+    public analyticService: AnalyticsService
   ) { }
 
   ngOnInit() {
-    window.analytics.page('Mall List Page');
+    this.analyticService.page('Mall List Page');
 
     this.loadData(this.currentPage);
   }

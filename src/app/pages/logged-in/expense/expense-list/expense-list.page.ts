@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {AlertController, LoadingController, NavController, Platform, ToastController} from '@ionic/angular';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 import {Expense} from "../../../../models/expense";
 import {ExpenseService} from "../../../../providers/logged-in/expense.service";
@@ -24,6 +25,7 @@ export class ExpenseListPage implements OnInit {
 
   constructor(
     private expenseService: ExpenseService,
+    public analyticService: AnalyticsService,
     private navCtrl: NavController,
     public platform: Platform,
     public alertCtrl: AlertController,
@@ -32,7 +34,7 @@ export class ExpenseListPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    window.analytics.page('Expense List Page');
+    this.analyticService.page('Expense List Page');
   }
 
   ionViewWillEnter() {

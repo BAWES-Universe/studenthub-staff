@@ -3,6 +3,7 @@ import {University} from '../../../../models/university';
 import {ActivatedRoute} from '@angular/router';
 import {LoadingController} from '@ionic/angular';
 import {UniversityService} from '../../../../providers/logged-in/university.service';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -20,12 +21,13 @@ export class UniversityViewPage implements OnInit {
 
   constructor(
     public activatedRoute: ActivatedRoute,
-    public universityService: UniversityService
+    public universityService: UniversityService,
+    public analyticService: AnalyticsService
   ) {
   }
 
   ngOnInit() {
-    window.analytics.page('University View Page');
+    this.analyticService.page('University View Page');
 
     if(!this.university_id)
       this.university_id = this.activatedRoute.snapshot.paramMap.get('id');

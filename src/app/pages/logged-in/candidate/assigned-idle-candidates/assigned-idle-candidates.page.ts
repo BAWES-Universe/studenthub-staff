@@ -7,6 +7,7 @@ import { Candidate } from 'src/app/models/candidate';
 import { CandidateService } from 'src/app/providers/logged-in/candidate.service';
 import { AwsService } from 'src/app/providers/aws.service';
 import { CandidateIdCardService } from 'src/app/providers/logged-in/candidate.id.card.service';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -37,13 +38,14 @@ export class AssignedIdleCandidatesPage implements OnInit {
     public aws: AwsService,
     public candidateIdCardService: CandidateIdCardService,
     public candidateService: CandidateService,
+    public analyticService: AnalyticsService,
     public toastCtrl: ToastController,
     public alertCtrl: AlertController,
   ) {
   }
 
   ngOnInit() {
-    window.analytics.page('Assigned Idle Candidates Page');
+    this.analyticService.page('Assigned Idle Candidates Page');
   }
 
   ionViewWillEnter() {

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController, ToastController, AlertController } from '@ionic/angular';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -26,11 +27,12 @@ export class ExperienceFormPage implements OnInit {
   constructor(
     public alertCtrl: AlertController,
     public toastCtrl: ToastController,
-    public modalCtrl: ModalController
+    public modalCtrl: ModalController,
+    public analyticService: AnalyticsService
   ) { }
 
   ngOnInit() {
-    window.analytics.page('Experience Form Page');
+    this.analyticService.page('Experience Form Page');
 
     if (this.experienceList.length > 0) {
       this.experienceList.map((data, index) => {

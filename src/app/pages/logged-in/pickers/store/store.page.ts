@@ -6,6 +6,7 @@ import { Store } from 'src/app/models/store';
 import { Company } from '../../../../models/company';
 //services
 import { StoreService } from 'src/app/providers/logged-in/store.service';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -29,12 +30,13 @@ export class StorePage implements OnInit {
 
   constructor(
     public storeService: StoreService,
+    public analyticService: AnalyticsService,
     private modalCtrl: ModalController,
   ) {
   }
 
   ngOnInit() {
-    window.analytics.page('Store Page');
+    this.analyticService.page('Store Page');
 
     this.loadData(this.currentPage);
   }

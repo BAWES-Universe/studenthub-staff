@@ -9,6 +9,7 @@ import { Fulltimer } from 'src/app/models/fulltimer';
 import { GoogleMapService } from 'src/app/providers/logged-in/google-map.service';
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 import { AccountService } from 'src/app/providers/logged-in/account.service';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 declare var google;
@@ -60,11 +61,12 @@ export class FulltimerLocationPage implements OnInit {
     public alertCtrl: AlertController,
     public accountService: AccountService,
     public translateService: TranslateLabelService,
-    public googleMapService: GoogleMapService
+    public googleMapService: GoogleMapService,
+    public analyticService: AnalyticsService
   ) { }
 
   ngOnInit() {
-    window.analytics.page('Fulltimer Location Page');
+    this.analyticService.page('Fulltimer Location Page');
 
     this._initForm();
 

@@ -11,6 +11,7 @@ import { CompanyService } from 'src/app/providers/logged-in/company.service';
 import { EventService } from "../../../../providers/event.service";
 // models
 import { Company } from 'src/app/models/company';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -59,6 +60,7 @@ export class CompanyFormPage implements OnInit {
     public modalCtrl: ModalController,
     private _toastCtrl: ToastController,
     private eventService: EventService,
+    public analyticService: AnalyticsService,
     private navCtrl: NavController
   ) {
     // this.company_id = this.activateRoute.snapshot.paramMap.get('company_id');
@@ -66,7 +68,7 @@ export class CompanyFormPage implements OnInit {
   }
 
   ngOnInit() {
-    window.analytics.page('Company Form Page');
+    this.analyticService.page('Company Form Page');
 
     // if (window && window.history.state) {
     //   this.model = window.history.state.model;

@@ -11,6 +11,7 @@ import { AwsService } from 'src/app/providers/aws.service';
 import { SentryErrorhandlerService } from 'src/app/providers/sentry.errorhandler.service';
 import { CameraService } from 'src/app/providers/camera.service';
 import { EventService } from "../../../../providers/event.service";
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -53,11 +54,12 @@ export class BrandFormPage implements OnInit {
     private alertCtrl: AlertController,
     public modalCtrl: ModalController,
     private _toastCtrl: ToastController,
-    private eventService: EventService
+    private eventService: EventService,
+    public analyticService: AnalyticsService
   ) { }
 
   ngOnInit() {
-    window.analytics.page('Brand Form Page');
+    this.analyticService.page('Brand Form Page');
 
     this._initForm();
   }

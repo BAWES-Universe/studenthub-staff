@@ -8,6 +8,7 @@ import {MallService} from 'src/app/providers/logged-in/mall.service';
 // model
 import {Mall} from 'src/app/models/mall';
 import {AuthService} from "../../../../providers/auth.service";
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 @Component({
   selector: 'app-mall-form',
@@ -31,12 +32,13 @@ export class MallFormPage implements OnInit {
     private fb: FormBuilder,
     private modelCtrl: ModalController,
     private alertCtrl: AlertController,
-    private authService: AuthService
+    private authService: AuthService,
+    public analyticService: AnalyticsService
   ) {
   }
 
   ngOnInit() {
-    window.analytics.page('Mall Form Page');
+    this.analyticService.page('Mall Form Page');
 
     if(!this.mallUUID)
       this.mallUUID = this.activatedRoute.snapshot.paramMap.get('id');

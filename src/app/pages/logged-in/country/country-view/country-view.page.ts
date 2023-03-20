@@ -8,6 +8,7 @@ import {AwsService} from 'src/app/providers/aws.service';
 // models
 import {Country} from 'src/app/models/country';
 import {Candidate} from 'src/app/models/candidate';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -34,6 +35,7 @@ export class CountryViewPage implements OnInit {
     public navCtrl: NavController,
     private candidateService: CandidateService,
     private countryService: CountryService,
+    public analyticService: AnalyticsService,
     public activatedRoute: ActivatedRoute,
     public aws: AwsService,
     public toastCtrl: ToastController,
@@ -42,7 +44,7 @@ export class CountryViewPage implements OnInit {
   }
 
   ngOnInit() {
-    window.analytics.page('Company View Page');
+    this.analyticService.page('Company View Page');
 
     if(!this.country_id)
       this.country_id = this.activatedRoute.snapshot.paramMap.get('id');
