@@ -236,12 +236,11 @@ export class AppComponent implements OnInit {
 
     if (
       !this.platform.is('capacitor') && 'serviceWorker' in navigator &&
-      environment.serviceWorker 
-      //&& window.location.hostname != 'localhost'
+      environment.serviceWorker && window.location.hostname != 'localhost'
     ) {
       // Allow the app to stabilize first, before starting polling for updates with `interval()`.
       const appIsStable$ = this.appRef.isStable.pipe(first(isStable => isStable === true));
-      const updateInterval$ = interval(5 * 1000); // every minute
+      const updateInterval$ = interval(24 * 60 * 60 * 1000);// 24 hour
       const updateIntervalOnceAppIsStable$ = concat(appIsStable$, updateInterval$);
 
       updateIntervalOnceAppIsStable$.subscribe(() => {
@@ -252,7 +251,6 @@ export class AppComponent implements OnInit {
       
       const updatesAvailable = this.updates.versionUpdates.pipe(
         filter((evt): evt is VersionReadyEvent => {
-          console.log(evt);
           return evt.type === 'VERSION_READY';
         }),
         map(evt => ({
@@ -262,7 +260,6 @@ export class AppComponent implements OnInit {
         })));
  
       updatesAvailable.subscribe(() => {
-        console.log('update available!');
         this.updatesAvailable = true;
       });
     }
