@@ -8,6 +8,7 @@ import {StaffLeaveService} from "../../../../providers/logged-in/staff-leave.ser
 import {AwsService} from "../../../../providers/aws.service";
 import {Subscription} from "rxjs";
 import {SentryErrorhandlerService} from "../../../../providers/sentry.errorhandler.service";
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 @Component({
   selector: 'app-leave-request-form',
@@ -43,11 +44,12 @@ export class LeaveRequestFormPage implements OnInit, OnDestroy {
     private alertCtrl: AlertController,
     private navCtrl: NavController,
     private awsService: AwsService,
-    private sentryService: SentryErrorhandlerService
+    private sentryService: SentryErrorhandlerService,
+    public analyticService: AnalyticsService
   ) { }
 
   ngOnInit() {
-    window.analytics.page('Leave Request Form Page');
+    this.analyticService.page('Leave Request Form Page');
 
     this.formInit();
   }

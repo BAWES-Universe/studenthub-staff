@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 //models
 import { Company } from 'src/app/models/company';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 //services
 import { EventService } from 'src/app/providers/event.service';
 import { CompanyService } from 'src/app/providers/logged-in/company.service';
@@ -29,11 +30,12 @@ export class CompanySubcompaniesPage implements OnInit {
     public router: Router,
     public modalCtrl: ModalController,
     public eventService: EventService,
-    public companyService: CompanyService
+    public companyService: CompanyService,
+    public analyticService: AnalyticsService
   ) { }
 
   ngOnInit() {
-    window.analytics.page('Company Sub Companies Page');
+    this.analyticService.page('Company Sub Companies Page');
 
     this.loadData();
   }

@@ -32,6 +32,7 @@ import { FulltimerSearchPage } from '../../fulltimer/fulltimer-search/fulltimer-
 import { StaffPage } from '../../pickers/staff/staff.page';
 import { RequestOptionPage } from './company-request-option.page';
 import {StoryService} from "../../../../providers/logged-in/story.service";
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -107,12 +108,13 @@ export class CompanyRequestViewPage implements OnInit, OnDestroy {
     public eventService: EventService,
     public translateService: TranslateLabelService,
     public platform: Platform,
-    public storyService: StoryService
+    public storyService: StoryService,
+    public analyticService: AnalyticsService
   ) {
   }
 
   ngOnInit() {
-    window.analytics.page('Company Request View Page');
+    this.analyticService.page('Company Request View Page');
 
     if (!this.request_uuid)
       this.request_uuid = this.route.snapshot.params['request_uuid'];

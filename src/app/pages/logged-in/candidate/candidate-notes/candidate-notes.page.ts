@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 //models
 import { Note } from 'src/app/models/note';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 import { EventService } from 'src/app/providers/event.service';
 import { CandidateService } from 'src/app/providers/logged-in/candidate.service';
 //services
@@ -33,12 +34,13 @@ export class CandidateNotesPage implements OnInit {
     public activatedRoute: ActivatedRoute,
     public eventService: EventService,
     public candidateService: CandidateService,
-    public noteService: NoteService
+    public noteService: NoteService,
+    public analyticService: AnalyticsService
   ) {
   }
 
   ngOnInit() {
-    window.analytics.page('Candidate Notes Page');
+    this.analyticService.page('Candidate Notes Page');
 
     if(!this.candidate_id)
       this.candidate_id = this.activatedRoute.snapshot.paramMap.get('candidate_id');

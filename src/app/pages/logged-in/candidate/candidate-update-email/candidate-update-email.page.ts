@@ -7,6 +7,7 @@ import { AccountService } from 'src/app/providers/logged-in/account.service';
 import { EventService } from 'src/app/providers/event.service';
 import {TranslateLabelService} from 'src/app/providers/translate-label.service';
 import {CandidateService} from 'src/app/providers/logged-in/candidate.service';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -35,6 +36,7 @@ export class CandidateUpdateEmailPage implements OnInit {
     public navCtrl: NavController,
     public modalCtrl: ModalController,
     public translateService: TranslateLabelService,
+    public analyticService: AnalyticsService
   ) {
   }
 
@@ -47,7 +49,7 @@ export class CandidateUpdateEmailPage implements OnInit {
   }
 
   ngOnInit() {
-    window.analytics.page('Candidate Update Email Page');
+    this.analyticService.page('Candidate Update Email Page');
 
     // Initialize the Login Form
     this.form = this.fb.group({

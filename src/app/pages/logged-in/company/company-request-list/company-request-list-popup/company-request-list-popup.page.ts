@@ -14,6 +14,7 @@ import { Request } from 'src/app/models/request';
 import { CompanyService } from 'src/app/providers/logged-in/company.service';
 import { AwsService } from 'src/app/providers/aws.service';
 import { CompanyRequestService } from 'src/app/providers/logged-in/company-request.service';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -55,6 +56,7 @@ export class CompanyRequestListPopupPage implements OnInit {
     public platform: Platform,
     public companyService: CompanyService,
     public requestService: CompanyRequestService,
+    public analyticService: AnalyticsService,
     public aws: AwsService,
     public alertCtrl: AlertController,
     public toastCtrl: ToastController,
@@ -64,7 +66,7 @@ export class CompanyRequestListPopupPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    window.analytics.page('Company Request List Popup Page');
+    this.analyticService.page('Company Request List Popup Page');
   }
 
   ionViewWillEnter() {

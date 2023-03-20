@@ -16,6 +16,7 @@ import { AlgoliaService } from 'src/app/providers/logged-in/algolia.service';
 import { Fulltimer } from 'src/app/models/fulltimer';
 //pages
 import { FulltimerFormPage } from '../fulltimer-form/fulltimer-form.page';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 const encode = encodeProxy.default || encodeProxy;
@@ -72,6 +73,7 @@ export class FulltimerSearchPage implements OnInit {
     public changeDetector: ChangeDetectorRef,
     public eventService: EventService,
     public translateService: TranslateLabelService,
+    public analyticService: AnalyticsService,
     public popoverCtrl: PopoverController,
     public _menuCtrl: MenuController
   ) {
@@ -79,7 +81,7 @@ export class FulltimerSearchPage implements OnInit {
 
   ngOnInit() {
 
-    window.analytics.page('Fulltimer Search Page');
+    this.analyticService.page('Fulltimer Search Page');
 
     this.platform.ready().then(() => {
       if (this.platform.is('mobile')) {

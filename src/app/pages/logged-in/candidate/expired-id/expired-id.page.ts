@@ -5,6 +5,7 @@ import {AlertController, LoadingController, NavController} from '@ionic/angular'
 import { CandidateIdCardService } from 'src/app/providers/logged-in/candidate.id.card.service';
 import { EventService } from 'src/app/providers/event.service';
 import {CandidateService} from "../../../../providers/logged-in/candidate.service";
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -39,12 +40,13 @@ export class ExpiredIdPage implements OnInit {
     private _fb: FormBuilder,
     private _alertCtrl: AlertController,
     private _events: EventService,
+    public analyticService: AnalyticsService,
     private _nav: NavController
   ) {
   }
 
   ngOnInit() {
-    window.analytics.page('Expired Id Page');
+    this.analyticService.page('Expired Id Page');
 
     this.form = this._fb.group({
       candidates: [],

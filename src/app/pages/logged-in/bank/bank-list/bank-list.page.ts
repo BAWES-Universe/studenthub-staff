@@ -6,6 +6,7 @@ import { BankService } from 'src/app/providers/logged-in/bank.service';
 import { AuthService } from 'src/app/providers/auth.service';
 // models
 import { Bank } from 'src/app/models/bank';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 
@@ -33,11 +34,12 @@ export class BankListPage implements OnInit {
     private _modalCtrl: ModalController,
     private _alertCtrl: AlertController,
     private _toastCtrl: ToastController,
-    public authService: AuthService
+    public authService: AuthService,
+    public analyticService: AnalyticsService
   ) { }
 
   ngOnInit() {
-    window.analytics.page('Bank List Page');
+    this.analyticService.page('Bank List Page');
 
     this.loadData(this.currentPage);
   }

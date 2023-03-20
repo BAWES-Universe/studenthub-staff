@@ -11,6 +11,7 @@ import { EventService } from 'src/app/providers/event.service';
 import { CandidateIdCardService } from 'src/app/providers/logged-in/candidate.id.card.service';
 //pages
 import { CandidateMergeSelectPage } from '../candidate-merge-select/candidate-merge-select.page';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -77,6 +78,7 @@ export class CandidateListPage implements OnInit {
     public candidateIdCardService: CandidateIdCardService,
     public eventService: EventService,
     public candidateService: CandidateService,
+    public analyticService: AnalyticsService
   ) {
   }
 
@@ -88,7 +90,7 @@ export class CandidateListPage implements OnInit {
       this.story = state.story;
     }
 
-    window.analytics.page('Candidate List Page');
+    this.analyticService.page('Candidate List Page');
 
     this.loadData(1);
   }

@@ -13,7 +13,8 @@ export const environment = {
   algoliaFulltimerIndex: 'dev_fulltimer_public',
   environmentName: 'dev Server',
   marker: null,//'assets/images/car.svg',
-  serviceWorker: true
+  serviceWorker: true,
+  mixpanelKey: 'ac62dbe81767f8871f754c7bdf6669d6',
 };
 
 /*

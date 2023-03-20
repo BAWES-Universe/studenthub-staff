@@ -4,6 +4,7 @@ import { NavController, PopoverController } from '@ionic/angular';
 import { AuthService } from 'src/app/providers/auth.service';
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 import {EventService} from "src/app/providers/event.service";
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 @Component({
   selector: 'app-menu-option',
@@ -18,12 +19,13 @@ export class MenuOptionPage implements OnInit {
     public translateService: TranslateLabelService,
     public popoverCtrl: PopoverController,
     public eventService: EventService,
+    public analyticService: AnalyticsService,
     public navCtrl: NavController,
     public authService: AuthService,
   ) { }
 
   ngOnInit() {
-    window.analytics.page('Option Page');
+    this.analyticService.page('Option Page');
   }
 
   /**

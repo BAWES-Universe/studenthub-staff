@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalController, AlertController } from '@ionic/angular';
 //models
 import { Note } from 'src/app/models/note';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 //services
 import { CompanyService } from 'src/app/providers/logged-in/company.service';
 import {AuthService} from "../../../../providers/auth.service";
@@ -30,11 +31,12 @@ export class CompanyFollowupNotePage implements OnInit {
     public modalCtrl: ModalController,
     public authService: AuthService,
     public alertCtrl: AlertController,
-    public companyService: CompanyService
+    public companyService: CompanyService,
+    public analyticService: AnalyticsService
   ) { }
 
   ngOnInit() {
-    window.analytics.page('Company Followup Note Page');
+    this.analyticService.page('Company Followup Note Page');
 
     this.form = this.fb.group({
       note: ['', Validators.required],

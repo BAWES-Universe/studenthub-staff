@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import {AlertController, NavController} from '@ionic/angular';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 // services
 import { CandidateService } from 'src/app/providers/logged-in/candidate.service';
 
@@ -34,12 +35,13 @@ export class AssignedExpiredCivilPage implements OnInit {
   constructor(
     public navCtrl: NavController,
     public alertCtrl: AlertController,
-    public candidateService: CandidateService
+    public candidateService: CandidateService,
+    public analyticService: AnalyticsService
   ) {
   }
 
   ngOnInit() {
-    window.analytics.page('Assigned Expired Civil Page');
+    this.analyticService.page('Assigned Expired Civil Page');
 
     this.loadData(1);
   }

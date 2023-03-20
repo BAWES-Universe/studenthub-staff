@@ -8,6 +8,7 @@ import {GoogleMapService} from '../../../../providers/logged-in/google-map.servi
 import {AuthService} from '../../../../providers/auth.service';
 import {TranslateLabelService} from '../../../../providers/translate-label.service';
 import {Fulltimer} from "../../../../models/fulltimer";
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -74,12 +75,13 @@ export class FulltimeLocationPage implements OnInit, OnDestroy {
     public authService: AuthService,
     // public storage: Storage,
     public translateService: TranslateLabelService,
+    public analyticService: AnalyticsService,
     public zone: NgZone
   ) {
   }
 
   async ngOnInit() {
-    window.analytics.page('Fulltimer Location Page');
+    this.analyticService.page('Fulltimer Location Page');
 
     if (!this.from) {
       this.from = this.activatedRoute.snapshot.paramMap.get('from');

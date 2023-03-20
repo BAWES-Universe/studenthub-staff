@@ -9,6 +9,7 @@ import { SentryErrorhandlerService } from 'src/app/providers/sentry.errorhandler
 import { AwsService } from 'src/app/providers/aws.service';
 import { CompanyService } from '../../../../providers/logged-in/company.service';
 import {EventService} from "../../../../providers/event.service";
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -49,11 +50,12 @@ export class UploadFilePage implements OnInit, OnDestroy {
     public companyService: CompanyService,
     public sentryService: SentryErrorhandlerService,
     public awsService: AwsService,
-    public eventService: EventService
+    public eventService: EventService,
+    public analyticService: AnalyticsService
   ) { }
 
   ngOnInit() {
-    window.analytics.page('Company Upload File Page');
+    this.analyticService.page('Company Upload File Page');
 
     this._initForm();
   }

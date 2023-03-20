@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PopoverController } from '@ionic/angular';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 //services
 import { CandidateService } from 'src/app/providers/logged-in/candidate.service';
 
@@ -13,11 +14,12 @@ export class CandidateMergeSelectPage implements OnInit {
 
   constructor(
     public candidateService: CandidateService,
-    public popoverCtrl: PopoverController
+    public popoverCtrl: PopoverController,
+    public analyticService: AnalyticsService
   ) { }
 
   ngOnInit() {
-    window.analytics.page('Candidate Merge Select Page');
+    this.analyticService.page('Candidate Merge Select Page');
   }
 
   dismiss(event, candidate = null) {

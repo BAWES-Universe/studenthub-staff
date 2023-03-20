@@ -11,6 +11,7 @@ import { EventService } from 'src/app/providers/event.service';
 //pages
 import { TransferFormPage } from '../transfer-form/transfer-form.page';
 import { ImportTransferFormPage } from '../import-transfer-form/import-transfer-form.page';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -40,6 +41,7 @@ export class TransferViewPage implements OnInit {
     public aws: AwsService,
     public transferService: TransferService,
     public eventService: EventService,
+    public analyticService: AnalyticsService,
     private _loadingCtrl: LoadingController,
     public modalCtrl: ModalController,
     public activatedRoute: ActivatedRoute,
@@ -49,7 +51,7 @@ export class TransferViewPage implements OnInit {
   }
 
   ngOnInit() {
-    window.analytics.page('Transfer View Page');
+    this.analyticService.page('Transfer View Page');
 
     this.transfer_id = this.activatedRoute.snapshot.paramMap.get('id');
     this.viewOnly = this.activatedRoute.snapshot.paramMap.get('view');

@@ -4,6 +4,7 @@ import {AlertController, Platform} from '@ionic/angular';
 import {AuthService} from '../../../providers/auth.service';
 import {CustomValidator} from '../../../validators/custom.validator';
 import { AuthService as Auth0Service } from '@auth0/auth0-angular';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 @Component({
   selector: 'app-login',
@@ -31,6 +32,7 @@ export class LoginPage implements OnInit {
     public platform: Platform,
     public auth0: Auth0Service,
     private _auth: AuthService,
+    public analyticService: AnalyticsService,
     private _alertCtrl: AlertController
   ){
     // Initialize the Login Form
@@ -41,7 +43,8 @@ export class LoginPage implements OnInit {
   }
 
   ngOnInit() {
-    window.analytics.page('Login Page');
+    this.analyticService.page('Login Page');
+    
   }
 
   /**

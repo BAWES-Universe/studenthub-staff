@@ -24,6 +24,7 @@ import { CompanySubcompaniesPage } from '../company-subcompanies/company-subcomp
 import { CompanyStoresPage } from '../company-stores/company-stores.page';
 import {ModalPopPage} from "../../modal-pop/modal-pop.page";
 import { ActionComponent } from 'src/app/components/action/action.component';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -77,12 +78,13 @@ export class CompanyViewPage implements OnInit {
     public aws: AwsService,
     private router: Router,
     public eventService: EventService,
+    public analyticService: AnalyticsService,
     public noteService: NoteService
   ) {
   }
 
   ngOnInit() {
-    window.analytics.page('Company View Page');
+    this.analyticService.page('Company View Page');
 
     // Load the passed model if available
     if (window && window.history.state) {

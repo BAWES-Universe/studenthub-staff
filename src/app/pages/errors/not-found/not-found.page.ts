@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoadingController, ModalController } from '@ionic/angular';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -13,11 +14,12 @@ export class NotFoundPage implements OnInit {
   constructor(
     private modalCtrl: ModalController,
     private loadingCtrl: LoadingController,
-    public router: Router
+    public router: Router,
+    public analyticService: AnalyticsService
   ) { }
 
   ngOnInit() {
-    window.analytics.page('Not Found Error Page');
+    this.analyticService.page('Not Found Error Page');
   }
 
   ionViewWillEnter() {

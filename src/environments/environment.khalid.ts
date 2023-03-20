@@ -11,5 +11,6 @@ export const environment = {
     environmentName: 'Khalid Dev Server on Local Machine',
     s3Domain: 'studenthub-uploads-dev-server',
     marker: null,//'assets/images/car.svg',
-    serviceWorker: false
+    serviceWorker: false,
+    mixpanelKey: 'ac62dbe81767f8871f754c7bdf6669d6'
 };

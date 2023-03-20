@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Chart } from 'chart.js';
 import { ModalController, Platform } from '@ionic/angular';
 import {CompanyService} from "../../../../providers/logged-in/company.service";
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 @Component({
   selector: 'app-transfer-chart',
@@ -24,11 +25,12 @@ export class TransferChartPage implements OnInit {
   constructor(
     public platform: Platform,
     public modalCtrl: ModalController,
-    public companyService: CompanyService
+    public companyService: CompanyService,
+    public analyticService: AnalyticsService
   ) { }
 
   ngOnInit() {
-    window.analytics.page('Transfer Chart Page');
+    this.analyticService.page('Transfer Chart Page');
 
     if (this.platform.is('mobile')) {
       this.legendDisplay = false;

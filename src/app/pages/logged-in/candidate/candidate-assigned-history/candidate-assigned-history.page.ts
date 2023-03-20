@@ -14,6 +14,7 @@ import { CandidateIdCardService } from 'src/app/providers/logged-in/candidate.id
 import { CandidateMergeSelectPage } from '../candidate-merge-select/candidate-merge-select.page';
 import {CandidateWorkHistory} from "../../../../models/candidate-work-history";
 import {TranslateLabelService} from "../../../../providers/translate-label.service";
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -81,6 +82,7 @@ export class CandidateAssignedHistoryPage implements OnInit {
     public eventService: EventService,
     public translateService: TranslateLabelService,
     public candidateService: CandidateService,
+    public analyticService: AnalyticsService
   ) {
   }
 
@@ -92,7 +94,7 @@ export class CandidateAssignedHistoryPage implements OnInit {
       this.story = state.story;
     }
 
-    window.analytics.page('Candidate List Page');
+    this.analyticService.page('Candidate List Page');
 
     this.loadData(1);
   }

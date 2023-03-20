@@ -17,6 +17,7 @@ import { AllCompanyListPage } from '../company-request-list/all-company-list/all
 import { CompanyRequestListPopupPage } from '../company-request-list/company-request-list-popup/company-request-list-popup.page';
 import { CompanyContactListPage } from '../company-contact/company-contact-list/company-contact-list.page';
 import { RequestChecklist } from 'src/app/models/request-checklist';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -60,12 +61,13 @@ export class CompanyNoteFormPage implements OnInit {
     public popoverCtrl: PopoverController,
     private authService: AuthService,
     public awsService: AwsService,
-    public requestService: CompanyRequestService
+    public requestService: CompanyRequestService,
+    public analyticService: AnalyticsService
   ) {
   }
 
   ngOnInit() {
-    window.analytics.page('Company Note Form Page');
+    this.analyticService.page('Company Note Form Page');
 
     if (this.note && this.note.note_uuid) {
       this.loadData();

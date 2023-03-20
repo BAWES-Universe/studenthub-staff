@@ -44,6 +44,7 @@ import { ModalPopPage } from "../../modal-pop/modal-pop.page";
 import { StoreViewPage } from "../../store/store-view/store-view.page";
 import { InvitePage } from '../../invite/invite.page';
 import { CandidateAssignFormPage } from '../../candidate-assign-form/candidate-assign-form.page';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 
@@ -128,12 +129,13 @@ export class CandidateViewPage implements OnInit {
     private fb: FormBuilder,
     private actionSheetCtrl: ActionSheetController,
     private loadingCtrl: LoadingController,
+    public analyticService: AnalyticsService
   ) {
 
   }
 
   ngOnInit() {
-    window.analytics.page('Candidate View Page');
+    this.analyticService.page('Candidate View Page');
 
     const state = window.history.state;
 

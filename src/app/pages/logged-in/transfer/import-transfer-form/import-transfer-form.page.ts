@@ -18,6 +18,7 @@ import { TranslateLabelService } from 'src/app/providers/translate-label.service
 import { AwsService } from 'src/app/providers/aws.service';
 import { SentryErrorhandlerService } from 'src/app/providers/sentry.errorhandler.service';
 import { EventService } from "../../../../providers/event.service";
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -58,6 +59,7 @@ export class ImportTransferFormPage implements OnInit {
     public awsService: AwsService,
     public sentryService: SentryErrorhandlerService,
     public translateService: TranslateLabelService,
+    public analyticService: AnalyticsService,
     private _loadingCtrl: LoadingController,
     private _alertCtrl: AlertController,
     public _toastCtrl: ToastController,
@@ -68,7 +70,7 @@ export class ImportTransferFormPage implements OnInit {
   }
 
   ngOnInit() {
-    window.analytics.page('Import Transfer Form Page');
+    this.analyticService.page('Import Transfer Form Page');
 
     this.min = '1930/01/01';
 

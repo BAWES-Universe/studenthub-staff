@@ -5,6 +5,7 @@ import { Staff } from 'src/app/models/staff';
 //services
 import { StaffService } from 'src/app/providers/logged-in/staff.service';
 import { AuthService } from 'src/app/providers/auth.service';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -26,11 +27,12 @@ export class StaffPage implements OnInit {
   constructor(
     public authService: AuthService,
     private staffService: StaffService,
+    public analyticService: AnalyticsService,
     public modalCtrl: ModalController
   ) { }
 
   ngOnInit() { 
-    window.analytics.page('Staff Page');
+    this.analyticService.page('Staff Page');
 
     this.loadData(this.currentPage);
   }

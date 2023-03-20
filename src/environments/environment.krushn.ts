@@ -10,5 +10,6 @@ export const environment = {
   algoliaCacheDuration: 5 * 60 * 1000, // 5 min in millisecond
   environmentName: 'Krushn Local Machine',
   marker: null,//'assets/images/car.svg',
-  serviceWorker: false
+  serviceWorker: false,
+  mixpanelKey: 'ac62dbe81767f8871f754c7bdf6669d6'
 };

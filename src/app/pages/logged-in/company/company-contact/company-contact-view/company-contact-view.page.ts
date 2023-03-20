@@ -18,6 +18,7 @@ import { CompanyNotesPage } from '../../company-notes/company-notes.page';
 import { Request } from 'src/app/models/request';
 import { CompanyRequestService } from 'src/app/providers/logged-in/company-request.service';
 import { ActionComponent } from 'src/app/components/action/action.component';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -77,12 +78,13 @@ export class CompanyContactViewPage implements OnInit {
     public requestService: CompanyRequestService,
     public noteService: NoteService,
     public eventService: EventService,
+    public analyticService: AnalyticsService,
     public _loadingCtrl: LoadingController,
     public companyContactService: CompanyContactService
   ) { }
 
   ngOnInit() {
-    window.analytics.page('Company Contact View Page');
+    this.analyticService.page('Company Contact View Page');
 
     if(!this.contact_uuid)
       this.contact_uuid = this.route.snapshot.params['contact_uuid'];

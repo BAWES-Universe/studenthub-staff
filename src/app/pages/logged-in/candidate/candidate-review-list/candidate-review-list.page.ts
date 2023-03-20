@@ -5,6 +5,7 @@ import { CandidateService } from 'src/app/providers/logged-in/candidate.service'
 import { AwsService } from 'src/app/providers/aws.service';
 // models
 import { Candidate } from 'src/app/models/candidate';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -27,11 +28,12 @@ export class CandidateReviewListPage implements OnInit {
   constructor(
     public router: Router,
     public aws: AwsService,
-    public candidateService: CandidateService
+    public candidateService: CandidateService,
+    public analyticService: AnalyticsService
   ) {}
 
   ngOnInit() {
-    window.analytics.page('Candidate Review List Page');
+    this.analyticService.page('Candidate Review List Page');
 
     this.loadData(this.currentPage);
   }

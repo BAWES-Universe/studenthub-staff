@@ -12,6 +12,7 @@ import {AccountService} from "../../../providers/logged-in/account.service";
 import { LeaveRequestPage } from '../leave-request/leave-request.page';
 import {MenuOptionPage} from "src/app/pages/logged-in/default/menu-option/menu-option.page";
 import {ChangePasswordComponent} from "src/app/components/change-password/change-password.component";
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -66,12 +67,13 @@ export class DefaultPage implements OnInit {
     public accountService: AccountService,
     public dailyStandupService: DailyStandupService,
     public statisticService: StatisticService,
+    public analyticService: AnalyticsService,
     public popoverCtrl: PopoverController,
     private _events: EventService,
   ) { }
 
   ngOnInit() {
-    window.analytics.page('Home Page');
+    this.analyticService.page('Home Page');
 
     this._events.statistics$.subscribe((response: {
         id_need_generated: any;

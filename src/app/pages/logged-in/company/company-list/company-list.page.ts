@@ -10,6 +10,7 @@ import { EventService } from 'src/app/providers/event.service';
 import { CompanyFormPage } from 'src/app/pages/logged-in/company/company-form/company-form.page';
 import {CompanyFilterPage} from "./company-filter/company-filter.page";
 import {Router} from "@angular/router";
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -47,13 +48,14 @@ export class CompanyListPage implements OnInit {
     public platform: Platform,
     public aws: AwsService,
     public eventService: EventService,
+    public analyticService: AnalyticsService,
     public _modalCtrl: ModalController,
     public router: Router
   ) {
   }
 
   ngOnInit() {
-    window.analytics.page('Company List Page');
+    this.analyticService.page('Company List Page');
 
     this.eventService.reloadCandidateHistory$.subscribe(response => {
       this.loadData(1);

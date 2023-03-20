@@ -11,6 +11,7 @@ import { CompanyRequestService } from 'src/app/providers/logged-in/company-reque
 import { Company } from "../../../../models/company";
 //pages
 import { CompanyRequestFormPage } from "../company-request-form/company-request-form.page";
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -39,11 +40,12 @@ export class CompanyRequestsPage implements OnInit {
     public requestService: CompanyRequestService,
     public companyService: CompanyService,
     public eventService: EventService,
+    public analyticService: AnalyticsService,
     public modalCtrl: ModalController
   ) { }
 
   ngOnInit() {
-    window.analytics.page('Company Requests Page');
+    this.analyticService.page('Company Requests Page');
   }
 
   ionViewDidEnter() {

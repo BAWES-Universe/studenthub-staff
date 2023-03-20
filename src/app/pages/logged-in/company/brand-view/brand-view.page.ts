@@ -12,6 +12,7 @@ import { BrandService } from 'src/app/providers/logged-in/brand.service';
 import { EventService } from 'src/app/providers/event.service';
 import { BrandFormPage } from '../brand-form/brand-form.page';
 import {BrandOptionPage} from "../brand/brand-option/brand-option.page";
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -39,11 +40,12 @@ export class BrandViewPage implements OnInit {
     private alertCtrl: AlertController,
     private location: Location,
     private eventService: EventService,
+    public analyticService: AnalyticsService
   ) {
   }
 
   ngOnInit() {
-    window.analytics.page('Brand View Page');
+    this.analyticService.page('Brand View Page');
 
     if(!this.brand_uuid)
       this.brand_uuid = this.activatedRoute.snapshot.paramMap.get('id');

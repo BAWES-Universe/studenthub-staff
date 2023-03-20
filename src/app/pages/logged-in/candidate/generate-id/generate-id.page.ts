@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {AlertController} from '@ionic/angular';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 // service
 import {CandidateIdCardService} from 'src/app/providers/logged-in/candidate.id.card.service';
 import {CandidateService} from "../../../../providers/logged-in/candidate.service";
@@ -34,7 +35,8 @@ export class GenerateIdPage implements OnInit {
     public candidateIdCardService: CandidateIdCardService,
     public candidateService: CandidateService,
     private _fb: FormBuilder,
-    private _alertCtrl: AlertController
+    private _alertCtrl: AlertController,
+    public analyticService: AnalyticsService
   ) {
     this.form = this._fb.group({
       candidates: [],
@@ -42,7 +44,7 @@ export class GenerateIdPage implements OnInit {
   }
 
   ngOnInit() {
-    window.analytics.page('Generate ID Page');
+    this.analyticService.page('Generate ID Page');
 
     this.loadData(this.currentPage);
   }

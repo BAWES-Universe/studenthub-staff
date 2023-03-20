@@ -13,6 +13,7 @@ import { EventService } from 'src/app/providers/event.service';
 import { ModalPopPage } from '../../modal-pop/modal-pop.page';
 import { CompanyContactFormPage } from "../company-contact-form/company-contact-form.page";
 import { AwsService } from 'src/app/providers/aws.service';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -37,11 +38,12 @@ export class CompanyContactsPage implements OnInit {
     public companyContactService: CompanyContactService,
     public companyService: CompanyService,
     public aws: AwsService,
-    public eventService: EventService
+    public eventService: EventService,
+    public analyticService: AnalyticsService
   ) { }
 
   ngOnInit() {
-    window.analytics.page('Company Contact List Page');
+    this.analyticService.page('Company Contact List Page');
     
     this.loadContacts();
 

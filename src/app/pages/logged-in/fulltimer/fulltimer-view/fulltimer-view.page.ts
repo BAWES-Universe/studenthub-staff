@@ -17,6 +17,7 @@ import { SuggestPage } from "../../suggest/suggest.page";
 // pages
 import { FulltimerFormPage } from '../fulltimer-form/fulltimer-form.page';
 import { CompanyNoteFormPage } from '../../company/company-note-form/company-note-form.page';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -52,11 +53,12 @@ export class FulltimerViewPage implements OnInit {
     public alertCtrl: AlertController,
     public noteService: NoteService,
     public eventService: EventService,
+    public analyticService: AnalyticsService,
     public toastCtrl: ToastController,
   ) { }
 
   ngOnInit() {
-    window.analytics.page('Fulltimer View Page');
+    this.analyticService.page('Fulltimer View Page');
 
     this.fulltimer_uuid = this.activatedRoute.snapshot.paramMap.get('id');
 

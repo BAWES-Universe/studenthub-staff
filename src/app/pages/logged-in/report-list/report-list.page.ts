@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Platform} from '@ionic/angular';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 import {AuthService} from '../../../providers/auth.service';
 
 @Component({
@@ -14,10 +15,11 @@ export class ReportListPage implements OnInit {
   constructor(
     public platform: Platform,
     public authService: AuthService,
+    public analyticService: AnalyticsService
   ) { }
 
   ngOnInit() {
-    window.analytics.page('Report List Page');
+    this.analyticService.page('Report List Page');
   }
 
   logScrolling(e) {

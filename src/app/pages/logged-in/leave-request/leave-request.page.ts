@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertController, ModalController } from '@ionic/angular';
 import { CalendarModal, CalendarModalOptions } from 'ion2-calendar';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 //services
 import { AuthService } from 'src/app/providers/auth.service';
 import { DailyStandupService } from 'src/app/providers/logged-in/daily-standup.service';
@@ -28,12 +29,13 @@ export class LeaveRequestPage implements OnInit {
     private fb: FormBuilder,
     private authService: AuthService,
     private modalCtrl: ModalController,
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
+    public analyticService: AnalyticsService
   ) {
   }
 
   ngOnInit() {
-    window.analytics.page('Leave Request Form Page');
+    this.analyticService.page('Leave Request Form Page');
 
     this.formInit();
   }

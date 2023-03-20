@@ -9,6 +9,7 @@ import { InvitationService } from 'src/app/providers/logged-in/invitation.servic
 import {CandidateWorkingHour} from 'src/app/models/candidate';
 import {CandidateWorkingHourService} from 'src/app/providers/logged-in/candidate-working-hour.service';
 import {ActivatedRoute} from "@angular/router";
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 declare var window;
@@ -40,12 +41,13 @@ export class LogDateListPage implements OnInit {
     public eventService: EventService,
     public invitationService: InvitationService,
     public translateService: TranslateLabelService,
+    public analyticService: AnalyticsService,
     public activateRoute: ActivatedRoute,
   ) { }
 
   ngOnInit() {
     this.candidate_id = this.activateRoute.snapshot.paramMap.get('candidate_id');
-    window.analytics.page('Candidate Working Hours');
+    this.analyticService.page('Candidate Working Hours');
   }
 
   ionViewWillEnter() {

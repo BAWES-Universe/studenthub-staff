@@ -15,6 +15,7 @@ import { Mall } from '../../../../models/mall';
 import { StoreManagerFormPage } from '../store-manager-form/store-manager-form.page';
 import { AuthService } from '../../../../providers/auth.service';
 import { StoreOptionPage } from '../store-option/store-option.page';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -47,6 +48,7 @@ export class StoreViewPage implements OnInit {
     private eventService: EventService,
     private mallService: MallService,
     private authService: AuthService,
+    public analyticService: AnalyticsService,
     private toastCtrl: ToastController,
     private navParams: NavParams
   ) {
@@ -54,7 +56,7 @@ export class StoreViewPage implements OnInit {
 
   ngOnInit() {
     console.log(this.directView);
-    window.analytics.page('Store View Page');
+    this.analyticService.page('Store View Page');
 
     if (!this.store_id && this.activatedRoute.snapshot.paramMap.get('id')) {
       this.store_id = this.activatedRoute.snapshot.paramMap.get('id');

@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router'; 
 import { IonContent } from '@ionic/angular';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -17,11 +18,12 @@ export class NoInternetPage implements OnInit {
   handler;
 
   constructor( 
-    public router: Router
+    public router: Router,
+    public analyticService: AnalyticsService
   ) { }
 
   ngOnInit() {
-    window.analytics.page('Not Found Page');
+    this.analyticService.page('Not Found Page');
     
     if (navigator.onLine) {
       return this.refresh();

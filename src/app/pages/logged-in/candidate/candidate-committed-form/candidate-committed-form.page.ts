@@ -7,6 +7,7 @@ import { AuthService } from '../../../../providers/auth.service';
 import { CandidateService } from 'src/app/providers/logged-in/candidate.service';
 //models
 import { Note } from 'src/app/models/note';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -41,12 +42,13 @@ export class CandidateCommittedFormPage implements OnInit {
     private modalCtrl: ModalController,
     private alertCtrl: AlertController,
     public candidateService: CandidateService,
-    private authService: AuthService
+    private authService: AuthService,
+    public analyticService: AnalyticsService
   ) {
   }
 
   ngOnInit() { 
-    window.analytics.page('Candidate Committed Form Page');
+    this.analyticService.page('Candidate Committed Form Page');
 
     this.form = this.fb.group({
       note: ['', Validators.required],

@@ -6,6 +6,7 @@ import { AuthService } from 'src/app/providers/auth.service';
 import {Expense} from "../../../../models/expense";
 import {ExpenseService} from "../../../../providers/logged-in/expense.service";
 import {AwsService} from "../../../../providers/aws.service";
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 @Component({
   selector: 'app-expense-view',
@@ -22,6 +23,7 @@ export class ExpenseViewPage implements OnInit {
 
   constructor(
     private expenseService: ExpenseService,
+    public analyticService: AnalyticsService,
     private activateRoute: ActivatedRoute,
     private _modalCtrl: ModalController,
     public authService: AuthService,
@@ -31,7 +33,7 @@ export class ExpenseViewPage implements OnInit {
   }
 
   ngOnInit() {
-    window.analytics.page('Expense View Page');
+    this.analyticService.page('Expense View Page');
 
     // Load the passed model if available
     if (window.history.state) {

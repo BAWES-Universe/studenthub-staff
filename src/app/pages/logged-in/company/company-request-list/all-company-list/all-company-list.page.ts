@@ -5,6 +5,7 @@ import { Company } from 'src/app/models/company';
 // service
 import { CompanyService } from 'src/app/providers/logged-in/company.service';
 import { AwsService } from 'src/app/providers/aws.service';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 @Component({
   selector: 'app-all-company-list',
@@ -33,6 +34,7 @@ export class AllCompanyListPage implements OnInit {
   constructor(
     public navCtrl: NavController,
     public companyService: CompanyService,
+    public analyticService: AnalyticsService,
     public platform: Platform,
     public aws: AwsService,
     public modalCtrl: ModalController,
@@ -40,7 +42,7 @@ export class AllCompanyListPage implements OnInit {
   }
 
   ngOnInit() {
-    window.analytics.page('All Company List Page');
+    this.analyticService.page('All Company List Page');
 
     this.loadData(1);
   }

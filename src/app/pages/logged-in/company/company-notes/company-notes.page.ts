@@ -13,6 +13,7 @@ import { AuthService } from 'src/app/providers/auth.service';
 import { CompanyContactService } from 'src/app/providers/logged-in/company-contact.service';
 import { CompanyService } from "../../../../providers/logged-in/company.service";
 import { EventService } from 'src/app/providers/event.service';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -67,11 +68,12 @@ export class CompanyNotesPage implements OnInit {
     public companyService: CompanyService,
     public eventService: EventService,
     public companyContactService: CompanyContactService,
-    public authService: AuthService
+    public authService: AuthService,
+    public analyticService: AnalyticsService
   ) { }
 
   ngOnInit() {
-    window.analytics.page('Company Note List Page');
+    this.analyticService.page('Company Note List Page');
 
     this.initNoteForm();
     this.loadNotes();

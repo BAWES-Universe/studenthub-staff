@@ -14,6 +14,7 @@ import { CompanyService } from '../../../../providers/logged-in/company.service'
 import { AuthService } from 'src/app/providers/auth.service';
 import { EventService } from "src/app/providers/event.service";
 import { MallService } from "../../../../providers/logged-in/mall.service";
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -54,12 +55,13 @@ export class StoreListPage implements OnInit {
     private toastCtrl: ToastController,
     public mallService: MallService,
     public authService: AuthService,
+    public analyticService: AnalyticsService,
     public eventService: EventService,
   ) {
   }
 
   ngOnInit() {
-    window.analytics.page('Store List Page');
+    this.analyticService.page('Store List Page');
 
     if(!this.company_id)
       this.company_id = this.activatedRoute.snapshot.paramMap.get('id');
