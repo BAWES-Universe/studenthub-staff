@@ -642,6 +642,13 @@ const routes: Routes = [
     }
   },
   {
+    path: 'update-password',
+    loadChildren: () => import('./pages/start-pages/update-password/update-password.module').then(m => m.UpdatePasswordPageModule),
+    data: {
+      name: 'UpdatePasswordPage'
+    }
+  },
+  {
     path: '**',
     redirectTo: 'not-found'
   },

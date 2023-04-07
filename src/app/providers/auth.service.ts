@@ -42,6 +42,7 @@ export class AuthService {
   private _urlUpdatePass = '/auth/update-password';
   private _urlResetPassRequest = '/auth/request-reset-password';
   public _urlLoginAuth0 = '/auth/login-auth0';
+  public _urlUpdatePassword = '/auth/update-password';
 
   constructor(
     public storage: Storage,
