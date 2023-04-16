@@ -22,6 +22,27 @@ services:
       - ./:/app  
       - ~/.gradle:/root/.gradle
 
+  production:
+    #container_name: plugn-dashboard-ionic
+    image: node:14-alpine 
+    #build: .
+    environment:
+      - BRANCH=grid
+    command: sh -c "npm install -g @ionic/cli && npm install -f && npm run build:production --host=0.0.0.0"
+    # --host=127.0.0.0 --port=8100 
+    
+    expose:
+      - 8100
+    ports:
+      - 8100:8100
+    extra_hosts:
+      - "localhost:127.0.0.0"  
+      - "localhost:0.0.0.0"  
+    working_dir: /app
+    volumes:
+      - ./:/app  
+      - ~/.gradle:/root/.gradle
+
   #deploy:
   #  image: nginx:alpine 
   #  command: sh -c "cp /app/www /usr/share/nginx/html"
