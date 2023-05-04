@@ -48,7 +48,7 @@ export class CandidateService {
    * @returns {Observable<any>}
    */
   detail(id: number): Observable<any> {
-    const url = this._candidateEndpoint + '/detail/' + id + '?expand=candidateIdCard,store,company,candidateSkills,candidateExperiences,bank,nationality,area,country,university,invited,invitationAccepted,invitationRejected,suggestionAccepted,suggestionRejected,suggested';
+    const url = this._candidateEndpoint + '/detail/' + id + '?expand=candidateIdCard,store,company,candidateSkills,candidateTags,candidateExperiences,bank,nationality,area,country,university,invited,invitationAccepted,invitationRejected,suggestionAccepted,suggestionRejected,suggested';
     return this._authhttp.get(url);
   }
 
@@ -67,7 +67,7 @@ export class CandidateService {
    */
   list(): Observable<any> {
     const url = this._candidateEndpoint;
-    return this._authhttp.getRaw(url + '?expand=store,company,candidateSkills,candidateExperiences');
+    return this._authhttp.getRaw(url + '?expand=store,company,candidateSkills,candidateTags,candidateExperiences');
   }
 
   /**
@@ -75,7 +75,7 @@ export class CandidateService {
    * @returns {Observable<any>}
    */
   listFilter(search: string, page: number): Observable<any> {
-    const url = this._candidateEndpoint + '/filter?page=' + page + search + '&expand=store,company,candidateSkills,candidateExperiences';
+    const url = this._candidateEndpoint + '/filter?page=' + page + search + '&expand=store,company,candidateSkills,candidateTags,candidateExperiences';
     return this._authhttp.getRaw(url);
   }
 
@@ -112,7 +112,7 @@ export class CandidateService {
    */
   listWithoutBank(candidate_name: string, page: number): Observable<any> {
     const url = this._candidateEndpoint + '/without-bank?candidate_name=' + candidate_name + '&page=' + page
-     + '&expand=store,company,candidateSkills,candidateExperiences';
+     + '&expand=store,company,candidateSkills,candidateTags,candidateExperiences';
     return this._authhttp.getRaw(url);
   }
 
@@ -121,7 +121,7 @@ export class CandidateService {
    * @returns {Observable<any>}
    */
   listNotAssigned(candidate_name: string, page: number, incompleteProfile = 0, withoutBank = 0): Observable<any> {
-    const url = this._candidateEndpoint + '/not-assigned?candidate_name=' + candidate_name + '&page=' + page + '&incomplete_profile=' + incompleteProfile + '&without_bank=' + withoutBank + '&expand=store,company,candidateSkills,candidateExperiences';
+    const url = this._candidateEndpoint + '/not-assigned?candidate_name=' + candidate_name + '&page=' + page + '&incomplete_profile=' + incompleteProfile + '&without_bank=' + withoutBank + '&expand=store,company,candidateSkills,candidateTags,candidateExperiences';
     return this._authhttp.getRaw(url);
   }
 
@@ -156,6 +156,7 @@ export class CandidateService {
       candidate_gender: model.candidate_gender,
       candidate_driving_license: model.candidate_driving_license,
       skill: model.skill,
+      tags: model.tags,
       experience: model.experience,
       resume: model.candidate_resume,
       latitude: model.candidate_latitude,
@@ -198,6 +199,7 @@ export class CandidateService {
       candidate_gender: model.candidate_gender,
       candidate_driving_license: model.candidate_driving_license,
       skill: model.skill,
+      tags: model.tags,
       experience: model.experience,
       resume: model.candidate_resume,
       latitude: model.candidate_latitude,
@@ -207,6 +209,14 @@ export class CandidateService {
       preferred_time: model.candidate_preferred_time
     };
 
+    return this._authhttp.patch(url, params);
+  }
+
+  updateTags(model, tags): Observable<any> {
+    const url = `${this._candidateEndpoint}/update-tags/${model.candidate_id}`;
+    const params = {
+      tags: tags
+    };
     return this._authhttp.patch(url, params);
   }
 

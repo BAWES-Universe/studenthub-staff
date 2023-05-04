@@ -16,6 +16,7 @@ import { ExperienceFormPage } from '../experience-form/experience-form.page';
 import { UploadCvPage } from '../upload-cv/upload-cv.page';
 import {LocationPage} from '../location/location.page';
 import { AnalyticsService } from 'src/app/providers/analytics.service';
+import { TagFormPage } from '../tag-form/tag-form.page';
 
 
 @Component({
@@ -247,6 +248,7 @@ export class CandidateFormPage implements OnInit {
         gender: ['', Validators.required],
         license: ['', Validators.required],
         skills: ['', Validators.required],
+        tags: [''],
         experiences: [''],
         resume: [''],
         latitude: [''],
@@ -277,6 +279,7 @@ export class CandidateFormPage implements OnInit {
         gender: [this.model.candidate_gender, Validators.required],
         license: [this.model.candidate_driving_license, Validators.required],
         skills: [this.model.skill, Validators.required],
+        tags: [this.model.tags],
         experiences: [this.model.experience],
         resume: [this.model.candidate_resume],
         latitude: [this.model.candidate_latitude],
@@ -288,6 +291,7 @@ export class CandidateFormPage implements OnInit {
 
       this.loadExp();
       this.loadSkill();
+      this.loadTags();
     }
   }
 
@@ -308,6 +312,35 @@ export class CandidateFormPage implements OnInit {
     this.form.controls['license'].markAsDirty();
     this.model.candidate_driving_license = value;
   }
+
+  async updateTags () {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
+    const modal = await this.modalCtrl.create({
+      component: TagFormPage,
+      componentProps: {
+        candidate: this.model,
+        tagList: (this.form.value.tags) ? this.form.value.tags.split(',') : []
+      }
+    });
+    modal.present();
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
+
+    const { data } = await modal.onWillDismiss();
+
+    if (data && data.tags) {
+      this.form.controls['tags'].setValue(data.tags);
+      this.form.controls['tags'].markAsDirty();
+      this.model.tags = data.tags;
+    }
+  }
+
 
   async updateSkills() {
     window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
@@ -363,6 +396,17 @@ export class CandidateFormPage implements OnInit {
       this.form.controls['experiences'].markAsDirty();
       this.model.experience = data.experiences;
     }
+  }
+
+  loadTags() {
+    const tags = [];
+    if (this.model.candidateTags && this.model.candidateTags.length > 0) {
+      for (const skl of this.model.candidateTags) {
+          tags.push(skl.tag);
+          this.form.controls['tags'].setValue(tags.join(','));
+          this.model.tags = tags.join(',');
+        }
+      }
   }
 
   loadSkill() {

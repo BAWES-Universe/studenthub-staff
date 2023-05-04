@@ -35,8 +35,15 @@
         <ion-icon slot="icon-only" name="copy-outline"></ion-icon>
       </ion-button>
     </h4>
+ 
+    <ng-container *ngIf="candidate.candidateTags">
+      <ion-badge color="warning" class="candidate-tag" *ngFor="let candidateTag of candidate.candidateTags">
+        {{ candidateTag.tag }}
+      </ion-badge> 
+    </ng-container>
+ 
+    <ion-badge color="warning" id="pending-fields" *ngIf="candidate && !candidate.isProfileCompleted">Incomplete profile</ion-badge>
 
-    <ion-badge color="warning" tappabel id="pending-fields" *ngIf="candidate && !candidate.isProfileCompleted">Incomplete profile</ion-badge>
     <ng-container  *ngIf="candidate && candidate.civilExpired">
       &nbsp;&nbsp;<ion-badge color="danger">Civil Id Expired</ion-badge>
     </ng-container>

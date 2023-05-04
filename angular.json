@@ -24,6 +24,11 @@
             "assets": [
               {
                 "glob": "**/*",
+                "input": ".well-known",
+                "output": ".well-known"
+              },
+              {
+                "glob": "**/*",
                 "input": "src/assets",
                 "output": "assets"
               },

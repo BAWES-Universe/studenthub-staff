@@ -4,6 +4,11 @@
 
     <div class="filter-groups">
 
+        <refinement-list label="{{ 'Tags' | translate }}" [searchable]="true"
+            data-sort-order="0" [class.is-refined]="arrRefined['candidateTags.tag']"
+            searchPlaceholder="{{ 'Search here...' | translate }}" showMoreLabel="{{ 'Show more' | translate }}"
+            showLessLabel="{{ 'Show less' | translate }}" showMoreLimit="15" operator="or"
+            attribute="candidateTags.tag"></refinement-list>
 
         <refinement-list data-sort-order="1" [class.is-refined]="arrRefined && arrRefined['candidate_gender']"
             label="{{ 'Gender' | translate }}" operator="or" [transformItems]="genderTransformItems"

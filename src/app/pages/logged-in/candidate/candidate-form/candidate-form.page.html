@@ -272,6 +272,12 @@
             </p>
           </div>
 
+          <ion-item (click)="updateTags()">
+            <div tabindex="0"></div>
+            <ion-label position="floating">Tags</ion-label>
+            <ion-input type="text" readonly formControlName="tags"></ion-input>
+          </ion-item>
+
           <ion-item (click)="updateSkills()">
             <div tabindex="0"></div>
             <ion-label position="floating">Skill</ion-label>

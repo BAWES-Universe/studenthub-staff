@@ -134,7 +134,8 @@ export class CandidateViewPage implements OnInit {
 
   }
 
-  ngOnInit() {
+  ngOnInit() { 
+
     this.analyticService.page('Candidate View Page');
 
     const state = window.history.state;

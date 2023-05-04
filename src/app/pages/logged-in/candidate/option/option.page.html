@@ -6,6 +6,13 @@
       Update Profile</span>
   </ion-item>
 
+  <ion-item [disabled]="updatingEmail" (click)="updateTags()" tappable>
+    <div tabindex="0"></div>
+    <span *ngIf="!updatingEmail"><ion-icon src="assets/images/icon-update-email.svg"></ion-icon>
+      Update Tags</span>
+    <ion-spinner *ngIf="updatingEmail"></ion-spinner>
+  </ion-item>
+
   <ion-item [disabled]="updatingEmail" (click)="updateEmail()" tappable>
     <div tabindex="0"></div>
     <span *ngIf="!updatingEmail"><ion-icon src="assets/images/icon-update-email.svg"></ion-icon>

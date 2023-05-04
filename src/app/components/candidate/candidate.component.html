@@ -44,7 +44,13 @@
           Latest Work Started on {{ toDate(latestWorkStartedOn) | date }}
         </small>
       </p>
-
+      
+      <ng-container *ngIf="candidate.candidateTags">
+        <ion-badge color="warning" class="candidate-tag" *ngFor="let candidateTag of candidate.candidateTags">
+          {{ candidateTag.tag }}
+        </ion-badge> 
+      </ng-container>
+      
       <ion-badge *ngIf="candidate.isProfileCompleted == false" color="danger">
         Incomplete Profile
       </ion-badge>
@@ -56,9 +62,11 @@
       <ion-badge *ngIf="!candidate.candidate_email_verification" color="danger">
         Email Not Verified
       </ion-badge>
+
       <ion-badge *ngIf="candidate.deleted" color="danger">
         Deleted
       </ion-badge>
+
       <p><small>Created on: {{candidate.candidate_created_at}} | Updated On: {{candidate.candidate_updated_at}}</small></p>
     </ion-label>
 

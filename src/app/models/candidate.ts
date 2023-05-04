@@ -6,6 +6,7 @@ import { Country } from './country';
 import { Area } from './area';
 import { CandidateIdCard } from './candidate-id-card';
 import { Note } from "./note";
+import { CandidateTag } from './candidate-tag';
 
 export class Candidate {
     employee_id: number;
@@ -70,12 +71,15 @@ export class Candidate {
     area: Area;
     nationality: Country;
     bank: Bank;
+    tags: string;
     candidateExperiences: any;
     candidateSkills: any;
+    candidateTags: CandidateTag[];
     candidateIdCard: CandidateIdCard;
     notes: Note[];
     pendingField: any[];
 }
+
 export class CandidateWorkingHour {
   candidate_working_hour_uuid: string;
   candidate_id: number;

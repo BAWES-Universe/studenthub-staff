@@ -1,0 +1,33 @@
+<ion-header mode="md" [class.add-border]="borderLimit" class="ion-no-border">
+  <ion-toolbar class="container">
+    <ion-buttons slot="start" (click)="dismiss()">
+      <ion-back-button icon="assets/images/icon-back.svg"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ "Tags" | translate }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
+
+  <div class="container max-width">
+      <ion-list class="candidateTags" *ngIf="tagList">
+
+        <ion-item *ngFor="let s of tmpTags;let i=index;">
+          <div tabindex="0"></div>
+          
+          <ion-input id="input[{{ i }}]" placeholder="{{ 'Type a tag' }}"
+            [(ngModel)]="tagList[i]" (ionFocus)="validateTags()"
+            (ionChange)="change($event, i, s)" type="text" enterkeyhint="{{ 'Next'}}" (keyup)="nextOnEnter($event, i)"></ion-input>
+
+          <ion-button fill="clear" tabindex="-1" item-right *ngIf="tagList[i]" fill="clear" (click)="removeTags(i,s)"
+            class="skip-hover">
+            <img src="assets/images/ic_circledCancel.svg">
+          </ion-button>
+        </ion-item>
+      </ion-list>
+
+      <ion-button (click)="save()" class="btn-submit" [disabled]="tagList.length < 1 || loading" type="submit">
+        Done
+      </ion-button>
+
+  </div>
+</ion-content>

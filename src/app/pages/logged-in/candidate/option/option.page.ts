@@ -9,6 +9,7 @@ import { CandidateService } from 'src/app/providers/logged-in/candidate.service'
 import { EventService } from 'src/app/providers/event.service';
 import { CandidateIdCardService } from 'src/app/providers/logged-in/candidate.id.card.service';
 import { AnalyticsService } from 'src/app/providers/analytics.service';
+import { TagFormPage } from '../tag-form/tag-form.page';
 
 
 @Component({
@@ -32,12 +33,15 @@ export class OptionPage implements OnInit {
 
   public exportingCv: boolean = false;
 
+  public saving: boolean = false; 
+
   constructor(
     public translateService: TranslateLabelService,
     public authService: AuthService,
     public candidateService: CandidateService,
     public candidateIdCardService: CandidateIdCardService,
     public popoverCtrl: PopoverController,
+    public modalCtrl: ModalController,
     public alertCtrl: AlertController,
     public toastCtrl: ToastController,
     public eventService: EventService,
@@ -327,6 +331,89 @@ export class OptionPage implements OnInit {
     this.dismiss();
   }
 
+  async updateTags () {
+    window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
+
+    let candidate = Object.assign({}, this.candidate);
+
+    let candidateTags = [];
+
+    for(let candidateTag of candidate.candidateTags) {
+      candidateTags.push(candidateTag.tag);
+    }
+
+    const modal = await this.modalCtrl.create({
+      component: TagFormPage,
+      componentProps: {
+        candidate: candidate,
+        tagList: candidateTags
+      }
+    });
+    modal.present();
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
+
+    const { data } = await modal.onWillDismiss();
+
+    if (data && data.tags) {  
+      this.saveTags(data.tags);
+    }
+  }
+
+  
+  /**
+   * Save the candidate model
+   */
+  async saveTags(tags) {
+
+    this.saving = true;
+ 
+    this.candidateService.updateTags(this.candidate, tags).subscribe(async jsonResponse => {
+
+      this.saving = false;
+
+      // On Success
+      if (jsonResponse.operation == 'success') {
+
+        this.candidate.candidateTags = jsonResponse.candidateTags;
+
+        // open view page
+        //this.navCtrl.navigateForward('candidate-view/' + jsonResponse.candidate.candidate_id);
+        this.dismiss();
+
+        const candidate_name = this.candidate.candidate_name ? this.candidate.candidate_name : this.candidate.candidate_name_ar;
+
+        const toast = await this.toastCtrl.create({
+          message: candidate_name + '\'s account saved successfully',
+          duration: 3000
+        });
+        toast.present();
+      }
+
+      // On Failure
+      if (jsonResponse.operation == 'error') {
+        let html = '';
+
+        for (const i in jsonResponse.message) {
+          for (const j of jsonResponse.message[i]) {
+            html += j + '<br />';
+          }
+        }
+
+        const prompt = await this.alertCtrl.create({
+          message: html,
+          buttons: ['Ok']
+        });
+        prompt.present();
+      }
+    });
+  }
+
   unassignCandidateFromStore(id) {
     this.popoverCtrl.getTop().then(o => {
       if(o) {
@@ -341,5 +428,5 @@ export class OptionPage implements OnInit {
         o.dismiss({ assing: true });
       }
     });
-  }
+  } 
 }
