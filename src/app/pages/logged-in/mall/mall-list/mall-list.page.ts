@@ -7,6 +7,7 @@ import {Mall} from 'src/app/models/mall';
 
 import {MallFormPage} from '../mall-form/mall-form.page';
 import { AnalyticsService } from 'src/app/providers/analytics.service';
+import { AuthService } from 'src/app/providers/auth.service';
 
 @Component({
   selector: 'app-mall-list',
@@ -32,6 +33,7 @@ export class MallListPage implements OnInit {
     private alertCtrl: AlertController,
     public platform: Platform,
     private toastCtrl: ToastController,
+    public authService: AuthService,
     public analyticService: AnalyticsService
   ) { }
 
@@ -124,7 +126,7 @@ export class MallListPage implements OnInit {
               if (jsonResp.operation == 'error') {
                 const alert = await this.alertCtrl.create({
                   header: 'Deletion Error!',
-                  subHeader: jsonResp.message,
+                  message: this.authService.errorMessage(jsonResp.message),
                   buttons: ['OK']
                 });
                 alert.present();
@@ -132,7 +134,7 @@ export class MallListPage implements OnInit {
 
               if (jsonResp.operation == 'success') {
                 const toast = await this.toastCtrl.create({
-                  message: jsonResp.message,
+                  message: this.authService.errorMessage(jsonResp.message),
                   duration: 3000
                 });
                 toast.present();

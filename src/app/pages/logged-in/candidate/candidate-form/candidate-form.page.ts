@@ -17,6 +17,7 @@ import { UploadCvPage } from '../upload-cv/upload-cv.page';
 import {LocationPage} from '../location/location.page';
 import { AnalyticsService } from 'src/app/providers/analytics.service';
 import { TagFormPage } from '../tag-form/tag-form.page';
+import { AuthService } from 'src/app/providers/auth.service';
 
 
 @Component({
@@ -47,6 +48,7 @@ export class CandidateFormPage implements OnInit {
   constructor(
     public activatedRoute: ActivatedRoute,
     public navCtrl: NavController,
+    public authService: AuthService,
     public candidateService: CandidateService,
     public universityService: UniversityService,
     public countryService: CountryService,
@@ -160,16 +162,9 @@ export class CandidateFormPage implements OnInit {
 
       // On Failure
       if (jsonResponse.operation == 'error') {
-        let html = '';
-
-        for (const i in jsonResponse.message) {
-          for (const j of jsonResponse.message[i]) {
-            html += j + '<br />';
-          }
-        }
-
+        
         const prompt = await this._alertCtrl.create({
-          message: html,
+          message: this.authService.errorMessage(jsonResponse.message),
           buttons: ['Ok']
         });
         prompt.present();

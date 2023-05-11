@@ -101,7 +101,7 @@ export class OptionPage implements OnInit {
 
       if (response.operation == 'error') {
         const toast = await this.toastCtrl.create({
-          message: response.message,
+          message: this.authService.errorMessage(response.message),
           duration: 3000
         });
 
@@ -250,7 +250,7 @@ export class OptionPage implements OnInit {
                 this.eventService.reloadCandiate$.next({});
               } else {
                 this.toastCtrl.create({
-                  message: data.message,
+                  message: this.authService.errorMessage(data.message),
                   duration: 3000
                 }).then(toast => {
                   toast.present();
@@ -397,17 +397,10 @@ export class OptionPage implements OnInit {
 
       // On Failure
       if (jsonResponse.operation == 'error') {
-        let html = '';
-
-        for (const i in jsonResponse.message) {
-          for (const j of jsonResponse.message[i]) {
-            html += j + '<br />';
-          }
-        }
-
+        
         const prompt = await this.alertCtrl.create({
-          message: html,
-          buttons: ['Ok']
+          message: this.authService.errorMessage(jsonResponse.message),
+          buttons: ['Okay']
         });
         prompt.present();
       }

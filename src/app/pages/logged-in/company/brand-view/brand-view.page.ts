@@ -13,6 +13,7 @@ import { EventService } from 'src/app/providers/event.service';
 import { BrandFormPage } from '../brand-form/brand-form.page';
 import {BrandOptionPage} from "../brand/brand-option/brand-option.page";
 import { AnalyticsService } from 'src/app/providers/analytics.service';
+import { AuthService } from 'src/app/providers/auth.service';
 
 
 @Component({
@@ -39,6 +40,7 @@ export class BrandViewPage implements OnInit {
     private brandService: BrandService,
     private alertCtrl: AlertController,
     private location: Location,
+    public authService: AuthService,
     private eventService: EventService,
     public analyticService: AnalyticsService
   ) {
@@ -137,8 +139,8 @@ export class BrandViewPage implements OnInit {
                 // failer text
                 const prompt = await this.alertCtrl.create({
                   header: 'Deletion Error!',
-                  message: jsonResp.message,
-                  buttons: ['Ok']
+                  message: this.authService.errorMessage(jsonResp.message),
+                  buttons: ['Okay']
                 });
                 prompt.present();
               }

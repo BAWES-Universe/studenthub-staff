@@ -260,7 +260,8 @@ export class FulltimerLocationPage implements OnInit {
       } else {
 
         this.alertCtrl.create({
-          header: result.message,
+          header: "Error", 
+          message: this.translateService.errorMessage(result.message),
           buttons: [this.translateService.transform('Okay')]
         }).then(alert => alert.present());
       }

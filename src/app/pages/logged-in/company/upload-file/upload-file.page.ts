@@ -10,6 +10,7 @@ import { AwsService } from 'src/app/providers/aws.service';
 import { CompanyService } from '../../../../providers/logged-in/company.service';
 import {EventService} from "../../../../providers/event.service";
 import { AnalyticsService } from 'src/app/providers/analytics.service';
+import { AuthService } from 'src/app/providers/auth.service';
 
 
 @Component({
@@ -50,6 +51,7 @@ export class UploadFilePage implements OnInit, OnDestroy {
     public companyService: CompanyService,
     public sentryService: SentryErrorhandlerService,
     public awsService: AwsService,
+    public authService: AuthService,
     public eventService: EventService,
     public analyticService: AnalyticsService
   ) { }
@@ -254,7 +256,7 @@ export class UploadFilePage implements OnInit, OnDestroy {
         this.dismiss({ refresh: true });
 
         const toast = await this.toastCtrl.create({
-          message: jsonResponse.message,
+          message: this.authService.errorMessage(jsonResponse.message),
           duration: 3000
         });
         toast.present();
@@ -262,17 +264,10 @@ export class UploadFilePage implements OnInit, OnDestroy {
 
       // On Failure
       if (jsonResponse.operation == 'error') {
-        let html = '';
-
-        for (const i in jsonResponse.message) {
-          for (const j of jsonResponse.message[i]) {
-            html += j + '<br />';
-          }
-        }
-
+        
         const prompt = await this.alertCtrl.create({
-          message: html,
-          buttons: ['Ok']
+          message: this.authService.errorMessage(jsonResponse.message),
+          buttons: ['Okay']
         });
         prompt.present();
       }

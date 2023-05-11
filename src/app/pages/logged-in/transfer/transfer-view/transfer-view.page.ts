@@ -12,6 +12,7 @@ import { EventService } from 'src/app/providers/event.service';
 import { TransferFormPage } from '../transfer-form/transfer-form.page';
 import { ImportTransferFormPage } from '../import-transfer-form/import-transfer-form.page';
 import { AnalyticsService } from 'src/app/providers/analytics.service';
+import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 
 
 @Component({
@@ -41,6 +42,7 @@ export class TransferViewPage implements OnInit {
     public aws: AwsService,
     public transferService: TransferService,
     public eventService: EventService,
+    public translateService: TranslateLabelService,
     public analyticService: AnalyticsService,
     private _loadingCtrl: LoadingController,
     public modalCtrl: ModalController,
@@ -139,7 +141,7 @@ export class TransferViewPage implements OnInit {
             this.transferService.makeTransfertoLock(transfer).subscribe(async response => {
 
               const toast = await this._toastCtrl.create({
-                message: response.message,
+                message: this.translateService.errorMessage(response.message),
                 duration: 3000
               });
               toast.present();
@@ -168,7 +170,7 @@ export class TransferViewPage implements OnInit {
     this.transferService.makePaymentSent(transfer).subscribe(async response => {
 
       const toast = await this._toastCtrl.create({
-        message: response.message,
+        message: this.translateService.errorMessage(response.message),
         duration: 3000
       });
       toast.present();
@@ -325,7 +327,7 @@ export class TransferViewPage implements OnInit {
 
       } else {
         const alert = await this.alertCtrl.create({
-          message: response.message,
+          message: this.translateService.errorMessage(response.message),
           buttons: ['Okay']
         });
         alert.present();

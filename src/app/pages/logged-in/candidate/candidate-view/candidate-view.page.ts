@@ -879,7 +879,7 @@ export class CandidateViewPage implements OnInit {
                 // failer text
                 const prompt = await this.alertCtrl.create({
                   header: 'Deletion Error!',
-                  message: response.message,
+                  message: this.authService.errorMessage(response.message),
                   buttons: ['Ok']
                 });
                 prompt.present();

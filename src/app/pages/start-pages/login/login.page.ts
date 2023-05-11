@@ -65,7 +65,7 @@ export class LoginPage implements OnInit {
       }else if (res.operation == 'error'){
         const alert = await this._alertCtrl.create({
           header: 'Unable to Log In',
-          message: res.message,
+          message: this._auth.errorMessage(res.message),
           buttons: ['Ok'],
         });
         alert.present();

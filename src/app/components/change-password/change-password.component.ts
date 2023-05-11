@@ -58,7 +58,7 @@ export class ChangePasswordComponent implements OnInit {
 
       if (result.operation == 'success') {
         const toast = await this._toastCtrl.create({
-          message: result.message,
+          message: this.authService.errorMessage(result.message),
           duration: 3000
         });
         toast.present();
@@ -66,7 +66,7 @@ export class ChangePasswordComponent implements OnInit {
 
       } else {
         const prompt = await this._alertCtrl.create({
-          message: result.message,
+          message: this.authService.errorMessage(result.message),
           buttons: ['Ok']
         });
         prompt.present();

@@ -4,6 +4,7 @@ import {StaffLeave} from "../../../../models/staff-leave";
 import {AlertController, NavController, ToastController} from "@ionic/angular";
 import {AwsService} from "../../../../providers/aws.service";
 import { AnalyticsService } from 'src/app/providers/analytics.service';
+import { AuthService } from 'src/app/providers/auth.service';
 
 @Component({
   selector: 'app-leave-request-list',
@@ -28,6 +29,7 @@ export class LeaveRequestListPage implements OnInit {
     public alertCtrl: AlertController,
     public toastCtrl: ToastController,
     public awsService: AwsService,
+    public authService: AuthService,
     public analyticService: AnalyticsService,
   ) { }
 
@@ -113,7 +115,7 @@ export class LeaveRequestListPage implements OnInit {
 
                 const alert = await this.alertCtrl.create({
                   header: 'Deletion Error!',
-                  subHeader: jsonResp.message,
+                  message: this.authService.errorMessage(jsonResp.message),
                   buttons: ['OK']
                 });
                 alert.present();
@@ -122,7 +124,7 @@ export class LeaveRequestListPage implements OnInit {
               if (jsonResp.operation == 'success') {
 
                 const toast = await this.toastCtrl.create({
-                  message: jsonResp.message,
+                  message: this.authService.errorMessage(jsonResp.message),
                   duration: 3000
                 });
                 toast.present();

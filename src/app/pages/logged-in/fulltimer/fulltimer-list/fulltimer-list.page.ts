@@ -138,7 +138,7 @@ export class FulltimerListPage implements OnInit {
               if (jsonResp.operation == 'error') {
                 const alert = await this.alertCtrl.create({
                   header: 'Deletion Error!',
-                  subHeader: jsonResp.message,
+                  message: this.authService.errorMessage(jsonResp.message),
                   buttons: ['OK']
                 });
                 alert.present();
@@ -146,7 +146,7 @@ export class FulltimerListPage implements OnInit {
 
               if (jsonResp.operation == 'success') {
                 const toast = await this.toastCtrl.create({
-                  message: jsonResp.message,
+                  message: this.authService.errorMessage(jsonResp.message),
                   duration: 3000
                 });
                 toast.present();

@@ -13,6 +13,7 @@ import {CompanyStoresPage} from "../../company/company-stores/company-stores.pag
 import {StoreViewPage} from "../../store/store-view/store-view.page";
 import { StoreOptionPage } from '../../store/store-option/store-option.page';
 import { AnalyticsService } from 'src/app/providers/analytics.service';
+import { AuthService } from 'src/app/providers/auth.service';
 
 
 @Component({
@@ -39,6 +40,7 @@ export class MallViewPage implements OnInit {
     private alertCtrl: AlertController,
     private toastCtrl: ToastController,
     private eventService: EventService,
+    public authService: AuthService,
     public analyticService: AnalyticsService,
     @Optional() public nav: IonNav
   ) { }
@@ -114,7 +116,7 @@ export class MallViewPage implements OnInit {
               if (jsonResp.operation == 'error') {
                 const alert = await this.alertCtrl.create({
                   header: 'Deletion Error!',
-                  subHeader: jsonResp.message,
+                  subHeader: this.authService.errorMessage(jsonResp.message),
                   buttons: ['OK']
                 });
                 alert.present();
@@ -127,7 +129,7 @@ export class MallViewPage implements OnInit {
                 });
 
                 const toast = await this.toastCtrl.create({
-                  message: jsonResp.message,
+                  message: this.authService.errorMessage(jsonResp.message),
                   duration: 3000
                 });
                 toast.present();

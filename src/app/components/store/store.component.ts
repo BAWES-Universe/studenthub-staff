@@ -5,6 +5,7 @@ import { Store } from 'src/app/models/store';
 //pages
 import { StoreFormPage } from 'src/app/pages/logged-in/store/store-form/store-form.page';
 import { StoreOptionPage } from 'src/app/pages/logged-in/store/store-option/store-option.page';
+import { AuthService } from 'src/app/providers/auth.service';
 //services
 import { StoreService } from 'src/app/providers/logged-in/store.service';
 
@@ -32,6 +33,7 @@ export class StoreComponent implements OnInit {
     public modalCtrl: ModalController,
     public popoverCtrl: PopoverController,
     public storeService: StoreService,
+    public authService: AuthService,
     public toastCtrl: ToastController
   ) { }
 
@@ -120,7 +122,7 @@ export class StoreComponent implements OnInit {
               if (jsonResp.operation == 'error') {
                 const alert = await this.alertCtrl.create({
                   header: 'Deletion Error!',
-                  subHeader: jsonResp.message,
+                  message: this.authService.errorMessage(jsonResp.message),
                   buttons: ['OK']
                 });
                 alert.present();
@@ -128,7 +130,7 @@ export class StoreComponent implements OnInit {
 
               if (jsonResp.operation == 'success') {
                 const toast = await this.toastCtrl.create({
-                  message: jsonResp.message,
+                  message: this.authService.errorMessage(jsonResp.message),
                   duration: 3000
                 });
                 toast.present();

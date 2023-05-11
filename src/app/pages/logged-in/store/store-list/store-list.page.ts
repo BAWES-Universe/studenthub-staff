@@ -201,7 +201,7 @@ export class StoreListPage implements OnInit {
       if (data.operation == 'error') {
         const alert = await this.alertCtrl.create({
           header: 'Deletion Error!',
-          subHeader: data.message,
+          message: this.authService.errorMessage(data.message),
           buttons: ['Okay']
         });
         alert.present();
@@ -264,7 +264,7 @@ export class StoreListPage implements OnInit {
               if (jsonResp.operation == 'error') {
                 const alert = await this.alertCtrl.create({
                   header: 'Deletion Error!',
-                  subHeader: jsonResp.message,
+                  subHeader: this.authService.errorMessage(jsonResp.message),
                   buttons: ['OK']
                 });
                 alert.present();
@@ -272,7 +272,7 @@ export class StoreListPage implements OnInit {
 
               if (jsonResp.operation == 'success') {
                 const toast = await this.toastCtrl.create({
-                  message: jsonResp.message,
+                  message: this.authService.errorMessage(jsonResp.message),
                   duration: 3000
                 });
                 toast.present();

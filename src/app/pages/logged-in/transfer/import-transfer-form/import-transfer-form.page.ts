@@ -175,7 +175,7 @@ export class ImportTransferFormPage implements OnInit {
         });
 
         let prompt = await this._alertCtrl.create({
-          message: data.message,
+          message: this.translateService.errorMessage(data.message),
           buttons: ["Ok"]
         });
         prompt.present();
@@ -216,7 +216,7 @@ export class ImportTransferFormPage implements OnInit {
           });
 
           let prompt = await this._alertCtrl.create({
-            message: data.message,
+            message: this.translateService.errorMessage(data.message),
             buttons: ["Ok"]
           });
           prompt.present();

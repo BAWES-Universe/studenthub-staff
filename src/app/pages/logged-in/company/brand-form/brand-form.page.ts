@@ -202,7 +202,7 @@ export class BrandFormPage implements OnInit {
 
             const alert = await this.alertCtrl.create({
               header: 'Error getting picture from Library',
-              message: err.message,
+              message: this.authService.errorMessage(err.message),
               buttons: ['Okay']
             });
 
@@ -231,7 +231,7 @@ export class BrandFormPage implements OnInit {
 
             const alert = await this.alertCtrl.create({
               header: 'Error getting picture from Library',
-              message: err.message,
+              message: this.authService.errorMessage(err.message),
               buttons: ['Okay']
             });
 

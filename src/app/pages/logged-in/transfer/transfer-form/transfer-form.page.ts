@@ -298,7 +298,7 @@ export class TransferFormPage implements OnInit {
         });
 
         const toast = await this._toastCtrl.create({
-          message: jsonResponse.message,
+          message: this.translateService.errorMessage(jsonResponse.message),
           duration: 3000
         });
         toast.present();
@@ -570,7 +570,7 @@ export class TransferFormPage implements OnInit {
         });
 
         let prompt = await this._alertCtrl.create({
-          message: data.message,
+          message: this.translateService.errorMessage(data.message),
           buttons: ["Ok"]
         });
         prompt.present();
@@ -611,7 +611,7 @@ export class TransferFormPage implements OnInit {
           });
 
           let prompt = await this._alertCtrl.create({
-            message: data.message,
+            message: this.translateService.errorMessage(data.message),
             buttons: ["Ok"]
           });
           prompt.present();

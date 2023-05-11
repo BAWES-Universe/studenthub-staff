@@ -4,6 +4,7 @@ import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 import {Expense} from "../../../../models/expense";
 import {ExpenseService} from "../../../../providers/logged-in/expense.service";
+import { AuthService } from 'src/app/providers/auth.service';
 
 
 @Component({
@@ -26,6 +27,7 @@ export class ExpenseListPage implements OnInit {
   constructor(
     private expenseService: ExpenseService,
     public analyticService: AnalyticsService,
+    public authService: AuthService,
     private navCtrl: NavController,
     public platform: Platform,
     public alertCtrl: AlertController,
@@ -114,7 +116,7 @@ export class ExpenseListPage implements OnInit {
               if (jsonResp.operation == 'error') {
                 const alert = await this.alertCtrl.create({
                   header: 'Deletion Error!',
-                  subHeader: jsonResp.message,
+                  message: this.authService.errorMessage(jsonResp.message),
                   buttons: ['OK']
                 });
                 alert.present();
@@ -122,7 +124,7 @@ export class ExpenseListPage implements OnInit {
 
               if (jsonResp.operation == 'success') {
                 const toast = await this.toastCtrl.create({
-                  message: jsonResp.message,
+                  message: this.authService.errorMessage(jsonResp.message),
                   duration: 3000
                 });
                 toast.present();

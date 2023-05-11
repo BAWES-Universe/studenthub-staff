@@ -10,6 +10,7 @@ import { EventService } from 'src/app/providers/event.service';
 import { NoteService } from 'src/app/providers/logged-in/note.service';
 // pages
 import { CompanyNoteFormPage } from '../../company/company-note-form/company-note-form.page';
+import { AuthService } from 'src/app/providers/auth.service';
 
 
 @Component({
@@ -35,6 +36,7 @@ export class NoteViewPage implements OnInit {
     public route: ActivatedRoute,
     public location: Location,
     public eventService: EventService,
+    public authService: AuthService,
     public analyticService: AnalyticsService,
     public noteService: NoteService
   ) { }
@@ -138,7 +140,7 @@ export class NoteViewPage implements OnInit {
                 // failer text
                 const prompt = await this.alertCtrl.create({
                   header: 'Deletion Error!',
-                  message: response.message,
+                  message: this.authService.errorMessage(response.message),
                   buttons: ['Ok']
                 });
                 prompt.present();
