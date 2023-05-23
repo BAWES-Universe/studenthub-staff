@@ -318,6 +318,7 @@
 
             </ion-item>
           </ion-card-header>
+
           <ion-card-content *ngIf="history.isOpen">
 
             <p>
@@ -432,6 +433,17 @@
                 <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
               </ion-item>
             </ion-col>
+
+            <ion-col size-xs="12" size-sm="12" size-md="4" size-lg="4" size-xl="4">
+              <ion-item tappable [routerLink]="['/candidate-tags/',candidate.candidate_id]">
+                <div tabindex="0"></div>
+                <ion-label>
+                  <h5>Tags</h5>
+                </ion-label>
+                <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
+              </ion-item>
+            </ion-col>
+
           </ion-row>
         </ion-grid>
       </div>

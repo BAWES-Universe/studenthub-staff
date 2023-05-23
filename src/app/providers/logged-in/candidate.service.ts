@@ -48,7 +48,7 @@ export class CandidateService {
    * @returns {Observable<any>}
    */
   detail(id: number): Observable<any> {
-    const url = this._candidateEndpoint + '/detail/' + id + '?expand=candidateIdCard,store,company,candidateSkills,candidateTags,candidateExperiences,bank,nationality,area,country,university,invited,invitationAccepted,invitationRejected,suggestionAccepted,suggestionRejected,suggested';
+    const url = this._candidateEndpoint + '/detail/' + id + '?expand=candidateIdCard,store,company,candidateSkills,candidateTags,candidateTags.createdBy,candidateExperiences,bank,nationality,area,country,university,invited,invitationAccepted,invitationRejected,suggestionAccepted,suggestionRejected,suggested';
     return this._authhttp.get(url);
   }
 
@@ -210,6 +210,11 @@ export class CandidateService {
     };
 
     return this._authhttp.patch(url, params);
+  }
+
+  addTag(params) {
+    const url = `${this._candidateEndpoint}/add-tag/${params.candidate_id}`;
+    return this._authhttp.post(url, params);
   }
 
   updateTags(model, tags): Observable<any> {

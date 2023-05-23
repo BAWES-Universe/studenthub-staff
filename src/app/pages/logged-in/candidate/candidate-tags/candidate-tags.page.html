@@ -1,0 +1,56 @@
+<ion-header mode="md" [class.add-border]="borderLimit" class="ion-no-border">
+  <ion-toolbar class="container">
+    <ion-title>Candidate tags</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button icon="assets/images/icon-back.svg" defaultHref="/candidate-view/{{ candidate_id }}"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+
+</ion-header>
+<ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
+  <div class="container">
+
+    <h4 *ngIf="candidate">
+      {{ candidate.candidate_name }}
+      <span *ngIf="!candidate.candidate_name">{{ candidate.candidate_name_ar }}</span>
+    </h4>
+
+    <ng-container *ngIf="candidate && candidate.candidateTags">
+      <ion-card *ngFor="let candidateTag of candidate.candidateTags">
+        
+        <div class="salary">
+          <b>{{ candidateTag.tag  }}</b>
+        </div>
+  
+        <p class="txt-reason">
+          {{ candidateTag.reason }}
+        </p>
+
+        <p class="txt-time">
+          {{ candidateTag.created_at | timeAgo }} on
+          {{ toDate(candidateTag.created_at) | date: 'MMM d, y' }}
+
+          <span *ngIf="candidateTag.createdBy">by {{ candidateTag.createdBy.staff_name }}</span>
+        </p>
+      </ion-card> 
+    </ng-container>
+
+    <loading-modal [loading]="loading" type="note-list"></loading-modal>
+
+
+    <form [formGroup]="form" *ngIf="form" (ngSubmit)="onSubmit()" novalidate>
+
+      <ion-chip [class.selected]="tag.tag == form.value.tag" [color.dark]="tag.tag == form.value.tag" 
+        (click)="onTagSelected(tag.tag)"  *ngFor="let tag of tags">{{ tag.tag }}</ion-chip>
+
+      <ion-textarea *ngIf="form.value.tag"
+               formControlName="reason" placeholder="Enter reason for this tag"></ion-textarea>
+
+      <ion-button *ngIf="form.value.tag" class="btn-submit" [disabled]="!form.valid || isLoading" type="submit">
+        <ion-spinner *ngIf="isLoading"></ion-spinner>
+        <span *ngIf="!isLoading">Save</span>
+      </ion-button>
+    </form>
+    
+  </div>
+</ion-content>

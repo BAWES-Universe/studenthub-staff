@@ -1,0 +1,63 @@
+
+ion-chip.selected {
+  background-color: var(--ion-color-dark);
+  color: var(--ion-color-dark-contrast);
+}
+
+ion-card {
+    margin: 0 0 10px 0;
+    padding: 16px 26px 15px 17px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08), 2px 0 4px 0 rgba(0, 0, 0, 0.12);
+    background-color: #ffffff;
+    color: #000;
+  
+    ion-badge {
+      height: 25px;
+      padding: 5px 9px 2px;
+      font-size: 12px;
+      font-weight: normal;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: normal;
+      letter-spacing: normal;
+      text-align: center;
+      color: #000;
+      background-color: #f2f2f2;
+      border-radius: 0;
+    }
+
+    .salary {
+      margin-top: 6px;
+      margin-bottom: 17px;
+    }
+  
+    .activity {
+      font-size: 14px;
+      font-weight: normal;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: normal;
+      letter-spacing: normal;
+      color: #000;
+      padding: 0 5px;
+      margin: 10px 0 0;
+    }
+  
+    .txt-time {
+      margin: 15px 0 2px 0px;
+      font-size: 12px;
+      font-weight: normal;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: normal;
+      letter-spacing: normal;
+      color: #000;
+    }
+  
+    p {
+      color: #000;
+      margin: 0;
+    }
+  }
+  

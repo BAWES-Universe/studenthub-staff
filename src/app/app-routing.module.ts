@@ -649,6 +649,10 @@ const routes: Routes = [
     }
   },
   {
+    path: 'candidate-tags',
+    loadChildren: () => import('./pages/logged-in/candidate/candidate-tags/candidate-tags.module').then( m => m.CandidateTagsPageModule)
+  },
+  {
     path: '**',
     redirectTo: 'not-found'
   },
