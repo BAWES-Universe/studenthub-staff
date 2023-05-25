@@ -253,7 +253,7 @@ export class AppliedFiltersComponent extends TypedBaseWidget<CurrentRefinementsW
                     b = this.haveResumeTransformItems(b);
                 }
 
-                else if (b.attribute == 'candidate_created_at_timestamp') {
+                else if (b.attribute == 'candidate_created_at_timestamp' || b.attribute == 'start_date_timestamp') {
                     b = this.dateTimestampItems(b);
                 }
 

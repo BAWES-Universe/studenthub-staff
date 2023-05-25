@@ -107,6 +107,11 @@
         <refinement-list data-sort-order="3" [class.is-refined]="arrRefined && arrRefined['assigned']"
             label="{{ 'Assigned' | translate }}" operator="or" [transformItems]="assignedTransformItems"
             attribute="assigned"></refinement-list>
+            
+        <date-range-refinement-list data-sort-order="4"
+            [class.is-refined]="arrRefined['start_date_timestamp']" title="Assigned date range"
+            operator="or" attribute="start_date_timestamp"></date-range-refinement-list>
+        
     </div>
 
 </div>

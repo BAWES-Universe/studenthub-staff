@@ -119,10 +119,13 @@ export class DateRangeRefinementListComponent extends BaseWidget {
       this.handleChange = () => {
 
           //let range = [e.detail.value.lower, e.detail.value.upper];
-
+ 
           let range = [this.value.lower, this.value.upper];
           this.state.refine(range);
+
           //this.change.emit();
+
+          console.log(this.state);
       };
 
       this.formatTooltip = (value) => {
@@ -246,5 +249,17 @@ export class DateRangeRefinementListComponent extends BaseWidget {
 
       this.handleChange();
     }
+  }
+
+  refineDates() {
+    this.value.lower = Math.floor(new Date(this.lowerDate).getTime() / 1000)
+    this.value.upper = Math.floor(new Date(this.upperDate).getTime() / 1000);
+
+    this.handleChange();
+
+    let range = [this.value.lower, this.value.upper];
+    this.state.refine(range);
+
+    this.change.emit();
   }
 }
