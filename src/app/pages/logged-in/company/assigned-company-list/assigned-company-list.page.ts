@@ -9,6 +9,7 @@ import { EventService } from 'src/app/providers/event.service';
 //pages
 import {Router} from "@angular/router";
 import {CompanyFilterPage} from "src/app/pages/logged-in/company/company-list/company-filter/company-filter.page";
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
 @Component({
@@ -47,12 +48,13 @@ export class AssignedCompanyListPage implements OnInit {
     public aws: AwsService,
     public eventService: EventService,
     public _modalCtrl: ModalController,
+    public analyticService: AnalyticsService,
     public router: Router
   ) {
   }
 
   ngOnInit() {
-    window.analytics.page('Company List Page');
+    this.analyticService.page('Company List Page');
 
     this.eventService.reloadCandidateHistory$.subscribe(response => {
       this.loadData(1);
