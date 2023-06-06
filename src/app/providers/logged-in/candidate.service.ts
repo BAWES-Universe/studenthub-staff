@@ -301,6 +301,33 @@ export class CandidateService {
     const url = this._candidateEndpoint + '/search?expand=store,company&country_id=' + country.country_id + '&page=' + page;
     return this._authhttp.getRaw(url);
   }
+  
+  /**
+   * return warnings issued for not joining interview
+   */
+  warnCandidate(candidate_id, params: any): Observable<any> {
+    const url = this._candidateEndpoint + '/warn-candidate/' + candidate_id;
+    return this._authhttp.post(url, {
+      title: params.title, 
+      message: params.message
+    });
+  }
+
+  updateWarning(params: any): Observable<any> {
+    const url = this._candidateEndpoint + '/update-warning/' + params.warning_id;
+    return this._authhttp.patch(url, {
+      title: params.title, 
+      message: params.message
+    });
+  }
+
+  /**
+   * return warnings issued for not joining interview
+   */
+  candidateWarnings(candidate_id, page): Observable<any> {
+    const url = this._candidateEndpoint + '/candidate-warnings/' + candidate_id + '?expand=createdBy' + '&page=' + page;
+    return this._authhttp.getRaw(url);
+  }
 
   /**
    * return work history

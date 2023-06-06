@@ -1,0 +1,49 @@
+<ion-header mode="md" [class.add-border]="borderLimit" class="ion-no-border">
+  <ion-toolbar class="container">
+    <ion-buttons slot="start">
+      <ion-back-button icon="assets/images/icon-back.svg" defaultHref="/candidate-view/{{ candidate_id }}"></ion-back-button>
+    </ion-buttons>
+
+    <ion-buttons slot="end">
+      <ion-button (click)="add()">
+        Add warning
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+
+</ion-header>
+<ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
+  <div class="container">
+    <h3>Warnings</h3>
+
+    <h4 *ngIf="candidate">
+      {{ candidate.candidate_name }}
+      <span *ngIf="!candidate.candidate_name">{{ candidate.candidate_name_ar }}</span>
+    </h4>
+
+
+    <ion-card  *ngFor="let warning of warnings">
+      <ion-card-header>
+        {{ warning.title }}
+      </ion-card-header>
+
+      <ion-card-content>
+            
+        <p>{{ warning.message }}</p>
+
+        <p class="txt-time">
+          <b>{{ warning.updated_at | timeAgo }}</b> on
+          <b>{{ toDate(warning.created_at) | date: 'MMM d, y' }}</b>
+        </p>
+      </ion-card-content>
+    </ion-card>  
+
+    <loading-modal [loading]="loading" type="note-list"></loading-modal>
+  
+    <ion-infinite-scroll *ngIf="currentPage < pageCount"
+      (ionInfinite)="doInfinite($event)">
+      <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+    
+  </div>
+</ion-content>

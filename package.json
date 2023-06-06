@@ -10,8 +10,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint",
-    "serve-kk": "ionic serve --configuration=krushn --service-worker",
-    "ionic:serve:anil": "ionic serve --configuration=anil --service-worker",
+    "serve-kk": "ionic serve --configuration=krushn",
     "build:devserver": "ng build --configuration=dev --service-worker",
     "build:production": "ng build --configuration=production --service-worker",
     "ionic:serve:khalid": "ionic serve --configuration=khalid"

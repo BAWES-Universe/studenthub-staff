@@ -88,4 +88,17 @@ export class TranslateLabelService extends TranslateService {
 
         return a.join('<br />');
     }
+
+    /**
+     * Make date readable by Safari
+     * @param date
+     */
+    toDate(date) {
+        if (!date) 
+        return null;
+        
+        if (date) {
+        return new Date(date.replace(/-/g, '/'));
+        }
+    }
 }

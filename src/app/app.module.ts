@@ -82,6 +82,7 @@ import {DatePopupModule} from "./components/date-popup/date-popup.module";
 import {EvaluationReportViewPageModule} from "./pages/logged-in/candidate/evaluation/evaluation-report-view/evaluation-report-view.module";
 import {MenuOptionPageModule} from "src/app/pages/logged-in/default/menu-option/menu-option.module";
 import { TagFormPageModule } from './pages/logged-in/candidate/tag-form/tag-form.module';
+import { CandidateWarningFormPageModule } from './pages/logged-in/candidate/candidate-warning-form/candidate-warning-form.module';
 
 export function startupServiceFactory(authService) {
   return () => authService.load();
@@ -178,6 +179,7 @@ declare global {
     CompanyFilterPageModule,
     ActionComponentModule,
     CandidateAssignFormPageModule,
+    CandidateWarningFormPageModule,
     LeaveRequestPageModule,
     DatePopupModule,
     EvaluationReportViewPageModule,

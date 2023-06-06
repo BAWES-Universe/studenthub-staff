@@ -64,4 +64,7 @@ export class EventService {
   public changeStoryStatus$ = new Subject();
   public changeRequestStatus$ = new Subject();
   public createStory$ = new Subject();
+
+  public warningUpdated$ = new Subject();
+
 }

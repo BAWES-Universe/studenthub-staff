@@ -43,4 +43,8 @@ For more commands follow the link
 
 https://raw.githubusercontent.com/sangam14/dockercheatsheets/master/dockercheatsheet8.png
 
+To fix heap limit error 
+
+`export NODE_OPTIONS=--max_old_space_size=20480`
+
 

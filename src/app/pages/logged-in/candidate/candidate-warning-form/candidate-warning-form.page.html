@@ -1,0 +1,41 @@
+<ion-header mode="md" [class.add-border]="borderLimit" class="ion-no-border">
+  <ion-toolbar class="container">
+    <ion-buttons slot="start">
+      <ion-back-button icon="assets/images/icon-back.svg" (click)="close()"></ion-back-button>
+    </ion-buttons>
+
+    <ion-title>{{ operation }}</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button color="primary" [disabled]="form && !form.valid" (click)="save()">
+        <span *ngIf="!saving">Save</span>
+        <ion-spinner *ngIf="saving"></ion-spinner>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
+  <div class="container">
+    <form [formGroup]="form" *ngIf="form">
+      <ion-list>
+  
+        <ion-list>
+          <ion-item>
+            <div tabindex="0"></div>
+            <ion-label position="floating">Title</ion-label>
+            <ion-input type="text" formControlName="title"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <div tabindex="0"></div>
+            <ion-label position="floating">Message</ion-label>
+            <ion-textarea formControlName="message"></ion-textarea>
+          </ion-item>
+
+        </ion-list>
+ 
+      </ion-list>
+    </form>
+  </div>
+</ion-content>

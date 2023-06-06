@@ -650,7 +650,18 @@ const routes: Routes = [
   },
   {
     path: 'candidate-tags',
+    canActivate: [AuthService],
     loadChildren: () => import('./pages/logged-in/candidate/candidate-tags/candidate-tags.module').then( m => m.CandidateTagsPageModule)
+  },
+  {
+    path: 'candidate-warning-list',
+    canActivate: [AuthService],
+    loadChildren: () => import('./pages/logged-in/candidate/candidate-warning-list/candidate-warning-list.module').then( m => m.CandidateWarningListPageModule)
+  },
+  {
+    path: 'candidate-warning-form',
+    canActivate: [AuthService],
+    loadChildren: () => import('./pages/logged-in/candidate/candidate-warning-form/candidate-warning-form.module').then( m => m.CandidateWarningFormPageModule)
   },
   {
     path: '**',
