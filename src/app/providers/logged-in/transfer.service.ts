@@ -33,6 +33,15 @@ export class TransferService {
   }
 
   /**
+   * list of Transfer candidates
+   * @returns {Observable<any>}
+   */
+  listCandidates(page, param): Observable<any> {
+    const url = `${this._transferEndpoint}/candidates?page=${page}&${param}`;
+    return this._authhttp.getRaw(url);
+  }
+
+  /**
    * Details of each Transfer
    * @param {number} transfer_id
    * @returns {Observable<any>}

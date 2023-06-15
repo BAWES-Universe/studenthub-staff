@@ -663,6 +663,12 @@ const routes: Routes = [
     canActivate: [AuthService],
     loadChildren: () => import('./pages/logged-in/candidate/candidate-warning-form/candidate-warning-form.module').then( m => m.CandidateWarningFormPageModule)
   },
+
+  {
+    path: 'transfer-candidate-list',
+    canActivate: [AuthService],
+    loadChildren: () => import('./pages/logged-in/transfer/transfer-candidate-list/transfer-candidate-list.module').then( m => m.TransferCandidateListPageModule)
+  },
   {
     path: '**',
     redirectTo: 'not-found'
