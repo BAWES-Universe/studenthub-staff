@@ -55,6 +55,8 @@ export class DefaultPage implements OnInit {
     profileApprovalRequire: any;
     assignedIdleCandidates: any;
     companyMoreThen40DaysWithoutPayment: any;
+    transfersWithNoProfitInProgress: any;
+    transfersWithSameRateInProgress: any;
   };
 
   public loading = false;
@@ -88,6 +90,8 @@ export class DefaultPage implements OnInit {
         assignedIdleCandidates: any;
         companyMoreThen40DaysWithoutPayment: any;
         companyUnderReview: any;
+        transfersWithNoProfitInProgress: any;
+        transfersWithSameRateInProgress: any;
     }) => {
       this.statistics = response;
     });
