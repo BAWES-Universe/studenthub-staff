@@ -3,26 +3,33 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/view/tasks"></ion-back-button>
     </ion-buttons>
-    <ion-title>Transfer List <small>({{totalCount}})</small></ion-title>
+    <ion-title>Transfer Candidate List <small>({{totalCount}})</small></ion-title>
   </ion-toolbar>
   <ion-toolbar class="container">
     <ion-grid>
       <ion-row>
-        <ion-col size-md="4" size-lg="4" size-sm="6" size-xs="12">
+        <ion-col size-md="3" size-lg="3" size-sm="6" size-xs="12">
+          <ion-item lines="none">
+            <ion-label position="fixed">Trasfer ID</ion-label>
+            <ion-input [(ngModel)]="transfer_id" id="startDate" class="filter ion-text-center"></ion-input>
+          </ion-item>
+        </ion-col>
+
+        <ion-col size-md="3" size-lg="3" size-sm="6" size-xs="12">
           <ion-item lines="none">
             <ion-label position="fixed">Start date</ion-label>
             <ion-input [(ngModel)]="start_date" id="startDate" class="filter ion-text-center"></ion-input>
             <app-date-popup alignment="center" side="bottom" key="startDate" (onClose)="filterDate($event,'startDate')"></app-date-popup>
           </ion-item>
         </ion-col>
-        <ion-col size-md="4" size-lg="4" size-sm="6" size-xs="12">
+        <ion-col size-md="3" size-lg="3" size-sm="6" size-xs="12">
           <ion-item lines="none">
             <ion-label position="fixed">End date</ion-label>
             <ion-input [(ngModel)]="end_date" id="endDate" class="filter ion-text-center"></ion-input>
             <app-date-popup alignment="center" side="bottom" key="endDate" (onClose)="filterDate($event,'end_date')"></app-date-popup>
           </ion-item>
         </ion-col>
-        <ion-col size-md="4" size-lg="4" size-sm="6" size-xs="12">
+        <ion-col size-md="3" size-lg="3" size-sm="6" size-xs="12">
             <ion-item>
               <ion-label position="floating" color="primary">Type</ion-label>
               <ion-select [(ngModel)]="type" okText="Okay" cancelText="Dismiss">
@@ -35,25 +42,24 @@
               </ion-select>
             </ion-item>
         </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col size-md="6" size-lg="6" size-sm="6" size-xs="12">
-          <ion-item>
-            <ion-checkbox slot="start" [(ngModel)]="filterSameRate" value="true"></ion-checkbox>
-            <ion-label color="primary">Filter Same Hourly Rate</ion-label>
-          </ion-item>
-        </ion-col>
-      
-        <ion-col size-md="6" size-lg="6" size-sm="6" size-xs="12">
-          <ion-item>
-            <ion-checkbox slot="start" [(ngModel)]="filterNoProfit" value="true"></ion-checkbox>
-            <ion-label color="primary">Filter No Profit in candidate transfer</ion-label>
-          </ion-item>
-        </ion-col>
-      </ion-row>
-
-      <ion-row>
-        <ion-col size-md="3" size-lg="3" size-sm="6" size-xs="12">
+        </ion-row>
+        <ion-row>
+          <ion-col size-md="6" size-lg="6" size-sm="6" size-xs="12">
+            <ion-item>
+              <ion-checkbox slot="start" [(ngModel)]="filterSameRate" value="true"></ion-checkbox>
+              <ion-label color="primary">Filter Same Hourly Rate</ion-label>
+            </ion-item>
+          </ion-col>
+ 
+          <ion-col size-md="6" size-lg="6" size-sm="6" size-xs="12">
+            <ion-item>
+              <ion-checkbox slot="start" [(ngModel)]="filterNoProfit" value="true"></ion-checkbox>
+              <ion-label color="primary">Filter No Profit in candidate transfer</ion-label>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+        <ion-col>
 
           <ion-button (click)="loadData(1)">
             Submit
@@ -74,23 +80,32 @@
   <div class="container">
   <ion-list *ngIf="transfers && !loading">
 
-    <ion-card *ngFor="let transfer of transfers" tappable [routerLink]="['/transfer-view/'+transfer.transfer_id+'/only']">
+    <ion-card *ngFor="let candidateTransfer of transfers" tappable [routerLink]="['/transfer-view/'+candidateTransfer.transfer_id+'/only']">
       <ion-card-content>
-        <p><strong>Transfer #{{ transfer.transfer_id}}</strong></p>
-        <h2><strong>KWD {{ transfer.company_total | number:'1.3-3' }}</strong></h2>
+        <p><strong>Candidate Transfer #{{ candidateTransfer.tc_id}}</strong></p>
+        <p><strong>Transfer #{{ candidateTransfer.transfer_id}}</strong></p>
+        
         <p>
-          <strong>Status: </strong>
-          <span class="status status_{{transfer.transfer_status}}" *ngIf="transfer.transfer_status==10"> Draft </span>
-          <span class="status status_{{transfer.transfer_status}}" *ngIf="transfer.transfer_status==5"> Locked,
-            Pending Payment </span>
-          <span class="status status_{{transfer.transfer_status}}" *ngIf="transfer.transfer_status==1"> Payment Sent,
-            Confirm Received </span>
-          <span class="status status_{{transfer.transfer_status}}" *ngIf="transfer.transfer_status==3"> Received &
-            Distribution in Progress </span>
-          <span class="status status_{{transfer.transfer_status}}" *ngIf="transfer.transfer_status==4"> Completed
-          </span>
+          <strong>Company </strong> 
+          KWD {{candidateTransfer.company_hourly_rate}} x 
+          {{candidateTransfer.hours}} hours + 
+          KWD {{ candidateTransfer.bonus }} = 
+          KWD {{ candidateTransfer.company_total | number:'1.3-3' }}
         </p>
-        <p><strong>Created on: </strong> {{transfer.transfer_created_at}}</p>
+        
+        <p>
+          <strong>Candidate </strong> 
+          KWD {{candidateTransfer.candidate_hourly_rate}} x 
+          {{candidateTransfer.hours}} hours + 
+          KWD {{ candidateTransfer.bonus }} = 
+          KWD {{ candidateTransfer.candidate_total | number:'1.3-3' }}
+        </p> 
+         
+        <p><strong>Bonus Commission: </strong> KWD {{candidateTransfer.bonus_commission }}</p>
+       
+        <p><strong>Profit: </strong> KWD {{ candidateTransfer.company_total - candidateTransfer.candidate_total }}</p>
+
+        <p><strong>Created on: </strong> {{candidateTransfer.tc_created_at}}</p>
       </ion-card-content>
     </ion-card>
   </ion-list>

@@ -81,6 +81,30 @@
         </ion-card>
       </div>
 
+      <div *ngIf="statistics.transfersWithNoProfitInProgress > 0 || statistics.transfersWithSameRateInProgress > 0">
+
+        <h3>Finance Tasks</h3>
+
+        <ion-card class="stats" tappable>
+          <ion-item tappable routerLink="/transfer-candidate-list" class="ion" detail lines="none">
+            <div tabindex="0"></div>
+            <ion-label class="ion-text-wrap">
+              <span>{{ statistics.transfersWithNoProfitInProgress }}</span>
+              <p><b>Active candidate transfers with no profit.</b> These active candidate transfer having candidate assigned with no profit.</p>
+            </ion-label>
+          </ion-item>
+        </ion-card>
+
+        <ion-card class="stats" tappable>
+          <ion-item tappable routerLink="/transfer-candidate-list" class="ion" detail lines="none">
+            <div tabindex="0"></div>
+            <ion-label class="ion-text-wrap">
+              <span>{{ statistics.transfersWithSameRateInProgress }}</span>
+              <p><b>Active candidate transfers with same hourly rate.</b> These active candidate transfer having candidate assigned with same rate.</p>
+            </ion-label>
+          </ion-item>
+        </ion-card>
+      </div>
 
       <div *ngIf="statistics.activeRequests > 0">
 

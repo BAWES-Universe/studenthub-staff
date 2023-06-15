@@ -9,13 +9,12 @@ import { AnalyticsService } from 'src/app/providers/analytics.service';
 import {TransferService} from "src/app/providers/logged-in/transfer.service";
 
 
-
 @Component({
-  selector: 'app-transfer-list-all',
-  templateUrl: './transfer-list-all.page.html',
-  styleUrls: ['./transfer-list-all.page.scss'],
+  selector: 'app-transfer-candidate-list',
+  templateUrl: './transfer-candidate-list.page.html',
+  styleUrls: ['./transfer-candidate-list.page.scss'],
 })
-export class TransferListAllPage implements OnInit {
+export class TransferCandidateListPage implements OnInit {
 
   public transfers: Transfer[];
 
@@ -25,16 +24,15 @@ export class TransferListAllPage implements OnInit {
   public downloading: boolean = false;
   public loadingMore: boolean = false;
   public pageCount;
+  public transfer_id; 
   public currentPage;
-
   public start_date; // max date
   public end_date; // max date
   public type; // max date
+  public totalCount = 1;
   public filterSameRate;
   public filterNoProfit;
-
-  public totalCount = 1;
-
+  
   constructor(
     public router: Router,
     public activatedRoute: ActivatedRoute,
@@ -46,15 +44,17 @@ export class TransferListAllPage implements OnInit {
   }
 
   ngOnInit() {
-    this.analyticService.page('Transfer List Page');
+    this.analyticService.page('Transfer Candidate List Page');
 
     this.loadData(1);
   }
 
   loadData(page) {
     this.loading = true;
+    
     const urlParams = this.getUrlParams();
-    this.transferService.list(page, urlParams).subscribe(data => {
+
+    this.transferService.listCandidates(page, urlParams).subscribe(data => {
       this.transfers = data.body;
       this.pageCount = parseInt(data.headers.get('X-Pagination-Page-Count'), 10);
       this.currentPage = parseInt(data.headers.get('X-Pagination-Current-Page'), 10);
@@ -69,7 +69,7 @@ export class TransferListAllPage implements OnInit {
 
     this.currentPage++;
     const urlParams = this.getUrlParams();
-    this.transferService.list(this.currentPage, urlParams).subscribe(data => {
+    this.transferService.listCandidates(this.currentPage, urlParams).subscribe(data => {
         this.pageCount = parseInt(data.headers.get('X-Pagination-Page-Count'), 10);
         this.currentPage = parseInt(data.headers.get('X-Pagination-Current-Page'), 10);
 
@@ -101,7 +101,11 @@ export class TransferListAllPage implements OnInit {
   }
 
   getUrlParams() {
-    let urlParams = 'expand=transferCandidates,transferCandidates.candidate,invoices,createdBy,updatedBy';
+    let urlParams = 'expand=transfer,transferCandidates.candidate,invoices,createdBy,updatedBy';
+
+    if (this.transfer_id) {
+      urlParams += '&transfer_id=' + this.transfer_id;
+    }
 
     if (this.start_date) {
       urlParams += '&start_date=' + this.start_date;
