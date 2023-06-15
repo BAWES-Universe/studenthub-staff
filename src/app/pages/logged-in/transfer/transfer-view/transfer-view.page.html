@@ -45,7 +45,6 @@
 
       <div class="invoices" *ngIf="transfer && segment == 'details'">
 
-
         <div class="status-wrapper">
           <h2>
             {{transferStatus}}
@@ -151,6 +150,15 @@
                 <ion-badge slot="start" color="dark" *ngIf="resource.paid != '1' && resource.company_total > 0 && (transfer.transfer_status==3 || transfer.transfer_status==4)">
                   Transfer in progress
                 </ion-badge>
+
+                <ion-badge slot="start" color="danger" *ngIf="resource.company_hourly_rate == resource.candidate_hourly_rate">
+                  Assigned on same rate
+                </ion-badge>  
+
+                <ion-badge slot="start" color="danger" *ngIf="resource.candidate_total == resource.company_total">
+                  No profit
+                </ion-badge>  
+
               </ion-label>
 
               <ion-badge slot="end" color="secondary" *ngIf="resource.paid == '1' && resource.company_total > 0 && (transfer.transfer_status==3 || transfer.transfer_status==4)">

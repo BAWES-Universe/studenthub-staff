@@ -26,9 +26,13 @@ export class TransferListAllPage implements OnInit {
   public loadingMore: boolean = false;
   public pageCount;
   public currentPage;
+
   public start_date; // max date
   public end_date; // max date
   public type; // max date
+  public filterSameRate;
+  public filterNoProfit;
+
   public totalCount = 1;
 
   constructor(
@@ -109,6 +113,14 @@ export class TransferListAllPage implements OnInit {
 
     if (this.type) {
       urlParams += `&transfer_status=${this.type}`;
+    }
+
+    if (this.filterNoProfit) {
+      urlParams += `&filterNoProfit=${this.filterNoProfit}`;
+    }
+
+    if (this.filterSameRate) {
+      urlParams += `&filterSameRate=${this.filterSameRate}`;
     }
 
     return urlParams;
