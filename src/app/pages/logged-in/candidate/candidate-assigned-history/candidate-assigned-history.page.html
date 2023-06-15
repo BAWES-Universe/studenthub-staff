@@ -8,6 +8,18 @@
 
     <ion-buttons slot="end">
 
+      <ion-item>
+        <ion-label position="floating" color="primary">Export data</ion-label>
+        <ion-select [(ngModel)]="filters.page" [value]="filters.page" okText="Okay" cancelText="Dismiss">
+          <ion-select-option value="1">0 - 5,000</ion-select-option>
+          <ion-select-option value="2">5,001 - 10,000</ion-select-option>
+          <ion-select-option value="3">10,001 - 15,000</ion-select-option>
+          <ion-select-option value="3">15,001 - 20,000</ion-select-option>
+          <ion-select-option value="3">20,001 - 25,000</ion-select-option>
+          <ion-select-option value="3">25,001 - 30,000</ion-select-option>
+        </ion-select>
+      </ion-item>
+      
       <ion-button color="primary" [disabled]="exporting"
         (click)="export()">
         <span *ngIf="!exporting">Export Data</span>
@@ -58,25 +70,21 @@
                 <app-date-popup alignment="center" side="bottom" key="endDate" (onClose)="filterDate($event,'end_date')"></app-date-popup>
               </ion-item>
             </ion-col>
+           
             <ion-col  size-md="4" size-lg="4" size-sm="6" size-xs="12">
               <ion-item>
-                <ion-label position="stacked">Date Range For Working Time?</ion-label>
-                <ion-checkbox slot="start" [(ngModel)]="filters.working_time"></ion-checkbox>
+                <ion-checkbox slot="start" [(ngModel)]="filters.sameRate"></ion-checkbox>
+                <ion-label>Filter assigned on same rate</ion-label>
               </ion-item>
             </ion-col>
-            <ion-col size-md="2" size-lg="2" size-sm="6" size-xs="12">
+
+            <ion-col  size-md="4" size-lg="4" size-sm="6" size-xs="12">
               <ion-item>
-                <ion-label position="floating" color="primary">Export data</ion-label>
-                <ion-select [(ngModel)]="filters.page" [value]="filters.page" okText="Okay" cancelText="Dismiss">
-                  <ion-select-option value="1">0 - 5,000</ion-select-option>
-                  <ion-select-option value="2">5,001 - 10,000</ion-select-option>
-                  <ion-select-option value="3">10,001 - 15,000</ion-select-option>
-                  <ion-select-option value="3">15,001 - 20,000</ion-select-option>
-                  <ion-select-option value="3">20,001 - 25,000</ion-select-option>
-                  <ion-select-option value="3">25,001 - 30,000</ion-select-option>
-                </ion-select>
+                <ion-checkbox slot="start" [(ngModel)]="filters.working_time"></ion-checkbox>
+                <ion-label>Date Range For Working Time?</ion-label>
               </ion-item>
             </ion-col>
+ 
           </ion-row>
         </ion-grid>
       </ion-card-content>
@@ -131,6 +139,10 @@
               <br/>
             </p>
 
+            <ion-badge *ngIf="history.candidate_hourly_rate == history.candidate.candidate_hourly_rate" color="danger">
+              Assigned on same rate
+            </ion-badge>
+
             <ion-badge *ngIf="history.candidate.isProfileCompleted == false" color="danger">
               Incomplete Profile
             </ion-badge>
@@ -138,6 +150,8 @@
             <ion-badge *ngIf="!history.candidate.candidate_email_verification" color="danger">
               Email Not Verified
             </ion-badge>
+
+
             <ion-badge *ngIf="!history.end_date" color="success">
               Started Working {{history.start_date | date}}
             </ion-badge>

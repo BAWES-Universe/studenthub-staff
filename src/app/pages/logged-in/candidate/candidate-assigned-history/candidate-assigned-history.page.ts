@@ -39,6 +39,7 @@ export class CandidateAssignedHistoryPage implements OnInit {
     start_date: string,
     end_date: string,
     working_time: number,
+    sameRate: boolean,
     page: number
   } = {
       name: null,
@@ -47,6 +48,7 @@ export class CandidateAssignedHistoryPage implements OnInit {
       start_date: null,
       end_date: null,
       working_time: null,
+      sameRate: null,
       page: 1
     };
 
@@ -128,9 +130,15 @@ export class CandidateAssignedHistoryPage implements OnInit {
     if (this.filters.page) {
       urlParams += '&export_page=' + this.filters.page;
     }
+
     if (this.filters.working_time) {
       urlParams += '&working_time=' + this.filters.working_time;
     }
+    
+    if (this.filters.sameRate) {
+      urlParams += '&filterSameRate=' + this.filters.sameRate;
+    }
+
     urlParams += '&export_limit=5000';
 
     return urlParams;
@@ -147,6 +155,7 @@ export class CandidateAssignedHistoryPage implements OnInit {
       start_date: null,
       working_time: null,
       end_date: null,
+      sameRate: null,
       page: 1
     };
     this.loadData(1); // reload all result
