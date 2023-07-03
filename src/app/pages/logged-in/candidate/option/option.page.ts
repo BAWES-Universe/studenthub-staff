@@ -422,4 +422,13 @@ export class OptionPage implements OnInit {
       }
     });
   } 
+
+  markDuplicate() {
+    this.popoverCtrl.getTop().then(o => {
+      if(o) {
+        o.dismiss({ markDuplicate: true });
+      }
+    });
+  } 
+
 }

@@ -105,6 +105,8 @@ export class CandidateViewPage implements OnInit {
   public company;
   public pendingData = null;
 
+  public markingDuplicate = false;
+
   public story: Story;
 
   public segment: string = 'activity';
@@ -543,7 +545,9 @@ export class CandidateViewPage implements OnInit {
         this.assingToStore(true);
       }
 
-
+      if (e.data && e.data.markDuplicate) {
+        this.markDuplicate();
+      }
     });
   }
 
@@ -643,6 +647,55 @@ export class CandidateViewPage implements OnInit {
                     ]
                   }).then (alert => alert.present());
 
+              }
+
+              // On Failure
+              if (response.operation == 'error') {
+                const prompt = await this.alertCtrl.create({
+                  message: this.authService.errorMessage(response.message),
+                  buttons: ['Okay']
+                });
+                prompt.present();
+              }
+            }, () => {
+              this.loading = false;
+            });
+          }
+        }
+      ]
+    });
+    confirm.present();
+  }
+
+  async markDuplicate() {
+
+    const confirm = await this.alertCtrl.create({
+      header: 'Are you sure? This will delete profile!',
+      buttons: [
+        {
+          text: 'Cancel',
+        },
+        {
+          text: "Yes",
+          handler: async (data) => {
+
+            this.markingDuplicate = true;
+ 
+            this.candidateService.markDuplicate(this.candidate).subscribe(async response => {
+
+              this.markingDuplicate = false;
+
+              // On Success
+              if (response.operation == 'success') {
+
+                this.candidate.isAlreadyInvited = true;
+
+                this.candidate.deleted = true;
+
+                this.alertCtrl.create({
+                  header: 'Account marked as deleted',
+                  message: this.authService.errorMessage(response.message), 
+                }).then (alert => alert.present());
               }
 
               // On Failure
