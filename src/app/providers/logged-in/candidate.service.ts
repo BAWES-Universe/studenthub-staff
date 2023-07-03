@@ -266,6 +266,17 @@ export class CandidateService {
    * @param feedback
    * @param store_id
    */
+  markDuplicate(candidate: Candidate): Observable<any> {
+    const url = `${this._candidateEndpoint}/mark-duplicate/${candidate.candidate_id}`;
+    return this._authhttp.delete(url);
+  }
+
+  /**
+   * Removes Candidate from Assigned store
+   * @param candidate
+   * @param feedback
+   * @param store_id
+   */
   removeFromAssignedStore(candidate: Candidate, feedback: string, store_id:number = null): Observable<any> {
     const url = `${this._candidateEndpoint}/unassign/${candidate.candidate_id}?store_id=${store_id}&feedback=${feedback}`;
     return this._authhttp.delete(url);
