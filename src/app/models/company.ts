@@ -16,6 +16,7 @@ export class Company {
     company_website: string;
     company_email: string;
     company_logo: string;
+    commercial_licence: string;
     company_status: number;
     company_status_override: number;
     total_candidates: number;

@@ -44,7 +44,6 @@ export class CompanyService {
     return this._authhttp.getRaw(this._companyEndpoint + '?page=' + page + searchParams + '&expand=subCompanies,companyContacts,contacts,contacts.contactEmails,contacts.contactPhones,companyContacts.contactEmails,companyContacts.contactPhones,subCompanies.companyContacts,subCompanies.contacts,subCompanies.companyContacts.contactEmails,subCompanies.companyContacts.contactPhones,requests');
   }
 
-
   /**
    * Send payroll email
    * @param company_id
@@ -52,7 +51,6 @@ export class CompanyService {
   sendPayrollEmail(company_id): Observable<any> {
     const url = this._companyEndpoint + '/payroll-email/' + company_id;
     return this._authhttp.get(url);
-
   }
 
   /**
@@ -175,6 +173,7 @@ export class CompanyService {
       description_ar: model.company_description_ar,
       website: model.company_website,
       logo: model.company_logo,
+      commercial_licence: model.commercial_licence,
       followup_interval_weeks: model.company_followup_interval_weeks,
       followup: model.company_followup,
       approved_to_hire: model.company_approved_to_hire,
@@ -202,6 +201,7 @@ export class CompanyService {
       description_ar: model.company_description_ar,
       website: model.company_website,
       logo: model.company_logo,
+      commercial_licence: model.commercial_licence,
       followup_interval_weeks: model.company_followup_interval_weeks,
       followup: model.company_followup,
       approved_to_hire: model.company_approved_to_hire

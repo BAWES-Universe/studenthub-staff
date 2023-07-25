@@ -139,6 +139,7 @@ export class CompanyFormPage implements OnInit {
           website: [''],
           email: ['', [Validators.required, CustomValidator.emailValidator]],
           logo: [''],
+          commercial_licence: ['', Validators.required],
           followup_interval_weeks: [''],
           followup: [0],
           approved_to_hire: [true]
@@ -172,6 +173,7 @@ export class CompanyFormPage implements OnInit {
           description_ar: [this.model.company_description_ar],
           website: [this.model.company_website],
           logo: [this.model.company_logo],
+          commercial_licence: [this.model.commercial_licence, Validators.required],
           followup_interval_weeks: [this.model.company_followup_interval_weeks],
           followup: [this.model.company_followup],
           approved_to_hire: [this.model.company_approved_to_hire]
@@ -196,6 +198,7 @@ export class CompanyFormPage implements OnInit {
     this.model.company_followup_interval_weeks = this.form.value.followup_interval_weeks;
     this.model.company_followup = this.form.value.followup;
     this.model.company_logo = this.form.value.logo;
+    this.model.commercial_licence = this.form.value.commercial_licence;
     this.model.company_approved_to_hire = this.form.value.approved_to_hire;
     if (!this.isSubCompany) {
       this.model.password = this.form.value.password;
