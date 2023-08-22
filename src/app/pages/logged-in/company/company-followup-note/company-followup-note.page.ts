@@ -69,7 +69,10 @@ export class CompanyFollowupNotePage implements OnInit {
       // On Success
       if (jsonResponse.operation == "success") {
         // Close the page
-        let data = { 'company_last_followup_datetime': jsonResponse.company_last_followup_datetime };
+        let data = { 
+          'company_last_followup_datetime': jsonResponse.company_last_followup_datetime, 
+          'company_next_followup_datetime': jsonResponse.company_next_followup_datetime 
+        };
         this.modalCtrl.dismiss(data);
       }
 

@@ -211,7 +211,12 @@
           <ion-icon src="assets/images/icon-followup.svg"></ion-icon> <b>last Follow-up</b>
           <ion-note>{{ toDate(company.company_last_followup_datetime) | date: 'MMM d, y' }}</ion-note>
         </li>
-
+        
+        <li *ngIf="company.company_next_followup_datetime">
+          <ion-icon src="assets/images/icon-followup.svg"></ion-icon> <b>next Follow-up</b>
+          <ion-note>{{ toDate(company.company_next_followup_datetime) | date: 'MMM d, y' }}</ion-note>
+        </li>
+         
         <li>
           <ion-icon src="assets/images/doller.svg" ></ion-icon> <b>Salary</b>
           <ion-note>{{company.company_hourly_rate | number:'1.0-3' }} KD / hour</ion-note>

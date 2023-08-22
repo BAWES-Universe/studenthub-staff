@@ -517,7 +517,9 @@ export class CompanyViewPage implements OnInit {
       }
 
       if (e && e.data && e.data.company_last_followup_datetime && this.company) {
+
         this.company.company_last_followup_datetime = e.data.company_last_followup_datetime;
+        this.company.company_next_followup_datetime = e.data.company_next_followup_datetime;
 
         // to update view
 

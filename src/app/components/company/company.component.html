@@ -9,12 +9,18 @@
         <h2 *ngIf="company.company_common_name_en">{{ company.company_common_name_en }}
           <ion-icon class="active" name="checkmark-circle"  *ngIf="company.company_approved_to_hire"></ion-icon></h2>
         <h2 *ngIf="!company.company_common_name_en">{{ company.company_name }}</h2>
+        
         <div class="small-detail">
           <ng-container *ngIf="page =='follow'">
             <p>@ {{ toDate(company.company_last_followup_datetime) | date: 'MMM d, y, h:mm:ss a' }}</p>
             <p>{{ company.company_last_followup_datetime | timeAgo }}</p>
+          
+            <p *ngIf="company.company_next_followup_datetime">
+              Next followup @ {{ toDate(company.company_next_followup_datetime) | date: 'MMM d, y, h:mm:ss a' }}
+            </p>
           </ng-container>
         </div>
+
         <p *ngIf="company.company_description_en">{{stripTag(company.company_description_en)}}</p>
         <p *ngIf="!company.company_description_en">{{company.company_name}}</p>
         <ion-badge class="company_status_badge danger" slot="start" *ngIf="!company.company_status && !company.parent_company_id">
