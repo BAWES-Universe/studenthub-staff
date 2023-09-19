@@ -359,8 +359,8 @@ export class OptionPage implements OnInit {
     });
 
     const { data } = await modal.onWillDismiss();
-
-    if (data && data.tags) {  
+ 
+    if (data) {  
       this.saveTags(data.tags);
     }
   }
@@ -372,7 +372,7 @@ export class OptionPage implements OnInit {
   async saveTags(tags) {
 
     this.saving = true;
- 
+  
     this.candidateService.updateTags(this.candidate, tags).subscribe(async jsonResponse => {
 
       this.saving = false;
