@@ -217,13 +217,13 @@ export class TagFormPage implements OnInit {
       }
     }
 
-    if (tags.length == 0) {
+    /*if (tags.length == 0) {
       this.toastCtrl.create({
         message: 'Minimum One Tag is required',
         duration: 3000,
         cssClass: 'error_toast_'
       }).then(toast => toast.present());
-    }
+    }*/
 
     if (tags.length > this.maxTagsAllowed) {
       this.toastCtrl.create({
@@ -234,7 +234,9 @@ export class TagFormPage implements OnInit {
     }
 
     if (tags.length <= this.maxTagsAllowed) {
+
       this.loading = true;
+      
       const params = {
         tags: tags.join(',')
       };

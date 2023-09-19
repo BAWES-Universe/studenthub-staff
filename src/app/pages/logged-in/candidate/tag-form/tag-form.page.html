@@ -11,7 +11,6 @@
   <div class="container max-width">
       <ion-list class="candidateTags" *ngIf="tagList">
  
-  
         <ion-item *ngFor="let s of tmpTags;let i=index;">
           <div tabindex="0"></div>
           
@@ -25,15 +24,11 @@
           </ion-button>
         </ion-item>
 
-        <ion-item>
-          <ion-label>Existing tags</ion-label>
-          <ion-chip (click)="onTagSelected(tag.tag)" *ngFor="let tag of tags">{{ tag.tag }}</ion-chip>
-        </ion-item>
       </ion-list>
       
+      <ion-chip (click)="onTagSelected(tag.tag)" *ngFor="let tag of tags">{{ tag.tag }}</ion-chip>
       
-
-      <ion-button (click)="save()" class="btn-submit" [disabled]="tagList.length < 1 || loading" type="submit">
+      <ion-button (click)="save()" class="btn-submit" [disabled]="loading" type="submit">
         Done
       </ion-button>
 
