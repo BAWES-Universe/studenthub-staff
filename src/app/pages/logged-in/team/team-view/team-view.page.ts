@@ -15,6 +15,8 @@ import { Note } from 'src/app/models/note';
 import { ChangePasswordComponent } from 'src/app/components/change-password/change-password.component';
 import {Story} from "../../../../models/request";
 import { AnalyticsService } from 'src/app/providers/analytics.service';
+import { UpdateAccountPage } from '../../update-account/update-account.page';
+import { AwsService } from 'src/app/providers/aws.service';
 
 
 @Component({
@@ -54,6 +56,7 @@ export class TeamViewPage implements OnInit {
     public storyService: StoryService,
     public authService: AuthService,
     public eventService: EventService,
+    public awsService: AwsService,
     public analyticService: AnalyticsService,
     public navCtrl: NavController
   ) { }
@@ -182,6 +185,24 @@ export class TeamViewPage implements OnInit {
 
   segmentChanged(event) {
     this.segment = event.target.value;
+  }
+
+  async updateAccount() {
+    const modal = await this.modalCtrl.create({
+      component: UpdateAccountPage,
+      componentProps: {
+        model: this.staff
+      },
+      cssClass: 'modal-change-password'
+    });
+
+    await modal.present();
+
+    const { data } = await modal.onWillDismiss();
+
+    if(data && data.refresh) {
+      this.loadData();
+    }
   }
 
   /**

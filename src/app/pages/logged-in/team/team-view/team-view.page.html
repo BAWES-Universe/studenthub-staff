@@ -4,22 +4,36 @@
     <ion-buttons slot="start">
       <ion-back-button icon="assets/images/icon-back.svg" defaultHref="/view/company-list"></ion-back-button>
     </ion-buttons>
+
+    <ion-buttons *ngIf="authService.staff_id == staff_id"  slot="end">
+      <ion-button (click)="updateAccount()">
+        Update Account
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 
   <ion-toolbar class="container"  [class.hidden]="borderLimit">
     <ion-title *ngIf="staff">
       <ion-row>
         <ion-col>
-          {{ staff.staff_name }}
+          <ion-item lines="none" class="staff-name">
+            <ion-thumbnail slot="start">
+              <ion-img [src]="awsService.cloudinaryUrl + 'staff-photo/' + staff.staff_photo"></ion-img>
+            </ion-thumbnail>
+            <ion-label>
+            <h5>{{ staff.staff_name }}</h5>
+          </ion-label>  
+          </ion-item>
         </ion-col>
+
         <ion-col class="ion-text-right">
           <a tappable class="logout_btn" *ngIf="authService.staff_id == staff_id" (click)="authService.logout()">
             Logout
           </a>
         </ion-col>
       </ion-row>
-
     </ion-title>
+
   </ion-toolbar>
 
   <ion-toolbar  class="container"  [class.hidden]="borderLimit">
@@ -44,6 +58,8 @@
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
   <div class="container">
     <ion-list *ngIf="staff && segment == 'details'">
+
+        
         <ion-item lines="none">
           <div tabindex="0"></div>
           <ion-label>
@@ -51,6 +67,7 @@
             <p>{{ staff.staff_name }}</p>
           </ion-label>
         </ion-item>
+
         <ion-item lines="none">
           <div tabindex="0"></div>
           <ion-label>
@@ -58,6 +75,47 @@
             <p>{{ staff.staff_email }}</p>
           </ion-label>
         </ion-item>
+
+        <ion-item lines="none">
+          <div tabindex="0"></div>
+          <ion-label>
+            <h5>Job title</h5>
+            <p>{{ staff.staff_job_title }}</p>
+          </ion-label>
+        </ion-item>
+
+        <ion-item lines="none">
+          <div tabindex="0"></div>
+          <ion-label>
+            <h5>Hours per day</h5>
+            <p>{{ staff.hours_per_day }}</p>
+          </ion-label>
+        </ion-item>
+
+        <ion-item lines="none">
+          <div tabindex="0"></div>
+          <ion-label>
+            <h5>Receive notification?</h5>
+            <p>{{ staff.staff_notification == 1? "Yes": "No" }}</p>
+          </ion-label>
+        </ion-item>
+
+        <ion-item lines="none">
+          <div tabindex="0"></div>
+          <ion-label>
+            <h5>Account created at</h5>
+            <p>{{ staff.staff_created_at }}</p>
+          </ion-label>
+        </ion-item>
+
+        <ion-item lines="none">
+          <div tabindex="0"></div>
+          <ion-label>
+            <h5>Account updated at</h5>
+            <p>{{ staff.staff_updated_at }}</p>
+          </ion-label>
+        </ion-item>
+ 
         <ion-item lines="none">
           <div tabindex="0"></div>
           <ion-label>
@@ -65,6 +123,7 @@
             <p>*********</p>
           </ion-label>
         </ion-item>
+ 
     </ion-list>
 
     <div *ngIf="segment == 'work-history'">
@@ -170,9 +229,9 @@
 
   </div>
 </ion-content>
-<ion-footer *ngIf="staff && segment == 'details'" class="ion-text-center ion-no-border ion-transparent">
+<ion-footer *ngIf="staff && authService.staff_id == staff_id && segment == 'details'" class="ion-text-center ion-no-border ion-transparent">
   <div class="container"> <!--  [routerLink]="['/change-password/']"-->
-    <ion-button *ngIf="authService.staff_id == staff_id" (click)="changePassword()" class="btn-change-pwd">
+    <ion-button (click)="changePassword()" class="btn-change-pwd">
       Change Password
     </ion-button>
   </div>
