@@ -74,7 +74,6 @@ export class TransferChartPage implements OnInit {
             inprogress.push(transfer.company_total);
           }
 
-
           // one line for profit
           if (transfer.profit) {
             const tProfit = transfer.profit.replace(/,/g, '');

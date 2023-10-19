@@ -59,6 +59,11 @@ export class TransferService {
     const url = `${this._transferEndpoint}/lock/${transfer.transfer_id}`;
     return this._authhttp.patch(url, '');
   }
+  
+  makeTransfertoCancel(transfer: Transfer): Observable<any> {
+    const url = `${this._transferEndpoint}/cancel/${transfer.transfer_id}`;
+    return this._authhttp.patch(url, '');
+  }
 
   /**
    * Mark Invoice as Payment Sent

@@ -111,7 +111,7 @@ export class TransferListAllPage implements OnInit {
       urlParams += '&end_date=' + this.end_date;
     }
 
-    if (this.type) {
+    if (this.type != "all") {
       urlParams += `&transfer_status=${this.type}`;
     }
 

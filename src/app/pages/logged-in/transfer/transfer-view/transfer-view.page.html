@@ -78,6 +78,12 @@
               <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
               Lock Transfer
             </ion-button>
+
+            <ion-button fill="outline" (click)="transferCancel(transfer)"
+              *ngIf="transfer && (transfer.transfer_status==10)">
+              <ion-icon name="cross-outline" slot="start"></ion-icon>
+              Cancel Transfer
+            </ion-button>
           </section>
         </div>
 

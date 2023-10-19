@@ -26,7 +26,8 @@
             <ion-item>
               <ion-label position="floating" color="primary">Type</ion-label>
               <ion-select [(ngModel)]="type" okText="Okay" cancelText="Dismiss">
-                <ion-select-option value="0">All</ion-select-option>
+                <ion-select-option value="all">All</ion-select-option>
+                <ion-select-option value="0">Cancelled</ion-select-option>
                 <ion-select-option value="4">Completed</ion-select-option>
                 <ion-select-option value="3">Salary Distribution In Progress</ion-select-option>
                 <ion-select-option value="5">Lock</ion-select-option>
@@ -80,6 +81,9 @@
         <h2><strong>KWD {{ transfer.company_total | number:'1.3-3' }}</strong></h2>
         <p>
           <strong>Status: </strong>
+
+          <span class="status status_{{transfer.transfer_status}}" *ngIf="transfer.transfer_status==0"> Cancelled </span>
+
           <span class="status status_{{transfer.transfer_status}}" *ngIf="transfer.transfer_status==10"> Draft </span>
           <span class="status status_{{transfer.transfer_status}}" *ngIf="transfer.transfer_status==5"> Locked,
             Pending Payment </span>

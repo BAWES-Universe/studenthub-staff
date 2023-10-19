@@ -36,6 +36,8 @@
           </p>
         </ion-label>
 
+        <ion-badge slot="end" class="status status_{{transfer.transfer_status}}" *ngIf="transfer.transfer_status==0"> Cancelled </ion-badge>
+
         <ion-badge slot="end" class="status status_{{transfer.transfer_status}}" *ngIf="transfer.transfer_status==10"> Draft </ion-badge>
 
         <ion-badge slot="end" class="status status_{{transfer.transfer_status}}" *ngIf="transfer.transfer_status==5"> Locked,
