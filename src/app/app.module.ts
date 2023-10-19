@@ -6,6 +6,7 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { EditorModule, TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
 
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { UpdateAlertModule } from './components/update-alert/update-alert.module';
@@ -84,6 +85,7 @@ import {MenuOptionPageModule} from "src/app/pages/logged-in/default/menu-option/
 import { TagFormPageModule } from './pages/logged-in/candidate/tag-form/tag-form.module';
 import { CandidateWarningFormPageModule } from './pages/logged-in/candidate/candidate-warning-form/candidate-warning-form.module';
 import { CompanyRegistrationRequestViewPageModule } from './pages/logged-in/company/company-registration-request-view/company-registration-request-view.module';
+import { EmailCampaignFormPageModule } from './pages/logged-in/email-campaign/email-campaign-form/email-campaign-form.module';
 
 export function startupServiceFactory(authService) {
   return () => authService.load();
@@ -185,7 +187,9 @@ declare global {
     DatePopupModule,
     EvaluationReportViewPageModule,
     MenuOptionPageModule,
-    CompanyRegistrationRequestViewPageModule
+    EmailCampaignFormPageModule,
+    CompanyRegistrationRequestViewPageModule,
+    EditorModule
   ],
   exports: [
     ActionComponentModule
@@ -202,6 +206,7 @@ declare global {
     SwUpdate,
     TranslateLabelService,
     SelectiveLoadingStrategy,
+    { provide: TINYMCE_SCRIPT_SRC, useValue: 'tinymce/tinymce.min.js' },
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: ErrorHandler, useClass: SentryErrorhandlerService }
   ],

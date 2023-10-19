@@ -28,6 +28,14 @@ const routes: Routes = [
         }
       },
       {
+        path: 'email-campaign-list',
+        loadChildren: () => import('../email-campaign/email-campaign-list/email-campaign-list.module').then( m => m.EmailCampaignListPageModule),
+        data: {
+          name: 'EmailCampaignPage',
+          navDisable: true,
+        }
+      },
+      {
         path: 'fulltimer-search',
         loadChildren: () => import('../fulltimer/fulltimer-search/fulltimer-search.module').then( m => m.FulltimerSearchPageModule),
         data: {

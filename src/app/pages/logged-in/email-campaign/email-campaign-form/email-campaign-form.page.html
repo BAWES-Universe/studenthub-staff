@@ -1,0 +1,94 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button (click)="close()"></ion-back-button>
+    </ion-buttons>
+
+    <ion-title>{{ operation }}</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button color="primary" [disabled]="!form || !form.valid" (click)="save()">
+        Save
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form [formGroup]="form" *ngIf="form">
+    <ion-list>
+      <ion-item>
+        <ion-label position="floating">Subject</ion-label>
+        <ion-input type="text" placeholder="Email subject" formControlName="subject"></ion-input>
+      </ion-item>
+      <!--<ion-item>
+        <ion-label position="floating">Message </ion-label>
+        <ion-textarea  placeholder="Email content or HTML "></ion-textarea> 
+      </ion-item> -->
+       
+      <br />
+
+      <editor formControlName="message" [init]="editorConfig"></editor>
+ 
+      <h5>Filters </h5>
+      <!-- 
+      <p>Available filters name/ Parameters: filterAssigned, filterNotAssigned, filterStore, filterCountry,
+        filterUniversity, idExpired, byApprovalStatus, verifiedProfile, withoutBankInfo, 
+        candidateMomKuwaitiFieldIsNull</p>-->
+
+      <ng-container formArrayName="emailCampaignFilters">
+
+        <ion-card *ngFor="let emailCampaignFilterForm of emailCampaignFilters.controls; let i = index">
+          <ng-container [formGroupName]="i">
+            <ion-card-content>
+
+              <ion-button class="btn-remove" fill="clear" (click)="removeFilter(i)">
+                <ion-icon name="close-circle-outline"></ion-icon>
+              </ion-button>
+
+              <ion-grid>
+                <ion-row>
+                  <ion-col>
+                    <ion-item [class.have-errors]="emailCampaignFilterForm['controls'].param.errors != null">
+                      <ion-label position="stacked">Filter Name/ Parameter</ion-label>
+                      <ion-select formControlName="param">
+                        <ion-select-option value="filterAssigned">Assigned</ion-select-option>
+                        <ion-select-option value="filterNotAssigned">Not Assigned</ion-select-option>
+                        <ion-select-option value="filterStore">Store ID</ion-select-option>
+                        <ion-select-option value="filterCountry">Country ID</ion-select-option>
+                        <ion-select-option value="filterUniversity">University ID</ion-select-option>
+                        <ion-select-option value="idExpired">ID Expired</ion-select-option>
+                        <ion-select-option value="byApprovalStatus">Approval Status</ion-select-option>
+                        <ion-select-option value="verifiedProfile">Verified Profile</ion-select-option>
+                        <ion-select-option value="withoutBankInfo">Without Bank Details</ion-select-option>
+                        <ion-select-option value="candidateMomKuwaitiFieldIsNull">Having Non-kuwaity Mom</ion-select-option>
+                        <ion-select-option value="ageRange">Age Range (':' Separated)</ion-select-option>
+                        
+                      </ion-select>
+                    </ion-item>
+                  </ion-col>
+ 
+                  <ion-col *ngIf="['filterStore', 'filterCountry', 'filterUniversity', 'ageRange'].indexOf(emailCampaignFilterForm.value.param) > -1">
+                    <ion-item [class.have-errors]="emailCampaignFilterForm['controls'].value.errors != null">
+                      <ion-label position="stacked">Value</ion-label>
+                      <ion-input formControlName="value"></ion-input>
+                    </ion-item>
+                  </ion-col>
+                </ion-row>
+                 
+              </ion-grid>
+
+            </ion-card-content>
+          </ng-container>
+
+        </ion-card>
+      </ng-container>
+
+      <ion-button fill="clear" (click)="addFilter()">
+        + Add New Filter
+      </ion-button>
+
+    </ion-list>
+  </form>
+</ion-content>
+ 

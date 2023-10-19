@@ -690,6 +690,23 @@ const routes: Routes = [
     canActivate: [AuthService],
     loadChildren: () => import('./pages/logged-in/company/company-registration-request-view/company-registration-request-view.module').then( m => m.CompanyRegistrationRequestViewPageModule)
   },
+
+  {
+    path: 'email-campaign-list',
+    canActivate: [AuthService],
+    loadChildren: () => import('./pages/logged-in/email-campaign/email-campaign-list/email-campaign-list.module').then( m => m.EmailCampaignListPageModule)
+  },
+  {
+    path: 'email-campaign-view',
+    canActivate: [AuthService],
+    loadChildren: () => import('./pages/logged-in/email-campaign/email-campaign-view/email-campaign-view.module').then( m => m.EmailCampaignViewPageModule)
+  },
+  {
+    path: 'email-campaign-form',
+    canActivate: [AuthService],
+    loadChildren: () => import('./pages/logged-in/email-campaign/email-campaign-form/email-campaign-form.module').then( m => m.EmailCampaignFormPageModule)
+  },
+  
   {
     path: '**',
     redirectTo: 'not-found'

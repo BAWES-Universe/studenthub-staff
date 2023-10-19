@@ -1,0 +1,79 @@
+<ion-header>
+  <ion-toolbar class="container">
+    <ion-buttons slot="start">
+      <ion-menu-toggle>
+        <ion-button>
+          <ion-icon slot="icon-only" name="menu"></ion-icon>
+        </ion-button>
+      </ion-menu-toggle>
+    </ion-buttons>
+
+    <ion-title>Email Campaign</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button expand="full" (click)="create()">
+        Create
+      </ion-button>
+    </ion-buttons>
+
+    <ion-progress-bar type="indeterminate" *ngIf="deleting"></ion-progress-bar>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  
+  <div class="container">
+    <ion-list>
+      <ion-item-sliding *ngFor="let emailCampaign of emailCampaigns" [disabled]="platform.width() > 768">
+        <ion-item tappable (click)="rowSelected(emailCampaign)">
+          <div tabindex="0"></div>
+          <ion-label>
+            <h5>{{ emailCampaign.subject }}</h5>
+            <p *ngIf="emailCampaign.status == 1">Progress {{ emailCampaign.progress }}%</p>
+            <ion-chip *ngFor="let emailCampaignFilter of emailCampaign.emailCampaignFilters">
+              {{ emailCampaignFilter.param }} 
+              &nbsp;<b *ngIf="emailCampaignFilter.value">{{ emailCampaignFilter.value }}</b>
+
+            </ion-chip> 
+          </ion-label>
+
+          <ion-badge slot="end" *ngIf="emailCampaign.status == 0">Draft</ion-badge>
+          <ion-badge slot="end" *ngIf="emailCampaign.status == 1">In Progress</ion-badge>
+          <ion-badge slot="end" *ngIf="emailCampaign.status == 2">Completed</ion-badge>
+          <ion-badge slot="end" *ngIf="emailCampaign.status == 3">Ready</ion-badge>
+
+          <ion-buttons slot="end" *ngIf="platform.width() > 768" >
+
+            <ion-button color="danger" (click)="delete($event, emailCampaign)">
+              <ion-icon name="trash-outline" slot="start"></ion-icon>
+              Delete
+            </ion-button>
+          </ion-buttons>
+
+        </ion-item>
+
+        <ion-item-options side="end">
+          <ion-button color="danger" (click)="delete($event, emailCampaign)">
+            <ion-icon name="trash-outline" slot="start"></ion-icon>
+            Delete
+          </ion-button>
+        </ion-item-options>
+
+      </ion-item-sliding>
+
+      <loading-modal [loading]="loading" type="text-list"></loading-modal>
+    </ion-list>
+
+    <no-items message = "No campaign added yet!" *ngIf="emailCampaigns.length == 0 && !loading"></no-items>
+
+    <ion-infinite-scroll *ngIf="currentPage < pageCount"
+      (ionInfinite)="doInfinite($event)">
+      <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+  </div>
+  
+</ion-content> 

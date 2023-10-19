@@ -5,6 +5,11 @@
     </ion-buttons>
 
     <ion-buttons slot="end">
+      
+      <ion-button fill="clear" routerLink="/view/email-campaign-list">
+        Email Campaign
+      </ion-button>
+
       <ion-button (click)="openFilter()" class="btn-filter skip-hover mobile-only"  fill="clear"  *ngIf="!showFilter">
         <ion-icon slot="start" src="assets/images/ic-filter.svg"></ion-icon> Filter
       </ion-button>

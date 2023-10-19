@@ -67,4 +67,8 @@ export class EventService {
 
   public warningUpdated$ = new Subject();
 
+  public campaignStarted$ = new Subject();
+  public campaignStopped$ = new Subject();
+  public campaignStatus$ = new Subject();
+  public campaignStatusList$ = new Subject();
 }

@@ -1,0 +1,98 @@
+<ion-header>
+  <ion-toolbar class="container">
+
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/view/email-campaign-list"></ion-back-button>
+    </ion-buttons>
+
+    <ion-title *ngIf="emailCampaign">{{ emailCampaign.subject }}</ion-title>
+
+    <ion-buttons slot="end" *ngIf="emailCampaign">
+      <ion-button (click)="update()">
+        Update
+      </ion-button>
+      <ion-button *ngIf="emailCampaign && emailCampaign.status == 0" fill="outline" color="danger" (click)="start()" >
+        Mark as ready to start
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <div class="container">
+    <ion-list *ngIf="emailCampaign">
+
+      <ion-item>
+        <div tabindex="0"></div>
+        <ion-label>
+          <h5>Campaign ID</h5>
+          <p>{{ emailCampaign.campaign_uuid }}</p>
+        </ion-label>
+      </ion-item>
+
+      <ion-item>
+        <div tabindex="0"></div>
+        <ion-label>
+          <h5>Subject</h5>
+          <p>{{ emailCampaign.subject }}</p>
+        </ion-label>
+      </ion-item>
+      
+      <ion-item>
+        <div tabindex="0"></div>
+        <ion-label>
+          <h5>Status</h5>
+          <p *ngIf="emailCampaign.status == 0">Draft</p>
+          <p *ngIf="emailCampaign.status == 1">In Progress</p>
+          <p *ngIf="emailCampaign.status == 2">Completed</p>
+          <p *ngIf="emailCampaign.status == 3">Ready</p>
+        </ion-label>
+      </ion-item>
+
+      <ion-item *ngIf="[1, 3].indexOf(emailCampaign.status) > -1">
+        <div tabindex="0"></div>
+        <ion-label>
+          <h5>Progress (%)</h5>
+          <p>{{ emailCampaign.progress }}</p>
+        </ion-label>
+      </ion-item>
+
+      <ion-item>
+        <div tabindex="0"></div>
+        <ion-label>
+          <h5>Created at </h5>
+          <p>{{ emailCampaign.created_at }}</p>
+        </ion-label>
+      </ion-item>
+
+      <ion-item>
+        <div tabindex="0"></div>
+        <ion-label>
+          <h5>Updated at </h5>
+          <p>{{ emailCampaign.updated_at }}</p>
+        </ion-label>
+      </ion-item>
+
+      <ng-container *ngIf="emailCampaign.emailCampaignFilters.length > 0">
+
+        <h5>Email Campaign Filter</h5>
+
+        <ion-item *ngFor="let emailCampaignFilter of emailCampaign.emailCampaignFilters">
+          <div tabindex="0"></div>
+          <ion-label>
+            <h5>{{ emailCampaignFilter.param }}</h5>
+            <p>{{ emailCampaignFilter.value }}</p>
+          </ion-label>
+        </ion-item>
+      </ng-container>
+
+      <h5>Message Content/ HTML</h5>
+
+      <div [innerHTML]="emailCampaign.message"></div>
+
+      
+    </ion-list>
+  </div>
+
+</ion-content>  

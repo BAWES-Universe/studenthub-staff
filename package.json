@@ -43,6 +43,7 @@
     "@ngx-translate/core": "^14.0.0",
     "@ngx-translate/http-loader": "^7.0.0",
     "@sentry/browser": "^7.28.0",
+    "@tinymce/tinymce-angular": "^7.0.0",
     "angular-instantsearch": "^4.4.0",
     "aws-sdk": "^2.1279.0",
     "chart.js": "^4.1.1",
