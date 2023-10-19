@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core';
-import {AuthHttpService} from "./authhttp.service";
 import {Observable} from "rxjs";
+//services
+import {AuthHttpService} from "./authhttp.service";
+//models
+import { Staff } from 'src/app/models/staff';
+
 
 @Injectable({
   providedIn: 'root'
@@ -26,6 +30,23 @@ export class AccountService {
    */
   validatePassword(params): Observable<any> {
     return this._authhttp.post(this._accountEndpoint + '/validate-password', params);
+  }
+
+  /**
+   * Update staff
+   * @param {Staff} model
+   * @returns {Observable<any>}
+   */
+  update(model: Staff): Observable<any>{
+    let url = `${this._accountEndpoint}`;
+    let params = {
+      "name": model.staff_name,
+      'staff_photo': model.staff_photo,
+      "staff_notification": model.staff_notification,
+      "staff_job_title": model.staff_job_title
+    };
+
+    return this._authhttp.patch(url, params);
   }
 
   /**

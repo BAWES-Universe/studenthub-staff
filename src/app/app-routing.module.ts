@@ -710,7 +710,11 @@ const routes: Routes = [
   {
     path: '**',
     redirectTo: 'not-found'
+  },  {
+    path: 'update-account',
+    loadChildren: () => import('./pages/logged-in/update-account/update-account.module').then( m => m.UpdateAccountPageModule)
   },
+
 ];
 
 @NgModule({

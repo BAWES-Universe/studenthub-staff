@@ -86,6 +86,7 @@ import { TagFormPageModule } from './pages/logged-in/candidate/tag-form/tag-form
 import { CandidateWarningFormPageModule } from './pages/logged-in/candidate/candidate-warning-form/candidate-warning-form.module';
 import { CompanyRegistrationRequestViewPageModule } from './pages/logged-in/company/company-registration-request-view/company-registration-request-view.module';
 import { EmailCampaignFormPageModule } from './pages/logged-in/email-campaign/email-campaign-form/email-campaign-form.module';
+import { UpdateAccountPageModule } from './pages/logged-in/update-account/update-account.module';
 
 export function startupServiceFactory(authService) {
   return () => authService.load();
@@ -189,7 +190,8 @@ declare global {
     MenuOptionPageModule,
     EmailCampaignFormPageModule,
     CompanyRegistrationRequestViewPageModule,
-    EditorModule
+    EditorModule,
+    UpdateAccountPageModule
   ],
   exports: [
     ActionComponentModule
