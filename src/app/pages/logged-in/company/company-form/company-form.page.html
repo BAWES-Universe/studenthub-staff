@@ -64,7 +64,7 @@
 
         <ion-item class="input-wrapper">
           <div tabindex="0"></div>
-          <ion-label position="floating">Description in English</ion-label>
+          <ion-label position="floating" class="mb-20">Description in English</ion-label>
 <!--          <ion-textarea formControlName="description_en"></ion-textarea>-->
           <ckeditor [config]="editorConfig" #ckeditor [editor]="Editor" (ready)="onEditorReady()"
             (change)="onChange($event)">
@@ -73,7 +73,7 @@
 
         <ion-item class="input-wrapper">
           <div tabindex="0"></div>
-          <ion-label position="floating">Description in Arabic</ion-label>
+          <ion-label position="floating" class="mb-20">Description in Arabic</ion-label>
 <!--          <ion-textarea formControlName="description_ar"></ion-textarea>-->
           <ckeditor [config]="editorConfig" #ckeditor_ar [editor]="Editor" (ready)="onArabicEditorReady()"
             (change)="onArabicEditorChange($event)">

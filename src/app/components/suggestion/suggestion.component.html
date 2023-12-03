@@ -73,9 +73,11 @@
     because <span [innerHTML]="model.feedback.note_text"></span>
   </p>
   <ng-container *ngIf="model.suggestion_status == 1">
+    
     <ion-button class="btn-reject" (click)="rejectSuggestion($event)">
       Rejected
     </ion-button>
+
     <ion-button class="btn-accept" (click)="acceptSuggestion($event)">
       Accepted
     </ion-button>

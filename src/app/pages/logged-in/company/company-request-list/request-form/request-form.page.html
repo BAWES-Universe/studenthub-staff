@@ -60,7 +60,7 @@
       
         <ion-item class="input-wrapper">
           <div tabindex="0"></div>
-          <ion-label position="floating">Job Description</ion-label>
+          <ion-label position="floating" class="mb-20">Job Description</ion-label>
 
           <ckeditor [config]="editorConfig" #ckeditor [editor]="Editor"
             (ready)="onEditorReady()" (change)="onChange($event)">
