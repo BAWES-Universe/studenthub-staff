@@ -49,9 +49,5 @@ To fix heap limit error
 
 
 TODO: 
-
-invitation.service.ts 
-fulltimer.service.ts 
-email-campaign.service.ts 
 company.service.ts 
 company-request.service.ts 

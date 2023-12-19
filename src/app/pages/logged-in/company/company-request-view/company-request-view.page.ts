@@ -228,7 +228,9 @@ export class CompanyRequestViewPage implements OnInit, OnDestroy {
    */
   loadInvitations(loading = true) {
 
-    this.invitationService.listWithPagination('&request_uuid=' + this.request_uuid).subscribe(invitations => {
+    const params = '?expand=candidate,note,story&request_uuid=' + this.request_uuid;
+
+    this.invitationService.listWithPagination(params).subscribe(invitations => {
 
       this.allInvitedCandidates = invitations.body;
       this.IPageCount = parseInt(invitations.headers.get('X-Pagination-Page-Count'));
@@ -255,7 +257,8 @@ export class CompanyRequestViewPage implements OnInit, OnDestroy {
 
     this.IcurrentPage++;
 
-    const urlParams = '&request_uuid=' + this.request_uuid + '&page=' + this.IcurrentPage;
+    const urlParams = '?expand=candidate,note,story&request_uuid=' + this.request_uuid + '&page=' + this.IcurrentPage;
+    
     this.invitationService.listWithPagination(urlParams).subscribe(invitations => {
 
         this.IPageCount = parseInt(invitations.headers.get('X-Pagination-Page-Count'));

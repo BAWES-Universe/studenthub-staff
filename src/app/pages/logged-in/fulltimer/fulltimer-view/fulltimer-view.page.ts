@@ -81,8 +81,13 @@ export class FulltimerViewPage implements OnInit {
   }
 
   loadData() {
+
     this.loading = true;
-    this.fulltimerService.view(this.fulltimer_uuid).subscribe(res => {
+
+    const urlParams = '?expand=nationality,country,area,fulltimerTags,fulltimerSkills,fulltimerExperiences,' +
+      'suggested,suggestionAccepted,suggestionRejected,university';
+
+    this.fulltimerService.view(this.fulltimer_uuid, urlParams).subscribe(res => {
       this.loading = false;
       this.fulltimer = res;
     });

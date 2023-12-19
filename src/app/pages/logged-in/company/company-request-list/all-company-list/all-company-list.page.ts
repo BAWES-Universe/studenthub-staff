@@ -58,6 +58,9 @@ export class AllCompanyListPage implements OnInit {
       urlParams += '&name=' + this.filters.name;
     }
 
+    urlParams += '&expand=subCompanies'
+    //companyContacts,contacts,contacts.contactEmails,contacts.contactPhones,companyContacts.contactEmails,companyContacts.contactPhones,subCompanies.companyContacts,subCompanies.contacts,subCompanies.companyContacts.contactEmails,subCompanies.companyContacts.contactPhones,requests
+
     return urlParams;
   }
 

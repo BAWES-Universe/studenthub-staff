@@ -11,6 +11,8 @@ export class RequestFilterComponent implements OnInit {
 
   @Input() tab = null;
 
+  public borderLimit = false;
+  
   public filters = {
     requestStatus: null,
     storyStatus: null,
@@ -74,11 +76,16 @@ export class RequestFilterComponent implements OnInit {
       };
     }
   }
+
   filterDate($event, type) {
     if (type == 'startDate') {
       this.filters.startDate = format(parseISO($event.original), 'yyyy-MM-dd');
     } else {
       this.filters.endDate = format(parseISO($event.original), 'yyyy-MM-dd');
     }
+  }
+
+  logScrolling(e) {
+    this.borderLimit = (e.detail.scrollTop > 20);
   }
 }

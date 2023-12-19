@@ -1,13 +1,23 @@
-<ion-content>
-  <div class="drager"></div>
+<ion-header mode="md" [class.add-border]="borderLimit" class="ion-no-border">
+   
+  <ion-toolbar class="container">
+    <ion-buttons slot="start">
+      <ion-back-button icon="assets/images/icon-back.svg" (click)="filter()"></ion-back-button>
+    </ion-buttons>
 
-  <h3>
-    <ion-back-button (click)="filter()" mode="md"></ion-back-button> Filter Results
-    <ion-button (click)="reset()" class="btn-close">
-      Reset
-    </ion-button>
-  </h3>
+    <ion-title>
+      Filter Results
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button class="ion-text-capitalize setting" (click)="reset()">
+        Reset
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
 
+<ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
+    
   <ng-container *ngIf="tab== 'request'">
     <h5>Request Type</h5>
     <ion-button class="btn-option" (click)="filterByStatus($event, null)" [class.active]="filters.requestStatus == null">All</ion-button>
@@ -52,18 +62,22 @@
     <ion-row>
       <ion-col size="6">
           <h5>From</h5>
-          <ion-input [(ngModel)]="filters.startDate" id="startDate" class="ion-text-center"></ion-input>
+          <ion-input [(ngModel)]="filters.startDate" id="startDate" placeholder="YYYY-MM-DD"></ion-input>
           <app-date-popup presentation="date" key="startDate" (onClose)="filterDate($event,'startDate')"></app-date-popup>
       </ion-col>
       <ion-col size="6">
           <h5>To</h5>
-        <ion-input [(ngModel)]="filters.endDate" id="endDate" class="ion-text-center"></ion-input>
+        <ion-input [(ngModel)]="filters.endDate" id="endDate" placeholder="YYYY-MM-DD"></ion-input>
         <app-date-popup presentation="date" key="endDate" (onClose)="filterDate($event,'endDate')"></app-date-popup>
       </ion-col>
     </ion-row>
   </ion-grid>
 
+ 
+
+</ion-content>
+<ion-footer>
   <ion-button class="btn-filter" (click)="filter()">
     Filter Results
   </ion-button>
-</ion-content>
+</ion-footer>

@@ -21,8 +21,8 @@ export class FulltimerService {
    * load fulltimer detail
    * @param fulltimer_uuid
    */
-  view(fulltimer_uuid) {
-    const url = this._fulltimerEndpoint + '/' + fulltimer_uuid + '?expand=nationality,country,area,fulltimerTags,suggested,suggestionAccepted,suggestionRejected,university';
+  view(fulltimer_uuid, urlParams: string = '') {
+    const url = this._fulltimerEndpoint + '/' + fulltimer_uuid + urlParams
     return this._authhttp.get(url);
   }
 

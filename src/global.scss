@@ -704,17 +704,21 @@ ion-item.input-wrapper:not(.item-has-value) {
 .tab-requests request-listing ion-card {
   margin-top: 0;
 }
+
 .date-popup-over{
+   /*
     --background: rgba(40, 173, 218, 0.6);
     --backdrop-opacity: 0.6;
     --box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.6);
-    --color: white;
+    --color: white;*/
     --width: 300px!important;
 
   ion-content {
-    --background: rgba(40, 173, 218, 0.6);
+  //  --background: rgba(40, 173, 218, 0.6);
   }
 }
+
 .date-popup-over::part(backdrop) {
-  background-color: rgb(6, 14, 106);
+ // background-color: rgb(6, 14, 106);
 }
+

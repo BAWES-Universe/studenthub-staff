@@ -228,22 +228,11 @@ export class StoryViewPage implements OnInit, OnDestroy {
   }
 
   /**
-   * load invitations for this request
-   */
-  loadRequestInvitations(loading = true) {
-    this.invitationService.list('&request_uuid=' + this.request.request_uuid).subscribe(invitations => {
-      this.invitedCandidates = invitations.filter(invitation => invitation.invitation_status == 1);
-      this.rejectedCandidates = invitations.filter(invitation => invitation.invitation_status == 2);
-      this.acceptedInvitations = invitations.filter(invitation => invitation.invitation_status == 3);
-    });
-  }
-
-  /**
    * load invitations
    * @param loading
    */
   loadStoryInvitations(loading = true) {
-    this.invitationService.listWithPagination('&request_uuid=' + this.request.request_uuid).subscribe(invitations => {
+    this.invitationService.listWithPagination('?expand=candidate,note,story&request_uuid=' + this.request.request_uuid).subscribe(invitations => {
       this.allInvitedCandidates = invitations.body;
 
       this.IPageCount = parseInt(invitations.headers.get('X-Pagination-Page-Count'));
@@ -708,7 +697,8 @@ export class StoryViewPage implements OnInit, OnDestroy {
 
     this.IcurrentPage++;
 
-    const urlParams = '&request_uuid=' + this.story.request_uuid + '&page=' + this.IcurrentPage;
+    const urlParams = '?expand=candidate,note,story&request_uuid=' + this.story.request_uuid + '&page=' + this.IcurrentPage;
+    
     this.invitationService.listWithPagination(urlParams).subscribe(invitations => {
 
         this.IPageCount = parseInt(invitations.headers.get('X-Pagination-Page-Count'));

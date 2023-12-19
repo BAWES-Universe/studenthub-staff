@@ -11,6 +11,7 @@ import {SuggestionService} from "../../../../providers/logged-in/suggestion.serv
 import {AuthService} from "../../../../providers/auth.service";
 import { AnalyticsService } from 'src/app/providers/analytics.service';
 
+
 @Component({
   selector: 'app-candidate-invitations',
   templateUrl: './candidate-invitations.page.html',
@@ -22,6 +23,8 @@ export class CandidateInvitationsPage implements OnInit {
 
   public loading = false;
 
+  public loadingInvitations = false; 
+
   public candidate_id;
 
   public status; // 1:Invited, 2:Rejected, 3:Accepted
@@ -29,6 +32,10 @@ export class CandidateInvitationsPage implements OnInit {
   public candidate;
 
   public invitations: Invitation[] = [];
+
+  public currentPage; 
+  public total; 
+  public pageCount; 
 
   constructor(
     public modalCtrl: ModalController,
@@ -78,7 +85,11 @@ export class CandidateInvitationsPage implements OnInit {
     this.loadInvitations();
   }
 
+  /**
+   * @param loading 
+   */
   loadCandidateDetail(loading = true) {
+
     this.loading = loading;
     
     this.candidateService.detail(this.candidate_id).subscribe(response => {
@@ -91,10 +102,49 @@ export class CandidateInvitationsPage implements OnInit {
    * load candidate invitations without pagination
    */
   loadInvitations() {
-    this.invitationService.list('&candidate_id=' + this.candidate_id + '&status=' + this.status)
-      .subscribe(async jsonResponse => {
-        this.invitations = jsonResponse;
-      });
+
+    this.loadingInvitations = true; 
+
+    const urlParams = '?expand=request,request.company,request.storyOwners,request.staff,request.staffs' 
+      +'&candidate_id=' + this.candidate_id + '&status=' + this.status;
+
+    this.invitationService.listWithPagination(urlParams).subscribe(async jsonResponse => {
+      this.invitations = jsonResponse.body;
+
+      this.pageCount = parseInt(jsonResponse.headers.get('X-Pagination-Page-Count'));
+      this.currentPage = parseInt(jsonResponse.headers.get('X-Pagination-Current-Page'));
+      this.total = parseInt(jsonResponse.headers.get('X-Pagination-Total-Count'));
+
+      this.loadingInvitations = false; 
+    });
+  }
+
+  /**
+   * load more on scroll to bottom 
+   * @param event 
+   */
+  async doInfinite(event) {
+ 
+    this.loadingInvitations = true; 
+
+    this.currentPage++;
+
+    const urlParams = '?expand=request,request.company,request.storyOwners,request.staff,request.staffs' 
+      +'&candidate_id=' + this.candidate_id + '&status=' + this.status + '&page=' + this.currentPage;
+    
+    this.invitationService.listWithPagination(urlParams).subscribe(response => {
+
+      this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
+      this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
+      this.total = parseInt(response.headers.get('X-Pagination-Total-Count'));
+
+      this.invitations = this.invitations.concat(response.body);
+
+    }, () => { },
+    () => { 
+      event.target.complete();
+      this.loadingInvitations = false; 
+    });
   }
 
   logScrolling(e) {

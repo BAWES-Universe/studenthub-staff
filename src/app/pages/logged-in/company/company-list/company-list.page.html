@@ -10,10 +10,12 @@
       </span>
     </ion-title>
   </ion-toolbar>
-  <ion-toolbar class="container search" [class.hidden]="borderLimit">
+  <ion-toolbar class="container search searchbar-wrapper" [class.hidden]="borderLimit">
+    
     <ion-searchbar debounce="500" placeholder="Type to search" (ionChange)="searchByName($event)"></ion-searchbar>
+
     <ion-buttons slot="end">
-      <ion-button class="ion-text-capitalize setting" (click)="filter()">
+      <ion-button class="ion-text-capitalize setting" [class.active]="filters.withStats || filters.staff_id || (filters.status && filters.status != 100) || (filters.approved_to_hire || filters.approved_to_hire == 0)" (click)="filter()">
         <ion-icon name="options"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -21,16 +23,49 @@
 </ion-header>
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
+  
   <div class="container">
-    <div *ngIf="filters.status || (filters.approved_to_hire || filters.approved_to_hire == 0)" class="filter-tag">
-      <ion-badge *ngIf="filters.status == 1">Active</ion-badge>
-      <ion-badge *ngIf="filters.status == 2">Inactive</ion-badge>
-      <ion-badge *ngIf="filters.status == 9">Under Review</ion-badge>
-      <ion-badge *ngIf="filters.status == 3">Active + 40 days no payment</ion-badge>
-      <ion-badge *ngIf="filters.status == 4">Active + 40 days no new request</ion-badge>
-      <ion-badge *ngIf="filters.approved_to_hire == 1">Approved to hire</ion-badge>
-      <ion-badge *ngIf="filters.approved_to_hire == 0">Not approved to hire</ion-badge>
+
+    <div *ngIf="filters.withStats || filters.staff_id || (filters.status && filters.status != 100) || (filters.approved_to_hire || filters.approved_to_hire == 0)" class="filter-tag">
+      
+      <ion-chip *ngIf="filters.status == 1" (click)="filterByStatus($event, 1)">
+        Active <ion-icon name="close-outline"></ion-icon>
+      </ion-chip>
+
+      <ion-chip *ngIf="filters.status == 2"  (click)="filterByStatus($event, 2)">
+        Inactive <ion-icon name="close-outline"></ion-icon>
+      </ion-chip>
+
+      <ion-chip *ngIf="filters.status == 9" (click)="filterByStatus($event, 9)">
+        Under Review <ion-icon name="close-outline"></ion-icon>
+      </ion-chip>
+
+      <ion-chip *ngIf="filters.status == 3" (click)="filterByStatus($event, 3)">
+        Active + 40 days no payment <ion-icon name="close-outline"></ion-icon>
+      </ion-chip>
+      
+      <ion-chip *ngIf="filters.status == 4" (click)="filterByStatus($event, 4)">
+        Active + 40 days no new request <ion-icon name="close-outline"></ion-icon>
+      </ion-chip>
+      
+      <ion-chip *ngIf="filters.approved_to_hire == 1" (click)="filterByApprovedToHire($event, 1)">
+        Approved to hire <ion-icon name="close-outline"></ion-icon>
+      </ion-chip>
+
+      <ion-chip *ngIf="filters.approved_to_hire == 0" (click)="filterByApprovedToHire($event, 0)">
+        Not approved to hire <ion-icon name="close-outline"></ion-icon>
+      </ion-chip>
+
+      <ion-chip *ngIf="filters.withStats" (click)="filterWithStats($event)">
+        Show metadata <ion-icon name="close-outline"></ion-icon>
+      </ion-chip>
+      
+      <ion-chip *ngIf="filters.staff_id == authService.staff_id" (click)="filterByStaff($event, authService.staff_id)">
+        Assigned to you <ion-icon name="close-outline"></ion-icon>
+      </ion-chip>
+      
     </div>
+
     <ion-list *ngIf="!loading">
       <section>
         <app-company [company]="company" *ngFor="let company of companies" (click)="rowSelected(company)"></app-company>
@@ -38,6 +73,7 @@
     </ion-list>
 
     <loading-modal [loading]="loading || loadingMore" type="company-list"></loading-modal>
+
     <no-items *ngIf="!loading && !loadingMore && companies && companies.length==0" message="~ No company available ~"></no-items>
   </div>
 
@@ -45,8 +81,8 @@
     <ion-icon name="add-outline"></ion-icon>
   </div>
 
-    <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
-      <ion-infinite-scroll-content></ion-infinite-scroll-content>
-    </ion-infinite-scroll>
+  <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 
 </ion-content>

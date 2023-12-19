@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Platform} from '@ionic/angular';
+import { NavController, Platform} from '@ionic/angular';
 import { AnalyticsService } from 'src/app/providers/analytics.service';
 import {AuthService} from '../../../providers/auth.service';
 
@@ -14,6 +14,7 @@ export class ReportListPage implements OnInit {
 
   constructor(
     public platform: Platform,
+    public navCtrl: NavController,
     public authService: AuthService,
     public analyticService: AnalyticsService
   ) { }
@@ -21,6 +22,17 @@ export class ReportListPage implements OnInit {
   ngOnInit() {
     this.analyticService.page('Report List Page');
   }
+
+  openAssignedCompanies() {
+    
+    this.navCtrl.navigateForward('/view/company-list', {
+      state: {
+        filters : {
+          staff_id: this.authService.staff_id
+        }
+      }
+    });
+  } 
 
   logScrolling(e) {
     this.borderLimit = (e.detail.scrollTop > 20);

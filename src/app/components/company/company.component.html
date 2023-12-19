@@ -22,30 +22,40 @@
         </div>
 
         <p *ngIf="company.company_description_en">{{stripTag(company.company_description_en)}}</p>
+        
         <p *ngIf="!company.company_description_en">{{company.company_name}}</p>
+
         <ion-badge class="company_status_badge danger" slot="start" *ngIf="!company.company_status && !company.parent_company_id">
           Inactive
         </ion-badge>
+        
         <ion-badge class="company_status_badge success" slot="start" *ngIf="company.company_status !== 9 && !company.parent_company_id">
           Active
         </ion-badge>
+        
         <ion-badge class="company_status_badge success" slot="start" *ngIf="company.company_status === 9 && !company.parent_company_id">
           Under Review
         </ion-badge>
 
-        <ion-badge slot="start" color="light">
+        <!--
+        <ion-badge slot="start" color="light" *ngIf="totalCandidates > 0">
           {{ totalCandidates }} staff
-        </ion-badge>
+        </ion-badge>-->
+
         <ion-badge slot="start" color="light" *ngIf="company.subCompanies && company.subCompanies.length > 0">
           {{ company.subCompanies.length }} sub-companies
         </ion-badge>
-        <ion-badge slot="start" color="light">
+
+        <ion-badge slot="start" color="light" *ngIf="company.stores && company.stores.length > 0">
           {{ company.stores.length }} stores
         </ion-badge>
-        <ion-badge slot="start" color="light">
+
+        <ion-badge slot="start" color="light" *ngIf="company.brands && company.brands.length > 0">
           {{ company.brands.length }} brands
         </ion-badge>
-        <ion-badge slot="start" color="light" *ngIf="company.total_candidate && !company.transferInLast40Days">
+
+        <!-- company.total_candidate -->
+        <ion-badge slot="start" color="light" *ngIf="totalCandidates > 0 && !company.transferInLast40Days">
           40 days passed without payment
         </ion-badge>
         
@@ -56,6 +66,7 @@
         <ion-badge slot="start" color="light" *ngIf="company.total_suggestions > 0">
           {{ company.total_suggestions }} total Suggestions
         </ion-badge>
+
         <ion-badge slot="start" color="warning" *ngIf="!company.company_approved_to_hire">
           <ion-icon name="close-outline"></ion-icon> Not approved to hire
         </ion-badge>

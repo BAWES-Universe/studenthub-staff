@@ -23,16 +23,7 @@ export class CompanyService {
    * @param searchParams
    */
   list(page, searchParams): Observable<any> {
-    return this._authhttp.getRaw(this._companyEndpoint + '?page=' + page + searchParams + '&expand=subCompanies,stores,transferInLast40Days,subCompanies.stores,subCompanies.stores.candidateWorkHistoryByLast40Days,stores.candidateWorkHistoryByLast40Days,brands');
-  }
-
-  /**
-   * List of all companies
-   * @param page
-   * @param searchParams
-   */
-  assignedList(page, searchParams): Observable<any> {
-    return this._authhttp.getRaw(this._companyEndpoint+'/assigned-list' + '?page=' + page + searchParams + '&expand=subCompanies,stores,transferInLast40Days,subCompanies.stores,subCompanies.stores.candidateWorkHistoryByLast40Days,stores.candidateWorkHistoryByLast40Days,brands');
+    return this._authhttp.getRaw(this._companyEndpoint + '?page=' + page + searchParams);
   }
 
   /**
@@ -41,7 +32,8 @@ export class CompanyService {
    * @param searchParams
    */
   listWithContact(page, searchParams): Observable<any> {
-    return this._authhttp.getRaw(this._companyEndpoint + '?page=' + page + searchParams + '&expand=subCompanies,companyContacts,contacts,contacts.contactEmails,contacts.contactPhones,companyContacts.contactEmails,companyContacts.contactPhones,subCompanies.companyContacts,subCompanies.contacts,subCompanies.companyContacts.contactEmails,subCompanies.companyContacts.contactPhones,requests');
+    const url = this._companyEndpoint + '?page=' + page + searchParams;
+    return this._authhttp.getRaw(url);
   }
 
   /**
@@ -82,8 +74,8 @@ export class CompanyService {
    * List of all followup companies
    * @returns {Observable<any>}
    */
-  listFollowups(page): Observable<any> {
-    const url = this._companyEndpoint + '/followups?page=' + page + '&expand=subCompanies,subCompanies.stores,stores,brands';
+  listFollowups(page, urlParams: string = ''): Observable<any> {
+    const url = this._companyEndpoint + '/followups?page=' + page + urlParams;
     return this._authhttp.getRaw(url);
   }
 
@@ -120,7 +112,8 @@ export class CompanyService {
    * @param id
    */
   companyDetail(id) {
-    return this._authhttp.get(this._companyEndpoint + '/' + id + '?expand=files,requests,notes,brands');
+    //+ '?expand=files,requests,notes,brands'
+    return this._authhttp.get(this._companyEndpoint + '/' + id);
   }
 
   /**

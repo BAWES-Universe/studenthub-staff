@@ -20,8 +20,14 @@ ion-content,ion-list,section,ion-footer {
   background: #f7f8fa;
   --background: #f7f8fa;
 }
+
 ion-content .container {
   padding-top: 24px;
+}
+
+ion-back-button {
+  display: block;
+  margin-inline-start: 13px;
 }
 
 ion-badge {
@@ -40,6 +46,7 @@ ion-badge {
   border-radius: 8px;
   color: #68687a;
 }
+
 ion-badge.active {
   background-color: #4c70f2;
   color: #fff;
@@ -104,12 +111,22 @@ ion-toolbar.title {
 ion-toolbar.search {
   padding: 4px 0 13px;
 }
-ion-buttons, ion-back-button{
-  display: inline-block!important;
-}
-ion-footer {
-  padding: 24px;
-  ion-button {
-    height:56px;
-  }
+
+.btn-filter {
+  width: calc(100% - 24px);
+  height: 56px;
+  --border-radius: 12px;
+  --background: #4c70f2;
+  font-family: Inter;
+  font-size: 16px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.5;
+  letter-spacing: normal;
+  text-align: center;
+  --color: #fff;
+  text-transform: none;
+  --box-shadow: none;
+  margin: 12px;
 }

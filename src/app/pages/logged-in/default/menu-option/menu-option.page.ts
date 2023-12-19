@@ -6,6 +6,7 @@ import { TranslateLabelService } from 'src/app/providers/translate-label.service
 import {EventService} from "src/app/providers/event.service";
 import { AnalyticsService } from 'src/app/providers/analytics.service';
 
+
 @Component({
   selector: 'app-menu-option',
   templateUrl: './menu-option.page.html',
@@ -59,4 +60,16 @@ export class MenuOptionPage implements OnInit {
       this.navCtrl.navigateForward([url]);
     }
   }
+
+  openAssignedCompanies() {
+    this.popoverCtrl.dismiss();
+
+    this.navCtrl.navigateForward('/view/company-list', {
+      state: {
+        filters : {
+          staff_id: this.authService.staff_id
+        }
+      }
+    });
+  } 
 }

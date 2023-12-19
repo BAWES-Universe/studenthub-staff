@@ -14,11 +14,13 @@
         <ion-icon name="person-circle-outline" slot="start"></ion-icon>
         My Work
       </ion-item>
-      <ion-item routerLink="/assigned-company-list" tappable>
+      <!-- routerLink="/assigned-company-list"  -->
+      <ion-item (click)="openAssignedCompanies()" tappable>
         <div tabindex="0"></div>
         <ion-icon name="earth-outline" slot="start"></ion-icon>
         <span>Assigned Companies</span>
       </ion-item>
+
       <ion-item [routerLink]="['/my-expenses']" routerLinkActive="active" lines="none" detail="false">
         <div tabindex="0"></div>
         <ion-icon name="cash" slot="start"></ion-icon>

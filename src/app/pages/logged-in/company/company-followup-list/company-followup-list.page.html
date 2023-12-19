@@ -10,6 +10,7 @@
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
   <div class="container">
+    
     <app-company [company]="company" *ngFor="let company of companies" page="follow" (click)="rowSelected(company)"></app-company>
 
     <loading-modal [loading]="loading" type="text-list"></loading-modal>

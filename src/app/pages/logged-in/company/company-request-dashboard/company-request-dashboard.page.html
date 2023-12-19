@@ -6,6 +6,7 @@
     </ion-title>
   </ion-toolbar>
   <ion-toolbar  class="container searchbar-wrapper"  [class.hidden]="borderLimit">
+    
     <ion-searchbar mode="md" [(ngModel)]="query" (ionInput)="searchFilter($event)" debounce=500></ion-searchbar>
 
     <ion-buttons slot="end">

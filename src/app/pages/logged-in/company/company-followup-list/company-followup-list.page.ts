@@ -53,7 +53,9 @@ export class CompanyFollowupListPage implements OnInit {
   
     this.loading = true;
 
-    this.companyService.listFollowups(page).subscribe(response => {
+    const urlParams = '&expand=subCompanies,subCompanies.stores,stores';
+
+    this.companyService.listFollowups(page, urlParams).subscribe(response => {
 
         this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
         this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
@@ -74,7 +76,10 @@ export class CompanyFollowupListPage implements OnInit {
     this.loading = true;
     this.currentPage++;
 
-    this.companyService.listFollowups(this.currentPage).subscribe(response => {
+    const urlParams = '&expand=subCompanies,subCompanies.stores,stores';
+    //brands
+
+    this.companyService.listFollowups(this.currentPage, urlParams).subscribe(response => {
 
         this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
         this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));

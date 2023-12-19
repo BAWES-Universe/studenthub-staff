@@ -1,8 +1,10 @@
 <ion-header mode="md" [class.add-border]="borderLimit" class="ion-no-border">
-  <ion-buttons slot="start">
-    <ion-back-button icon="assets/images/icon-back.svg" (click)="close()"></ion-back-button>
-  </ion-buttons>
-  <ion-toolbar class="container title">
+   
+  <ion-toolbar class="container">
+    <ion-buttons slot="start">
+      <ion-back-button icon="assets/images/icon-back.svg" (click)="close()"></ion-back-button>
+    </ion-buttons>
+
     <ion-title>
       Filter Results
     </ion-title>
@@ -17,7 +19,9 @@
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
   <div class="container">
     <div class="content">
-    <h2>Status</h2>
+
+      <h5>Status</h5>
+
       <ion-badge tappable color="primary" (click)="resetStatus()" [class.active]="filters.status == 100 && [1, 0].indexOf(filters.approved_to_hire) == -1">
         All
       </ion-badge>
@@ -28,21 +32,32 @@
       <ion-badge tappable color="primary" (click)="filterByStatus($event, 4)" [class.active]="filters.status == 4">Active + 40 days no new request</ion-badge>
       <ion-badge tappable color="primary" (click)="filterByStatus($event, 9)" [class.active]="filters.status == 9">Under Review</ion-badge>
 
-      <br/>
+      <h5>Approval to Hire</h5>
 
       <ion-badge tappable color="primary" (click)="filterByApprovedToHire($event, 1)" [class.active]="filters.approved_to_hire == 1">Approved to hire</ion-badge>
       <ion-badge tappable color="primary" (click)="filterByApprovedToHire($event, 0)" [class.active]="filters.approved_to_hire == 0">Not approved to hire</ion-badge>
 
-      <br/>
+      <h5>Having Students</h5>
       
       <ion-badge tappable color="primary" (click)="filterByHaveStudents($event, 1)" [class.active]="filters.have_students == 1">Have students</ion-badge>
 
+      <h5>Load with meta data/ Statistics</h5>
+      
+      <ion-badge tappable color="primary" (click)="filterWithStats($event)" [class.active]="filters.withStats">With metadata</ion-badge>
+
+      <h5>Companies Assigned  </h5>
+
+      <ion-badge tappable color="primary" (click)="filterByStaff($event, authService.staff_id)" [class.active]="filters.staff_id == authService.staff_id">
+        Assigned to you
+      </ion-badge>
+ 
     </div>
+
   </div>
 
-</ion-content>
-<ion-footer class="ion-no-border">
-  <div class="container">
-    <ion-button color="primary" (click)="fetchResult()" expand="block">Filter Results ({{total}})</ion-button>
-  </div>
+</ion-content> 
+<ion-footer>
+  <ion-button color="primary" (click)="fetchResult()" class="btn-filter">
+    Filter Results <!-- ({{total}})-->
+  </ion-button>
 </ion-footer>

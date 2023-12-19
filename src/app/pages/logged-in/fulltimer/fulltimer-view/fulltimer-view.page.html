@@ -60,6 +60,43 @@
         </ion-label>
       </ion-item>
 
+      <div class="badge-wrapper" *ngIf="fulltimer.fulltimerTags">
+        
+      </div>
+
+      <ion-item>
+        <div tabindex="0"></div>
+        <ion-label>
+          <ion-badge *ngFor="let fulltimerSkill of fulltimer.fulltimerSkills">
+            {{ fulltimerSkill.skill }}
+          </ion-badge>
+          <p *ngIf="fulltimer.fulltimerSkills.length == 0">Skills (not set) </p>
+        </ion-label>
+      </ion-item>
+      
+      <ion-item>
+        <div tabindex="0"></div>
+        <ion-label>
+          <ion-badge *ngFor="let fulltimerExperience of fulltimer.fulltimerExperiences">
+            {{ fulltimerExperience.experience }}
+          </ion-badge>
+          <p *ngIf="fulltimer.fulltimerExperiences.length == 0">Experience (not set) </p>
+        </ion-label>
+      </ion-item>
+
+      <ion-item class="university" [class.required]="!fulltimer.university">
+        <div tabindex="0"></div>
+        <ion-label>
+          <b *ngIf="fulltimer.university">{{
+            translateService.langContent(
+              fulltimer.university.university_name_en, 
+              fulltimer.university.university_name_ar
+            ) 
+          }}</b>
+          <p *ngIf="!fulltimer.university">University (not set) </p>
+        </ion-label>
+      </ion-item>
+
       <ion-item class="nationality" [class.required]="!fulltimer.nationality">
         <div tabindex="0"></div>
         <ion-label>

@@ -5,6 +5,7 @@ import { Company } from 'src/app/models/company';
 // service
 import { CompanyService } from 'src/app/providers/logged-in/company.service';
 import { EventService } from 'src/app/providers/event.service';
+import { AuthService } from 'src/app/providers/auth.service';
 
 
 @Component({
@@ -29,35 +30,40 @@ export class CompanyFilterPage implements OnInit {
     name: string
     status: number,
     approved_to_hire: number,
-    have_students: number
+    have_students: number,
+    withStats: boolean,
+    staff_id: number
   } = {
       name: null,
       status: 5,
       approved_to_hire: null,
-      have_students: null
+      have_students: null,
+      withStats: false,
+      staff_id: null
     };
 
   constructor(
     public navCtrl: NavController,
     public companyService: CompanyService,
     public platform: Platform,
+    public authService: AuthService,
     public eventService: EventService,
     public _modalCtrl: ModalController
   ) {
   }
 
   ngOnInit() {
-    this.eventService.reloadCandidateHistory$.subscribe(response => {
+    /*this.eventService.reloadCandidateHistory$.subscribe(response => {
       this.loadData(1);
     });
 
     this.eventService.reloadCompanyList$.subscribe(response => {
       this.loadData(1);
-    });
+    });*/
   }
 
   ionViewWillEnter() {
-    this.loadData(1);
+   // this.loadData(1);
   }
 
   /**
@@ -65,6 +71,11 @@ export class CompanyFilterPage implements OnInit {
    */
   urlParams() {
     let urlParams = '';
+ 
+    if (this.filters.staff_id) {
+      urlParams += '&staff_id=' + this.filters.staff_id;
+    }
+
     if (this.filters.name) {
       urlParams += '&name=' + this.filters.name;
     }
@@ -81,6 +92,10 @@ export class CompanyFilterPage implements OnInit {
       urlParams += '&approved_to_hire=' + this.filters.approved_to_hire;
     }
 
+    if (this.filters.withStats) {
+      urlParams += '&expand=subCompanies,stores,transferInLast40Days,subCompanies.stores,brands';
+    }
+
     return urlParams;
   }
 
@@ -90,6 +105,8 @@ export class CompanyFilterPage implements OnInit {
       status: 100,
       approved_to_hire: null,
       have_students: null,
+      withStats: this.filters.withStats,
+      staff_id: this.filters.staff_id
     };
 
     this.loadData(1); // reload all result
@@ -103,10 +120,12 @@ export class CompanyFilterPage implements OnInit {
       approved_to_hire: null,
       have_students: null,
       name: null,
-      status: 100
+      status: 100,
+      withStats: false,
+      staff_id: null
     };
 
-    this.loadData(1); // reload all result
+    //this.loadData(1); // reload all result
   }
 
   async loadData(page: number) {
@@ -223,6 +242,23 @@ export class CompanyFilterPage implements OnInit {
     return false;
   }
 
+  filterByStaff($event, staff_id) {
+
+    if (this.filters.staff_id == staff_id) {
+      this.filters.staff_id = null;
+    } else {
+      this.filters.staff_id = staff_id;
+    }
+
+   // this.loadData(1); // reload all result
+  }
+
+  filterWithStats($event) {
+    this.filters.withStats = !this.filters.withStats;
+    
+    //this.loadData(1); // reload all result
+  }
+
   filterByStatus($event, status) {
 
     if(this.filters.status == status) {
@@ -231,7 +267,7 @@ export class CompanyFilterPage implements OnInit {
       this.filters.status = status;
     }
 
-    this.loadData(1); // reload all result
+    //this.loadData(1); // reload all result
   }
 
   filterByApprovedToHire($event, status) {
@@ -242,7 +278,7 @@ export class CompanyFilterPage implements OnInit {
       this.filters.approved_to_hire = status;
     }
 
-    this.loadData(1); // reload all result
+    //this.loadData(1); // reload all result
   }
 
   filterByHaveStudents($event, status) {
@@ -253,12 +289,12 @@ export class CompanyFilterPage implements OnInit {
       this.filters.have_students = status;
     }
 
-    this.loadData(1); // reload all result
+    //this.loadData(1); // reload all result
   }
 
   searchByName($event) {
     this.filters.name = $event.detail.value;
-    this.loadData(1); // reload all result
+    //this.loadData(1); // reload all result
   }
 
   close() {

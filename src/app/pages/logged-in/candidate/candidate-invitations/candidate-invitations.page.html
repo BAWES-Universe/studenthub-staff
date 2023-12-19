@@ -6,6 +6,7 @@
   </ion-toolbar>
 </ion-header>
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
+  
   <div class="container">
     <h3>Candidate Invitation</h3>
 
@@ -20,6 +21,10 @@
 <!--      <request-listing [request]="invitation.request" [invitation]="invitation" (click)="suggest(invitation)"></request-listing>-->
     </ng-container>
 
-    <loading-modal [loading]="loading" type="note-list"></loading-modal>
+    <loading-modal [loading]="loading || loadingInvitations" type="note-list"></loading-modal>
+
+    <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
+      <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
   </div>
 </ion-content>

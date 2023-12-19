@@ -1,16 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController, NavController, Platform } from '@ionic/angular';
+import { Router } from "@angular/router";
 // model
 import { Company } from 'src/app/models/company';
 // service
 import { CompanyService } from 'src/app/providers/logged-in/company.service';
 import { AwsService } from '../../../../providers/aws.service';
 import { EventService } from 'src/app/providers/event.service';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 //pages
 import { CompanyFormPage } from 'src/app/pages/logged-in/company/company-form/company-form.page';
-import {CompanyFilterPage} from "./company-filter/company-filter.page";
-import {Router} from "@angular/router";
-import { AnalyticsService } from 'src/app/providers/analytics.service';
+import { CompanyFilterPage } from "./company-filter/company-filter.page";
+import { AuthService } from 'src/app/providers/auth.service';
 
 
 @Component({
@@ -36,12 +37,16 @@ export class CompanyListPage implements OnInit {
     name: string
     status: number,
     approved_to_hire: number,
-    have_students: number
+    have_students: number,
+    withStats: boolean,
+    staff_id: number;
   } = {
       name: null,
       status: 100,
       approved_to_hire: null,
-      have_students: null
+      have_students: null,
+      withStats: false,
+      staff_id: null
     };
 
   constructor(
@@ -49,6 +54,7 @@ export class CompanyListPage implements OnInit {
     public companyService: CompanyService,
     public platform: Platform,
     public aws: AwsService,
+    public authService: AuthService,
     public eventService: EventService,
     public analyticService: AnalyticsService,
     public _modalCtrl: ModalController,
@@ -75,6 +81,11 @@ export class CompanyListPage implements OnInit {
     if (state.filter) {
       this.filters.status = state.value;
     }
+
+    if(state.filters) {
+      this.filters = state.filters;
+    }
+    
     // if (state.companies) {
     //   this.companies = state.companies;
     //   this.loadCompaniesSegmentData();
@@ -88,6 +99,11 @@ export class CompanyListPage implements OnInit {
    */
   urlParams() {
     let urlParams = '';
+
+    if(this.filters.staff_id) {
+      urlParams += '&staff_id=' + this.filters.staff_id;
+    }
+
     if (this.filters.name) {
       urlParams += '&name=' + this.filters.name;
     }
@@ -95,13 +111,17 @@ export class CompanyListPage implements OnInit {
     if (this.filters.status) {
       urlParams += '&status=' + this.filters.status;
     }
-    
+
     if ([0, 1].indexOf(this.filters.have_students) > -1) {
       urlParams += '&have_students=' + this.filters.have_students;
     }
 
     if ([0, 1].indexOf(this.filters.approved_to_hire) > -1) {
       urlParams += '&approved_to_hire=' + this.filters.approved_to_hire;
+    }
+
+    if (this.filters.withStats) {
+      urlParams += '&expand=subCompanies,stores,transferInLast40Days,subCompanies.stores,brands';
     }
 
     return urlParams;
@@ -112,7 +132,9 @@ export class CompanyListPage implements OnInit {
       name: this.filters.name,
       status: 100,
       approved_to_hire: null,
-      have_students: null
+      have_students: null,
+      withStats: this.filters.withStats,
+      staff_id: this.filters.staff_id
     };
 
     this.loadData(1); // reload all result
@@ -126,12 +148,18 @@ export class CompanyListPage implements OnInit {
       approved_to_hire: null,
       name: null,
       status: 100,
-      have_students: null
+      have_students: null,
+      withStats: false,
+      staff_id: null
     };
 
     this.loadData(1); // reload all result
   }
 
+  /**
+   * load with filters
+   * @param page 
+   */
   async loadData(page: number) {
 
     // Load list of companies
@@ -170,6 +198,10 @@ export class CompanyListPage implements OnInit {
     company.company_logo = null;
   }
 
+  /**
+   * load more on scroll to bottom
+   * @param event 
+   */
   doInfinite(event) {
 
     this.loadingMore = true;
@@ -230,7 +262,7 @@ export class CompanyListPage implements OnInit {
     const modal = await this._modalCtrl.create({
       component: CompanyFilterPage,
       componentProps: {
-        filters: this.filters,
+        filters: Object.assign({}, this.filters),
       }
     });
     // Refresh List if required
@@ -276,9 +308,27 @@ export class CompanyListPage implements OnInit {
     return false;
   }
 
+
+  filterWithStats($event) {
+    this.filters.withStats = !this.filters.withStats;
+    
+    this.loadData(1); // reload all result
+  }
+
+  filterByStaff($event, staff_id) {
+
+    if (this.filters.staff_id == staff_id) {
+      this.filters.staff_id = null;
+    } else {
+      this.filters.staff_id = staff_id;
+    }
+
+    this.loadData(1); // reload all result
+  }
+
   filterByStatus($event, status) {
 
-    if(this.filters.status == status) {
+    if (this.filters.status == status) {
       this.filters.status = null;
     } else {
       this.filters.status = status;
@@ -290,7 +340,7 @@ export class CompanyListPage implements OnInit {
 
   filterByHaveStudents($event, status) {
 
-    if(this.filters.have_students == status) {
+    if (this.filters.have_students == status) {
       this.filters.have_students = null;
     } else {
       this.filters.have_students = status;
@@ -298,10 +348,10 @@ export class CompanyListPage implements OnInit {
 
     this.loadData(1); // reload all result
   }
-  
+
   filterByApprovedToHire($event, status) {
 
-    if(this.filters.approved_to_hire == status) {
+    if (this.filters.approved_to_hire == status) {
       this.filters.approved_to_hire = null;
     } else {
       this.filters.approved_to_hire = status;

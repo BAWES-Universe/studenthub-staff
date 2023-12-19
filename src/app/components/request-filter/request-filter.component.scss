@@ -2,6 +2,7 @@ ion-content {
     --padding-start: 20px;
     --padding-end: 24px;
     --padding-bottom: 24px;
+    --padding-top: 24px;
     border-radius: 30px;
     display: block;
 }
@@ -95,7 +96,7 @@ h3 {
     }
 
 .btn-filter {
-  width: 100%;
+  width: calc(100% - 24px);
   height: 56px;
   --border-radius: 12px;
   --background: #4c70f2;
@@ -110,7 +111,25 @@ h3 {
   --color: #fff;
   text-transform: none;
   --box-shadow: none;
-  margin: 22px 0 0 0;
+  margin: 12px;
+}
+
+
+ion-back-button {
+    display: block;
+    margin-inline-start: 13px;
+}
+
+.setting{
+    font-family: Inter;
+    font-size: 16px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.5;
+    letter-spacing: normal;
+    text-align: left;
+    color: #4c70f2;
 }
 
 ion-grid {
