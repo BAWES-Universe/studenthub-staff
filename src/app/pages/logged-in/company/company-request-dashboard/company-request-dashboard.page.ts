@@ -211,6 +211,52 @@ export class CompanyRequestDashboardPage implements OnInit {
     );
   }
 
+  urlParamsStories() {
+    let urlParams = '&followup_interval=1';
+
+    if (this.contact_uuid) {
+      urlParams += '&contact_uuid=' + this.contact_uuid;
+    }
+
+    if (this.query) {
+      urlParams += '&query=' + this.query;
+    }
+
+    if (this.filters.requestStatus) {
+      urlParams += '&request_status=' + this.filters.requestStatus;
+    }
+
+    if (this.filters.startDate) {
+      const d = new Date(this.filters.startDate);
+      const month = d.getMonth() + 1;
+      urlParams += '&start_date=' + d.getFullYear() + '-' + month + '-' + d.getDate();
+    }
+
+    if (this.filters.endDate) {
+      const d = new Date(this.filters.endDate);
+      const month = d.getMonth() + 1;
+      urlParams += '&end_date=' + d.getFullYear() + '-' + month + '-' + d.getDate();
+    }
+
+    if (this.filters.position_type && this.segment == 'request') {
+      urlParams += '&position_type=' + this.filters.position_type;
+    }
+
+    if (this.filters.story_position_type && this.segment == 'story') {
+      urlParams += '&position_type=' + this.filters.story_position_type;
+    }
+
+    if (this.filters.storyStatus) {
+      urlParams += '&story_status=' + this.filters.storyStatus;
+    }
+
+    urlParams += '&expand=staff,request,request.company,latestStoryActivity';
+    
+    //'&expand=storyOwners,staffs,staff,requestCreatedBy,requestUpdatedBy,contact,company,company.companyContact,requestActivities,requestActivities.staff';
+
+    return urlParams;
+  }
+
   /**
    * Return url string to filter list
    */
@@ -253,12 +299,8 @@ export class CompanyRequestDashboardPage implements OnInit {
       urlParams += '&story_status=' + this.filters.storyStatus;
     }
 
-    if(this.segment == 'request') {
-      urlParams += '&expand=storyOwners,staffs,staff,company';
-    } else {
-      urlParams += '&expand=staff,request,request.company,latestStoryActivity';
-    }
-
+    urlParams += '&expand=storyOwners,staffs,staff,company';
+    
     //'&expand=storyOwners,staffs,staff,requestCreatedBy,requestUpdatedBy,contact,company,company.companyContact,requestActivities,requestActivities.staff';
 
     return urlParams;
@@ -277,7 +319,7 @@ export class CompanyRequestDashboardPage implements OnInit {
 
     this.loading = loading;
 
-    let param = this.urlParams();
+    let param = this.urlParamsStories();
     
     this.storyService.list(this.currentPage, param).subscribe(response => {
 
@@ -302,7 +344,7 @@ export class CompanyRequestDashboardPage implements OnInit {
 
     this.storyCurrentPage++;
 
-    let param = this.urlParams();
+    let param = this.urlParamsStories();
      
     this.storyService.list(this.storyCurrentPage, param).subscribe(response => {
 

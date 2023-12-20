@@ -103,15 +103,22 @@ export class DefaultPage implements OnInit {
     this.getSession();
   }
 
+  handleRefresh(event = null) {
+    this.loadData(true, true);
+
+    if(event)
+      event.target.complete();
+  }
+
   /**
    * load current data
    */
-  async loadData(loading = true) {
+  async loadData(loading = true, refresh = false) {
 
     if(loading)
       this.loading = true;
 
-    this.statisticService.get().subscribe(response => {
+    this.statisticService.get(refresh).subscribe(response => {
 
       this.statistics = response;
 

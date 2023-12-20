@@ -72,7 +72,7 @@ export class TabsPage implements OnInit, OnDestroy {
 
     this.internvalSubscribe = setInterval(() => {
       this.loadStats();
-    }, 3 * 1000);//every 3 seconds
+    }, 60 * 1000);//every min 
   }
 
   ngOnDestroy() {
@@ -88,7 +88,7 @@ export class TabsPage implements OnInit, OnDestroy {
    */
   async loadStats() {
 
-    this.statisticService.get().subscribe(response => {
+    this.statisticService.get(true).subscribe(response => {
 
       //skip for first time
 
