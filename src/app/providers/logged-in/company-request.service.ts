@@ -16,22 +16,11 @@ export class CompanyRequestService {
   constructor(private _authhttp: AuthHttpService) { }
 
   /**
-   * List all requests
-   * @returns {Observable<any>}
-   */
-  list(companyID: number): Observable<any> {
-    const url = this.companyRequestEndpoint + '?company_id=' + companyID +
-      '&expand=storyOwners,staffs,company,staff,requestCreatedBy,requestUpdatedBy,contact,requestActivities,requestActivities.staff';
-    return this._authhttp.get(url);
-  }
-
-  /**
    * List all requests with page
    * @returns {Observable<any>}
    */
   listWithPagination(page: number, urlParams: string = ''): Observable<any> {
-    const url = this.companyRequestEndpoint + '?page=' + page + urlParams +
-      '&expand=storyOwners,staffs,staff,requestCreatedBy,requestUpdatedBy,contact,company,company.companyContact,requestActivities,requestActivities.staff';
+    const url = this.companyRequestEndpoint + '?page=' + page + urlParams;
     return this._authhttp.getRaw(url);
   }
 
@@ -39,7 +28,7 @@ export class CompanyRequestService {
    * requests started/active but not by login user
    */
   listActiveRequests(filterParams = '') : Observable<any> {
-    let url = this.companyRequestEndpoint + '/active?' + filterParams + '&expand=storyOwners,staffs,staff,lastActivity,lastActivity.createdBy,company';
+    let url = this.companyRequestEndpoint + '/active?' + filterParams + '&expand=storyOwners,staffs,staff,company';
     return this._authhttp.get(url);
   }
 
@@ -48,7 +37,7 @@ export class CompanyRequestService {
    */
   listActiveWithPages(page: number, urlParams: string = ''): Observable<any> {
     const url = this.companyRequestEndpoint + '/active?page=' + page + urlParams +
-      '&expand=storyOwners,staffs,staff,lastActivity,lastActivity.createdBy,company';
+      '&expand=storyOwners,staffs,staff,company';
     return this._authhttp.getRaw(url);
   }
 
@@ -56,9 +45,8 @@ export class CompanyRequestService {
    * view request
    * @param id
    */
-  view(id): Observable<any> {
-    const url = this.companyRequestEndpoint + '/' + id +
-      '?expand=storyOwners,stories,stories.storyActivities,stories.storyActivities.staff,stories.staff,stories.staff,staffs,staff,requestCreatedBy,requestUpdatedBy,contact,company,company.companyContact,requestActivities,requestActivities.staff';
+  view(id, urlParams: string = ''): Observable<any> {
+    const url = this.companyRequestEndpoint + '/' + id + urlParams;
     return this._authhttp.get(url);
   }
 
@@ -66,8 +54,7 @@ export class CompanyRequestService {
    * requests started/active but not by login user
    */
   listAllRequestsThatHaveSuggestedCadidates(page: number, urlParams: string = ''): Observable<any> {
-    const url = this.companyRequestEndpoint + '/pending-request?page=' + page + urlParams +
-      '&expand=storyOwners,storyOwners,staffs,staff,lastActivity,lastActivity.createdBy,company';
+    const url = this.companyRequestEndpoint + '/pending-request?page=' + page + urlParams;
     return this._authhttp.getRaw(url);
   }
   

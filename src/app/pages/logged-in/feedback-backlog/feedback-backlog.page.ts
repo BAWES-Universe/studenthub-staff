@@ -1,12 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import {IonContent, NavController} from "@ionic/angular";
+import {ActivatedRoute} from "@angular/router";
 //models
 import { Request } from 'src/app/models/request';
 //services
 import { CompanyRequestService } from 'src/app/providers/logged-in/company-request.service';
-import {IonContent, NavController} from "@ionic/angular";
 import { EventService } from 'src/app/providers/event.service';
-import {ActivatedRoute} from "@angular/router";
-
 
 
 @Component({
@@ -77,6 +76,7 @@ export class FeedbackBacklogPage implements OnInit {
    */
   loadRequests() {
     const urlParams = this.urlParams();
+
     this.requestService.listAllRequestsThatHaveSuggestedCadidates(1, urlParams).subscribe(response => {
       this.activeRequests = response.body;
       
@@ -116,6 +116,8 @@ export class FeedbackBacklogPage implements OnInit {
     if (this.filters.followupInterval) {
       urlParams += '&followup_interval=' + this.filters.companyName;
     }
+
+    urlParams += '&expand=storyOwners,staffs,staff,company';
 
     return urlParams;
   }

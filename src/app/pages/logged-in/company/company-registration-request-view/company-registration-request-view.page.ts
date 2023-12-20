@@ -35,7 +35,7 @@ export class CompanyRegistrationRequestViewPage implements OnInit {
     public aws: AwsService,
     public authService: AuthService,
     public translateService: TranslateLabelService,
-    public requestService: CompanyRegistrationRequestService,
+    public registrationRequestService: CompanyRegistrationRequestService,
     public analyticService: AnalyticsService
   ) { }
 
@@ -63,7 +63,7 @@ export class CompanyRegistrationRequestViewPage implements OnInit {
       this.loading = true;
     }
 
-    this.requestService.view(this.request_uuid).subscribe(response => {
+    this.registrationRequestService.view(this.request_uuid).subscribe(response => {
 
       this.loading = false; 
  
@@ -84,7 +84,7 @@ export class CompanyRegistrationRequestViewPage implements OnInit {
 
     this.approving = true;
  
-    this.requestService.approve(this.request).subscribe(async jsonResponse => {
+    this.registrationRequestService.approve(this.request).subscribe(async jsonResponse => {
 
       this.approving = false;
 
@@ -125,7 +125,7 @@ export class CompanyRegistrationRequestViewPage implements OnInit {
 
     this.rejecting = true;
  
-    this.requestService.reject(this.request).subscribe(async jsonResponse => {
+    this.registrationRequestService.reject(this.request).subscribe(async jsonResponse => {
 
       this.rejecting = false;
 

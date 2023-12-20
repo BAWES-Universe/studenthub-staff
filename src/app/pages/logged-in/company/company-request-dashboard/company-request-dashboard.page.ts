@@ -253,6 +253,14 @@ export class CompanyRequestDashboardPage implements OnInit {
       urlParams += '&story_status=' + this.filters.storyStatus;
     }
 
+    if(this.segment == 'request') {
+      urlParams += '&expand=storyOwners,staffs,staff,company';
+    } else {
+      urlParams += '&expand=staff,request,request.company,latestStoryActivity';
+    }
+
+    //'&expand=storyOwners,staffs,staff,requestCreatedBy,requestUpdatedBy,contact,company,company.companyContact,requestActivities,requestActivities.staff';
+
     return urlParams;
   }
 
@@ -270,8 +278,7 @@ export class CompanyRequestDashboardPage implements OnInit {
     this.loading = loading;
 
     let param = this.urlParams();
-    param += '&expand=staff,request,request.company,latestStoryActivity';
-    param += '&query=' + this.query;
+    
     this.storyService.list(this.currentPage, param).subscribe(response => {
 
       this.storyPageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
@@ -296,8 +303,7 @@ export class CompanyRequestDashboardPage implements OnInit {
     this.storyCurrentPage++;
 
     let param = this.urlParams();
-    param += '&expand=staff,request,request.company,latestStoryActivity';
-
+     
     this.storyService.list(this.storyCurrentPage, param).subscribe(response => {
 
       this.storyPageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));

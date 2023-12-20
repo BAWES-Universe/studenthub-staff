@@ -155,6 +155,9 @@ export class CompanyRequestListPopupPage implements OnInit {
       urlParams += '&company_id=' + this.filters.companyID;
     }
 
+    urlParams += '&expand=storyOwners,staffs,staff,company';
+    //urlParams += '&expand=storyOwners,staffs,staff,requestCreatedBy,requestUpdatedBy,contact,company,company.companyContact,requestActivities,requestActivities.staff';
+
     return urlParams;
   }
 

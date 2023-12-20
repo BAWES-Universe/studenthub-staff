@@ -29,7 +29,7 @@ export class CompanyRegistrationRequestListPage implements OnInit {
   constructor(   
     public modalCtrl: ModalController,
     public translateService: TranslateLabelService,
-    public requestService: CompanyRegistrationRequestService,
+    public registrationRequestService: CompanyRegistrationRequestService,
     public analyticService: AnalyticsService
   ) { }
 
@@ -79,7 +79,7 @@ export class CompanyRegistrationRequestListPage implements OnInit {
       this.loading = true;
     }
 
-    this.requestService.list(page).subscribe(response => {
+    this.registrationRequestService.list(page).subscribe(response => {
 
       this.loading = false;
       this.deleting = false;
@@ -105,7 +105,7 @@ export class CompanyRegistrationRequestListPage implements OnInit {
 
     this.currentPage++;
 
-    this.requestService.list(this.currentPage).subscribe(response => {
+    this.registrationRequestService.list(this.currentPage).subscribe(response => {
 
       this.loading = false;
 

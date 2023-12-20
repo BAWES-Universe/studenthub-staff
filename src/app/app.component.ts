@@ -211,6 +211,7 @@ export class AppComponent implements OnInit {
     this.eventService.changeRequestStatus$.subscribe(async ({status, request}) => {
       await this.changeRequestStatus(status, request);
     });
+    
     this.eventService.createStory$.subscribe(async ({request}) => {
       await this.createStory(request);
     });

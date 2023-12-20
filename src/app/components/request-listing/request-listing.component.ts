@@ -1,12 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
+import {AlertController} from "@ionic/angular";
 //services
 import { AuthService } from 'src/app/providers/auth.service';
+import {EventService} from "../../providers/event.service";
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 //models
 import { Request } from '../../models/request';
 import { Invitation } from "../../models/invitation";
-import {EventService} from "../../providers/event.service";
-import {AlertController} from "@ionic/angular";
 
 
 @Component({
@@ -48,9 +48,9 @@ export class RequestListingComponent implements OnInit {
       // this.active = time < 24;
     }
 
-    this.eventService.companyRequestUpdate$.subscribe((request: any) => {
-      if (request && request.request && request.request.request_uuid == this.request.request_uuid) {
-        this.request = request.request;
+    this.eventService.companyRequestUpdate$.subscribe((data: any) => {
+      if (data && data.request && data.request.request_uuid == this.request.request_uuid) {
+        this.request = Object.assign(this.request, data.request);
       }
     });
   }

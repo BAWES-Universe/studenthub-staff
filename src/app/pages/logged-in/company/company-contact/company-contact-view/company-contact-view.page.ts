@@ -132,6 +132,7 @@ export class CompanyContactViewPage implements OnInit {
     this.loadingRequests = true;
 
     this.requestService.listWithPagination(this.currentPage, searchParams).subscribe(response => {
+
       this.loadingRequests = false;
 
       this.pageCountRequest = parseInt(response.headers.get('X-Pagination-Page-Count'));
@@ -177,6 +178,8 @@ export class CompanyContactViewPage implements OnInit {
     if(this.company_id) {
       url += '&company_id=' + this.company_id;
     }
+
+    url += '&expand=storyOwners,staffs,staff,company';
 
     return url;
   }

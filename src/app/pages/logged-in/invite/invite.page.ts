@@ -114,7 +114,9 @@ export class InvitePage implements OnInit {
 
     this.loadingRequests = true;
 
-    this.requestService.listWithPagination(1).subscribe(response => {
+    const urlParams = '&expand=storyOwners,staffs,staff,company&query=' + this.query;
+    
+    this.requestService.listWithPagination(1, urlParams).subscribe(response => {
 
       this.activeRequests = response.body;
       this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
@@ -129,7 +131,12 @@ export class InvitePage implements OnInit {
 
   onSearchInput(ev: any) {
     this.query = ev.target.value;
-    const urlParams = '&query=' + this.query;
+
+    const urlParams = '&expand=storyOwners,staffs,staff,company&query=' + this.query;
+
+    //const urlParams = '&expand=storyOwners,staffs,staff,requestCreatedBy,requestUpdatedBy,contact,company,company.companyContact,' +
+    // 'requestActivities,requestActivities.staff&query=' + this.query;
+
     this.loadingRequests = true;
 
     this.requestService.listWithPagination(1, urlParams).subscribe(response => {

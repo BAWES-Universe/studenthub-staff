@@ -81,9 +81,7 @@ export class CompanyRequestViewPage implements OnInit, OnDestroy {
   public internvalSubscribe;
 
   public segment: string = 'details';
-
-  public activeStory: Story;
-
+ 
   public IPageCount = 0;
   public IcurrentPage = 0;
   public Itotal = 0;
@@ -171,7 +169,9 @@ export class CompanyRequestViewPage implements OnInit, OnDestroy {
     if (loading)
       this.loading = true;
 
-    this.requestService.view(this.request_uuid).subscribe(data => {
+    const urlParams = '?expand=storyOwners,staffs,staff,contact,company,stories,stories.staff';
+
+    this.requestService.view(this.request_uuid, urlParams).subscribe(data => {
 
       //hide update alert
 
@@ -179,15 +179,6 @@ export class CompanyRequestViewPage implements OnInit, OnDestroy {
 
       this.request = data;
 
-      //my active story
-
-      if(this.request.stories) {
-        this.request.stories.forEach((story) => {
-          if(story.staff_id == this.authService.staff_id) {
-            this.activeStory = story;
-          }
-        });
-      }
     }, () => {
     }, () => {
       this.loading = false;
