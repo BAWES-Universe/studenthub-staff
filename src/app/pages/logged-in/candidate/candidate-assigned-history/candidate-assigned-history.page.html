@@ -1,4 +1,4 @@
-<ion-header mode="md" [class.add-border]="borderLimit" class="ion-no-border">
+<ion-header mode="md" [class.add-border]="borderLimit" class="ion-no-border" [class.hidden]="borderLimit">
   <ion-toolbar class="container">
     <ion-buttons slot="start">
       <ion-back-button icon="assets/images/icon-back.svg" defaultHref="/"></ion-back-button>
@@ -8,8 +8,9 @@
 
     <ion-buttons slot="end">
 
-      <ion-item>
-        <ion-label position="floating" color="primary">Export data</ion-label>
+      <!--
+      <ion-item class="input-wrapper" style="margin-top: 15px;">
+        <ion-label color="primary">Export data limit</ion-label>
         <ion-select [(ngModel)]="filters.page" [value]="filters.page" okText="Okay" cancelText="Dismiss">
           <ion-select-option value="1">0 - 5,000</ion-select-option>
           <ion-select-option value="2">5,001 - 10,000</ion-select-option>
@@ -18,7 +19,7 @@
           <ion-select-option value="3">20,001 - 25,000</ion-select-option>
           <ion-select-option value="3">25,001 - 30,000</ion-select-option>
         </ion-select>
-      </ion-item>
+      </ion-item>-->
       
       <ion-button color="primary" [disabled]="exporting"
         (click)="export()">
@@ -29,148 +30,139 @@
     </ion-buttons>
 
   </ion-toolbar>
+
+  <ion-toolbar class="container">
+    <ion-grid>
+      <ion-row>
+        <ion-col size-md="3" size-lg="3" size-sm="6" size-xs="12">
+          <!-- Filter by Major -->
+          <ion-item class="input-wrapper">
+            <div tabindex="0"></div>
+            <ion-label position="floating" color="primary">Name</ion-label>
+            <ion-input type="text" [(ngModel)]="filters.name"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size-md="3" size-lg="3" size-sm="6" size-xs="12">
+          <!-- Filter by Tag -->
+          <ion-item class="input-wrapper">
+            <div tabindex="0"></div>
+            <ion-label position="floating" color="primary">Email</ion-label>
+            <ion-input type="text" [(ngModel)]="filters.email"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col  size-md="3" size-lg="3" size-sm="6" size-xs="12">
+          <ion-item class="input-wrapper">
+            <ion-label position="floating" color="primary">Start date</ion-label>
+            <ion-input [(ngModel)]="filters.start_date" id="startDate"></ion-input>
+            <app-date-popup alignment="center" side="bottom" key="startDate" (onClose)="filterDate($event,'startDate')"></app-date-popup>
+          </ion-item>
+        </ion-col>
+        <ion-col  size-md="3" size-lg="3" size-sm="6" size-xs="12">
+          <ion-item class="input-wrapper">
+            <ion-label position="floating" color="primary">End date</ion-label>
+            <ion-input [(ngModel)]="filters.end_date" id="endDate"></ion-input>
+            <app-date-popup alignment="center" side="bottom" key="endDate" (onClose)="filterDate($event,'end_date')"></app-date-popup>
+          </ion-item>
+        </ion-col>
+       
+        <ion-col  size-md="4" size-lg="4" size-sm="6" size-xs="12">
+          <ion-item lines="none">
+            <ion-checkbox slot="start" [(ngModel)]="filters.sameRate"></ion-checkbox>
+            <ion-label>Filter assigned on same rate</ion-label>
+          </ion-item>
+        </ion-col>
+
+        <ion-col  size-md="4" size-lg="4" size-sm="6" size-xs="12">
+          <ion-item lines="none">
+            <ion-checkbox slot="start" [(ngModel)]="filters.working_time"></ion-checkbox>
+            <ion-label>Date Range For Working Time?</ion-label>
+          </ion-item>
+        </ion-col>
+
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-button (click)="loadData(1);">Submit</ion-button>
+        <ion-button (click)="resetFilter();" color="secondary">Reset</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
   <div class="container">
-    <ion-card>
-      <ion-card-header>
-        <ion-card-title>Filter by</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        <ion-grid>
-          <ion-row>
-            <ion-col size-md="3" size-lg="3" size-sm="6" size-xs="12">
-              <!-- Filter by Major -->
-              <ion-item>
-                <div tabindex="0"></div>
-                <ion-label position="floating" color="primary">Name</ion-label>
-                <ion-input type="text" [(ngModel)]="filters.name"></ion-input>
-              </ion-item>
-            </ion-col>
-            <ion-col size-md="3" size-lg="3" size-sm="6" size-xs="12">
-              <!-- Filter by Tag -->
-              <ion-item>
-                <div tabindex="0"></div>
-                <ion-label position="floating" color="primary">Email</ion-label>
-                <ion-input type="text" [(ngModel)]="filters.email"></ion-input>
-              </ion-item>
-            </ion-col>
-            <ion-col  size-md="3" size-lg="3" size-sm="6" size-xs="12">
-              <ion-item>
-                <ion-label position="floating" color="primary">Start date</ion-label>
-                <ion-input [(ngModel)]="filters.start_date" id="startDate" class="filter ion-text-start"></ion-input>
-                <app-date-popup alignment="center" side="bottom" key="startDate" (onClose)="filterDate($event,'startDate')"></app-date-popup>
-              </ion-item>
-            </ion-col>
-            <ion-col  size-md="3" size-lg="3" size-sm="6" size-xs="12">
-              <ion-item>
-                <ion-label position="floating" color="primary">End date</ion-label>
-                <ion-input [(ngModel)]="filters.end_date" id="endDate" class="filter ion-text-start"></ion-input>
-                <app-date-popup alignment="center" side="bottom" key="endDate" (onClose)="filterDate($event,'end_date')"></app-date-popup>
-              </ion-item>
-            </ion-col>
-           
-            <ion-col  size-md="4" size-lg="4" size-sm="6" size-xs="12">
-              <ion-item>
-                <ion-checkbox slot="start" [(ngModel)]="filters.sameRate"></ion-checkbox>
-                <ion-label>Filter assigned on same rate</ion-label>
-              </ion-item>
-            </ion-col>
+    
+    <ion-card *ngFor="let history of candidates" (click)="rowSelected(history.candidate)">
 
-            <ion-col  size-md="4" size-lg="4" size-sm="6" size-xs="12">
-              <ion-item>
-                <ion-checkbox slot="start" [(ngModel)]="filters.working_time"></ion-checkbox>
-                <ion-label>Date Range For Working Time?</ion-label>
-              </ion-item>
-            </ion-col>
- 
-          </ion-row>
-        </ion-grid>
-      </ion-card-content>
+      <ion-item lines="none">
+        <div tabindex="0"></div>
 
-      <ion-card-header>
-        <ion-button (click)="loadData(1);">Submit</ion-button>
-        <ion-button (click)="resetFilter();" color="secondary">Reset</ion-button>
-      </ion-card-header>
+        <ion-avatar slot="start">
+          <img *ngIf="history.candidate.candidate_personal_photo"
+                src="{{ aws.cloudinaryUrl + 'candidate-photo/' + history.candidate.candidate_personal_photo }}" onerror="this.src='/assets/icon/icon.png';">
+          <img *ngIf="history.candidate && !history.candidate.candidate_personal_photo" src="/assets/icon/icon.png">
+        </ion-avatar>
+
+        <ion-label>
+
+          <h2 class="candidate_name">
+            {{ history.candidate.candidate_name ? history.candidate.candidate_name : history.candidate.candidate_name_ar }}
+            &nbsp;
+            <ion-icon class="verified" src="../../assets/images/ic_verified.svg" *ngIf="history.candidate.isProfileCompleted" title="Completed Profile"></ion-icon>
+          </h2>
+
+          <p>{{ history.candidate.candidate_birth_date | candidateAge }}
+            <span *ngIf="history.candidate.candidate_hourly_rate > 0"><span class="sep">•</span>{{ history.candidate.candidate_hourly_rate }} KD /hour</span>
+          </p>
+
+          <p class="nationality" *ngIf="history.candidate.nationality">
+            {{
+            translateService.langContent(history.candidate.nationality.country_nationality_name_en,
+              history.candidate.nationality.country_nationality_name_ar) }}
+          </p>
+
+          <p class="nationality" *ngIf="!history.candidate.nationality && history.candidate.country">
+            {{
+            translateService.langContent(history.candidate.country.country_name_en,
+              history.candidate.country.country_name_ar) }}
+          </p>
+
+          <p *ngIf="history.store">
+            {{ history.store.store_name }}
+            <span *ngIf="history.company">@ {{ history.company.company_name }} </span>
+            <br/>
+          </p>
+
+          <ion-badge *ngIf="history.candidate_hourly_rate == history.candidate.candidate_hourly_rate" color="danger">
+            Assigned on same rate
+          </ion-badge>
+
+          <ion-badge *ngIf="history.candidate.isProfileCompleted == false" color="danger">
+            Incomplete Profile
+          </ion-badge>
+
+          <ion-badge *ngIf="!history.candidate.candidate_email_verification" color="danger">
+            Email Not Verified
+          </ion-badge>
+
+
+          <ion-badge *ngIf="!history.end_date" color="success">
+            Started Working {{history.start_date | date}}
+          </ion-badge>
+          <ion-badge *ngIf="history.end_date" color="danger">
+            Started Working {{history.start_date | date}} - Till {{history.end_date | date}}
+          </ion-badge>
+        </ion-label>
+
+      </ion-item>
 
     </ion-card>
 
-    <ion-list>
+    <no-items *ngIf="!loading && candidates && candidates.length == 0" message="No candidate data available"></no-items>
 
-      <ion-card *ngFor="let history of candidates" (click)="rowSelected(history.candidate)">
-
-        <ion-item lines="none">
-          <div tabindex="0"></div>
-
-          <ion-avatar slot="start">
-            <img *ngIf="history.candidate.candidate_personal_photo"
-                 src="{{ aws.cloudinaryUrl + 'candidate-photo/' + history.candidate.candidate_personal_photo }}" onerror="this.src='/assets/icon/icon.png';">
-            <img *ngIf="history.candidate && !history.candidate.candidate_personal_photo" src="/assets/icon/icon.png">
-          </ion-avatar>
-
-          <ion-label>
-
-            <h2 class="candidate_name">
-              {{ history.candidate.candidate_name ? history.candidate.candidate_name : history.candidate.candidate_name_ar }}
-              &nbsp;
-              <ion-icon class="verified" src="../../assets/images/ic_verified.svg" *ngIf="history.candidate.isProfileCompleted" title="Completed Profile"></ion-icon>
-            </h2>
-
-            <p>{{ history.candidate.candidate_birth_date | candidateAge }}
-              <span *ngIf="history.candidate.candidate_hourly_rate > 0"><span class="sep">•</span>{{ history.candidate.candidate_hourly_rate }} KD /hour</span>
-            </p>
-
-            <p class="nationality" *ngIf="history.candidate.nationality">
-              {{
-              translateService.langContent(history.candidate.nationality.country_nationality_name_en,
-                history.candidate.nationality.country_nationality_name_ar) }}
-            </p>
-
-            <p class="nationality" *ngIf="!history.candidate.nationality && history.candidate.country">
-              {{
-              translateService.langContent(history.candidate.country.country_name_en,
-                history.candidate.country.country_name_ar) }}
-            </p>
-
-            <p *ngIf="history.store">
-              {{ history.store.store_name }}
-              <span *ngIf="history.company">@ {{ history.company.company_name }} </span>
-              <br/>
-            </p>
-
-            <ion-badge *ngIf="history.candidate_hourly_rate == history.candidate.candidate_hourly_rate" color="danger">
-              Assigned on same rate
-            </ion-badge>
-
-            <ion-badge *ngIf="history.candidate.isProfileCompleted == false" color="danger">
-              Incomplete Profile
-            </ion-badge>
-
-            <ion-badge *ngIf="!history.candidate.candidate_email_verification" color="danger">
-              Email Not Verified
-            </ion-badge>
-
-
-            <ion-badge *ngIf="!history.end_date" color="success">
-              Started Working {{history.start_date | date}}
-            </ion-badge>
-            <ion-badge *ngIf="history.end_date" color="danger">
-              Started Working {{history.start_date | date}} - Till {{history.end_date | date}}
-            </ion-badge>
-          </ion-label>
-
-        </ion-item>
-
-      </ion-card>
-
-
-
-      <no-items *ngIf="!loading && candidates && candidates.length == 0" message="No candidate data available"></no-items>
-
-      <loading-modal [loading]="loading" type="candidate-list"></loading-modal>
-
-    </ion-list>
+    <loading-modal [loading]="loading" type="candidate-list"></loading-modal>
 
   </div>
   <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">

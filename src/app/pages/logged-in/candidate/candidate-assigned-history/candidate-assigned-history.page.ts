@@ -231,25 +231,66 @@ export class CandidateAssignedHistoryPage implements OnInit {
   }
 
   logScrolling(e) {
-    this.borderLimit = (e.detail.scrollTop > 20);
+    this.borderLimit = (e.detail.scrollTop > 292);
   }
 
   /**
    * export id cards
    */
-  async export() {
+  async export() { 
+
     const alert = await this.alertCtrl.create({
-      header: 'Are you sure you want to export the file?',
+      header: 'Please select export data limit...',
+      // Are you sure you want to export the file? 
       cssClass: 'custom-alert',
+      inputs: [
+        {
+          label: '0 - 5,000',
+          type: 'radio',
+          value: 1,
+        },
+        {
+          label: '5,001 - 10,000',
+          type: 'radio',
+          value: 2,
+        },
+        {
+          label: '10,001 - 15,000 ',
+          type: 'radio',
+          value: 3,
+        },
+        {
+          label: '15,001 - 20,000',
+          type: 'radio',
+          value: 4,
+        },
+        {
+          label: '20,001 - 25,000',
+          type: 'radio',
+          value: 5,
+        },
+        {
+          label: '25,001 - 30,000',
+          type: 'radio',
+          value: 6,
+        },
+      ],
       buttons: [
         {
-          text: 'No',
+          text: 'Cancel',
           cssClass: 'alert-button-cancel',
         },
         {
-          text: 'Yes',
+          text: 'Submit',
           cssClass: 'alert-button-confirm',
-          handler: async () => {
+          handler: async (data) => {
+
+            if(!data) {
+              return false;
+            }
+            
+            this.filters.page = data;
+
             this.exporting = true;
             const search = this.urlParams();
             this.candidateService.exportAssigned(search).subscribe(response => {

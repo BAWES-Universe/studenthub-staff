@@ -1,4 +1,4 @@
-<ion-header mode="md" [class.add-border]="borderLimit" class="ion-no-border">
+<ion-header mode="md" [class.add-border]="borderLimit" [class.hidden]="borderLimit" class="ion-no-border">
   <ion-toolbar class="container">
     <ion-buttons slot="start">
       <ion-back-button icon="assets/images/icon-back.svg" (click)="close()"></ion-back-button>
@@ -17,22 +17,19 @@
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
   <div class="container">
     <form [formGroup]="form" *ngIf="form">
-     
-        <ion-list>
-          <ion-item>
-            <div tabindex="0"></div>
-            <ion-label position="floating">Hourly Rate</ion-label>
-            <ion-input type="number" formControlName="rate"></ion-input>
-          </ion-item>
 
-          <ion-item>
-            <div tabindex="0"></div>
-            <ion-label position="floating">Start date</ion-label>
-            <ion-datetime presentation="date" [min]="todayDate" [max]="maxDate" formControlName="start_date"></ion-datetime>
-          </ion-item>
+      <ion-item class="input-wrapper">
+        <div tabindex="0"></div>
+        <ion-label position="floating">Hourly Rate</ion-label>
+        <ion-input type="number" formControlName="rate"></ion-input>
+      </ion-item>
 
-        </ion-list>
-  </form>
+
+      <h5>Start date</h5>
+
+      <ion-datetime presentation="date" [min]="todayDate" [max]="maxDate" formControlName="start_date"></ion-datetime>
+
+    </form>
   </div>
 
 </ion-content>

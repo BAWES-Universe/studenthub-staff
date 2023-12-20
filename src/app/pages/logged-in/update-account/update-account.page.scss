@@ -83,7 +83,9 @@ ion-header {
         margin: 7px 0 0;
         border-radius: 8px;
         border: solid 1px #e2e2e6;
-        background: #eeeef0;
+        //background: #eeeef0;
+        background: #fff;
+        --background: #fff;
         font-stretch: normal;
         font-style: normal;
         letter-spacing: normal;
@@ -95,7 +97,7 @@ ion-header {
         line-height: 1.43;
         letter-spacing: normal;
         text-align: left;
-        color: #68687a;
+        --placeholder-color: #68687a;
   
         --padding-start: 16px;
         --padding-top: 12px;

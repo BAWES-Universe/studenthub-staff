@@ -1,4 +1,4 @@
-<ion-header mode="md" [class.add-border]="borderLimit" class="ion-no-border">
+<ion-header mode="md" [class.add-border]="borderLimit" [class.hidden]="borderLimit" class="ion-no-border">
   <ion-toolbar class="container">
     <ion-buttons slot="start" (click)="dismiss()">
       <ion-back-button icon="assets/images/icon-back.svg"></ion-back-button>
@@ -12,9 +12,9 @@
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
 
   <div class="container max-width">
-    <ion-list class="candidateExperiences" *ngIf="experienceList">
+    <div class="candidateExperiences" *ngIf="experienceList">
 
-      <ion-item *ngFor="let s of tmpExperience;let i=index;">
+      <ion-item class="input-wrapper" *ngFor="let s of tmpExperience;let i=index;">
         <div tabindex="0"></div>
         <ion-input id="input[{{ i }}]" placeholder="{{ 'Type a experience'}}"
           [(ngModel)]="experienceList[i]" (ionFocus)="validateExperiences()" (ionChange)="change($event, i, s)"
@@ -25,7 +25,7 @@
           <img src="assets/images/ic_circledCancel.svg">
         </ion-button>
       </ion-item>
-    </ion-list>
+    </div>
 
     <ion-button class="btn-submit" (click)="save()"
       [disabled]="experienceList.length < 1 || loading"

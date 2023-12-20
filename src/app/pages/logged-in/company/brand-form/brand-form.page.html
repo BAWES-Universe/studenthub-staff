@@ -45,13 +45,13 @@
         
         <input class="upload" type='file' #fileInput (change)="browserUpload($event)" accept=".jpg,.jpeg,.png">
 
-        <ion-item>
+        <ion-item class="input-wrapper" >
           <div tabindex="0"></div>
           <ion-label position="floating">Name - English</ion-label>
           <ion-input type="text" formControlName="name_en"></ion-input>
         </ion-item>
 
-        <ion-item>
+        <ion-item class="input-wrapper" >
           <div tabindex="0"></div>
           <ion-label position="floating">Name - Arabic</ion-label>
           <ion-input type="text" formControlName="name_ar"></ion-input>

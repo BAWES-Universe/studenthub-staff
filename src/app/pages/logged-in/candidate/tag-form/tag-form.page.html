@@ -1,4 +1,4 @@
-<ion-header mode="md" [class.add-border]="borderLimit" class="ion-no-border">
+<ion-header mode="md" [class.add-border]="borderLimit" [class.hidden]="borderLimit" class="ion-no-border">
   <ion-toolbar class="container">
     <ion-buttons slot="start" (click)="dismiss()">
       <ion-back-button icon="assets/images/icon-back.svg"></ion-back-button>
@@ -9,9 +9,9 @@
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
 
   <div class="container max-width">
-      <ion-list class="candidateTags" *ngIf="tagList">
+      <div class="candidateTags" *ngIf="tagList">
  
-        <ion-item *ngFor="let s of tmpTags;let i=index;">
+        <ion-item *ngFor="let s of tmpTags;let i=index;" class="input-wrapper" >
           <div tabindex="0"></div>
           
           <ion-input id="input[{{ i }}]" placeholder="{{ 'Type a tag' }}"
@@ -24,7 +24,7 @@
           </ion-button>
         </ion-item>
 
-      </ion-list>
+      </div>
       
       <ion-chip (click)="onTagSelected(tag.tag)" *ngFor="let tag of tags">{{ tag.tag }}</ion-chip>
       

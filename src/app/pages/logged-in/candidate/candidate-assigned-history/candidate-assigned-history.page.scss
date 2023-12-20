@@ -21,7 +21,7 @@ ion-badge {
   background: url('../../../../../assets/images/icon-earth.svg') no-repeat 0 0px;
 }
 
-ion-card {
+ion-content ion-list ion-card {
   margin: 0 10px 13.5px 10px;
   background-color: #ffffff;
   border-radius: 8px;
@@ -79,10 +79,12 @@ ion-card {
     color: #c5c5cc;
   }
 }
+
 .verified{
   position: absolute;
   top: 3px;
 }
+
 .candidate_name {
   position:relative;
 }

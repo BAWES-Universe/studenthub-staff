@@ -27,9 +27,9 @@
   </ion-refresher>
   
   <div class="container">
-    <ion-list>
-      <ion-item-sliding *ngFor="let emailCampaign of emailCampaigns" [disabled]="platform.width() > 768">
-        <ion-item tappable (click)="rowSelected(emailCampaign)">
+    
+       <ion-card *ngFor="let emailCampaign of emailCampaigns">
+        <ion-item tappable (click)="rowSelected(emailCampaign)" lines="none">
           <div tabindex="0"></div>
           <ion-label>
             <h5>{{ emailCampaign.subject }}</h5>
@@ -55,19 +55,11 @@
           </ion-buttons>
 
         </ion-item>
-
-        <ion-item-options side="end">
-          <ion-button color="danger" (click)="delete($event, emailCampaign)">
-            <ion-icon name="trash-outline" slot="start"></ion-icon>
-            Delete
-          </ion-button>
-        </ion-item-options>
-
-      </ion-item-sliding>
+  
+      </ion-card>
 
       <loading-modal [loading]="loading" type="text-list"></loading-modal>
-    </ion-list>
-
+     
     <no-items message = "No campaign added yet!" *ngIf="emailCampaigns.length == 0 && !loading"></no-items>
 
     <ion-infinite-scroll *ngIf="currentPage < pageCount"

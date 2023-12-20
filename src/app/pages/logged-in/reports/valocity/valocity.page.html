@@ -1,35 +1,34 @@
-<ion-header mode="md" [class.add-border]="borderLimit" class="ion-no-border">
+<ion-header mode="md" [class.add-border]="borderLimit" [class.hidden]="borderLimit" class="ion-no-border">
   <ion-toolbar class="container">
     <ion-buttons slot="start">
       <ion-back-button icon="assets/images/icon-back.svg" defaultHref="/view/tasks"></ion-back-button>
     </ion-buttons>
     <ion-title>Valocity</ion-title>
   </ion-toolbar>
-</ion-header>
 
-<ion-content>
-
-  <div class="container">
+  <ion-toolbar class="container">
 
     <ion-grid>
       <ion-row>
-        <ion-col size="4">
-          <ion-item>
+        <ion-col size-sm="6" size-md="4" size-ld="3">
+          <ion-item class="input-wrapper" >
             <div tabindex="0"></div>
-            <ion-label position="stacked">Start date</ion-label>
+            <ion-label position="floating">Start date</ion-label>
             <ion-input [(ngModel)]="start_date" id="startDate" class="filter ion-text-start"></ion-input>
             <app-date-popup alignment="center" side="bottom" key="startDate" (onClose)="filterDate($event,'startDate')"></app-date-popup>
 
           </ion-item>
         </ion-col>
-        <ion-col size="4">
-          <ion-item>
+        <ion-col size-sm="6" size-md="4" size-ld="3">
+          <ion-item class="input-wrapper" >
             <div tabindex="0"></div>
-            <ion-label position="stacked">End date</ion-label>
+            <ion-label position="floating">End date</ion-label>
             <ion-input [(ngModel)]="end_date" id="endDate" class="filter ion-text-start"></ion-input>
             <app-date-popup alignment="center" side="bottom" key="endDate" (onClose)="filterDate($event,'end_date')"></app-date-popup>
           </ion-item>
         </ion-col>
+      </ion-row>
+      <ion-row>
         <ion-col size="4">
 
           <ion-button (click)="loadData(1)">
@@ -42,7 +41,13 @@
         </ion-col>
       </ion-row>
     </ion-grid>
+  </ion-toolbar>
+</ion-header>
 
+<ion-content>
+
+  <div class="container">
+ 
     <ion-grid *ngIf="!loading" class="table table-hover table-bordered">
       <ion-row>
         <ion-col>Recruiter</ion-col>

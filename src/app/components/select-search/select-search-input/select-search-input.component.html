@@ -1,4 +1,4 @@
-<ion-item (click)="onClick($event)" tappable [class.no-value-selected]="!value">
+<ion-item class="input-wrapper" (click)="onClick($event)" tappable [class.no-value-selected]="!value">
   <div tabindex="0"></div>
   <ion-label position="stacked" *ngIf="title">{{title}}</ion-label>
   <div>{{ selectedItem? selectedItem[labelAttr] : placeholder }}</div>

@@ -1,4 +1,4 @@
-<ion-header mode="md" [class.add-border]="borderLimit" class="ion-no-border">
+<ion-header mode="md" [class.add-border]="borderLimit" [class.hidden]="borderLimit" class="ion-no-border">
   <ion-toolbar class="container">
     <ion-buttons slot="start">
       <ion-back-button icon="assets/images/icon-back.svg" (click)="close()"></ion-back-button>
@@ -16,21 +16,22 @@
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
   <div class="container">
     <form [formGroup]="form">
-      <ion-list>
-        <ion-item>
+      
+        <ion-item class="input-wrapper" >
           <div tabindex="0"></div>
           <ion-label position="floating">Name English</ion-label>
           <ion-input type="text" formControlName="name_en"></ion-input>
         </ion-item>
-        <ion-item>
+        <ion-item class="input-wrapper" >
           <div tabindex="0"></div>
           <ion-label position="floating">Name Arabic</ion-label>
           <ion-input type="text" formControlName="name_ar"></ion-input>
         </ion-item>
-      </ion-list>
+     
     </form>
   </div>
 </ion-content>
+<!--
 <ion-footer class="ion-no-border">
   <div class="container">
     <ion-grid>
@@ -49,4 +50,4 @@
       </ion-row>
     </ion-grid>
   </div>
-</ion-footer>
+</ion-footer>-->

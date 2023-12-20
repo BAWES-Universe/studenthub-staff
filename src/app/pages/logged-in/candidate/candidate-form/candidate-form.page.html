@@ -1,4 +1,4 @@
-<ion-header mode="md" [class.add-border]="borderLimit" class="ion-no-border">
+<ion-header mode="md" [class.add-border]="borderLimit" [class.hidden]="borderLimit" class="ion-no-border">
   <ion-toolbar class="container">
     <ion-buttons slot="start">
       <ion-back-button icon="assets/images/icon-back.svg" defaultHref="/candidate-list"></ion-back-button>
@@ -69,7 +69,7 @@
         </ion-card-header>
         <ion-card-content>
 
-          <ion-item>
+          <ion-item class="input-wrapper" >
             <div tabindex="0"></div>
             <ion-label position="floating">Civil ID Number</ion-label>
             <ion-input type="text" formControlName="civil_id"></ion-input>
@@ -84,7 +84,7 @@
             </p>
           </div>
 
-          <ion-item>
+          <ion-item class="input-wrapper" >
             <div tabindex="0"></div>
             <ion-label position="fixed">Civil ID Expiry Date</ion-label>
             <ion-input
@@ -108,7 +108,7 @@
           Personal Information
         </ion-card-header>
         <ion-card-content>
-          <ion-item>
+          <ion-item class="input-wrapper" >
             <div tabindex="0"></div>
             <ion-label position="floating">Name [English]</ion-label>
             <ion-input class="candidate_name" type="text" formControlName="name"></ion-input>
@@ -119,7 +119,7 @@
             </p>
           </div>
 
-          <ion-item>
+          <ion-item class="input-wrapper" >
             <div tabindex="0"></div>
             <ion-label  position="floating">Name [Arabic]</ion-label>
             <ion-input type="text" formControlName="name_ar"></ion-input>
@@ -130,7 +130,7 @@
             </p>
           </div>
 
-          <ion-item>
+          <ion-item class="input-wrapper" >
             <div tabindex="0"></div>
             <ion-label position="fixed">Birth Date</ion-label>
             <ion-input
@@ -163,7 +163,7 @@
             </p>
           </div>
 
-          <ion-item (click)="updateLocation()" tappable>
+          <ion-item class="input-wrapper"  (click)="updateLocation()" tappable>
             <div tabindex="0"></div>
             <ion-label position="stacked">Area candidate live in</ion-label>
             <p>
@@ -181,7 +181,7 @@
   <!--          model.country.country_nationality_name_en == 'Kuwaiti' &&-->
   <!--          model.nationality.country_nationality_name_en != 'Kuwaiti'-->
   <!--        ">-->
-          <ion-item>
+          <ion-item >
             <div tabindex="0"></div>
             <ion-label>Candidate mother a Kuwaiti national?</ion-label>
             <ion-chip (click)="setKuwaitiMomStatus(1)" [class.active]="model.candidate_mom_kuwaiti == 1">Yes</ion-chip>
@@ -212,7 +212,7 @@
             </p>
           </div>
 
-          <ion-item>
+          <ion-item class="input-wrapper" >
             <div tabindex="0"></div>
             <ion-label position="floating">Phone Number</ion-label>
             <ion-input type="text" formControlName="phone"></ion-input>
@@ -227,7 +227,7 @@
             </p>
           </div>
 
-          <ion-item>
+          <ion-item class="input-wrapper" >
             <div tabindex="0"></div>
             <ion-label position="floating">Objective</ion-label>
             <ion-input type="text" formControlName="objective"></ion-input>
@@ -239,7 +239,7 @@
             </p>
           </div>
 
-          <ion-item>
+          <ion-item class="input-wrapper" >
             <div tabindex="0"></div>
             <ion-label position="floating">Preferred time to contact</ion-label>
             <ion-input type="text" formControlName="preferred_time"></ion-input>
@@ -272,13 +272,13 @@
             </p>
           </div>
 
-          <ion-item (click)="updateTags()">
+          <ion-item class="input-wrapper"  (click)="updateTags()">
             <div tabindex="0"></div>
             <ion-label position="floating">Tags</ion-label>
             <ion-input type="text" readonly formControlName="tags"></ion-input>
           </ion-item>
 
-          <ion-item (click)="updateSkills()">
+          <ion-item class="input-wrapper"  (click)="updateSkills()">
             <div tabindex="0"></div>
             <ion-label position="floating">Skill</ion-label>
             <ion-input type="text" readonly formControlName="skills"></ion-input>
@@ -290,7 +290,7 @@
             </p>
           </div>
 
-          <ion-item (click)="updateExperiences()">
+          <ion-item class="input-wrapper"  (click)="updateExperiences()">
             <div tabindex="0"></div>
             <ion-label position="floating">Experience</ion-label>
             <ion-input type="text" readonly formControlName="experiences"></ion-input>
@@ -302,7 +302,7 @@
             </p>
           </div>
 
-          <ion-item (click)="updateResume()">
+          <ion-item class="input-wrapper"  (click)="updateResume()">
             <div tabindex="0"></div>
             <ion-label position="floating">Candidate CV</ion-label>
             <ion-input type="text" readonly formControlName="resume"></ion-input>
@@ -343,7 +343,7 @@
           Bank Information
         </ion-card-header>
         <ion-card-content>
-          <ion-item>
+          <ion-item class="input-wrapper" >
             <div tabindex="0"></div>
             <ion-label  position="floating">Beneficiary Name</ion-label>
             <ion-input type="text" formControlName="bank_account_name"></ion-input>
@@ -355,7 +355,7 @@
             </p>
           </div>
 
-          <ion-item>
+          <ion-item class="input-wrapper" >
             <div tabindex="0"></div>
             <ion-label  position="floating">IBAN</ion-label>
             <ion-input type="text" formControlName="iban"></ion-input>
@@ -375,7 +375,7 @@
           Login Information
         </ion-card-header>
         <ion-card-content>
-          <ion-item>
+          <ion-item class="input-wrapper" >
             <div tabindex="0"></div>
             <ion-label  position="floating">Email</ion-label>
             <ion-input type="email" inputmode="email" formControlName="email"></ion-input>

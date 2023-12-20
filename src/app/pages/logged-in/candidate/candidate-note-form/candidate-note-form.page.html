@@ -1,4 +1,4 @@
-<ion-header mode="md" [class.add-border]="borderLimit" class="ion-no-border">
+<ion-header mode="md" [class.add-border]="borderLimit" [class.hidden]="borderLimit" class="ion-no-border">
   <ion-toolbar class="container">
     <ion-buttons slot="start">
       <ion-back-button icon="assets/images/icon-back.svg" (click)="close()"></ion-back-button>
@@ -20,7 +20,7 @@
     <form [formGroup]="form" *ngIf="form">
       <ion-list>
 
-        <ion-item *ngIf="['Suggested', 'Accepted', 'Rejected'].indexOf(form.controls['type'].value) == -1">
+        <ion-item class="input-wrapper"  *ngIf="['Suggested', 'Accepted', 'Rejected'].indexOf(form.controls['type'].value) == -1">
           <div tabindex="0"></div>
           <ion-label position="floating">Note Type</ion-label>
           <ion-select formControlName="type">
@@ -34,7 +34,7 @@
         </ion-item>
 
         <ion-list>
-          <ion-item (click)="openClient($event)">
+          <ion-item class="input-wrapper"  (click)="openClient($event)">
             <div tabindex="0"></div>
             <ion-label position="floating">Company Name</ion-label>
             <ion-input type="text" formControlName="company_name" readonly></ion-input>
@@ -42,7 +42,7 @@
         </ion-list>
 
         <ion-list>
-          <ion-item (click)="openRequest($event)">
+          <ion-item class="input-wrapper" (click)="openRequest($event)">
             <div tabindex="0"></div>
             <ion-label position="floating">Request</ion-label>
             <ion-input type="text" formControlName="request_name" readonly></ion-input>

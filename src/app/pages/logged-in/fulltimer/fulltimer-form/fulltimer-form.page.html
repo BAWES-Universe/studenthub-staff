@@ -1,4 +1,4 @@
-<ion-header mode="md" [class.add-border]="borderLimit" class="ion-no-border">
+<ion-header mode="md" [class.add-border]="borderLimit" [class.hidden]="borderLimit" class="ion-no-border">
   <ion-toolbar class="container">
     <ion-buttons slot="start">
       <ion-back-button icon="assets/images/icon-back.svg" (click)="close()"></ion-back-button>
@@ -22,9 +22,8 @@
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
   <div class="container">
     <form [formGroup]="form">
-      <ion-list>
-
-        <ion-item>
+       
+        <ion-item class="input-wrapper" >
           <div tabindex="0"></div>
           <ion-label position="floating">Name*</ion-label>
           <ion-input type="telephone" formControlName="name"></ion-input>
@@ -36,7 +35,7 @@
           </p>
         </div>
 
-        <ion-item>
+        <ion-item class="input-wrapper" > 
           <div tabindex="0"></div>
           <ion-label position="floating">Phone*</ion-label>
           <ion-input type="telephone" formControlName="phone"></ion-input>
@@ -48,7 +47,7 @@
           </p>
         </div>
 
-        <ion-item>
+        <ion-item class="input-wrapper" >
           <div tabindex="0"></div>
           <ion-label position="floating">Email*</ion-label>
           <ion-input type="email" formControlName="email"></ion-input>
@@ -60,7 +59,7 @@
           </p>
         </div>
 
-        <ion-item (click)="selectNationality()">
+        <ion-item class="input-wrapper"  (click)="selectNationality()">
           <div tabindex="0"></div>
           <ion-label position="floating">Nationality*</ion-label>
           <ion-input readonly formControlName="nationality"></ion-input>
@@ -72,7 +71,7 @@
           </p>
         </div>
 
-        <ion-item tappable>
+        <ion-item class="input-wrapper"  tappable>
           <div tabindex="0"></div>
           <ion-label position="floating">PDF CV*</ion-label>
           <ion-input type="text" readonly formControlName="pdf_cv"></ion-input>
@@ -107,7 +106,7 @@
           </p>
         </div>
 
-        <ion-item (click)="updateLocation()">
+        <ion-item class="input-wrapper"  (click)="updateLocation()">
           <div tabindex="0"></div>
           <ion-label position="floating">Location*</ion-label>
           <ion-input readonly formControlName="location"></ion-input>
@@ -119,7 +118,7 @@
           </p>
         </div>
 
-        <ion-item>
+        <ion-item class="input-wrapper" >
           <div tabindex="0"></div>
           <ion-label position="floating">Current Salary</ion-label>
           <ion-input type="email" formControlName="current_salary"></ion-input>
@@ -131,7 +130,7 @@
           </p>
         </div>
 
-        <ion-item>
+        <ion-item class="input-wrapper" >
           <div tabindex="0"></div>
           <ion-label position="floating">Expected Salary</ion-label>
           <ion-input type="email" formControlName="expected_salary"></ion-input>
@@ -143,7 +142,7 @@
           </p>
         </div>
 
-        <ion-item (click)="selectUniversity()">
+        <ion-item class="input-wrapper"  (click)="selectUniversity()">
           <div tabindex="0"></div>
           <ion-label position="floating">Select University</ion-label>
           <ion-input readonly formControlName="university"></ion-input>
@@ -167,7 +166,7 @@
           </p>
         </div>
 
-        <ion-item [class.ion-invalid]="!model.fulltimer_gender">
+        <ion-item class="input-wrapper"  [class.ion-invalid]="!model.fulltimer_gender">
           <div tabindex="0"></div>
           <ion-label>Gender</ion-label>
           <ion-chip (click)="setGenderOption(1)" [class.active]="model.fulltimer_gender == 1">Male</ion-chip>
@@ -181,7 +180,7 @@
           </p>
         </div>
 
-        <ion-item [class.ion-invalid]="!model.fulltimer_driving_license">
+        <ion-item class="input-wrapper"  [class.ion-invalid]="!model.fulltimer_driving_license">
           <div tabindex="0"></div>
           <ion-label>Driving License Available?</ion-label>
           <ion-chip (click)="setLicenseOption(1)" [class.active]="model.fulltimer_driving_license == 1">Yes</ion-chip>
@@ -193,7 +192,8 @@
             * required
           </p>
         </div>
-        <ion-item>
+
+        <ion-item class="input-wrapper" >
           <div tabindex="0"></div>
           <ion-label position="fixed">Birth Date</ion-label>
           <ion-input
@@ -209,7 +209,7 @@
           </p>
         </div>
 
-        <ion-item>
+        <ion-item class="input-wrapper" >
           <div tabindex="0"></div>
           <ion-label>Employed?</ion-label>
           <ion-toggle slot="end" formControlName="employed"></ion-toggle>
@@ -227,7 +227,7 @@
           <ion-card-content>
 
             <div *ngFor="let fulltimerTag of fulltimerTags.controls; let i = index">
-              <ion-item [formGroup]="fulltimerTag">
+              <ion-item [formGroup]="fulltimerTag" class="input-wrapper" >
                 <div tabindex="0"></div>
 
                 <ion-input autocomplete="off1" (ionChange)="onTagChange($event, i)" formControlName="tag"
@@ -249,8 +249,7 @@
           </ion-label>
           <ion-textarea formControlName="suggestion"></ion-textarea>
         </ion-item>
-
-      </ion-list>
+ 
     </form>
   </div>
 </ion-content>

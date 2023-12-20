@@ -30,17 +30,9 @@ h3 {
     max-width: 400px;
     margin: auto;
 }
-
-.list ion-item-sliding,
+ 
 ion-item {
-    background: transparent;
-}
-
-ion-item {
-    --padding-end: 0;
-    --padding-start: 0;
-    --border-color: rgba(189, 189, 189, 0.3);
-    --border-width: 0 0 2.5px 0;
+  
     --inner-padding-end: 10px;
 
     ion-button {

@@ -1,4 +1,4 @@
-<ion-header mode="md" [class.add-border]="borderLimit" class="ion-no-border">
+<ion-header mode="md" [class.add-border]="borderLimit" [class.hidden]="borderLimit" class="ion-no-border">
   <ion-toolbar class="container">
     <ion-buttons slot="start">
       <ion-back-button icon="assets/images/icon-back.svg" (click)="close()"></ion-back-button>
@@ -19,7 +19,7 @@
 
   <div class="container">
     <form [formGroup]="form" *ngIf="form">
-      <ion-item lines="none" *ngIf="['Suggested', 'Accepted', 'Rejected'].indexOf(form.controls['type'].value) == -1">
+      <ion-item  class="input-wrapper" lines="none" *ngIf="['Suggested', 'Accepted', 'Rejected'].indexOf(form.controls['type'].value) == -1">
         <div tabindex="0"></div>
         <ion-select formControlName="type">
           <ion-select-option>Internal Note</ion-select-option>
@@ -31,7 +31,7 @@
         </ion-select>
       </ion-item>
 
-      <ion-item>
+      <ion-item class="input-wrapper">
         <div tabindex="0"></div>
         <ion-textarea formControlName="note" placeholder="Please add detail"></ion-textarea>
       </ion-item>

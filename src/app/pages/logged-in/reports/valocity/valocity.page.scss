@@ -11,3 +11,7 @@ ion-grid ion-row:first-child ion-col {
   white-space: nowrap;
   width: 68px;
 }
+
+ion-content {
+  --padding-top: 15px;
+}

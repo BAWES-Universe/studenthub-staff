@@ -1,4 +1,4 @@
-<ion-header mode="md" [class.add-border]="borderLimit" class="ion-no-border">
+<ion-header mode="md" [class.add-border]="borderLimit" [class.hidden]="borderLimit" class="ion-no-border">
   <ion-toolbar class="container">
     <ion-buttons slot="start">
       <ion-back-button icon="assets/images/icon-back.svg" (click)="close()"></ion-back-button>
@@ -21,13 +21,13 @@
       <ion-list>
   
         <ion-list>
-          <ion-item>
+          <ion-item class="input-wrapper" >
             <div tabindex="0"></div>
             <ion-label position="floating">Title</ion-label>
             <ion-input type="text" formControlName="title"></ion-input>
           </ion-item>
 
-          <ion-item>
+          <ion-item class="input-wrapper">
             <div tabindex="0"></div>
             <ion-label position="floating">Message</ion-label>
             <ion-textarea formControlName="message"></ion-textarea>

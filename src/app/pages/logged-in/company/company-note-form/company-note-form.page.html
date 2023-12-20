@@ -1,4 +1,4 @@
-<ion-header mode="md" [class.add-border]="borderLimit" class="ion-no-border">
+<ion-header mode="md" [class.add-border]="borderLimit" [class.hidden]="borderLimit" class="ion-no-border">
   <ion-toolbar class="container">
     <ion-buttons slot="start">
       <ion-back-button icon="assets/images/icon-back.svg" (click)="close()"></ion-back-button>
@@ -21,7 +21,7 @@
       <ion-list>
         <ng-container *ngIf="this.from !='post-update'">
           
-          <ion-item *ngIf="['Suggested', 'Accepted', 'Rejected'].indexOf(form.controls['type'].value) == -1">
+          <ion-item class="input-wrapper" *ngIf="['Suggested', 'Accepted', 'Rejected'].indexOf(form.controls['type'].value) == -1">
             <div tabindex="0"></div>
             <ion-label position="floating">Note Type</ion-label>
             <ion-select formControlName="type" interface="popover">
@@ -34,19 +34,19 @@
             </ion-select>
           </ion-item>
 
-          <ion-item (click)="openClient($event)" *ngIf="this.from !='company-view'" tappable>
+          <ion-item class="input-wrapper" (click)="openClient($event)" *ngIf="this.from !='company-view'" tappable>
             <div tabindex="0"></div>
             <ion-label position="floating">Company Name</ion-label>
             <ion-input type="text" formControlName="company_name" readonly tappable></ion-input>
           </ion-item>
 
-          <ion-item (click)="openContact($event)" tappable>
+          <ion-item class="input-wrapper" (click)="openContact($event)" tappable>
             <div tabindex="0"></div>
             <ion-label position="floating">Contact</ion-label>
             <ion-input type="text" formControlName="contact_name" readonly tappable></ion-input>
           </ion-item>
 
-          <ion-item (click)="openRequest($event)" tappable>
+          <ion-item class="input-wrapper" (click)="openRequest($event)" tappable>
             <div tabindex="0"></div>
             <ion-label position="floating">Request</ion-label>
             <ion-input type="text" formControlName="request_name" readonly tappable></ion-input>
@@ -73,7 +73,7 @@
       
       <ion-list>
         <ion-radio-group formControlName="request_checklist_uuid">
-          <ion-item *ngFor="let item of checklist">
+          <ion-item *ngFor="let item of checklist" class="input-wrapper" >
             <div tabindex="0"></div>
             <ion-label>{{ item.status_name }}</ion-label>
             <ion-radio slot="start" [value]="item.request_checklist_uuid"></ion-radio>

@@ -312,7 +312,7 @@ export class CandidateListPage implements OnInit {
   }
 
   logScrolling(e) {
-    this.borderLimit = (e.detail.scrollTop > 20);
+    this.borderLimit = (e.detail.scrollTop > 342);
   }
 
   /**
@@ -320,8 +320,41 @@ export class CandidateListPage implements OnInit {
    */
   async export() {
     const alert = await this.alertCtrl.create({
-      header: 'Are you sure you want to export the file?',
+      header: 'Please select export data limit...',
+      //header: 'Are you sure you want to export the file?',
       cssClass: 'custom-alert',
+      inputs: [
+        {
+          label: '0 - 5,000',
+          type: 'radio',
+          value: 1,
+        },
+        {
+          label: '5,001 - 10,000',
+          type: 'radio',
+          value: 2,
+        },
+        {
+          label: '10,001 - 15,000 ',
+          type: 'radio',
+          value: 3,
+        },
+        {
+          label: '15,001 - 20,000',
+          type: 'radio',
+          value: 4,
+        },
+        {
+          label: '20,001 - 25,000',
+          type: 'radio',
+          value: 5,
+        },
+        {
+          label: '25,001 - 30,000',
+          type: 'radio',
+          value: 6,
+        },
+      ],
       buttons: [
         {
           text: 'No',
@@ -330,7 +363,12 @@ export class CandidateListPage implements OnInit {
         {
           text: 'Yes',
           cssClass: 'alert-button-confirm',
-          handler: async () => {
+          handler: async (data) => {
+
+            if(!data) {
+              return false;
+            }
+
             this.exporting = true;
             const search = this.urlParams();
             this.candidateService.export(search).subscribe(response => {

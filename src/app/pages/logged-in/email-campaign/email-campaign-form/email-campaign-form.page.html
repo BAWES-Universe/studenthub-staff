@@ -16,8 +16,8 @@
 
 <ion-content class="ion-padding">
   <form [formGroup]="form" *ngIf="form">
-    <ion-list>
-      <ion-item>
+     
+      <ion-item class="input-wrapper" >
         <ion-label position="floating">Subject</ion-label>
         <ion-input type="text" placeholder="Email subject" formControlName="subject"></ion-input>
       </ion-item>
@@ -25,9 +25,7 @@
         <ion-label position="floating">Message </ion-label>
         <ion-textarea  placeholder="Email content or HTML "></ion-textarea> 
       </ion-item> -->
-       
-      <br />
-
+        
       <editor formControlName="message" [init]="editorConfig"></editor>
  
       <h5>Filters </h5>
@@ -49,7 +47,7 @@
               <ion-grid>
                 <ion-row>
                   <ion-col>
-                    <ion-item [class.have-errors]="emailCampaignFilterForm['controls'].param.errors != null">
+                    <ion-item class="input-wrapper"  [class.have-errors]="emailCampaignFilterForm['controls'].param.errors != null">
                       <ion-label position="stacked">Filter Name/ Parameter</ion-label>
                       <ion-select formControlName="param">
                         <ion-select-option value="filterAssigned">Assigned</ion-select-option>
@@ -69,7 +67,7 @@
                   </ion-col>
  
                   <ion-col *ngIf="['filterStore', 'filterCountry', 'filterUniversity', 'ageRange'].indexOf(emailCampaignFilterForm.value.param) > -1">
-                    <ion-item [class.have-errors]="emailCampaignFilterForm['controls'].value.errors != null">
+                    <ion-item class="input-wrapper"  [class.have-errors]="emailCampaignFilterForm['controls'].value.errors != null">
                       <ion-label position="stacked">Value</ion-label>
                       <ion-input formControlName="value"></ion-input>
                     </ion-item>
@@ -87,8 +85,7 @@
       <ion-button fill="clear" (click)="addFilter()">
         + Add New Filter
       </ion-button>
-
-    </ion-list>
+ 
   </form>
 </ion-content>
  

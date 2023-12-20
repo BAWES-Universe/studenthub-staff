@@ -11,6 +11,10 @@
   }
 }
 
+ion-content {
+  --padding-top: 15px; 
+}
+
 input.upload {
   position: absolute;
   top: 0;

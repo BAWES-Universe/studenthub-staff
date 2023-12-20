@@ -42,6 +42,9 @@ body {
   display: table;
   content: "";
 }
+ion-list {
+  background: transparent !important;
+}
 
 ion-tabs ion-back-button {
   display: none !important;

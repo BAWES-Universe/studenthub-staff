@@ -1,9 +1,15 @@
-<ion-header mode="md" [class.add-border]="borderLimit" class="ion-no-border">
+<ion-header mode="md" [class.add-border]="borderLimit" [class.hidden]="borderLimit" class="ion-no-border">
   <ion-toolbar class="container">
     <ion-buttons slot="start">
       <ion-back-button icon="assets/images/icon-back.svg" defaultHref="/view/tasks"></ion-back-button>
     </ion-buttons>
     <ion-title>Mall List <small>({{totalCount}})</small></ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button (click)="create($event)">
+        Add New Mall
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
@@ -34,12 +40,4 @@
     <ion-infinite-scroll-content></ion-infinite-scroll-content>
   </ion-infinite-scroll>
 </ion-content>
-
-<ion-footer class="ion-no-border">
-  <div class="container">
-    <ion-button (click)="create($event)">
-      Add New Mall
-    </ion-button>
-  </div>
-</ion-footer>
-
+ 

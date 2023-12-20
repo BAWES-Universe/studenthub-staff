@@ -2,6 +2,18 @@ ion-back-button {
   display: block;
 }
 
+ion-content {
+  --padding-top: 15px;
+}
+
+ion-card {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+  //margin-left: 0;
+  margin: 5px 0px 5px 0px;
+}
+
 input.upload {
     position: absolute;
     top: 0;

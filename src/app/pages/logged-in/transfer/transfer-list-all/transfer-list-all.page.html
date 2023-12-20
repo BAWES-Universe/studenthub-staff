@@ -1,7 +1,7 @@
-<ion-header [class.add-border]="borderLimit" class="ion-no-border">
+<ion-header [class.add-border]="borderLimit" class="ion-no-border" [class.hidden]="borderLimit">
   <ion-toolbar class="container">
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/view/tasks"></ion-back-button>
+      <ion-back-button icon="assets/images/icon-back.svg" defaultHref="/view/tasks"></ion-back-button>
     </ion-buttons>
     <ion-title>Transfer List <small>({{totalCount}})</small></ion-title>
   </ion-toolbar>
@@ -9,21 +9,22 @@
     <ion-grid>
       <ion-row>
         <ion-col size-md="4" size-lg="4" size-sm="6" size-xs="12">
-          <ion-item lines="none">
-            <ion-label position="fixed">Start date</ion-label>
-            <ion-input [(ngModel)]="start_date" id="startDate" class="filter ion-text-center"></ion-input>
+          <ion-item class="input-wrapper" lines="none">
+            <ion-label position="floating">Start date</ion-label>
+            <ion-input [(ngModel)]="start_date" id="startDate"></ion-input>
             <app-date-popup alignment="center" side="bottom" key="startDate" (onClose)="filterDate($event,'startDate')"></app-date-popup>
           </ion-item>
+
         </ion-col>
         <ion-col size-md="4" size-lg="4" size-sm="6" size-xs="12">
-          <ion-item lines="none">
-            <ion-label position="fixed">End date</ion-label>
-            <ion-input [(ngModel)]="end_date" id="endDate" class="filter ion-text-center"></ion-input>
+          <ion-item class="input-wrapper" lines="none">
+            <ion-label position="floating">End date</ion-label>
+            <ion-input [(ngModel)]="end_date" id="endDate"></ion-input>
             <app-date-popup alignment="center" side="bottom" key="endDate" (onClose)="filterDate($event,'end_date')"></app-date-popup>
           </ion-item>
         </ion-col>
         <ion-col size-md="4" size-lg="4" size-sm="6" size-xs="12">
-            <ion-item>
+            <ion-item class="input-wrapper">
               <ion-label position="floating" color="primary">Type</ion-label>
               <ion-select [(ngModel)]="type" okText="Okay" cancelText="Dismiss">
                 <ion-select-option value="all">All</ion-select-option>
@@ -39,14 +40,14 @@
       </ion-row>
       <ion-row>
         <ion-col size-md="6" size-lg="6" size-sm="6" size-xs="12">
-          <ion-item>
+          <ion-item lines="none">
             <ion-checkbox slot="start" [(ngModel)]="filterSameRate" value="true"></ion-checkbox>
             <ion-label color="primary">Filter Same Hourly Rate</ion-label>
           </ion-item>
         </ion-col>
       
         <ion-col size-md="6" size-lg="6" size-sm="6" size-xs="12">
-          <ion-item>
+          <ion-item lines="none">
             <ion-checkbox slot="start" [(ngModel)]="filterNoProfit" value="true"></ion-checkbox>
             <ion-label color="primary">Filter No Profit in candidate transfer</ion-label>
           </ion-item>
