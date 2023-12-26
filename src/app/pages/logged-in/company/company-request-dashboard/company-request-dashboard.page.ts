@@ -137,7 +137,8 @@ export class CompanyRequestDashboardPage implements OnInit {
       this.filters.requestStatus = state.requestStatus;
     }
     
-    this.loadRequests();
+    if(this.requests.length == 0)
+      this.loadRequests();
   }
 
   ionViewWillLeave() {
@@ -329,6 +330,16 @@ export class CompanyRequestDashboardPage implements OnInit {
       if(this.storyTotal == 0)
         this.loadStories(1);
     }
+  }
+
+  handleRefresh(event) {
+    if (this.segment == 'request') {
+      this.loadRequests();
+    } else {
+      this.loadStories(1);
+    }
+
+    event.target.complete();
   }
 
   /**

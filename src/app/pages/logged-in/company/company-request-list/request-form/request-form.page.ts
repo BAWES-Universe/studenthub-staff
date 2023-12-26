@@ -259,7 +259,10 @@ export class RequestFormPage implements OnInit {
    * @param id
    */
   async detail(id) {
-    this.requestService.view(id).subscribe(data => {
+
+    const urlParams = '?expand=contact,company';
+
+    this.requestService.view(id, urlParams).subscribe(data => {
       this.model = data;
       this.loadForm();
     });

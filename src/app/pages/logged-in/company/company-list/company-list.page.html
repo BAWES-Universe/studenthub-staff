@@ -24,6 +24,10 @@
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
   
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
   <div class="container">
 
     <div *ngIf="filters.withStats || filters.staff_id || (filters.status && filters.status != 100) || (filters.approved_to_hire || filters.approved_to_hire == 0)" class="filter-tag">

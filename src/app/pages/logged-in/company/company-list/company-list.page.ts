@@ -91,7 +91,13 @@ export class CompanyListPage implements OnInit {
     //   this.loadCompaniesSegmentData();
     // }
 
-    this.loadData(1);
+    if(this.companies.length == 0)
+      this.loadData(1);
+  }
+
+  handleRefresh(event) {
+    this.loadData(1, event);
+
   }
 
   /**
@@ -160,7 +166,7 @@ export class CompanyListPage implements OnInit {
    * load with filters
    * @param page 
    */
-  async loadData(page: number) {
+  async loadData(page: number, event = null) {
 
     // Load list of companies
     this.loading = true;
@@ -173,6 +179,10 @@ export class CompanyListPage implements OnInit {
       this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
       this.totalCount = parseInt(response.headers.get('X-Pagination-Total-Count'));
       this.companies = response.body;
+
+      if(event) {
+        event.target.complete();
+      }
     },
       error => { },
       () => { this.loading = false; }

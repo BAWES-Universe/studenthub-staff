@@ -33,6 +33,11 @@
 </ion-header>
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
+
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>  
+
   <div class="container">
     <div *ngIf="filters.requestStatus || filters.storyStatus || filters.position_type || filters.startDate || filters.endDate || filters.story_position_type" class="filter-tag">
       
