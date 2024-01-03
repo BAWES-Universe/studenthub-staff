@@ -222,12 +222,13 @@ export class CompanyViewPage implements OnInit {
       }
     });
     modal.onDidDismiss().then(e => {
-
+ 
       if (!e.data || e.data.from != 'native-back-btn') {
         window['history-back-from'] = 'onDidDismiss';
-        window.history.back();
+       // window.history.back();
       }
     });
+
     modal.present();
   }
 

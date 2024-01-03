@@ -12,7 +12,7 @@
     </ion-buttons>
 -->
   </ion-toolbar>
-  <ion-toolbar class="container" [class.hidden]="borderLimit">
+  <ion-toolbar class="container">
     <ion-title>Contacts</ion-title>
   </ion-toolbar>
   <ion-toolbar *ngIf="query || companyContacts.length > 5" class="container searchbar-wrapper">
@@ -61,11 +61,30 @@
               {{ companyContact.contact_position }}
             </h2>
  
-            <ion-badge *ngIf="!companyContact.contact_email_verification">
-              Email not verified
-            </ion-badge> 
+            <ion-badge *ngIf="!companyContact.contact_email">
+              Missing contact's primary email 
+            </ion-badge>  
+            
+            <ion-badge *ngIf="companyContact.contact_email && (!companyContact.contact_email_verification || companyContact.contact_email_verification =='0')">
+             Email not verified
+            </ion-badge>  
+
           </ion-label>
 
+          <ng-container *ngIf="companyContact.contact_email && (!companyContact.contact_email_verification || 
+            companyContact.contact_email_verification == '0')">
+            <ion-button class="btn-email-verified" [disabled]="markingEmailVerified" (click)="markEmailVerified(companyContact, $event)">
+              <ion-spinner *ngIf="markingEmailVerified"></ion-spinner>
+              <span *ngIf="!markingEmailVerified">Mark email verified </span>
+            </ion-button>
+
+            <ion-button class="btn-email-verified" [disabled]="sendingVerificationMail" (click)="sendVerificationMail(companyContact, $event)">
+              <ion-spinner *ngIf="sendingVerificationMail"></ion-spinner>
+              <span *ngIf="!sendingVerificationMail">Send Verification email</span>
+            </ion-button>
+            
+          </ng-container>
+          
           <ion-button (click)="toggleOpen(companyContact, $event)" [class.is-open]="companyContact.isOpen">
             <ion-icon src="assets/images/icon-arrow-down.svg"></ion-icon>
           </ion-button>

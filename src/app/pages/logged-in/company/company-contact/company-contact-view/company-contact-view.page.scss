@@ -159,6 +159,7 @@ note {
   margin: 0 4px 15px 4px;
 }
 
+.btn-email-verified,
 .btn-verify {
   height: 56px;
   border-radius: 12px;
@@ -172,6 +173,6 @@ note {
   text-align: center;
   color: #eb5757;
   text-transform: capitalize;
-  width: calc(100% - 24px);
+  //width: calc(100% - 24px);
   --background: transparent;
 }

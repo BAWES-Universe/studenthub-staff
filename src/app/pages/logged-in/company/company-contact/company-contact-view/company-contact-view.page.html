@@ -99,9 +99,15 @@
         </ion-row>
       </ion-grid>
 
-      <ion-button class="btn-verify" *ngIf="contact && !contact.contact_email_verification" (click)="sendVerificationMail()">
+      <ion-button class="btn-verify" *ngIf="contact && contact.contact_email && !contact.contact_email_verification" (click)="sendVerificationMail()">
         Send Verification email
       </ion-button>
+
+      <ion-button class="btn-email-verified" *ngIf="contact && contact.contact_email && !contact.contact_email_verification" [disabled]="markingEmailVerified" (click)="markEmailVerified()">
+        <ion-spinner *ngIf="markingEmailVerified"></ion-spinner>
+        <span *ngIf="!markingEmailVerified">Mark email verified </span>
+      </ion-button>
+
     </div>
 
     <div class="tab-requests" *ngIf="segment == 'requests'">

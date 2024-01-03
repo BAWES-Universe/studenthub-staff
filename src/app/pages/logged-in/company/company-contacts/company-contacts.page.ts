@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ModalController, NavController } from '@ionic/angular';
+import { AlertController, ModalController, NavController } from '@ionic/angular';
 // models
 import { CompanyContact } from 'src/app/models/company-contact';
 import { Company } from "../../../../models/company";
@@ -15,6 +15,7 @@ import { AnalyticsService } from 'src/app/providers/analytics.service';
 import { ModalPopPage } from '../../modal-pop/modal-pop.page';
 import { CompanyContactFormPage } from "../company-contact-form/company-contact-form.page";
 import { ContactFilterComponent } from 'src/app/components/contact-filter/contact-filter.component';
+import { AuthService } from 'src/app/providers/auth.service';
 
 
 @Component({
@@ -30,6 +31,10 @@ export class CompanyContactsPage implements OnInit {
 
   public borderLimit: boolean = false;
 
+  public markingEmailVerified = false; 
+
+  public sendingVerificationMail = false; 
+  
   public loading = false;
 
   public filter: {
@@ -51,6 +56,8 @@ export class CompanyContactsPage implements OnInit {
     public companyContactService: CompanyContactService,
     public companyService: CompanyService,
     public aws: AwsService,
+    public authService: AuthService,
+    public alertCtrl: AlertController,
     public eventService: EventService,
     public analyticService: AnalyticsService
   ) { }
@@ -105,19 +112,18 @@ export class CompanyContactsPage implements OnInit {
     event.preventDefault();
     event.stopPropagation();
 
-    this.modalCtrl.getTop().then((overlay) => {
-      if(overlay) {
-        overlay.dismiss();
-      }
-
-      //this.company.company_id
+    this.modalCtrl.dismiss().then(() => { 
       
       this.router.navigate(['company-contact-view', companyContact.contact_uuid], {
         state: {
           model: companyContact
         }
-      });
-    }); 
+      });/*.then(() => {
+        this.dismiss();
+      }); */
+
+    });
+    
     /*
     window.history.pushState({ navigationId: window.history.state.navigationId }, null, window.location.pathname);
 
@@ -159,6 +165,51 @@ export class CompanyContactsPage implements OnInit {
     }
 
     return url;
+  }
+
+
+  async sendVerificationMail(companyContact, event) {
+
+    event.preventDefault();
+    event.stopPropagation();
+ 
+    this.sendingVerificationMail = true; 
+
+    this.companyContactService.sendEmail(companyContact).subscribe(async response => {
+ 
+      this.sendingVerificationMail = false; 
+  
+      const prompt = await this.alertCtrl.create({
+        message: this.authService.errorMessage(response.message),
+        buttons: ['Ok']
+      });
+      prompt.present();
+    });
+  }
+
+  markEmailVerified(companyContact, event) {
+
+    event.preventDefault();
+    event.stopPropagation();
+
+    this.markingEmailVerified = true; 
+
+    this.companyContactService.markEmailVerified(companyContact).subscribe(async response => {
+      this.markingEmailVerified = false;
+      
+      if(response.operation == "error") 
+      {
+        let prompt = await this.alertCtrl.create({
+          message: this.authService.errorMessage(response.message),
+          buttons: ["Okay"]
+        });
+        prompt.present();
+      }
+      else 
+      {
+        companyContact.contact_email_verification = true;
+      }
+    });
   }
 
   /**
