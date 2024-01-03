@@ -44,6 +44,8 @@ export class CompanyContactViewPage implements OnInit {
 
   public contact: Contact;
 
+  public markingEmailVerified = false; 
+
   public requests: Request[] = [];
 
   public notes: Note[] = [];
@@ -300,6 +302,33 @@ export class CompanyContactViewPage implements OnInit {
       ]
     });
     confirm.present();
+  }
+
+
+  markEmailVerified() {
+
+    event.preventDefault();
+    event.stopPropagation();
+
+    this.markingEmailVerified = true; 
+
+    this.companyContactService.markEmailVerified(this.contact).subscribe(async response => {
+
+      this.markingEmailVerified = false;
+      
+      if(response.operation == "error") 
+      {
+        let prompt = await this.alertCtrl.create({
+          message: this.authService.errorMessage(response.message),
+          buttons: ["Okay"]
+        });
+        prompt.present();
+      }
+      else 
+      {
+        this.contact.contact_email_verification = true;
+      }
+    });
   }
 
   async sendVerificationMail() {

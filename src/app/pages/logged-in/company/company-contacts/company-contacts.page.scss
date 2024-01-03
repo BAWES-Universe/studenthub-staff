@@ -208,3 +208,8 @@ ion-card {
 ion-chip {
   margin-bottom: 15px;
 }
+
+.btn-email-verified {
+  --color: red; 
+  text-transform: none;
+}

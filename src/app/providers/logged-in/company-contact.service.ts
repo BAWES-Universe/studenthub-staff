@@ -148,4 +148,16 @@ export class CompanyContactService {
     const url = `${this._endpoint}/send-verification-email?contact_uuid=${model.contact_uuid}`;
     return this._authhttp.get(url);
   }
+
+  /**
+   * mark email verified 
+   * @param model 
+   * @returns 
+   */
+  markEmailVerified(model): Observable<any>{
+    const url = `${this._endpoint}/mark-email-verified`;
+    return this._authhttp.patch(url, {
+      contact_uuid: model.contact_uuid
+    });
+  }
 }
