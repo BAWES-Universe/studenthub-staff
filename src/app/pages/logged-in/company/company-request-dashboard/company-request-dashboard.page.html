@@ -2,8 +2,8 @@
   <!-- [class.slide-in-bottom]="borderLimit" -->
   <ion-toolbar class="container title">
     <ion-title>
-      <span *ngIf="segment == 'request'">Requests</span>
-      <span *ngIf="segment == 'story'">Stories</span>
+      <span *ngIf="segment == 'request'"> Requests <ion-chip *ngIf="total > 0">{{ total }}</ion-chip></span>
+      <span *ngIf="segment == 'story'">Stories <ion-chip *ngIf="storyTotal"> {{ storyTotal }}</ion-chip></span>
     </ion-title>
   </ion-toolbar>
   <ion-toolbar class="container searchbar-wrapper">
@@ -22,11 +22,13 @@
     <ion-segment mode="md" (ionChange)="segmentChanged($event)" value="request">
 
       <ion-segment-button  mode="md" value="request">
-        <ion-label>Requests <!-- ({{total}})--></ion-label>
+        <ion-label>Requests  <!-- ({{total}})--></ion-label>
+        
       </ion-segment-button>
 
       <ion-segment-button  mode="md" value="story">
         <ion-label>Stories <!-- ({{storyTotal}})--></ion-label>
+        
       </ion-segment-button>
     </ion-segment>
   </ion-toolbar>
@@ -78,11 +80,12 @@
 
       <no-items message="~ No Request Found ~" *ngIf="noRequests"></no-items>
 
+      <loading-modal [loading]="loading" type="request-list"></loading-modal>
+
       <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
         <ion-infinite-scroll-content></ion-infinite-scroll-content>
       </ion-infinite-scroll>
 
-      <loading-modal [loading]="loading" type="request-list"></loading-modal>
     </div>
 
     <div *ngIf="segment == 'story'">
