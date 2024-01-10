@@ -164,6 +164,8 @@ workflows:
     build_deploy_on_dev_server:
         jobs:
             - build_for_dev_server:
+                context: 
+                    - org-global
                 filters:
                     branches:
                         only: develop
@@ -176,6 +178,8 @@ workflows:
     build_deploy_on_staging_server:
         jobs:
             - build_for_prod_server:
+                context: 
+                    - org-global
                 filters:
                     branches:
                         only: master
