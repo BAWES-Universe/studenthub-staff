@@ -18,7 +18,11 @@ export class StatisticService {
    * @returns {Observable<any>}
    */
   get(refresh: boolean = false): Observable<any> {
-    let url = this._endpoint + '?refresh=' + refresh;
+    let url = this._endpoint;
+    
+    if(refresh)
+      url += '?refresh=' + refresh;
+    
     return this._authhttp.get(url);
   }
 }

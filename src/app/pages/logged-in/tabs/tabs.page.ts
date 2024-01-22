@@ -84,12 +84,13 @@ export class TabsPage implements OnInit, OnDestroy {
   ionViewWillEnter() {
     this.getAccountInfo();
   }
+
   /**
    * load current data
    */
   async loadStats() {
 
-    this.statisticService.get(true).subscribe(response => {
+    this.statisticService.get(false).subscribe(response => {
 
       //skip for first time
 
