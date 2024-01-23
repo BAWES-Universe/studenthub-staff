@@ -237,6 +237,7 @@ applied-filters {
 @media only screen and (min-width: 768px) {
   .filter-wrapper {
     width: calc(23% - 5px);
+    max-width: 335px;
     position: fixed;
     height: 100%;
     //top: 57px;
