@@ -79,7 +79,7 @@
     <ion-card *ngFor="let transfer of transfers" tappable [routerLink]="['/transfer-view/'+transfer.transfer_id+'/only']">
       <ion-card-content>
         <p><strong>Transfer #{{ transfer.transfer_id}}</strong></p>
-        <h2><strong>KWD {{ transfer.company_total | number:'1.3-3' }}</strong></h2>
+        <h2><strong>{{ transfer.currency_code }} {{ transfer.company_total | number:'1.3-3' }}</strong></h2>
         <p>
           <strong>Status: </strong>
 

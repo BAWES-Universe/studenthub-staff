@@ -114,7 +114,7 @@
           </h2>
 
           <p>{{ history.candidate.candidate_birth_date | candidateAge }}
-            <span *ngIf="history.candidate.candidate_hourly_rate > 0"><span class="sep">•</span>{{ history.candidate.candidate_hourly_rate }} KD /hour</span>
+            <span *ngIf="history.candidate.candidate_hourly_rate > 0"><span class="sep">•</span>{{ history.candidate.candidate_hourly_rate }} {{ history.candidate.currency_code }} /hour</span>
           </p>
 
           <p class="nationality" *ngIf="history.candidate.nationality">

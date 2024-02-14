@@ -14,4 +14,6 @@ export class ComapanyRequest {
     created_at: string;
     updated_at: string;
     contact: Contact;
+    country_id: number;
+    currency_code: string;
 } 

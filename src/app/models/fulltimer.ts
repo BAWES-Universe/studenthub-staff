@@ -34,6 +34,7 @@ export class Fulltimer {
     suggested: any;
     suggestionAccepted: any;
     suggestionRejected: any;
+    currency_code: string;
     fulltimerTags: FulltimerTag[];
     area: Area;
     country: Country;

@@ -74,7 +74,7 @@
     </ion-card-content>
       <ion-grid>
           <ion-row>
-            <ion-col><ion-img src="assets/images/doller.svg" ></ion-img> {{company.company_hourly_rate | number:'1.0-3' }} KD / hour</ion-col>
+            <ion-col><ion-img src="assets/images/doller.svg" ></ion-img> {{company.company_hourly_rate | number:'1.0-3' }} {{ company.currency_code }} / hour</ion-col>
             <ion-col><ion-img src="assets/images/money.svg" ></ion-img>
                 <span *ngIf="company.company_bonus_commission">{{company.company_bonus_commission | number:'1.0-2' }} %</span>
                 <span *ngIf="!company.company_bonus_commission">0 %</span>

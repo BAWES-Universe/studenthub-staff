@@ -9,7 +9,7 @@
     <ion-title>
       Transfers
       <span *ngIf="transfer?.company_total">
-        - KWD {{ transfer.company_total | number:'1.0-3' }}
+        - {{ transfer.currency_code }} {{ transfer.company_total | number:'1.0-3' }}
       </span>
     </ion-title>
     <ion-buttons slot="end" *ngIf="!viewOnly && transfer && transfer.transfer_status==10">
@@ -101,7 +101,7 @@
                 Transfer ID<br /> <b>{{ transfer.transfer_id}}</b>
               </ion-col>
               <ion-col size-lg="2" size-md="2" size-sm="6" size-xs="6" class="ion-align-self-center">
-                Transfer Total <br /> <b>KWD {{ transfer.company_total | number:'1.0-3' }}</b>
+                Transfer Total <br /> <b>{{ transfer.currency_code }} {{ transfer.company_total | number:'1.0-3' }}</b>
               </ion-col>
               <ion-col size-lg="2" size-md="2" size-sm="6" size-xs="6" class="ion-align-self-center">
                 Start Date <br />
@@ -148,10 +148,10 @@
                   Deleted Account
                 </h2>
 
-                <p *ngIf="resource.hours > 0">{{ resource.hours | number }} hours x KD
+                <p *ngIf="resource.hours > 0">{{ resource.hours | number }} hours x {{ resource.transfer.currency_code }}
                   {{ resource.company_hourly_rate | number:'1.0-3' }} per hour</p>
-                <p *ngIf="resource.bonus">Bonus KD {{resource.bonus | number}}</p>
-                <p class="txt-total"><b>KD {{ total(resource) }}</b></p>
+                <p *ngIf="resource.bonus">Bonus {{ resource.transfer.currency_code }} {{resource.bonus | number}}</p>
+                <p class="txt-total"><b>{{ resource.transfer.currency_code }} {{ total(resource) }}</b></p>
 
                 <ion-badge slot="start" color="dark" *ngIf="resource.paid != '1' && resource.company_total > 0 && (transfer.transfer_status==3 || transfer.transfer_status==4)">
                   Transfer in progress

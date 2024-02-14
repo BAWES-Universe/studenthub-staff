@@ -89,23 +89,23 @@
         
         <p>
           <strong>Company </strong> 
-          KWD {{candidateTransfer.company_hourly_rate}} x 
+          {{ candidateTransfer.transfer.currency_code }} {{candidateTransfer.company_hourly_rate}} x 
           {{candidateTransfer.hours}} hours + 
-          KWD {{ candidateTransfer.bonus }} = 
-          KWD {{ candidateTransfer.company_total | number:'1.3-3' }}
+          {{ candidateTransfer.transfer.currency_code }} {{ candidateTransfer.bonus }} = 
+          {{ candidateTransfer.transfer.currency_code }} {{ candidateTransfer.company_total | number:'1.3-3' }}
         </p>
         
         <p>
           <strong>Candidate </strong> 
-          KWD {{candidateTransfer.candidate_hourly_rate}} x 
+          {{ candidateTransfer.transfer.currency_code }} {{candidateTransfer.candidate_hourly_rate}} x 
           {{candidateTransfer.hours}} hours + 
-          KWD {{ candidateTransfer.bonus }} = 
-          KWD {{ candidateTransfer.candidate_total | number:'1.3-3' }}
+          {{ candidateTransfer.transfer.currency_code }} {{ candidateTransfer.bonus }} = 
+          {{ candidateTransfer.transfer.currency_code }} {{ candidateTransfer.candidate_total | number:'1.3-3' }}
         </p> 
          
-        <p><strong>Bonus Commission: </strong> KWD {{candidateTransfer.bonus_commission }}</p>
+        <p><strong>Bonus Commission: </strong> {{ candidateTransfer.transfer.currency_code }} {{candidateTransfer.bonus_commission }}</p>
        
-        <p><strong>Profit: </strong> KWD {{ candidateTransfer.company_total - candidateTransfer.candidate_total }}</p>
+        <p><strong>Profit: </strong> {{ candidateTransfer.transfer.currency_code }} {{ candidateTransfer.company_total - candidateTransfer.candidate_total }}</p>
 
         <p><strong>Created on: </strong> {{candidateTransfer.tc_created_at}}</p>
       </ion-card-content>

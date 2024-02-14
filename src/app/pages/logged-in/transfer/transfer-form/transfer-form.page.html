@@ -88,7 +88,7 @@
                 <ion-col size-lg="4" size-md="4" size-sm="12" size-xs="12">
                   <ion-item class="input-wrapper">
                     <ion-label position="floating">
-                      Bonus (KWD)
+                      Bonus 
                       <span class="error" *ngIf="parseNumber(transferCandidateRecord.bonus) < 0">Invalid value</span>
                     </ion-label>
                     <ion-input [readonly]="transferCandidateRecord.candidate.civilExpired" type="number" min="0" inputmode="decimal" (ionChange)="calculateTotal()"
@@ -106,7 +106,7 @@
                     <ion-label>
                       <p>Subtotal</p>
                       <h5>
-                        KWD {{ (parseNumber(transferCandidateRecord.hours) *
+                        {{ form.value.currency_code }} {{ (parseNumber(transferCandidateRecord.hours) *
                         transferCandidateRecord.candidate.company.company_hourly_rate) +
                         parseNumber(transferCandidateRecord.bonus) | number:'1.0-3' }}
                       </h5>
@@ -122,7 +122,7 @@
       <div class="total-wrapper">
         <div class="pull-left">
           <p>Total Amount </p>
-          <h4>KWD {{ total | number:'1.0-3' }}</h4>
+          <h4>{{ form.value.currency_code }} {{ total | number:'1.0-3' }}</h4>
         </div>
 
         <ion-button class="btn-save" [disabled]="!form.valid || (total <= 0)" (click)="validate()">

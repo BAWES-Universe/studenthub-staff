@@ -74,6 +74,7 @@ export class Candidate {
     tags: string;
     candidateExperiences: any;
     candidateSkills: any;
+    currency_code: string;
     candidateTags: CandidateTag[];
     candidateIdCard: CandidateIdCard;
     notes: Note[];

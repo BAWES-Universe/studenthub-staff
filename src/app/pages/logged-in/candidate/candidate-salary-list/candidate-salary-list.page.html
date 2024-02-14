@@ -20,8 +20,8 @@
       <ion-badge *ngIf="transferCandidate.status =='Unpaid'">In Progress</ion-badge>
 
       <div class="salary">
-        <b>KWD {{transferCandidate.total | number:'1.3-3' }}</b>
-        <p *ngIf="transferCandidate.bonus > 0">Base {{ transferCandidate.base | number:'1.3-3' }} KWD + Bonus KWD {{transferCandidate.candidate_bonus | number:'1.3-3' }}</p>
+        <b>{{ transferCandidate.transfer.currency_code }} {{transferCandidate.total | number:'1.3-3' }}</b>
+        <p *ngIf="transferCandidate.bonus > 0">Base {{ transferCandidate.base | number:'1.3-3' }} {{ transferCandidate.transfer.currency_code }} + Bonus {{ transferCandidate.transfer.currency_code }} {{transferCandidate.candidate_bonus | number:'1.3-3' }}</p>
       </div>
 
       <p *ngIf="transferCandidate.transfer_confirmation_id">Confirmation #{{ transferCandidate.transfer_confirmation_id }}</p>

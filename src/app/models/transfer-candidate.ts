@@ -35,7 +35,8 @@ export class TransferCandidate {
 
     total_paid: number;//company_total - dynamically calculated
     total_amount: number;//candidate_total - dynamically calculated
-
+    currency_code: string;
+    
     profit: number;
     candidate: Candidate;
     bank: Bank;
