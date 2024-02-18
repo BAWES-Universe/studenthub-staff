@@ -4,6 +4,15 @@
       <ion-back-button icon="assets/images/icon-back.svg" (click)="dismiss()"></ion-back-button>
     </ion-buttons>
     <ion-title>{{ pageTitle }}</ion-title>
+    
+    <ion-buttons slot="end">
+      <ion-select *ngIf="transfer" [(ngModel)]="transfer.currency_code">
+        <ion-select-option [value]="currency.code" *ngFor="let currency of authService.currencies">
+          {{ currency.code }}
+        </ion-select-option>
+      </ion-select>
+    </ion-buttons>
+    
   </ion-toolbar>
 </ion-header>
 

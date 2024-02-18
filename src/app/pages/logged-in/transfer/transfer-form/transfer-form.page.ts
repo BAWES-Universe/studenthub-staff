@@ -95,7 +95,7 @@ export class TransferFormPage implements OnInit {
     private _alertCtrl: AlertController,
     public _toastCtrl: ToastController,
     private _fb: FormBuilder,
-    private _authService: AuthService,
+    public authService: AuthService,
     public analyticService: AnalyticsService,
     private modalCtrl: ModalController,
     private eventService: EventService
@@ -194,6 +194,10 @@ export class TransferFormPage implements OnInit {
       Validators.required
     ]];
 
+    formControls['currency_code'] = [(this.transfer && this.transfer.currency_code) ? this.transfer.currency_code : this.authService.currency_pref, [
+      Validators.required
+    ]];
+
     // Replace the transferCandidates within the transfer with our up to date list
     if (this.transfer) {
       this.transfer.transferCandidates = updatedTransferRecords;
@@ -269,6 +273,11 @@ export class TransferFormPage implements OnInit {
     // this.fileInput.nativeElement.click();
   }
 
+  onCurrencyUpdate(event) {
+    this.transfer.currency_code = event.target.value;
+    this.form.controls.currency_code.setValue(event.target.value);
+    this.form.controls.currency_code.updateValueAndValidity();
+  }
 
   /**
    * Save the model
@@ -284,8 +293,8 @@ export class TransferFormPage implements OnInit {
     this.removeUnaccountedUsers();
 
     const action = this.transfer.transfer_id ?
-      this.transferService.updateTransfer(this.transfer, this.form.value.start_date, this.form.value.end_date) :
-      this.transferService.save(this.transfer, this.form.value.start_date, this.form.value.end_date);
+      this.transferService.updateTransfer(this.transfer, this.form.value.start_date, this.form.value.end_date, this.form.value.currency_code) :
+      this.transferService.save(this.transfer, this.form.value.start_date, this.form.value.end_date, this.form.value.currency_code);
 
     action.subscribe(async jsonResponse => {
       loader.dismiss();
@@ -323,7 +332,7 @@ export class TransferFormPage implements OnInit {
       // On Failure, show an alert with the error message
       if (jsonResponse.operation == 'error') {
         const prompt = await this._alertCtrl.create({
-          message: this._authService.errorMessage(jsonResponse.message),
+          message: this.authService.errorMessage(jsonResponse.message),
           buttons: ['Ok']
         });
         prompt.present();

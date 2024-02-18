@@ -268,7 +268,7 @@
       <ion-item class="item-salary" *ngFor="let salary of salaryTransfers | slice:0:3">
         <div tabindex="0"></div>
         <ion-label>
-          <h5>{{ salary.transfer.currency_code }} {{salary.total | number:'1.3-3' }}</h5>
+          <h5>{{ salary.currency_code }} {{salary.total | number:'1.3-3' }}</h5>
           <p>#{{ salary.tc_id }}</p>
         </ion-label>
 

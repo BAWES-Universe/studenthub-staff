@@ -89,23 +89,23 @@
         
         <p>
           <strong>Company </strong> 
-          {{ candidateTransfer.transfer.currency_code }} {{candidateTransfer.company_hourly_rate}} x 
+          {{ candidateTransfer.currency_code }} {{candidateTransfer.company_hourly_rate}} x 
           {{candidateTransfer.hours}} hours + 
-          {{ candidateTransfer.transfer.currency_code }} {{ candidateTransfer.bonus }} = 
-          {{ candidateTransfer.transfer.currency_code }} {{ candidateTransfer.company_total | number:'1.3-3' }}
+          {{ candidateTransfer.currency_code }} {{ candidateTransfer.bonus }} = 
+          {{ candidateTransfer.currency_code }} {{ candidateTransfer.company_total | number:'1.3-3' }}
         </p>
         
         <p>
           <strong>Candidate </strong> 
-          {{ candidateTransfer.transfer.currency_code }} {{candidateTransfer.candidate_hourly_rate}} x 
+          {{ candidateTransfer.currency_code }} {{candidateTransfer.candidate_hourly_rate}} x 
           {{candidateTransfer.hours}} hours + 
-          {{ candidateTransfer.transfer.currency_code }} {{ candidateTransfer.bonus }} = 
-          {{ candidateTransfer.transfer.currency_code }} {{ candidateTransfer.candidate_total | number:'1.3-3' }}
+          {{ candidateTransfer.currency_code }} {{ candidateTransfer.bonus }} = 
+          {{ candidateTransfer.currency_code }} {{ candidateTransfer.candidate_total | number:'1.3-3' }}
         </p> 
          
-        <p><strong>Bonus Commission: </strong> {{ candidateTransfer.transfer.currency_code }} {{candidateTransfer.bonus_commission }}</p>
+        <p><strong>Bonus Commission: </strong> {{ candidateTransfer.currency_code }} {{candidateTransfer.bonus_commission }}</p>
        
-        <p><strong>Profit: </strong> {{ candidateTransfer.transfer.currency_code }} {{ candidateTransfer.company_total - candidateTransfer.candidate_total }}</p>
+        <p><strong>Profit: </strong> {{ candidateTransfer.currency_code }} {{ candidateTransfer.company_total - candidateTransfer.candidate_total }}</p>
 
         <p><strong>Created on: </strong> {{candidateTransfer.tc_created_at}}</p>
       </ion-card-content>

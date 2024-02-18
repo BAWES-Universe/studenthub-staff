@@ -19,6 +19,7 @@ import { AwsService } from 'src/app/providers/aws.service';
 import { SentryErrorhandlerService } from 'src/app/providers/sentry.errorhandler.service';
 import { EventService } from "../../../../providers/event.service";
 import { AnalyticsService } from 'src/app/providers/analytics.service';
+import { AuthService } from 'src/app/providers/auth.service';
 
 
 @Component({
@@ -57,6 +58,7 @@ export class ImportTransferFormPage implements OnInit {
     public navCtrl: NavController,
     public transferService: TransferService,
     public awsService: AwsService,
+    public authService: AuthService,
     public sentryService: SentryErrorhandlerService,
     public translateService: TranslateLabelService,
     public analyticService: AnalyticsService,
@@ -164,7 +166,7 @@ export class ImportTransferFormPage implements OnInit {
    */
   async newTransferUpload(file) {
 
-    this.transferService.uploadTransferExcel(file, this.start_date, this.end_date, this.transfer.company_id).subscribe(async data => {
+    this.transferService.uploadTransferExcel(file, this.start_date, this.end_date, this.transfer.company_id, this.transfer.currency_code).subscribe(async data => {
 
       this.uploading = false;
 
@@ -204,7 +206,7 @@ export class ImportTransferFormPage implements OnInit {
   async editTransferUpload(file) {
 
     this.transferService
-      .updateTransferUploadExcel(file, this.transfer.transfer_id, this.start_date, this.end_date)
+      .updateTransferUploadExcel(file, this.transfer.transfer_id, this.start_date, this.end_date, this.transfer.currency_code)
       .subscribe(async data => {
 
         this.uploading = false;

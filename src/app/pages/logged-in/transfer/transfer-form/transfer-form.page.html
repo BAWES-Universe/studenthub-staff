@@ -124,7 +124,15 @@
           <p>Total Amount </p>
           <h4>{{ form.value.currency_code }} {{ total | number:'1.0-3' }}</h4>
         </div>
-
+        <div class="pull-left">
+          <p>Currency </p>
+          <ion-select  *ngIf="form" [value]="form.value.currency_code" (ionChange)="onCurrencyUpdate($event)"> 
+            <ion-select-option [value]="currency.code" *ngFor="let currency of authService.currencies">
+              {{ currency.code }}
+            </ion-select-option>
+          </ion-select>
+        </div>
+        
         <ion-button class="btn-save" [disabled]="!form.valid || (total <= 0)" (click)="validate()">
           Save
         </ion-button>

@@ -32,6 +32,8 @@ export class AuthService {
   public navEnable = true;
   public currency_pref = 'USD';
 
+  public currencies = [];
+  
   public isLogged = false;
 
   public displayCookieMessage = '0';

@@ -24,6 +24,7 @@ import {StoryService} from './providers/logged-in/story.service';
 import {CompanyRequestService} from './providers/logged-in/company-request.service';
 import { AuthService as Auth0Service } from '@auth0/auth0-angular';
 import { StorageService } from './providers/storage.service';
+import { CurrencyService } from './providers/currency.service';
 
 
 @Component({
@@ -47,6 +48,7 @@ export class AppComponent implements OnInit {
     public modalCtrl: ModalController,
     public authService: AuthService,
     public storyService: StoryService,
+    public currencyService: CurrencyService,
     public requestService: CompanyRequestService,
     public translateService: TranslateLabelService,
     public toastCtrl: ToastController,
@@ -127,6 +129,8 @@ export class AppComponent implements OnInit {
 
     this.platform.ready().then(() => {
 
+      this.loadCurrencies();
+
       /**
        * todo: need to test in mobile app
        * when user comming back from auth0
@@ -146,6 +150,12 @@ export class AppComponent implements OnInit {
       }
 
       this.setServiceWorker();
+    });
+  }
+
+  loadCurrencies() {
+    this.currencyService.list(-1).subscribe(data => {
+      this.authService.currencies = data.body;
     });
   }
 
