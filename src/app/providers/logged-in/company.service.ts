@@ -85,7 +85,7 @@ export class CompanyService {
    */
   view(
     companyID,
-    expands= 'brands,subCompanies,subCompanies.stores,subCompanies.stores.mall,subCompanies.stores.brand,stores,stores.mall,stores.brand,subCompanies.stores.candidates,files,requests,notes,brands,parentTransfers,parentTransfers.profit,parentTransfers.childTransfers,parentTransfers.childTransfers.company,parentTransfers.totalCandidateTransferTotal,parentTransfers.totalPaid,parentTransfers.paidTransferCandidates,malls,notes.createdBy,notes.updatedBy,companyContacts'
+    expands= 'country,brands,subCompanies,subCompanies.stores,subCompanies.stores.mall,subCompanies.stores.brand,stores,stores.mall,stores.brand,subCompanies.stores.candidates,files,requests,notes,brands,parentTransfers,parentTransfers.profit,parentTransfers.childTransfers,parentTransfers.childTransfers.company,parentTransfers.totalCandidateTransferTotal,parentTransfers.totalPaid,parentTransfers.paidTransferCandidates,malls,notes.createdBy,notes.updatedBy,companyContacts'
   ) {
     return this._authhttp.get(this._companyEndpoint + '/' + companyID + '?expand=' + expands);
   }
@@ -95,7 +95,7 @@ export class CompanyService {
    * @param companyID
    */
   stats(companyID) {
-    return this._authhttp.get(this._companyEndpoint + '/' + companyID + '?expand=stats');
+    return this._authhttp.get(this._companyEndpoint + '/' + companyID + '?expand=country,stats');
   }
 
   /**
@@ -103,7 +103,7 @@ export class CompanyService {
    * @returns {Observable<any>}
    */
   getWithCandidates(companyID): Observable<any> {
-    let url = `${this._companyEndpoint}/${companyID}?expand=candidates,candidates.store,candidates.company`;
+    let url = `${this._companyEndpoint}/${companyID}?expand=country,candidates,candidates.store,candidates.company`;
     return this._authhttp.get(url);
   }
 
@@ -113,7 +113,7 @@ export class CompanyService {
    */
   companyDetail(id) {
     //+ '?expand=files,requests,notes,brands'
-    return this._authhttp.get(this._companyEndpoint + '/' + id);
+    return this._authhttp.get(this._companyEndpoint + '/' + id + '?expand=country');
   }
 
   /**
@@ -160,6 +160,7 @@ export class CompanyService {
       // password: model.company_password_hash,
       bonus_commission: model.company_bonus_commission,
       hourly_rate: model.company_hourly_rate,
+      currency_code: model.currency_code,
       common_name_en: model.company_common_name_en,
       common_name_ar: model.company_common_name_ar,
       description_en: model.company_description_en,
@@ -170,7 +171,8 @@ export class CompanyService {
       followup_interval_weeks: model.company_followup_interval_weeks,
       followup: model.company_followup,
       approved_to_hire: model.company_approved_to_hire,
-      password: model.password
+      password: model.password,
+      country_id: model.country_id
     };
 
     return this._authhttp.post(postUrl, params);
@@ -188,6 +190,7 @@ export class CompanyService {
       email: model.company_email,
       bonus_commission: model.company_bonus_commission,
       hourly_rate: model.company_hourly_rate,
+      currency_code: model.currency_code,
       common_name_en: model.company_common_name_en,
       common_name_ar: model.company_common_name_ar,
       description_en: model.company_description_en,
@@ -197,7 +200,8 @@ export class CompanyService {
       commercial_licence: model.commercial_licence,
       followup_interval_weeks: model.company_followup_interval_weeks,
       followup: model.company_followup,
-      approved_to_hire: model.company_approved_to_hire
+      approved_to_hire: model.company_approved_to_hire,
+      country_id: model.country_id
     };
 
     return this._authhttp.patch(`${this._companyEndpoint}/${model.company_id}`, params);

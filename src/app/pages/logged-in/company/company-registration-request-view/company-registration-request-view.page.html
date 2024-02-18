@@ -66,6 +66,22 @@
         </ion-label>
       </ion-item>
 
+      <ion-item>
+        <div tabindex="0"></div>
+        <ion-label>
+          <h5>Currency code</h5>
+          <p>{{ request.currency_code }}</p>
+        </ion-label>
+      </ion-item>
+
+      <ion-item *ngIf="request.country">
+        <div tabindex="0"></div>
+        <ion-label>
+          <h5>Country</h5>
+          <p>{{ request.country.country_name_en }}</p>
+        </ion-label>
+      </ion-item>
+ 
       <!--
       <ion-item>
         <div tabindex="0"></div>

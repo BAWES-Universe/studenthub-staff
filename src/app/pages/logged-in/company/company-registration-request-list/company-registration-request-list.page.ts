@@ -89,7 +89,7 @@ export class CompanyRegistrationRequestListPage implements OnInit {
       this.totalCount = parseInt(response.headers.get('X-Pagination-Total-Count'));
 
       this.requests = response.body;
-
+ 
       if(event)
         event.target.complete();
 

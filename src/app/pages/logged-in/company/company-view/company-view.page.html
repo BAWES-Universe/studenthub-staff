@@ -223,6 +223,11 @@
         </li>
 
         <li>
+          <ion-icon name="earth-outline" ></ion-icon> <b>Country</b>
+          <ion-note>{{company.country.country_name_en }} </ion-note>
+        </li>
+
+        <li>
           <ion-icon src="assets/images/icon-commission.svg" ></ion-icon> <b>Commission</b>
           <ion-note>
             <span *ngIf="company.company_bonus_commission">{{company.company_bonus_commission | number:'1.0-2' }} %</span>

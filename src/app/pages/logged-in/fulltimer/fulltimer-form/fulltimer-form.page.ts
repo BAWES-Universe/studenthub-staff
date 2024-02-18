@@ -189,6 +189,7 @@ export class FulltimerFormPage implements OnInit, OnDestroy {
         location: ['', Validators.required],
         current_salary: [''],
         expected_salary: [''],
+        currency_code: ["KWD"],
         tempPdfCVLocation: [''],
       });
 
@@ -232,6 +233,7 @@ export class FulltimerFormPage implements OnInit, OnDestroy {
         location: [location, Validators.required],
         current_salary: [this.model.fulltimer_current_salary],
         expected_salary: [this.model.fulltimer_expected_salary],
+        currency_code: [this.model.currency_code],
         university: [null],
         university_id: [this.model.university_id],
         employed: [this.model.fulltimer_employed],
@@ -555,6 +557,7 @@ export class FulltimerFormPage implements OnInit, OnDestroy {
     this.model.fulltimerTags = this.form.value.fulltimerTags;
     this.model.fulltimer_current_salary = this.form.value.current_salary;
     this.model.fulltimer_expected_salary = this.form.value.expected_salary;
+    this.model.currency_code = this.form.value.currency_code;
     this.model.university_id = this.form.value.university_id;
     this.model.fulltimer_employed = this.form.value.employed;
     this.model.fulltimer_gender = this.form.value.gender;

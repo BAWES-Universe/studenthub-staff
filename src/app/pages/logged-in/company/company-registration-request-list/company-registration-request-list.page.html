@@ -25,6 +25,8 @@
             <h5>{{ request.company_name }}</h5>
             <p>{{ translateService.toDate(request.created_at) | date }}</p>
           </ion-label> 
+          <ion-chip *ngIf="request.country">{{ request.country.country_name_en }} </ion-chip>
+          <ion-chip>{{ request.currency_code }}</ion-chip>
         </ion-item>
       </ion-item-sliding>
 

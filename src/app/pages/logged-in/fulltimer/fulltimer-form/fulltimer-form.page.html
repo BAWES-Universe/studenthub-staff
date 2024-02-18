@@ -130,7 +130,7 @@
           </p>
         </div>
 
-        <ion-item class="input-wrapper" >
+        <ion-item class="input-wrapper">
           <div tabindex="0"></div>
           <ion-label position="floating">Expected Salary</ion-label>
           <ion-input type="email" formControlName="expected_salary"></ion-input>
@@ -141,6 +141,16 @@
             * required
           </p>
         </div>
+
+        <ion-item class="input-wrapper">
+          <div tabindex="0"></div>
+          <ion-label position="floating">Currency code</ion-label>
+          <ion-select  *ngIf="form" formControlName="currency_code"> 
+            <ion-select-option [value]="currency.code" *ngFor="let currency of authService.currencies">
+              {{ currency.code }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
 
         <ion-item class="input-wrapper"  (click)="selectUniversity()">
           <div tabindex="0"></div>

@@ -12,6 +12,7 @@ import { EventService } from "../../../../providers/event.service";
 // models
 import { Company } from 'src/app/models/company';
 import { AnalyticsService } from 'src/app/providers/analytics.service';
+import { CountryModalComponent } from 'src/app/components/country-modal/country-modal.component';
 
 
 @Component({
@@ -57,7 +58,7 @@ export class CompanyFormPage implements OnInit {
     public companyService: CompanyService,
     private _fb: FormBuilder,
     private _alertCtrl: AlertController,
-    public modalCtrl: ModalController,
+    public modelCtrl: ModalController,
     private _toastCtrl: ToastController,
     private eventService: EventService,
     public analyticService: AnalyticsService,
@@ -88,7 +89,7 @@ export class CompanyFormPage implements OnInit {
   loadData(company_id) {
     this.loading = true;
 
-    this.companyService.view(company_id,'brands').subscribe(res => {
+    this.companyService.view(company_id,'brands,country').subscribe(res => {
       this.model = res;
       this._initForm();
       this.loading = false;
@@ -118,13 +119,16 @@ export class CompanyFormPage implements OnInit {
           name: ['', Validators.required],
           bonus_commission: ['', Validators.required],
           hourly_rate: ['', Validators.required],
+          currency_code: [this.authService.currency_pref, Validators.required],
           logo: [''],
           common_name_en: [''],
           common_name_ar: [''],
           description_en: [''],
           description_ar: [''],
           website: [''],
-          approved_to_hire: [true]
+          approved_to_hire: [true],
+          country_id: ['', Validators.required],
+          country_name: ['', Validators.required],
         });
       } else {
         this.form = this._fb.group({
@@ -133,6 +137,7 @@ export class CompanyFormPage implements OnInit {
           common_name_en: ['', Validators.required],
           bonus_commission: ['', Validators.required],
           hourly_rate: ['', Validators.required],
+          currency_code: [this.authService.currency_pref, Validators.required],
           password: ['', Validators.required],
           description_en: [''],
           description_ar: [''],
@@ -142,7 +147,9 @@ export class CompanyFormPage implements OnInit {
           commercial_licence: [''],//, Validators.required
           followup_interval_weeks: [''],
           followup: [0],
-          approved_to_hire: [true]
+          approved_to_hire: [true],
+          country_id: ['', Validators.required],
+          country_name: ['', Validators.required],
         });
       }
     } else { // Show Update Form
@@ -152,13 +159,16 @@ export class CompanyFormPage implements OnInit {
           name: [this.model.company_name, Validators.required],
           bonus_commission: [this.model.company_bonus_commission],
           hourly_rate: [this.model.company_hourly_rate, Validators.required],
+          currency_code: [this.model.currency_code, Validators.required],
           common_name_en: [this.model.company_common_name_en, Validators.required],
           common_name_ar: [this.model.company_common_name_ar, Validators.required],
           description_en: [this.model.company_description_en],
           description_ar: [this.model.company_description_ar],
           website: [this.model.company_website],
           logo: [this.model.company_logo],
-          approved_to_hire: [this.model.company_approved_to_hire]
+          approved_to_hire: [this.model.company_approved_to_hire],
+          country_id: [this.model.country_id, Validators.required],
+          country_name: [this.model.country? this.model.country.country_name_en: '', Validators.required],
         });
       } else {
         this.form = this._fb.group({
@@ -167,6 +177,7 @@ export class CompanyFormPage implements OnInit {
           bonus_commission: [this.model.company_bonus_commission],
           password: [''],
           hourly_rate: [this.model.company_hourly_rate, Validators.required],
+          currency_code: [this.model.currency_code, Validators.required],
           common_name_en: [this.model.company_common_name_en, Validators.required],
           common_name_ar: [this.model.company_common_name_ar, Validators.required],
           description_en: [this.model.company_description_en],
@@ -176,9 +187,38 @@ export class CompanyFormPage implements OnInit {
           commercial_licence: [this.model.commercial_licence],//, Validators.required
           followup_interval_weeks: [this.model.company_followup_interval_weeks],
           followup: [this.model.company_followup],
-          approved_to_hire: [this.model.company_approved_to_hire]
+          approved_to_hire: [this.model.company_approved_to_hire],
+          country_id: [this.model.country_id, Validators.required],
+          country_name: [this.model.country? this.model.country.country_name_en: '', Validators.required],
         });
       }
+    }
+  }
+
+  async openCountryList() {
+
+    window.history.pushState({
+      navigationId: window.history.state.navigationId
+    }, null, window.location.pathname);
+
+    const modal = await this.modelCtrl.create({
+      component: CountryModalComponent,
+    });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
+    await modal.present();
+
+    const { data } = await modal.onWillDismiss();
+ 
+    if (data) {
+
+      this.form.controls.country_name.setValue(data.country_name_en);
+      this.form.controls.country_id.setValue(data.country_id);
     }
   }
 
@@ -189,6 +229,7 @@ export class CompanyFormPage implements OnInit {
     this.model.company_name = this.form.value.name;
     this.model.company_email = this.form.value.email;
     this.model.company_bonus_commission = this.form.value.bonus_commission;
+    this.model.currency_code = this.form.value.currency_code;
     this.model.company_hourly_rate = this.form.value.hourly_rate;
     this.model.company_common_name_en = this.form.value.common_name_en;
     this.model.company_common_name_ar = this.form.value.common_name_ar;
@@ -200,6 +241,7 @@ export class CompanyFormPage implements OnInit {
     this.model.company_logo = this.form.value.logo;
     this.model.commercial_licence = this.form.value.commercial_licence;
     this.model.company_approved_to_hire = this.form.value.approved_to_hire;
+    this.model.country_id = this.form.value.country_id;
     if (!this.isSubCompany) {
       this.model.password = this.form.value.password;
     }
@@ -209,7 +251,7 @@ export class CompanyFormPage implements OnInit {
    * Close the page
    */
   close() {
-    this.modalCtrl.getTop().then(o => {
+    this.modelCtrl.getTop().then(o => {
       if(o) {
         o.dismiss({ refresh: true });
       } else {
@@ -249,7 +291,7 @@ export class CompanyFormPage implements OnInit {
         });
         // Close the page
         const data = { refresh: true };
-        this.modalCtrl.dismiss(data);
+        this.modelCtrl.dismiss(data);
 
         const toast = await this._toastCtrl.create({
           message: this.model.company_name + ' account saved successfully',

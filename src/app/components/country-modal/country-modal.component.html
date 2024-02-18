@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button (click)="dismiss()"></ion-back-button>
+
+    </ion-buttons>
+    <ion-title>
+      {{ "Select country" | translate }}
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content [attr.dir]="translateService.direction()" [scrollEvents]="true">
+  <div class="country-dropdown">
+    <ion-searchbar [placeholder]="'Search...' | translate" [debounce]="600" (ionChange)="loadCountry(1)" [(ngModel)]="search"></ion-searchbar>
+    <ion-list lines="none">
+      <ion-item *ngFor="let country of countries" (click)="selected(country)" tappable>
+        {{ this.translateService.langContent(country.country_name_en, country.country_name_ar) }}
+      </ion-item>
+    </ion-list>
+    <ion-infinite-scroll threshold="100px" *ngIf="currentPage < totalPages" (ionInfinite)="loadMoreCountries($event)">
+      <ion-infinite-scroll-content
+        loadingSpinner="bubbles">
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+  </div>
+</ion-content>
+

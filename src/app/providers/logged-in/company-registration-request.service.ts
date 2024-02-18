@@ -20,7 +20,7 @@ export class CompanyRegistrationRequestService {
      * @param company_request_uuid
      */
     view(company_request_uuid) {
-      const url = this._endpoint + '/' + company_request_uuid;
+      const url = this._endpoint + '/' + company_request_uuid + '?expand=country';
       return this._authhttp.get(url);
     }
   
@@ -29,7 +29,7 @@ export class CompanyRegistrationRequestService {
      * @returns {Observable<any>}
      */
     list(page: number): Observable<any>{
-      const url = this._endpoint + '?page=' + page;
+      const url = this._endpoint + '?expand=country&page=' + page;
       return this._authhttp.getRaw(url);
     }
     

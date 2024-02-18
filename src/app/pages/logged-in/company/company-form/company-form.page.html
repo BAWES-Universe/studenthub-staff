@@ -102,6 +102,22 @@
 
         <ion-item class="input-wrapper">
           <div tabindex="0"></div>
+          <ion-label position="floating">Currency code</ion-label>
+          <ion-select  *ngIf="form" formControlName="currency_code"> 
+            <ion-select-option [value]="currency.code" *ngFor="let currency of authService.currencies">
+              {{ currency.code }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+ 
+        <ion-item class="input-wrapper">
+          <div tabindex="0"></div>
+          <ion-label position="floating">{{ "Country" | translate}}*</ion-label>
+          <ion-input style="cursor: pointer;" (click)="openCountryList()" [readonly]="true" formControlName="country_name"></ion-input>
+        </ion-item>
+
+        <ion-item class="input-wrapper">
+          <div tabindex="0"></div>
           <ion-label position="floating">Bonus Commission(%)</ion-label>
           <ion-input type="text" formControlName="bonus_commission"></ion-input>
         </ion-item>

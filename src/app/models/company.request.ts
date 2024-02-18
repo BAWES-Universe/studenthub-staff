@@ -1,4 +1,5 @@
 import { Contact } from "./contact";
+import { Country } from "./country";
 
 export class ComapanyRequest {
     company_request_uuid: string;
@@ -16,4 +17,5 @@ export class ComapanyRequest {
     contact: Contact;
     country_id: number;
     currency_code: string;
+    country: Country;
 } 
