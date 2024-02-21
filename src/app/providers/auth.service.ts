@@ -229,8 +229,8 @@ export class AuthService {
             this.currency_pref = "KWD";//default 
           }
         }).catch(r => {
-          console.error(r);
-          this.eventService.errorStorage$.next({});
+          console.info(r);
+          //this.eventService.errorStorage$.next({});
         });
 
         this.storageService.get('theme').then(ret => {

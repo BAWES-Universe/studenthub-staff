@@ -41,6 +41,9 @@
         attribute="fulltimer_mom_kuwaiti" [transformItems]="kuwaitiMomTransformItems"></refinement-list>
     -->
 
+    <refinement-list label="{{ 'Currency Code' | translate }}" data-sort-order="13" [class.is-refined]="arrRefined['currency_code']"
+    attribute="currency_code"></refinement-list>
+
     <refinement-list label="Tags" [searchable]="true"
         data-sort-order="8" [class.is-refined]="arrRefined['fulltimerTags.tag']"
         searchPlaceholder="Search here..." showMoreLabel="Show more"

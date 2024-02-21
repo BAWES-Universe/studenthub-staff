@@ -122,6 +122,9 @@ export class CandidateFormPage implements OnInit {
     this.model.candidate_mom_kuwaiti = this.form.value.candidate_mom_kuwait;
 
     this.model.candidate_preferred_time = this.form.value.preferred_time;
+
+    if(!this.model.currency_code)
+      this.model.currency_code = this.authService.currency_pref;
   }
 
   /**

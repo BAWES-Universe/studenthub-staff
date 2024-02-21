@@ -166,7 +166,8 @@ export class CandidateService {
       longitude: model.candidate_longitude,
       area_uuid: model.candidate_area_uuid,
       mom_kuwait: model.candidate_mom_kuwaiti,
-      preferred_time: model.candidate_preferred_time
+      preferred_time: model.candidate_preferred_time,
+      currency_code: model.currency_code
     };
     return this._authhttp.post(postUrl, params);
   }

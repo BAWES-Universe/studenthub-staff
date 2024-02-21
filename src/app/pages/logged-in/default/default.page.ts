@@ -356,7 +356,9 @@ export class DefaultPage implements OnInit {
     this.authService.saveInStorage();
 
     //reload 
-    this.handleRefresh();
-    //window.location = location;
+    //this.handleRefresh();
+    setTimeout(() => {
+      window.location.reload();
+    }, 200);
   }
 }
