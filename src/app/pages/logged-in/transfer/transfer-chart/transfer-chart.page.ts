@@ -1,8 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Chart } from 'chart.js';
 import { ModalController, Platform } from '@ionic/angular';
-import {CompanyService} from "../../../../providers/logged-in/company.service";
+//services 
+import { CompanyService } from "../../../../providers/logged-in/company.service";
 import { AnalyticsService } from 'src/app/providers/analytics.service';
+import { AuthService } from 'src/app/providers/auth.service';
+import { TransferService } from 'src/app/providers/logged-in/transfer.service';
+
 
 @Component({
   selector: 'app-transfer-chart',
@@ -26,7 +30,9 @@ export class TransferChartPage implements OnInit {
     public platform: Platform,
     public modalCtrl: ModalController,
     public companyService: CompanyService,
-    public analyticService: AnalyticsService
+    public transferService: TransferService,
+    public analyticService: AnalyticsService,
+    public authService: AuthService
   ) { }
 
   ngOnInit() {
@@ -39,6 +45,7 @@ export class TransferChartPage implements OnInit {
 
   ionViewDidEnter() {
     this.loadData();
+    this.loadAllTransfers();
   }
 
   loadChartStats() {
@@ -55,6 +62,7 @@ export class TransferChartPage implements OnInit {
     const canAvgPayment = [];
     const averageProfitPerCandidate = [];
     const pointBackgroundColors = [];
+    
     if (this.company && this.statsData && this.statsData.length > 0) {
       for (const transfer of this.statsData) {
         // Complete/payment received/inprogress
@@ -262,7 +270,7 @@ export class TransferChartPage implements OnInit {
                 } else if (!isNaN(context.parsed.y)) {
                   label += new Intl.NumberFormat('en-US', {
                     style: 'currency',
-                    currency: 'KWD'
+                    currency: this.authService.currency_pref
                   }).format(context.parsed.y);
                 }
                 return label;
@@ -281,7 +289,7 @@ export class TransferChartPage implements OnInit {
               callback: (value: number) => {
                 return (new Intl.NumberFormat('en-US', {
                   style: 'currency',
-                  currency: 'KWD',
+                  currency: this.authService.currency_pref,
                 })).format(value + 0);
               }
             }
@@ -291,6 +299,9 @@ export class TransferChartPage implements OnInit {
     });
   }
 
+  /**
+   * close popup 
+   */
   dismiss() {
     this.modalCtrl.getTop().then(o => {
       if(o) {
@@ -303,11 +314,30 @@ export class TransferChartPage implements OnInit {
     this.borderLimit = (e.detail.scrollTop > 20);
   }
 
+  /**
+   * load all transfers without pagination
+   */
+  loadAllTransfers() {
+
+    const params = 'filterParentOnly=1&company_id=' + this.company.company_id + '&expand=profit,childTransfers,childTransfers.company,totalCandidateTransferTotal,totalPaid,paidTransferCandidates';
+
+    this.transferService.list(-1, params).subscribe(response => {
+      
+      this.company.parentTransfers = response.body;
+      this.loadChartStats();
+    }, () => {
+    });
+  }
+
+  /**
+   * load company details
+   */
   loadData() {
-    this.companyService.view(this.company.company_id, 'parentTransfers,parentTransfers.profit,parentTransfers.childTransfers,parentTransfers.childTransfers.company,parentTransfers.totalCandidateTransferTotal,parentTransfers.totalPaid,parentTransfers.paidTransferCandidates').subscribe(response => {
+    //, 'parentTransfers,parentTransfers.profit,parentTransfers.childTransfers,parentTransfers.childTransfers.company,parentTransfers.totalCandidateTransferTotal,parentTransfers.totalPaid,parentTransfers.paidTransferCandidates'
+    this.companyService.view(this.company.company_id).subscribe(response => {
       this.loading = false;
       this.company = response;
-      this.loadChartStats();
+     // this.loadChartStats();
     }, () => {
     });
   }

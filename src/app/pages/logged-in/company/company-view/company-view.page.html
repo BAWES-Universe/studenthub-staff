@@ -224,7 +224,7 @@
 
         <li>
           <ion-icon name="earth-outline" ></ion-icon> <b>Country</b>
-          <ion-note>{{company.country.country_name_en }} </ion-note>
+          <ion-note *ngIf="company.country"> {{company.country.country_name_en }} </ion-note>
         </li>
 
         <li>
