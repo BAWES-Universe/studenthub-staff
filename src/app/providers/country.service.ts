@@ -19,7 +19,8 @@ export class CountryService {
    * @param query
    */
   list(page, query = null): Observable<any> {
-    let url = `/countries?page=${page}`;
+    let url = `/countries?page=${page}&expand=totalCandidates`;
+
     if (query) {
       url += `&keyword=${query}`;
     }

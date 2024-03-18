@@ -18,12 +18,10 @@ export class UniversityService {
    * @returns {Observable<any>}
    */
   list(page: number, keyword): Observable<any> {
-    let url;
+    let url = this._universityEndpoint + '?page=' + page + "&expand=totalCandidates";
     if (keyword) {
-      url = this._universityEndpoint + '?page=' + page + '&keyword=' + keyword;
-    } else {
-      url = this._universityEndpoint + '?page=' + page;
-    }
+      url += '&keyword=' + keyword;
+    } 
     return this._authhttp.getRaw(url);
   }
 
@@ -32,7 +30,7 @@ export class UniversityService {
    * @returns {Observable<any>}
    */
   view(university_id): Observable<any> {
-    return this._authhttp.get(this._universityEndpoint + '/' + university_id);
+    return this._authhttp.get(this._universityEndpoint + '/' + university_id + "?expand=totalCandidates") ;
   }
 
   /**
@@ -40,7 +38,7 @@ export class UniversityService {
    * @returns {Observable<any>}
    */
   listAll(): Observable<any> {
-    let url = this._universityEndpoint + '/all';
+    let url = this._universityEndpoint + '/all?expand=totalCandidates';
     return this._authhttp.get(url);
   }
 }
