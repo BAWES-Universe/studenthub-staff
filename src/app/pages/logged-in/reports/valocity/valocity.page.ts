@@ -38,6 +38,7 @@ export class ValocityPage implements OnInit {
   totalVelocity = 0;
   totalCompletedStories = 0;
   totalStoryEmployees = 0;
+  totalAssigned = 0; 
 
   constructor(
     public authService: AuthService,
@@ -85,7 +86,7 @@ export class ValocityPage implements OnInit {
    * @returns
    */
   getUrlParams() {
-    let urlParams = '&expand=totalStoryEmployees,totalCompletedStories,timeForCompletedStories,totalInvitations';
+    let urlParams = '&expand=totalAssigned,totalStoryEmployees,totalCompletedStories,timeForCompletedStories,totalInvitations';
 //totalClosedRequests,totalPendingRequests,timeForCompletedRequests,timeForCancelledRequests,
     if (this.start_date) {
       urlParams += '&start_date=' + this.start_date;
@@ -117,8 +118,11 @@ export class ValocityPage implements OnInit {
     }
 
     const days = Math.ceil((staff.timeForCompletedRequests + staff.timeForCancelledRequests) / (3600 * 24));
+    
     const velocity = staff.totalClosedRequests / days;
+    
     this.totalVelocity += velocity;
+
     return velocity;
   }
 
@@ -159,6 +163,7 @@ export class ValocityPage implements OnInit {
         //this.totalClosedRequests += staff.totalClosedRequests;
         //this.totalPendingRequests += staff.totalPendingRequests;
 
+        this.totalAssigned += Number(staff.totalAssigned);
         this.totalCompletedStories += Number(staff.totalCompletedStories);
         this.totalStoryEmployees += staff.totalStoryEmployees? Number(staff.totalStoryEmployees): 0;
 

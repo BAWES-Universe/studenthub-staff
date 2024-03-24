@@ -617,7 +617,6 @@ export class StoryViewPage implements OnInit, OnDestroy {
     this.alertConfirmReload.present();
   }
 
-
   /**
    * open popup to select consultants
    */

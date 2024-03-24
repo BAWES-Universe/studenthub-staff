@@ -56,6 +56,7 @@
         <ion-col class="ion-text-center">Completed Stories</ion-col>
         <ion-col class="ion-text-center">Story Employee</ion-col>
         <ion-col class="ion-text-center">Invited Candidates</ion-col>
+        <ion-col class="ion-text-center">Store Assigments </ion-col>
         <ion-col class="ion-text-center">Number of Hours</ion-col>
         <ion-col class="ion-text-center">Velocity By Story</ion-col>
       </ion-row>
@@ -70,6 +71,7 @@
         <ion-col class="ion-text-center">{{ staff.totalCompletedStories }}</ion-col>
         <ion-col class="ion-text-center">{{ staff.totalStoryEmployees }}</ion-col>
         <ion-col class="ion-text-center">{{ staff.totalInvitations }}</ion-col>
+        <ion-col class="ion-text-center">{{ staff.totalAssigned }}</ion-col> 
         <ion-col class="ion-text-center">{{ noOfHours(staff) | number : '1.0-3' }}</ion-col>
         <ion-col class="ion-text-center">{{ staff.valocity | number : '1.0-3' }}</ion-col>
       </ion-row>
@@ -82,6 +84,7 @@
         <ion-col class="ion-text-center" *ngIf="totalInvitations">{{ totalCompletedStories }}</ion-col>
         <ion-col class="ion-text-center" *ngIf="totalInvitations">{{ totalStoryEmployees }}</ion-col>
         <ion-col class="ion-text-center" *ngIf="totalInvitations">{{ totalInvitations }}</ion-col>
+        <ion-col class="ion-text-center">{{ totalAssigned }}</ion-col> 
         <ion-col class="ion-text-center" *ngIf="totalNoOfHours">{{ totalNoOfHours | number : '1.0-3' }}</ion-col>
         <ion-col class="ion-text-center" *ngIf="totalVelocity">{{ totalVelocity | number : '1.0-3'  }}</ion-col>
       </ion-row>
