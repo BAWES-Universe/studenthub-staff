@@ -1,4 +1,4 @@
 <div class="ais-SearchBox" [attr.dir]="translateService.direction()">
   <input class="ais-SearchBoxinput" autocapitalize="off" autocorrect="off" placeholder="{{searchPlaceholder}}" role="textbox" spellcheck="false" type="text" 
-      [value]="searchQuery" (input)="handleChange($event.target.value)" />
+      [value]="searchQuery" (input)="onInput($event)" />
 </div>

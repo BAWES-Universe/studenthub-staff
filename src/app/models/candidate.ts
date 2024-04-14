@@ -79,6 +79,7 @@ export class Candidate {
     candidateIdCard: CandidateIdCard;
     notes: Note[];
     pendingField: any[];
+    candidateStats: any;
 }
 
 export class CandidateWorkingHour {

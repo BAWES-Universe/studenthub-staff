@@ -40,7 +40,7 @@
 
     <form [formGroup]="form" *ngIf="form" (ngSubmit)="onSubmit()" novalidate>
 
-      <ion-chip [class.selected]="tag.tag == form.value.tag" [color.dark]="tag.tag == form.value.tag" 
+      <ion-chip [class.selected]="tag.tag == form.value.tag" [color]="tag.tag == form.value.tag? 'dark': 'primary'" 
         (click)="onTagSelected(tag.tag)"  *ngFor="let tag of tags">{{ tag.tag }}</ion-chip>
 
       <ion-textarea *ngIf="form.value.tag"

@@ -21,6 +21,8 @@ export class EventService {
     companyMoreThen40DaysWithoutPayment: any;
     transfersWithNoProfitInProgress: any;
     transfersWithSameRateInProgress: any;
+    companyUnderReview: any;
+    totalUnverifiedEmails: any;
   };
 
   public setOneSignal$ = new Subject();

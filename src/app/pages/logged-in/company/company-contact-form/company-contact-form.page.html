@@ -100,7 +100,8 @@
         <h5>Other Emails </h5>
 
         <div *ngFor="let email of emails.controls; let i = index">
-          <ion-item [formGroup]="email" class="input-wrapper">
+          <!-- [formGroup]="email"-->
+          <ion-item  class="input-wrapper">
             <div tabindex="0"></div>
             <ion-input type="email" autocomplete="off1" (ionChange)="onEmailChange($event, i)" formControlName="email_address" inputmode="email"
               enterkeyhint="Next"></ion-input>
@@ -118,7 +119,8 @@
         <h5>Phones</h5>
 
         <div *ngFor="let phone of phones.controls; let i = index">
-          <ion-item [formGroup]="phone" class="input-wrapper">
+          <!-- [formGroup]="phone" -->
+          <ion-item class="input-wrapper">
             <div tabindex="0"></div>
             <ion-input type="telephone" autocomplete="off1" (ionChange)="onPhoneChange($event, i)" formControlName="phone_number" inputmode="telephone"
                   enterkeyhint="Next"></ion-input>

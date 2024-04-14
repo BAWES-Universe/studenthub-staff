@@ -4,6 +4,7 @@ import { AlertController, ModalController } from '@ionic/angular';
 import { format, parseISO } from 'date-fns';
 // models
 import { Transfer } from 'src/app/models/transfer';
+import { TransferCandidate } from 'src/app/models/transfer-candidate';
 import { AnalyticsService } from 'src/app/providers/analytics.service';
 // services
 import {TransferService} from "src/app/providers/logged-in/transfer.service";
@@ -16,7 +17,7 @@ import {TransferService} from "src/app/providers/logged-in/transfer.service";
 })
 export class TransferCandidateListPage implements OnInit {
 
-  public transfers: Transfer[];
+  public transferCandidates: TransferCandidate[];
 
   public borderLimit: boolean = false;
 
@@ -55,7 +56,7 @@ export class TransferCandidateListPage implements OnInit {
     const urlParams = this.getUrlParams();
 
     this.transferService.listCandidates(page, urlParams).subscribe(data => {
-      this.transfers = data.body;
+      this.transferCandidates = data.body;
       this.pageCount = parseInt(data.headers.get('X-Pagination-Page-Count'), 10);
       this.currentPage = parseInt(data.headers.get('X-Pagination-Current-Page'), 10);
       this.totalCount = parseInt(data.headers.get('X-Pagination-Total-Count'), 10);
@@ -68,12 +69,14 @@ export class TransferCandidateListPage implements OnInit {
     this.loadingMore = true;
 
     this.currentPage++;
+    
     const urlParams = this.getUrlParams();
+
     this.transferService.listCandidates(this.currentPage, urlParams).subscribe(data => {
         this.pageCount = parseInt(data.headers.get('X-Pagination-Page-Count'), 10);
         this.currentPage = parseInt(data.headers.get('X-Pagination-Current-Page'), 10);
 
-        this.transfers = this.transfers.concat(data.body);
+        this.transferCandidates = this.transferCandidates.concat(data.body);
       },
       error => {
       },

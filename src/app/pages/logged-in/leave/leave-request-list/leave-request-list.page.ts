@@ -21,6 +21,7 @@ export class LeaveRequestListPage implements OnInit {
   public loading = false;
   public loadMore = false;
   public deleting = false;
+  
   public staffLeaves: StaffLeave[] = [];
 
   constructor(

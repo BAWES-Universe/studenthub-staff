@@ -48,4 +48,5 @@ export class Company {
     parentTransfers: Transfer[];
     stats: any[];
     country: Country;
+    companyStats: any;
 }

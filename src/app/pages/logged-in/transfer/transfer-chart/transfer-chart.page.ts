@@ -64,6 +64,7 @@ export class TransferChartPage implements OnInit {
     const pointBackgroundColors = [];
     
     if (this.company && this.statsData && this.statsData.length > 0) {
+      
       for (const transfer of this.statsData) {
         // Complete/payment received/inprogress
         if (transfer.transfer_status == 4 || transfer.transfer_status == 1 || transfer.transfer_status == 3) {
@@ -324,6 +325,7 @@ export class TransferChartPage implements OnInit {
     this.transferService.list(-1, params).subscribe(response => {
       
       this.company.parentTransfers = response.body;
+
       this.loadChartStats();
     }, () => {
     });

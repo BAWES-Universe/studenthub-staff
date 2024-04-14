@@ -26,6 +26,8 @@ export class Contact {
     companyContact: CompanyContact;
     contactStats: any;
     requests: Request[];
+    //for accordion 
+    isOpen: boolean;
 }
 
 export class contactEmail {

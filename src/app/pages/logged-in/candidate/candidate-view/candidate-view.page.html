@@ -81,6 +81,7 @@
       <ion-segment-button mode="md" value="financials">
         <ion-label>Financials</ion-label>
       </ion-segment-button>
+
     </ion-segment>
 
     <ion-select *ngIf="platform.is('mobile')" interface="popover" (ionChange)="segmentChanged($event)" [value]="segment">
@@ -254,13 +255,27 @@
 
     </div><!-- END work-details -->
 
-    <div *ngIf="candidate && segment == 'financials'">
+    <div *ngIf="candidate && segment == 'financials'" class="segment-financials">
+
+      <ion-row>
+        <ion-col size="12" size-md="4" *ngFor="let candidateStat of candidate.candidateStats">
+          <ion-card>
+            <div class="avatar bg-rgba-warning">
+              <div class="avatar-content">
+                <ion-icon name="cash-outline" class="text-primary"></ion-icon>
+              </div>
+            </div>
+            <h2 class="bold">{{ candidateStat.total_revenue | number:'1.0-0' }} {{ candidateStat.currency_code }}</h2>
+            <p class="fs-12" color="light">Revenue / Total We Earned</p>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+
+      <no-items *ngIf="salaryTransfers.length == 0" message="No Salary transfered yet"></no-items>
 
       <h5 *ngIf="salaryTransfers.length > 0">
         <ion-icon class="icon-salary" src="assets/images/icon-bank.svg"></ion-icon> Salary Transfers
       </h5>
-
-      <p *ngIf="salaryTransfers.length == 0">No Salary transfered yet</p>
 
       <transfer [transferCandidate]="salary" *ngFor="let salary of salaryTransfers | slice:0:3"></transfer>
 

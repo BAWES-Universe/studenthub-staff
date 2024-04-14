@@ -94,7 +94,7 @@
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
   <div class="container">
     
-    <ion-card *ngFor="let history of candidates" (click)="rowSelected(history.candidate)">
+    <ion-card *ngFor="let history of candidates" tappable (click)="rowSelected(history.candidate)">
 
       <ion-item lines="none">
         <div tabindex="0"></div>

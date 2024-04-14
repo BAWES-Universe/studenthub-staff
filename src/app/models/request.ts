@@ -10,6 +10,7 @@ export class Request {
     company_id: number;
     contact_uuid: string;
     staff_id: string;
+    requesting_for: string;
     request_created_by: number;
     request_updated_by: number;
     request_position_type: number;

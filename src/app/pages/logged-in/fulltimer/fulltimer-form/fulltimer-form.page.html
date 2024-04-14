@@ -238,7 +238,8 @@
           <ion-card-content>
 
             <div *ngFor="let fulltimerTag of fulltimerTags.controls; let i = index">
-              <ion-item [formGroup]="fulltimerTag" class="input-wrapper" >
+              <!-- [formGroup]="fulltimerTag"-->
+              <ion-item  class="input-wrapper" >
                 <div tabindex="0"></div>
 
                 <ion-input autocomplete="off1" (ionChange)="onTagChange($event, i)" formControlName="tag"

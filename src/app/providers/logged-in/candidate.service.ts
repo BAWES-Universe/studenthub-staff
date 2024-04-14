@@ -216,11 +216,22 @@ export class CandidateService {
     return this._authhttp.patch(url, params);
   }
 
+  /**
+   * add tag
+   * @param params 
+   * @returns 
+   */
   addTag(params) {
     const url = `${this._candidateEndpoint}/add-tag/${params.candidate_id}`;
     return this._authhttp.post(url, params);
   }
 
+  /**
+   * update tags 
+   * @param model 
+   * @param tags 
+   * @returns 
+   */
   updateTags(model, tags): Observable<any> {
     const url = `${this._candidateEndpoint}/update-tags/${model.candidate_id}`;
     const params = {

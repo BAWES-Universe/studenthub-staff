@@ -17,5 +17,6 @@ export class ComapanyRequest {
     contact: Contact;
     country_id: number;
     currency_code: string;
+    requesting_for: string;
     country: Country;
 } 

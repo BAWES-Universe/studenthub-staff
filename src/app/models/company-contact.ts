@@ -11,4 +11,6 @@ export class CompanyContact {
     created_by: string;
     updated_by: string;
     contact: Contact;
+    //for accordion 
+    isOpen: boolean;
 }

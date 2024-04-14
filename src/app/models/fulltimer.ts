@@ -41,4 +41,14 @@ export class Fulltimer {
     nationality: Country;
     university: University;
     notes: Note[];
+    fulltimerExperiences: FulltimerExperience[];
+    fulltimerSkills: FulltimerSkill[];
+}
+
+export class FulltimerExperience {
+    experience: string;
+}
+
+export class FulltimerSkill {
+    skill: string;
 }

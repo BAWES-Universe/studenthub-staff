@@ -5,7 +5,9 @@ export class StaffLeave {
     to_date: string;
     note: string;
     category: string;
+    categoryLbl: string;
     status: number;
+    statusLbl: string;
     created_at: string;
     updated_at: string;
 }

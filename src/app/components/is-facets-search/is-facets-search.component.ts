@@ -45,6 +45,10 @@ export class IsFacetsSearchComponent implements OnInit {
 
     ngOnInit() { }
 
+    onInput(event) {
+        this.handleChange(event.target.value)
+    }
+
     /**
      * clear searchbar on location selection 
      * @param value 

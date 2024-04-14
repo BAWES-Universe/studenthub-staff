@@ -240,4 +240,22 @@ export class CompanyCandidatesPage implements OnInit {
       }
     });
   }
+
+  /**
+   * On candidate selected from list
+   */
+  candidateSelected(candidate: Candidate) {
+
+    this.modalCtrl.getTop().then(o => {
+      if(o) {
+        o.dismiss();
+      }
+    });
+
+    this.navCtrl.navigateForward('candidate-view/' + candidate.candidate_id, {
+      state: {
+        model: candidate
+      }
+    });
+  }
 }

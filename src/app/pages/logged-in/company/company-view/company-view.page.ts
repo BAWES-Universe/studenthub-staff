@@ -350,7 +350,7 @@ export class CompanyViewPage implements OnInit {
       this.company.company_id = this.company_id;
     }
 
-    this.companyService.view(this.company_id, 'stats,country').subscribe(response => {
+    this.companyService.view(this.company_id, 'companyStats,stats,country').subscribe(response => {
 
       this.loading = false;
       this.deleting = false;

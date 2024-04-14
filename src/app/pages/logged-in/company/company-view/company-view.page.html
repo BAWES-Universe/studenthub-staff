@@ -52,6 +52,10 @@
         <ion-label>Manage</ion-label>
       </ion-segment-button>
 
+      <ion-segment-button mode="md" value="stats">
+        <ion-label>Stats</ion-label>
+      </ion-segment-button>
+
     </ion-segment>
   </ion-toolbar>
 
@@ -64,6 +68,24 @@
   </div>
 
   <div *ngIf="company && !loading" class="container">
+
+    <div class="tab-stats" *ngIf="segment == 'stats'">
+
+      <ion-row>
+        <ion-col size="12" size-md="4" *ngFor="let companyStat of company.companyStats">
+          <ion-card>
+            <div class="avatar bg-rgba-warning">
+              <div class="avatar-content">
+                <ion-icon name="cash-outline" class="text-primary"></ion-icon>
+              </div>
+            </div>
+            <h2 class="bold">{{ companyStat.total_revenue | number:'1.0-0' }} {{ companyStat.currency_code }}</h2>
+            <p class="fs-12" color="light">Revenue / Total We Earned</p>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+
+    </div>
 
     <div class="tab-manage" *ngIf="segment == 'manage'">
       <ion-grid>
