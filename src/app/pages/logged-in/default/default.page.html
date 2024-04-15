@@ -14,6 +14,11 @@
         <ion-icon name="refresh-outline"></ion-icon> 
       </ion-button>
 
+      <ion-button fill="clear" class="btn-theme" (click)="changeTheme()" *ngIf="authService.theme">
+        <ion-icon *ngIf="authService.theme == 'night'" slot="icon-only" name="moon-outline"></ion-icon>
+        <ion-icon *ngIf="authService.theme != 'night'" slot="icon-only" name="partly-sunny-outline"></ion-icon>
+      </ion-button> 
+
       <ion-button (click)="openPopover($event)" fill="clear" class="name-btn">
         {{ getInitials() }}
       </ion-button>

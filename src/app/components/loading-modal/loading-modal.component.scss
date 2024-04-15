@@ -42,7 +42,7 @@
     margin: 0 10px 13.5px 10px;
     border-radius: 4px;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08), 2px 0 4px 0 rgba(0, 0, 0, 0.12);
-    background-color: #ffffff;
+    background-color: var(--ion-card-background);
 
     ion-card-title {
       text-transform: capitalize;
@@ -108,7 +108,7 @@
     height: 70px;
     padding: 1px;
     border: 1px solid #f2f2f2;
-    background: #bdbdbd;
+    background: var(--ion-color-custom-2);
     border-radius: 100%;
   }
 
@@ -249,13 +249,13 @@
     margin-left: 0;
     margin-right: 0;
     border-radius: 5px;
-    background-color: #ffffff;
+    background-color: var(--ion-card-background);
     box-shadow: none;
 
     ion-card-header {
       margin: 0;
       position: relative;
-      background-color: #f2c94c;
+      background-color: var(--ion-color-custom-30);
       margin-bottom: 0;
 
       ion-card-title {
@@ -266,7 +266,7 @@
         line-height: 1.31;
         letter-spacing: normal;
         text-align: left;
-        color: #000000;
+        color: var(--ion-color-light-contrast);
       }
 
       ion-card-subtitle {
@@ -277,7 +277,7 @@
         line-height: 1.31;
         letter-spacing: normal;
         text-align: left;
-        color: #000000;
+        color: var(--ion-color-light-contrast);
       }
 
       p {
@@ -288,7 +288,7 @@
         line-height: 1.31;
         letter-spacing: normal;
         text-align: left;
-        color: #000;
+        color: var(--ion-color-light-contrast);
         margin: 10px 0 5px 0;
       }
     }
@@ -296,8 +296,8 @@
     ion-card-content {
       position: relative;
       border-radius: 5px;
-      background-color: #ffffff;
-      border: solid 1px #bdbdbd;
+      background-color: var(--ion-card-background);
+      border: solid 1px var(--ion-color-custom-2);
 
       font-size: 16px;
       font-weight: normal;
@@ -306,7 +306,7 @@
       line-height: 1.65;
       letter-spacing: normal;
       text-align: left;
-      color: #000;
+      color: var(--ion-color-light-contrast);
       padding: 17px 24px 70px 24px;
 
       .content-footer {
@@ -323,7 +323,7 @@
           line-height: 3;
           letter-spacing: normal;
           text-align: center;
-          color: #ffffff;
+          color: var(--ion-color-primary-contrast);
           margin: 0;
           padding: 0;
         }
@@ -363,7 +363,7 @@
         line-height: 1.65;
         letter-spacing: normal;
         text-align: left;
-        color: #000;
+        color: var(--ion-color-light-contrast);
         margin-top: 40px;
         margin-bottom: 10px;
       }
@@ -376,21 +376,21 @@
         line-height: 1.65;
         letter-spacing: normal;
         text-align: left;
-        color: #000;
+        color: var(--ion-color-light-contrast);
       }
     }
   }
 
   .pending ion-card-header {
-    background-color: #f2994a;
+    background-color: var(--ion-color-custom-31);
   }
 
   .background-red {
-    background: #eb5757
+    background: var(--ion-color-custom-23)
   }
 
   .background-green {
-    background: #219653
+    background: var(--ion-color-custom-32)
   }
 
   .pending-request {
@@ -408,7 +408,7 @@
     padding: 16px 26px 15px 17px;
     border-radius: 4px;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08), 2px 0 4px 0 rgba(0, 0, 0, 0.12);
-    background-color: #ffffff;
+    background-color: var(--ion-card-background);
   }
 
   .badge {
@@ -649,7 +649,7 @@
     --background: none;
 
     ion-icon {
-      color: #000;
+      color: var(--ion-color-light-contrast);
     }
 
     ion-skeleton-text:nth-child(1) {
@@ -825,7 +825,7 @@
       line-height: normal;
       letter-spacing: normal;
       text-align: left;
-      color: #000;
+      color: var(--ion-color-light-contrast);
     }
 
     note {
@@ -852,7 +852,7 @@
         height: 25px;
         margin: 13px 0 0;
         padding: 5px 9px 2px;
-        background-color: #f2f2f2;
+        background-color: var(--ion-color-custom-28);
       }
     }
   }
@@ -884,7 +884,7 @@
 
 .company-list {
 
-  //background: #fcfcfc;
+  //background: var(--ion-color-custom-56);
   ion-skeleton-text {
     padding: 0;
     margin: 0;
@@ -894,7 +894,7 @@
     margin: 7px 0 12px;
     border-radius: 5px;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08), 2px 0 4px 0 rgba(0, 0, 0, 0.12);
-    background-color: #ffffff;
+    //background-color: var(--ion-card-background);
     position: relative;
   }
 
@@ -954,20 +954,20 @@
   h3 {
     margin: 23px 0px 0 0px;
     font-size: 36px;
-    color: #000;
+    color: var(--ion-color-light-contrast);
   }
 
   .company-name-arabic,
   .company-name-english {
     font-size: 24px;
-    color: #000;
+    color: var(--ion-color-light-contrast);
     margin: 0;
   }
 
   .last-activity {
     margin-top: 10px;
     font-size: 12px;
-    color: #000;
+    color: var(--ion-color-light-contrast);
 
     p {
       margin: 0;
@@ -975,31 +975,31 @@
 
     .followup {
       font-size: 14px;
-      color: #219653;
+      color: var(--ion-color-custom-32);
     }
 
 
     .email {
       margin: 13px 0 10px 0px;
       font-size: 12px;
-      color: #000;
+      color: var(--ion-color-light-contrast);
     }
 
     .hourly-rate {
       margin: 10px 0 13px 0;
       font-size: 12px;
-      color: #000;
+      color: var(--ion-color-light-contrast);
     }
 
     .description {
       margin: 18px 0 10px 0;
       font-size: 14px;
-      color: #000;
+      color: var(--ion-color-light-contrast);
     }
 
     .website {
       margin: 10px 0 27px 0;
-      color: #2f80ed;
+      color: var(--ion-color-custom-33);
       text-decoration: none;
     }
 
@@ -1011,7 +1011,7 @@
     .btn-view-notes {
       border-radius: 5px;
       box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08), 2px 0 4px 0 rgba(0, 0, 0, 0.12);
-      background-color: #ffffff;
+      //background-color: var(--ion-card-background);
       width: 100%;
       height: 41px;
       text-transform: none;
@@ -1036,7 +1036,7 @@
       box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08), 2px 0 4px 0 rgba(0, 0, 0, 0.12);
 
       ion-label {
-        color: #000;
+        color: var(--ion-color-light-contrast);
       }
 
       ion-note {
@@ -1046,16 +1046,16 @@
         height: 25px;
         margin: 13px 0 0;
         padding: 5px 9px 2px;
-        background-color: #f2f2f2;
+        background-color: var(--ion-color-custom-28);
       }
     }
   }
 
   ion-item {
     ion-badge {
-      background-color: #f2f2f2;
+      background-color: var(--ion-color-custom-28);
       border-radius: 1px;
-      color: #000;
+      color: var(--ion-color-light-contrast);
       font-size: 12px;
       padding: 10px 15px;
       font-weight: bold;
@@ -1076,7 +1076,7 @@
     padding-top: 165px;
 
     ion-item {
-      background: #fff;
+      //background: var(--ion-card-background);
     }
   }
 
@@ -1146,7 +1146,7 @@
     margin: 0 1px 9px 1px;
     border-radius: 5px;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08), 2px 0 4px 0 rgba(0, 0, 0, 0.12);
-    background-color: #ffffff;
+    //background-color: var(--ion-card-background);
     padding: 5px 0;
     --inner-border-width: 0;
   }
@@ -1167,7 +1167,7 @@
 
   ion-icon {
     float: left;
-    color: #000;
+    color: var(--ion-color-light-contrast);
     font-size: 19px;
   }
 
@@ -1181,8 +1181,8 @@
   }
 
   ion-badge {
-    background-color: #f2f2f2;
-    color: #000;
+    background-color: var(--ion-color-custom-28);
+    color: var(--ion-color-light-contrast);
     border-radius: 2px;
     width: 25%;
     padding: 0;
@@ -1212,7 +1212,7 @@
   ion-card {
     border-radius: 4px;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08), 2px 0 4px 0 rgba(0, 0, 0, 0.12);
-    background-color: #ffffff;
+    background-color: var(--ion-card-background);
     margin-left: 0;
     margin-right: 0;
     margin-bottom: 13.5px;
@@ -1225,7 +1225,7 @@
   .document {
     --border-radius: 5px;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08), 2px 0 4px 0 rgba(0, 0, 0, 0.12);
-    background-color: #ffffff;
+    background-color: var(--ion-card-background);
     margin: 0 0 13.5px;
 
 
@@ -1239,7 +1239,7 @@
     .meta-data {
       margin: 0 6px 0 120px;
       padding: 1px 9px 2px;
-      background-color: #f2f2f2;
+      background-color: var(--ion-color-custom-28);
       float: right;
       margin-left: 6px;
       width: 12%;
@@ -1268,7 +1268,7 @@
   ion-card {
     border-radius: 4px;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08), 2px 0 4px 0 rgba(0, 0, 0, 0.12);
-    background-color: #ffffff;
+    background-color: var(--ion-card-background);
     margin-left: 0;
     margin-right: 0;
     margin-bottom: 13.5px;

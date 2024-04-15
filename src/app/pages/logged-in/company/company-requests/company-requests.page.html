@@ -11,11 +11,12 @@
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
   <div class="container">
-    <section *ngIf="company">
+    <section >
       <h3 class="request-title">
         Requests
       </h3>
-      <h4 class="company-name">
+      
+      <h4 class="company-name" *ngIf="company">
         {{ (company.company_common_name_en) ? company.company_common_name_en:company.company_name }}
       </h4>
 

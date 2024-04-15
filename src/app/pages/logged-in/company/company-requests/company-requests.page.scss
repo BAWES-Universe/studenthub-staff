@@ -16,18 +16,18 @@ ion-back-button {
     line-height: normal;
     letter-spacing: normal;
     text-align: left;
-    color: #000;
+    color: var(--ion-color-light-contrast);
     margin-top: 40px;
     margin-bottom: 31px;
 }
 
 ion-footer {
   box-shadow: 0 -4px 4px 0 rgba(0, 0, 0, 0.1);
-  background-color: #ffffff;
+  background-color: var(--ion-card-background);
   ion-button {
     height: 53px;
     --border-radius: 22px;
-    --background: #333333;
+    --background: var(--ion-color-custom-10);
     width: calc(100% - 24px);
     font-size: 16px;
     font-weight: bold;
@@ -36,7 +36,7 @@ ion-footer {
     line-height: 1.65;
     letter-spacing: normal;
     text-align: center;
-    --color: #ffffff;
+    --color: var(--ion-color-primary-contrast);
     text-transform: none;
     margin: 12px 10px;
   }
@@ -51,7 +51,7 @@ ion-footer {
   line-height: normal;
   letter-spacing: normal;
   text-align: left;
-  color: #000;
+  color: var(--ion-color-light-contrast);
 }
 
 .company-name {
@@ -63,6 +63,6 @@ ion-footer {
   line-height: normal;
   letter-spacing: normal;
   text-align: left;
-  color: #000;
+  color: var(--ion-color-light-contrast);
 }
 

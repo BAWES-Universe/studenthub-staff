@@ -23,7 +23,7 @@ ion-badge {
 
 ion-content ion-list ion-card {
   margin: 0 10px 13.5px 10px;
-  background-color: #ffffff;
+  background-color: var(--ion-card-background);
   border-radius: 8px;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
 
@@ -37,7 +37,7 @@ ion-content ion-list ion-card {
     height: 48px;
     flex-grow: 0;
     border-radius: 44px;
-    background-color: #eeeef0;
+    background-color: var(--ion-color-custom-20);
     margin-inline-end: 12px;
   }
 
@@ -57,7 +57,7 @@ ion-content ion-list ion-card {
     font-style: normal;
     line-height: 1.5;
     letter-spacing: normal;
-    color: #23233d;
+    color: var(--ion-color-custom-6);
     margin-bottom: 4px;
   }
 
@@ -72,11 +72,11 @@ ion-content ion-list ion-card {
     font-style: normal;
     line-height: 1.43;
     letter-spacing: normal;
-    color: #68687a;
+    color: var(--ion-color-custom-5);
   }
 
   .sep {
-    color: #c5c5cc;
+    color: var(--ion-color-custom-21);
   }
 }
 

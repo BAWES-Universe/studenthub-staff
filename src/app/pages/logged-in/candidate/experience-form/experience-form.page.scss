@@ -20,7 +20,7 @@ h3 {
     font-style: normal;
     line-height: normal;
     letter-spacing: normal;
-    color: #000000;
+    color: var(--ion-color-light-contrast);
     margin-top: 45px;
     margin-bottom: 45px;
 }
@@ -57,8 +57,8 @@ ion-item {
     font-style: normal;
     line-height: 1.65;
     letter-spacing: normal;
-    --background: #000000;
-    color: #fff;
+    --background: var(--ion-color-light-contrast);
+    color: var(--ion-color-primary-contrast);
     margin-top: 25px;
     margin-bottom: 24px;
     border-radius: 22px;
@@ -67,8 +67,8 @@ ion-item {
 }
 
 .btn-submit[disabled] {
-    --background: #6B6B6B;
-    color: #B4B4B4
+    --background: var(--ion-color-custom-38);
+    color: var(--ion-color-custom-39)
 }
 
 ion-back-button{

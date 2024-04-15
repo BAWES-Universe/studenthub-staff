@@ -17,7 +17,7 @@ export class AnalyticsService {
    * @param id 
    * @param params 
    */
-  user(id, params) {
+  async user(id, params) {
     
     //segment
 
@@ -38,7 +38,7 @@ export class AnalyticsService {
    * page event
    * @param name 
    */
-  page(name) {
+  async page(name) {
     if(window.analytics)
       window.analytics.page(name);
 
@@ -52,7 +52,7 @@ export class AnalyticsService {
    * @param eventName 
    * @param params 
    */
-  track(eventName, params) {
+  async track(eventName, params) {
     if(window.analytics)
       window.analytics.track(eventName, params);
 

@@ -6,7 +6,7 @@ ion-card {
 
 ion-badge {
   border: solid 1px #4354a4;
-  background-color: #ffffff;
+  background-color: var(--ion-card-background);
   padding: 4px 17px;
   margin: 0 4px 7px 0;
   border-radius: 3px;
@@ -17,11 +17,11 @@ ion-badge {
   line-height: 1.44;
   letter-spacing: normal;
   text-align: center;
-  color: #4354a4;
+  color: var(--ion-color-custom-53);
 }
 ion-badge.active {
-  background-color: #4354a4;
-  color: #fff;
+  background-color: var(--ion-color-custom-53);
+  color: var(--ion-color-primary-contrast);
 }
 
 h1 {
@@ -33,7 +33,7 @@ h1 {
   line-height: normal;
   letter-spacing: normal;
   text-align: left;
-  color: #000;
+  color: var(--ion-color-light-contrast);
 }
 
 ion-searchbar {

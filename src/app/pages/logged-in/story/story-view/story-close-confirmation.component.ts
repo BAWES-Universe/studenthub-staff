@@ -26,7 +26,7 @@ import {ModalController, PopoverController} from '@ionic/angular';
     ion-header::after { 
       bottom: 0;
       background-image: none;
-      box-shadow: inset 0 -1px 0 0 #e2e2e6;
+      box-shadow: inset 0 -1px 0 0 var(--ion-color-custom-4);
     }
 
     ion-content {
@@ -40,13 +40,13 @@ import {ModalController, PopoverController} from '@ionic/angular';
       --box-shadow: none;
     }
 
-    .cancel-stop-btn { width: 126px;height: 56px;--border-radius: 12px;--border-color: #4c70f2;margin-right: 16px;}
+    .cancel-stop-btn { width: 126px;height: 56px;--border-radius: 12px;--border-color: var(--ion-color-custom-14);margin-right: 16px;}
     .stop-work-btn { width: 166px;height: 56px;--border-radius: 12px;}
     .close_btn ion-icon{ --color: grey;}
 
     p {  
       margin-top: 0px;
-      font-family: Inter;font-size: 16px;font-weight: 500;font-stretch: normal;font-style: normal;line-height: 1.5;letter-spacing: normal;text-align: left;color: #4b4b61;}
+      font-family: Inter;font-size: 16px;font-weight: 500;font-stretch: normal;font-style: normal;line-height: 1.5;letter-spacing: normal;text-align: left;color: var(--ion-color-custom-17);}
     ion-toolbar {    
       padding: 0;
     }
@@ -55,7 +55,7 @@ import {ModalController, PopoverController} from '@ionic/angular';
       padding: 0 33px;
       font-family: Inter;
       font-size: 20px !important;
-      font-weight: bold;font-stretch: normal;font-style: normal;line-height: 1.4;letter-spacing: normal;text-align: left;color: #23233d; }
+      font-weight: bold;font-stretch: normal;font-style: normal;line-height: 1.4;letter-spacing: normal;text-align: left;color: var(--ion-color-custom-6); }
   `]
 })
 export class StoryCloseConfirmationComponent  implements OnInit {

@@ -6,8 +6,8 @@ ion-menu {
   
   ion-header {
     ion-toolbar {
-      background: #231f20;
-      --background: #231f20;
+      background: var(--ion-color-custom-15);
+      --background: var(--ion-color-custom-15);
     }
   }
   
@@ -22,8 +22,8 @@ ion-menu {
   
     .count {
       border-radius: 2px;
-      background-color: #fb8d33;
-      color: #fff;
+      background-color: var(--ion-color-custom-16);
+      color: var(--ion-color-primary-contrast);
       padding: 0 4px;
       min-width: 13px;
       height: 21px;

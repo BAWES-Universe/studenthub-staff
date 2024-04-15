@@ -11,7 +11,7 @@ ion-header {
 }
 
 ion-content {
-  --background: #f7f8fa;
+  --background: var(--ion-color-custom-9);
   --padding-start: 24px;
     --padding-end: 24px;
 }
@@ -24,12 +24,12 @@ ion-title {
   font-style: normal;
   line-height: 1.33;
   letter-spacing: normal;
-  color: #23233d;
+  color: var(--ion-color-custom-6);
 }
 
 .store-manager {
   --border-radius: 8px;
-  --background: #f7f8fa;
+  --background: var(--ion-color-custom-9);
   --inner-border-width: 0;
   --padding-top: 2px;
   --padding-bottom: 2px;
@@ -49,7 +49,7 @@ ion-title {
     font-style: normal;
     line-height: 1.5;
     letter-spacing: normal;
-    color: #23233d;
+    color: var(--ion-color-custom-6);
   }
 
   p {
@@ -62,7 +62,7 @@ ion-title {
     font-style: normal;
     line-height: 1.43;
     letter-spacing: normal;
-    color: #7d7d8d;
+    color: var(--ion-color-custom-7);
   }
 
   ion-button ion-icon {
@@ -82,7 +82,7 @@ ion-title {
   font-style: normal;
   line-height: 1.5;
   letter-spacing: normal;
-  --color: #4c70f2;
+  --color: var(--ion-color-custom-14);
   --background: none;
   --box-shadow: none;
   --padding-start: 0;
@@ -95,7 +95,7 @@ ion-list {
   margin: 0 -10px;
   margin-top: 0;
   padding-top: 0;
-  background: #f7f8fa;
+  background: var(--ion-color-custom-9);
 
   h5 {
     margin-left: 10px;
@@ -109,10 +109,10 @@ ion-list {
     font-style: normal;
     line-height: 1.56;
     letter-spacing: normal;
-    color: #23233d;
+    color: var(--ion-color-custom-6);
 
     span {
-      color: #7d7d8d;
+      color: var(--ion-color-custom-7);
     }
   }
 }

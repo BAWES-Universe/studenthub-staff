@@ -111,6 +111,17 @@ export class DefaultPage implements OnInit {
     );
   }
 
+  /**
+   * change theme
+   */
+  changeTheme() {
+    if (!this.authService.theme || this.authService.theme == 'day') {
+      this.authService.setTheme('night');
+    } else {
+      this.authService.setTheme('day');
+    }
+  }
+
   getSession() {
     this.loadingSession = true;
 

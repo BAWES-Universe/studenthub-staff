@@ -24,8 +24,8 @@ ion-searchbar {
   font-style: normal;
   line-height: 1.43;
   letter-spacing: normal;
-  --placeholder-color: #7d7d8d;
-  color: #333333;
+  --placeholder-color: var(--ion-color-custom-7);
+  color: var(--ion-color-custom-10);
   --box-shadow: none;
   --min-height: 40px;
   --height: 40px;
@@ -78,13 +78,13 @@ applied-filters {
 .btn-save-search {
   text-transform: none;
   font-size: 16px;
-  color: #2f80ed !important;
+  color: var(--ion-color-custom-33) !important;
 }
 
 .btn-applied-filter {
   border-width: 1px;
   border-style: solid;
-  border-color: #e32c69;
+  border-color: var(--ion-color-custom-36);
   color: rgba(0, 0, 0, 1);
   overflow: hidden;
   height: auto;
@@ -115,7 +115,7 @@ applied-filters {
 }
 
 .the-end {
-  color: #333;
+  color: var(--ion-color-custom-10);
   text-align: center;
   margin: 20px auto;
 }
@@ -133,14 +133,14 @@ applied-filters {
   height: 50px;
   --border-radius: 4px;
   border-radius: 4px;
-  background-color: #292f38;
-  border: solid 1px #292f38;
+  background-color: var(--ion-color-custom-1);
+  border: solid 1px var(--ion-color-custom-1);
   font-size: 14px;
   font-weight: 500;
 }
 
 .txt-total-fulltimers {
-  color: #4a4a4a;
+  color: var(--ion-color-custom-37);
   text-align: end;
   padding: 0 10px !important;
   font-weight: normal;
@@ -180,7 +180,7 @@ applied-filters {
     font-size: 18px;
     font-weight: 500;
     text-align: center;
-    color: #ffffff;
+    color: var(--ion-color-primary-contrast);
     text-transform: none;
   }
 }
@@ -256,12 +256,12 @@ applied-filters {
 }
 
 .btn-filter {
-  color: #f24459;
-  --color: #f24459;
+  color: var(--ion-color-custom-19);
+  --color: var(--ion-color-custom-19);
 }
 
 .btn-all-candidates {
-  color: #2f80ed;
+  color: var(--ion-color-custom-33);
 }
 
 @keyframes swipeIn {
@@ -383,7 +383,7 @@ ion-card {
   margin: 0 10px 13.5px 10px;
   border-radius: 4px;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08), 2px 0 4px 0 rgba(0, 0, 0, 0.12);
-  background-color: #ffffff;
+//  background-color: var(--ion-card-background);
 
   ion-card-title {
     text-transform: capitalize;
@@ -392,7 +392,7 @@ ion-card {
 
 ion-footer {
   box-shadow: 0 -4px 4px 0 rgba(0, 0, 0, 0.1);
-  background-color: #ffffff;
+ // background-color: var(--ion-card-background);
 
   ion-button {
     height: 53px;
@@ -406,14 +406,14 @@ ion-footer {
     text-align: center;
     text-transform: none;
     margin: 12px 10px;
-    --color: #ffffff;
+    --color: var(--ion-color-primary-contrast);
     --border-radius: 5px;
-    --background: #333333;
+    --background: var(--ion-color-custom-10);
     --box-shadow: none;
   }
 
   .btn-view-fulltimers {
-    --background: #f24459;
+    --background: var(--ion-color-custom-19);
   }
 }
 

@@ -15,7 +15,7 @@ ion-header {
 }
 
 ion-content {
-    --background: #f7f8fa;
+    --background: var(--ion-color-custom-9);
     --padding-start: 24px;
     --padding-end: 24px;
     --padding-top: 24px;
@@ -29,13 +29,13 @@ ion-title {
     font-style: normal;
     line-height: 1.33;
     letter-spacing: normal;
-    color: #23233d;
+    color: var(--ion-color-custom-6);
 }
 
 .btn-save {
     height: 56px;
     border-radius: 12px;
-    --background: #4c70f2;
+    --background: var(--ion-color-custom-14);
     font-size: 16px;
     font-weight: 600;
     font-stretch: normal;
@@ -43,7 +43,7 @@ ion-title {
     line-height: 1.5;
     letter-spacing: normal;
     text-align: center;
-    --color: #fff;
+    --color: var(--ion-color-primary-contrast);
     text-transform: none;
     width: calc(100% - 48px);
     --box-shadow: none;

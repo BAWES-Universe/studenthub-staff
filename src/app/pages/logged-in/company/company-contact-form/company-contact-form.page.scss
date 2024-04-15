@@ -18,7 +18,7 @@ ion-item.field-password {
 
         ion-icon {
             font-size: 22px;
-            color: #000;
+            color: var(--ion-color-light-contrast);
         }
     }
 }
@@ -33,8 +33,8 @@ ion-content {
 }
 
 ion-content, ion-list, ion-footer{
-    background: #f7f8fa;
-    --background: #f7f8fa;
+    background: var(--ion-color-custom-9);
+    --background: var(--ion-color-custom-9);
   } 
   ion-title {
     font-family: Inter;
@@ -45,7 +45,7 @@ ion-content, ion-list, ion-footer{
     line-height: 1.4;
     letter-spacing: normal;
     text-align: left;
-    color: #23233d;
+    color: var(--ion-color-custom-6);
   }
   .cancel {
     font-family: Inter;
@@ -56,7 +56,7 @@ ion-content, ion-list, ion-footer{
     line-height: 1.5;
     letter-spacing: normal;
     text-align: left;
-    color: #4c70f2;
+    color: var(--ion-color-custom-14);
   }
   ion-footer {
     ion-button {
@@ -68,7 +68,7 @@ ion-content, ion-list, ion-footer{
       line-height: 1.5;
       letter-spacing: normal;
       text-align: center;
-      color: #68687a;
+      color: var(--ion-color-custom-5);
       width: 342px;
       height: 56px;
       margin: 0 auto;
@@ -80,7 +80,7 @@ ion-content, ion-list, ion-footer{
     height: 56px;
     --padding: 16px 102px 16px 103px;
     border-radius: 12px;
-    --background: #4c70f2;
+    --background: var(--ion-color-custom-14);
     text-transform: none;
     font-size: 16px;
     font-weight: 600;
@@ -89,7 +89,7 @@ ion-content, ion-list, ion-footer{
     line-height: 1.5;
     letter-spacing: normal;
     text-align: center;
-    color: #fff;
+    color: var(--ion-color-primary-contrast);
     margin: 24px 0;
     --box-shadow: none;
     width: 100%;

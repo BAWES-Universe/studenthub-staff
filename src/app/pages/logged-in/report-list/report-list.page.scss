@@ -1,6 +1,6 @@
 ion-list {
-  --background: #f7f8fa;
-  background: #f7f8fa;
+  --background: var(--ion-color-custom-9);
+  background: var(--ion-color-custom-9);
   margin-top: 0;
   padding-top: 0;
 }
@@ -10,7 +10,7 @@ ion-item {
   //padding: 12px 17px 12px 21px;
   border-radius: 5px;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08), 2px 0 4px 0 rgba(0, 0, 0, 0.12);
-  background-color: #ffffff;
+  //background-color: var(--ion-card-background);
 }
 
 ion-badge {
@@ -22,7 +22,7 @@ ion-badge {
   line-height: normal;
   letter-spacing: normal;
   text-align: center;
-  color: #000;
+  color: var(--ion-color-light-contrast);
   border-radius: 0;
 }
 
@@ -34,5 +34,5 @@ h3{
   line-height: 1.65;
   letter-spacing: normal;
   text-align: left;
-  color: #000;
+  color: var(--ion-color-light-contrast);
 }

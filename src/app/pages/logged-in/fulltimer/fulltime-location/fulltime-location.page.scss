@@ -35,7 +35,7 @@ ion-content {
 }
 
 .page-title p {
-    color: #4f4f4f;
+    color: var(--ion-color-custom-18);
     line-height: 1.41;
     font-size: 14px;
     margin-top: 14px;
@@ -51,7 +51,7 @@ ion-content {
     position: relative;
 
     b {
-        color: #292f38;
+        color: var(--ion-color-custom-1);
         clear: both;
         display: block;
         margin: 0;
@@ -60,7 +60,7 @@ ion-content {
     span {
         line-height: 1.41;
         letter-spacing: normal;
-        color: #292f38;
+        color: var(--ion-color-custom-1);
     }
 
     ion-icon {
@@ -177,12 +177,12 @@ ion-content {
             font-size: 14px;
             display: block;
             width: 100%;
-            color: #292f38;
+            color: var(--ion-color-custom-1);
         }
 
         .country {
             font-size: 13px;
-            color: #4f4f4f;
+            color: var(--ion-color-custom-18);
         }
 
         .state {
@@ -222,7 +222,7 @@ ion-content {
         font-size: 14px;
         font-weight: 500;
         margin: 5px;
-        color: #292f38;
+        color: var(--ion-color-custom-1);
         box-shadow: none;
         width: calc(50% - 10px);
         --box-shadow: none;
@@ -295,12 +295,12 @@ ion-input {
 }
 
 .btn-save[disabled] {
-    background: #bdbdbd;
-    --color: #fff;
+    background: var(--ion-color-custom-2);
+    --color: var(--ion-color-primary-contrast);
     --opacity: 1;
-    --background: #bdbdbd;
-    --background-focused: #bdbdbd;
-    --background-hover: #bdbdbd;
+    --background: var(--ion-color-custom-2);
+    --background-focused: var(--ion-color-custom-2);
+    --background-hover: var(--ion-color-custom-2);
     border-radius: 4px;
     --border-radius: 4px;
 }

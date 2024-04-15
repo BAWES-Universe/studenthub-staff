@@ -3,7 +3,7 @@ ion-header {
   }
   
   ion-content {
-    --background: #f7f8fa;
+    --background: var(--ion-color-custom-9);
     --padding-start: 24px;
     --padding-end: 24px;
     --padding-top: 24px;
@@ -27,7 +27,7 @@ ion-header {
     font-style: normal;
     line-height: 1.33;
     letter-spacing: normal;
-    color: #23233d !important;
+    color: var(--ion-color-custom-6) !important;
     padding-left: 0;
     padding-right: 0;
   }
@@ -50,7 +50,7 @@ ion-header {
         //line-height: 1.5;
         //letter-spacing: normal;
         //text-align: left;
-        //--color: #23233d;
+        //--color: var(--ion-color-custom-6);
         //opacity: 1;
         //transform: none;
         h5 {
@@ -63,7 +63,7 @@ ion-header {
           line-height: 1.5;
           letter-spacing: normal;
           text-align: left;
-          color: #23233d;
+          color: var(--ion-color-custom-6);
         }
         p {
           font-family: Inter;
@@ -74,7 +74,7 @@ ion-header {
           line-height: 1.5;
           letter-spacing: normal;
           text-align: left;
-          color: #23233d;
+          color: var(--ion-color-custom-6);
         }
       }
   
@@ -82,10 +82,10 @@ ion-header {
         height: 48px;
         margin: 7px 0 0;
         border-radius: 8px;
-        border: solid 1px #e2e2e6;
-        //background: #eeeef0;
-        background: #fff;
-        --background: #fff;
+        border: solid 1px var(--ion-color-custom-4);
+        //background: var(--ion-color-custom-20);
+        //background: var(--ion-card-background);
+        //--background: var(--ion-card-background);
         font-stretch: normal;
         font-style: normal;
         letter-spacing: normal;
@@ -97,7 +97,7 @@ ion-header {
         line-height: 1.43;
         letter-spacing: normal;
         text-align: left;
-        --placeholder-color: #68687a;
+        --placeholder-color: var(--ion-color-custom-5);
   
         --padding-start: 16px;
         --padding-top: 12px;
@@ -115,12 +115,12 @@ ion-header {
     line-height: 1.5;
     letter-spacing: normal;
     text-align: center;
-    color: #68687a;
+    color: var(--ion-color-custom-5);
   }
   
   ion-segment-button.segment-button-checked {
     font-weight: 600;
-    color: #263879;
+    color: var(--ion-color-custom-44);
     --indicator-color	:#263879;
     --border-color	:#263879;
   }
@@ -146,7 +146,7 @@ ion-header {
     margin-bottom: 12px;
     border-radius: 8px;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
-    background-color: #fff;
+    background-color: var(--ion-card-background);
   
     h3 {
       font-family: Inter;
@@ -156,7 +156,7 @@ ion-header {
       font-style: normal;
       line-height: 1.56;
       letter-spacing: normal;
-      color: #23233d;
+      color: var(--ion-color-custom-6);
       margin: 12px auto 0 17px;
     }
   
@@ -169,7 +169,7 @@ ion-header {
       font-style: normal;
       line-height: 1.5;
       letter-spacing: normal;
-      color: #4b4b61;
+      color: var(--ion-color-custom-17);
     }
   
     h5 {
@@ -181,14 +181,14 @@ ion-header {
       font-style: normal;
       line-height: 1.43;
       letter-spacing: normal;
-      color: #7d7d8d;
+      color: var(--ion-color-custom-7);
     }
   
     p {
       margin: 16px 16px 16px 9px;
       padding: 8px;
       border-radius: 8px;
-      background-color: #f5f5f7;
+      background-color: var(--ion-color-custom-8);
     }
   }
   
@@ -200,8 +200,8 @@ ion-header {
     border-left: 7px solid #29b564;
   }
   ion-footer {
-    background: #f7f8fa;
-    --background: #f7f8fa;
+    background: var(--ion-color-custom-9);
+    --background: var(--ion-color-custom-9);
   }
   ion-back-button {
     display:inline-block;
@@ -220,14 +220,14 @@ ion-header {
 .change-logo {
   height: 42px;
   border-radius: 4px;
-  background-color: #333333;
+  background-color: var(--ion-color-custom-10);
 }
 
 .progress-wrapper {
   h4 {
     font-size: 14px;
     line-height: 1.41;
-    color: #292f38;
+    color: var(--ion-color-custom-1);
     font-weight: normal;
     margin: 0;
     width: calc(100% - 50px);
@@ -241,7 +241,7 @@ ion-header {
     width: 313px;
     height: 60px;
     border-radius: 4px;
-    border: solid 1px #bdbdbd;
+    border: solid 1px var(--ion-color-custom-2);
     padding: 10px 13px;
     position: relative;
     margin: auto;
@@ -259,7 +259,7 @@ ion-header {
       width: 0%;
       height: 5px;
       border-radius: 15px;
-      background-color: #f24459;
+      background-color: var(--ion-color-custom-19);
     }
 
     ion-icon {

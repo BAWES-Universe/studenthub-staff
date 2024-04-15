@@ -25,7 +25,7 @@ jobs:
               #- dependencies-v3-
 
           # Install NPM dependencies
-          - run: npm install --force
+          - run: npm install --force --legacy-peer-deps
 
           # Cache Node Modules until dependencies have changed
           - save_cache:
@@ -82,7 +82,7 @@ jobs:
           #    - dependencies-v3-
 
           # Install NPM dependencies
-          - run: npm install --force
+          - run: npm install --force --legacy-peer-deps
 
           # Cache Node Modules until dependencies have changed
           - save_cache:

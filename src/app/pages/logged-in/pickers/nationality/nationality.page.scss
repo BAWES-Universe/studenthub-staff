@@ -14,13 +14,13 @@ h3 {
   font-style: normal;
   line-height: normal;
   letter-spacing: normal;
-  color: #000000;
+  color: var(--ion-color-light-contrast);
   margin-top: 33px;
   margin-bottom: 35px
 }
 
 ion-textarea {
-  border: 4px solid #bdbdbd !important;
+  border: 4px solid var(--ion-color-custom-2) !important;
   height: 100px !important;
   border-radius: 10px !important;
   --border-radius: 10px;
@@ -37,7 +37,7 @@ ion-textarea {
 }
 
 p.txt-char-count {
-  color: #bdbdbd;
+  color: var(--ion-color-custom-2);
   text-align: var(--end);
   font-size: 14px;
   line-height: 1.41;
@@ -54,8 +54,8 @@ p.txt-char-count {
   font-style: normal;
   line-height: 1.65;
   letter-spacing: normal;
-  --background: #000000;
-  color: #fff;
+  --background: var(--ion-color-light-contrast);
+  color: var(--ion-color-primary-contrast);
   margin-top: 25px;
   margin-bottom: 24px;
   border-radius: 22px;
@@ -64,16 +64,16 @@ p.txt-char-count {
 }
 
 .btn-submit[disabled] {
-  --background: #6B6B6B;
-  color: #B4B4B4
+  --background: var(--ion-color-custom-38);
+  color: var(--ion-color-custom-39)
 }
 
 ion-searchbar {
   --box-shadow: none;
   height: 60.8px;
   border-radius: 10px;
-  border: solid 4px #bdbdbd;
-  background-color: #ffffff;
+  border: solid 4px var(--ion-color-custom-2);
+  background-color: var(--ion-card-background);
 }
 ion-list {
   margin-top: 30px;

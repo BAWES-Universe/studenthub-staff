@@ -14,7 +14,7 @@ ion-list {
   line-height: normal;
   letter-spacing: normal;
   text-align: left;
-  color: #000000;
+  color: var(--ion-color-light-contrast);
 }
 .company-name {
   margin: 3px 0 29px 3px;
@@ -25,18 +25,18 @@ ion-list {
   line-height: normal;
   letter-spacing: normal;
   text-align: left;
-  color: #000000;
+  color: var(--ion-color-light-contrast);
 }
 
 ion-item {
   margin: 0 1px 9px 1px;
   border-radius: 5px;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08), 2px 0 4px 0 rgba(0, 0, 0, 0.12);
-  background-color: #ffffff;
+  background-color: var(--ion-card-background);
   ion-badge {
     margin: 0;
     padding: 5px 10px;
-    background-color: #f2f2f2;
+    background-color: var(--ion-color-custom-28);
     font-size: 12px;
     font-weight: normal;
     font-stretch: normal;
@@ -44,7 +44,7 @@ ion-item {
     line-height: normal;
     letter-spacing: normal;
     text-align: center;
-    color: #000;
+    color: var(--ion-color-light-contrast);
     border-radius: 2px;
     position: absolute;
     top: 10px;
@@ -61,7 +61,7 @@ h5 {
   line-height: 1.65;
   letter-spacing: normal;
   text-align: left;
-  color: #000;
+  color: var(--ion-color-light-contrast);
 }
 ion-label {
   p {
@@ -72,13 +72,13 @@ ion-label {
     line-height: 1.65;
     letter-spacing: normal;
     //text-align: left;
-    color: #000;
+    color: var(--ion-color-light-contrast);
     ion-icon {
       padding-right: 5px;
     }
   }
 }
 ion-content {
-  background: #f7f8fa;
-  --background: #f7f8fa;
+  background: var(--ion-color-custom-9);
+  --background: var(--ion-color-custom-9);
 }

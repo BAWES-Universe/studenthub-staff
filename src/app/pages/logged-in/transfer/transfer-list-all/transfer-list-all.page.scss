@@ -6,7 +6,7 @@ h3 {
     font-style: normal;
     line-height: normal;
     letter-spacing: normal;
-    color: #000;
+    color: var(--ion-color-light-contrast);
 }
 
 h4 {
@@ -17,13 +17,13 @@ h4 {
     font-style: normal;
     line-height: normal;
     letter-spacing: normal;
-    color: #000;
+    color: var(--ion-color-light-contrast);
 }
 
 ion-card {
   border-radius: 4px;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.08), 2px 0 4px 0 rgba(0, 0, 0, 0.12);
-  background-color: #ffffff;
+  //background-color: var(--ion-card-background);
   margin-left: 0;
   margin-right: 0;
   margin-bottom: 13.5px;
@@ -45,8 +45,8 @@ ion-footer {
     display: block;
     margin: 10px 14px;
     --box-shadow: none;
-    --background: #333333;
-    color: #ffffff;
+    --background: var(--ion-color-custom-10);
+    color: var(--ion-color-primary-contrast);
   }
 }
 
@@ -58,12 +58,15 @@ ion-card{
 }
 
 ion-input.filter {
-  --border-color: #e2e2e6;
+  --border-color: var(--ion-color-custom-4);
   --border-width: 0px;
   --border-radius: 8px;
-  background: #fff;
-  color: #68687a;
-  --color: #68687a;
-  border: 1px solid #e2e2e6;
+  border: 1px solid var(--ion-color-custom-4);
   border-radius: 8px;
 }
+
+.day ion-input.filter {
+   background: var(--ion-card-background);
+  color: var(--ion-color-custom-5);
+  --color: var(--ion-color-custom-5);
+ }

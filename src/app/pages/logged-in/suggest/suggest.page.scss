@@ -3,7 +3,7 @@ ion-back-button {
 }
 
 .selected {
-    border: solid 1px #bdbdbd;
+    border: solid 1px var(--ion-color-custom-2);
     border-radius: 5px;
     --border-radius: 5px;
     --inner-border-width: 0;

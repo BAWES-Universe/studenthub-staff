@@ -7,7 +7,7 @@ ion-toolbar h1 {
     line-height: 1.33;
     letter-spacing: normal;
     text-align: left;
-    color: #23233d;
+    color: var(--ion-color-custom-6);
     margin:2px 20px;
   }
   .company-name {
@@ -20,25 +20,25 @@ ion-toolbar h1 {
     line-height: 1.56;
     letter-spacing: normal;
     text-align: left;
-    color: #3f5dca;
+    color: var(--ion-color-custom-34);
     margin:2px 20px;
   }
   ion-icon[name='checkmark-outline'] {
-    background: #2CB564;
-    color: #fff;
+    background: var(--ion-color-custom-29);
+    color: var(--ion-color-primary-contrast);
     border-radius: 50%;
     font-size: 16px;
   }
 
   ion-icon[name='close-outline'] {
-    background: #2CB564;
-    color: #fff;
+    background: var(--ion-color-custom-29);
+    color: var(--ion-color-primary-contrast);
     font-size: 16px;
     border-radius: 50%;
   }
   ion-content {
-    background: #f7f8fa;
-    --background: #f7f8fa;
+    background: var(--ion-color-custom-9);
+    --background: var(--ion-color-custom-9);
     --padding-bottom: 200px;
   }
 
@@ -52,14 +52,14 @@ ion-toolbar h1 {
       line-height: 1.5;
       letter-spacing: normal;
       text-align: left;
-      color: #68687a;
+      color: var(--ion-color-custom-5);
       text-transform: inherit;
       min-width: 74px;
     }
 
     ion-segment-button.segment-button-checked {
       font-weight: 600;
-      color: #263879;
+      color: var(--ion-color-custom-44);
       --indicator-color	:#263879;
       --border-color	:#263879;
     }
@@ -74,7 +74,7 @@ ion-toolbar h1 {
     line-height: 1.56;
     letter-spacing: normal;
     text-align: left;
-    color: #23233d;
+    color: var(--ion-color-custom-6);
   }
 
   ion-badge {
@@ -84,7 +84,7 @@ ion-toolbar h1 {
     gap: 10px;
     padding: 6px 16px;
     border-radius: 8px;
-    background-color: #fff;
+    background-color: var(--ion-card-background);
     font-family: Inter;
     font-size: 14px;
     font-weight: 600;
@@ -93,7 +93,7 @@ ion-toolbar h1 {
     line-height: 1.43;
     letter-spacing: normal;
     text-align: left;
-    color: #68687a;
+    color: var(--ion-color-custom-5);
     margin-right: 5px;
     margin-bottom: 8px;
   }
@@ -106,7 +106,7 @@ ion-toolbar h1 {
     font-style: normal;
     line-height: 2;
     letter-spacing: normal;
-    color: #68687a;
+    color: var(--ion-color-custom-5);
     text-transform: uppercase;
     padding-left: 23px;
     ion-icon {
@@ -124,7 +124,7 @@ ion-toolbar h1 {
     font-style: normal;
     line-height: 1.43;
     letter-spacing: normal;
-    color: #4b4b61;
+    color: var(--ion-color-custom-17);
   }
   p {
      font-family: Inter;
@@ -135,7 +135,7 @@ ion-toolbar h1 {
      line-height: 1.5;
      letter-spacing: normal;
      text-align: left;
-     color: #4b4b61;
+     color: var(--ion-color-custom-17);
   }
   .requested-by {
     font-family: Inter;
@@ -146,7 +146,7 @@ ion-toolbar h1 {
     line-height: 1.43;
     letter-spacing: normal;
     text-align: left;
-    color: #68687a;
+    color: var(--ion-color-custom-5);
     .requested-by-staff{
       color:#4c70f2
     }
@@ -155,8 +155,8 @@ ion-toolbar h1 {
     width: 100%;
     height: 56px;
     border-radius: 12px;
-    background-color: #219653;
-    --background: #219653;
+    background-color: var(--ion-color-custom-32);
+    --background: var(--ion-color-custom-32);
     font-family: Inter;
     font-size: 16px;
     font-weight: 600;
@@ -164,7 +164,7 @@ ion-toolbar h1 {
     font-style: normal;
     letter-spacing: normal;
     text-align: center;
-    color: #fff;
+    color: var(--ion-color-primary-contrast);
     margin-bottom: 16px;
     --border-radius: 12px;
     text-transform: inherit;
@@ -212,8 +212,8 @@ ion-toolbar h1 {
   }
 
   ion-footer {
-    --background: #f7f8fa;
-    background: #f7f8fa;
+    --background: var(--ion-color-custom-9);
+    background: var(--ion-color-custom-9);
     //position: fixed;
     //bottom: 0;
     //min-height: 104px;
@@ -241,7 +241,7 @@ ion-toolbar h1 {
     line-height: 1.5;
     letter-spacing: normal;
     text-align: center;
-    color: #fff;
+    color: var(--ion-color-primary-contrast);
     text-transform: inherit;
     --box-shadow: none;
   }
@@ -254,9 +254,9 @@ ion-toolbar h1 {
     letter-spacing: normal;
     text-align: left;
     font-weight: normal;
-    color: #4b4b61;
+    color: var(--ion-color-custom-17);
     span {
-      color: #23233d;
+      color: var(--ion-color-custom-6);
       //font-weight: 600;
     }
   }
@@ -267,7 +267,7 @@ ion-toolbar h1 {
     ion-card-content {
       ion-badge {
         border-radius: 8px;
-        background-color: #f5f5f7;
+        background-color: var(--ion-color-custom-8);
         margin:18px 0 0 0;
       }
     }
@@ -281,13 +281,13 @@ ion-toolbar h1 {
     line-height: 1.5;
     letter-spacing: normal;
     text-align: left;
-    color: #3f5dca;
+    color: var(--ion-color-custom-34);
     margin: 0 20px;
   }
   .stop-btn.delivery {
-    --border-color: #4c70f2;
-    color: #4c70f2;
-    --color: #4c70f2;
+    --border-color: var(--ion-color-custom-14);
+    color: var(--ion-color-custom-14);
+    --color: var(--ion-color-custom-14);
     margin-top:0;
   }
   .timer{
@@ -305,12 +305,12 @@ ion-toolbar h1 {
       line-height: 1.5;
       letter-spacing: normal;
       text-align: center;
-      color: #68687a;
+      color: var(--ion-color-custom-5);
     }
   }
 
   .count {
-    color: #7d7d8d;
+    color: var(--ion-color-custom-7);
   }
 
   .btn-update,
@@ -329,11 +329,11 @@ ion-toolbar h1 {
     text-align: center;
     text-transform: inherit;
     float: left;
-    --background: #fff;
-    --color: #4C70F2;
+    //--background: var(--ion-card-background);
+    //--color: var(--ion-color-custom-14);
     --border-width: 2px;
     --border-style: solid;
-    --border-color: #4C70F2;
+    --border-color: var(--ion-color-custom-14);
     --box-shadow: none;
   }
 

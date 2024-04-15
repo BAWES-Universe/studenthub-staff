@@ -1,7 +1,7 @@
 
 ion-footer {
     box-shadow: 0 -4px 4px 0 rgba(0, 0, 0, 0.1);
-    background-color: #ffffff;
+    background-color: var(--ion-card-background);
   
     ion-button {
       height: 53px;
@@ -15,13 +15,13 @@ ion-footer {
       text-align: center;
       text-transform: none;
       margin: 12px 10px;
-      --color: #ffffff;
+      --color: var(--ion-color-primary-contrast);
       --border-radius: 5px;
-      --background: #333333;
+      --background: var(--ion-color-custom-10);
       --box-shadow: none;
     }
   
     .btn-view-fulltimers {
-      --background: #f24459;
+      --background: var(--ion-color-custom-19);
     }
   }

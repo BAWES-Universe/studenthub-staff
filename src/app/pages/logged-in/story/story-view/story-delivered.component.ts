@@ -71,7 +71,7 @@ import { ModalController, PopoverController } from '@ionic/angular';
         font-size: 18px;
         line-height: 28px;
         text-align: center;
-        color: #23233D;
+        color: var(--ion-color-custom-6);
         margin-bottom: 8px;
     }
 
@@ -82,7 +82,7 @@ import { ModalController, PopoverController } from '@ionic/angular';
         font-size: 16px;
         line-height: 24px;
         text-align: center;
-        color: #4B4B61;
+        color: var(--ion-color-custom-17);
         margin: 0 0 22px 0;
     }
 
@@ -92,7 +92,7 @@ import { ModalController, PopoverController } from '@ionic/angular';
         font-weight: 600;
         font-size: 14px;
         line-height: 20px;
-        color: #23233D;
+        color: var(--ion-color-custom-6);
     }
 
     .txt-center {
@@ -109,16 +109,16 @@ import { ModalController, PopoverController } from '@ionic/angular';
         font-weight: 400;
         font-size: 14px;
         float: right;
-        color: #68687A;
+        color: var(--ion-color-custom-5);
     }
 
     .btn-close {
-        --background: #F5F5F7;
+        --background: var(--ion-color-custom-8);
         --border-radius: 100%;
         position: absolute;
         right: 24px;
         top: 24px;
-        --color: #7D7D8D;
+        --color: var(--ion-color-custom-7);
         width: 40px;
         height: 40px;
         font-size: -1px;
@@ -128,8 +128,8 @@ import { ModalController, PopoverController } from '@ionic/angular';
     }
 
     ion-progress-bar {
-        --progress-background: #29B564;
-        --background: #EDFCF3;
+        --progress-background: var(--ion-color-custom-24);
+        --background: var(--ion-color-custom-22);
         border-radius: 2px;
         margin-bottom: 8px;
     }
@@ -152,7 +152,7 @@ import { ModalController, PopoverController } from '@ionic/angular';
 
     .btn-request,
     .btn-next {
-        --background: #4C70F2;
+        --background: var(--ion-color-custom-14);
         --border-radius: 12px;
     }
 
@@ -161,11 +161,11 @@ import { ModalController, PopoverController } from '@ionic/angular';
     }
 
     .btn-back {
-        --background: #FFFFFF;
+        //--background: var(--ion-card-background);
         --border-width: 2px;
         --border-style: solid;
-        --border-color: #4C70F2;
-        --color: #4C70F2;
+        --border-color: var(--ion-color-custom-14);
+        --color: var(--ion-color-custom-14);
         width: 126px;
         margin-right: 16px;
     }

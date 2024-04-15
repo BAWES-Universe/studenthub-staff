@@ -42,7 +42,7 @@ export class TabsPage implements OnInit, OnDestroy {
     public statisticService: StatisticService,
     public authService: AuthService,
     public accountService: AccountService,
-  ) {
+  ) { 
   }
 
   async ngOnInit() {

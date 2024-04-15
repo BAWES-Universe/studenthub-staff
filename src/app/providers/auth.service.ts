@@ -28,7 +28,7 @@ export class AuthService {
   public staff_id: number;
   public name: string;
   public email: string;
-  public theme: string;
+  public theme: string = "day";
   public role: number;
   public story: any;
 
@@ -95,10 +95,12 @@ export class AuthService {
           this.staff_id = user.staff_id;
           this.email = user.email;
           this.name = user.name;
-          this.theme = user.theme;
           this.role = user.role;
           this.story = user.story;
 
+          if (user.theme)
+            this.theme = user.theme;
+          
           resolve(true);
         } else {
           resolve(false);
@@ -117,9 +119,6 @@ export class AuthService {
    * @param theme
    */
   setTheme(theme) {
-    this.storageService.set('theme', theme).catch(r => {
-      this.eventService.errorStorage$.next({});
-    });
 
     this.theme = theme;
 
@@ -130,6 +129,10 @@ export class AuthService {
       this.renderer.addClass(document.body, 'day');
       this.renderer.removeClass(document.body, 'night');
     }
+
+    this.storageService.set('theme', theme).catch(r => {
+      this.eventService.errorStorage$.next({});
+    });
   }
 
   /**
@@ -175,6 +178,8 @@ export class AuthService {
     this.storageService.clear().catch(r => {
       this.eventService.errorStorage$.next({});
     });
+
+    this.storageService.set('theme', this.theme);
 
     if (!silent) {
       this.eventService.userLoggedOut$.next(reason ? reason : false);

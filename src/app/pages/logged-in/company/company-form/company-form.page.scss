@@ -4,8 +4,8 @@ ion-back-button {
 
 ion-header {
   box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.05);
-  background: #fff;
-  --background: #fff;
+  //background: var(--ion-card-background);
+  //--background: var(--ion-card-background);
   ion-toolbar {
     padding: 0 24px;
 
@@ -16,7 +16,7 @@ ion-header {
 }
 
 ion-content {
-  --background: #f7f8fa;
+  --background: var(--ion-color-custom-9);
   --padding-start: 24px;
   --padding-end: 24px;
   --padding-bottom: 100px;
@@ -30,7 +30,7 @@ ion-title {
   font-style: normal;
   line-height: 1.33;
   letter-spacing: normal;
-  color: #23233d;
+  color: var(--ion-color-custom-6);
 }
 
 ckeditor {
@@ -54,7 +54,7 @@ ion-item.field-password {
 
       ion-icon {
           font-size: 22px;
-          color: #000;
+          color: var(--ion-color-light-contrast);
       }
   }
 }
@@ -69,13 +69,13 @@ h5 {
   line-height: 1.56;
   letter-spacing: normal;
   text-align: left;
-  color: #23233d;
+  color: var(--ion-color-custom-6);
 }
 
 .btn-save {
     height: 56px;
     border-radius: 12px;
-    --background: #4c70f2;
+    --background: var(--ion-color-custom-14);
     font-size: 16px;
     font-weight: 600;
     font-stretch: normal;
@@ -83,7 +83,7 @@ h5 {
     line-height: 1.5;
     letter-spacing: normal;
     text-align: center;
-    --color: #fff;
+    --color: var(--ion-color-primary-contrast);
     text-transform: none;
     width: calc(100% - 48px);
     --box-shadow: none;

@@ -1,4 +1,4 @@
-ion-tab-bar {
+.day ion-tab-bar {
   background: rgba(255, 255, 255, 0.9) !important;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1) !important;
 }
@@ -64,7 +64,7 @@ ion-toolbar.main-toolbar {
   line-height: 40px;
   display: block;
   background: none;
-  color: #212529;
+  color: var(--ion-color-custom-55);
   opacity: 0.8;
 
   ion-icon {
@@ -148,7 +148,7 @@ h2.title {
     font-style: normal;
     line-height: normal;
     letter-spacing: normal;
-    color: #000000;
+    color: var(--ion-color-light-contrast);
     margin: 0;
   }
 

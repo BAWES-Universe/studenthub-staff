@@ -18,13 +18,13 @@ ion-badge {
   letter-spacing: normal;
   margin-right: 10px;
   border-radius: 8px;
-  background-color: #f5f5f7;
+  background-color: var(--ion-color-custom-8);
   font-family: Inter;
   font-size: 14px;
   font-weight: 600;
   line-height: 1.43;
   text-align: left;
-  color: #68687a;
+  color: var(--ion-color-custom-5);
   padding:7px;
 }
 
@@ -44,7 +44,7 @@ h2 {
   line-height: 1.33;
   letter-spacing: normal;
   text-align: left;
-  color: #23233d;
+  color: var(--ion-color-custom-6);
   width: 64%;
 
   .active {
@@ -60,7 +60,7 @@ p {
   line-height: 1.34;
   letter-spacing: normal;
   text-align: left;
-  color: #23233d;
+  color: var(--ion-color-custom-6);
 }
 .small-detail {
   margin-bottom: 8px;
@@ -75,17 +75,17 @@ p {
   margin-right: 12px;
   font-size: 12px;
   text-align: center;
-  color: #ffffff;
+  color: var(--ion-color-primary-contrast);
   justify-content: flex-start;
   align-items: flex-start;
   gap: 10px;
   padding: 4px 8px;
   border-radius: 8px;
-  background-color: #edfcf3;
+  background-color: var(--ion-color-custom-22);
 }
 
 .company_status_badge.danger {
-  background-color: #fff2f2;
+  background-color: var(--ion-color-custom-12);
   font-size: 14px;
   font-weight: 600;
   font-stretch: normal;
@@ -93,7 +93,7 @@ p {
   line-height: 1.43;
   letter-spacing: normal;
   text-align: right;
-  color: #eb5757;
+  color: var(--ion-color-custom-23);
 }
 
 ion-badge.success {
@@ -104,10 +104,10 @@ ion-badge.success {
   line-height: 1.43;
   letter-spacing: normal;
   text-align: right;
-  color: #29b564;
+  color: var(--ion-color-custom-24);
 }
 ion-badge.danger {
-  --background: #eb5757;
+  --background: var(--ion-color-custom-23);
 }
 ion-avatar {
   width: 48px;
@@ -115,7 +115,7 @@ ion-avatar {
   margin-bottom: 16px;
 }
 ion-grid{
-  border-top: 1px solid #e2e2e6;
+  border-top: 1px solid var(--ion-color-custom-4);
 }
 ion-col {
   padding-left: 39px;
@@ -127,7 +127,7 @@ ion-col {
   line-height: 1.43;
   letter-spacing: normal;
   text-align: left;
-  color: #4b4b61;
+  color: var(--ion-color-custom-17);
   ion-img {
     position: absolute;
     top: 8px;

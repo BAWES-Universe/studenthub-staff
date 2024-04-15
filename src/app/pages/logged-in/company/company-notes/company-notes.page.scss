@@ -24,7 +24,7 @@ ion-list {
   line-height: normal;
   letter-spacing: normal;
   text-align: left;
-  color: #000000;
+  color: var(--ion-color-light-contrast);
 }
 
 .company-name {
@@ -36,7 +36,7 @@ ion-list {
   line-height: normal;
   letter-spacing: normal;
   text-align: left;
-  color: #000000;
+  color: var(--ion-color-light-contrast);
 }
 
 loading-modal {

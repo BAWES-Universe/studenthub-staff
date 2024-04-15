@@ -21,7 +21,7 @@ ion-content {
     font-style: normal;
     line-height: normal;
     letter-spacing: normal;
-    color: #000000;
+    color: var(--ion-color-light-contrast);
     margin-top: 45px;
     margin-bottom: 55px;
   }
@@ -34,15 +34,15 @@ ion-content {
     font-style: normal;
     line-height: 1.65;
     letter-spacing: normal;
-    color: #000;
+    //color: var(--ion-color-light-contrast);
     border: 4px solid #BDBDBD;
     border-radius: 10px;
     --padding-top: 24px;
     --padding-start: 18px;
     --padding-end: 18px;
-    --placeholder-color: #828282;
-    --background: #fff;
-    background: #fff;
+    --placeholder-color: var(--ion-color-custom-25);
+    //--background: var(--ion-card-background);
+    //background: var(--ion-card-background);
     --padding-bottom: 24px;
     margin-bottom: 17px;
   }
@@ -57,8 +57,8 @@ ion-content {
     font-style: normal;
     line-height: 1.65;
     letter-spacing: normal;
-    --background: #000000;
-    color: #fff;
+    --background: var(--ion-color-light-contrast);
+    color: var(--ion-color-primary-contrast);
     margin-top: 25px;
     margin-bottom: 24px;
     border-radius: 22px;
@@ -67,7 +67,7 @@ ion-content {
   }
   
   .btn-signup[disabled] {
-    --background: #6B6B6B;
-    color: #B4B4B4
+    --background: var(--ion-color-custom-38);
+    color: var(--ion-color-custom-39)
   }
   

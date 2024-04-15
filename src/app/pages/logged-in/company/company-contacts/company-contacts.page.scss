@@ -10,24 +10,24 @@ ion-title {
   line-height: 1.33;
   letter-spacing: normal;
   text-align: left;
-  color: #23233d;
+  color: var(--ion-color-custom-6);
 }
 
 ion-content {
   --padding-start: 24px;
   --padding-top: 24px;
   --padding-end: 24px;
-  background: #f7f8fa;
-  --background: #f7f8fa;
+  background: var(--ion-color-custom-9);
+  --background: var(--ion-color-custom-9);
 }
 
 .searchbar-wrapper {
   padding: 0 20px;
 
   ion-searchbar {
-    --background: #f5f5f7;
+    --background: var(--ion-color-custom-8);
     border-radius: 8px;
-    background-color: #f5f5f7;
+    background-color: var(--ion-color-custom-8);
     font-family: Inter;
     font-size: 14px;
     font-weight: normal;
@@ -35,8 +35,8 @@ ion-content {
     font-style: normal;
     line-height: 1.43;
     letter-spacing: normal;
-    --placeholder-color: #7d7d8d;
-    color: #333333;
+    --placeholder-color: var(--ion-color-custom-7);
+    color: var(--ion-color-custom-10);
     --box-shadow: none;
     --min-height: 40px;
     --height: 40px;
@@ -52,7 +52,7 @@ ion-content {
     flex-grow: 0;
     margin: 0 0 0 16px;
     border-radius: 8px;
-    background-color: #f5f5f7;
+    background-color: var(--ion-color-custom-8);
   }
 
   ion-button.active::after { 
@@ -82,7 +82,7 @@ ion-list {
   line-height: normal;
   letter-spacing: normal;
   text-align: left;
-  color: #000000;
+  color: var(--ion-color-light-contrast);
 }
 
 .company-name {
@@ -94,14 +94,14 @@ ion-list {
   line-height: normal;
   letter-spacing: normal;
   text-align: left;
-  color: #000000;
+  color: var(--ion-color-light-contrast);
 }
 
 ion-card {
   padding: 0;
   border-radius: 8px;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
-  background-color: #fff;
+  background-color: var(--ion-card-background);
   margin: 0 0 16px 0;
 
   ion-card-header {
@@ -120,7 +120,7 @@ ion-card {
     margin: 0 12px 0 0;
     padding: 8px;
     border-radius: 12px;
-    background-color: #f5f7ff;
+    background-color: var(--ion-color-custom-43);
   }
 
   h4 {
@@ -130,7 +130,7 @@ ion-card {
     font-style: normal;
     line-height: 1.5;
     letter-spacing: normal;
-    color: #23233d;
+    color: var(--ion-color-custom-6);
   }
 
   h2 {
@@ -141,12 +141,12 @@ ion-card {
     line-height: 1.43;
     letter-spacing: normal;
     text-align: left;
-    color: #68687a;
+    color: var(--ion-color-custom-5);
   }
 
   ion-button {
     --box-shadow: none;
-    --background: #fff;
+    --background: var(--ion-card-background);
 
     ion-icon {
       font-size: 24px;
@@ -155,8 +155,8 @@ ion-card {
 
   ion-card-content {
     padding: 16px;
-    border-top: 1px solid #e2e2e6;
-    background-color: #fff;
+    border-top: 1px solid var(--ion-color-custom-4);
+    background-color: var(--ion-card-background);
 
     p {
       text-decoration: none;
@@ -172,7 +172,7 @@ ion-card {
       line-height: 1.43;
       letter-spacing: normal;
       text-align: left;
-      color: #4b4b61;
+      color: var(--ion-color-custom-17);
     }
 
     ion-icon {
@@ -185,7 +185,7 @@ ion-card {
 }
 
 .setting-icon{
-  color:#7d7d8d;
+  color:var(--ion-color-custom-7);
 }
 
 .add-request {
@@ -197,11 +197,11 @@ ion-card {
   padding: 10px;
   height: 53px;
   border-radius: 50%;
-  background: #4c70f2;
+  background: var(--ion-color-custom-14);
   box-shadow: 0 4px 12px 0 rgba(38, 56, 121, 0.3);
   
   ion-icon {
-    color:#fff;
+    color:var(--ion-color-primary-contrast);
   }
 }
 
