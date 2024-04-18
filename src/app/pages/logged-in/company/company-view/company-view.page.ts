@@ -284,6 +284,7 @@ export class CompanyViewPage implements OnInit {
       component: CompanyRequestsPage,
       componentProps: {
         company: this.company,
+        company_id: this.company_id
       }
     });
     modal.onDidDismiss().then(e => {

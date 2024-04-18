@@ -49,8 +49,8 @@ export class CompanyRequestsPage implements OnInit {
   }
 
   ionViewDidEnter() {
-    if(!this.company)
-      this.loadCompanyDetail();
+    //if(!this.company)
+    //  this.loadCompanyDetail();
 
     this.loadRequests(this.currentPage);
   }
@@ -115,12 +115,12 @@ export class CompanyRequestsPage implements OnInit {
     modal.present();*/
   }
 
-  loadCompanyDetail() {
+  /*loadCompanyDetail() {
     this.companyService.view(this.company.company_id).subscribe(response => {
       this.company = response;
     }, () => {
     });
-  }
+  }*/
 
   /**
    * load more on scroll to bottom
@@ -154,7 +154,9 @@ export class CompanyRequestsPage implements OnInit {
   urlParams() {
     let urlParams = '';
 
-    if (this.company.company_id) {
+    if (this.company_id) {
+      urlParams += '&company_id=' + this.company_id;
+    } else if(this.company) {
       urlParams += '&company_id=' + this.company.company_id;
     }
 
