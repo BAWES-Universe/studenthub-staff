@@ -399,7 +399,7 @@ export class CandidateViewPage implements OnInit {
         this.candidate.store_id = null;
 
         const alert = await this.alertCtrl.create({
-          message: this._processResponseMessage(response),
+          message: this.translateService.errorMessage(response.message),
           buttons: ['Ok']
         });
         alert.present();
