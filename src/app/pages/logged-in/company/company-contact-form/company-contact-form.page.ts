@@ -156,15 +156,15 @@ export class CompanyContactFormPage implements OnInit {
     this.emails.markAsDirty();
   }
 
-  removePhone(index) {
-    this.phones.removeAt(index);
-    this.phones.markAsDirty();
-  }
-
   addEmail() {
     this.emails.push(this._fb.group({
       email_address: ['', [CustomValidator.emailValidator]]
     }));
+  }
+
+  removePhone(index) {
+    this.phones.removeAt(index);
+    this.phones.markAsDirty();
   }
 
   addPhone() {

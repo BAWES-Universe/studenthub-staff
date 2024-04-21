@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 // services
 import { AuthHttpService } from './authhttp.service';
 // models
-import { Request } from 'src/app/models/request';
+import { Request, RequestSkill } from 'src/app/models/request';
 
 
 @Injectable({
@@ -82,7 +82,8 @@ export class CompanyRequestService {
       location: model.request_location,
       additional_info: model.request_additional_info,
       compensation: model.request_compensation,
-      job_description: model.request_job_description
+      job_description: model.request_job_description,
+      requestSkills: model.requestSkills
     });
   }
 
@@ -146,7 +147,8 @@ export class CompanyRequestService {
       location: model.request_location,
       additional_info: model.request_additional_info,
       compensation: model.request_compensation,
-      job_description: model.request_job_description
+      job_description: model.request_job_description,
+      requestSkills: model.requestSkills
     });
   }
 

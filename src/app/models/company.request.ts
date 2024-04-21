@@ -19,4 +19,5 @@ export class ComapanyRequest {
     currency_code: string;
     requesting_for: string;
     country: Country;
+    
 } 

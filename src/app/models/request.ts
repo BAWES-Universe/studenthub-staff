@@ -44,6 +44,7 @@ export class Request {
     staffs: Staff[];
     storyOwners: Staff[];
     stories: Story[];
+    requestSkills: RequestSkill[];
 }
 /*
 enum Status {
@@ -82,4 +83,9 @@ export class StoryActivity {
   activity_last_updated_at: string;
   story: Story;
   staff: Staff;
+}
+
+export class RequestSkill {
+  request_uuid: string;
+  skill: string;
 }

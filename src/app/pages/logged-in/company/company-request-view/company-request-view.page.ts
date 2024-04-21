@@ -127,7 +127,11 @@ export class CompanyRequestViewPage implements OnInit, OnDestroy {
 
     this.eventService.companyRequestUpdate$.subscribe((data: any) => {
       if (data && data.request_uuid == this.request_uuid) {
-        this.request.request_updated_datetime = data.request_updated_datetime;
+        if(data.refresh) {
+          this.loadDetail();
+        } else {
+          this.request.request_updated_datetime = data.request_updated_datetime;
+        }
       }
     });
 
@@ -169,7 +173,7 @@ export class CompanyRequestViewPage implements OnInit, OnDestroy {
     if (loading)
       this.loading = true;
 
-    const urlParams = '?expand=storyOwners,staffs,staff,contact,company,stories,stories.staff';
+    const urlParams = '?expand=storyOwners,staffs,staff,contact,company,stories,stories.staff,requestSkills';
 
     this.requestService.view(this.request_uuid, urlParams).subscribe(data => {
 

@@ -118,6 +118,9 @@
           {{ request.request_number_of_employees }} Total Requested Employee
         </p>
 
+        <h2>Skills</h2>
+        <ion-badge *ngFor="let requestSkill of request.requestSkills">{{ requestSkill.skill }}</ion-badge>
+
       </div>
 
       <div class="requested-by">

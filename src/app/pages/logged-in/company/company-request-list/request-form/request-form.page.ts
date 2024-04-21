@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Location } from '@angular/common';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { ModalController, AlertController, PopoverController, NavController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
@@ -84,6 +84,20 @@ export class RequestFormPage implements OnInit {
   loadForm() {
     this.company = this.model.company;
 
+    let skillCtrls = [];
+
+    if(this.model.requestSkills) {
+      for (let requestSkill of this.model.requestSkills) {
+        skillCtrls.push(this.fb.group({
+          skill: [requestSkill.skill]//, [Validators.required]
+        }));
+      }
+    }
+
+    skillCtrls.push(this.fb.group({
+      skill: ['', []]
+    }));
+
     this.form = this.fb.group({
       company_name: [(this.model.company) ? this.model.company.company_name : '', Validators.required],
       company_id: [this.model.company_id, Validators.required],
@@ -100,7 +114,8 @@ export class RequestFormPage implements OnInit {
       number_of_employees: [this.model.request_number_of_employees, Validators.required],
       no_of_employees_per_story: [this.model.no_of_employees_per_story?this.model.no_of_employees_per_story:1, Validators.required],
       location: [this.model.request_location],
-      additional_info: [this.model.request_additional_info]
+      additional_info: [this.model.request_additional_info],
+      requestSkills:  new FormArray(skillCtrls),
     });
 
     this.operation = (this.requestID) ? 'Update' : 'Create';
@@ -120,6 +135,7 @@ export class RequestFormPage implements OnInit {
     this.model.request_compensation = this.form.value.compensation;
     this.model.request_location = this.form.value.location;
     this.model.no_of_employees_per_story = this.form.value.no_of_employees_per_story;
+    this.model.requestSkills = this.form.value.requestSkills;
   }
 
   /**
@@ -164,7 +180,9 @@ export class RequestFormPage implements OnInit {
       if (jsonResponse.operation == 'success') {
         // Close the page
         this.eventService.companyRequestUpdate$.next({
-          company_id: this.company? this.company.company_id: null
+          company_id: this.company? this.company.company_id: null,
+          request_uuid: this.model.request_uuid,
+          refresh: true
         });
 
         this.location.back();
@@ -260,7 +278,7 @@ export class RequestFormPage implements OnInit {
    */
   async detail(id) {
 
-    const urlParams = '?expand=contact,company';
+    const urlParams = '?expand=contact,company,requestSkills';
 
     this.requestService.view(id, urlParams).subscribe(data => {
       this.model = data;
@@ -284,6 +302,47 @@ export class RequestFormPage implements OnInit {
     this.form.controls['company_name'].setValue(null);
     this.form.controls['location'].setValue(null);
     this.form.controls['no_of_employees_per_story'].setValue(null);
+    this.form.controls['requestSkills'].setValue([
+      this.fb.group({
+        skill: ['', []]
+      })
+    ]);
+
+  }
+
+  // convenience getters for easy access to form fields
+  get f() { return this.form.controls; }
+  get requestSkills() { return <FormArray<FormGroup>>this.f['requestSkills']; } //as FormArray
+
+  removeSkill(index) {
+    this.requestSkills.removeAt(index);
+    this.requestSkills.markAsDirty();
+  }
+
+  addSkill() {
+    this.requestSkills.push(this.fb.group({
+      skill: ['', []]
+    }));
+  }
+
+  /**
+   * add new input
+   * @param event
+   * @param index
+   */
+  onSkillChange(event, index) {
+
+    // remove field on clearing it out + have next empty field
+
+    if (this.requestSkills.length - index > 1 && event.target.value.length == 0) {
+      return this.removeSkill(index);
+    }
+
+    // check if new field is not added && something is typed
+    if (((index - this.requestSkills.length) === -1) && event.target.value) {
+      // adding new field
+      this.addSkill();
+    }
   }
 
   onEditorReady() {
