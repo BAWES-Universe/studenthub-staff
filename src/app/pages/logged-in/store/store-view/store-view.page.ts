@@ -36,6 +36,8 @@ export class StoreViewPage implements OnInit {
 
   public updating = false;
 
+  public loadingLoginUrl: boolean = false; 
+  
   constructor(
     public navCtrl: NavController,
     private modalCtrl: ModalController,
@@ -215,6 +217,26 @@ export class StoreViewPage implements OnInit {
       }
     }, () => {
       this.updating = false;
+    });
+  }
+
+  login() {
+    this.loadingLoginUrl = true; 
+
+    this.storeService.login(this.store_id).subscribe(async res => {
+
+      this.loadingLoginUrl = false;
+       
+      if(res.operation == "error") {
+        const alert = await this.alertCtrl.create({
+          header: 'Oops',
+          subHeader: this.authService.errorMessage(res.message),
+          buttons: ['Okay']
+        });
+        alert.present();
+      } else {
+        window.open(res.redirect, "_blank");
+      }
     });
   }
 

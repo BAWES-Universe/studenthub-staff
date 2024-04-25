@@ -82,3 +82,11 @@
     
   </div>
 </ion-content>
+<ion-footer *ngIf="store && store.storeManager">
+  <ion-toolbar class="container">
+    <ion-button [disabled]="loadingLoginUrl" (click)="login()">
+      <span *ngIf="!loadingLoginUrl">Login <ion-icon name="open-outline"></ion-icon></span>
+      <ion-spinner *ngIf="loadingLoginUrl"></ion-spinner>
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

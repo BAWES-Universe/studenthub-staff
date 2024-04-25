@@ -91,6 +91,16 @@ export class StoreService {
   }
 
   /**
+   * get login url and open in new window 
+   * @param store_id 
+   * @returns 
+   */
+  login(store_id): Observable<any>{
+    let url = `${this._storeEndpoint}/login/${store_id}`;
+    return this._authhttp.post(url, {});
+  }
+  
+  /**
    * update store manager
    * @param model
    * @param companyContact
