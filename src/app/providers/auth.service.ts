@@ -13,7 +13,7 @@ import {environment} from '../../environments/environment';
 import { AuthService as Auth0Service } from '@auth0/auth0-angular';
 import { AlertController, LoadingController } from '@ionic/angular';
 import { StorageService } from './storage.service';
-import { AnalyticsService } from './analytics.service';
+//import { AnalyticsService } from './analytics.service';
 import { TranslateLabelService } from './translate-label.service';
 
 
@@ -61,7 +61,7 @@ export class AuthService {
     public eventService: EventService,
     public translate: TranslateLabelService,
     public storageService: StorageService,
-    public analyticService: AnalyticsService,
+    //public analyticService: AnalyticsService,
     public rendererFactory: RendererFactory2
   ) {
     this.renderer = this.rendererFactory.createRenderer(null, null);
@@ -204,11 +204,6 @@ export class AuthService {
     this.name = response.name;
     this.email = response.email;
     this.story = response.story;
-
-    this.analyticService.user(this.staff_id, {
-      name: this.name,
-      email: this.email,
-    });
 
     // Save to Storage
     this.saveInStorage();

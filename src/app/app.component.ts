@@ -26,6 +26,7 @@ import { AuthService as Auth0Service } from '@auth0/auth0-angular';
 import { StorageService } from './providers/storage.service';
 import { CurrencyService } from './providers/currency.service';
 import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
+import { AnalyticsService } from './providers/analytics.service';
 
 //import { Plugins } from '@capacitor/core';
 
@@ -54,6 +55,7 @@ export class AppComponent implements OnInit {
     public requestService: CompanyRequestService,
     public translateService: TranslateLabelService,
     public toastCtrl: ToastController,
+    public analyticService: AnalyticsService,
     public auth: Auth0Service,
     public storage: Storage,
     public storageService: StorageService,
@@ -195,6 +197,11 @@ export class AppComponent implements OnInit {
 
     // On Login Event, set root to Internal app page
     this.eventService.userLogined$.subscribe((userEventData:any) => {
+
+      this.analyticService.user(this.authService.staff_id, {
+        name: this.authService.name,
+        email: this.authService.email,
+      });
 
       if (userEventData && userEventData?.redirect == true) {
         this.navCtrl.navigateRoot(['/view/tasks']);

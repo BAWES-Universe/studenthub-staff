@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import * as mixpanel from 'mixpanel-browser';
 import { environment } from 'src/environments/environment';
+//services
+import { AuthService } from './auth.service';
 
 
 @Injectable({
@@ -8,7 +10,7 @@ import { environment } from 'src/environments/environment';
 })
 export class AnalyticsService {
 
-  constructor() { 
+  constructor(public authService: AuthService) { 
     mixpanel.init(environment.mixpanelKey);
   }
 
@@ -42,8 +44,14 @@ export class AnalyticsService {
     if(window.analytics)
       window.analytics.page(name);
 
+    const params = {
+      //language : this.authService.language_pref,
+      channel : "Staff Web App",
+    }
+
     mixpanel.track("Page View", {
-      "name": name
+      "name": name,
+      ...params
     });
   }
 
@@ -53,9 +61,17 @@ export class AnalyticsService {
    * @param params 
    */
   async track(eventName, params) {
+    
+    //params.language = this.authService.language_pref; 
+    params.channel = "Staff Web App"; 
+    
     if(window.analytics)
       window.analytics.track(eventName, params);
 
     mixpanel.track(eventName, params);
+  }
+
+  refresh() {
+    mixpanel.reset();
   }
 }
