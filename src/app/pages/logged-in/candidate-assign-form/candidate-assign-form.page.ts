@@ -25,14 +25,13 @@ export class CandidateAssignFormPage implements OnInit {
 
   ngOnInit() {
     this.setDates();
-
     this.initForm();
   }
 
-  
   initForm() {
     this.form = this._fb.group({
       rate: ['', Validators.required],
+      company_hourly_rate: [''],
       start_date: [this.todayDate, Validators.required],
     });
   }
@@ -52,9 +51,7 @@ export class CandidateAssignFormPage implements OnInit {
 
   save() {
     let params = this.form.value;
-    
     params.start_date = format(parseISO(this.form.controls['start_date'].value), 'yyyy-MM-dd HH:mm:ss');//, { timeZone: '+3:30' }
-
     this.modalCtrl.dismiss(params);
   }
 

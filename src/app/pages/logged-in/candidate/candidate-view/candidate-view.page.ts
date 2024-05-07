@@ -368,7 +368,7 @@ export class CandidateViewPage implements OnInit {
       }
 
       if(e.data && e.data.rate)
-        this.assignCandidateToStoreWithRate(storeID, e.data.rate, e.data.start_date);
+        this.assignCandidateToStoreWithRate(storeID, e.data.rate, e.data.start_date, e.data.company_hourly_rate);
 
     });
     modal.present();
@@ -379,11 +379,11 @@ export class CandidateViewPage implements OnInit {
    * @param store_id
    * @param rate
    */
-  assignCandidateToStoreWithRate(store_id, rate, start_date = null) {
+  assignCandidateToStoreWithRate(store_id, rate, start_date = null, company_hourly_rate = null) {
 
     this.assigning = true;
 
-    this.candidateService.assignCandidateToStore(this.candidate, store_id, rate, start_date).subscribe(async response => {
+    this.candidateService.assignCandidateToStore(this.candidate, store_id, rate, start_date, company_hourly_rate).subscribe(async response => {
 
       this.assigning = false;
 

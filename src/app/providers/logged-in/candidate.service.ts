@@ -307,12 +307,14 @@ export class CandidateService {
       candidate: Candidate,
       store_id: number,
       rate: number,
-      start_date: string = null
+      start_date: string = null,
+      company_hourly_rate: number | null = null
   ): Observable<any> {
     const params = {
       store_id: store_id,
       hourly_rate: rate,
-      start_date: start_date
+      company_hourly_rate: company_hourly_rate,
+      start_date: start_date,
     };
     const url = `${this._candidateEndpoint}/assign/${candidate.candidate_id}`;
     return this._authhttp.patch(url, params);
