@@ -1,9 +1,10 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
-import { AlertController, ToastController, NavController, Platform, IonCheckbox } from '@ionic/angular';
+import { AlertController, ToastController, NavController, Platform, IonCheckbox, ModalController } from '@ionic/angular';
 //models
 import { Candidate } from 'src/app/models/candidate';
 import { RequestApplication } from 'src/app/models/request-application';
 import { RequestInterview } from 'src/app/models/request-interview';
+import { RequestInterviewFormPage } from 'src/app/pages/logged-in/company/request-interview-form/request-interview-form.page';
 import { AuthService } from 'src/app/providers/auth.service';
 //services
 import { AwsService } from 'src/app/providers/aws.service';
@@ -36,6 +37,7 @@ export class CandidateComponent implements OnInit {
 
   constructor(
     public platform: Platform,
+    public modalCtrl: ModalController,
     public alertCtrl: AlertController,
     public toastCtrl: ToastController,
     public navCtrl: NavController,
@@ -149,22 +151,30 @@ export class CandidateComponent implements OnInit {
     }
   }
 
-  acceptInterview(event, interviewRequest) {
+  async acceptInterview(event, interviewRequest) {
     event.preventDefault();
     event.stopPropagation(); 
+    
+    window.history.pushState({ navigationId: window.history.state?.navigationId }, null, window.location.pathname);
 
-    this.requestService.acceptInterviewRequest(interviewRequest.request_interview_uuid).subscribe(async res => {
-
-      if(res.operation == "success") {
-        interviewRequest.status = 1;
+    const modal = await this.modalCtrl.create({
+      component: RequestInterviewFormPage,
+      componentProps: {
+        interviewRequest: interviewRequest
       }
-      
-      const prompt = await this.alertCtrl.create({
-        message: this.authService.errorMessage(res.message),
-        buttons: ['Okay']
-      });
-      prompt.present();
     });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+
+      if (e && e.data) {
+        interviewRequest = Object.assign(interviewRequest, e.data);
+      }
+    });
+    modal.present();
   }
 
   rejectInterview(event, interviewRequest) {

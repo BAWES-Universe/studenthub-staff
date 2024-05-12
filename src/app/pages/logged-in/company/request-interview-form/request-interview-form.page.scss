@@ -1,0 +1,56 @@
+ion-back-button {
+    display: block;
+}
+  
+ion-content, ion-list, ion-footer{
+  background: var(--ion-color-custom-9);
+  --background: var(--ion-color-custom-9);
+}
+ion-item {
+  border-radius: 8px;
+  border: solid 1px var(--ion-color-custom-4);
+  background-color: var(--ion-card-background);
+  margin-bottom: 16px;
+}
+ion-title {
+  font-family: Inter;
+  font-size: 20px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.4;
+  letter-spacing: normal;
+  text-align: left;
+  color: var(--ion-color-custom-6);
+}
+.cancel {
+  font-family: Inter;
+  font-size: 16px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.5;
+  letter-spacing: normal;
+  text-align: left;
+  color: var(--ion-color-custom-14);
+}
+ion-footer {
+  ion-button {
+    font-family: Inter;
+    font-size: 16px;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.5;
+    letter-spacing: normal;
+    text-align: center;
+    color: var(--ion-color-custom-5);
+    width: 342px;
+    height: 56px;
+    margin: 0 auto;
+    margin-bottom: 21px;
+  }
+} 
+ion-col {
+  align-self: center;
+}

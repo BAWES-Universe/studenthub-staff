@@ -1,0 +1,57 @@
+<ion-header mode="md">
+  <ion-toolbar class="container">
+    <ion-buttons slot="start">
+      <ion-back-button icon="assets/images/icon-back.svg" (click)="dismiss()"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-toolbar class="container">
+    <ion-title>Accept interview request</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button clear class="cancel" color="primary" (click)="dismiss()">
+        Cancel
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
+  <div class="container">
+    <form [formGroup]="form" *ngIf="form">
+      <ion-list lines="none" mode="md">
+ 
+        <ion-item class="input-wrapper" >
+          <div tabindex="0"></div>
+          <ion-label position="floating">Internal note</ion-label>
+          <ion-textarea formControlName="internal_note" placeholder="internal note for staff and company"></ion-textarea>
+        </ion-item>
+
+        <app-select-search-input
+          *ngIf="stafflistData"
+          formControlName="staff_id"
+          placeholder="Select staff"
+          title="Staff"
+          [collection]="stafflistData"
+          valueAttr="staff_id"
+          labelAttr="staff_name">
+        </app-select-search-input>
+
+        <ion-item class="input-wrapper" >
+          <div tabindex="0"></div>
+          <ion-label position="floating">Interview note</ion-label>
+          <ion-textarea placeholder="e.g., meeting link to join interview..." formControlName="interview_note"></ion-textarea>
+        </ion-item>
+
+      </ion-list>
+    </form>
+ 
+  </div>
+</ion-content>
+<ion-footer class="ion-no-border ion-text-center">
+  <div class="container">
+    <ion-button class="btn-save" [disabled]="!form || form.invalid || loading" (click)="submit()">
+      <span *ngIf="!loading">Submit</span>
+      <ion-spinner *ngIf="loading"></ion-spinner>
+    </ion-button>
+  </div>
+</ion-footer>
