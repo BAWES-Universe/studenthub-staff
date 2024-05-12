@@ -21,7 +21,7 @@
           <ion-badge *ngIf="request.request_location">{{request.request_location.length > 30 ? request.request_location.substr(0,30)+'...' : request.request_location }}</ion-badge>
 
           <!-- for old requests -->
-          <ng-container *ngIf="request.storyOwners.length == 0">
+          <ng-container *ngIf="request.storyOwners && request.storyOwners.length == 0">
             <ion-badge *ngFor="let staff of request.staffs">
               {{ staff.staff_name }}
             </ion-badge>
@@ -42,10 +42,10 @@
           <ion-badge>
             Required : {{request.request_number_of_employees}}
           </ion-badge>
-          <ion-badge>
-            Invited : {{request.invited}}
+          <ion-badge *ngIf="request.invited">
+            Invited : {{ request.invited }}
           </ion-badge>
-          <ion-badge>
+          <ion-badge *ngIf="request.suggestion">
             Suggested : {{request.suggestion}}
           </ion-badge>
 

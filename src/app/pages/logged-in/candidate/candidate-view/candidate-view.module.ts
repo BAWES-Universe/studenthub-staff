@@ -14,6 +14,7 @@ import { NoteModule } from 'src/app/components/note/note.module';
 import { TransferModule } from 'src/app/components/transfer/transfer.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { PipesModule } from 'src/app/pipes/pipes.module';
+import { RequestListingModule } from 'src/app/components/request-listing/request-listing.module';
 
 @NgModule({
     imports: [
@@ -23,6 +24,7 @@ import { PipesModule } from 'src/app/pipes/pipes.module';
         IonicModule,
         CandidateViewPageRoutingModule,
         NoItemsModule,
+        RequestListingModule,
         TranslateModule.forChild(),
         NoteModule,
         PipesModule,

@@ -888,9 +888,10 @@ export class CompanyRequestViewPage implements OnInit, OnDestroy {
     );
   }
 
-
   segmentChanged(event) {
-    //this.segment = event.target.value;
+
+    if(this.segment != event.target.value)
+      this.segment = event.target.value;
 
     if(this.segment == "matches") {
       if(this.matchedCandidates.length == 0) {

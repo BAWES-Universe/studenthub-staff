@@ -318,6 +318,17 @@ export class CandidateService {
     };
     const url = `${this._candidateEndpoint}/assign/${candidate.candidate_id}`;
     return this._authhttp.patch(url, params);
+  } 
+
+  /**
+   * list candidate applications
+   * @param candidate_id 
+   * @param page 
+   * @returns 
+   */
+  listApplications(candidate_id: string, page: number) : Observable<any> {
+    let url = this._candidateEndpoint + '/applications/'+ candidate_id +'?expand=request&page=' + page;//requestInterview
+    return this._authhttp.getRaw(url);
   }
 
   /**

@@ -45,6 +45,7 @@ import { StoreViewPage } from "../../store/store-view/store-view.page";
 import { InvitePage } from '../../invite/invite.page';
 import { CandidateAssignFormPage } from '../../candidate-assign-form/candidate-assign-form.page';
 import { AnalyticsService } from 'src/app/providers/analytics.service';
+import { RequestApplication } from 'src/app/models/request-application';
 
 
 
@@ -110,6 +111,14 @@ export class CandidateViewPage implements OnInit {
   public story: Story;
 
   public segment: string = 'activity';
+
+  public loadingApplications: boolean = false; 
+
+  public candidateApplications: RequestApplication[] = [];
+  
+  public applicationPageCount = 0;
+  public applicationCurrentPage  = 0;
+  public applicationTotal = 0;
 
   constructor(
     public navCtrl: NavController,
@@ -1418,7 +1427,94 @@ export class CandidateViewPage implements OnInit {
     });
   }
 
+  loadApplications() {
+ 
+    this.loadingApplications = true;
+
+    this.applicationCurrentPage = 1;
+
+    this.candidateService.listApplications(this.candidate_id, this.applicationCurrentPage).subscribe(data => {
+
+      this.candidateApplications = data.body;
+      this.applicationPageCount = parseInt(data.headers.get('X-Pagination-Page-Count'));
+      this.applicationCurrentPage = parseInt(data.headers.get('X-Pagination-Current-Page'));
+      this.applicationTotal = parseInt(data.headers.get('X-Pagination-Total-Count'));
+    },
+    () => { },
+    () => {
+      this.loadingApplications = false;
+    });
+  }
+
+  /**
+   * load more on scroll to bottom
+   * @param event 
+   */
+  doInfiniteApplications(event) {
+
+    this.loadingApplications = true;
+
+    this.applicationCurrentPage++;
+
+    this.candidateService.listApplications(this.candidate_id, this.applicationCurrentPage).subscribe(data => {
+
+      this.candidateApplications = data.body;
+      this.applicationPageCount = parseInt(data.headers.get('X-Pagination-Page-Count'));
+      this.applicationCurrentPage = parseInt(data.headers.get('X-Pagination-Current-Page'));
+      this.applicationTotal = parseInt(data.headers.get('X-Pagination-Total-Count'));
+    },
+    () => { },
+    () => {
+      this.loadingApplications = false;
+      event.target.complete();
+    });
+  }
+
+  applicationSelected(request) {
+    this.navCtrl.navigateForward('/request-view/' + request.request_uuid, {
+      state : {
+        from: 'company-request-list'
+      }
+    });
+  }
+
   segmentChanged(event) {
     this.segment = event.detail.value;
+
+    if(this.segment == "applications") {
+      if(this.candidateApplications.length == 0) {
+        this.loadApplications();
+      }
+    }
+  }
+
+  /**
+   * refresh on pull to bottom
+   * @param event 
+   */
+  doRefresh(event) {
+    
+    switch (this.segment) {
+      case "activity":
+        this.loadWorkHistoryData();
+        break;
+      case "work-details":
+        this.loadCandidateDetail();
+        break;
+      case "personal-details":
+        this.loadCandidateDetail();
+        break;
+      case "financials":
+        this.loadTransfersData();
+        this.loadCandidateDetail();
+        break;
+      case "applications":
+        this.loadApplications();
+        break;
+      default:
+        break;
+    }
+   
+    event.target.complete();
   }
 }

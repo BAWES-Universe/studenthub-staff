@@ -1,5 +1,6 @@
 import { Candidate } from "./candidate";
 import { Fulltimer } from "./fulltimer";
+import { Request } from "./request";
 import { RequestInterview } from "./request-interview";
 
 export class RequestApplication {
@@ -12,6 +13,7 @@ export class RequestApplication {
     updated_at: string;
     candidate: Candidate;
     fulltimer: Fulltimer;
-    requestInterview: RequestInterview
+    requestInterview: RequestInterview;
+    request: Request
 }
 

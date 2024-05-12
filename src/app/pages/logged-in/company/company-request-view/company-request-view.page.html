@@ -13,8 +13,7 @@
   </ion-toolbar>
   <ion-toolbar class="container">
     
-    <!--(ionChange)="segmentChanged($event)"-->
-    <ion-segment mode="md" [(ngModel)]="segment" (ionChange)="segmentChanged($event)">
+    <ion-segment mode="md" *ngIf="!platform.is('mobile')" [(ngModel)]="segment" (ionChange)="segmentChanged($event)">
 
       <ion-segment-button mode="md" value="details">
         <ion-label>Details</ion-label>
@@ -45,8 +44,25 @@
       </ion-segment-button>
 
     </ion-segment>
-  </ion-toolbar>
 
+    <ion-select *ngIf="platform.is('mobile')" interface="popover" (ionChange)="segmentChanged($event)" [value]="segment">
+      <ion-select-option value="details">Details</ion-select-option>
+      <ion-select-option value="activities">Updates</ion-select-option>
+      <ion-select-option value="stories">Stories</ion-select-option>
+      <ng-container *ngIf="request && request.request_position_type == 2">
+          <ion-select-option value="matches">Matches</ion-select-option>
+          <ion-select-option value="invited">
+            Invited 
+          </ion-select-option>
+          <ion-select-option value="applied">
+            Applied 
+          </ion-select-option>
+      </ng-container>
+      <ion-select-option value="suggested">
+        Suggested 
+      </ion-select-option>
+    </ion-select>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content [scrollEvents]="true" (ionScroll)="logScrolling($event)">
