@@ -1,0 +1,52 @@
+<ion-header mode="md" [class.add-border]="borderLimit" class="ion-no-border">
+   
+  <ion-toolbar class="container">
+    <ion-buttons slot="start">
+      <ion-back-button icon="assets/images/icon-back.svg" (click)="filter()"></ion-back-button>
+    </ion-buttons>
+
+    <ion-title>
+      Filter Results
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button class="ion-text-capitalize setting" (click)="reset()">
+        Reset
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
+    
+  <h5>Status</h5>
+  <ion-button class="btn-option" (click)="filterByStatus($event, null)" 
+    [class.active]="filters.status == null">All</ion-button>
+  <ion-button class="btn-option" (click)="filterByStatus($event, '0')" 
+    [class.active]="filters.status == '0'">Requested</ion-button>
+  <ion-button class="btn-option" (click)="filterByStatus($event, '1')" 
+    [class.active]="filters.status == '1'">Scheduled</ion-button>
+  <ion-button class="btn-option" (click)="filterByStatus($event, '2')" 
+    [class.active]="filters.status == '2'">Rejected</ion-button>
+  <ion-button class="btn-option" (click)="filterByStatus($event, '3')" 
+    [class.active]="filters.status == '3'">Cancelled</ion-button>
+
+  <ion-grid class="request_filter">
+    <ion-row>
+      <ion-col size="6">
+          <h5>From</h5>
+          <ion-input [(ngModel)]="filters.from" id="from" placeholder="YYYY-MM-DD"></ion-input>
+          <app-date-popup presentation="date" key="from" (onClose)="filterDate($event,'from')"></app-date-popup>
+      </ion-col>
+      <ion-col size="6">
+          <h5>To</h5>
+        <ion-input [(ngModel)]="filters.to" id="to" placeholder="YYYY-MM-DD"></ion-input>
+        <app-date-popup presentation="date" key="to" (onClose)="filterDate($event,'to')"></app-date-popup>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+<ion-footer>
+  <ion-button class="btn-filter" (click)="filter()">
+    Filter Results
+  </ion-button>
+</ion-footer>

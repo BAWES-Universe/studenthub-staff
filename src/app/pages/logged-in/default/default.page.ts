@@ -247,6 +247,14 @@ export class DefaultPage implements OnInit {
     this.borderLimit = (e.detail.scrollTop > 5);
   }
 
+  openInterviewRequests(status = 0) {
+    this.navCtrl.navigateForward('/request-interview-list', {
+      state: {
+        status: status
+      }
+    });
+  }
+
   scrollToActive() {
     this.navCtrl.navigateForward('/view/company-request-dashboard', {
       state: {

@@ -57,8 +57,8 @@ export class CompanyRequestService {
    * @param page 
    * @returns 
    */
-  listInterviewRequests(page: number) : Observable<any> {
-    let url = this.companyRequestEndpoint + '/interview-requests?expand=candidate&page=' + page;
+  listInterviewRequests(page: number, urlParams: string = "") : Observable<any> {
+    let url = this.companyRequestEndpoint + '/interview-requests?expand=candidate&page=' + page + urlParams;
     return this._authhttp.getRaw(url);
   }
   

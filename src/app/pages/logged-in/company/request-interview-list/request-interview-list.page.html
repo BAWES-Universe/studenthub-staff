@@ -9,6 +9,16 @@
     <ion-title>
       Interview schedule requests
     </ion-title>
+    
+    <ion-buttons slot="end">
+      <ion-button class="setting_btn" [class.active]="filters.application_uuid || 
+        filters.request_uuid || filters.fulltimer_uuid || filters.candidate_id ||
+        filters.staff_id || 
+        filters.from || filters.to || filters.status" (click)="openFilter()">
+        <ion-icon name="options-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
   </ion-toolbar>
   <ion-toolbar *ngIf="company" class="container">
     <ion-title>{{ company.company_name }}</ion-title>

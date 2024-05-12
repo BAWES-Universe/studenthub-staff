@@ -1,0 +1,22 @@
+
+.setting_btn {
+    background: var(--ion-color-custom-8);
+    border-radius: 8px;
+    --border-radius: 8px;
+
+    ion-icon {
+      color:#9999A6;
+    }
+}
+
+.setting_btn.active::after { 
+  content: " ";
+  background: red;
+  background: var(--ion-color-primary);
+  border-radius: 100%;
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  display: block;
+  padding: 5px;
+}

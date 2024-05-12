@@ -151,12 +151,22 @@
           </ion-item>
         </ion-card>
 
-        <ion-card routerLink="/request-interview-list" class="stats" tappable>
+        <ion-card (click)="openInterviewRequests()" class="stats" tappable>
           <ion-item class="ion" detail lines="none">
             <div tabindex="0"></div>
             <ion-label class="ion-text-wrap">
               <span>{{ eventsService.statistics.totalInterviewRequests }}</span>
               <p><b>Interview schedule requests.</b> Need to schedule and accept or reject.</p>
+            </ion-label>
+          </ion-item>
+        </ion-card>
+
+        <ion-card (click)="openInterviewRequests(1)" class="stats" tappable>
+          <ion-item class="ion" detail lines="none">
+            <div tabindex="0"></div>
+            <ion-label class="ion-text-wrap">
+              <span>{{ eventsService.statistics.totalInterviewScheduled }}</span>
+              <p><b>Interview scheduled.</b></p>
             </ion-label>
           </ion-item>
         </ion-card>
