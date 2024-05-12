@@ -17,6 +17,7 @@ import { NoteModule } from 'src/app/components/note/note.module';
 import { NoItemsModule } from 'src/app/components/no-items/no-items.module';
 import { StoryItemModule } from 'src/app/components/story-item/story-item.module';
 import { CandidateModule } from 'src/app/components/candidate/candidate.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -27,6 +28,7 @@ import { CandidateModule } from 'src/app/components/candidate/candidate.module';
     SuggestionModule,
     InvitationModule,
     LoadingModalModule,
+    TranslateModule.forChild(),
     NoteModule,
     NoItemsModule,
     LoadingModalModule,

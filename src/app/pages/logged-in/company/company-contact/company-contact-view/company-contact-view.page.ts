@@ -184,7 +184,7 @@ export class CompanyContactViewPage implements OnInit {
       url += '&company_id=' + this.company_id;
     }
 
-    url += '&expand=storyOwners,staffs,staff,company';
+    url += '&expand=storyOwners,staffs,staff,company,nationality';
 
     return url;
   }

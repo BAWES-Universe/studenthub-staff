@@ -16,8 +16,17 @@
         <p *ngIf="request.request_additional_info" class="txt-additional-info">{{request.request_additional_info.substr(0,85)}}...</p>
 
         <div>
+          
+          <ion-badge *ngIf="request.nationality">{{ request.nationality.country_nationality_name_en }}</ion-badge>
+
+          <ion-badge *ngIf="request.gender == 0">Any gender</ion-badge>
+          <ion-badge *ngIf="request.gender == 1">Male</ion-badge>
+          <ion-badge *ngIf="request.gender == 2">Female</ion-badge>
+          <ion-badge *ngIf="request.gender == 3">Othe gender</ion-badge>
+
           <ion-badge *ngIf="request.request_position_type == 1">Full-time</ion-badge>
           <ion-badge *ngIf="request.request_position_type == 2">Part-time</ion-badge>
+          
           <ion-badge *ngIf="request.request_location">{{request.request_location.length > 30 ? request.request_location.substr(0,30)+'...' : request.request_location }}</ion-badge>
 
           <!-- for old requests -->

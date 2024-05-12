@@ -197,7 +197,7 @@ export class CompanyRequestViewPage implements OnInit, OnDestroy {
     if (loading)
       this.loading = true;
 
-    const urlParams = '?expand=storyOwners,staffs,staff,contact,company,stories,stories.staff,' +
+    const urlParams = '?expand=nationality,storyOwners,staffs,staff,contact,company,stories,stories.staff,' +
       'requestSkills';//newApplicationCount,activeSuggestionCount
 
     this.requestService.view(this.request_uuid, urlParams).subscribe(data => {

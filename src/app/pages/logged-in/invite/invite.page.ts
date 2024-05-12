@@ -114,7 +114,7 @@ export class InvitePage implements OnInit {
 
     this.loadingRequests = true;
 
-    const urlParams = '&expand=storyOwners,staffs,staff,company&query=' + this.query;
+    const urlParams = '&expand=nationality,storyOwners,staffs,staff,company&query=' + this.query;
     
     this.requestService.listWithPagination(1, urlParams).subscribe(response => {
 
@@ -132,7 +132,7 @@ export class InvitePage implements OnInit {
   onSearchInput(ev: any) {
     this.query = ev.target.value;
 
-    const urlParams = '&expand=storyOwners,staffs,staff,company&query=' + this.query;
+    const urlParams = '&expand=nationality,storyOwners,staffs,staff,company&query=' + this.query;
 
     //const urlParams = '&expand=storyOwners,staffs,staff,requestCreatedBy,requestUpdatedBy,contact,company,company.companyContact,' +
     // 'requestActivities,requestActivities.staff&query=' + this.query;

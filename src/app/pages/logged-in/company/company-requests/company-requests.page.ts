@@ -160,7 +160,7 @@ export class CompanyRequestsPage implements OnInit {
       urlParams += '&company_id=' + this.company.company_id;
     }
 
-    urlParams += '&expand=storyOwners,staffs,staff,company';
+    urlParams += '&expand=storyOwners,staffs,staff,company,nationality';
     //urlParams += '&expand=storyOwners,staffs,staff,requestCreatedBy,requestUpdatedBy,contact,company,company.companyContact,requestActivities,requestActivities.staff';
 
     return urlParams;

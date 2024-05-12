@@ -76,9 +76,9 @@ export class CompanyRequestService {
    * @param request_interview_uuid 
    * @returns 
    */
-  acceptInterviewRequest(request_interview_uuid: string): Observable<any> {
+  acceptInterviewRequest(request_interview_uuid: string, params = {}): Observable<any> {
     const url = this.companyRequestEndpoint + '/accept-interview-request/' + request_interview_uuid;
-    return this._authhttp.patch(url, {});
+    return this._authhttp.patch(url, params);
   }
   
   /**

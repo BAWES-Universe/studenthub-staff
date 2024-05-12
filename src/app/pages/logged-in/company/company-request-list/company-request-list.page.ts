@@ -190,7 +190,7 @@ export class CompanyRequestListPage implements OnInit {
       urlParams += '&position_type=' + this.filters.position_type;
     }
 
-    urlParams += '&expand=storyOwners,staffs,staff,company';
+    urlParams += '&expand=storyOwners,staffs,staff,company,nationality';
     //urlParams += '&expand=storyOwners,staffs,staff,requestCreatedBy,requestUpdatedBy,contact,company,company.companyContact,requestActivities,requestActivities.staff';
 
     return urlParams;
