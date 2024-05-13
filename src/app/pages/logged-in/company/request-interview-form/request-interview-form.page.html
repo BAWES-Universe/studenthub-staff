@@ -39,7 +39,10 @@
         <ion-item class="input-wrapper" >
           <div tabindex="0"></div>
           <ion-label position="floating">Interview note</ion-label>
+          <ckeditor [config]="editorConfig" #ckeditor [editor]="Editor" (change)="onNoteChange($event)"></ckeditor>
+          <!--
           <ion-textarea placeholder="e.g., meeting link to join interview..." formControlName="interview_note"></ion-textarea>
+          -->
         </ion-item>
 
       </ion-list>

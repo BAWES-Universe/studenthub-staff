@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertController, ModalController } from '@ionic/angular';
+import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 //models
 import { RequestInterview } from 'src/app/models/request-interview';
 //services
@@ -16,6 +17,8 @@ import { StaffService } from 'src/app/providers/logged-in/staff.service';
 })
 export class RequestInterviewFormPage implements OnInit {
 
+  @ViewChild('ckeditor', { static: false }) ckeditor: ClassicEditor;
+
   public interviewRequest: RequestInterview;
   
   public form: FormGroup;
@@ -25,6 +28,14 @@ export class RequestInterviewFormPage implements OnInit {
   public borderLimit = false;
 
   stafflistData = [];
+  
+  public Editor = ClassicEditor;
+
+  public editorConfig = {
+    placeholder: 'e.g., meeting link to join interview...',
+    startupFocus : true,
+    toolbar: ['Heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', '|', 'indent', 'outdent'],
+  };
 
   constructor(
     private _fb: FormBuilder,
@@ -73,6 +84,23 @@ export class RequestInterviewFormPage implements OnInit {
 
   logScrolling(e) {
     this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
+  }
+
+  /**
+   * on note editor change
+   * @param event
+   */
+  onNoteChange(event) {
+
+    if (!event.editor) {
+      return event;
+    }
+
+    const data = event.editor.getData();
+
+    this.form.controls['interview_note'].setValue(data);
+    this.form.markAsDirty();
+    this.form.updateValueAndValidity();
   }
 
   dismiss(data = {}) {
