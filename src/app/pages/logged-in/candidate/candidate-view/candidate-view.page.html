@@ -22,7 +22,7 @@
     <h2 class="candidate-name" *ngIf="candidate.candidate_name">
       {{ candidate.candidate_name }} <small>({{candidate.candidate_id}})</small><ion-badge color="danger" *ngIf="candidate.deleted">Deleted</ion-badge>
 
-      <ion-button size="small" fill="clear" color="primary" class="btn-copy" (click)="copy($event, candidate.candidate_name)">
+      <ion-button size="small" fill="clear" color="primary" class="btn-copy" (click)="copy($event, capitalizeWords(candidate.candidate_name))">
         <ion-icon slot="icon-only" name="copy-outline"></ion-icon>
       </ion-button>
     </h2>
@@ -31,7 +31,7 @@
       {{ candidate.candidate_name_ar }}
       &nbsp;
       <ion-icon class="verified" src="../../../../assets/images/ic_verified.svg" *ngIf="candidate.isProfileCompleted" title="Completed Profile"></ion-icon>
-      <ion-button size="small" fill="clear" color="primary" class="btn-copy" (click)="copy($event, candidate.candidate_name_ar)">
+      <ion-button size="small" fill="clear" color="primary" class="btn-copy" (click)="copy($event, capitalizeWords(candidate.candidate_name_ar))">
         <ion-icon slot="icon-only" name="copy-outline"></ion-icon>
       </ion-button>
     </h4>

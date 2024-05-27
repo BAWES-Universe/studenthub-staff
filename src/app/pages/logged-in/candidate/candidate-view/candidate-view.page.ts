@@ -1334,6 +1334,16 @@ export class CandidateViewPage implements OnInit {
     confirm.present();
   }
 
+  capitalizeWords(string) {
+    return string.split(' ').map(word => {
+      return word.charAt(0).toUpperCase() + word.slice(1);
+    }).join(' ');
+  }
+  
+  capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
   copy(event, val) {
     event.preventDefault();
     event.stopPropagation();

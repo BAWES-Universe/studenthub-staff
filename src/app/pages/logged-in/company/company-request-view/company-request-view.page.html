@@ -27,9 +27,10 @@
         <ion-label>Stories</ion-label>
       </ion-segment-button>
 
+      <!--
       <ion-segment-button mode="md" value="matches"  *ngIf="request && request.request_position_type == 2">
         <ion-label>Matches</ion-label>
-      </ion-segment-button>
+      </ion-segment-button>-->
 
       <ion-segment-button mode="md" value="invited"  *ngIf="request && request.request_position_type == 2">
         <ion-label>Invited <ion-chip *ngIf="request">{{ allInvitedCandidates.length }}</ion-chip></ion-label>
@@ -51,7 +52,9 @@
       <ion-select-option value="activities">Updates</ion-select-option>
       <ion-select-option value="stories">Stories</ion-select-option>
       <ng-container *ngIf="request && request.request_position_type == 2">
-          <ion-select-option value="matches">Matches</ion-select-option>
+          
+          <!--<ion-select-option value="matches">Matches</ion-select-option>-->
+
           <ion-select-option value="invited">
             Invited 
           </ion-select-option>
@@ -158,7 +161,9 @@
         </p>
 
         <h2>Skills</h2>
-        <ion-badge *ngFor="let requestSkill of request.requestSkills">{{ requestSkill.skill }}</ion-badge>
+        <ion-badge *ngFor="let requestSkill of request.requestSkills">
+          {{ requestSkill.skill }}
+        </ion-badge>
 
       </div>
 
