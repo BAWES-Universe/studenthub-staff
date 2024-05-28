@@ -37,7 +37,8 @@ export class CandidateListPage implements OnInit {
     civil: number,
     civilId: number,
     type: string,
-    page: number
+    page: number,
+    candidate_civil_need_verification: boolean
   } = {
       name: null,
       email: null,
@@ -45,7 +46,8 @@ export class CandidateListPage implements OnInit {
       type: null,
       civil: null,
       civilId: null,
-      page: 1
+      page: 1,
+      candidate_civil_need_verification: null
     };
 
   public searchName = null;
@@ -129,12 +131,17 @@ export class CandidateListPage implements OnInit {
     if (this.filters.civil) {
       urlParams += '&civil=' + this.filters.civil;
     }
+
     if (this.filters.civilId) {
       urlParams += '&civilId=' + this.filters.civilId;
     }
 
     if(this.company) {
       urlParams += '&company_id=' + this.company.company_id;
+    }
+
+    if(this.filters.candidate_civil_need_verification) {
+      urlParams += '&candidate_civil_need_verification=1';
     }
 
     urlParams += '&export_limit=5000';
@@ -153,7 +160,8 @@ export class CandidateListPage implements OnInit {
       civil: null,
       civilId: null,
       type: null,
-      page: 1
+      page: 1, 
+      candidate_civil_need_verification: null
     };
     this.loadData(1); // reload all result
   }
@@ -252,7 +260,9 @@ export class CandidateListPage implements OnInit {
    * @param page
    */
   loadData(page: number) {
+    
     const search = this.urlParams();
+
     this.currentPage = page;
 
     this.loading = true;
@@ -311,6 +321,9 @@ export class CandidateListPage implements OnInit {
     });
   }
 
+  /**
+   * @param e 
+   */
   logScrolling(e) {
     this.borderLimit = (e.detail.scrollTop > 342);
   }

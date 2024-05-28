@@ -87,6 +87,14 @@
             </ion-select>
           </ion-item>
         </ion-col>
+        <ion-col size-md="2" size-lg="3" size-sm="6" size-xs="12">
+          <ion-item class="input-wrapper" lines="none">
+            <div tabindex="0"></div>
+            <ion-label color="primary">Civil ID Need Verification</ion-label>
+            <ion-checkbox value="1" [(ngModel)]="filters.candidate_civil_need_verification"></ion-checkbox>
+          </ion-item>
+        </ion-col>
+        
         <!--
         <ion-col size-md="3" size-lg="3" size-sm="6" size-xs="12">
           <ion-item class="input-wrapper" >
@@ -104,10 +112,8 @@
       </ion-row>
       <ion-row>
         <ion-col>
-           
             <ion-button (click)="loadData(1);">Submit</ion-button>
             <ion-button (click)="resetFilter();" color="secondary">Reset</ion-button>
-          
         </ion-col>
       </ion-row>
     </ion-grid>
