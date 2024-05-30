@@ -89,6 +89,28 @@
             searchPlaceholder="{{ 'Search here...' | translate }}" showMoreLabel="{{ 'Show more' | translate }}"
             showLessLabel="{{ 'Show less' | translate }}" showMoreLimit="15" operator="or"
             attribute="university.university_name"></refinement-list>
+        
+        <refinement-list data-sort-order="4" [class.is-refined]="arrRefined && arrRefined['candidateEducations.is_currently_studying']"
+                    label="{{ 'Currently Studying' | translate }}" operator="or" [transformItems]="studyingTransformItems"
+                    attribute="candidateEducations.is_currently_studying"></refinement-list>
+
+        <refinement-list label="{{ 'Graduation Year' | translate }}" [searchable]="true"
+            data-sort-order="5" [class.is-refined]="arrRefined['candidateEducations.graduation_year']"
+            searchPlaceholder="{{ 'Search here...' | translate }}" showMoreLabel="{{ 'Show more' | translate }}"
+            showLessLabel="{{ 'Show less' | translate }}" showMoreLimit="15" operator="or"
+            attribute="candidateEducations.graduation_year"></refinement-list>
+
+        <refinement-list label="{{ 'Degree' | translate }}" [searchable]="true"
+            data-sort-order="6" [class.is-refined]="arrRefined['candidateEducations.degree.degree_name_en']"
+            searchPlaceholder="{{ 'Search here...' | translate }}" showMoreLabel="{{ 'Show more' | translate }}"
+            showLessLabel="{{ 'Show less' | translate }}" showMoreLimit="15" operator="or"
+            attribute="candidateEducations.degree.degree_name_en"></refinement-list>
+
+        <refinement-list label="{{ 'Field of Study' | translate }}" [searchable]="true"
+            data-sort-order="7" [class.is-refined]="arrRefined['candidateEducations.major.major_name_en']"
+            searchPlaceholder="{{ 'Search here...' | translate }}" showMoreLabel="{{ 'Show more' | translate }}"
+            showLessLabel="{{ 'Show less' | translate }}" showMoreLimit="15" operator="or"
+            attribute="candidateEducations.major.major_name_en"></refinement-list>
 
     </div>
 
