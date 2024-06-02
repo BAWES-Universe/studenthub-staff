@@ -264,6 +264,33 @@
         </ion-badge>
       </div>
 
+      <div class="education-wrapper" *ngIf="candidate.candidateEducations && candidate.candidateEducations.length > 0">
+        <h5>
+          <ion-icon name="ribbon-outline"></ion-icon> {{ "Educations" | translate }}
+        </h5>
+
+        <ion-card *ngFor="let candidateEducation of candidate.candidateEducations">
+          
+          <ion-card-content>
+            <p *ngIf="candidateEducation.degree">
+              {{ translateService.langContent(candidateEducation.degree.degree_name_en, candidateEducation.degree.degree_name_ar) }}
+            </p>
+
+            <p *ngIf="candidateEducation.major">
+              {{ translateService.langContent(candidateEducation.major.major_name_en, candidateEducation.major.major_name_ar) }}
+            </p>
+
+            <p *ngIf="candidateEducation.university">
+              {{ translateService.langContent(candidateEducation.university.university_name_en, candidateEducation.university.university_name_ar) }}
+            </p> 
+
+            <ion-note slot="end" *ngIf="candidateEducation.graduation_year">
+              {{ candidateEducation.graduation_year }}
+            </ion-note>
+          </ion-card-content>
+        </ion-card>
+      </div>    
+
     </div><!-- END work-details -->
 
     <div *ngIf="candidate && segment == 'financials'" class="segment-financials">

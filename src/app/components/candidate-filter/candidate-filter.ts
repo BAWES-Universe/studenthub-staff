@@ -35,6 +35,20 @@ export class CandidateFilterComponent {
         }).filter(item => ['Male', 'Female', 'Other'].indexOf(item.label) > -1);
     }
 
+    studyingTransformItems = (items) => {
+
+        return items.map(item => {
+            if (item.name == '0' || item.label == '0') {
+                item.label = item.highlighted = item.name = this.translateLabel.transform('Not Studying');
+            }
+            else if (item.name == '1' || item.label == '1') {
+                item.label = item.highlighted = item.name = this.translateLabel.transform('Studying');
+            }
+
+            return item;
+        }).filter(item => ['Studying', 'Not Studying'].indexOf(item.label) > -1);
+    }
+
   assignedTransformItems = (items) => {
 
         return items.map(item => {

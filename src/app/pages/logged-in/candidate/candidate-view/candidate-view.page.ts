@@ -451,7 +451,8 @@ export class CandidateViewPage implements OnInit {
   loadCandidateDetail(loading = true) {
     this.loading = loading;
 
-    const query = 'expand=candidateStats,candidateIdCard,store,company,candidateSkills,' +
+    const query = 'expand=candidateEducations,candidateEducations.degree,candidateEducations.major,' +
+      'candidateEducations.university,candidateStats,candidateIdCard,store,company,candidateSkills,' +
       'candidateTags,candidateExperiences,bank,nationality,area,country,university,' + 
       'invited,invitationAccepted,invitationRejected,suggestionAccepted,suggestionRejected,suggested';
 
