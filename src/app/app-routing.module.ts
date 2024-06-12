@@ -727,9 +727,24 @@ const routes: Routes = [
     loadChildren: () => import('./pages/logged-in/company/request-interview-list/request-interview-list.module').then( m => m.RequestInterviewListPageModule)
   },
   {
+    path: 'support',
+    canActivate: [AuthService],
+    loadChildren: () => import('./pages/logged-in/support/ticket-list/ticket-list.module').then( m => m.TicketListPageModule)
+  },
+  {
+    path: 'ticket-view',
+    canActivate: [AuthService],
+    loadChildren: () => import('./pages/logged-in/support/ticket-view/ticket-view.module').then( m => m.TicketViewPageModule)
+  },
+  {
+    path: 'ticket-form',
+    canActivate: [AuthService],
+    loadChildren: () => import('./pages/logged-in/support/ticket-form/ticket-form.module').then( m => m.TicketFormPageModule)
+  },
+  {
     path: '**',
     redirectTo: 'not-found'
-  }
+  }, 
 ];
 
 @NgModule({

@@ -173,9 +173,32 @@
 
       </div>
 
-      <div *ngIf="eventsService.statistics.totalExpiredCards > 0 || eventsService.statistics.missingBankInfo > 0 || eventsService.statistics.assignedExpiredCivilID > 0 || eventsService.statistics.assignedIdleCandidates > 0 || eventsService.statistics.incompleteAssignedToWork > 0">
+      <div *ngIf="eventsService.statistics.totalPendingTickets > 0 || eventsService.statistics.totalInProgressTickets > 0 ||
+          eventsService.statistics.totalExpiredCards > 0 || eventsService.statistics.missingBankInfo > 0 || 
+          eventsService.statistics.assignedExpiredCivilID > 0 || eventsService.statistics.assignedIdleCandidates > 0 || 
+          eventsService.statistics.incompleteAssignedToWork > 0">
         <h3>Customer Operations</h3>
  
+        <ion-card routerLink="/support" *ngIf="eventsService.statistics.totalPendingTickets > 0" tappable class="danger stats">
+          <ion-item class="ion" detail lines="none">
+            <div tabindex="0"></div>
+            <ion-label class="ion-text-wrap">
+              <span>{{ eventsService.statistics.totalPendingTickets }}</span>
+              <p><b>Pending candidate complains</b> that need attention.</p>
+            </ion-label>
+          </ion-item>
+        </ion-card>
+
+        <ion-card routerLink="/support" *ngIf="eventsService.statistics.totalInProgressTickets > 0" tappable class="danger stats">
+          <ion-item class="ion" detail lines="none">
+            <div tabindex="0"></div>
+            <ion-label class="ion-text-wrap">
+              <span>{{ eventsService.statistics.totalInProgressTickets }}</span>
+              <p><b>Candidate complains under processing</b> that need to resolve.</p>
+            </ion-label>
+          </ion-item>
+        </ion-card>
+        
         <ion-card (click)="showUnverifiedEmails()" *ngIf="eventsService.statistics.totalUnverifiedEmails > 0" tappable class="danger stats">
           <ion-item class="ion" detail lines="none">
             <div tabindex="0"></div>

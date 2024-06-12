@@ -1,0 +1,108 @@
+<ion-header [class.add-border]="borderLimit" class="clear-header">
+  <ion-toolbar class="container">
+
+    <ion-back-button slot="start" defaultHref="/support"></ion-back-button>
+
+    <ion-title *ngIf="ticket">
+      Ticket #{{ ticket.ticket_uuid }}
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [scrollEvents]="true" (ionScroll)="logScrolling($event)" [attr.dir]="translateService.direction()" class="ion-padding">
+
+  <div class="container">
+    <ng-container *ngIf="ticket">
+      <ion-card class="status-{{ ticket.ticket_status }}">
+        <ion-card-content>
+
+          <ion-badge color="warning" *ngIf="ticket.ticket_status == 0">Pending</ion-badge>
+
+          <ion-badge *ngIf="ticket.ticket_status == 1">In Progress</ion-badge>
+
+          <ion-badge color="success" *ngIf="ticket.ticket_status == 10">Completed</ion-badge>
+
+          <p [innerHtml]="ticket.ticket_detail"></p>
+  
+          <!-- <p *ngIf="ticket.candidate_id == authService.id">By You</p>
+          *ngIf="ticket.candidate_id != authService.id && ticket.candidate"
+          -->
+          <p>By {{ ticket.candidate.candidate_name }}</p>
+  
+        </ion-card-content>
+        <ion-card-header>
+
+          <p *ngIf="ticket.staff">Ticket Assigned to {{ ticket.staff.staff_name }}</p>
+
+          <p>
+            Last Updated On {{ translateService.toDate(ticket.updated_at) | date : 'dd MMM - h:mm a' }}
+            <small><ion-icon name="time-outline"></ion-icon> {{ translateService.toDate(ticket.created_at) | date : 'dd MMM - h:mm a' }}</small>
+          </p>
+        </ion-card-header>
+      </ion-card>
+
+      <div class="attachment-wrapper" *ngIf="ticket.ticketAttachments && ticket.ticketAttachments.length > 0">
+
+        <h4>Attachment</h4>
+
+        <a href="{{ awsService.permanentBucketUrl + ticketAttachment.attachment.file_path }}" target="_blank" *ngFor="let ticketAttachment of ticket.ticketAttachments">
+          {{ ticketAttachment.attachment.file_path }}
+        </a>
+      </div>
+    </ng-container>
+
+    <h4 *ngIf="ticketComments.length > 0">Comments</h4>
+
+    <ion-item *ngFor="let comment of ticketComments">
+      <ion-label>
+        <h5 *ngIf="comment.candidate">{{ comment.candidate.candidate_name }}</h5>
+        <h5 *ngIf="comment.staff">{{ comment.staff.staff_name }}</h5>
+        <p [innerHtml]="comment.ticket_comment_detail"></p>
+        <small><ion-icon name="time-outline"></ion-icon> {{ translateService.toDate(comment.created_at) | date : 'dd MMM - h:mm a' }}</small>
+
+        <div class="comment-attachment-wrapper" *ngIf="comment.ticketCommentAttachments && comment.ticketCommentAttachments.length > 0">
+          <a href="{{ awsService.permanentBucketUrl + ticketCommentAttachment.attachment.file_path }}" target="_blank" *ngFor="let ticketCommentAttachment of comment.ticketCommentAttachments">
+            {{ ticketCommentAttachment.attachment.file_path }}
+          </a>
+        </div>
+
+      </ion-label>
+    </ion-item>
+
+    <form *ngIf="form" [formGroup]="form" (ngSubmit)="save()">
+
+      <ion-item [class.have-errors]="form['controls'].comment_detail.errors != null" lines="none">
+        <ion-label position="stacked">Add Comment</ion-label>
+        <p><ckeditor  [config]="editorConfig" #ckeditor [editor]="Editor" (change)="onChange($event)"></ckeditor></p>
+      </ion-item>
+
+      <div class="attachment-wrapper" *ngIf="attachments.length > 0">
+        <ion-button color="light" size="small" href="{{ attachment.Location }}" target="_blank" *ngFor="let attachment of attachments">
+          {{ attachment.Key }}
+        </ion-button>
+      </div>
+
+      <ion-item lines="none" class="status">
+        <ion-button  [class.selected]="ticket.ticket_status == 0" (click)="changeStatus(0)"><ion-icon *ngIf="ticket.ticket_status == 0" name="checkmark-circle-outline"></ion-icon>&nbsp;Pending</ion-button>
+        <ion-button  [class.selected]="ticket.ticket_status == 1" (click)="changeStatus(1)"><ion-icon *ngIf="ticket.ticket_status == 1" name="checkmark-circle-outline"></ion-icon>&nbsp;In Progress </ion-button>
+        <ion-button  [class.selected]="ticket.ticket_status == 10" (click)="changeStatus(10)"><ion-icon *ngIf="ticket.ticket_status == 10" name="checkmark-circle-outline"></ion-icon>&nbsp;Completed </ion-button>
+      </ion-item>
+
+      <ion-button (click)="updatePhoto($event)" [disabled]="uploadingPhoto" color="dark">
+        <span *ngIf="!uploadingPhoto">+ add attachment </span>
+        <ion-spinner *ngIf="uploadingPhoto"></ion-spinner>
+      </ion-button>
+      <br />
+
+      <br />
+
+      <ion-button type="submit" [disabled]="saving || !form || !form.valid">
+        <span *ngIf="!saving">Submit</span>
+        <ion-spinner *ngIf="saving"></ion-spinner>
+      </ion-button>
+
+      <input class="upload" type='file' #fileInput (change)="browserUpload($event)" accept=".jpg,.jpeg,.png">
+
+    </form>
+  </div>
+</ion-content>

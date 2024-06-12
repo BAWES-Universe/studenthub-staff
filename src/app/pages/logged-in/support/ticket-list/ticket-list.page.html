@@ -1,0 +1,80 @@
+<ion-header [class.add-border]="borderLimit" class="clear-header">
+  <ion-toolbar class="container">
+    <ion-buttons slot="start">
+      <ion-back-button slot="start" defaultHref="/"></ion-back-button>
+      
+    </ion-buttons>
+    <ion-title>
+      {{ "Support" | translate }}
+    </ion-title>
+
+
+    <ion-buttons slot="end">
+      <ion-button [routerLink]="'/ticket-form/'">
+        Request support
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [scrollEvents]="true" (ionScroll)="logScrolling($event)" [attr.dir]="translateService.direction()" class="ion-padding">
+
+  <div class="container">
+    <h4>Tickets</h4>
+
+    <div class="option-wrapper" >
+      <ion-button class="btn-option" (click)="filterByStatus($event, null)" [class.active]="filters.ticket_status == null">All</ion-button>
+      <ion-button class="btn-option" (click)="filterByStatus($event, 0)" [class.active]="filters.ticket_status == 0">Pending</ion-button>
+      <ion-button class="btn-option" (click)="filterByStatus($event, 1)" [class.active]="filters.ticket_status == 1">In Progress</ion-button>
+      <ion-button class="btn-option" (click)="filterByStatus($event, 10)" [class.active]="filters.ticket_status == 10">Completed</ion-button>
+    
+      <div class="clearfix"></div>
+
+      <ion-searchbar placeholder="Search by staff, candidate etc..." [(ngModel)]="filters.query" (ionChange)="onSearch()" debounce="200" animated>
+      </ion-searchbar>
+
+    </div>
+
+    <ion-card class="status-{{ ticket.ticket_status }}" *ngFor="let ticket of tickets">
+      <ion-card-content>
+        <div [routerLink]="'/ticket-view/' + ticket.ticket_uuid" tappable>
+          <ion-badge color="warning" *ngIf="ticket.ticket_status == 0">Pending</ion-badge>
+          <ion-badge *ngIf="ticket.ticket_status == 1">In Progress</ion-badge>
+          <ion-badge color="success" *ngIf="ticket.ticket_status == 10">Completed</ion-badge>
+
+          <ion-button size="small" *ngIf="!ticket.staff" (click)="showStaffList(ticket, $event)">
+            Assign Staff
+          </ion-button>
+          <p [innerHtml]="ticket.ticket_detail"></p>
+          <!-- <p *ngIf="ticket.agent_id == authService.id">By You</p>
+          <p *ngIf="ticket.agent_id != authService.id && ticket.agent">By {{ ticket.agent.agent_name }}</p>
+  -->
+          <p *ngIf="ticket.staff">Ticket Assigned to <b>{{ ticket.staff.staff_name }}</b></p>
+        </div>
+
+        <a *ngIf="ticket.candidate" href="/candidate-view/{{ ticket.candidate_id }}" target="_blank">
+          {{ ticket.candidate.candidate_name }}
+        </a>
+      </ion-card-content>
+      <ion-card-header>
+
+        <p>
+          Last Updated On {{ translateService.toDate(ticket.updated_at) | date : 'dd MMM - h:mm a' }}
+          <small><ion-icon name="time-outline"></ion-icon> {{ translateService.toDate(ticket.created_at) | date : 'dd MMM - h:mm a' }}</small>
+        </p>
+
+      </ion-card-header>
+    </ion-card>
+
+    <no-items *ngIf="!loading && tickets.length == 0" icon="chatbox-outline" message="No tickets yet!">
+    </no-items>
+
+    <loading-modal type="ticket-list" [loading]="loading"></loading-modal>
+
+    <ion-infinite-scroll threshold="100px" *ngIf="currentPage < totalPages" (ionInfinite)="doInfinite($event)">
+      <ion-infinite-scroll-content
+        loadingSpinner="bubbles">
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+  </div>
+</ion-content>

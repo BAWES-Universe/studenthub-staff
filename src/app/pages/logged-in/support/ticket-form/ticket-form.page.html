@@ -1,0 +1,54 @@
+<ion-header [class.add-border]="borderLimit" class="clear-header">
+  <ion-toolbar class="container">
+
+    <ion-back-button slot="start" defaultHref="/"></ion-back-button>
+
+    <ion-title>
+      {{ "Ask for support" | translate }}
+    </ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button [disabled]="saving || !form || !form.valid" (click)="save()">
+        <span *ngIf="!saving">Save</span>
+        <ion-spinner *ngIf="saving"></ion-spinner>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [scrollEvents]="true" (ionScroll)="logScrolling($event)" [attr.dir]="translateService.direction()" class="ion-padding">
+
+  <form *ngIf="form" [formGroup]="form" (ngSubmit)="save()" class="container">
+
+    <ion-item (click)="showCandidateList($event)">
+      <ion-label position="floating">Candidate</ion-label>
+      <ion-input type="text" formControlName="candidate_name"></ion-input>
+    </ion-item>
+
+    <ion-item (click)="showStaffList($event)">
+      <ion-label position="floating">Staff Name</ion-label>
+      <ion-input type="text" formControlName="staff_name"></ion-input>
+    </ion-item>
+
+
+    <ion-item [class.have-errors]="form['controls'].detail.errors != null" lines="none">
+      <ion-label position="stacked"></ion-label>
+      <ckeditor [config]="editorConfig" #ckeditor [editor]="Editor" (change)="onChange($event)" [data]=""></ckeditor>
+    </ion-item>
+
+    <div class="attachment-wrapper" *ngIf="attachments.length > 0">
+      <ion-button color="light" size="small" target="_blank" *ngFor="let attachment of attachments">
+        {{ attachment.Key }}
+      </ion-button>
+    </div>
+
+    <ion-button (click)="updatePhoto($event)" [disabled]="uploadingPhoto">
+      <span *ngIf="!uploadingPhoto">+ add attachment </span>
+      <ion-spinner *ngIf="uploadingPhoto"></ion-spinner>
+    </ion-button>
+
+    <input class="upload" type='file' #fileInput (change)="browserUpload($event)" accept=".jpg,.jpeg,.png">
+
+
+  </form>
+</ion-content>

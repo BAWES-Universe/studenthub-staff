@@ -1,0 +1,29 @@
+<ion-header mode="md" [class.add-border]="borderLimit" class="ion-no-border">
+  <ion-toolbar class="container">
+    <ion-buttons slot="start">
+      <ion-back-button icon="assets/images/icon-back.svg" defaultHref="/" (click)="dismiss($event)"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Candidate List</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
+  <div class="container">
+
+    <ion-searchbar [placeholder]="'Search...' | translate" [debounce]="600" (ionChange)="loadData(1)" [(ngModel)]="filters.name"></ion-searchbar>
+
+    <ion-list>
+        <ion-item tappable *ngFor="let candidate of candidates" (click)="rowSelected(candidate)">
+          <div tabindex="0"></div>
+          <ion-label>
+            <h5>{{ candidate.candidate_name }} </h5>
+            <p>{{ candidate.candidate_email }}</p>
+          </ion-label>
+        </ion-item>
+    </ion-list>
+
+    <loading-modal [loading]="loading || loadMore" type="text-list"></loading-modal>
+  </div>
+  <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

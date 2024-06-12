@@ -1,0 +1,19 @@
+
+.upload {
+    opacity: 0;
+  }
+  
+
+  ion-item {
+    --padding-start: 0;
+    --padding-end: 0;
+  }
+
+  .attachment-wrapper {
+    margin-bottom: 15px;
+
+    a {
+      clear: both;
+    display: block;
+    }
+  }
