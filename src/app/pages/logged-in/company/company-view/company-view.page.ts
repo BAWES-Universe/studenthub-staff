@@ -1,11 +1,14 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
+import { CategoryScale, Chart, LineController, LineElement, LinearScale, PointElement } from 'chart.js';
 import { ModalController, AlertController, ToastController, IonContent, PopoverController } from '@ionic/angular';
 // services
 import { CompanyService } from 'src/app/providers/logged-in/company.service';
 import { NoteService } from 'src/app/providers/logged-in/note.service';
 import { EventService } from 'src/app/providers/event.service';
 import { AwsService } from 'src/app/providers/aws.service';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
+import { AuthService } from 'src/app/providers/auth.service';
 // models
 import { Company } from 'src/app/models/company';
 import { Note } from 'src/app/models/note';
@@ -23,9 +26,8 @@ import { CompanyMallsPage } from '../company-malls/company-malls.page';
 import { CompanySubcompaniesPage } from '../company-subcompanies/company-subcompanies.page';
 import { CompanyStoresPage } from '../company-stores/company-stores.page';
 import {ModalPopPage} from "../../modal-pop/modal-pop.page";
+// components
 import { ActionComponent } from 'src/app/components/action/action.component';
-import { AnalyticsService } from 'src/app/providers/analytics.service';
-import { AuthService } from 'src/app/providers/auth.service';
 
 
 @Component({
@@ -36,6 +38,8 @@ import { AuthService } from 'src/app/providers/auth.service';
 export class CompanyViewPage implements OnInit {
 
   @ViewChild(IonContent, { static: true }) content: IonContent;
+
+  @ViewChild('firingChart') firingChart;
 
   public followup = false;
 
@@ -55,6 +59,8 @@ export class CompanyViewPage implements OnInit {
   public currentPage = 1;
 
   public loadingNotes = false;
+
+  public legendDisplay = true;
 
   public stats = {
     requests : 0,
@@ -122,6 +128,12 @@ export class CompanyViewPage implements OnInit {
         this.loadNotes();
       }
     });
+
+    Chart.register(CategoryScale);
+    Chart.register(LinearScale);
+    Chart.register(LineController);
+    Chart.register(PointElement);
+    Chart.register(LineElement);
   }
 
   async openStores() {
@@ -714,5 +726,78 @@ export class CompanyViewPage implements OnInit {
       this.stats = response.stats;
     }, () => {
     });
+  }
+
+  createFiringChart(
+    xAxis,
+    totalFired
+  ) {
+    console.log(xAxis, totalFired)
+    new Chart(this.firingChart.nativeElement, {
+      type: 'line',
+      data: {
+        labels: xAxis,
+        datasets: [
+          {
+            label: 'Cubic interpolation (monotone)',
+            data: totalFired,
+           //borderColor: Utils.CHART_COLORS.red,
+            fill: false,
+            cubicInterpolationMode: 'monotone',
+            tension: 0.4
+          },  
+        ]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          title: {
+            display: true,
+            text: 'Chart.js Line Chart - Cubic interpolation mode'
+          },
+        },
+        interaction: {
+          intersect: false,
+        },
+        scales: {
+          x: {
+            display: true,
+            title: {
+              display: true
+            }
+          },
+          y: {
+            display: true,
+            title: {
+              display: true,
+              text: 'Value'
+            },
+            suggestedMin: -10,
+            suggestedMax: 200
+          }
+        }
+      },
+    });
+  }
+
+  loadChartDate() {
+    this.companyService.firingChart(this.company_id).subscribe(response => {
+      console.log(response);
+      let xAxis = [];
+      let totalFired = [];
+      for (let element of response){
+        xAxis.push(element.month);
+        totalFired.push(element.total);
+      }
+      
+      this.createFiringChart(xAxis, totalFired);
+    }, () => {
+    });
+  }
+
+  segmentChanged(event) {
+    if (this.segment == "charts") {
+      this.loadChartDate();
+    }
   }
 }

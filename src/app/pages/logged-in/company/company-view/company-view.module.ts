@@ -24,7 +24,7 @@ import { TransferChartPageModule } from '../../transfer/transfer-chart/transfer-
     PipesModule,
     NoteModule,
     RequestListingModule,
-    TransferChartPageModule,
+   // TransferChartPageModule,
     CompanyViewPageRoutingModule,
   ],
   declarations: [CompanyViewPage]
