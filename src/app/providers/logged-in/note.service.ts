@@ -55,7 +55,8 @@ export class NoteService {
       request_uuid: model.request_uuid? model.request_uuid: null,
       request_checklist_uuid: model.request_checklist_uuid,
       fulltimer_uuid: model.fulltimer_uuid? model.fulltimer_uuid: null,
-      candidate_id: model.candidate_id? model.candidate_id: null
+      candidate_id: model.candidate_id? model.candidate_id: null,
+      interview_evaluation_uuid: model.interview_evaluation_uuid
     });
   }
 
@@ -72,7 +73,8 @@ export class NoteService {
       request_uuid: model.request_uuid? model.request_uuid: null,
       request_checklist_uuid: model.request_checklist_uuid,
       fulltimer_uuid: model.fulltimer_uuid? model.fulltimer_uuid: null,
-      candidate_id: model.candidate_id? model.candidate_id: null
+      candidate_id: model.candidate_id? model.candidate_id: null,
+      interview_evaluation_uuid: model.interview_evaluation_uuid
     });
   }
 

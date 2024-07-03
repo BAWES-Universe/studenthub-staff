@@ -747,9 +747,20 @@ const routes: Routes = [
     loadChildren: () => import('./pages/logged-in/company/firing-hitmap/firing-hitmap.module').then( m => m.FiringHitmapPageModule)
   },
   {
+    path: 'interview-evaluation-form',
+    canActivate: [AuthService],
+    loadChildren: () => import('./pages/logged-in/candidate/interview-evaluation/interview-evaluation-form/interview-evaluation-form.module').then( m => m.InterviewEvaluationFormPageModule)
+  },
+  {
+    path: 'interview-evaluation-view',
+    canActivate: [AuthService],
+    loadChildren: () => import('./pages/logged-in/candidate/interview-evaluation/interview-evaluation-view/interview-evaluation-view.module').then( m => m.InterviewEvaluationViewPageModule)
+  },
+  {
     path: '**',
     redirectTo: 'not-found'
   },   
+  
 ];
 
 @NgModule({

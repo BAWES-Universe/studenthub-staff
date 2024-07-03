@@ -1,0 +1,37 @@
+<ion-header mode="md" [class.add-border]="borderLimit" class="ion-no-border">
+  <ion-toolbar class="container">
+    <ion-buttons slot="start" (click)="close()">
+      <ion-back-button icon="assets/images/icon-back.svg"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ "Add interview evaluation" }}</ion-title>
+    <ion-buttons slot="end">
+        <ion-button [disabled]="!form || !form.valid || saving" (click)="save()">
+          <span *ngIf="!saving">Save</span>
+          <ion-spinner *ngIf="saving"></ion-spinner>
+        </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
+
+  <div class="container max-width">
+     
+    <form [formGroup]="form" *ngIf="form">
+      
+      <ion-list>
+        <ion-item class="input-wrapper" (click)="openRequest($event)">
+          <div tabindex="0"></div>
+          <ion-label position="floating">Request</ion-label>
+          <ion-input type="text" formControlName="request_name" readonly></ion-input>
+        </ion-item>
+
+        <ion-item class="input-wrapper">
+          <div tabindex="0"></div>
+          <ion-label position="floating">Note</ion-label>
+          <ion-textarea formControlName="note"></ion-textarea>
+        </ion-item>
+      </ion-list>
+    </form>
+  </div>
+
+</ion-content>
