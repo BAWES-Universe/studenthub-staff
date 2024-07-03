@@ -173,9 +173,20 @@
 
       </div>
 
-      <div *ngIf="eventsService.statistics.totalExpiredCards > 0 || eventsService.statistics.missingBankInfo > 0 || eventsService.statistics.assignedExpiredCivilID > 0 || eventsService.statistics.assignedIdleCandidates > 0 || eventsService.statistics.incompleteAssignedToWork > 0">
+      <div *ngIf="eventsService.statistics.totalMinor > 0 || eventsService.statistics.totalExpiredCards > 0 || eventsService.statistics.missingBankInfo > 0 || eventsService.statistics.assignedExpiredCivilID > 0 || eventsService.statistics.assignedIdleCandidates > 0 || eventsService.statistics.incompleteAssignedToWork > 0">
         <h3>Customer Operations</h3>
  
+        <ion-card (click)="showMinorCandidates()" *ngIf="eventsService.statistics.totalMinor > 0" tappable 
+          class="danger stats">
+          <ion-item class="ion" detail lines="none">
+            <div tabindex="0"></div>
+            <ion-label class="ion-text-wrap">
+              <span>{{ eventsService.statistics.totalMinor }}</span>
+              <p><b>Candidates below age limit</b> that need to be verified.</p>
+            </ion-label>
+          </ion-item>
+        </ion-card>
+        
         <ion-card (click)="showUnverifiedEmails()" *ngIf="eventsService.statistics.totalUnverifiedEmails > 0" tappable class="danger stats">
           <ion-item class="ion" detail lines="none">
             <div tabindex="0"></div>

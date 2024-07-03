@@ -229,6 +229,14 @@ export class DefaultPage implements OnInit {
     this.navCtrl.navigateForward('generate-id');
   }
 
+  showMinorCandidates() {
+    this.navCtrl.navigateForward('candidate-list', {
+      state: {
+        filterMinor: true
+      }
+    });
+  }
+
   /**
    * show assigned candidate page
    */

@@ -26,6 +26,7 @@ export class EventService {
     totalStoreAssignmentRequests: number;
     totalInterviewRequests: number;
     totalInterviewScheduled: number;
+    totalMinor: number;
   };
 
   public setOneSignal$ = new Subject();

@@ -3,16 +3,16 @@ import { ActivatedRoute } from '@angular/router';
 import { AlertController, NavController, PopoverController, ToastController } from '@ionic/angular';
 // models
 import { Candidate } from 'src/app/models/candidate';
+import { Company } from 'src/app/models/company';
 import { Story } from 'src/app/models/request';
 // service
 import { CandidateService } from 'src/app/providers/logged-in/candidate.service';
 import { AwsService } from 'src/app/providers/aws.service';
 import { EventService } from 'src/app/providers/event.service';
 import { CandidateIdCardService } from 'src/app/providers/logged-in/candidate.id.card.service';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 //pages
 import { CandidateMergeSelectPage } from '../candidate-merge-select/candidate-merge-select.page';
-import { AnalyticsService } from 'src/app/providers/analytics.service';
-import { Company } from 'src/app/models/company';
 
 
 @Component({
@@ -38,7 +38,8 @@ export class CandidateListPage implements OnInit {
     civilId: number,
     type: string,
     page: number,
-    candidate_civil_need_verification: boolean
+    candidate_civil_need_verification: boolean,
+    filterMinor: boolean
   } = {
       name: null,
       email: null,
@@ -47,7 +48,8 @@ export class CandidateListPage implements OnInit {
       civil: null,
       civilId: null,
       page: 1,
-      candidate_civil_need_verification: null
+      candidate_civil_need_verification: null,
+      filterMinor: false
     };
 
   public searchName = null;
@@ -99,6 +101,10 @@ export class CandidateListPage implements OnInit {
       this.company = state.company;
     }
 
+    if (state.filterMinor) {
+      this.filters.filterMinor = true;
+    }
+
     this.analyticService.page('Candidate List Page');
 
     this.loadData(1);
@@ -125,9 +131,11 @@ export class CandidateListPage implements OnInit {
     if (this.filters.type) {
       urlParams += '&type=' + this.filters.type;
     }
+    
     if (this.filters.page) {
       urlParams += '&export_page=' + this.filters.page;
     }
+
     if (this.filters.civil) {
       urlParams += '&civil=' + this.filters.civil;
     }
@@ -144,6 +152,10 @@ export class CandidateListPage implements OnInit {
       urlParams += '&candidate_civil_need_verification=1';
     }
 
+    if (this.filters.filterMinor) {
+      urlParams += "&filter_minor=true";
+    }
+
     urlParams += '&export_limit=5000';
 
     return urlParams;
@@ -154,6 +166,7 @@ export class CandidateListPage implements OnInit {
    */
   resetFilter() {
     this.filters = {
+      filterMinor: false,
       name: null,
       email: null,
       phone: null,
