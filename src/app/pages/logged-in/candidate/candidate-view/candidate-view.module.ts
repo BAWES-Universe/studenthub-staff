@@ -15,6 +15,8 @@ import { TransferModule } from 'src/app/components/transfer/transfer.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { PipesModule } from 'src/app/pipes/pipes.module';
 import { RequestListingModule } from 'src/app/components/request-listing/request-listing.module';
+import { InterviewEvaluationModule } from 'src/app/components/interview-evaluation/interview-evaluation.module';
+import { InterviewEvaluationFormPageModule } from '../interview-evaluation/interview-evaluation-form/interview-evaluation-form.module';
 
 @NgModule({
     imports: [
@@ -25,6 +27,8 @@ import { RequestListingModule } from 'src/app/components/request-listing/request
         CandidateViewPageRoutingModule,
         NoItemsModule,
         RequestListingModule,
+        InterviewEvaluationFormPageModule,
+        InterviewEvaluationModule,
         TranslateModule.forChild(),
         NoteModule,
         PipesModule,

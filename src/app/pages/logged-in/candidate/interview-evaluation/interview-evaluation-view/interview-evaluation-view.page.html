@@ -1,0 +1,48 @@
+<ion-header mode="md" [class.add-border]="borderLimit" class="ion-no-border">
+  <ion-toolbar class="container">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/" icon="assets/images/icon-back.svg"></ion-back-button>
+    </ion-buttons>
+    <ion-title *ngIf="model">
+      Interview evaluation for {{ model.request.request_position_title }}
+    </ion-title>
+  </ion-toolbar>  
+</ion-header>
+<ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
+
+  <div class="container max-width">
+    <div *ngIf="model">
+
+      <interview-evaluation 
+            [interviewEvaluation]="model">
+          </interview-evaluation>
+
+      <div class="note-wrapper" *ngIf="model.notes">
+
+        <h5 class="heading">
+          <ion-icon src="assets/images/icon-note.svg"></ion-icon>  Notes
+        </h5>
+
+        <ion-card>
+          <ion-card-content>
+            <ion-item>
+              <ion-textarea [(ngModel)]="note_text" placeholder="Enter note here..."></ion-textarea>
+            </ion-item>
+    
+            <ion-button class="btn-add-note" [disabled]="savingNote || note_text.length == 0" 
+              (click)="addNote()"> Add note
+            </ion-button>
+          </ion-card-content>
+        </ion-card>
+
+        <note tappable *ngFor="let note of model.notes" [routerLink]="'/note-view/' + note.note_uuid" from="company-view"
+          [note]="note" (onChange)="loadNotes()" (onDelete)="loadNotes()"></note>
+
+        <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfiniteInterviews($event)">
+          <ion-infinite-scroll-content></ion-infinite-scroll-content>
+        </ion-infinite-scroll>
+
+      </div>
+    </div>
+  </div>
+</ion-content>

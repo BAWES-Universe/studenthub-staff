@@ -1,0 +1,38 @@
+<ion-header mode="md" [class.add-border]="borderLimit" class="ion-no-border">
+  <ion-toolbar class="container">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/view/tasks" icon="assets/images/icon-back.svg"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-toolbar class="container" [class.hidden]="borderLimit">
+    <ion-title>Firing Hitmap</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" scrollEvents="true" (ionScroll)="logScrolling($event)">
+
+  <div class="container table-responsive">
+    <table class="table" *ngIf="firingHitmapData.length > 0">
+      <thead>
+        <tr>
+          <th></th>
+          <th *ngFor="let headerData of firingHitmapData[0]['hitmap']">
+            {{ headerData.firing_month }}/ {{ headerData.firing_year }}
+          </th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let data of firingHitmapData">
+          <td>{{ data.company.company_name }}</td>
+          <td *ngFor="let hitmapData of data.hitmap" 
+            [class.danger]="hitmapData.total > 2 * data.average"
+            [class.warning]="hitmapData.total > data.average">
+            {{ hitmapData.total }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</ion-content>

@@ -35,6 +35,7 @@ export class CandidateNoteFormPage implements OnInit {
   public saving = false;
 
   public borderLimit = false;
+  
   public company: any;
 
   public editorConfig = {
@@ -151,6 +152,7 @@ export class CandidateNoteFormPage implements OnInit {
 
     });
   }
+
   /**
    * on note editor change
    * @param event

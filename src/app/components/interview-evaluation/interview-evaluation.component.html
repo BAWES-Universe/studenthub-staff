@@ -1,0 +1,49 @@
+<ion-card [class.pending]="interviewEvaluation.request.request_status == 'pending'" tappable>
+  <ion-card-content>
+    <div class="inner-card-content">
+      <h1>{{interviewEvaluation.request.request_position_title}}
+      </h1>
+
+      <h3 *ngIf="interviewEvaluation.company">
+        {{ interviewEvaluation.company.company_common_name_en? interviewEvaluation.company.company_common_name_en: interviewEvaluation.company.company_name }}
+        <ion-icon name="checkmark-outline"  *ngIf="interviewEvaluation.company && interviewEvaluation.company.company_approved_to_hire"></ion-icon>
+        <ion-icon name="close-outline"  *ngIf="interviewEvaluation.company && !interviewEvaluation.company.company_approved_to_hire"></ion-icon>
+      </h3>
+
+      <small class="time">{{ interviewEvaluation.created_at | timeAgo }} </small>
+
+      <p *ngIf="interviewEvaluation.request.request_additional_info" class="txt-additional-info">{{interviewEvaluation.request.request_additional_info.substr(0,85)}}...</p>
+
+      <div>
+        
+        <ion-badge *ngIf="interviewEvaluation.request.nationality">{{ interviewEvaluation.request.nationality.country_nationality_name_en }}</ion-badge>
+
+        <ion-badge *ngIf="interviewEvaluation.request.gender == 0">Any gender</ion-badge>
+        <ion-badge *ngIf="interviewEvaluation.request.gender == 1">Male</ion-badge>
+        <ion-badge *ngIf="interviewEvaluation.request.gender == 2">Female</ion-badge>
+        <ion-badge *ngIf="interviewEvaluation.request.gender == 3">Othe gender</ion-badge>
+
+        <ion-badge *ngIf="interviewEvaluation.request.request_position_type == 1">Full-time</ion-badge>
+        <ion-badge *ngIf="interviewEvaluation.request.request_position_type == 2">Part-time</ion-badge>
+        
+        <ion-badge *ngIf="interviewEvaluation.request.request_location">{{interviewEvaluation.request.request_location.length > 30 ? interviewEvaluation.request.request_location.substr(0,30)+'...' : interviewEvaluation.request.request_location }}</ion-badge>
+
+        <ion-badge *ngIf="interviewEvaluation.staff">
+          {{ interviewEvaluation.staff.staff_name }}
+        </ion-badge>
+
+        <ion-badge class="status">
+          <span *ngIf="interviewEvaluation.request.request_status == 'started'">Started</span>
+          <span *ngIf="interviewEvaluation.request.request_status == 'delivered'">Delivered</span>
+          <span *ngIf="interviewEvaluation.request.request_status == 'cancelled'">Cancelled</span>
+          <span *ngIf="interviewEvaluation.request.request_status == 're_work'">Re Work</span>
+          <span *ngIf="interviewEvaluation.request.request_status == 'pending'">Pending</span>
+          <span *ngIf="interviewEvaluation.request.request_status == 'finished_by_recruitment'">Finished by recruitment</span>
+        </ion-badge>
+         
+      </div>
+    </div>
+
+    <!-- todo: display latest note -->
+  </ion-card-content> 
+</ion-card> 

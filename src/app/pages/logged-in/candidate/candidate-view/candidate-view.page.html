@@ -86,6 +86,10 @@
         <ion-label>Applications</ion-label>
       </ion-segment-button>
 
+      <ion-segment-button mode="md" value="interview-evaluation">
+        <ion-label>Interview Evaluations</ion-label>
+      </ion-segment-button>
+
     </ion-segment>
 
     <ion-select *ngIf="platform.is('mobile')" interface="popover" (ionChange)="segmentChanged($event)" [value]="segment">
@@ -94,6 +98,7 @@
       <ion-select-option value="personal-details">Personal Details</ion-select-option>
       <ion-select-option value="financials">Financials</ion-select-option>
       <ion-select-option value="applications">Applications</ion-select-option>
+      <ion-select-option value="interview-evaluation">Interview Evaluations</ion-select-option>
     </ion-select>
   </ion-toolbar>
 
@@ -553,8 +558,32 @@
       </ion-infinite-scroll>
     </div>
 
-    <loading-modal [loading]="loading" type="candidate-view"></loading-modal>
+    <div *ngIf="segment == 'interview-evaluation'">
+
+      <ion-button class="btn-add-evaluation" (click)="addEvaluation()">
+        Add new evaluation
+      </ion-button>
+
+      <div *ngIf="!loadingInterviewEvaluations && interviewEvaluations.length == 0" class="ion-text-center no-invi">
+        <img src="assets/images/no-invitation.png"/>
+        <p class="ion-text-center">No evaluation yet!</p>
+      </div>
+      
+      <interview-evaluation tappable (click)="interviewEvaluationSelected(interviewEvaluation)" 
+        [interviewEvaluation]="interviewEvaluation" 
+        *ngFor="let interviewEvaluation of interviewEvaluations">
+      </interview-evaluation>
+  
+      <ion-infinite-scroll *ngIf="interviewCurrentPage < interviewPageCount" (ionInfinite)="doInfiniteInterviews($event)">
+        <ion-infinite-scroll-content></ion-infinite-scroll-content>
+      </ion-infinite-scroll>
+
+      <!-- todo: option to add new evaluation -->
+    </div>
+
+    <loading-modal [loading]="loading" type="request-listing"></loading-modal>
   </div><!-- END .container -->
+
 </ion-content>
 <ion-footer class="ion-no-border {{ authService.theme }}" *ngIf="candidate && candidate.isProfileCompleted">
   <div class="container" *ngIf="authService.story && authService.story.request && authService.story.story_status == 1

@@ -179,6 +179,16 @@
           eventsService.statistics.incompleteAssignedToWork > 0">
         <h3>Customer Operations</h3>
  
+        <ion-card routerLink="/firing-hitmap" tappable class="warning stats">
+          <ion-item class="ion" detail lines="none">
+            <div tabindex="0"></div>
+            <ion-label class="ion-text-wrap">
+              <span>Firing hitmap</span>
+              <p>Track un-usual firing by companies.</p>
+            </ion-label>
+          </ion-item>
+        </ion-card>
+
         <ion-card routerLink="/support" *ngIf="eventsService.statistics.totalPendingTickets > 0" tappable class="danger stats">
           <ion-item class="ion" detail lines="none">
             <div tabindex="0"></div>

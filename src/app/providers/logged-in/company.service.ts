@@ -99,6 +99,15 @@ export class CompanyService {
   }
 
   /**
+   * candidate firing chart data
+   * @param company_id 
+   * @returns 
+   */
+  firingChart(company_id) {
+    return this._authhttp.get(this._companyEndpoint + '/firing-chart/' + company_id);
+  }
+
+  /**
    * detail with all candidates
    * @returns {Observable<any>}
    */

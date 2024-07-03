@@ -9,6 +9,7 @@
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
   <div class="container">
     <loading-modal [loading]="loading" type="chart"></loading-modal>
+    
     <ion-card class="welcome-card" [hidden]="loading || (statsData && !statsData.length)">
       <ion-card-header [hidden]="!legendDisplay">
         <ion-card-title> Completed / Received / InProgress Transfer/ Profit, Total Candidates, Total Paid Candidate,

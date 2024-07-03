@@ -13,6 +13,7 @@ export class Note {
     contact_uuid: string;
     fulltimer_uuid: string;
     request_uuid: string;
+    interview_evaluation_uuid: string;
     story_uuid: string;
     request_checklist_uuid: string;
     staff_id: number;
