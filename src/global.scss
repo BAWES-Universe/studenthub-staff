@@ -750,8 +750,12 @@ ion-item.input-wrapper:not(.item-has-value) {
   box-shadow: 0 8px 25px 0 rgba(0, 0, 0, 0.1)
 }
 
-.candidate-option .popover-content {
-  min-width: 264px;
+.candidate-option {
+  --width: 280px;
+
+  .popover-content {
+    min-width: 280px;
+  }
 }
 
 .pull-left {

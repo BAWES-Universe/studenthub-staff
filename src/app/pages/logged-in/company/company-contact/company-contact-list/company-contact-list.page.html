@@ -41,6 +41,11 @@
               </p>
             </ion-label>
             
+            <ion-button (click)="login(companyContact, $event)" [disabled]="loadingLoginUrl">
+              <ion-icon *ngIf="!loadingLoginUrl" name="log-in-outline"></ion-icon>
+              <ion-spinner *ngIf="loadingLoginUrl"></ion-spinner>
+            </ion-button>
+
             <ng-container *ngIf="companyContact && companyContact.companies && companyContact.companies.length > 1">
               <ion-icon slot="end" *ngIf="selectedContact != companyContact.contact_uuid" name="arrow-down-outline">
               </ion-icon>

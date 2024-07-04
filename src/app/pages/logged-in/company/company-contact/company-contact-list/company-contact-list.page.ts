@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController, PopoverController } from '@ionic/angular';
+import { AlertController, ModalController, PopoverController } from '@ionic/angular';
 // models
+import { Contact } from '../../../../../models/contact';
 import { Company } from 'src/app/models/company';
 import { AnalyticsService } from 'src/app/providers/analytics.service';
 // services
 import { CompanyContactService } from 'src/app/providers/logged-in/company-contact.service';
-import {Contact} from '../../../../../models/contact';
+import { AuthService } from 'src/app/providers/auth.service';
 
 
 @Component({
@@ -32,11 +33,14 @@ export class CompanyContactListPage implements OnInit {
 
   public borderLimit = false;
   public selectedContact = null;
+  public loadingLoginUrl: boolean = false; 
 
   constructor(
     public companyContactService: CompanyContactService,
     public analyticService: AnalyticsService,
+    public authService: AuthService,
     public popupCtrl: PopoverController,
+    public alertCtrl: AlertController,
     public modalCtrl: ModalController
   ) {
   }
@@ -120,6 +124,30 @@ export class CompanyContactListPage implements OnInit {
     () => {
       this.loading = false;
       event.target.complete();
+    });
+  }
+
+
+  login(companyContact, event) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    this.loadingLoginUrl = true; 
+
+    this.companyContactService.login(companyContact.contact_uuid).subscribe(async res => {
+
+      this.loadingLoginUrl = false;
+       
+      if(res.operation == "error") {
+        const alert = await this.alertCtrl.create({
+          header: 'Oops',
+          subHeader: this.authService.errorMessage(res.message),
+          buttons: ['Okay']
+        });
+        alert.present();
+      } else {
+        window.open(res.redirect, "_blank");
+      }
     });
   }
 

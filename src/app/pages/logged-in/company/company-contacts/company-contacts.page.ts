@@ -49,6 +49,8 @@ export class CompanyContactsPage implements OnInit {
 
   public query = '';
 
+  public loadingLoginUrl: boolean = false; 
+  
   constructor(
     public router: Router,
     public modalCtrl: ModalController,
@@ -101,6 +103,29 @@ export class CompanyContactsPage implements OnInit {
       this.filter = data;
       this.loadContacts();
     }
+  }
+
+  login(companyContact, event) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    this.loadingLoginUrl = true; 
+
+    this.companyContactService.login(companyContact.contact_uuid).subscribe(async res => {
+
+      this.loadingLoginUrl = false;
+       
+      if(res.operation == "error") {
+        const alert = await this.alertCtrl.create({
+          header: 'Oops',
+          subHeader: this.authService.errorMessage(res.message),
+          buttons: ['Okay']
+        });
+        alert.present();
+      } else {
+        window.open(res.redirect, "_blank");
+      }
+    });
   }
 
   /**

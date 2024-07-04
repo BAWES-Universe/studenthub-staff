@@ -85,7 +85,12 @@
             
           </ng-container>
           
-          <ion-button (click)="toggleOpen(companyContact, $event)" [class.is-open]="companyContact.isOpen">
+          <ion-button slot="end" class="btn-login" (click)="login(companyContact, $event)" [disabled]="loadingLoginUrl">
+            <ion-icon *ngIf="!loadingLoginUrl" name="log-in-outline"></ion-icon> 
+            <ion-spinner *ngIf="loadingLoginUrl"></ion-spinner>
+          </ion-button>
+
+          <ion-button slot="end" (click)="toggleOpen(companyContact, $event)" [class.is-open]="companyContact.isOpen">
             <ion-icon src="assets/images/icon-arrow-down.svg"></ion-icon>
           </ion-button>
         </ion-item>

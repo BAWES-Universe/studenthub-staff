@@ -7,6 +7,7 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { EditorModule, TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
+import localeAr from '@angular/common/locales/ar-KW';
 
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { UpdateAlertModule } from './components/update-alert/update-alert.module';
@@ -89,6 +90,7 @@ import { EmailCampaignFormPageModule } from './pages/logged-in/email-campaign/em
 import { UpdateAccountPageModule } from './pages/logged-in/update-account/update-account.module';
 import { CountryModalComponent } from './components/country-modal/country-modal.component';
 import { CountryModalModule } from './components/country-modal/country-modal.module';
+import { registerLocaleData } from '@angular/common';
 
 export function startupServiceFactory(authService) {
   return () => authService.load();
@@ -213,7 +215,7 @@ declare global {
     SelectiveLoadingStrategy,
     { provide: TINYMCE_SCRIPT_SRC, useValue: 'tinymce/tinymce.min.js' },
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    //{ provide: ErrorHandler, useClass: SentryErrorhandlerService }
+    { provide: ErrorHandler, useClass: SentryErrorhandlerService }
   ],
   bootstrap: [AppComponent]
 })
@@ -223,5 +225,7 @@ export class AppModule {
 
   constructor(public injector: Injector) {
     AppModule.injector = injector;
+
+    registerLocaleData(localeAr, 'ar');
   }
 }

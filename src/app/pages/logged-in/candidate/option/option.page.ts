@@ -295,6 +295,14 @@ export class OptionPage implements OnInit {
     });
   }
 
+  login() {
+    this.popoverCtrl.getTop().then(o => {
+      if(o) {
+        o.dismiss({ login: true });
+      }
+    });
+  }
+
   toggleCommitted() {
     this.popoverCtrl.getTop().then(o => {
       if(o) {

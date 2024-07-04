@@ -83,7 +83,8 @@ export class CandidateViewPage implements OnInit {
   public unapproving = false;
   public downloading = false;
   public inviting = false;
-
+  public loadingLoginUrl: boolean = false; 
+  
   public processing = null;
 
   public updatingJobSearchStatus = false;
@@ -571,6 +572,32 @@ export class CandidateViewPage implements OnInit {
 
       if (e.data && e.data.markDuplicate) {
         this.markDuplicate();
+      }
+
+      if (e.data && e.data.login) {
+        this.login();
+      }
+    });
+  }
+
+
+  login() {
+     
+    this.loadingLoginUrl = true; 
+
+    this.candidateService.login(this.candidate_id).subscribe(async res => {
+
+      this.loadingLoginUrl = false;
+       
+      if(res.operation == "error") {
+        const alert = await this.alertCtrl.create({
+          header: 'Oops',
+          subHeader: this.authService.errorMessage(res.message),
+          buttons: ['Okay']
+        });
+        alert.present();
+      } else {
+        window.open(res.redirect, "_blank");
       }
     });
   }

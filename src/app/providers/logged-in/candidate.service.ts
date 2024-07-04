@@ -491,6 +491,11 @@ export class CandidateService {
     });
   }
 
+  /**
+   * @param civil 
+   * @param id 
+   * @returns 
+   */
   updateCivilExpiry(civil, id): Observable<any> {
     const url = `${this._candidateEndpoint}/update-civil-expiry/${id}`;
     return this._authhttp.patch(url, {
@@ -505,5 +510,15 @@ export class CandidateService {
   listAssignHistoryList(search: string, page: number): Observable<any> {
     const url = this._candidateEndpoint + '/assigned-history-list?page=' + page + search + '&expand=store,company,candidate';
     return this._authhttp.getRaw(url);
+  }
+
+  /**
+   * get login url and open in new window 
+   * @param candidate_id 
+   * @returns 
+   */
+  login(candidate_id): Observable<any>{
+    let url = `${this._candidateEndpoint}/login/${candidate_id}`;
+    return this._authhttp.post(url, {});
   }
 }

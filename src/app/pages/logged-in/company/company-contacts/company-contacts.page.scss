@@ -213,3 +213,7 @@ ion-chip {
   --color: red; 
   text-transform: none;
 }
+
+.btn-login {
+  --color: var(--ion-color-primary); 
+}
