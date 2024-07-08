@@ -8,6 +8,7 @@ import { of } from "rxjs";
 export class CandidateEvaluationService {
 
   public endPoint = '/candidate-evaluation';
+  
   constructor(
     public authHttp: AuthHttpService
   ) { }

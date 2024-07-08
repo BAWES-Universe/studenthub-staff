@@ -55,11 +55,12 @@ export class InterviewEvaluationFormPage implements OnInit {
 
     this.form = this.fb.group({
      // note: ['', Validators.required],
-      request_uuid: ['', Validators.required],
-      request_name: ['', Validators.required],
+      request_uuid: [this.model?.request_uuid, Validators.required],
+      request_name: [this.model?.request?.request_position_title, Validators.required],
     });
 
     if (this.interviewEvaluationNotes.length > 0) {
+      this.interviewEvaluationNotes.push(new InterviewEvaluationNote);
       this.interviewEvaluationNotes.map((data, index) => {
         // initializing note list and loop count
 
@@ -285,7 +286,6 @@ export class InterviewEvaluationFormPage implements OnInit {
     }, () => {
 
       this.saving = false;
-
     });
   }
   

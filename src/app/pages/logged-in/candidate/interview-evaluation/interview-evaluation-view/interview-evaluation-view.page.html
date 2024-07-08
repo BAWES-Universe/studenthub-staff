@@ -3,46 +3,68 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/" icon="assets/images/icon-back.svg"></ion-back-button>
     </ion-buttons>
-    <ion-title *ngIf="model">
-      Interview evaluation for {{ model.request.request_position_title }}
-    </ion-title>
   </ion-toolbar>  
+  <ion-toolbar  class="container">
+    <ion-title>
+      Interview evaluation
+
+      <p *ngIf="model" class="txt-sub-title">
+        {{ model.request.request_position_title }} 
+      </p> 
+    </ion-title>
+  </ion-toolbar>
 </ion-header>
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
 
   <div class="container max-width">
     <div *ngIf="model">
 
-      <interview-evaluation 
-            [interviewEvaluation]="model">
-          </interview-evaluation>
+      <ion-card class="card-latest-version">
+        <ion-card-content>
+          
+          <h3>
+            {{ model.interviewEvaluationNoteVersions[0].staff.staff_name }} <br />
+            {{ translateService.toDate(model.interviewEvaluationNoteVersions[0].created_at) | date: 'MMM d, y h:mm a' }} 
+          </h3>
+      
+          <ul>
+            <li *ngFor="let interviewEvaluationNote of model.interviewEvaluationNoteVersions[0].interviewEvaluationNotes">
+              {{ interviewEvaluationNote.note }}
+            </li>
+          </ul>
+        </ion-card-content>
+      </ion-card>
 
-      <div class="note-wrapper" *ngIf="model.notes">
+      <ion-button class="btn-update" (click)="addVersion()">
+        Update
+      </ion-button>
 
-        <h5 class="heading">
-          <ion-icon src="assets/images/icon-note.svg"></ion-icon>  Notes
-        </h5>
+      <h5 class="heading" *ngIf="model.interviewEvaluationNoteVersions.length > 1">
+        Older versions
+      </h5>
 
-        <ion-card>
+      <ng-container *ngFor="let interviewEvaluationNoteVersion of model.interviewEvaluationNoteVersions; let i = index;">
+        <ion-card class="card-old-versions" *ngIf="i != 0">
           <ion-card-content>
-            <ion-item>
-              <ion-textarea [(ngModel)]="note_text" placeholder="Enter note here..."></ion-textarea>
-            </ion-item>
-    
-            <ion-button class="btn-add-note" [disabled]="savingNote || note_text.length == 0" 
-              (click)="addNote()"> Add note
-            </ion-button>
+            
+            <h3>
+              {{ interviewEvaluationNoteVersion.staff.staff_name }} <br />
+              {{ translateService.toDate(interviewEvaluationNoteVersion.created_at) | date: 'MMM d, y h:mm a' }} 
+            </h3>
+        
+            <ul>
+              <li *ngFor="let interviewEvaluationNote of interviewEvaluationNoteVersion.interviewEvaluationNotes">
+                {{ interviewEvaluationNote.note }}
+              </li>
+            </ul>
           </ion-card-content>
         </ion-card>
+      </ng-container>
 
-        <note tappable *ngFor="let note of model.notes" [routerLink]="'/note-view/' + note.note_uuid" from="company-view"
-          [note]="note" (onChange)="loadNotes()" (onDelete)="loadNotes()"></note>
+      <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfiniteInterviews($event)">
+        <ion-infinite-scroll-content></ion-infinite-scroll-content>
+      </ion-infinite-scroll>
 
-        <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfiniteInterviews($event)">
-          <ion-infinite-scroll-content></ion-infinite-scroll-content>
-        </ion-infinite-scroll>
-
-      </div>
     </div>
   </div>
 </ion-content>

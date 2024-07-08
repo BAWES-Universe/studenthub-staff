@@ -1,7 +1,7 @@
 <ion-card [class.pending]="interviewEvaluation.request.request_status == 'pending'" tappable>
   <ion-card-content>
     <div class="inner-card-content">
-      <h1>{{interviewEvaluation.request.request_position_title}}
+      <h1>{{ interviewEvaluation.request.request_position_title }}
       </h1>
 
       <h3 *ngIf="interviewEvaluation.company">
@@ -49,6 +49,7 @@
         </li>
       </ul>
       
+
     </div>
 
     <!-- todo: display latest note -->

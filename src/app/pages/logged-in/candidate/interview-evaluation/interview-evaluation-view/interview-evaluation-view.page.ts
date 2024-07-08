@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
 //models
 import { InterviewEvaluation } from 'src/app/models/interview-evaluation';
 import { Note } from 'src/app/models/note';
@@ -8,6 +8,8 @@ import { Note } from 'src/app/models/note';
 import { AuthService } from 'src/app/providers/auth.service';
 import { InterviewEvaluationService } from 'src/app/providers/logged-in/interview-evaluation.service';
 import { NoteService } from 'src/app/providers/logged-in/note.service';
+import { TranslateLabelService } from 'src/app/providers/translate-label.service';
+import { InterviewEvaluationFormPage } from '../interview-evaluation-form/interview-evaluation-form.page';
 
 
 @Component({
@@ -35,8 +37,10 @@ export class InterviewEvaluationViewPage implements OnInit {
 
   constructor(
     public activatedRoute: ActivatedRoute,
+    public modalCtrl: ModalController,
     public alertCtrl: AlertController,
     public authService: AuthService,
+    public translateService: TranslateLabelService,
     public interviewEvaluationService: InterviewEvaluationService,
     public noteService: NoteService
   ) { }
@@ -54,22 +58,18 @@ export class InterviewEvaluationViewPage implements OnInit {
 
       this.model = res;
 
-      if(!this.model.notes) {
-        this.loadNotes();
-      }
+      this.loadNotes();
     });
   }
 
   loadNotes() {
     this.loadingNotes = true;
-
-    const urlParams = "&interview_evaluation_uuid=" + this.interview_evaluation_uuid;
-    
-    this.noteService.list(urlParams, this.currentPage).subscribe(res => {
+ 
+    this.interviewEvaluationService.listVersions(this.interview_evaluation_uuid, this.currentPage).subscribe(res => {
 
       this.loadingNotes = false;
 
-      this.model.notes = res.body;
+      this.model.interviewEvaluationNoteVersions = res.body;
 
       this.pageCount = parseInt(res.headers.get('X-Pagination-Page-Count'));
       this.currentPage = parseInt(res.headers.get('X-Pagination-Current-Page'));
@@ -77,20 +77,22 @@ export class InterviewEvaluationViewPage implements OnInit {
     });
   }
 
+  /**
+   * @param event 
+   */
   doInfiniteInterviews(event) {
 
     this.loadingNotes = true;
 
     this.currentPage++;
 
-    const urlParams = "&interview_evaluation_uuid=" + this.interview_evaluation_uuid;
-    
-    this.noteService.list(urlParams, this.currentPage).subscribe(res => {
+    this.interviewEvaluationService.listVersions(this.interview_evaluation_uuid, this.currentPage).subscribe(res => {
+      
       this.loadingNotes = false; 
 
       event.target.complete();
 
-      this.model.notes = this.model.notes.concat(res.body);
+      this.model.interviewEvaluationNoteVersions = this.model.interviewEvaluationNoteVersions.concat(res.body);
       this.pageCount = parseInt(res.headers.get('X-Pagination-Page-Count'));
       this.currentPage = parseInt(res.headers.get('X-Pagination-Current-Page'));
       this.total = parseInt(res.headers.get('X-Pagination-Total-Count'));
@@ -99,6 +101,33 @@ export class InterviewEvaluationViewPage implements OnInit {
 
       event.target.complete();
     });
+  }
+
+  async addVersion() {
+    
+    window.history.pushState({ navigationId: window.history.state?.navigationId }, null, window.location.pathname);
+
+    const modal = await this.modalCtrl.create({
+      component: InterviewEvaluationFormPage,
+      componentProps: {
+        interviewEvaluationNotes: this.model.interviewEvaluationNoteVersions[0].interviewEvaluationNotes,
+        model: this.model
+      }
+    });
+    modal.present();
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
+
+    const { data } = await modal.onWillDismiss();
+
+    if (data && data.refresh) {
+      this.loadNotes();
+    }
   }
 
   logScrolling(e) {

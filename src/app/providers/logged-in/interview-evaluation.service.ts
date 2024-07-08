@@ -21,7 +21,18 @@ export class InterviewEvaluationService {
    * @returns 
    */
   list(page: number = 1): Observable<any> {
-    const url = this.endpoint + '?page=' + page + '&expand=latestInterviewEvaluationNoteVersions,latestInterviewEvaluationNoteVersions.interviewEvaluationNotes,staff,request,company';//notes,
+    const url = this.endpoint + '?page=' + page + '&expand=latestInterviewEvaluationNoteVersions,latestInterviewEvaluationNoteVersions.staff,latestInterviewEvaluationNoteVersions.interviewEvaluationNotes,staff,request,company';//notes,
+    return this.authhttp.getRaw(url);
+  }
+
+  /**
+   * list note versions
+   * @param interview_evaluation_uuid 
+   * @param page 
+   * @returns 
+   */
+  listVersions(interview_evaluation_uuid: string, page: number = 1): Observable<any> {
+    const url = this.endpoint + '/versions/' + interview_evaluation_uuid + '?page=' + page + '&expand=staff,interviewEvaluationNotes';
     return this.authhttp.getRaw(url);
   }
 
@@ -30,7 +41,7 @@ export class InterviewEvaluationService {
    * @returns 
    */
   view(interview_evaluation_uuid: string): Observable<any> {
-    const url = this.endpoint + '/' + interview_evaluation_uuid + '?expand=interviewEvaluationNoteVersions,interviewEvaluationNoteVersions.interviewEvaluationNotes,staff,request,company';
+    const url = this.endpoint + '/' + interview_evaluation_uuid + '?expand=interviewEvaluationNoteVersions.staff,interviewEvaluationNoteVersions,interviewEvaluationNoteVersions.interviewEvaluationNotes,staff,request,company';
     return this.authhttp.get(url);
   }
 
