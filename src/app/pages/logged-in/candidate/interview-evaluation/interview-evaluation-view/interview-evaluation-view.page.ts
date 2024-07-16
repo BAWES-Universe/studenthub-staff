@@ -107,10 +107,16 @@ export class InterviewEvaluationViewPage implements OnInit {
     
     window.history.pushState({ navigationId: window.history.state?.navigationId }, null, window.location.pathname);
 
+    let interviewEvaluationNotes = [];
+
+    this.model.interviewEvaluationNoteVersions[0].interviewEvaluationNotes.forEach(val => {
+      interviewEvaluationNotes.push(val);
+    });
+
     const modal = await this.modalCtrl.create({
       component: InterviewEvaluationFormPage,
       componentProps: {
-        interviewEvaluationNotes: this.model.interviewEvaluationNoteVersions[0].interviewEvaluationNotes,
+        interviewEvaluationNotes: interviewEvaluationNotes,
         model: this.model
       }
     });

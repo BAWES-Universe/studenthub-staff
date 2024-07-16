@@ -21,7 +21,7 @@ export class DiscountService {
    */
   list(page: number): Observable<any>{
     let url = this._discountEndpoint + '?expand=&page=' + page;
-    return this._authhttp.get(url, true);
+    return this._authhttp.getRaw(url);
   }
   
   /**

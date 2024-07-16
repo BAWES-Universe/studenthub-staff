@@ -1,0 +1,36 @@
+<ion-header mode="md" [class.add-border]="borderLimit" class="ion-no-border">
+  <ion-toolbar class="container">
+    <ion-buttons slot="start">
+      <ion-back-button icon="assets/images/icon-back.svg" defaultHref="/candidate-view/{{ candidate_id }}"></ion-back-button>
+    </ion-buttons>
+
+    <ion-buttons slot="end">
+      <ion-button (click)="add()">
+        Add evaluation
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+
+</ion-header>
+<ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
+  <div class="container">
+    <h3> Evaluations</h3>
+
+    <h4 *ngIf="candidate">
+      {{ candidate.candidate_name }}
+      <span *ngIf="!candidate.candidate_name">{{ candidate.candidate_name_ar }}</span>
+    </h4>
+
+    <interview-evaluation tappable (click)="interviewEvaluationSelected(interviewEvaluation)" 
+      [interviewEvaluation]="interviewEvaluation" 
+      *ngFor="let interviewEvaluation of interviewEvaluations">
+    </interview-evaluation>
+     
+    <loading-modal [loading]="loadingInterviewEvaluations" type="note-list"></loading-modal>
+
+    <ion-infinite-scroll *ngIf="interviewCurrentPage < interviewPageCount" (ionInfinite)="doInfiniteInterviews($event)">
+      <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+
+  </div>
+</ion-content>

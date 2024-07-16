@@ -188,6 +188,7 @@ export class CandidateViewPage implements OnInit {
     });
 
     this.initNoteForm();
+    this.loadInterviews();
   }
 
   ionViewDidEnter() {
@@ -793,6 +794,14 @@ export class CandidateViewPage implements OnInit {
       }
     });
     await modal.present();
+  }
+
+  openEvaluations() {
+    this.router.navigate(["interview-evaluation-list", this.candidate_id], {
+      state: {
+        candidate: this.candidate
+      }
+    });
   }
 
   openNotes() {
@@ -1478,7 +1487,9 @@ export class CandidateViewPage implements OnInit {
   loadInterviews() {
     this.loadingInterviewEvaluations = true; 
 
-    this.interviewEvaluationService.list(this.interviewCurrentPage).subscribe(res => {
+    const urlParams = "&candidate_id=" + this.candidate_id;
+
+    this.interviewEvaluationService.list(this.interviewCurrentPage, urlParams).subscribe(res => {
       this.loadingInterviewEvaluations = false; 
 
       this.interviewEvaluations = res.body;
@@ -1492,7 +1503,9 @@ export class CandidateViewPage implements OnInit {
 
     this.interviewCurrentPage++;
 
-    this.interviewEvaluationService.list(this.interviewCurrentPage).subscribe(res => {
+    const urlParams = "&candidate_id=" + this.candidate_id;
+
+    this.interviewEvaluationService.list(this.interviewCurrentPage, urlParams).subscribe(res => {
       this.loadingInterviewEvaluations = false; 
 
       event.target.complete();

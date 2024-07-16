@@ -3,13 +3,8 @@
     <ion-buttons slot="start" (click)="close()">
       <ion-back-button icon="assets/images/icon-back.svg"></ion-back-button>
     </ion-buttons>
-    <ion-title>{{ "Add interview evaluation" }}</ion-title>
-    <ion-buttons slot="end">
-        <ion-button [disabled]="!form || !form.valid || saving" (click)="save()">
-          <span *ngIf="!saving">Save</span>
-          <ion-spinner *ngIf="saving"></ion-spinner>
-        </ion-button>
-    </ion-buttons>
+    <ion-title>{{ "Add evaluation" }}</ion-title>
+    
   </ion-toolbar>
 </ion-header>
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
@@ -32,7 +27,7 @@
         </ion-item>--> 
     </form>
 
-    <h5>Notes</h5>
+    <h5>Evaluations</h5>
 
     <ion-item class="input-wrapper"  *ngFor="let s of tmpInterviewEvaluationNotes;let i=index;">
       <div tabindex="0"></div>
@@ -46,6 +41,12 @@
         <img src="assets/images/ic_circledCancel.svg">
       </ion-button>
     </ion-item>
+
+    <ion-button [disabled]="!form || !form.valid || saving" (click)="save()">
+      <span *ngIf="!saving">Save</span>
+      <ion-spinner *ngIf="saving"></ion-spinner>
+    </ion-button>
   </div>
 
 </ion-content>
+

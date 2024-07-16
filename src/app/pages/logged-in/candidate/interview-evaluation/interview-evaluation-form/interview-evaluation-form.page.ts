@@ -29,7 +29,7 @@ export class InterviewEvaluationFormPage implements OnInit {
 
   public borderLimit = false;
 
-  public interviewEvaluationNotes: InterviewEvaluationNote[] = [new InterviewEvaluationNote];
+  public interviewEvaluationNotes: InterviewEvaluationNote[] = [];//new InterviewEvaluationNote
 
   public txtInterviewEvaluationNotes = '';
   public loading = false;
@@ -55,27 +55,28 @@ export class InterviewEvaluationFormPage implements OnInit {
 
     this.form = this.fb.group({
      // note: ['', Validators.required],
+      candidate_id: [this.candidate_id? this.candidate_id: this.model?.candidate_id, Validators.required],
       request_uuid: [this.model?.request_uuid, Validators.required],
       request_name: [this.model?.request?.request_position_title, Validators.required],
     });
 
     if (this.interviewEvaluationNotes.length > 0) {
       this.interviewEvaluationNotes.push(new InterviewEvaluationNote);
+      
       this.interviewEvaluationNotes.map((data, index) => {
         // initializing note list and loop count
-
         this.tmpInterviewEvaluationNotes.push(index); // for loop
-        
       });
     } else {
+      this.interviewEvaluationNotes.push(new InterviewEvaluationNote);
+
       // initializing note list with zero and loop count
-      this.tmpInterviewEvaluationNotes[0] = null;
+      this.tmpInterviewEvaluationNotes[0] = new InterviewEvaluationNote;
     }
 
     this.count = this.tmpInterviewEvaluationNotes.length; // to check to add new textbox when type
   }
 
-  
   ionViewDidEnter() {
 
     if(!this.interviewEvaluationNotes) {

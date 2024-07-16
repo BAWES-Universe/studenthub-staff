@@ -86,9 +86,9 @@
         <ion-label>Applications</ion-label>
       </ion-segment-button>
 
-      <ion-segment-button mode="md" value="interview-evaluation">
+      <!-- <ion-segment-button mode="md" value="interview-evaluation">
         <ion-label>Interview Evaluations</ion-label>
-      </ion-segment-button>
+      </ion-segment-button>-->
 
     </ion-segment>
 
@@ -98,7 +98,7 @@
       <ion-select-option value="personal-details">Personal Details</ion-select-option>
       <ion-select-option value="financials">Financials</ion-select-option>
       <ion-select-option value="applications">Applications</ion-select-option>
-      <ion-select-option value="interview-evaluation">Interview Evaluations</ion-select-option>
+      <!-- <ion-select-option value="interview-evaluation">Interview Evaluations</ion-select-option>-->
     </ion-select>
   </ion-toolbar>
 
@@ -518,6 +518,25 @@
 
           </ion-row>
         </ion-grid>
+      </div>
+
+      <div class="note-wrapper">
+
+        <h5 class="heading"><ion-icon src="assets/images/icon-note.svg"></ion-icon> Evaluations</h5>
+  
+        <interview-evaluation *ngIf="interviewEvaluations.length > 0" tappable (click)="interviewEvaluationSelected(interviewEvaluations[0])" 
+          [interviewEvaluation]="interviewEvaluations[0]">
+        </interview-evaluation>
+
+        <ion-button class="btn-view-notes" *ngIf="interviewEvaluations.length > 0" (click)="openEvaluations()">
+          <span *ngIf="interviewEvaluations.length > 1">View all {{ interviewTotal }} evaluations</span>
+          <span *ngIf="interviewEvaluations.length == 1">Manage evaluations</span>
+        </ion-button>
+
+        <ion-button class="btn-add-note" *ngIf="interviewEvaluations.length == 0" (click)="addEvaluation()">
+          Add evaluations
+        </ion-button>
+
       </div>
 
       <div class="note-wrapper">

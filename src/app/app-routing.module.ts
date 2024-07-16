@@ -757,10 +757,14 @@ const routes: Routes = [
     loadChildren: () => import('./pages/logged-in/candidate/interview-evaluation/interview-evaluation-view/interview-evaluation-view.module').then( m => m.InterviewEvaluationViewPageModule)
   },
   {
+    path: 'interview-evaluation-list',
+    canActivate: [AuthService],
+    loadChildren: () => import('./pages/logged-in/candidate/interview-evaluation/interview-evaluation-list/interview-evaluation-list.module').then( m => m.InterviewEvaluationListPageModule)
+  },
+  {
     path: '**',
     redirectTo: 'not-found'
   },   
-  
 ];
 
 @NgModule({

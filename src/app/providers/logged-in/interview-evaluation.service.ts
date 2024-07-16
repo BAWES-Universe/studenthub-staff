@@ -20,8 +20,8 @@ export class InterviewEvaluationService {
    * @param page 
    * @returns 
    */
-  list(page: number = 1): Observable<any> {
-    const url = this.endpoint + '?page=' + page + '&expand=latestInterviewEvaluationNoteVersions,latestInterviewEvaluationNoteVersions.staff,latestInterviewEvaluationNoteVersions.interviewEvaluationNotes,staff,request,company';//notes,
+  list(page: number = 1, urlParams: string = ""): Observable<any> {
+    const url = this.endpoint + '?page=' + page + urlParams + '&expand=latestInterviewEvaluationNoteVersions,latestInterviewEvaluationNoteVersions.staff,latestInterviewEvaluationNoteVersions.interviewEvaluationNotes,staff,request,company';//notes,
     return this.authhttp.getRaw(url);
   }
 
