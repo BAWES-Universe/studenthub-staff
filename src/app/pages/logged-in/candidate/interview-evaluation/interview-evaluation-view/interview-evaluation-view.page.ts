@@ -109,15 +109,18 @@ export class InterviewEvaluationViewPage implements OnInit {
 
     let interviewEvaluationNotes = [];
 
-    this.model.interviewEvaluationNoteVersions[0].interviewEvaluationNotes.forEach(val => {
-      interviewEvaluationNotes.push(val);
-    });
+    if (this.model.interviewEvaluationNoteVersions.length > 0) {
+      this.model.interviewEvaluationNoteVersions[0].interviewEvaluationNotes.forEach(val => {
+        interviewEvaluationNotes.push(val);
+      });
+    }
 
     const modal = await this.modalCtrl.create({
       component: InterviewEvaluationFormPage,
       componentProps: {
         interviewEvaluationNotes: interviewEvaluationNotes,
-        model: this.model
+        model: this.model,
+        candidate_id: this.model.candidate_id
       }
     });
     modal.present();

@@ -53,11 +53,13 @@ export class InterviewEvaluationFormPage implements OnInit {
   ngOnInit() {
     this.analyticService.page('Interview Evaluation Form Page');
 
+    let candidate_id = this.candidate_id? this.candidate_id: this.model?.candidate_id;
+
     this.form = this.fb.group({
      // note: ['', Validators.required],
-      candidate_id: [this.candidate_id? this.candidate_id: this.model?.candidate_id, Validators.required],
-      request_uuid: [this.model?.request_uuid, Validators.required],
-      request_name: [this.model?.request?.request_position_title, Validators.required],
+      candidate_id: [candidate_id, Validators.required],
+      request_uuid: [this.model?.request_uuid],//, Validators.required
+      request_name: [this.model?.request?.request_position_title], //, Validators.required
     });
 
     if (this.interviewEvaluationNotes.length > 0) {

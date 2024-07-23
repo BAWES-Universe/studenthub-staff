@@ -22,6 +22,7 @@ export class InterviewEvaluation {
 
 export class InterviewEvaluationNoteVersion {
     ienv_uuid: string;
+    version: number;
     interview_evaluation_uuid: string;
     staff_id: number;
     candidate_id: number;

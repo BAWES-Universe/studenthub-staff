@@ -8,7 +8,7 @@
     <ion-title>
       Evaluation
 
-      <p *ngIf="model" class="txt-sub-title">
+      <p *ngIf="model && model.request" class="txt-sub-title">
         {{ model.request.request_position_title }} 
       </p> 
     </ion-title>
@@ -19,19 +19,25 @@
   <div class="container max-width">
     <div *ngIf="model">
 
-      <ion-card class="card-latest-version">
+      <ion-card class="card-latest-version" *ngIf="model.interviewEvaluationNoteVersions.length > 0">
         <ion-card-content>
           
-          <h3>
-            {{ model.interviewEvaluationNoteVersions[0].staff.staff_name }} <br />
+          <h3 >
+            <ng-container *ngIf="model.interviewEvaluationNoteVersions[0].staff">
+              {{ model.interviewEvaluationNoteVersions[0].staff.staff_name }} <br />
+            </ng-container>  
             {{ translateService.toDate(model.interviewEvaluationNoteVersions[0].created_at) | date: 'MMM d, y h:mm a' }} 
           </h3>
       
-          <ul>
+          <h5>Version {{ model.interviewEvaluationNoteVersions[0].version }}</h5>
+
+          <ul *ngIf="model.interviewEvaluationNoteVersions.length > 0">
             <li *ngFor="let interviewEvaluationNote of model.interviewEvaluationNoteVersions[0].interviewEvaluationNotes">
               {{ interviewEvaluationNote.note }}
             </li>
           </ul>
+
+
         </ion-card-content>
       </ion-card>
 
@@ -48,10 +54,15 @@
           <ion-card-content>
             
             <h3>
-              {{ interviewEvaluationNoteVersion.staff.staff_name }} <br />
+              <ng-container *ngIf="interviewEvaluationNoteVersion.staff">
+                {{ interviewEvaluationNoteVersion.staff.staff_name }} <br />
+              </ng-container>
+
               {{ translateService.toDate(interviewEvaluationNoteVersion.created_at) | date: 'MMM d, y h:mm a' }} 
             </h3>
         
+            <h5>Version {{ interviewEvaluationNoteVersion.version }}</h5>
+
             <ul>
               <li *ngFor="let interviewEvaluationNote of interviewEvaluationNoteVersion.interviewEvaluationNotes">
                 {{ interviewEvaluationNote.note }}
