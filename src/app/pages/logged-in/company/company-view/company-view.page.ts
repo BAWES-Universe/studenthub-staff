@@ -736,7 +736,7 @@ export class CompanyViewPage implements OnInit {
     xAxis,
     totalFired
   ) {
-    console.log(xAxis, totalFired)
+     
     new Chart(this.firingChart.nativeElement, {
       type: 'line',
       data: {

@@ -75,7 +75,7 @@ export class CandidateService {
    * @returns {Observable<any>}
    */
   listFilter(search: string, page: number): Observable<any> {
-    const url = this._candidateEndpoint + '/filter?page=' + page + search + '&expand=store,company,candidateTags'; //candidateSkills,candidateExperiences
+    const url = this._candidateEndpoint + '/filter?page=' + page + search + '&expand=store,company,candidateTags,avgTimeToViewInvitations'; //candidateSkills,candidateExperiences
     return this._authhttp.getRaw(url);
   }
 
@@ -103,7 +103,7 @@ export class CandidateService {
    */
   listAssigned(candidate_name: string, page: number, incompleteProfile = 0, withoutBank = 0): Observable<any> {
     const url = this._candidateEndpoint + '/assigned?candidate_name=' + candidate_name + '&page=' + page + '&incomplete_profile=' + incompleteProfile  
-      + '&without_bank=' + withoutBank + '&expand=store,company,candidateTags';//candidateSkills,candidateExperiences
+      + '&without_bank=' + withoutBank + '&expand=store,company,candidateTags,avgTimeToViewInvitations';//candidateSkills,candidateExperiences
     return this._authhttp.getRaw(url);
   }
 
@@ -113,7 +113,7 @@ export class CandidateService {
    */
   listWithoutBank(candidate_name: string, page: number): Observable<any> {
     const url = this._candidateEndpoint + '/without-bank?candidate_name=' + candidate_name + '&page=' + page
-     + '&expand=store,company,candidateTags';//candidateSkills,candidateTags,candidateExperiences
+     + '&expand=store,company,candidateTags,avgTimeToViewInvitations';//candidateSkills,candidateTags,candidateExperiences
     return this._authhttp.getRaw(url);
   }
 
@@ -124,7 +124,7 @@ export class CandidateService {
   listNotAssigned(candidate_name: string, page: number, incompleteProfile = 0, withoutBank = 0): Observable<any> {
     const url = this._candidateEndpoint + '/not-assigned?candidate_name=' + candidate_name + '&page=' + page + 
       '&incomplete_profile=' + incompleteProfile + '&without_bank=' + withoutBank + 
-      '&expand=store,company,candidateTags';//candidateSkills,candidateExperiences
+      '&expand=store,company,candidateTags,avgTimeToViewInvitations';//candidateSkills,candidateExperiences
     return this._authhttp.getRaw(url);
   }
 
@@ -337,7 +337,7 @@ export class CandidateService {
    * @param page
    */
   listByCountry(country: Country, page: number): Observable<any> {
-    const url = this._candidateEndpoint + '/search?expand=store,company,candidateTags&country_id=' + country.country_id + '&page=' + page;
+    const url = this._candidateEndpoint + '/search?expand=store,company,candidateTags,avgTimeToViewInvitations&country_id=' + country.country_id + '&page=' + page;
     return this._authhttp.getRaw(url);
   }
 
@@ -348,7 +348,7 @@ export class CandidateService {
    * @returns 
    */
   searchRequestMatch(match_request_id: any, page: number): Observable<any> {
-    const url = this._candidateEndpoint + '/search?expand=cadndiateSkills,candidateExperiences,candidateTags&match_request_id=' + match_request_id + '&page=' + page;
+    const url = this._candidateEndpoint + '/search?expand=avgTimeToViewInvitations,cadndiateSkills,candidateExperiences,candidateTags&match_request_id=' + match_request_id + '&page=' + page;
     return this._authhttp.getRaw(url);
   }
   
@@ -393,7 +393,7 @@ export class CandidateService {
    * @returns {Observable<any>}
    */
   listToReview(page: number): Observable<any>{
-    const url = this._candidateEndpoint + '/search?expand=store,company,candidateTags&by=review&review=0&page=' + page;
+    const url = this._candidateEndpoint + '/search?expand=avgTimeToViewInvitations,store,company,candidateTags&by=review&review=0&page=' + page;
     return this._authhttp.getRaw(url);
   }
 
@@ -465,7 +465,7 @@ export class CandidateService {
    */
   assignedIdleCandidate(candidateName: string, page: number): Observable<any>{
     const url = this._candidateEndpoint + '/assigned-idle-candidate?candidate_name=' + candidateName + '&page=' + page + 
-      '&expand=store,company,workHistory,candidateTags';
+      '&expand=store,company,workHistory,candidateTags,avgTimeToViewInvitations';
     return this._authhttp.getRaw(url);
   }
 

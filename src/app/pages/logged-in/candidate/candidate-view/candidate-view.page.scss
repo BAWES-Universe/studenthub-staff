@@ -258,6 +258,7 @@ interview-evaluation {
   display: block;
 }
 
+.invitation-stats-wrapper,
 .assignment-wrapper,
 .note-wrapper,
 .suggestion-wrapper {
@@ -378,6 +379,12 @@ interview-evaluation {
       fill: var(--ion-color-custom-7);
     }
   }
+}
+
+.invitation-chart {
+  width: 90px;
+  margin-top: 15px;
+  margin-bottom: 15px;
 }
 
 .assignment-wrapper {

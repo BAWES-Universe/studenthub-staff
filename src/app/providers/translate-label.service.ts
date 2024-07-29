@@ -10,6 +10,10 @@ export class TranslateLabelService extends TranslateService {
 
     convertedValue: string;
 
+    toHour(seconds) {
+        return Math.ceil(seconds / 3600);
+    }
+
     /**
      * Get translation for given word 
      * @param keyString 

@@ -49,6 +49,7 @@ import { RequestApplication } from 'src/app/models/request-application';
 import { InterviewEvaluationService } from 'src/app/providers/logged-in/interview-evaluation.service';
 import { InterviewEvaluation } from 'src/app/models/interview-evaluation';
 import { InterviewEvaluationFormPage } from '../interview-evaluation/interview-evaluation-form/interview-evaluation-form.page';
+import { ArcElement, Chart, PieController } from 'chart.js';
 
 
 
@@ -60,6 +61,8 @@ import { InterviewEvaluationFormPage } from '../interview-evaluation/interview-e
 export class CandidateViewPage implements OnInit {
 
   @ViewChild('ckeditor') ckeditor;
+
+  @ViewChild('invitationChart', { static: false }) invitationChart;
 
   public candidate: Candidate;
 
@@ -130,7 +133,7 @@ export class CandidateViewPage implements OnInit {
   public interviewPageCount = 0;
   public interviewCurrentPage  = 0;
   public interviewTotal = 0;
-
+ 
   constructor(
     public navCtrl: NavController,
     public router: Router,
@@ -189,6 +192,8 @@ export class CandidateViewPage implements OnInit {
 
     this.initNoteForm();
     this.loadInterviews();
+
+    Chart.register(PieController, ArcElement);
   }
 
   ionViewDidEnter() {
@@ -463,7 +468,7 @@ export class CandidateViewPage implements OnInit {
   loadCandidateDetail(loading = true) {
     this.loading = loading;
 
-    const query = 'expand=candidateEducations,candidateEducations.degree,candidateEducations.major,' +
+    const query = 'expand=invitationStats,avgTimeToViewInvitations,candidateEducations,candidateEducations.degree,candidateEducations.major,' +
       'candidateEducations.university,candidateStats,candidateIdCard,store,company,candidateSkills,' +
       'candidateTags,candidateExperiences,bank,nationality,area,country,university,' + 
       'invited,invitationAccepted,invitationRejected,suggestionAccepted,suggestionRejected,suggested';
@@ -484,7 +489,31 @@ export class CandidateViewPage implements OnInit {
 
       setTimeout(_ => {
         this.job_search_status = !!(this.candidate.candidate_job_search_status);
+
+        if (this.candidate.avgTimeToViewInvitations > 0) {
+          this.loadInvitationChart(); 
+        }
       }, 500);
+    });
+  }
+
+  loadInvitationChart() {
+    new Chart(this.invitationChart.nativeElement, {
+      type: 'pie',
+      data: {
+        /*labels: [
+          'Yellow'
+        ],*/
+        datasets: [{
+          //label: 'My First Dataset',
+          data: [this.candidate.invitationStats.totalEmailPercentage, this.candidate.invitationStats.totalAppPercentage],
+          backgroundColor: [
+            '#BDBDBD',
+            'rgb(255, 255, 255)'
+          ],
+          hoverOffset: 4
+        }]
+      },
     });
   }
 

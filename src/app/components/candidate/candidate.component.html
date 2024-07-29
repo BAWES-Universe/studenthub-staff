@@ -82,6 +82,14 @@
         Deleted
       </ion-badge>
 
+      <p *ngIf="candidate.avgTimeToViewInvitations">
+        Average time to view invitations ~ {{ candidate.avgTimeToViewInvitations | durationBySecond }}
+      </p>
+      
+      <p *ngIf="!candidate.avgTimeToViewInvitations">
+        No invitation viewed yet
+      </p>
+
       <p><small>Created on: {{ toDate(candidate.candidate_created_at) | date: 'MMM d, y, h:mm:ss a'}} | Updated On: {{ toDate(candidate.candidate_updated_at) | date: 'MMM d, y, h:mm:ss a'}}</small></p>
     </ion-label>
 

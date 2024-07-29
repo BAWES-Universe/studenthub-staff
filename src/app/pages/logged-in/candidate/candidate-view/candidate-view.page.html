@@ -350,6 +350,30 @@
     </div><!-- END financials -->
 
     <div *ngIf="candidate && segment == 'activity'">
+ 
+      <div class="invitation-stats-wrapper">
+        <h5 class="heading">
+          <ion-icon src="assets/images/icon-assignment.svg"></ion-icon> Stats
+        </h5>
+
+        <p *ngIf="!candidate.avgTimeToViewInvitations">
+          No invitation viewed yet
+        </p>
+
+        <ion-card class="card-invitation-stats" *ngIf="candidate.avgTimeToViewInvitations > 0">
+          <ion-card-content>
+            <h5>Average time to view invitations </h5>
+            <p>~ {{ candidate.avgTimeToViewInvitations | durationBySecond }}</p>
+
+            <div class="invitation-chart">
+              <canvas #invitationChart></canvas>
+            </div>
+            
+            <h5>Where they're likely to view invites </h5>
+            <p>{{ candidate.invitationStats.totalEmailPercentage }}% email, {{ candidate.invitationStats.totalAppPercentage }}% app</p>
+          </ion-card-content>
+        </ion-card>    
+      </div>
 
       <div class="assignment-wrapper">
         <!--
