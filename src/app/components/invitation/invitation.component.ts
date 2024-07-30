@@ -81,7 +81,24 @@ export class InvitationComponent implements OnInit {
    */
   async suggest(ev) {
 
-    if (this.model.is_suggested || !this.authService.story) {
+    if (this.model.is_suggested) {
+      const prompt = await this.alertCtrl.create({
+        message: "Already suggested!",
+        buttons: ['Ok']
+      });
+      prompt.present();
+      return false;
+    }  
+    
+    if (
+      !this.authService.story || 
+      this.authService.story.story_uuid != this.model.story.story_uuid
+    ) {
+      const prompt = await this.alertCtrl.create({
+        message: "You need to start story to work on it!",
+        buttons: ['Ok']
+      });
+      prompt.present();
       return false;
     }
 
