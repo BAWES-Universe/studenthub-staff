@@ -26,3 +26,17 @@ h4 {
 ion-content {
   --background: var(--ion-color-custom-9);
 }
+
+.filter-wrapper {
+    margin-bottom: 15px;
+    
+    ion-chip {
+        --color: var(--ion-color-light-contrast);
+        --background: #fff;
+    }
+
+    ion-chip.active {
+        --color: var(--ion-color-primary-contrast);
+        --background: var(--ion-color-primary);
+    }
+}

@@ -14,6 +14,7 @@
 </ion-header>
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
   <div class="container">
+
     <h3>Notes</h3>
 
     <h4 *ngIf="candidate">
@@ -21,9 +22,56 @@
       <span *ngIf="!candidate.candidate_name">{{ candidate.candidate_name_ar }}</span>
     </h4>
 
+    <div class="filter-wrapper">
+
+      <ion-chip tappable (click)="filterByType($event, null)" 
+      [class.active]="filters.noteType == null">All</ion-chip>
+      
+    <ion-chip tappable (click)="filterByType($event, 'Internal Note')" 
+      [class.active]="filters.noteType == 'Internal Note'">Internal Note</ion-chip>
+      
+    <ion-chip tappable (click)="filterByType($event, 'Phone Call')" 
+      [class.active]="filters.noteType == 'Phone Call'">Phone Call</ion-chip>
+      
+    <ion-chip tappable (click)="filterByType($event, 'Email')" 
+      [class.active]="filters.noteType == 'Email'">Email</ion-chip>
+
+      <ion-chip tappable (click)="filterByType($event, 'Meeting')" 
+      [class.active]="filters.noteType == 'Meeting'">Meeting</ion-chip>
+      
+      <ion-chip tappable (click)="filterByType($event, 'Interview')" 
+      [class.active]="filters.noteType == 'Interview'">Interview</ion-chip>
+      
+      <ion-chip tappable (click)="filterByType($event, 'Suggested')" 
+      [class.active]="filters.noteType == 'Suggested'">Suggested (to Client)</ion-chip>  
+
+      <ion-chip tappable (click)="filterByType($event, 'Accepted')" 
+      [class.active]="filters.noteType == 'Accepted'">Accepted (by Client)</ion-chip>  
+      
+      <ion-chip tappable (click)="filterByType($event, 'Rejected')" 
+      [class.active]="filters.noteType == 'Rejected'">Rejected (by Client)</ion-chip>  
+
+      <ion-chip tappable (click)="filterByType($event, 'Invitation Accepted')" 
+      [class.active]="filters.noteType == 'Invitation Accepted'">Invitation Accepted</ion-chip>  
+
+      <ion-chip tappable (click)="filterByType($event, 'Invitation Rejected')" 
+      [class.active]="filters.noteType == 'Invitation Rejected'">Invitation Rejected</ion-chip>  
+
+      <ion-chip tappable (click)="filterByType($event, 'Interview Evaluation')" 
+      [class.active]="filters.noteType == 'Interview Evaluation'">Interview Evaluation</ion-chip>  
+
+    </div>
+    
+    <no-items *ngIf="!loading && notes && notes.length == 0" message="~ No notes ~">
+    </no-items>
+
     <note *ngFor="let note of notes" tappable [routerLink]="'/note-view/' + note.note_uuid"
       [note]="note"></note>
 
     <loading-modal [loading]="loading" type="note-list"></loading-modal>
+
+    <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
+      <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
   </div>
 </ion-content>

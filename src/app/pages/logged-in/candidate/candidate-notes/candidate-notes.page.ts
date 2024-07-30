@@ -29,6 +29,14 @@ export class CandidateNotesPage implements OnInit {
 
   public notes: Note[] = [];
 
+  public filters = {
+    noteType: null
+  };
+
+  public pageCount = 0;
+  public total = 0;
+  public currentPage = 1;
+
   constructor(
     public modalCtrl: ModalController,
     public activatedRoute: ActivatedRoute,
@@ -74,18 +82,58 @@ export class CandidateNotesPage implements OnInit {
     this.candidateService.detail(this.candidate_id).subscribe(response => {
 
       this.loading = false;
+
       this.candidate = response;
     });
+  }
+
+  filterByType(event, type) {
+    this.filters.noteType = type;
+    this.loadNotes(); // reload all result
   }
 
   /**
    * load candidate notes without pagination
    */
   loadNotes() {
-    const params = '&candidate_id=' + this.candidate_id;
+    
+    this.noteService.list(this.filterParams(), 1).subscribe(async response => {
 
-    this.noteService.list(params).subscribe(async jsonResponse => {
-      this.notes = jsonResponse;
+      this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
+      this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
+      this.total = parseInt(response.headers.get('X-Pagination-Total-Count'));
+
+      this.notes = response.body;
+    });
+  }
+
+  filterParams() {
+    let params = '&candidate_id=' + this.candidate_id;
+
+    if (this.filters.noteType) {
+      params += "&note_type=" + this.filters.noteType;
+    }
+
+    return params;
+  }
+
+  doInfinite(event) {
+    this.loading = true;
+
+    this.currentPage++;
+
+    this.noteService.list(this.filterParams(), this.currentPage).subscribe(async response => {
+      this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
+      this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
+      this.total = parseInt(response.headers.get('X-Pagination-Total-Count'));
+
+      this.notes = this.notes.concat(response.body);
+    },
+    error => {
+    },
+    () => {
+      this.loading = false;
+      event.target.complete();
     });
   }
 

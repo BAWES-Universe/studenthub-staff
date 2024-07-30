@@ -9,6 +9,7 @@ import { CandidateNotesPageRoutingModule } from './candidate-notes-routing.modul
 import { CandidateNotesPage } from './candidate-notes.page';
 import { NoteModule } from 'src/app/components/note/note.module';
 import { LoadingModalModule } from 'src/app/components/loading-modal/loading-modal.module';
+import { NoItemsModule } from 'src/app/components/no-items/no-items.module';
 
 @NgModule({
   imports: [
@@ -16,6 +17,7 @@ import { LoadingModalModule } from 'src/app/components/loading-modal/loading-mod
     FormsModule,
     IonicModule,
     NoteModule,
+    NoItemsModule,
     LoadingModalModule,
     CandidateNotesPageRoutingModule
   ],
