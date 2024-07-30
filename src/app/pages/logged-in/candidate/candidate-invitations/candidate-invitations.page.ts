@@ -68,12 +68,14 @@ export class CandidateInvitationsPage implements OnInit {
       this.candidate = state.candidate;
     }
 
-    if (!this.candidate) {
+    if (!this.candidate && this.candidate_id) {
       this.loadCandidateDetail();
     }
 
     this.eventService.reloadCandiate$.subscribe((res) => {
-      this.loadCandidateDetail();
+      if (this.candidate_id) {
+        this.loadCandidateDetail();
+      }
     });
 
     this.eventService.invitationUpdated$.subscribe((data: any) => {
@@ -81,7 +83,7 @@ export class CandidateInvitationsPage implements OnInit {
         this.loadInvitations();
       }
     });
-
+ 
     this.loadInvitations();
   }
 
@@ -98,6 +100,27 @@ export class CandidateInvitationsPage implements OnInit {
     });
   }
 
+  filterByStatus(event, status) {
+    this.invitations = [];
+    this.status = status;
+    this.loadInvitations();
+  }
+
+  getUrlParams() {
+
+    let urlParams = '?expand=candidate,note,request,request.company,request.storyOwners,request.staff,request.staffs';
+
+    if (this.candidate_id) {
+      urlParams += '&candidate_id=' + this.candidate_id;
+    }  
+
+    if (this.status) {
+      urlParams += '&status=' + this.status;
+    }
+
+    return urlParams;
+  }
+
   /**
    * load candidate invitations without pagination
    */
@@ -105,10 +128,8 @@ export class CandidateInvitationsPage implements OnInit {
 
     this.loadingInvitations = true; 
 
-    const urlParams = '?expand=request,request.company,request.storyOwners,request.staff,request.staffs' 
-      +'&candidate_id=' + this.candidate_id + '&status=' + this.status;
+    this.invitationService.listWithPagination(this.getUrlParams()).subscribe(async jsonResponse => {
 
-    this.invitationService.listWithPagination(urlParams).subscribe(async jsonResponse => {
       this.invitations = jsonResponse.body;
 
       this.pageCount = parseInt(jsonResponse.headers.get('X-Pagination-Page-Count'));
@@ -128,11 +149,8 @@ export class CandidateInvitationsPage implements OnInit {
     this.loadingInvitations = true; 
 
     this.currentPage++;
-
-    const urlParams = '?expand=request,request.company,request.storyOwners,request.staff,request.staffs' 
-      +'&candidate_id=' + this.candidate_id + '&status=' + this.status + '&page=' + this.currentPage;
-    
-    this.invitationService.listWithPagination(urlParams).subscribe(response => {
+ 
+    this.invitationService.listWithPagination(this.getUrlParams()).subscribe(response => {
 
       this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
       this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));

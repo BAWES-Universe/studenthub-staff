@@ -1,20 +1,20 @@
-<ion-card tappable>
-  <ion-badge *ngIf="model.invitation_status == 1"  class="invited">
+<ion-card>
+  <ion-badge color="light" *ngIf="model.invitation_status == 1"  class="invited">
     Invited
   </ion-badge>
 
-  <ion-badge *ngIf="model.invitation_status == 2" class="rejected" (click)="resend()">
+  <ion-badge color="warning" *ngIf="model.invitation_status == 2" class="rejected" (click)="resend()">
     Rejected
   </ion-badge>
 
-  <ion-badge *ngIf="model.invitation_status == 3" class="accepted">
+  <ion-badge color="success" *ngIf="model.invitation_status == 3" class="accepted">
     Accepted
   </ion-badge>
 
-  <ion-item lines="none" *ngIf="model.candidate">
+  <ion-item lines="none" *ngIf="model.candidate" tappable (click)="openCandidatePage($event)">
     <div tabindex="0"></div>
 
-    <ion-avatar slot="start" (click)="openCandidatePage($event)">
+    <ion-avatar slot="start" >
       <img *ngIf="model.candidate.candidate_personal_photo"
         src="{{ aws.cloudinaryUrl + 'candidate-photo/' + model.candidate.candidate_personal_photo }}"
         onerror="this.src='/assets/icon/icon.png';">
@@ -23,13 +23,29 @@
 
     <ion-label (click)="openCandidatePage($event)">
       <h5>{{ model.candidate.candidate_name ?model.candidate.candidate_name : model.candidate.candidate_name_ar }}</h5>
-      <p *ngIf="model.note">{{model.note.note_text}}</p>
     </ion-label>
 
     <span class="txt-time">
       {{ model.invitation_created_at | timeAgo }}
     </span>
   </ion-item>
+  
+  <p *ngIf="model.note">
+    &ldquo;{{ model.note.note_text }}&rdquo;
+  </p>
+
+  <ng-container *ngIf="model.request">
+
+    <h5 tappable (click)="openRequestPage($event)">
+      ({{ model.request.request_number_of_employees }}) {{model.request.request_position_title}}
+    </h5>
+
+    <h6 *ngIf="model.request.company" tappable (click)="openCompanyPage($event)">
+      {{ model.request.company.company_common_name_en? model.request.company.company_common_name_en: model.request.company.company_name }}
+      <ion-icon name="checkmark-outline"  *ngIf="model.request.company && model.request.company.company_approved_to_hire"></ion-icon>
+      <ion-icon name="close-outline"  *ngIf="model.request.company && !model.request.company.company_approved_to_hire"></ion-icon>
+    </h6>
+  </ng-container>
 
   <p class="invitation-time" *ngIf="model">
 
@@ -74,11 +90,11 @@
 
 </ion-card>
 
-<!-- created by staff but missing story from invitation -->
+<!-- created by staff but missing story from invitation 
 
 <p class="txt-danger" *ngIf="!model.invitation_created_by_company && !model.story">
   Missing story for this invitation
-</p>
+</p>-->
 
 <!-- <p class="txt-danger" *ngIf="model.story && authService.staff_id != model.story.staff_id">
   You should be owner to move this invitation to suggestion

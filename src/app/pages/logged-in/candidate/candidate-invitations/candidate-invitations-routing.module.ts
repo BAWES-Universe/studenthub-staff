@@ -5,6 +5,10 @@ import { CandidateInvitationsPage } from './candidate-invitations.page';
 
 const routes: Routes = [
   {
+    path: '',
+    component: CandidateInvitationsPage
+  },
+  {
     path: ':candidate_id',
     component: CandidateInvitationsPage
   },

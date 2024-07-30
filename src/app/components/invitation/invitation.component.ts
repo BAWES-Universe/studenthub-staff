@@ -50,6 +50,18 @@ export class InvitationComponent implements OnInit {
     event.stopPropagation();
     this.router.navigate(['/candidate-view', this.model.candidate_id]);
   }
+  
+  openRequestPage(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.router.navigate(['/request-view', this.model.request_uuid]);
+  }
+
+  openCompanyPage(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.router.navigate(['/company-view', this.model.request.company_id]);
+  }
 
   /**
    * Make date readable by Safari
