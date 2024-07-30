@@ -76,12 +76,10 @@
     <ng-container *ngIf="!model.invitation_app_seen_at && !model.invitation_email_seen_at">
       Not viewed yet
     </ng-container>
-
   </p>
 
   <!-- move to suggestion if not suggested and accepted -->
-  <ion-button [disabled]="loading ||
-    (!model.invitation_created_by_company)"
+  <ion-button [disabled]="loading || (!model.invitation_created_by_company && !model.story)"
     *ngIf="model.story && !model.is_suggested && model.invitation_status == 3" class="btn-suggestion"
     (click)="suggest($event)">
     <span *ngIf="!loading">Suggest</span>
