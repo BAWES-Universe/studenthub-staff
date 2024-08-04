@@ -43,4 +43,5 @@ export class TransferCandidate {
     bank: Bank;
     store: Store;
     company: Company;
+    duplicates: TransferCandidate[]
 }

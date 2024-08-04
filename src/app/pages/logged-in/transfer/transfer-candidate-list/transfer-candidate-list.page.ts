@@ -33,7 +33,10 @@ export class TransferCandidateListPage implements OnInit {
   public totalCount = 1;
   public filterSameRate;
   public filterNoProfit;
-  
+  public filterDuplicate;
+
+  public tc_id; 
+
   constructor(
     public router: Router,
     public activatedRoute: ActivatedRoute,
@@ -98,16 +101,21 @@ export class TransferCandidateListPage implements OnInit {
 
   export() {
     this.downloading = true;
-    this.transferService.exportCompanyTransfer(this.getUrlParams()).subscribe(data => {
+    //exportCompanyTransfer
+    this.transferService.exportCandidateTransfers(this.getUrlParams()).subscribe(data => {
       this.downloading = false;
     });
   }
 
   getUrlParams() {
-    let urlParams = 'expand=transfer,transferCandidates.candidate,invoices,createdBy,updatedBy';
+    let urlParams = 'expand=transfer,transferCandidates.candidate,invoices,createdBy,updatedBy,duplicates';
 
     if (this.transfer_id) {
       urlParams += '&transfer_id=' + this.transfer_id;
+    }
+
+    if (this.tc_id) {
+      urlParams += "&tc_id=" + this.tc_id;
     }
 
     if (this.start_date) {
@@ -128,6 +136,10 @@ export class TransferCandidateListPage implements OnInit {
 
     if (this.filterSameRate) {
       urlParams += `&filterSameRate=${this.filterSameRate}`;
+    }
+
+    if (this.filterDuplicate) {
+      urlParams += `&filterDuplicate=${this.filterDuplicate}`
     }
 
     return urlParams;

@@ -148,11 +148,19 @@ export class TransferService {
   }
 
   /**
-   * download transfer Template
+   * download transfers
    */
   exportCompanyTransfer(param: any): Observable<any> {
     const url = `${this._transferEndpoint}/export-companies-transfer?${param}`;
     return this._authhttp.excelget(url, `transfer-list.xlsx`);
+  }
+  
+  /**
+   * download candidate transfers
+   */
+  exportCandidateTransfers(param: any): Observable<any> {
+    const url = `${this._transferEndpoint}/export-candidate-transfers?${param}`;
+    return this._authhttp.excelget(url, `candidate-transfer-list.xlsx`);
   }
 
   /**

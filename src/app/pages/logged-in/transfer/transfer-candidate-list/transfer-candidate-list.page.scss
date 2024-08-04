@@ -67,3 +67,8 @@ ion-input.filter {
   border: 1px solid var(--ion-color-custom-4);
   border-radius: 8px;
 }
+
+ion-label {
+  white-space: normal !important;
+  text-overflow: unset;
+}
