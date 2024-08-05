@@ -165,6 +165,8 @@
                   No profit
                 </ion-badge>  
 
+                <ion-badge slot="start" color="danger" *ngIf="resource.candidate && resource.candidate.civilExpired">Civil Expired</ion-badge>
+
               </ion-label>
 
               <ion-badge slot="end" color="secondary" *ngIf="resource.paid == '1' && resource.company_total > 0 && (transfer.transfer_status==3 || transfer.transfer_status==4)">
