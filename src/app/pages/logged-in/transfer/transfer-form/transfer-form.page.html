@@ -186,6 +186,12 @@
 
       <a class="btn-download" tappable (click)="downloadTemplate()">Download Excel Template</a>
 
+      <br />
+
+    <a class="btn-download" tappable (click)="downloadTemplate(true)">
+      Download with previous transfer data
+    </a>
+
       <!-- Upload Form -->
       <input type='file' #fileInput class="upload" (change)="browserUpload($event)" accept=".xlsx,.xls" />
 

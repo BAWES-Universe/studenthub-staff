@@ -20,8 +20,15 @@
   <div class="container">
     <!-- Instructions for Create -->
     <section *ngIf="scenario == 'create'">
+
+      <h4>Step 1: Download Excel template</h4>
+
       <ion-button fill="outline" color="primary" (click)="downloadTemplate()">
-        Step 1: Download Excel template
+        Download template
+      </ion-button>
+      
+      <ion-button color="primary" (click)="downloadTemplate(true)">
+        Download with previous transfer data
       </ion-button>
 
       <h4>Step 2: Fill out the number of hours worked and the bonus amount to be sent</h4>

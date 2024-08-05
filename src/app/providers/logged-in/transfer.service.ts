@@ -142,8 +142,11 @@ export class TransferService {
   /**
    * download transfer Template
    */
-  downloadTransferTemplate(id: number): Observable<any> {
-    const url = `${this._transferEndpoint}/transfer-excel-template/${id}`;
+  downloadTransferTemplate(id: number, preFilled = false): Observable<any> {
+    let url = `${this._transferEndpoint}/transfer-excel-template/${id}`;
+    if (preFilled) {
+      url += "?preFilled=true";
+    }
     return this._authhttp.excelget(url, `transfer-template.xlsx`);
   }
 
