@@ -127,6 +127,7 @@
     <div class="tab-manage" *ngIf="segment == 'manage'">
       <ion-grid>
         <ion-row>
+
           <ion-col size-xs="12" size-sm="12" size-md="4" size-lg="4" size-xl="4">
             <ion-item tappable (click)="openRequests()">
               <div tabindex="0"></div>
@@ -211,6 +212,17 @@
               <ion-label>
                 <h5>Transfers</h5>
                 <p>{{ stats.transfers }}</p>
+              </ion-label>
+              <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
+            </ion-item>
+          </ion-col>
+
+          <ion-col *ngIf="!company.parent_company_id" size-xs="12" size-sm="12" size-md="4" size-lg="4" size-xl="4">
+            <ion-item tappable (click)="openTransferRatesPage()" >
+              <div tabindex="0"></div>
+              <ion-label>
+                <h5>Transfer rates</h5>
+                <p>Override transfer rates for candidates</p>
               </ion-label>
               <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
             </ion-item>

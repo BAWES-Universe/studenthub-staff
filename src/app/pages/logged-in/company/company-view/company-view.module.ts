@@ -12,6 +12,7 @@ import { PipesModule } from 'src/app/pipes/pipes.module';
 import {RequestListingModule} from "../../../../components/request-listing/request-listing.module";
 import { NoteModule } from 'src/app/components/note/note.module';
 import { TransferChartPageModule } from '../../transfer/transfer-chart/transfer-chart.module';
+import { TransferRatesPageModule } from '../../transfer/transfer-rates/transfer-rates.module';
 
 
 @NgModule({
@@ -24,6 +25,7 @@ import { TransferChartPageModule } from '../../transfer/transfer-chart/transfer-
     PipesModule,
     NoteModule,
     RequestListingModule,
+    TransferRatesPageModule,
    // TransferChartPageModule,
     CompanyViewPageRoutingModule,
   ],

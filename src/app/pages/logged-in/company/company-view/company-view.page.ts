@@ -29,6 +29,7 @@ import {ModalPopPage} from "../../modal-pop/modal-pop.page";
 import { FiringHitmapService } from 'src/app/providers/logged-in/firing-hitmap.service';
 // components
 import { ActionComponent } from 'src/app/components/action/action.component';
+import { TransferRatesPage } from '../../transfer/transfer-rates/transfer-rates.page';
 
 
 @Component({
@@ -309,6 +310,26 @@ export class CompanyViewPage implements OnInit {
       componentProps: {
         company: this.company,
         company_id: this.company_id
+      },
+      cssClass: "popup-modal"
+    });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
+    modal.present();
+  }
+
+  async openTransferRatesPage() {
+    window.history.pushState({ navigationId: window.history.state?.navigationId }, null, window.location.pathname);
+
+    const modal = await this.modalCtrl.create({
+      component: TransferRatesPage,
+      componentProps: {
+        company: this.company,
       },
       cssClass: "popup-modal"
     });

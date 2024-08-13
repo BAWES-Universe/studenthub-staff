@@ -139,6 +139,21 @@ export class TransferService {
     return this._authhttp.delete(url);
   }
 
+  uploadTransferRatesExcel(company_id: number, file: string): Observable<any> {
+    const url = this._transferEndpoint + '/update-transfer-rates-by-excel/' + company_id;
+    return this._authhttp.uploadFile(url, {
+      excel: file
+    });
+  }
+
+  downloadTransferRatesTemplate(company_id: number, preFilled = false): Observable<any> {
+    let url = `${this._transferEndpoint}/transfer-rates-template/${company_id}`;
+    if (preFilled) {
+      url += "?preFilled=true";
+    }
+    return this._authhttp.excelget(url, `transfer-template.xlsx`);
+  }
+  
   /**
    * download transfer Template
    */
