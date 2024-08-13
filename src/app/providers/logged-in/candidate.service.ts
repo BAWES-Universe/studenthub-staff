@@ -474,7 +474,7 @@ export class CandidateService {
    * @param candidateID
    * @param workHistoryID
    */
-  downloadCertificate(candidateID: number, workHistoryID: number): Observable<any> {
+  downloadAppreciationCertificate(candidateID: number, workHistoryID: number): Observable<any> {
     let url = `${this._candidateEndpoint}/appreciation-certificate/${candidateID}/${workHistoryID}`;
     return this._authhttp.pdfget(url, 'appreciation-certification-' + candidateID + '.pdf');
   }

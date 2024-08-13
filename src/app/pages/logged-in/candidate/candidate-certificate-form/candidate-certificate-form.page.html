@@ -1,0 +1,65 @@
+<ion-header mode="md" [class.add-border]="borderLimit" class="ion-no-border">
+  <ion-toolbar class="container">
+    <ion-buttons slot="start">
+      <ion-back-button icon="assets/images/icon-back.svg" (click)="dismiss()"></ion-back-button>
+    </ion-buttons>
+
+    <ion-title>Candidate certificate</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button color="primary" [disabled]="form && !form.valid" (click)="save()">
+        Save
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
+  <div class="container">
+    <form [formGroup]="form" *ngIf="form">
+
+      <ion-item class="input-wrapper">
+        <div tabindex="0"></div>
+        <ion-label position="floating">Certificate type</ion-label>
+        <ion-select formControlName="certificate_type">
+          <ion-select-option value="0">Experience</ion-select-option>
+          <ion-select-option value="1">Exam</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item class="input-wrapper" *ngIf="form.value.certificate_type == '1'">
+        <div tabindex="0"></div>
+        <ion-label position="floating">Exam</ion-label>
+        <ion-select formControlName="exam_uuid">
+          <ion-select-option *ngFor="let exam of exams" [value]="exam.exam_uuid">
+            {{ exam.title_en }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item class="input-wrapper" *ngIf="form.value.certificate_type == '0'">
+        <div tabindex="0"></div>
+        <ion-label position="floating">Work history</ion-label>
+        <ion-select formControlName="candidate_work_history_id">
+          <ion-select-option *ngFor="let history of workHistory" [value]="history.id">
+            {{  history.store.store_name + "@" + history.company.company_name }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+         
+      <ion-label>Start Date</ion-label>
+      <ion-item class="input-wrapper">
+        <div tabindex="0"></div>
+        <ion-datetime presentation="date" [max]="maxDate" formControlName="start_date"></ion-datetime>
+      </ion-item>
+
+      <ion-label>End Date</ion-label>
+      <ion-item class="input-wrapper">
+        <div tabindex="0"></div>
+        <ion-datetime presentation="date" [max]="maxDate" formControlName="end_date"></ion-datetime>
+      </ion-item>
+ 
+    </form>
+  </div>
+
+</ion-content> 

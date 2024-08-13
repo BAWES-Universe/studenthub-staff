@@ -50,6 +50,8 @@ import { InterviewEvaluationService } from 'src/app/providers/logged-in/intervie
 import { InterviewEvaluation } from 'src/app/models/interview-evaluation';
 import { InterviewEvaluationFormPage } from '../interview-evaluation/interview-evaluation-form/interview-evaluation-form.page';
 import { ArcElement, Chart, PieController } from 'chart.js';
+import { CertificateService } from 'src/app/providers/logged-in/certificate.service';
+import { CandidateCertificateFormPage } from '../candidate-certificate-form/candidate-certificate-form.page';
 
 
 
@@ -134,6 +136,10 @@ export class CandidateViewPage implements OnInit {
   public interviewCurrentPage  = 0;
   public interviewTotal = 0;
  
+  public deletingCertificates: boolean = false; 
+  public loadingCertificates: boolean = false; 
+  public issueingCertificates: boolean = false; 
+  
   constructor(
     public navCtrl: NavController,
     public router: Router,
@@ -155,6 +161,7 @@ export class CandidateViewPage implements OnInit {
     private fb: FormBuilder,
     private actionSheetCtrl: ActionSheetController,
     private loadingCtrl: LoadingController,
+    public certificateService: CertificateService,
     public analyticService: AnalyticsService
   ) {
   }
@@ -468,7 +475,7 @@ export class CandidateViewPage implements OnInit {
   loadCandidateDetail(loading = true) {
     this.loading = loading;
 
-    const query = 'expand=invitationStats,avgTimeToViewInvitations,candidateEducations,candidateEducations.degree,candidateEducations.major,' +
+    const query = 'expand=certificates,certificates.exam,certificates.store,certificates.company,invitationStats,avgTimeToViewInvitations,candidateEducations,candidateEducations.degree,candidateEducations.major,' +
       'candidateEducations.university,candidateStats,candidateIdCard,store,company,candidateSkills,' +
       'candidateTags,candidateExperiences,bank,nationality,area,country,university,' + 
       'invited,invitationAccepted,invitationRejected,suggestionAccepted,suggestionRejected,suggested';
@@ -1198,15 +1205,32 @@ export class CandidateViewPage implements OnInit {
     //scrollHeight
   }
 
+  async openCertificateFormPage() {
+    const modal = await this.modalCtrl.create({
+      component: CandidateCertificateFormPage,
+      componentProps: {
+        candidate: this.candidate,
+        workHistory: this.workHistory
+      }
+    });
+    modal.onDidDismiss().then(e => {
+
+      if (e && e.data && e.data.refresh) {
+        this.loadCertificates();
+      }
+    });
+    modal.present();
+  }
+
   /**
    * open client page
    * @param e
    */
   async openClient(e) {
-    const popover = await this.modalCtrl.create({
+    const modal = await this.modalCtrl.create({
       component: AllCompanyListPage,
     });
-    popover.onDidDismiss().then((_) => {
+    modal.onDidDismiss().then((_) => {
 
       if (_ && _.data) {
 
@@ -1217,7 +1241,7 @@ export class CandidateViewPage implements OnInit {
         this.noteForm.controls['request_uuid'].setValue(null);
       }
     });
-    popover.present();
+    modal.present();
   }
 
   /**
@@ -1341,15 +1365,57 @@ export class CandidateViewPage implements OnInit {
     history.isOpen = !history.isOpen;
   }
 
+  loadCertificates() {
+    this.loadingCertificates = true;
+
+    this.certificateService.list(-1, "&candidate_id=" + this.candidate_id).subscribe(res => {
+      this.loadingCertificates = false;
+
+      this.candidate.certificates = res.body;
+    });
+  }
+
+  issueCertificate(history) {
+
+    this.issueingCertificates = true;
+
+    this.certificateService.fromWorkHistory(history.id).subscribe(() => {
+      this.issueingCertificates = false;
+
+      this.loadCertificates();
+    });
+  }
+
+  deleteCertificate(certificate) {
+
+    this.deletingCertificates = true;
+
+    this.certificateService.delete(certificate).subscribe(() => {
+      this.deletingCertificates = false;
+
+      this.loadCertificates();
+    });
+  }
+
+  /**
+   * @param certifcate 
+   */
+  async downloadCertificate(certifcate) {
+    this.downloading = true;
+
+    this.certificateService.downloadCertificate(certifcate.certificate_uuid).subscribe(() => {
+      this.downloading = false;
+    });
+  }
+
   /**
    * download candidate appreciation certifcate
    * @param history
    */
-  async downloadCertification(history) {
+  async downloadAppreciationCertificate(history) {
     this.downloading = true;
 
-    this.candidateService.downloadCertificate(this.candidate.candidate_id, history.id).subscribe(response => {
-
+    this.candidateService.downloadAppreciationCertificate(this.candidate.candidate_id, history.id).subscribe(response => {
       this.downloading = false;
     });
   }

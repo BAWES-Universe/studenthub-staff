@@ -17,6 +17,7 @@ import { PipesModule } from 'src/app/pipes/pipes.module';
 import { RequestListingModule } from 'src/app/components/request-listing/request-listing.module';
 import { InterviewEvaluationModule } from 'src/app/components/interview-evaluation/interview-evaluation.module';
 import { InterviewEvaluationFormPageModule } from '../interview-evaluation/interview-evaluation-form/interview-evaluation-form.module';
+import { CandidateCertificateFormPageModule } from '../candidate-certificate-form/candidate-certificate-form.module';
 
 @NgModule({
     imports: [
@@ -28,6 +29,7 @@ import { InterviewEvaluationFormPageModule } from '../interview-evaluation/inter
         NoItemsModule,
         RequestListingModule,
         InterviewEvaluationFormPageModule,
+        CandidateCertificateFormPageModule,
         InterviewEvaluationModule,
         TranslateModule.forChild(),
         NoteModule,

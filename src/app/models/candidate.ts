@@ -8,6 +8,7 @@ import { CandidateIdCard } from './candidate-id-card';
 import { Note } from "./note";
 import { CandidateTag } from './candidate-tag';
 import { CandidateEducation } from './candidate-education';
+import { CandidateCertificate } from './certificate';
 
 export class Candidate {
     employee_id: number;
@@ -83,6 +84,7 @@ export class Candidate {
     candidateIdCard: CandidateIdCard;
     notes: Note[];
     pendingField: any[];
+    certificates: CandidateCertificate[];
     candidateStats: any;
 }
 
