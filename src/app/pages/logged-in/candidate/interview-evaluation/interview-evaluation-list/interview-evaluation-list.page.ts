@@ -99,7 +99,8 @@ export class InterviewEvaluationListPage implements OnInit {
       component: InterviewEvaluationFormPage,
       componentProps: {
         candidate_id: this.candidate_id
-      }
+      },
+      cssClass: "popup-modal"
     });
     modal.onDidDismiss().then(e => {
 

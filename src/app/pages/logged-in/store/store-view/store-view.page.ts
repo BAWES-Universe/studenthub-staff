@@ -115,7 +115,8 @@ export class StoreViewPage implements OnInit {
         model: this.store,
         brands: this.store.company.brands,
         malls: this.malls
-      }
+      },
+      cssClass: "popup-modal"
     });
     modal.onDidDismiss().then(e => {
 
@@ -174,7 +175,8 @@ export class StoreViewPage implements OnInit {
       component: StoreManagerFormPage,
       componentProps: {
         company: this.store.company
-      }
+      },
+      cssClass: "popup-modal"
     });
     modal.onDidDismiss().then(e => {
 
@@ -360,7 +362,8 @@ export class StoreViewPage implements OnInit {
         model: this.store,
         brands: this.store.company?.brands,
         malls: this.malls
-      }
+      },
+      cssClass: "popup-modal"
     });
     modal.onDidDismiss().then(e => {
 

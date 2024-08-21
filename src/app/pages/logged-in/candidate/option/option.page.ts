@@ -355,7 +355,8 @@ export class OptionPage implements OnInit {
       componentProps: {
         candidate: candidate,
         tagList: candidateTags
-      }
+      },
+      cssClass: "popup-modal"
     });
     modal.present();
     modal.onDidDismiss().then(e => {

@@ -60,7 +60,8 @@ export class EvaluationReportListPage implements OnInit {
       component: EvaluationReportViewPage,
       componentProps: {
         report,
-      }
+      },
+      cssClass: "popup-modal"
     });
     modal.present();
     modal.onDidDismiss().then(e => {

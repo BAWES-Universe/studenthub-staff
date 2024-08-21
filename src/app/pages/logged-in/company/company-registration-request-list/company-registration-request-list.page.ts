@@ -47,7 +47,8 @@ export class CompanyRegistrationRequestListPage implements OnInit {
       component: CompanyRegistrationRequestViewPage,
       componentProps: {
         request: request,
-      }
+      },
+      cssClass: "popup-modal"
     });
     modal.present();
     modal.onDidDismiss().then(e => {

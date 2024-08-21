@@ -259,7 +259,9 @@ export class ImportTransferFormPage implements OnInit {
     let loader = await this._loadingCtrl.create();
     loader.present();
 
-    this.transferService.transferIdDetails(this.transfer.transfer_id).subscribe(response => {
+    const query = 'expand=transferCandidates,transferCandidates.candidate,invoices'
+
+    this.transferService.transferIdDetails(this.transfer.transfer_id, query).subscribe(response => {
       this.transfer = response;
       // Update Page Title if Editing a Transfer that already exists in backend
       this.pageTitle = "Edit Transfer via Excel";

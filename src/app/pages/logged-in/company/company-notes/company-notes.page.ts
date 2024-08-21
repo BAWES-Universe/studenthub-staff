@@ -101,7 +101,8 @@ export class CompanyNotesPage implements OnInit {
       componentProps: {
         note_uuid: note.note_uuid,
         note: note
-      }
+      },
+      cssClass: "popup-modal"
     });
     modal.onDidDismiss().then(e => {
 

@@ -80,7 +80,8 @@ export class ExpenseListPage implements OnInit {
   //     component: MallFormPage,
   //     componentProps: {
   //       model: mall
-  //     }
+  //     },
+  //      cssClass: "popup-modal"
   //   });
   //   modal.onDidDismiss().then(e => {
   //

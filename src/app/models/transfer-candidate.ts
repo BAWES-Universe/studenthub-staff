@@ -2,6 +2,7 @@ import { Candidate } from './candidate';
 import { Bank } from './bank';
 import { Store } from './store';
 import { Company } from './company';
+import { CandidateWorkHistory } from './candidate-work-history';
 
 export class TransferCandidate {
     tc_id: number;
@@ -38,6 +39,8 @@ export class TransferCandidate {
     total_amount: number;//candidate_total - dynamically calculated
     currency_code: string;
     
+
+	currentWorkHistory: CandidateWorkHistory;
     profit: number;
     candidate: Candidate;
     bank: Bank;

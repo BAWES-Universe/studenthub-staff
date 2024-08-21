@@ -149,9 +149,15 @@
                 </h2>
 
                 <p *ngIf="resource.hours > 0">{{ resource.hours | number }} hours x {{ resource.currency_code }}
-                  {{ resource.company_hourly_rate | number:'1.0-3' }} per hour</p>
+                  {{ resource.company_hourly_rate | number:'1.0-3' }} per hour
+                
+                </p>
                 <p *ngIf="resource.bonus">Bonus {{ resource.currency_code }} {{resource.bonus | number}}</p>
-                <p class="txt-total"><b>{{ resource.currency_code }} {{ total(resource) }}</b></p>
+                <p *ngIf="resource.transfer_cost > 0">
+                  Transfer cost {{ resource.currency_code }} {{ resource.transfer_cost }} 
+                </p> 
+
+                <p class="txt-total"><b>{{ resource.currency_code }} {{ resource.company_total | number:'1.0-3' }}</b></p>
 
                 <ion-badge slot="start" color="dark" *ngIf="resource.paid != '1' && resource.company_total > 0 && (transfer.transfer_status==3 || transfer.transfer_status==4)">
                   Transfer in progress

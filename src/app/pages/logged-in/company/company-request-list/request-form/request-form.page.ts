@@ -245,7 +245,8 @@ export class RequestFormPage implements OnInit {
         component: CompanyContactListPage,
         componentProps: {
           company: this.company
-        }
+        },
+        cssClass: "popup-modal"
       });
     }
 
@@ -274,7 +275,8 @@ export class RequestFormPage implements OnInit {
       component: AllCompanyListPage,
       componentProps: {
         onlyParentcompany: true
-      }
+      },
+      cssClass: "popup-modal"
     });
     popover.onDidDismiss().then((_) => {
 

@@ -766,6 +766,16 @@ ion-item.input-wrapper:not(.item-has-value) {
   margin-top: 0;
 }
 
+.popup-modal {
+  text-align: revert;
+  justify-content: flex-end;
+  --height: 100%;
+
+  .modal-wrapper {
+      height: 100%;
+  }
+}
+
 .date-popup-over{
    /*
     --background: rgba(40, 173, 218, 0.6);

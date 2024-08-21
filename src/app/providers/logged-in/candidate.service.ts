@@ -308,12 +308,16 @@ export class CandidateService {
       store_id: number,
       rate: number,
       start_date: string = null,
-      company_hourly_rate: number | null = null
+      company_hourly_rate: number | null = null,
+      company_transfer_cost: number | null = null,
+      transfer_cost: number | null = null,
   ): Observable<any> {
     const params = {
       store_id: store_id,
       hourly_rate: rate,
       company_hourly_rate: company_hourly_rate,
+      company_transfer_cost: company_transfer_cost,
+      transfer_cost: transfer_cost,
       start_date: start_date,
     };
     const url = `${this._candidateEndpoint}/assign/${candidate.candidate_id}`;
@@ -474,7 +478,7 @@ export class CandidateService {
    * @param candidateID
    * @param workHistoryID
    */
-  downloadCertificate(candidateID: number, workHistoryID: number): Observable<any> {
+  downloadAppreciationCertificate(candidateID: number, workHistoryID: number): Observable<any> {
     let url = `${this._candidateEndpoint}/appreciation-certificate/${candidateID}/${workHistoryID}`;
     return this._authhttp.pdfget(url, 'appreciation-certification-' + candidateID + '.pdf');
   }

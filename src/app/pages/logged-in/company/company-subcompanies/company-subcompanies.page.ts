@@ -72,7 +72,8 @@ export class CompanySubcompaniesPage implements OnInit {
       componentProps: {
         company_id: model.company_id,
         company: model
-      }
+      },
+      cssClass: "popup-modal"
     });
     modal.onDidDismiss().then(e => {
 
@@ -99,7 +100,8 @@ export class CompanySubcompaniesPage implements OnInit {
         model: company,
         company_id: company.company_id,
         subcompany: true
-      }
+      },
+      cssClass: "popup-modal"
     });
     modal.onDidDismiss().then(e => {
 

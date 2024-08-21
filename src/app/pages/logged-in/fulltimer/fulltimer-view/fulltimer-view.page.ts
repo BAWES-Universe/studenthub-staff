@@ -108,7 +108,8 @@ export class FulltimerViewPage implements OnInit {
       componentProps: {
         note,
         fulltimer: this.fulltimer
-      }
+      },
+      cssClass: "popup-modal"
     });
     modal.present();
     modal.onDidDismiss().then(e => {
@@ -161,7 +162,8 @@ export class FulltimerViewPage implements OnInit {
       component: FulltimerFormPage,
       componentProps: {
         model: this.fulltimer,
-      }
+      },
+      cssClass: "popup-modal"
     });
     modal.onDidDismiss().then(e => {
 
@@ -229,7 +231,8 @@ export class FulltimerViewPage implements OnInit {
       component: SuggestPage,
       componentProps: {
         fulltimer: this.fulltimer
-      }
+      },
+      cssClass: "popup-modal"
     });
     modal.onDidDismiss().then(e => {
 

@@ -143,7 +143,8 @@ export class CandidateWarningsPage implements OnInit {
       componentProps: {
         warning,
         candidate: this.candidate
-      }
+      },
+      cssClass: "popup-modal"
     });
     modal.present();
     modal.onDidDismiss().then(e => {

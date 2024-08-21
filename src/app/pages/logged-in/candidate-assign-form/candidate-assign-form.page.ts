@@ -32,6 +32,8 @@ export class CandidateAssignFormPage implements OnInit {
     this.form = this._fb.group({
       rate: ['', Validators.required],
       company_hourly_rate: [''],
+      company_transfer_cost: [''],
+      transfer_cost: [''],
       start_date: [this.todayDate, Validators.required],
     });
   }

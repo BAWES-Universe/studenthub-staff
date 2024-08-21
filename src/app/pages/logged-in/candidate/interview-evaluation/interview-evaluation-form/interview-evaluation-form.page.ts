@@ -312,7 +312,8 @@ export class InterviewEvaluationFormPage implements OnInit {
           startDate: null,
           endDate: null
         }
-      }
+      },
+      cssClass: "popup-modal"
     });
     modal.onDidDismiss().then(e => {
       if (e && e.data) {

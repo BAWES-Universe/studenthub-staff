@@ -247,7 +247,8 @@ export class CompanyListPage implements OnInit {
       componentProps: {
         model: new Company(),
         subcompany: 0
-      }
+      },
+      cssClass: "popup-modal"
     });
     // Refresh List if required
     modal.onDidDismiss().then(e => {
@@ -275,7 +276,8 @@ export class CompanyListPage implements OnInit {
       component: CompanyFilterPage,
       componentProps: {
         filters: Object.assign({}, this.filters),
-      }
+      },
+      cssClass: "popup-modal"
     });
     // Refresh List if required
     modal.onDidDismiss().then(e => {

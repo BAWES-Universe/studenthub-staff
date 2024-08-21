@@ -82,7 +82,8 @@ export class StoreComponent implements OnInit {
           model: this.store,
           brands: this.store.company?.brands,
          // malls: this.malls
-        }
+        },
+        cssClass: "popup-modal"
       });
       modal.onDidDismiss().then(e => {
 

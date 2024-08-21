@@ -377,6 +377,73 @@
         </ion-card>    
       </div>
        
+      <div class="certificates-wrapper" *ngIf="candidate.certificates && candidate.certificates.length > 0">
+        
+        <h5 class="heading" *ngIf="workHistory.length > 0">
+          <ion-icon src="assets/images/icon-assignment.svg"></ion-icon> Certificates
+        </h5>
+
+        <ion-card class="card-history" *ngFor="let certificate of candidate.certificates">
+          <ion-card-header>
+
+            <ion-item lines="none" *ngIf="certificate.exam">
+              <div tabindex="0"></div>
+
+              <ion-label>
+                <h5>StudentHub</h5>
+                <p>{{ certificate.exam.title_en }}</p>
+              </ion-label>
+
+              <ion-button (click)="toggleOpen(certificate, $event)" [class.is-open]="certificate.isOpen">
+                <ion-icon src="assets/images/icon-arrow-down.svg"></ion-icon>
+              </ion-button>
+
+            </ion-item>
+            <ion-item lines="none" *ngIf="certificate.store">
+              <div tabindex="0"></div>
+
+              <ion-thumbnail *ngIf="certificate.company && certificate.company.company_logo">
+                <img src="{{ awsService.cloudinaryUrl + certificate.company.company_logo }}" (error)="imageError(certificate)">
+              </ion-thumbnail>
+
+              <ion-label>
+                <h5 *ngIf="certificate.store">{{ certificate.store.store_name }}</h5>
+                <a [routerLink]="'/company-view/' + certificate.company_id">{{ certificate.company.company_name }}</a>
+              </ion-label>
+
+              <ion-button (click)="toggleOpen(certificate, $event)" [class.is-open]="certificate.isOpen">
+                <ion-icon src="assets/images/icon-arrow-down.svg"></ion-icon>
+              </ion-button>
+
+            </ion-item>
+          </ion-card-header>
+
+          <ion-card-content *ngIf="certificate.isOpen">
+ 
+            <p>
+              {{ toDate(certificate.start_date) | date }}
+              <ng-container *ngIf="certificate.end_date">to {{ toDate(certificate.end_date) | date }}</ng-container>
+              <ng-container *ngIf="!certificate.end_date && !isFutureDate(certificate.start_date)">to now</ng-container>
+            </p>
+
+            <ion-button [disabled]="downloading" class="btn-certificate" (click)="downloadCertificate(certificate)">
+              <ion-icon slot="start" name="cloud-download-outline"></ion-icon>&nbsp;Certificate
+            </ion-button>
+ 
+            <ion-button [disabled]="deletingCertificates" class="btn-delete-certificate" color="danger"
+              (click)="deleteCertificate(certificate)">&nbsp;
+              <ion-icon slot="start" name="trash-outline"></ion-icon>Delete
+            </ion-button>
+
+          </ion-card-content>
+        </ion-card>
+
+
+        <ion-button (click)="openCertificateFormPage()" class="btn-add-certificate">
+          <!-- <ion-icon name="add-outline"></ion-icon>  --> Add certificate
+        </ion-button>
+      </div>
+      
       <div class="assignment-wrapper">
         <!--
         <h5 class="hourly-rate" *ngIf="candidate.store && candidate.candidate_hourly_rate">
@@ -403,7 +470,7 @@
               <ion-button (click)="toggleOpen(history, $event)" [class.is-open]="history.isOpen">
                 <ion-icon src="assets/images/icon-arrow-down.svg"></ion-icon>
               </ion-button>
-
+ 
             </ion-item>
           </ion-card-header>
 
@@ -419,8 +486,13 @@
               <ng-container *ngIf="!history.end_date && !isFutureDate(history.start_date)">to now</ng-container>
             </p>
 
-            <ion-button class="btn-certificate" (click)="downloadCertification(history)">
-              <ion-icon name="cloud-download-outline"></ion-icon>&nbsp;Certificate
+            <!--
+            <ion-button class="btn-certificate" (click)="downloadAppreciationCertificate(history)">
+              <ion-icon slot="start" name="cloud-download-outline"></ion-icon>&nbsp;Certificate
+            </ion-button>-->
+
+            <ion-button class="btn-certificate" [disabled]="issueingCertificates" (click)="issueCertificate(history)">
+              <ion-icon slot="start" name="trophy-outline"></ion-icon> Issue Certificate
             </ion-button>
 
             <ion-button *ngIf="!history.end_date" class="btn-unassign"
@@ -430,7 +502,6 @@
 
           </ion-card-content>
         </ion-card>
-
       </div>
 
       <div class="suggestion-wrapper">

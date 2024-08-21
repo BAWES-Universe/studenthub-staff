@@ -145,7 +145,8 @@ export class EmailCampaignViewPage implements OnInit {
       componentProps: {
        model: this.emailCampaign,
        campaign_uuid: this.emailCampaign.campaign_uuid
-      }
+      },
+      cssClass: "popup-modal"
     });
     modal.onDidDismiss().then(e => {
 

@@ -338,7 +338,8 @@ export class DefaultPage implements OnInit {
     window.history.pushState({ navigationId: window.history.state?.navigationId }, null, window.location.pathname);
 
     const modal = await this.modalCtrl.create({
-      component: LeaveRequestPage
+      component: LeaveRequestPage,
+      cssClass: "popup-modal"
     });
     modal.present();
     modal.onDidDismiss().then(e => {

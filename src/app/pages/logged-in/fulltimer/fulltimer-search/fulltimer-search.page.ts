@@ -569,7 +569,8 @@ export class FulltimerSearchPage implements OnInit {
       componentProps: {
         model: fulltimer,
         request_uuid: this.request_uuid
-      }
+      },
+      cssClass: "popup-modal"
     });
     modal.onDidDismiss().then(e => {
 

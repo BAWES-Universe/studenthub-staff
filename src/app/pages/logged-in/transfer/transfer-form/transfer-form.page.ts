@@ -103,8 +103,7 @@ export class TransferFormPage implements OnInit {
   }
 
   ngOnInit() {
-    this.analyticService.page('Transfer Form Page');
-
+     
     this.min = '1930/01/01';
 
     const d = new Date();
@@ -120,6 +119,8 @@ export class TransferFormPage implements OnInit {
 
       this.loadTransferDetail();
     }
+
+    this.analyticService.page('Transfer Form Page');
   }
 
   /**
@@ -131,7 +132,11 @@ export class TransferFormPage implements OnInit {
     const loader = await this._loadingCtrl.create();
     loader.present();
 
-    this.companyService.getWithCandidates(this.transfer.company_id).subscribe(response => {
+    //candidates.store,
+    const params = "expand=candidates.company,candidates.currentWorkHistory,candidates.currentWorkHistory.transferCost";
+    //expand=country,candidates,candidates.store,candidates.company
+
+    this.companyService.getWithCandidates(this.transfer.company_id, params).subscribe(response => {
       const allCandidatesAssignedToCompany: Candidate[] = response.candidates;
       this._initTransferCandidateList(allCandidatesAssignedToCompany);
       loader.dismiss();
@@ -150,6 +155,8 @@ export class TransferFormPage implements OnInit {
       const candidateTransferRecord = new TransferCandidate;
       candidateTransferRecord.candidate = candidate;
       candidateTransferRecord.candidate_id = candidate.candidate_id;
+      //candidateTransferRecord.currentWorkHistory = candidate.currentWorkHistory;
+      candidateTransferRecord.transfer_cost = candidate.currentWorkHistory.transferCost; //effective transfer cost 
 
       // Append the candidateTransferRecord into the allTransferCandidateRecordsMapped array
       allTransferCandidateRecordsMapped[candidate.candidate_id] = candidateTransferRecord;
@@ -164,7 +171,7 @@ export class TransferFormPage implements OnInit {
         // Only overwrite existing records based on currently assigned employees
         // (This is for the case where a that was available during the draft got unassigned)
         if (allTransferCandidateRecordsMapped[transferCandidate.candidate_id]) {
-          transferCandidate.candidate = this.removeUnwantedData(allTransferCandidateRecordsMapped[transferCandidate.candidate_id].candidate);
+          transferCandidate.candidate = allTransferCandidateRecordsMapped[transferCandidate.candidate_id].candidate;
           allTransferCandidateRecordsMapped[transferCandidate.candidate_id] = transferCandidate;
         }
       });
@@ -267,7 +274,7 @@ export class TransferFormPage implements OnInit {
   /**
    * trigger click event on change logo button
    */
-   triggerUpload($event) {
+  triggerUpload($event) {
     $event.stopPropagation();
     document.getElementById('btn-upload-pic').click();
     // this.fileInput.nativeElement.click();
@@ -351,7 +358,10 @@ export class TransferFormPage implements OnInit {
         // this.total += this.parseNumber(transferCandidate.company_total);
         const hours = this.parseNumber(transferCandidate.hours);
         const bonus = this.parseNumber(transferCandidate.bonus);
-        this.total += (hours * transferCandidate.candidate.company.company_hourly_rate) + bonus;
+
+        this.total += (hours * this.getCompanyHourlyRate(transferCandidate)) + bonus
+          + this.parseNumber(transferCandidate.transfer_cost);
+        //transferCandidate.candidate.company.company_hourly_rate
       });
     }
   }
@@ -396,7 +406,11 @@ export class TransferFormPage implements OnInit {
     const loading = await this._loadingCtrl.create();
     loading.present();
 
-    this.transferService.transferIdDetails(this.transfer.transfer_id).subscribe(response => {
+    //const params = "expand=candidates.store,candidates.company,candidates.currentWorkHistory,candidates.currentWorkHistory.transferCost";
+    //expand=transferCandidates,transferCandidates.candidate
+    const query = 'expand=transferCandidates'
+
+    this.transferService.transferIdDetails(this.transfer.transfer_id, query).subscribe(response => {
       loading.dismiss();
       this.transfer = response;
 
@@ -656,7 +670,25 @@ export class TransferFormPage implements OnInit {
     });
   }
 
+  getCompanyHourlyRate(transferCandidateRecord) {
+    //if (transferCandidateRecord )
+    //  candidate,candidate.company,currentWorkHistory,currentWorkHistory.
+
+    if(!transferCandidateRecord.candidate) {
+      transferCandidateRecord.company_hourly_rate;
+    }
+
+    return (transferCandidateRecord.candidate.currentWorkHistory && transferCandidateRecord.candidate.currentWorkHistory.company_hourly_rate > 0) ? 
+        transferCandidateRecord.candidate.currentWorkHistory.company_hourly_rate :
+        transferCandidateRecord.candidate.company.company_hourly_rate;
+  }
+
+  scrollToTop() {
+    this.content.scrollToTop(0);
+    //this.content.scrollToPoint(0, 0);
+  }
+
   logScrolling(e) {
-    this.borderLimit = (e.detail.scrollTop > 20);
+    this.borderLimit = e.detail.scrollTop;//(e.detail.scrollTop > 20);
   }
 }

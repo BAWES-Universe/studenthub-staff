@@ -65,7 +65,8 @@ export class CompanyMallsPage implements OnInit {
       componentProps: {
         mall_uuid: mall.mall_uuid,
         mall: mall
-      }
+      },
+      cssClass: "popup-modal"  
     });
     modal.onDidDismiss().then(e => {
 

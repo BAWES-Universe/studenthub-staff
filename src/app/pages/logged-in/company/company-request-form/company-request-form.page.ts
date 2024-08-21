@@ -222,7 +222,8 @@ export class CompanyRequestFormPage implements OnInit {
       });
     } else {
       popover = await this.modalCtrl.create({
-        component: CompanyContactListPage
+        component: CompanyContactListPage,
+        cssClass: "popup-modal"
       });
     }
 

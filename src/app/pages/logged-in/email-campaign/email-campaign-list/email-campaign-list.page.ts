@@ -178,7 +178,8 @@ export class EmailCampaignListPage implements OnInit {
       component: EmailCampaignFormPage,
       componentProps: {
         model: new EmailCampaign
-      }
+      },
+      cssClass: "popup-modal"
     });
     // Refresh List if required
     modal.onDidDismiss().then(e => {

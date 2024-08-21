@@ -184,7 +184,8 @@ export class CompanyNoteFormPage implements OnInit {
         componentProps: {
           company: this.company,
           type:'mod'
-        }
+        },
+        cssClass: "popup-modal"
       });
     }
 
@@ -215,6 +216,7 @@ export class CompanyNoteFormPage implements OnInit {
 
     const popover = await this.modalCtrl.create({
       component: AllCompanyListPage,
+      cssClass: "popup-modal"
     });
     popover.onDidDismiss().then(e => {
 
@@ -254,7 +256,8 @@ export class CompanyNoteFormPage implements OnInit {
       component: CompanyRequestListPopupPage,
       componentProps: {
         company
-      }
+      },
+      cssClass: "popup-modal"
     });
     popover.onDidDismiss().then(e => {
       if (!e.data) {

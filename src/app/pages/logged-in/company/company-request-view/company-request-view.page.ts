@@ -384,7 +384,8 @@ export class CompanyRequestViewPage implements OnInit, OnDestroy {
       component: StaffPage,
       componentProps: {
         role: 2 //only consultants
-      }
+      },
+      cssClass: "popup-modal"
     });
     modal.present();
     modal.onDidDismiss().then(e => {
@@ -433,7 +434,8 @@ export class CompanyRequestViewPage implements OnInit, OnDestroy {
       componentProps: {
         note: note,
         from: 'post-update'
-      }
+      },
+      cssClass: "popup-modal"
     });
     modal.present();
     modal.onDidDismiss().then(e => {
@@ -476,7 +478,8 @@ export class CompanyRequestViewPage implements OnInit, OnDestroy {
       componentProps: {
         request: this.request,
         company: this.request.company,
-      }
+      },
+      cssClass: "popup-modal"
     });
     modal.onDidDismiss().then(e => {
 
@@ -784,7 +787,8 @@ export class CompanyRequestViewPage implements OnInit, OnDestroy {
       componentProps: {
         request_uuid: this.request_uuid,
         model: fulltimer
-      }
+      },
+      cssClass: "popup-modal"
     });
     modal.onDidDismiss().then(e => {
 

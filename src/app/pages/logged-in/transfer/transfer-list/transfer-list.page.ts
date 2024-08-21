@@ -137,7 +137,8 @@ export class TransferListPage implements OnInit {
       component: TransferFormPage,
       componentProps: {
         transfer: transfer
-      }
+      },
+      cssClass: "popup-modal"
     });
     modal.onDidDismiss().then(e => {
 
@@ -167,7 +168,8 @@ export class TransferListPage implements OnInit {
       component: ImportTransferFormPage,
       componentProps: {
         transfer: transfer,
-      }
+      },
+      cssClass: "popup-modal"
     });
     modal.onDidDismiss().then(e => {
 

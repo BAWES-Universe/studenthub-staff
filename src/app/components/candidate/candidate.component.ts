@@ -163,7 +163,8 @@ export class CandidateComponent implements OnInit {
       component: RequestInterviewFormPage,
       componentProps: {
         interviewRequest: interviewRequest
-      }
+      },
+      cssClass: "popup-modal"
     });
     modal.onDidDismiss().then(e => {
 

@@ -322,7 +322,8 @@ export class CandidateFormPage implements OnInit {
       componentProps: {
         candidate: this.model,
         tagList: (this.form.value.tags) ? this.form.value.tags.split(',') : []
-      }
+      },
+      cssClass: "popup-modal"
     });
     modal.present();
     modal.onDidDismiss().then(e => {
@@ -351,7 +352,8 @@ export class CandidateFormPage implements OnInit {
       componentProps: {
         candidate: this.model,
         skillList: (this.form.value.skills) ? this.form.value.skills.split(',') : []
-      }
+      },
+      cssClass: "popup-modal"
     });
     modal.present();
     modal.onDidDismiss().then(e => {
@@ -379,7 +381,8 @@ export class CandidateFormPage implements OnInit {
       componentProps: {
         candidate: this.model,
         experienceList: (this.form.value.experiences) ? this.form.value.experiences.split(',') : []
-      }
+      },
+      cssClass: "popup-modal"
     });
     modal.present();
     modal.onDidDismiss().then(e => {
@@ -439,7 +442,8 @@ export class CandidateFormPage implements OnInit {
       component: UploadCvPage,
       componentProps: {
         candidate: this.model,
-      }
+      },
+      cssClass: "popup-modal"
     });
     modal.present();
     modal.onDidDismiss().then(e => {
@@ -473,7 +477,8 @@ export class CandidateFormPage implements OnInit {
       component: LocationPage,
       componentProps: {
         candidate: this.model,
-      }
+      },
+      cssClass: "popup-modal"
     });
     modal.present();
     modal.onDidDismiss().then(e => {

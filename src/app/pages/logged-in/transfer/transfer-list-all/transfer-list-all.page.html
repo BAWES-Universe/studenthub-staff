@@ -103,6 +103,7 @@
   <loading-modal type="transfer-list" [loading]="loading || loadingMore"></loading-modal>
 
   <no-items *ngIf="!loading && transfers && transfers.length == 0" message="~ No transfer Data ~"></no-items>
+  
   <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
     <ion-infinite-scroll-content></ion-infinite-scroll-content>
   </ion-infinite-scroll>

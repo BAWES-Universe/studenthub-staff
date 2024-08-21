@@ -105,7 +105,8 @@ export class FulltimerNotesPage implements OnInit {
       componentProps: {
         note,
         fulltimer: this.fulltimer
-      }
+      },
+      cssClass: "popup-modal"
     });
     modal.present();
     modal.onDidDismiss().then(e => {

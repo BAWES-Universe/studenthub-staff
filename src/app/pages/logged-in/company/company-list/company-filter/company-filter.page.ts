@@ -198,7 +198,8 @@ export class CompanyFilterPage implements OnInit {
   //     componentProps: {
   //       model: new Company(),
   //       subcompany: 0
-  //     }
+  //     },
+  //      cssClass: "popup-modal"
   //   });
   //   // Refresh List if required
   //   modal.onDidDismiss().then(e => {

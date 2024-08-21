@@ -66,7 +66,8 @@ export class CompanyBrandsPage implements OnInit {
       componentProps: {
         brand_uuid: brand.brand_uuid,
         brand: brand
-      }
+      },
+      cssClass: "popup-modal"  
     });
     modal.onDidDismiss().then(e => {
 
@@ -99,7 +100,8 @@ export class CompanyBrandsPage implements OnInit {
       component: BrandFormPage,
       componentProps: {
         model: brand
-      }
+      },
+      cssClass: "popup-modal"
     });
     modal.onDidDismiss().then(e => {
 

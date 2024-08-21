@@ -442,7 +442,8 @@ export class FulltimerFormPage implements OnInit, OnDestroy {
       component: NationalityPage,
       componentProps: {
         fulltimer: this.model,
-      }
+      },
+      cssClass: "popup-modal"
     });
     modal.present();
     modal.onDidDismiss().then(e => {
@@ -473,7 +474,8 @@ export class FulltimerFormPage implements OnInit, OnDestroy {
       component: UniversityPage,
       componentProps: {
         fulltimer: this.model,
-      }
+      },
+      cssClass: "popup-modal"
     });
     modal.present();
     modal.onDidDismiss().then(e => {
@@ -508,7 +510,8 @@ export class FulltimerFormPage implements OnInit, OnDestroy {
       componentProps: {
         fulltimer: this.model,
         from: 'sidebar',
-      }
+      },
+      cssClass: "popup-modal"
     });
     modal.present();
     modal.onDidDismiss().then(e => {

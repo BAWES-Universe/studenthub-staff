@@ -31,6 +31,20 @@
         <p><small>Leave blank for default company rate</small></p>
       </ion-item>
 
+      <ion-item class="input-wrapper">
+        <div tabindex="0"></div>
+        <ion-label position="floating">Override Transfer Cost (Company Level)</ion-label>
+        <ion-input type="number" formControlName="company_transfer_cost"></ion-input>
+        <p><small>Leave blank for default transfer rate (0 for now)</small></p>
+      </ion-item>
+
+      <ion-item class="input-wrapper">
+        <div tabindex="0"></div>
+        <ion-label position="floating">Override Transfer Cost (Store/Assignment Level)</ion-label>
+        <ion-input type="number" formControlName="transfer_cost"></ion-input>
+        <p><small>Leave blank for company level transfer rate ({{ form.value.company_transfer_cost }} for now)</small></p>
+      </ion-item>
+
       <h5>Start date</h5>
 
       <!-- [min]="todayDate"-->

@@ -699,7 +699,8 @@ export class StoryViewPage implements OnInit, OnDestroy {
       component: StaffPage,
       componentProps: {
         role: 2 //only consultants
-      }
+      },
+      cssClass: "popup-modal"
     });
     modal.present();
     modal.onDidDismiss().then(e => {

@@ -133,7 +133,8 @@ export class CompanyStoresPage implements OnInit {
         company_id: this.company.company_id,
         company: this.company,
         brands: this.company.brands
-      }
+      },
+      cssClass: "popup-modal"
     });
     modal.onDidDismiss().then(e => {
 
@@ -178,7 +179,8 @@ export class CompanyStoresPage implements OnInit {
       componentProps: {
         store_id: model.store_id,
         store: model
-      }
+      },
+      cssClass: "popup-modal"
     });
     modal.onDidDismiss().then(e => {
 

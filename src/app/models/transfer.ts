@@ -1,5 +1,6 @@
 import { TransferCandidate } from './transfer-candidate';
 import { Candidate } from './candidate';
+import { CandidateWorkHistory } from './candidate-work-history';
 
 export class Transfer {
 	transfer_id: number;
@@ -9,7 +10,7 @@ export class Transfer {
 	company_total: any;
 	payment_received_on: string;
 	start_date: string;
-  end_date: string;
+  	end_date: string;
 	transfer_status: number;
 	transfer_created_at: string;
 	transfer_updated_at: string;

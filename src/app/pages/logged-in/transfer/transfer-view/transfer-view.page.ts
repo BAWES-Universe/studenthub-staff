@@ -71,7 +71,7 @@ export class TransferViewPage implements OnInit {
     // Load list of transfer
     this.loading = true;
 
-    const query = ',invoices'
+    const query = 'expand=transferCandidates,transferCandidates.candidate,invoices'
 
     this.transferService.transferIdDetails(this.transfer_id, query).subscribe(response => {
 
@@ -282,7 +282,8 @@ export class TransferViewPage implements OnInit {
       component: ImportTransferFormPage,
       componentProps: {
         transfer: transfer,
-      }
+      },
+      cssClass: "popup-modal"
     });
     modal.onDidDismiss().then(e => {
 
@@ -312,7 +313,8 @@ export class TransferViewPage implements OnInit {
       component: TransferFormPage,
       componentProps: {
         transfer: transfer,
-      }
+      },
+      cssClass: "popup-modal"
     });
     modal.onDidDismiss().then(e => {
 

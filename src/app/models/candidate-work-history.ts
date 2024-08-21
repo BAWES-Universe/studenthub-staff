@@ -12,6 +12,7 @@ export class CandidateWorkHistory {
     start_date: string;
     end_date: string;
     candidate_hourly_rate: any;
+    transferCost: number;
     // Related
     store: Store;
     candidate: Candidate;

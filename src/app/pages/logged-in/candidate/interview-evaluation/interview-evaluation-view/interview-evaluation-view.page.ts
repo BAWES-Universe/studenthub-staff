@@ -121,7 +121,8 @@ export class InterviewEvaluationViewPage implements OnInit {
         interviewEvaluationNotes: interviewEvaluationNotes,
         model: this.model,
         candidate_id: this.model.candidate_id
-      }
+      },
+      cssClass: "popup-modal"
     });
     modal.present();
     modal.onDidDismiss().then(e => {

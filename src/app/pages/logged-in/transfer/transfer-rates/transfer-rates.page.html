@@ -1,0 +1,36 @@
+<ion-header mode="md" [class.add-border]="borderLimit" class="ion-no-border">
+  <ion-toolbar class="container">
+    <ion-buttons slot="start">
+      <ion-back-button icon="assets/images/icon-back.svg" (click)="dismiss()"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Transfer rates</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-text-center" scrollEvents="true" (ionScroll)="logScrolling($event)">
+  <div class="container">
+   
+    <h4>Step 1: Download Excel template</h4>
+
+    <ion-button fill="outline" color="primary" (click)="downloadTemplate()">
+      Download template
+    </ion-button>
+    
+    <ion-button color="primary" (click)="downloadTemplate(true)">
+      Download with previous transfer data
+    </ion-button>
+
+    <h4>Step 2: Fill out the transfer rates at company level or store/ assigment level </h4>
+
+    <h4>Step 4: Upload the updated Excel file</h4>
+    
+    <!-- Upload Form -->
+    <input type='file' #fileInput (change)="browserUpload($event)" accept=".xlsx,.xls"/>
+
+    <ion-button (click)="upload()" [disabled]="uploading">
+      <span *ngIf="!uploading">Upload</span>
+      <ion-spinner *ngIf="uploading">Uploading...</ion-spinner>
+    </ion-button>
+
+  </div>
+</ion-content>

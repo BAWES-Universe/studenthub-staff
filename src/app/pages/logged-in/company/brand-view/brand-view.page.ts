@@ -168,7 +168,8 @@ export class BrandViewPage implements OnInit {
       component: BrandFormPage,
       componentProps: {
         model: brand
-      }
+      },
+      cssClass: "popup-modal"
     });
     modal.onDidDismiss().then(e => {
 

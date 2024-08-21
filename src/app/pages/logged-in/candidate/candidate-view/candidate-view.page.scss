@@ -259,9 +259,12 @@ interview-evaluation {
 }
 
 .invitation-stats-wrapper,
+.certificates-wrapper,
 .assignment-wrapper,
 .note-wrapper,
 .suggestion-wrapper {
+  margin-bottom: 30px;
+
   .heading {
     margin: 16px 4px 16px 4px;
     font-size: 18px;
@@ -285,6 +288,7 @@ interview-evaluation {
     margin: 0 0 9px;
   }
 
+  .btn-add-certificate,
   .btn-add-note,
   .btn-view-notes {
     border-radius: 5px;
@@ -387,6 +391,7 @@ interview-evaluation {
   margin-bottom: 15px;
 }
 
+.certificates-wrapper,
 .assignment-wrapper {
   ion-item {
     box-shadow: inset 0 -1px 0 0 var(--ion-color-custom-4);
@@ -407,6 +412,11 @@ interview-evaluation {
     }
   }
 
+  .btn-delete-certificate ion-icon {
+    margin-inline-end: 2px;
+  }
+
+  .btn-delete-certificate,
   .btn-unassign,
   .btn-certificate {
     height: 40px;

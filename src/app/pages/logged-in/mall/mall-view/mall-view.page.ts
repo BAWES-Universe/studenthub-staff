@@ -77,7 +77,8 @@ export class MallViewPage implements OnInit {
       component: MallFormPage,
       componentProps: {
         model: this.mall,
-      }
+      },
+      cssClass: "popup-modal"
     });
     modal.onDidDismiss().then(e => {
 
@@ -176,7 +177,8 @@ export class MallViewPage implements OnInit {
           view: 'direct',
           directView: 'direct',
         }
-      }
+      },
+      cssClass: "popup-modal"
     });
     modal.onDidDismiss().then(e => {
 

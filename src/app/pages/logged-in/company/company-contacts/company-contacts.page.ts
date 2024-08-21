@@ -306,7 +306,8 @@ export class CompanyContactsPage implements OnInit {
         activatedRoutePathProps: {
           companyContact: companyContact
         }
-      }
+      },
+      cssClass: "popup-modal"
     });
 
     modal.onDidDismiss().then(e => {

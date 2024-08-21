@@ -104,7 +104,8 @@ export class FulltimerListPage implements OnInit {
       component: FulltimerFormPage,
       componentProps: {
         model: fulltimer
-      }
+      },
+      cssClass: "popup-modal"
     });
     modal.onDidDismiss().then(e => {
 

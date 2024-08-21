@@ -78,7 +78,8 @@ export class NoteViewPage implements OnInit {
       componentProps: {
         note: this.note,
         // from: this.from,
-      }
+      },
+      cssClass: "popup-modal"
     });
     modal.present();
     modal.onDidDismiss().then(e => {

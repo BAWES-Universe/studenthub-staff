@@ -111,8 +111,8 @@ export class CompanyService {
    * detail with all candidates
    * @returns {Observable<any>}
    */
-  getWithCandidates(companyID): Observable<any> {
-    let url = `${this._companyEndpoint}/${companyID}?expand=country,candidates,candidates.store,candidates.company`;
+  getWithCandidates(companyID, query: string = "expand=country,candidates,candidates.store,candidates.company"): Observable<any> {
+    let url = `${this._companyEndpoint}/${companyID}?${query}`;
     return this._authhttp.get(url);
   }
 

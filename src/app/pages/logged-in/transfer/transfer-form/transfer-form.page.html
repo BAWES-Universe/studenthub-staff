@@ -68,7 +68,10 @@
                   <ion-badge color="danger" *ngIf="transferCandidateRecord.candidate.civilExpired">Civil Expired</ion-badge>
                 </h5>
                 <p>
-                  {{ transferCandidateRecord.candidate.company.company_hourly_rate | number:'1.0-3' }} {{ form.value.currency_code }} per hour 
+                  {{ getCompanyHourlyRate(transferCandidateRecord) | number:'1.0-3' }} {{ form.value.currency_code }} per hour 
+                  <ng-container *ngIf="transferCandidateRecord.transfer_cost > 0">
+                    + {{ transferCandidateRecord.transfer_cost }} {{ form.value.currency_code }} transfer cost
+                  </ng-container>  
                 </p>
               </ion-label>
               
@@ -115,9 +118,17 @@
                     <ion-label>
                       <p>Subtotal</p>
                       <h5>
-                        {{ form.value.currency_code }} {{ (parseNumber(transferCandidateRecord.hours) *
-                        transferCandidateRecord.candidate.company.company_hourly_rate) +
-                        parseNumber(transferCandidateRecord.bonus) | number:'1.0-3' }}
+                        {{ form.value.currency_code }} 
+                        {{ 
+                          (
+                            parseNumber(transferCandidateRecord.hours) 
+                            * 
+                            getCompanyHourlyRate(transferCandidateRecord)
+                          ) 
+                          + parseNumber(transferCandidateRecord.bonus) 
+                          + parseNumber(transferCandidateRecord.transfer_cost)
+                          | number:'1.0-3' 
+                        }}
                       </h5>
                     </ion-label>
                   </ion-item>

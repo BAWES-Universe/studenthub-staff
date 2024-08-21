@@ -99,7 +99,8 @@ export class CompanyDocumentsPage implements OnInit {
       component: UploadFilePage,
       componentProps: {
         company: this.company,
-      }
+      },
+      cssClass: "popup-modal"
     });
     modal.present();
     modal.onDidDismiss().then(e => {

@@ -211,7 +211,8 @@ export class CompanyContactViewPage implements OnInit {
         company: this.contact.company,
         addNewNote: addNewNote,
         editorFocused: addNewNote
-      }
+      },
+      cssClass: "popup-modal"
     });
     modal.onDidDismiss().then(e => {
 
@@ -249,7 +250,8 @@ export class CompanyContactViewPage implements OnInit {
       componentProps: {
         model: this.contact,
         companyContact: this.companyContact
-      }
+      },
+      cssClass: "popup-modal"
     });
     modal.onDidDismiss().then(e => {
 

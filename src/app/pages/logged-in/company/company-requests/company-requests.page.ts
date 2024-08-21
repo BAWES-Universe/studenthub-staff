@@ -103,7 +103,8 @@ export class CompanyRequestsPage implements OnInit {
       componentProps: {
         request_uuid: request.request_uuid,
         request: request
-      }
+      },
+      cssClass: "popup-modal"
     });
     modal.onDidDismiss().then(e => {
 
@@ -173,7 +174,8 @@ export class CompanyRequestsPage implements OnInit {
       component: CompanyRequestFormPage,
       componentProps: {
         company: this.company,
-      }
+      },
+      cssClass: "popup-modal"
     });
     modal.onDidDismiss().then(e => {
 

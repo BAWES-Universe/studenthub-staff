@@ -152,7 +152,8 @@ export class CandidateNotesPage implements OnInit {
       componentProps: {
         note,
         candidate: this.candidate
-      }
+      },
+      cssClass: "popup-modal"
     });
     modal.present();
     modal.onDidDismiss().then(e => {
