@@ -17,6 +17,11 @@
 </ion-header>
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
+  
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
   <div class="container">
     
     <ion-searchbar [(ngModel)]="searchBar" (ionChange)="loadData(this.currentPage)" debounce="200" animated>

@@ -8,6 +8,10 @@
 
 </ion-header>
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  
   <div class="container" *ngIf="this.salaryTransfers">
 
     <h4 *ngIf="candidate">

@@ -79,6 +79,11 @@ export class FulltimerNotesPage implements OnInit {
     });
   }
 
+  doRefresh(event) {
+    this.loadNotes();
+    event.target.complete();
+  }
+
   /**
    * load fulltimer notes without pagination
    */

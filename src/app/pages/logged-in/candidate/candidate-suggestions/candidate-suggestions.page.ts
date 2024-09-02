@@ -74,6 +74,11 @@ export class CandidateSuggestionsPage implements OnInit {
     this.loadSuggestions();
   }
 
+  doRefresh(event) {
+    this.loadSuggestions();
+    event.target.complete();
+  }
+
   loadCandidateDetail(loading = true) {
     this.loading = loading;
     this.candidateService.detail(this.candidate_id).subscribe(response => {

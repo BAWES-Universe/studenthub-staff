@@ -39,6 +39,11 @@ export class CompanyRegistrationRequestListPage implements OnInit {
     this.loadData(this.currentPage);
   }
  
+  doRefresh(event) {
+    this.loadData(1);
+    event.target.complete();
+  }
+
   async viewRequest(request) {
 
     window.history.pushState({ navigationId: window.history.state?.navigationId }, null, window.location.pathname);

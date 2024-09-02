@@ -45,6 +45,11 @@ export class CompanyFollowupListPage implements OnInit {
     });
   }
 
+  doRefresh(event) {
+    this.loadCompanyList(1);
+    event.target.complete();
+  }
+
   /**
    * load company list 
    * @param page 

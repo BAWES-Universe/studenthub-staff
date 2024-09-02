@@ -53,6 +53,11 @@ export class AssignedIdleCandidatesPage implements OnInit {
     this.loadData(this.currentPage);
   }
 
+  doRefresh(event) {
+    this.search();
+    event.target.complete();
+  }
+
   search() {
     this.currentPage = 1;
     this.loadData(this.currentPage);

@@ -84,6 +84,11 @@ export class StoreListPage implements OnInit {
     });
   }
 
+  doRefresh(event) {
+    this.loadData(1);
+    event.target.complete();
+  }
+
   /**
    * load all mails
    */

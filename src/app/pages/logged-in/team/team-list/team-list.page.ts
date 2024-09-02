@@ -39,6 +39,12 @@ export class TeamListPage implements OnInit {
     this.loadData(this.currentPage);
   }
 
+  doRefresh(event) {
+    this.currentPage = 1;
+    this.loadData(1);
+    event.target.complete();
+  }
+
   /**
    * load store list
    * @param page

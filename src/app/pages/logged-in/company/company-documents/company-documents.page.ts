@@ -40,6 +40,11 @@ export class CompanyDocumentsPage implements OnInit {
     this.loadData();
   }
 
+  doRefresh(event) {
+    this.loadData();
+    event.target.complete();
+  }
+
   loadData() {
     this.loading = true;
     this.companyService.view(this.company.company_id, 'files').subscribe(data => {

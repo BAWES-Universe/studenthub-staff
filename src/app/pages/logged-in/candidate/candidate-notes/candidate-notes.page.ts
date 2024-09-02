@@ -92,6 +92,11 @@ export class CandidateNotesPage implements OnInit {
     this.loadNotes(); // reload all result
   }
 
+  doRefresh(event) {
+    this.loadNotes();
+    event.target.complete();
+  }
+
   /**
    * load candidate notes without pagination
    */

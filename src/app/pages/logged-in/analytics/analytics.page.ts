@@ -20,6 +20,7 @@ export class AnalyticsPage implements OnInit {
   public deleting = false;
   public staffs: Staff[] = [];
   public records = [];
+
   constructor(
     public authService: AuthService,
     private staffService: StaffService,
@@ -41,7 +42,7 @@ export class AnalyticsPage implements OnInit {
    * @param page
    * @param loading
    */
-  async loadData(page: number, loading = true) {
+  async loadData(page: number, loading = true, event: any = null) {
 
     this.loading = loading;
     const params = '&role=1&expand=totalCompletedRequests,activeStory,activeStory.request,activeStory.request,activeStory.request.company';
@@ -53,8 +54,16 @@ export class AnalyticsPage implements OnInit {
       error => { },
       () => {
         this.loading = false;
+
+        if (event) {
+          event.target.complete();
+        }
       }
     );
+  }
+
+  doRefresh(event) {
+    this.loadData(1, true, event);
   }
 
   getTimeSpent(time) {

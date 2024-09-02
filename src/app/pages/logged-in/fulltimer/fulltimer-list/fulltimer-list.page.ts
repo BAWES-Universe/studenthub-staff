@@ -55,6 +55,11 @@ export class FulltimerListPage implements OnInit {
     this.loadData(this.currentPage);
   }
 
+  doRefresh(event) {
+    this.loadData(1);
+    event.target.complete();
+  }
+
   /**
    * load store list
    * @param page

@@ -39,6 +39,11 @@ export class ExpenseListPage implements OnInit {
     this.analyticService.page('Expense List Page');
   }
 
+  doRefresh(event) {
+    this.loadData(1);
+    event.target.complete();
+  }
+
   ionViewWillEnter() {
     this.loadData(this.currentPage);
   }

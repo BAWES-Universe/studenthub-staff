@@ -80,6 +80,11 @@ export class CompanyRequestListPopupPage implements OnInit {
     }
   }
 
+  doRefresh(event) {
+    this.list(1);
+    event.target.complete();
+  }
+
   /**
    * list all requests
    * @param page
