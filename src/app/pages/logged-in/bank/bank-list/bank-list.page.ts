@@ -44,32 +44,41 @@ export class BankListPage implements OnInit {
     this.loadData(this.currentPage);
   }
 
+  doRefresh(event) {
+    this.loadData(1, true, event)
+  }
+
   /**
    * list banks
    * @param page
    */
-  async loadData(page: number, silent = false) {
+  async loadData(page: number, silent = false, event = null) {
 
     if (!silent) {
       this.loading = true;
     }
 
     this.bankService.list(page).subscribe(response => {
-
-      this.loading = false;
-      this.deleting = false;
-
+ 
       this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
       this.currentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
       this.totalCount = parseInt(response.headers.get('X-Pagination-Total-Count'));
 
       this.banks = response.body;
+      
       for (const bank of this.banks) {
         this.totalStudents += parseInt(bank.candidateCount);
       }
+
+    }, () => {
+      
     }, () => {
       this.loading = false;
       this.deleting = false;
+
+      if (event) {
+        event.target.complete();
+      }
     });
   }
 

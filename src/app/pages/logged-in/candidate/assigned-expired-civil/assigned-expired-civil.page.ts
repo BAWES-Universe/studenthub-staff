@@ -46,11 +46,15 @@ export class AssignedExpiredCivilPage implements OnInit {
     this.loadData(1);
   }
 
+  doRefresh(event) {
+    this.loadData(1, event);
+  }
+
   /**
    * Load expired ID cards
    * @param page
    */
-  async loadData(page) {
+  async loadData(page, event = null) {
 
     if (!this.renewLoader)
       this.loading = true;
@@ -67,6 +71,10 @@ export class AssignedExpiredCivilPage implements OnInit {
     () => {
       this.renewLoader = false;
       this.loading = false;
+
+      if (event) {
+        event.target.complete();
+      }
     });
   }
 

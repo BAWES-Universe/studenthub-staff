@@ -32,6 +32,11 @@ export class UniversityListPage implements OnInit {
     this.loadData(this.currentPage);
   }
 
+  doRefresh(event) {
+    this.loadData(1);
+    event.target.complete();
+  }
+
   /**
    * load university data
    * @param page

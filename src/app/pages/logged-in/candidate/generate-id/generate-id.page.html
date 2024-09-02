@@ -22,6 +22,10 @@
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
 
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  
   <div class="container">
     <ion-segment [(ngModel)]="cndSegment" (ionChange)="segmentChanged($event)" color="primary">
       <ion-segment-button value="not-generated">

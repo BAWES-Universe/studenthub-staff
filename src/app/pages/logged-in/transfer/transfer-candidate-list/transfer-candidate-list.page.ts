@@ -53,6 +53,11 @@ export class TransferCandidateListPage implements OnInit {
     this.loadData(1);
   }
 
+  doRefresh(event) {
+    this.loadData(1);
+    event.target.complete();
+  }
+
   loadData(page) {
     this.loading = true;
     

@@ -88,6 +88,11 @@ export class IncompleteCandidateListPage implements OnInit {
     this.loadData(this.currentPage);
   }
 
+  doRefresh(event) {
+    event.target.complete();
+    this.search();
+  }
+
   search() {
     this.currentPage = 1;
     this.loadData(this.currentPage);

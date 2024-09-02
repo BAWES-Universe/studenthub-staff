@@ -179,6 +179,10 @@ export class CandidateListPage implements OnInit {
     this.loadData(1); // reload all result
   }
 
+  doRefresh(event) {
+    this.loadData(1, event);
+  }
+
   /**
    * Generate id cards
    */
@@ -272,7 +276,7 @@ export class CandidateListPage implements OnInit {
    * Load list of candidates
    * @param page
    */
-  loadData(page: number) {
+  loadData(page: number, event: any = null) {
     
     const search = this.urlParams();
 
@@ -291,7 +295,13 @@ export class CandidateListPage implements OnInit {
       this.candidates = response.body;
     },
       error => { },
-      () => { this.loading = false; }
+      () => { 
+        this.loading = false; 
+
+        if (event) {
+          event.target.complete();
+        }
+      }
     );
   }
 

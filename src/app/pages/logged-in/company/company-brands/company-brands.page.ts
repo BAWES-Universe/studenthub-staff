@@ -48,6 +48,11 @@ export class CompanyBrandsPage implements OnInit {
     // }
   }
 
+  doRefresh(event) {
+    this.loadData();
+    event.target.complete();
+  }
+
   async brandSelected(brand) {
     this.modalCtrl.dismiss().then(() => {
       setTimeout(() => {

@@ -40,6 +40,11 @@ export class StoreAssignmentRequestListPage implements OnInit {
     this.loadData();
   }
 
+  doRefresh(event) {
+    this.loadData();
+    event.target.complete();
+  }
+
   loadData(silent = false) {
     if(!silent)
       this.loading = true; 

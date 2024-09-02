@@ -19,6 +19,10 @@
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
 
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  
   <div class="container">
     <div *ngIf="company && company.files">
       <ion-item target="_blank" href="{{ awsService.permanentBucketUrl }}{{ file.file_s3_path }}" *ngFor="let file of company.files">

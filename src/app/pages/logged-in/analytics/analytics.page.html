@@ -7,9 +7,15 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
+
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  
   <div class="container">
 
     <h1>Team Currently working on</h1>
+
     <ng-container *ngIf="staffs && staffs.length > 0">
       <div *ngFor="let staff of staffs">
         <h1>{{staff.staff_name}}</h1>

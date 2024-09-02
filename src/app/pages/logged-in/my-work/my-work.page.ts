@@ -61,6 +61,12 @@ export class MyWorkPage implements OnInit {
     this.loadAllOtherStories();
   }
 
+  doRefresh(event) {
+    this.loadActiveStories();
+    this.loadAllOtherStories();
+    event.target.complete();
+  }
+
   segmentChanged(event) {
     this.segment = event.target.value;
   }

@@ -40,18 +40,18 @@ export class CandidateWarningsPage implements OnInit {
     public analyticService: AnalyticsService
   ) {
   }
-  
-    /**
-     * Make date readable by Safari
-     * @param date
-     */
-    toDate(date) {
-      if (!date) 
+
+  /**
+   * Make date readable by Safari
+   * @param date
+   */
+  toDate(date) {
+    if (!date) 
       return null;
-      
-      if (date) {
+    
+    if (date) {
       return new Date(date.replace(/-/g, '/'));
-      }
+    }
   }
 
   ngOnInit() {
@@ -81,6 +81,11 @@ export class CandidateWarningsPage implements OnInit {
     });
 
     this.loadWarnings();
+  }
+
+  doRefresh(event) {
+    this.loadWarnings();
+    event.target.complete();
   }
 
   loadCandidateDetail(loading = true) {

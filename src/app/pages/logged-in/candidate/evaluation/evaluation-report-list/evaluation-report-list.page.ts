@@ -33,6 +33,11 @@ export class EvaluationReportListPage implements OnInit {
     this.loadData();
   }
 
+  doRefresh(event) {
+    this.loadData();
+    event.target.complete();
+  }
+
   /**
    * loading data
    */

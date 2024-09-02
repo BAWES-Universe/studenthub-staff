@@ -54,6 +54,12 @@ export class TicketListPage implements OnInit {
     this.loadData();
   }
 
+  doRefresh(event) {
+    this.currentPage = 1;
+    this.loadData();
+    event.target.complete();
+  }
+
   filterByStatus(event, status) {
     event.preventDefault();
     this.filters.ticket_status = status;

@@ -8,6 +8,10 @@
 </ion-header>
 
 <ion-content scrollEvents="true" class="ion-no-padding" (ionScroll)="logScrolling($event)">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  
   <div class="container">
     <ion-list>
       <ion-item tappable *ngFor="let country of countries" (click)="rowSelected(country)">
@@ -24,6 +28,7 @@
 
     <loading-modal [loading]="loading" type="text-list"></loading-modal>
   </div>
+
   <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
     <ion-infinite-scroll-content></ion-infinite-scroll-content>
   </ion-infinite-scroll>

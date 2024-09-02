@@ -124,6 +124,10 @@
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
   <div class="container">
   
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+      <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+    
     <ion-list>
 
       <candidate tappable (click)="rowSelected(candidate)" [candidate]="candidate" type='candidate' (refresh)="search()" *ngFor="let candidate of candidates">

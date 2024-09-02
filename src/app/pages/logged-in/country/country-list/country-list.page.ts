@@ -38,6 +38,11 @@ export class CountryListPage implements OnInit {
     this.loadData(this.currentPage);
   }
 
+  doRefresh(event) {
+    event.target.complete();
+    this.loadData(1);
+  }
+
   /**
    *  Load list of country
    * @param page
