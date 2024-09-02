@@ -145,6 +145,11 @@ export class LeaveRequestListPage implements OnInit {
     confirm.present();
   }
 
+  doRefresh(event) {
+    this.loadData(1);
+    event.target.complete();
+  }
+
   getFileUrl(model) {
     if (model.file) {
       return this.awsService.permanentBucketUrl + 'staff-leave/' + encodeURIComponent(model.file);

@@ -59,6 +59,16 @@ export class CompanyContactListPage implements OnInit {
     }
   }
 
+  doRefresh(event) {
+    if (this.company && this.company.company_id) {
+      this.loadCompanyContacts();
+    } else {
+      this.loadData(); // load all contacts if no company given
+    }
+
+    event.target.complete();
+  }
+
   /**
    * load company contacts
    */

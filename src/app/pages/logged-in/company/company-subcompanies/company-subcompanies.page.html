@@ -18,7 +18,12 @@
 </ion-header>
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  
   <div class="container">
+
     <ion-list *ngIf="company && company.subCompanies">
       <app-company [company]="company" *ngFor="let company of company.subCompanies" (click)="rowSelected(company)">
       </app-company>

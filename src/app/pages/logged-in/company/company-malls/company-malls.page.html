@@ -18,6 +18,10 @@
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)" class="ion-no-padding">
 
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  
   <div class="container">
     <ion-list *ngIf="company">
       <ion-item tappable (click)="mallSelected(mall)" *ngFor="let mall of company.malls" lines="none">

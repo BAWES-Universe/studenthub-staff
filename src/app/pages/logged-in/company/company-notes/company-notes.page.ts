@@ -83,6 +83,11 @@ export class CompanyNotesPage implements OnInit {
       this.loadCompany();
   }
 
+  doRefresh(event) {
+    this.loadNotes();
+    event.target.complete();
+  }
+
   async openDetail(note) {
     this.modalCtrl.dismiss().then(() => {
       setTimeout(() => {

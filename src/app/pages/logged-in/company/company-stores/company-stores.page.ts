@@ -52,6 +52,11 @@ export class CompanyStoresPage implements OnInit {
     this.loadData();
   }
 
+  doRefresh(event) {
+    this.loadData();
+    event.target.complete();
+  }
+
   loadData() {
     this.loading = true;
 

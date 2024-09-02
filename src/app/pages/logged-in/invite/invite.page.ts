@@ -107,6 +107,11 @@ export class InvitePage implements OnInit {
       confirm.present();
   }
 
+  doRefresh(event) {
+    this.loadRequests();
+    event.target.complete();
+  }
+
   /**
    * load all requests for parttimers
    */

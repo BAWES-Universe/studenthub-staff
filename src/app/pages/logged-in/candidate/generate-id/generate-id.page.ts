@@ -49,6 +49,11 @@ export class GenerateIdPage implements OnInit {
     this.loadData(this.currentPage);
   }
 
+  doRefresh(event) {
+    event.target.complete();
+    this.loadData(1);
+  }
+
   /**
    * Generate id cards
    */

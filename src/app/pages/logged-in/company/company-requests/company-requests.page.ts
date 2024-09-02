@@ -55,6 +55,11 @@ export class CompanyRequestsPage implements OnInit {
     this.loadRequests(this.currentPage);
   }
 
+  doRefresh(event) {
+    this.loadRequests(1);
+    event.target.complete();
+  }
+
   /**
    * load active request I'm not handling
    */

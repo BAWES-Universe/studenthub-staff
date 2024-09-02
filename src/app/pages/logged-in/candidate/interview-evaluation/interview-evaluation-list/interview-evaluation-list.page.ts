@@ -50,6 +50,11 @@ export class InterviewEvaluationListPage implements OnInit {
     this.loadInterviews();
   }
 
+  doRefresh(event) {
+    this.interviewCurrentPage = 1;
+    this.loadInterviews();
+    event.target.complete();
+  }
 
   loadInterviews() {
     this.loadingInterviewEvaluations = true; 

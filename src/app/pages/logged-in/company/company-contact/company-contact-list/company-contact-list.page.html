@@ -8,6 +8,10 @@
 </ion-header>
 
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)" class="ion-no-padding">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  
   <div class="container">
 
     <ion-searchbar *ngIf="query || contactList.length > 5" [(ngModel)]="query" (ionChange)="filter($event)" placeholder="Search by name / phone / email"

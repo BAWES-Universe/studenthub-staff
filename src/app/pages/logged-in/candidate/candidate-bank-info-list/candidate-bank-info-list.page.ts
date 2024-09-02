@@ -52,6 +52,11 @@ export class CandidateBankInfoListPage implements OnInit {
     this.loadData(0);
   }
 
+  doRefresh(event) {
+    this.search();
+    event.target.complete();
+  }
+
   search() {
     this.currentPage = 1;
     this.loadData(this.currentPage);

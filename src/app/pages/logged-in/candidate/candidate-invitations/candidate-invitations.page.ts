@@ -87,6 +87,11 @@ export class CandidateInvitationsPage implements OnInit {
     this.loadInvitations();
   }
 
+  doRefresh(event) {
+    this.loadInvitations();
+    event.target.complete();
+  }
+
   /**
    * @param loading 
    */

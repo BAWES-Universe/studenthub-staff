@@ -47,6 +47,11 @@ export class AllCompanyListPage implements OnInit {
     this.loadData(1);
   }
 
+  doRefresh(event) {
+    this.loadData(1);
+    event.target.complete();
+  }
+
   /**
    * Return url string to filter list
    */

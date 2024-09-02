@@ -38,6 +38,11 @@ export class CandidateReviewListPage implements OnInit {
     this.loadData(this.currentPage);
   }
 
+  doRefresh(event) {
+    this.loadData(1);
+    event.target.complete();
+  }
+
   /**
    * Load Candidate List
    * @param page

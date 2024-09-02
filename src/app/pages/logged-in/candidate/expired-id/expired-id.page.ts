@@ -59,6 +59,11 @@ export class ExpiredIdPage implements OnInit {
     });
   }
 
+  doRefresh(event) {
+    event.target.complete();
+    this.loadData(1);
+  }
+
   /**
    * Renew id cards
    */

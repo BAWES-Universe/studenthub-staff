@@ -58,6 +58,11 @@ export class CandidateSalaryListPage implements OnInit {
     });
   }
 
+  doRefresh(event) {
+    this.loadData();
+    event.target.complete();
+  }
+
   /**
    * load candidate notes without pagination
    */

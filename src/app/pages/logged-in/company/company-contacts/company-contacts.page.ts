@@ -80,6 +80,10 @@ export class CompanyContactsPage implements OnInit {
     }*/
   }
 
+  doRefresh(event) {
+    this.loadContacts();
+    event.target.complete();
+  }
 
   /**
    * open filter

@@ -46,6 +46,11 @@ export class TransferListPage implements OnInit {
     }); 
   }
 
+  doRefresh(event) {
+    this.loadData();
+    event.target.complete();
+  }
+
   loadData() {
     this.loading = true;
 

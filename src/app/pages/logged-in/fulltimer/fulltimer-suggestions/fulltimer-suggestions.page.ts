@@ -47,9 +47,7 @@ export class FulltimerSuggestionsPage implements OnInit {
     if (!this.fulltimer_uuid) {
       this.fulltimer_uuid = this.activatedRoute.snapshot.paramMap.get('id');
     }
-
-    console.log(this.fulltimer_uuid);
-
+ 
     if (!this.status) {
       this.status = this.activatedRoute.snapshot.paramMap.get('status');
     }
@@ -75,6 +73,11 @@ export class FulltimerSuggestionsPage implements OnInit {
     });
 
     this.loadSuggestions();
+  }
+
+  doRefresh(event) {
+    this.loadSuggestions();
+    event.target.complete();
   }
 
   loadCandidateDetail(loading = true) {

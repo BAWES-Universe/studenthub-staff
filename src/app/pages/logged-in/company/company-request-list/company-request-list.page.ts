@@ -104,6 +104,11 @@ export class CompanyRequestListPage implements OnInit {
     });
   }
 
+  doRefresh(event) {
+    this.list();
+    event.target.complete();
+  }
+
   ionViewWillEnter() {
     this.content.scrollToPoint(0, this.scrollPosition);
   }

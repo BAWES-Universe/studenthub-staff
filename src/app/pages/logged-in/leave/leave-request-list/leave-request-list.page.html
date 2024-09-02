@@ -7,6 +7,10 @@
   </ion-toolbar>
 </ion-header>
 <ion-content scrollEvents="true">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  
   <div class="container">
     <ion-list *ngIf="!loading">
         <ion-item *ngFor="let leave of staffLeaves">

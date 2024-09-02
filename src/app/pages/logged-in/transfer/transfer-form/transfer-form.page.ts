@@ -394,7 +394,7 @@ export class TransferFormPage implements OnInit {
   close(data = {}) {
     this.modalCtrl.getTop().then(o => {
       if(o) {
-        o.dismiss(); 
+        o.dismiss(data); 
       }
     });
   }
