@@ -249,8 +249,14 @@
 
       <br />
 
-      <a class="btn-download" tappable (click)="downloadTemplate('workLog')">
-        Download with current month's work log
+      <a class="btn-download" tappable (click)="downloadTemplate('workLog')" *ngIf="!startDate || !endDate">
+        Download with current month's work log <br />
+        <small>Select date to download with work log from specific period</small>
+      </a>
+      
+
+      <a class="btn-download" tappable (click)="downloadTemplate('workLog')" *ngIf="startDate && endDate">
+        Download with work log for selected dates
       </a>
 
       <!-- Upload Form -->

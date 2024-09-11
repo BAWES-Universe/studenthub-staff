@@ -56,7 +56,7 @@ export class TransferFormPage implements OnInit {
   public min; // min date
   public max; // max date
   public startDate; // max date
-  public endData; // max date
+  public endDate; // max date
   public selected; // max date
   dateRange: { from: string; to: string; };
   type: 'string'; // 'string' | 'js-date' | 'moment' | 'time' | 'object'
@@ -213,11 +213,11 @@ export class TransferFormPage implements OnInit {
       ]];
     });
 
-    formControls['start_date'] = [(this.transfer && this.transfer.start_date) ? this.transfer.start_date : '', [
+    formControls['start_date'] = [(this.transfer && this.transfer.start_date) ? this.transfer.start_date : this.startDate, [
       Validators.required
     ]];
 
-    formControls['end_date'] = [(this.transfer && this.transfer.end_date) ? this.transfer.end_date : '', [
+    formControls['end_date'] = [(this.transfer && this.transfer.end_date) ? this.transfer.end_date : this.endDate, [
       Validators.required
     ]];
 
@@ -236,8 +236,8 @@ export class TransferFormPage implements OnInit {
     // Calculate transfer total
     this.calculateTotal();
 
-    if(this.form.value.start_date && this.form.value.end_date) {
-      this.range = this.form.value.start_date + '-' + this.form.value.end_date;
+    if(this.startDate && this.endDate) {
+      this.range = this.startDate + '-' + this.endDate;
     }
 
     this.ready = true;
@@ -332,8 +332,8 @@ export class TransferFormPage implements OnInit {
     this.removeUnaccountedUsers();
 
     const action = this.transfer.transfer_id ?
-      this.transferService.updateTransfer(this.transfer, this.form.value.start_date, this.form.value.end_date, this.form.value.currency_code) :
-      this.transferService.save(this.transfer, this.form.value.start_date, this.form.value.end_date, this.form.value.currency_code);
+      this.transferService.updateTransfer(this.transfer, this.startDate, this.endDate, this.form.value.currency_code) :
+      this.transferService.save(this.transfer, this.startDate, this.endDate, this.form.value.currency_code);
 
     action.subscribe(async jsonResponse => {
       loader.dismiss();
@@ -455,6 +455,9 @@ export class TransferFormPage implements OnInit {
       loading.dismiss();
       this.transfer = response;
 
+      this.startDate = this.transfer.start_date;
+      this.endDate = this.transfer.end_date;
+
       // Load List of All Candidates Assigned to this Company
       this._loadCandidateListThenInitialize();
     });
@@ -521,9 +524,16 @@ export class TransferFormPage implements OnInit {
     const date = eventCloseData.data;
 
     if (date) {
-      // this.form.value.start_date
-      this.form.controls['start_date'].setValue(date.from.string);
-      this.form.controls['end_date'].setValue(date.to.string);
+      // this.startDate
+
+      console.log(this.form)
+      if (this.form && this.form.controls && this.form.controls['start_date']) {
+        this.form.controls['start_date'].setValue(date.from.string);
+        this.form.controls['end_date'].setValue(date.to.string);
+      }
+
+      this.startDate = date.from.string;
+      this.endDate = date.to.string;
 
       this.range = date.from.string + '-' + date.to.string;
     }
@@ -623,7 +633,7 @@ export class TransferFormPage implements OnInit {
    */
   async newTransferUpload(file) {
 
-    this.transferService.uploadTransferExcel(file, this.form.value.start_date, this.form.value.end_date, this.transfer.company_id).subscribe(async data => {
+    this.transferService.uploadTransferExcel(file, this.startDate, this.endDate, this.transfer.company_id).subscribe(async data => {
 
       this.uploading = false;
 
@@ -663,40 +673,43 @@ export class TransferFormPage implements OnInit {
   async editTransferUpload(file) {
 
     this.transferService
-      .updateTransferUploadExcel(file, this.transfer.transfer_id, this.form.value.start_date, this.form.value.end_date)
-      .subscribe(async data => {
+      .updateTransferUploadExcel(file, this.transfer.transfer_id, this.startDate, this.endDate)
+      .subscribe({
+        next: async data => {
 
-        this.uploading = false;
+          this.uploading = false;
 
-        if (data.operation == 'success') {
+          if (data.operation == 'success') {
 
-          this.eventService.reloadStats$.next({
-            company_id: this.transfer.company_id
-          });
+            this.eventService.reloadStats$.next({
+              company_id: this.transfer.company_id
+            });
 
-          let prompt = await this._alertCtrl.create({
-            message: this.translateService.errorMessage(data.message),
-            buttons: ["Ok"]
-          });
-          prompt.present();
+            let prompt = await this._alertCtrl.create({
+              message: this.translateService.errorMessage(data.message),
+              buttons: ["Ok"]
+            });
+            prompt.present();
 
-          this.close({ refresh: true });
+            this.close({ refresh: true });
 
-          // this.navCtrl.push(TransferViewPage, {
-          //   'model': this.transfer.transfer_id
-          // });
+            // this.navCtrl.push(TransferViewPage, {
+            //   'model': this.transfer.transfer_id
+            // });
+          }
+
+          // On Failure
+          if (data.operation == "error") {
+            let prompt = await this._alertCtrl.create({
+              message: this.translateService.errorMessage(data.message),
+              buttons: ["Ok"]
+            });
+            prompt.present();
+          }
+        }, 
+        error: () => {
+          this.uploading = false;
         }
-
-        // On Failure
-        if (data.operation == "error") {
-          let prompt = await this._alertCtrl.create({
-            message: this.translateService.errorMessage(data.message),
-            buttons: ["Ok"]
-          });
-          prompt.present();
-        }
-      }, () => {
-        this.uploading = false;
       });
   }
 
@@ -706,7 +719,12 @@ export class TransferFormPage implements OnInit {
   async downloadTemplate(preFilled = null) {
     let loader = await this._loadingCtrl.create();
     loader.present();
-    this.transferService.downloadTransferTemplate(this.transfer.company_id, preFilled).subscribe(response => {
+    this.transferService.downloadTransferTemplate(
+      this.transfer.company_id, 
+      preFilled, 
+      this.startDate, 
+      this.endDate
+    ).subscribe(() => {
       loader.dismiss();
     });
   }
