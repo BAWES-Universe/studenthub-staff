@@ -63,7 +63,7 @@ export class TransferFormPage implements OnInit {
 
   public borderLimit: boolean = false;
 
-  public segment = 'manual';
+  public segment = 'excel-sheet-upload';
 
   public range;
 
@@ -109,18 +109,29 @@ export class TransferFormPage implements OnInit {
     const d = new Date();
     this.max = (this.platform.is('mobile')) ? d.getFullYear() + '-12-12' : d;
 
+    this.analyticService.page('Transfer Form Page');
+
+    if (this.transfer.transfer_id) {
+      this.pageTitle = 'Edit Transfer';
+    }
+  }
+
+  loadData() {
+
     if (!this.transfer.transfer_id) {
 
       // Load List of All Candidates Assigned to this Company
       this._loadCandidateListThenInitialize();
 
     } else {
-      this.pageTitle = 'Edit Transfer';
-
       this.loadTransferDetail();
     }
+  }
 
-    this.analyticService.page('Transfer Form Page');
+  segmentChanged(event) {
+    if (this.segment == "manual" && !this.ready) {
+      this.loadData();
+    }
   }
 
   /**
@@ -692,7 +703,7 @@ export class TransferFormPage implements OnInit {
   /**
    * download transfer template 
    */
-  async downloadTemplate(preFilled = false) {
+  async downloadTemplate(preFilled = null) {
     let loader = await this._loadingCtrl.create();
     loader.present();
     this.transferService.downloadTransferTemplate(this.transfer.company_id, preFilled).subscribe(response => {

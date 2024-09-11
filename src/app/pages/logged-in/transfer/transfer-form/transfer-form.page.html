@@ -27,15 +27,13 @@
       <ion-icon src="assets/images/icon-date-range.svg"></ion-icon>
     </ion-item>
 
-    <!--(ionChange)="segmentChanged($event)"-->
-    <ion-segment mode="md" [(ngModel)]="segment">
-
-      <ion-segment-button mode="md" value="manual">
-        <ion-label>Manual Transfer</ion-label>
-      </ion-segment-button>
-
+    <ion-segment mode="md" [(ngModel)]="segment" (ionChange)="segmentChanged($event)">
       <ion-segment-button mode="md" value="excel-sheet-upload">
         <ion-label>Excel Sheet Upload</ion-label>
+      </ion-segment-button>
+    
+      <ion-segment-button mode="md" value="manual">
+        <ion-label>Manual Transfer</ion-label>
       </ion-segment-button>
     </ion-segment>
   </ion-toolbar>
@@ -239,13 +237,21 @@
         </div>
       </div>
 
-      <a class="btn-download" tappable (click)="downloadTemplate()">Download Excel Template</a>
+      <a class="btn-download" tappable (click)="downloadTemplate()">
+        Download Excel Template
+      </a>
+ 
+      <br />
+
+      <a class="btn-download" tappable (click)="downloadTemplate('previousTransfer')">
+        Download with previous transfer data
+      </a>
 
       <br />
 
-    <a class="btn-download" tappable (click)="downloadTemplate(true)">
-      Download with previous transfer data
-    </a>
+      <a class="btn-download" tappable (click)="downloadTemplate('workLog')">
+        Download with current month's work log
+      </a>
 
       <!-- Upload Form -->
       <input type='file' #fileInput class="upload" (change)="browserUpload($event)" accept=".xlsx,.xls" />

@@ -18,26 +18,6 @@
 
 <ion-content class="ion-text-center" scrollEvents="true" (ionScroll)="logScrolling($event)">
   <div class="container">
-    <!-- Instructions for Create -->
-    <section *ngIf="scenario == 'create'">
-
-      <h4>Step 1: Download Excel template</h4>
-
-      <ion-button fill="outline" color="primary" (click)="downloadTemplate()">
-        Download template
-      </ion-button>
-      
-      <ion-button color="primary" (click)="downloadTemplate(true)">
-        Download with previous transfer data
-      </ion-button>
-
-      <h4>Step 2: Fill out the number of hours worked and the bonus amount to be sent</h4>
-
-      <h4>Step 3: Fill Start and End Date</h4>
-
-
-      <h4>Step 4: Upload the updated Excel file</h4>
-    </section>
 
     <h4>I am transferring for work done in the following time period:</h4>
 
@@ -66,6 +46,30 @@
         </ion-col>-->
       </ion-row>
     </ion-grid>
+
+    <!-- Instructions for Create -->
+    <section *ngIf="scenario == 'create'">
+
+      <h4>Step 1: Fill Start and End Date</h4>
+
+      <h4>Step 2: Download Excel template</h4>
+
+      <ion-button fill="outline" color="primary" (click)="downloadTemplate()">
+        Download template
+      </ion-button>
+      
+      <ion-button color="primary" (click)="downloadTemplate('previousTransfer')">
+        Download with previous transfer data
+      </ion-button>
+
+      <ion-button color="primary" (click)="downloadTemplate('workLog')">
+          Download with current month's work log
+      </ion-button>
+
+      <h4>Step 3: Fill out the number of hours worked and the bonus amount to be sent</h4>
+
+      <h4>Step 4: Upload the updated Excel file</h4>
+    </section>
 
     <br/>
 

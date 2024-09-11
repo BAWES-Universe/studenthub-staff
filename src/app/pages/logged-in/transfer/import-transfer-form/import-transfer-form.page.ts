@@ -246,10 +246,10 @@ export class ImportTransferFormPage implements OnInit {
   /**
    * download transfer template 
    */
-  async downloadTemplate(preFilled = false) {
+  async downloadTemplate(preFilled = null) {
     let loader = await this._loadingCtrl.create();
     loader.present();
-    this.transferService.downloadTransferTemplate(this.transfer.company_id, preFilled).subscribe(response => {
+    this.transferService.downloadTransferTemplate(this.transfer.company_id, preFilled, this.start_date, this.end_date).subscribe(response => {
       loader.dismiss();
     });
   }
