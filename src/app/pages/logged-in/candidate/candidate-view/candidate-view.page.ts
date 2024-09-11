@@ -390,6 +390,8 @@ export class CandidateViewPage implements OnInit {
         activatedRoutePath: CandidateAssignFormPage,
         activatedRoutePathProps: {
           view: 'direct',
+          store_id: storeID,
+          candidate_id: this.candidate_id
         }
       },
       cssClass: "popup-modal"

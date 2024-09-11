@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import { format, parseISO } from 'date-fns';
+import { CandidateService } from 'src/app/providers/logged-in/candidate.service';
 
 
 @Component({
@@ -11,6 +12,9 @@ import { format, parseISO } from 'date-fns';
 })
 export class CandidateAssignFormPage implements OnInit {
   
+  public candidate_id;
+  public store_id; 
+
   public form: FormGroup;
 
   public todayDate;
@@ -20,19 +24,22 @@ export class CandidateAssignFormPage implements OnInit {
 
   constructor(
     private _fb: FormBuilder,
+    private candidateService: CandidateService,
     public modalCtrl: ModalController
   ) { }
 
   ngOnInit() {
     this.setDates();
-    this.initForm();
+    this.candidateService.getTransferCostAtCompanyLevel(this.candidate_id, this.store_id).subscribe(res => {
+      this.initForm(res);
+    })
   }
 
-  initForm() {
+  initForm(res) {
     this.form = this._fb.group({
       rate: ['', Validators.required],
       company_hourly_rate: [''],
-      company_transfer_cost: [''],
+      company_transfer_cost: [res.transfer_cost],
       transfer_cost: [''],
       start_date: [this.todayDate, Validators.required],
     });

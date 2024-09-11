@@ -297,6 +297,11 @@ export class CandidateService {
     return this._authhttp.delete(url);
   }
 
+  getTransferCostAtCompanyLevel(candidate_id, store_id): Observable<any> {
+    const url = `${this._candidateEndpoint}/company-transfer-cost/${candidate_id}/${store_id}`;
+    return this._authhttp.get(url);
+  }
+
   /**
    * Assign candidate to store
    * @param {Candidate} candidate
