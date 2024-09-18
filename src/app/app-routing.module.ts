@@ -462,6 +462,16 @@ const routes: Routes = [
     }
   },
   {
+    path: 'voice-mail-list',
+    canActivate: [AuthService],
+    loadChildren: () => import('./pages/logged-in/yeaster/voice-mail/voice-mail-list/voice-mail-list.module').then( m => m.VoiceMailListPageModule)
+  },
+  {
+    path: 'voice-mail-view',
+    canActivate: [AuthService],
+    loadChildren: () => import('./pages/logged-in/yeaster/voice-mail/voice-mail-view/voice-mail-view.module').then( m => m.VoiceMailViewPageModule)
+  },
+  {
     path: 'analytics',
     loadChildren: () => import('./pages/logged-in/analytics/analytics.module').then( m => m.AnalyticsPageModule),
     canActivate: [AuthService],
