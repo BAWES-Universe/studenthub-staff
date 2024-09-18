@@ -1,0 +1,51 @@
+<ion-header mode="md" [class.add-border]="borderLimit" class="ion-no-border">
+  <ion-toolbar class="container">
+    <ion-buttons slot="start">
+      <ion-back-button icon="assets/images/icon-back.svg" defaultHref="/view/tasks"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Voice mails</ion-title>
+  </ion-toolbar>
+  <ion-progress-bar type="indeterminate" *ngIf="processing"></ion-progress-bar>
+
+</ion-header>
+
+<ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  
+  <div class="container">  
+      
+    <ion-list>
+      
+      <!-- tappable (click)="rowSelected(voiceMail)" -->
+        <ion-item  *ngFor="let voiceMail of voiceMails">
+          <div tabindex="0"></div>
+          <ion-label>
+            <h5>{{ voiceMail.file_name }}</h5>
+            <!-- <p><b>Played?:</b> {{ voiceMail.is_read == 0? "No": "Yes" }}</p>-->
+            <p><b>Duration:</b> {{ voiceMail.duration }} seconds</p>
+            <p><b>Size:</b> {{ voiceMail.size }} </p>
+            <p><b>Time:</b> {{ voiceMail.time }}</p>
+            <p><b>Number:</b> {{ voiceMail.number }}</p>
+
+            <audio controls>
+              <source [src]="voiceMail.s3_file_path" type="audio/wav">
+              Your browser does not support the audio element.
+            </audio>
+  
+          </ion-label>
+    
+        </ion-item>
+  
+
+      <loading-modal [loading]="loading" type="text-list"></loading-modal>
+    </ion-list>
+
+    <ion-infinite-scroll *ngIf="currentPage < pageCount"
+      (ionInfinite)="doInfinite($event)">
+      <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+  </div>
+
+</ion-content> 
