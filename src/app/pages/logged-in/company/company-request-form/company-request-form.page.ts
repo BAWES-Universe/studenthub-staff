@@ -81,7 +81,9 @@ export class CompanyRequestFormPage implements OnInit {
       compensation: [this.model.request_compensation, Validators.required],
       additional_info: [this.model.request_additional_info],
       gender: [this.model.gender],
-      nationality_id: [this.model.nationality_id]
+      nationality_id: [this.model.nationality_id],
+      our_fees: [this.model.our_fees],
+      our_fees_unit: [this.model.our_fees_unit],
     });
 
     this.operation = (this.model && this.model.request_uuid) ? 'Update' : 'Create';
@@ -143,6 +145,8 @@ export class CompanyRequestFormPage implements OnInit {
     this.model.no_of_employees_per_story = this.form.value.no_of_employees_per_story;
     this.model.nationality_id = this.form.value.nationality_id; 
     this.model.gender = this.form.value.gender;
+    this.model.our_fees_unit = this.form.value.our_fees_unit;
+    this.model.our_fees = this.form.value.our_fees;
   }
 
   /**
@@ -271,5 +275,7 @@ export class CompanyRequestFormPage implements OnInit {
     this.form.controls['no_of_employees_per_story'].setValue(null);
     this.form.controls['nationality_id'].setValue(null);
     this.form.controls['gender'].setValue(null);
+    this.form.controls['our_fees'].setValue(null);
+    this.form.controls['our_fees_unit'].setValue(null);
   }
 }

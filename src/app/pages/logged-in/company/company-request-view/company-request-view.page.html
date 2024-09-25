@@ -113,6 +113,10 @@
         {{ staff.staff_name }}
       </ion-badge>
 
+      <ion-badge *ngIf="request.our_fees > 0">
+        Our fees {{ request.our_fees + " " + request.company.currency_code + " / " + request.our_fees_unit }}
+      </ion-badge>
+       
       <ion-grid>
         <ion-row>
           <ion-col class="lbl">

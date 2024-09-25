@@ -134,7 +134,9 @@ export class RequestFormPage implements OnInit {
       additional_info: [this.model.request_additional_info],
       requestSkills:  new FormArray(skillCtrls),
       nationality_id: [this.model.nationality_id],
-      gender: [this.model.gender + '']
+      gender: [this.model.gender + ''],
+      our_fees: [this.model.our_fees],
+      our_fees_unit: [this.model.our_fees_unit],
     });
 
     this.operation = (this.requestID) ? 'Update' : 'Create';
@@ -157,6 +159,8 @@ export class RequestFormPage implements OnInit {
     this.model.requestSkills = this.form.value.requestSkills;
     this.model.gender = this.form.value.gender; 
     this.model.nationality_id = this.form.value.nationality_id;
+    this.model.our_fees_unit = this.form.value.our_fees_unit;
+    this.model.our_fees = this.form.value.our_fees;
   }
 
   /**
@@ -327,6 +331,9 @@ export class RequestFormPage implements OnInit {
     this.form.controls['company_name'].setValue(null);
     this.form.controls['location'].setValue(null);
     this.form.controls['no_of_employees_per_story'].setValue(null);
+    this.form.controls['our_fees'].setValue(null);
+    this.form.controls['our_fees_unit'].setValue(null);
+    
     this.form.controls['requestSkills'].setValue([
       this.fb.group({
         skill: ['', []]

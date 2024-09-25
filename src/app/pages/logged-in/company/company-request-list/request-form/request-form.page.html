@@ -176,6 +176,35 @@
           <ion-textarea formControlName="additional_info" placeholder="Female only, Lebanese Jordanian Syrian NO EGYPTIAN"></ion-textarea>
         </ion-item>
         
+        
+
+        <ion-list class="input-wrapper">
+          <ion-radio-group formControlName="our_fees_unit">
+            <ion-list-header>
+              <ion-label> Our fees </ion-label>
+              
+            </ion-list-header>
+        
+            <ion-item>
+              <ion-label>Per hour</ion-label>
+              <ion-radio slot="start" value="Per hour"></ion-radio>
+            </ion-item>
+
+            <ion-item>
+              <ion-label>Per month</ion-label>
+              <ion-radio slot="start" value="Per month"></ion-radio>
+            </ion-item>
+          </ion-radio-group>
+        </ion-list>
+  
+
+        <ion-item class="input-wrapper">
+          <div tabindex="0"></div>
+          <ion-label position="floating">{{company? "Amount (" + company.currency_code + ")": "Amount" }}</ion-label>
+          <ion-input formControlName="our_fees">
+          </ion-input>
+        </ion-item> 
+        
       </ion-col>
     </ion-row>
     </ion-grid>

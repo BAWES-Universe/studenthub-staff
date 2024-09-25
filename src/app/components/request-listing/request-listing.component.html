@@ -76,6 +76,10 @@
 
       <div *ngIf="request" class="content-footer ion-text-center" [class.background-grey]="active" [class.background-red]="!active" [class.background-green]="request.request_status == 'delivered'">
 
+        <p *ngIf="request.our_fees > 0">
+          {{ request.our_fees + " " + request.company.currency_code + " / " + request.our_fees_unit }}
+        </p> 
+
         <p *ngIf="request.request_started_at && request.staff">
           Started {{ request.request_started_at | timeAgo }} By {{ request.staff.staff_name }}
         </p>

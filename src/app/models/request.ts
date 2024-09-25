@@ -40,6 +40,8 @@ export class Request {
     request_updated_datetime: string;
     activeSuggestionCount: number; 
     newApplicationCount: number;
+    our_fees_unit: string;
+    our_fees: number;
     requestCreatedBy: Staff;
     requestUpdatedBy: Staff;
     contact: Contact;

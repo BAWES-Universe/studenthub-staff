@@ -4,7 +4,7 @@
       <ion-back-button icon="assets/images/icon-back.svg" (click)="close()"></ion-back-button>
     </ion-buttons>
   </ion-toolbar>
-  <ion-toolbar class="container" [class.hidden]="borderLimit">
+  <ion-toolbar class="container" ><!-- [class.hidden]="borderLimit"-->
     <ion-title>{{ operation }}</ion-title>
     <ion-buttons slot="end">
       <ion-button clear (click)="close()">
@@ -150,13 +150,29 @@
             <ion-textarea formControlName="compensation" placeholder="Please provide compensation detail"></ion-textarea>
           </ion-item> 
 
+          <ion-radio-group formControlName="our_fees_unit">
+            <ion-item>
+              <div tabindex="0"></div>
+              <ion-label>Per hour</ion-label>
+              <ion-radio slot="start" value="Per hour"></ion-radio>
+              <ion-radio slot="start" value="Per month"></ion-radio>
+            </ion-item>
+          </ion-radio-group>
+
+          <ion-item class="input-wrapper">
+            <div tabindex="0"></div>
+            <ion-label position="floating">Our fees</ion-label>
+            <ion-input formControlName="our_fees">
+            </ion-input>
+          </ion-item> 
+
+          <!-- <ion-select formControlName="our_fees_unit" slot="end">
+              <ion-select-option>Per hour</ion-select-option>
+              <ion-select-option>Per month</ion-select-option>
+            </ion-select> -->
         </ion-col>
       </ion-grid>
-      
-      
-
-      
-
+       
         </form>
   </div>
 </ion-content>

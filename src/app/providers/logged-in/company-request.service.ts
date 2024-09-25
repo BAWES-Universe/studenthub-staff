@@ -125,7 +125,9 @@ export class CompanyRequestService {
       job_description: model.request_job_description,
       requestSkills: model.requestSkills,
       nationality_id: model.nationality_id, 
-      gender: model.gender
+      gender: model.gender,
+      our_fees: model.our_fees,
+      our_fees_unit: model.our_fees_unit,
     });
   }
 
@@ -192,7 +194,9 @@ export class CompanyRequestService {
       job_description: model.request_job_description,
       requestSkills: model.requestSkills,
       nationality_id: model.nationality_id, 
-      gender: model.gender
+      gender: model.gender,
+      our_fees: model.our_fees,
+      our_fees_unit: model.our_fees_unit,
     });
   }
 
