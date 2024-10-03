@@ -110,7 +110,9 @@
                         Invalid value
                       </span>
                     </ion-label>        
-                    <ion-input type="number" inputmode="numeric" min="0" (ionChange)="calculateTotal()"
+                    <ion-input type="number" inputmode="numeric" min="0" 
+                      (ionFocus)="checkDecimalHours(transferCandidateRecord.candidate.candidate_id);"
+                      (ionChange)="calculateTotal()"
                       [(ngModel)]="transferCandidateRecord.minutes"
                       formControlName="minutes[{{transferCandidateRecord.candidate.candidate_id}}]">
                     </ion-input>

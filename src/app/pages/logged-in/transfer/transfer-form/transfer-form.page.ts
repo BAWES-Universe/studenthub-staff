@@ -515,6 +515,28 @@ export class TransferFormPage implements OnInit {
     });
   }
 
+  checkDecimalHours(candidate_id) {
+
+    const hours = this.form.controls['hours[' + candidate_id + ']'].value; 
+  
+    const minutes = hours * 60;
+
+    //if hours decimal and minutes not available
+ 
+    if (minutes % 60 > 0 && !this.form.controls['minutes[' + candidate_id + ']'].value) {
+      const newHours = Math.floor(minutes/ 60);    
+      const newMinutes = minutes - (newHours * 60);//(hours - newHours) * 60;    
+  
+      this.form.controls['hours[' + candidate_id + ']'].setValue(newHours);
+      this.form.controls['hours[' + candidate_id + ']'].updateValueAndValidity();
+      this.form.controls['hours[' + candidate_id + ']'].markAsDirty();
+
+      this.form.controls['minutes[' + candidate_id + ']'].setValue(newMinutes);
+      this.form.controls['minutes[' + candidate_id + ']'].updateValueAndValidity();
+      this.form.controls['minutes[' + candidate_id + ']'].markAsDirty();
+    }
+  }
+
   async openCalendarPopup(event) {
 
     let fromDate = new Date();
