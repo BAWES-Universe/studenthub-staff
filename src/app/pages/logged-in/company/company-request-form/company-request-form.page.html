@@ -107,7 +107,8 @@
             <ion-input type="text" formControlName="position_title"></ion-input>
           </ion-item> 
            
-            <ion-item *ngIf="!model.request_uuid" class="input-wrapper">
+          <!-- *ngIf="!model.request_uuid"-->
+            <ion-item  class="input-wrapper">
               <div tabindex="0"></div>
               <ion-label position="floating">Number of employees</ion-label>
               <ion-input type="text" formControlName="number_of_employees"></ion-input>
