@@ -31,6 +31,16 @@ export class CandidateService {
   }
 
   /**
+   * @param model 
+   * @returns 
+   */
+  markNotDeleted(model: Candidate): Observable<any>{
+    const url = `${this._candidateEndpoint}/mark-not-deleted/${model.candidate_id}`;
+    return this._authhttp.patch(url, {
+    });
+  }
+
+  /**
    * toggle committed
    * @param model
    */

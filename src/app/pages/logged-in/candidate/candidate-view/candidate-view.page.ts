@@ -78,6 +78,8 @@ export class CandidateViewPage implements OnInit {
 
   public candidate_id;
 
+  public markingNotDeleted;
+
   public loadingSalaryTransfers = false;
   public sendingPassword = false;
   public assigning = false;
@@ -652,9 +654,32 @@ export class CandidateViewPage implements OnInit {
       if (e.data && e.data.login) {
         this.login();
       }
+
+      if (e.data && e.data.markNotDeleted) {
+        this.markNotDeleted();
+      }
     });
   }
 
+  async markNotDeleted() {
+    this.markingNotDeleted = true; 
+
+    this.candidateService.markNotDeleted(this.candidate).subscribe(async response => {
+      this.markingNotDeleted = false;
+
+      if (response.operation == 'error') {
+        const toast = await this.toastCtrl.create({
+          message: this.authService.errorMessage(response.message),
+          duration: 3000
+        });
+
+        toast.present();
+      }
+      else {
+        this.candidate.deleted = false;
+      }
+    });
+  }
 
   login() {
      

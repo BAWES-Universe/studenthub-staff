@@ -8,7 +8,12 @@
       <ion-button (click)="openPopover($event)" *ngIf="candidate && !candidate?.deleted">
         <ion-icon src="assets/icon/icon-option.svg"></ion-icon>
       </ion-button>
+
+      <ion-button [disabled]="markingNotDeleted" (click)="markNotDeleted()" *ngIf="candidate && candidate.deleted">
+        Undo delete
+      </ion-button>
     </ion-buttons>
+
   </ion-toolbar>
 
   <!-- -->

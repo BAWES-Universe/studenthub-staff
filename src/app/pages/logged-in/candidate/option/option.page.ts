@@ -90,6 +90,7 @@ export class OptionPage implements OnInit {
     alert.present();
   }
 
+
   /**
    * Reset and email the candidate a new password
    */
@@ -291,6 +292,14 @@ export class OptionPage implements OnInit {
     this.popoverCtrl.getTop().then(o => {
       if(o) {
         o.dismiss({ suggess: true });
+      }
+    });
+  }
+
+  markNotDeleted() {
+    this.popoverCtrl.getTop().then(o => {
+      if(o) {
+        o.dismiss({ markNotDeleted: true });
       }
     });
   }

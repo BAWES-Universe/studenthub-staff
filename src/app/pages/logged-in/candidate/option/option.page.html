@@ -145,6 +145,15 @@
     </ion-label>
   </ion-item>
 
+  <ion-item *ngIf="candidate.deleted" tappable>
+    <div tabindex="0"></div>
+    <ion-label (click)="markNotDeleted()">
+      <ion-icon class="warning" name="checkmark-circle-outline"></ion-icon>
+      <span *ngIf="!assigning">Mark not deleted</span>
+      <ion-spinner *ngIf="assigning"></ion-spinner>
+    </ion-label>
+  </ion-item>
+
   <ion-item *ngIf="!candidate.store" (click)="markDuplicate()" tappable>
     <div tabindex="0"></div>
     <ion-label>
