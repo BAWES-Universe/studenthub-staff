@@ -59,9 +59,9 @@ export class CompanyContractFormPage implements OnInit {
   _initForm() {
  
     if (!this.model){ // Show Create Form
-      this.operation  = 'Add Brand';
+      this.operation  = 'Add Contract';
     } else { // Show Update Form
-      this.operation  = 'Update Brand';
+      this.operation  = 'Update Contract';
     }
  
     this.form = this._fb.group({
