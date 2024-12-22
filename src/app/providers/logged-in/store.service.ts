@@ -51,10 +51,20 @@ export class StoreService {
 
   /**
    * detail
-   * @param story_id
+   * @param store_id
    */
-  detail(story_id: number): Observable<any>{
-    const url = `${this._storeEndpoint}/${story_id}?expand=storeManager,candidates`;
+  detail(store_id: number): Observable<any>{
+    const url = `${this._storeEndpoint}/${store_id}?expand=storeManager,candidates`;
+    return this._authhttp.get(url);
+  }
+
+  /**
+   * get recruitment contracts
+   * @param store_id 
+   * @returns 
+   */
+  contracts(store_id: number): Observable<any>{
+    const url = `${this._storeEndpoint}/contracts/${store_id}`;
     return this._authhttp.get(url);
   }
 

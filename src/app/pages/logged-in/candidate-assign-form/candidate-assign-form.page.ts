@@ -2,8 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import { format, parseISO } from 'date-fns';
+//models
 import { Contract } from 'src/app/models/contract';
+//services
 import { CandidateService } from 'src/app/providers/logged-in/candidate.service';
+import { StoreService } from 'src/app/providers/logged-in/store.service';
 
 
 @Component({
@@ -29,6 +32,7 @@ export class CandidateAssignFormPage implements OnInit {
 
   constructor(
     private _fb: FormBuilder,
+    private storeService: StoreService,
     private candidateService: CandidateService,
     public modalCtrl: ModalController
   ) { }
@@ -38,6 +42,10 @@ export class CandidateAssignFormPage implements OnInit {
     this.candidateService.getTransferCostAtCompanyLevel(this.candidate_id, this.store_id).subscribe(res => {
       this.initForm(res);
       //this.contracts = res.contracts;
+    });
+
+    this.storeService.contracts(this.store_id).subscribe(res => {
+      this.contracts = res;
     })
   }
 
