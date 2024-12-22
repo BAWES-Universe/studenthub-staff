@@ -412,7 +412,8 @@ export class CandidateViewPage implements OnInit {
 
       if(e.data && (e.data.rate || e.data.contract_uuid)) {
         this.assignCandidateToStoreWithRate(storeID, e.data.rate, e.data.start_date, 
-          e.data.company_hourly_rate, e.data.company_transfer_cost, e.data.transfer_cost, e.data.contract_uuid);
+          e.data.company_hourly_rate, e.data.company_transfer_cost, e.data.transfer_cost, 
+          e.data.contract_uuid);
       }
     });
     modal.present();
