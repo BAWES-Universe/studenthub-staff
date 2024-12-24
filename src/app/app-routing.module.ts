@@ -789,6 +789,11 @@ const routes: Routes = [
   },
 
   {
+    path: 'appeal-list',
+    canActivate: [AuthService],
+    loadChildren: () => import('./pages/logged-in/candidate/candidate-work-log/appeal-list/appeal-list.module').then( m => m.AppealListPageModule)
+  },
+  {
     path: '**',
     redirectTo: 'not-found'
   },

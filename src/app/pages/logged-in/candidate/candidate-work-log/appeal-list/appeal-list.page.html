@@ -1,0 +1,79 @@
+
+<ion-header mode="md" [class.add-border]="borderLimit" class="ion-no-border">
+  <ion-toolbar class="container">
+    <ion-buttons slot="start">
+      <ion-back-button icon="assets/images/icon-back.svg" defaultHref="/"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-toolbar class="container">
+    <ion-title>Work Log Appeals</ion-title>
+  </ion-toolbar>
+  <ion-toolbar class="container searchbar-wrapper">
+
+    <ion-searchbar mode="md" [(ngModel)]="query" (ionChange)="loadData()" placeholder="Search candidates..."
+      debounce="100"></ion-searchbar>
+
+    <ion-buttons slot="end">
+      <ion-button class="setting_btn" [class.active]="filter.from || filter.to || filter.status" (click)="openFilter()">
+        <ion-icon name="options-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+<ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  
+  <div class="container">
+    <no-items *ngIf="!loading && appeals.length == 0" message="No data available"></no-items>
+
+    <div *ngFor="let appeal of appeals" class="mb-4 mx-4 p-4 bg-white rounded-lg shadow-[0px_0px_2px_0px_rgba(35,35,38,0.06)] flex-col justify-center 
+    items-start gap-1.5 flex"> 
+          <div class="self-stretch h-6 justify-start items-start gap-1 inline-flex">
+              <div class="grow shrink basis-0 text-[#22223d] text-base font-medium font-['Inter'] leading-normal">
+                Appeal by {{appeal.candidate.candidate_name}}
+              </div>
+              <div class="px-1.5 py-0.5 bg-[#f4f6ff] rounded-md justify-start items-start gap-2.5 flex">
+                  <div *ngIf="appeal.status == 10" class="text-right text-[#4c6ff2] text-sm font-medium font-['Inter'] leading-tight">
+                    Submitted
+                  </div>
+                  <div *ngIf="appeal.status == 1" class="text-right text-[#4c6ff2] text-sm font-medium font-['Inter'] leading-tight">
+                    Awaiting Review
+                  </div>
+                  <div *ngIf="appeal.status == 2" class="text-right text-[#ca7f3e] text-sm font-medium font-['Inter'] leading-tight">
+                    In Progress
+                  </div>
+                  <div *ngIf="appeal.status == 3" class="text-right text-[#28b563] text-sm font-medium font-['Inter'] leading-tight">
+                    Resolved
+                  </div>
+              </div>
+          </div>
+          <div class="self-stretch h-10 flex-col justify-center items-start gap-1 flex">
+              <div class="self-stretch text-[#4b4b61] text-sm font-normal font-['Inter'] leading-tight">
+                {{appeal.reason}}
+              </div>
+          </div>
+          <div class="self-stretch h-4 flex-col justify-center items-start gap-1 flex" *ngIf="appeal.candidateWorkingDate">
+              <div class="self-stretch text-[#4b4b61] text-xs font-normal font-['Inter'] leading-none">
+                Total Time: {{secondsToTime(appeal.candidateWorkingDate.total_time) }}
+              </div>
+          </div>
+          <div class="self-stretch h-6 justify-center items-center gap-2.5 inline-flex">
+              <div class="grow shrink basis-0 text-[#22223d] text-xs font-normal font-['Inter'] leading-none">
+                {{ translateService.toDate(appeal.created_at) | date: 'EEE d MMM' }}
+              </div>
+              <!--
+              <div class="px-1.5 py-0.5 bg-[#f5f5f7] rounded-md justify-start items-center gap-2.5 flex">
+                  <div class="justify-start items-center gap-1 flex">
+                      <div class="w-3.5 h-3.5 bg-[#eb5757] rounded-full"></div>
+                      <div class="text-[#22223d] text-xs font-medium font-['Inter'] leading-none">
+                        1 Rejected
+                      </div>
+                  </div>
+              </div>-->
+          </div>
+      </div> 
+  </div>  
+</ion-content>

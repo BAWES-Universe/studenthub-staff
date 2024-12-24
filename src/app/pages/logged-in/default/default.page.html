@@ -279,9 +279,19 @@
         </ion-card>
       </div>
       
-      <div *ngIf="eventsService.statistics.companyUnderReview > 0 || eventsService.statistics.companyMoreThen40DaysWithoutPayment > 0 || eventsService.statistics.requireFollowup > 0 || eventsService.statistics.last40daysNoRequest > 0">
+      <div *ngIf="eventsService.statistics.workLogAppeals > 0 || eventsService.statistics.companyUnderReview > 0 || eventsService.statistics.companyMoreThen40DaysWithoutPayment > 0 || eventsService.statistics.requireFollowup > 0 || eventsService.statistics.last40daysNoRequest > 0">
         <h3>Sales</h3>
         
+        <ion-card class="danger stats" *ngIf="eventsService.statistics.workLogAppeals > 0" routerLink="/appeal-list">
+          <ion-item class="ion" detail lines="none">
+            <div tabindex="0"></div>
+            <ion-label class="ion-text-wrap">
+              <span>{{ eventsService.statistics.workLogAppeals }}</span>
+              <p>New appeals to be reviewed</p>
+            </ion-label>
+          </ion-item>
+        </ion-card>
+
         <ion-card class="danger stats" *ngIf="eventsService.statistics.companyUnderReview > 0" tappable (click)="companyListReview()">
           <ion-item class="ion" detail lines="none">
             <div tabindex="0"></div>

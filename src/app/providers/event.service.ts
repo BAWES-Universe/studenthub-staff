@@ -29,6 +29,7 @@ export class EventService {
     totalInProgressTickets: number;
     totalPendingTickets: number;
     totalMinor: number;
+    workLogAppeals: number;
   };
 
   public setOneSignal$ = new Subject();

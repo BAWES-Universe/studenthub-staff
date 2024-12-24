@@ -104,6 +104,7 @@ export class CandidateWorkingHour {
   end_location_long: string;
   created_at: string;
   updated_at: string;
+  appeal_uuid: string;//hours created by appeal
   store:Store;
   dateListByCandidate: any[];
 }

@@ -38,4 +38,22 @@ export class CandidateWorkingHourService {
     const url = `${this._endpoint}/date/${date}/${candidateId}?expand=dateListByCandidate`;//company,
     return this._authhttp.get(url);
   }
+
+  listAppeal(page: number, param: string = ""): Observable<any>{
+    const url = this._endpoint + `/appeals?page=${page}&expand=candidate,candidateWorkingDate${param}`;
+    return this._authhttp.getRaw(url);
+  }
+
+  appealDetail(appeal_uuid: string): Observable<any>{
+    const url = this._endpoint + `/appeal/${appeal_uuid}?expand=originalHour,correctedHours,candidate`;
+    return this._authhttp.get(url);
+  }
+
+  appealUpdate(appeal_uuid: string, values: any): Observable<any>{
+    const url = this._endpoint + `/appeal-update/${appeal_uuid}`;
+    return this._authhttp.post(url, {
+      update: values.update,
+      detail: values.detail
+    });
+  }
 }
