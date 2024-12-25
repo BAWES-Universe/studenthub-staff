@@ -794,6 +794,10 @@ const routes: Routes = [
     loadChildren: () => import('./pages/logged-in/candidate/candidate-work-log/appeal-list/appeal-list.module').then( m => m.AppealListPageModule)
   },
   {
+    path: 'appeal',
+    loadChildren: () => import('./pages/logged-in/candidate/candidate-work-log/appeal-view/appeal-view.module').then( m => m.AppealViewPageModule)
+  },
+  {
     path: '**',
     redirectTo: 'not-found'
   },

@@ -1,4 +1,6 @@
 import { Candidate, CandidateWorkingHour } from "./candidate";
+import { CandidateWorkingDate } from "./candidate-working-date";
+import { CandidateWorkingHourAppealUpdates } from "./candidate-working-hour-appeal-updates";
 
 export class CandidateWorkingHourAppeal {
   appeal_uuid: string;
@@ -11,4 +13,6 @@ export class CandidateWorkingHourAppeal {
   originalHour: CandidateWorkingHour;
   created_at: string;
   updated_at: string;
+  candidateWorkingHourAppealUpdates: CandidateWorkingHourAppealUpdates[];
+  candidateWorkingDate: CandidateWorkingDate;
 }

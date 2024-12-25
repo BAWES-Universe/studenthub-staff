@@ -10,6 +10,7 @@ import { CandidateTag } from './candidate-tag';
 import { CandidateEducation } from './candidate-education';
 import { CandidateWorkHistory } from './candidate-work-history';
 import { CandidateCertificate } from './certificate';
+import { CandidateWorkLogFeedback } from './candidate-work-log-feedback';
 
 export class Candidate {
     employee_id: number;
@@ -106,5 +107,7 @@ export class CandidateWorkingHour {
   updated_at: string;
   appeal_uuid: string;//hours created by appeal
   store:Store;
+  company: Company;
+  candidateWorkLogFeedback:  CandidateWorkLogFeedback;
   dateListByCandidate: any[];
 }

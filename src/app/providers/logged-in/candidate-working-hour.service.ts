@@ -45,7 +45,7 @@ export class CandidateWorkingHourService {
   }
 
   appealDetail(appeal_uuid: string): Observable<any>{
-    const url = this._endpoint + `/appeal/${appeal_uuid}?expand=originalHour,correctedHours,candidate`;
+    const url = this._endpoint + `/appeal/${appeal_uuid}?expand=candidateWorkingHourAppealUpdates,candidateWorkingHourAppealUpdates.createdBy,candidateWorkingDate,originalHour,originalHour.store,candidateWorkingDate.company,originalHour.candidateWorkLogFeedback,correctedHours,candidate`;
     return this._authhttp.get(url);
   }
 
@@ -54,6 +54,13 @@ export class CandidateWorkingHourService {
     return this._authhttp.post(url, {
       update: values.update,
       detail: values.detail
+    });
+  }
+
+  updateAppealStatus(appeal_uuid: string, status: number): Observable<any>{
+    const url = this._endpoint + `/appeal-update-status/${appeal_uuid}`;
+    return this._authhttp.post(url, {
+      status,
     });
   }
 }

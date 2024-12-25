@@ -29,7 +29,7 @@
   <div class="container">
     <no-items *ngIf="!loading && appeals.length == 0" message="No data available"></no-items>
 
-    <div *ngFor="let appeal of appeals" class="mb-4 mx-4 p-4 bg-white rounded-lg shadow-[0px_0px_2px_0px_rgba(35,35,38,0.06)] flex-col justify-center 
+    <div [routerLink]="'/appeal/' + appeal.appeal_uuid" *ngFor="let appeal of appeals" class="cursor-pointer mb-4 mx-4 p-4 bg-white rounded-lg shadow-[0px_0px_2px_0px_rgba(35,35,38,0.06)] flex-col justify-center 
     items-start gap-1.5 flex"> 
           <div class="self-stretch h-6 justify-start items-start gap-1 inline-flex">
               <div class="grow shrink basis-0 text-[#22223d] text-base font-medium font-['Inter'] leading-normal">
