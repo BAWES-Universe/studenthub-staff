@@ -19,6 +19,16 @@
   <!-- -->
   <ion-toolbar class="container" *ngIf="candidate">
 
+    <!-- todo: invitation detail -->
+    <div className="w-full h-[52px] relative p-4 bg-[#f4f6ff] rounded-lg">
+      <span class="text-[#22223d] text-sm font-normal font-['Inter'] leading-tight">
+        You’re inviting for
+      </span>
+      <span class="text-[#4c6ff2] text-sm font-semibold font-['Inter'] leading-tight">
+        Sales Associate
+      </span>
+    </div>
+    
     <ion-thumbnail slot="start" *ngIf="candidate.candidate_personal_photo">
       <img (error)="onPhotoError()"
         src="{{ awsService.cloudinaryUrl + 'candidate-photo/' + candidate.candidate_personal_photo }}" />
