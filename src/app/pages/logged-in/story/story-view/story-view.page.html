@@ -56,42 +56,57 @@
 
   <div class="container" *ngIf="segment == 'job-post'">
 
-    <div class="w-full my-4  bg-white rounded-lg shadow-[0px_2px_4px_0px_rgba(0,0,0,0.10)] flex-col justify-start items-start inline-flex">
+    <ion-button *ngIf="!story.job" (click)="jobForm(story.job)" class="btn-post my-4" >
+      <ion-icon name="add-outline"></ion-icon>
+      Add Job Post
+    </ion-button>
+
+    <!--  *ngFor="let job of jobs" -->
+    <div *ngIf="story.job" class="w-full my-4 bg-white rounded-lg shadow-[0px_2px_4px_0px_rgba(0,0,0,0.10)] flex-col justify-start items-start inline-flex">
       <div class="self-stretch p-4 bg-white shadow-[inset_0px_-1px_0px_0px_rgba(226,226,230,1.00)] flex-col justify-start items-start gap-4 flex">
           <div class="self-stretch justify-start items-center gap-1 inline-flex">
               <div class="grow shrink basis-0 h-6 justify-start items-center gap-1 flex">
-                  <div class="grow shrink basis-0 text-[#22223d] text-lg font-bold font-['Inter'] leading-normal">Sales Associate</div>
+                  <div class="grow shrink basis-0 text-[#22223d] text-lg font-bold font-['Inter'] leading-normal">
+                    {{ translateService.langContent(story.job.position, story.job.position_ar) }}</div>
               </div>
               
-              <div class="px-3 py-1.5 bg-[#f5f5f7] rounded-lg justify-center items-center gap-2.5 flex">
+              <div *ngIf="story.job.status == 1 && !story.job.is_available" class="px-3 py-1.5 bg-[#f5f5f7] rounded-lg justify-center items-center gap-2.5 flex">
                   <div class="text-[#68687a] text-sm font-medium font-['Inter'] leading-tight">
-                      No Longer Available
+                    {{ 'No Longer Available' | translate }}
                   </div>
               </div>
 
+              <!-- *ngIf="story.job.is_available" -->
               <div class="px-3 py-1.5 bg-[#f5f5f7] rounded-lg justify-center items-center gap-2.5 flex">
-                  <div class="text-[#68687a] text-sm font-medium font-['Inter'] leading-tight">2d ago</div>
+                
+                <div *ngIf="story.job.is_available && story.job.status == 1" class="text-[#68687a] text-sm font-medium font-['Inter'] leading-tight">
+                  {{ story.job.created_at | timeAgo }}
+                </div>
+
+                <div *ngIf="story.job.status == 2" class="text-[#68687a] text-sm font-medium font-['Inter'] leading-tight">
+                  {{ "Closed" | translate }}
+                </div>
+
+                <div *ngIf="story.job.status == 10" class="text-[#68687a] text-sm font-medium font-['Inter'] leading-tight">
+                  {{ "Draft" | translate }}
+                </div>
               </div>
 
           </div>
-          <div class="self-stretch text-[#22223d] text-sm font-normal font-['Inter'] leading-tight">Would you be interested to work as a sales associate for a perfume brand in Marina Mall, Salmiya?</div>
+
+          <div *ngIf="story.job.description" class="self-stretch text-[#22223d] text-sm font-normal font-['Inter'] leading-tight">
+            {{ translateService.langContent(story.job.description, story.job.description_ar) }}
+          </div>
          
-          <div class="self-stretch justify-start items-center gap-2 block">
-              <div class="px-3 py-1.5 bg-[#f5f5f7] rounded-lg justify-center items-center me-2.5 mb-2.5 gap-2.5 inline-block">
-                  <div class="text-[#68687a] text-sm font-semibold font-['Inter'] leading-tight">Communication</div>
-              </div>
-              <div class="px-3 py-1.5 bg-[#f5f5f7] rounded-lg justify-center items-center me-2.5 mb-2.5 gap-2.5 inline-block">
-                  <div class="text-[#68687a] text-sm font-semibold font-['Inter'] leading-tight">Presentable</div>
-              </div>
-              <div class="px-3 py-1.5 bg-[#f5f5f7] rounded-lg justify-center items-center me-2.5 mb-2.5 gap-2.5 inline-block">
-                  <div class="text-[#68687a] text-sm font-semibold font-['Inter'] leading-tight">Negotiation</div>
-              </div>
-              <div class="px-3 py-1.5 bg-[#f5f5f7] rounded-lg justify-center items-center me-2.5 mb-2.5 gap-2.5 inline-block">
-                  <div class="text-[#68687a] text-sm font-semibold font-['Inter'] leading-tight">Bilingual</div>
-              </div>
+          <div *ngIf="story.job.jobSkills && story.job.jobSkills.length > 0" class="self-stretch justify-start items-center gap-2 block">
+              <div *ngFor="let jobSkill of story.job.jobSkills" class="px-3 py-1.5 bg-[#f5f5f7] rounded-lg justify-center items-center me-2.5 mb-2.5 gap-2.5 inline-block">
+                  <div class="text-[#68687a] text-sm font-semibold font-['Inter'] leading-tight">
+                    {{ translateService.langContent(jobSkill.skill, jobSkill.skill_ar) }}
+                  </div>
+              </div> 
           </div>
 
-          <div class="self-stretch justify-center items-center gap-2.5 inline-flex">
+          <div *ngIf="story.job.available_from || story.job.available_to" class="self-stretch justify-center items-center gap-2.5 inline-flex">
              
               <div class="w-6 h-6 relative">
                   <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -100,8 +115,26 @@
                   </svg>
               </div>
               
-              <div class="relative top-[-3px] grow shrink basis-0 text-[#22223d] text-sm font-medium font-['Inter'] leading-tight">
-                  Opportunity available till 23 December.
+              <div *ngIf="story.job.available_from && story.job.available_to" class="relative top-[-3px] grow shrink basis-0 text-[#22223d] text-sm font-medium font-['Inter'] leading-tight">
+                {{ "txt_available_from_to" | translate : { 
+                      from: story.job.available_from | date : 'dd MMMM', 
+                      to: story.job.available_to | date : 'dd MMMM' 
+                   } 
+                }} 
+              </div>
+              
+              <div *ngIf="story.job.available_from && !story.job.available_to" class="relative top-[-3px] grow shrink basis-0 text-[#22223d] text-sm font-medium font-['Inter'] leading-tight">
+                {{ "txt_available_from" | translate : { 
+                    value: story.job.available_from | date : 'dd MMMM'
+                  } 
+                }} 
+              </div>
+          
+              <div *ngIf="!story.job.available_from && story.job.available_to" class="relative top-[-3px] grow shrink basis-0 text-[#22223d] text-sm font-medium font-['Inter'] leading-tight">
+                {{ "txt_available_to" | translate : { 
+                    value: story.job.available_to | date : 'dd MMMM'
+                  } 
+                }} 
               </div>
           </div>
       </div>
@@ -116,24 +149,34 @@
                       <path d="M8.39158 3.60315V4.297C7.0293 4.55051 6 5.6302 6 6.92151C6 7.8083 6.49641 8.99076 8.85177 9.58816C10.1352 9.91388 10.7893 10.4146 10.7893 11.0784C10.7893 11.893 9.99005 12.5565 9.00305 12.5565C8.01604 12.5565 7.21684 11.893 7.21684 11.0784C7.21684 10.7466 6.94444 10.4752 6.61147 10.4752C6.2785 10.4752 6.0061 10.7466 6.0061 11.0784C6.0061 12.3695 7.0354 13.4554 8.39768 13.7029V14.3968C8.39768 14.7286 8.67008 15 9.00305 15C9.33602 15 9.60842 14.7286 9.60842 14.3968V13.7029C10.9707 13.4494 12 12.3697 12 11.0784C12 10.1916 11.5036 9.00918 9.14823 8.41785C7.86477 8.09213 7.21074 7.59143 7.21074 6.92157C7.21074 6.10698 8.00995 5.44345 8.99695 5.44345C9.98396 5.44345 10.7832 6.10704 10.7832 6.92157C10.7832 7.25335 11.0556 7.52479 11.3885 7.52479C11.7215 7.52479 11.9939 7.25335 11.9939 6.92157C11.9939 5.63052 10.9646 4.54457 9.60232 4.29706V3.60322C9.60232 3.27144 9.32992 3 8.99695 3C8.66398 2.99975 8.39158 3.26538 8.39158 3.60322V3.60315Z" fill="#F2994A" stroke="#F2994A" stroke-width="0.5"/>
                       </svg>
                   </div>
-                  
-                  <div class="text-[#4b4b61] text-sm font-medium font-['Inter'] leading-tight">
-                      1.7 KD / hour</div>
+                
+                  <div *ngIf="story.job.compensation_type == 'MONTHLY_SALARY'" class="text-[#4b4b61] text-sm font-medium font-['Inter'] leading-tight">
+                    {{ story.job.compensation_amount }} KD / {{ "month" | translate }}
+                  </div>
+
+                  <div *ngIf="story.job.compensation_type == 'HOURLY'" class="text-[#4b4b61] text-sm font-medium font-['Inter'] leading-tight">
+                    {{ story.job.compensation_amount }} KD / {{ "hour" | translate }}
+                  </div>
+
+                  <div *ngIf="story.job.compensation_type == 'FIXED_PRICE'" class="text-[#4b4b61] text-sm font-medium font-['Inter'] leading-tight">
+                    {{ story.job.compensation_amount }} KD 
+                  </div>
               </div>
-              <div class="justify-start items-center gap-1 flex">
-                      
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M12 8.00269C10.8954 8.00269 9.99998 8.89794 9.99998 10.0023C9.99998 11.1066 10.8954 12.0019 12 12.0019C13.1045 12.0019 14 11.1066 14 10.0023C14 8.89794 13.1045 8.00269 12 8.00269Z" fill="#23233D"/>
-                      <path fill-rule="evenodd" clip-rule="evenodd" d="M8.49998 17.4697C9.20083 18.306 9.94688 19.1029 10.7346 19.8567C11.4446 20.5361 12.5554 20.5361 13.2654 19.8567C14.0531 19.1029 14.7991 18.306 15.4999 17.4697C17.0999 15.5591 19 12.7137 19 10.0023C19.0058 8.14504 18.2684 6.36263 16.9519 5.05229C14.95 3.04894 11.9379 2.44923 9.32105 3.533C6.70424 4.61677 4.99858 7.1704 5 10.0023C5 12.7137 6.89999 15.5591 8.49998 17.4697ZM6.99999 10.0023C7.0033 7.24278 9.23993 5.0066 12 5.0033C14.76 5.0066 16.9966 7.24278 16.9999 10.0023C16.9999 11.167 16.4729 13.1856 13.966 16.19C13.555 16.6793 13.1276 17.1543 12.6844 17.6143C12.3096 18.0032 11.6905 18.0031 11.316 17.6138C10.8729 17.153 10.4456 16.6772 10.035 16.187C7.52699 13.1866 6.99999 11.168 6.99999 10.0023Z" fill="#23233D"/>
-                      </svg>
+              <div class="justify-start items-center gap-1 flex" *ngIf="story.job.area">
+                    
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 8.00269C10.8954 8.00269 9.99998 8.89794 9.99998 10.0023C9.99998 11.1066 10.8954 12.0019 12 12.0019C13.1045 12.0019 14 11.1066 14 10.0023C14 8.89794 13.1045 8.00269 12 8.00269Z" fill="#23233D"/>
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M8.49998 17.4697C9.20083 18.306 9.94688 19.1029 10.7346 19.8567C11.4446 20.5361 12.5554 20.5361 13.2654 19.8567C14.0531 19.1029 14.7991 18.306 15.4999 17.4697C17.0999 15.5591 19 12.7137 19 10.0023C19.0058 8.14504 18.2684 6.36263 16.9519 5.05229C14.95 3.04894 11.9379 2.44923 9.32105 3.533C6.70424 4.61677 4.99858 7.1704 5 10.0023C5 12.7137 6.89999 15.5591 8.49998 17.4697ZM6.99999 10.0023C7.0033 7.24278 9.23993 5.0066 12 5.0033C14.76 5.0066 16.9966 7.24278 16.9999 10.0023C16.9999 11.167 16.4729 13.1856 13.966 16.19C13.555 16.6793 13.1276 17.1543 12.6844 17.6143C12.3096 18.0032 11.6905 18.0031 11.316 17.6138C10.8729 17.153 10.4456 16.6772 10.035 16.187C7.52699 13.1866 6.99999 11.168 6.99999 10.0023Z" fill="#23233D"/>
+                  </svg>
 
-
-                  <div class="text-[#4b4b61] text-sm font-medium font-['Inter'] leading-tight">Salmiya</div>
+                  <div class="text-[#4b4b61] text-sm font-medium font-['Inter'] leading-tight">
+                    {{ translateService.langContent(story.job.area.area_name_en, story.job.area.area_name_ar)}}
+                  </div>
               </div>
           </div>
       </div>
 
-      <ion-button class="btn-post m-4 mt-0" fill="outline">
+      <ion-button (click)="jobForm(story.job)" class="btn-post m-4 mt-0" fill="outline">
         Edit Post
       </ion-button>  
     </div>

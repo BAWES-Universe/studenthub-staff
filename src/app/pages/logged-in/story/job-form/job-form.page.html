@@ -1,0 +1,223 @@
+<ion-header mode="md" [class.add-border]="borderLimit" class="ion-no-border">
+  <ion-toolbar class="container">
+    <ion-buttons slot="start">
+      <ion-back-button icon="assets/images/icon-back.svg" (click)="close()"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-toolbar class="container" ><!-- [class.hidden]="borderLimit"-->
+    <ion-title>{{ operation }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button clear (click)="close()">
+        Cancel
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" scrollEvents="true" class="{{ authService.theme }}" (ionScroll)="logScrolling($event)">
+
+  <div class="container">
+    <form [formGroup]="form" *ngIf="form">
+
+      <ion-item class="input-wrapper">
+        <div tabindex="0"></div>
+        <ion-label position="floating">Position</ion-label>
+        <ion-input type="text" formControlName="position"></ion-input>
+      </ion-item>
+      
+      <ion-item class="input-wrapper">
+        <div tabindex="0"></div>
+        <ion-label position="floating">Position - Arabic</ion-label>
+        <ion-input type="text" formControlName="position_ar"></ion-input>
+      </ion-item>
+  
+      <ion-item class="input-wrapper">
+        <div tabindex="0"></div>
+        <ion-label position="floating">Description</ion-label>
+        <ion-textarea formControlName="description"></ion-textarea>
+      </ion-item>
+
+      <ion-item class="input-wrapper">
+        <div tabindex="0"></div>
+        <ion-label position="floating">Description - Arabic</ion-label>  
+        <ion-textarea formControlName="description_ar"></ion-textarea>
+      </ion-item>
+  
+      <ion-card formArrayName="jobSkills" class="mx-0">
+        <ion-card-header>
+          <ion-card-title>Skills</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+
+          <ion-grid>
+            <ion-row>
+              <ion-col>
+                <ion-label>English</ion-label>
+              </ion-col>
+              <ion-col>
+                <ion-label>Arabic</ion-label>
+              </ion-col>
+            </ion-row>
+            <ion-row [formGroupName]="i" *ngFor="let jobSkillForm of jobSkills.controls; let i = index">
+              <ion-col>
+                <ion-item class="input-wrapper">
+                  <div tabindex="0"></div>
+                  <ion-input type="text"  formControlName="skill"></ion-input>
+                </ion-item>
+              </ion-col>
+              <ion-col>  
+                <ion-item class="input-wrapper">
+                  <div tabindex="0"></div>
+                  <ion-input type="text" formControlName="skill_ar"></ion-input>
+                </ion-item>
+              </ion-col>
+
+              <ion-button class="btn-remove" fill="clear" (click)="removeSkill(i)">
+                <ion-icon name="close-circle-outline"></ion-icon>
+              </ion-button>
+            </ion-row>
+          </ion-grid>
+          
+          <ion-button fill="clear" (click)="addSkill()">
+            <ion-icon name="add-outline"></ion-icon> Add
+          </ion-button>
+
+        </ion-card-content> 
+      </ion-card>
+
+      <ion-item class="input-wrapper" (click)="updateLocation()" tappable>
+        <div tabindex="0"></div>
+        <ion-label position="stacked">Area</ion-label>
+        <ion-input type="text" readonly 
+          [value]="model.area && 
+            translateService.langContent(
+              model.area.area_name_en, 
+              model.area.area_name_ar
+            )
+          "></ion-input>
+        <!-- <p>
+          <span *ngIf="">
+          {{ model.area.area_name_en }}
+        </span>
+        </p>-->
+      </ion-item>
+
+      <ion-item class="input-wrapper">
+        <div tabindex="0"></div>
+        <ion-label position="floating">Hours per day</ion-label>
+        <ion-input type="text" formControlName="hours_per_day"></ion-input>
+      </ion-item>
+
+      <ion-item class="input-wrapper">
+        <div tabindex="0"></div>
+        <ion-label position="floating">Days per week</ion-label>
+        <ion-input type="text" formControlName="days_per_week"></ion-input>
+      </ion-item>
+ 
+      <h5 class="my-4">Compensation</h5>
+
+      <ion-item class="input-wrapper">
+        <div tabindex="0"></div>
+        <ion-label position="floating">Type</ion-label>
+        <ion-select formControlName="compensation_type" interface="popover">
+          <ion-select-option value="FIXED_PRICE">Fixed</ion-select-option>
+          <ion-select-option value="HOURLY">Hourly</ion-select-option>
+          <ion-select-option value="MONTHLY_SALARY">Monthly</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item class="input-wrapper">
+        <div tabindex="0"></div>
+        <ion-label position="floating">Amount</ion-label>
+        <ion-input type="text" formControlName="compensation_amount"></ion-input>
+      </ion-item>
+ 
+      <ion-item class="input-wrapper">
+        <div tabindex="0"></div>
+        <ion-label position="floating">Description</ion-label>
+        <ion-textarea formControlName="compensation_description"></ion-textarea>
+      </ion-item>
+      <ion-item class="input-wrapper">
+        <div tabindex="0"></div>
+        <ion-label position="floating">Description - Arabic</ion-label>
+        <ion-textarea formControlName="compensation_description_ar"></ion-textarea>
+      </ion-item>
+  
+      <h5 class="my-4">Candidate filter</h5> 
+       
+      <ion-item class="input-wrapper">
+        <div tabindex="0"></div>
+        <ion-label position="floating">Min age</ion-label>
+        <ion-input type="text" formControlName="min_age"></ion-input>
+      </ion-item>
+
+      <ion-item class="input-wrapper">
+        <div tabindex="0"></div>
+        <ion-label position="floating">Max age</ion-label>
+        <ion-input type="text" formControlName="max_age"></ion-input>
+      </ion-item>
+
+      <ion-radio-group formControlName="gender" mode="md" class="checkbox-wrapper">
+
+        <ion-item>
+          <ion-radio value="1" labelPlacement="end" slot="start">Male</ion-radio>
+          <ion-label>{{ "Male" | translate }}</ion-label>
+        </ion-item>
+        
+        <ion-item> 
+          <ion-radio value="2" labelPlacement="end" slot="start">Female</ion-radio>
+          <ion-label>{{ "Female" | translate }}</ion-label>
+        </ion-item>
+
+        <ion-item> 
+          <ion-radio value="3" labelPlacement="end" slot="start">Other</ion-radio>
+          <ion-label>{{ "Other" | translate }}</ion-label>
+        </ion-item>
+        
+      </ion-radio-group>
+       
+      <h5 class="my-4">Availability</h5> 
+
+      <ion-item class="input-wrapper" >
+        <div tabindex="0"></div>
+        <ion-label position="floating">From</ion-label>
+        <ion-input
+          formControlName="available_from"
+          id="available_from" 
+        ></ion-input>
+        <app-date-popup key="available_from" side="top" alignment="center" 
+          [value]="form.value.available_from" (onClose)="selectDate($event,'available_from')"></app-date-popup>
+      </ion-item>
+
+      <ion-item class="input-wrapper" >
+        <div tabindex="0"></div>
+        <ion-label position="floating">To</ion-label>
+        <ion-input
+          formControlName="available_to"
+          id="available_to"
+        ></ion-input>
+        <app-date-popup key="available_to" side="top" alignment="center" 
+          [value]="form.value.available_to" (onClose)="selectDate($event,'available_to')"></app-date-popup>
+      </ion-item>
+ 
+      <ion-item class="input-wrapper">
+        <div tabindex="0"></div>
+        <ion-label position="floating">Status</ion-label>
+        <ion-select formControlName="status" interface="popover">
+          <ion-select-option value="0">Draft</ion-select-option>
+          <ion-select-option value="1">Active</ion-select-option>
+          <ion-select-option value="2">Closed</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+    </form>
+  </div>
+</ion-content>
+<ion-footer *ngIf="form" class="ion-no-border">
+  <div class="container">
+    <ion-button class="btn-save" [disabled]="!form.valid || saving" (click)="save()">
+      <span *ngIf="!saving">Save</span>
+      <ion-spinner *ngIf="saving"></ion-spinner>
+    </ion-button>
+  </div>
+</ion-footer>

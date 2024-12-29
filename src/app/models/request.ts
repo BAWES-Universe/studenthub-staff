@@ -4,6 +4,7 @@ import { Company } from './company';
 import { Note } from './note';
 import { Contact } from './contact';
 import { Country } from './country';
+import { Job } from './job';
 
 
 export class Request {
@@ -79,6 +80,8 @@ export class Story {
   company: Company;
   storyActivities: StoryActivity[];
   latestStoryActivity: StoryActivity;
+  job: Job;
+  jobs: Job[];
 }
 
 export class StoryActivity {

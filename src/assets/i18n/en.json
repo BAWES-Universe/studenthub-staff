@@ -8,5 +8,8 @@
     "txt_hours": "{{ value }} hours",
     "txt_days": "{{ value }} days",
     "txt_months": "{{ value }} months",
-    "txt_years": "{{ value }} years"
+    "txt_years": "{{ value }} years",
+    "txt_available_from_to": "Opportunity available from {{ from}} to {{ to}}.",
+    "txt_available_from": "Opportunity available from {{ from}}.",
+    "txt_available_to": "Opportunity available till {{ to}}."
 }

@@ -17,6 +17,8 @@ import { StoryCloseConfirmationComponent } from './story-close-confirmation.comp
 import { SuggestionModule } from "../../../../components/suggestion/suggestion.module";
 import { StoryDeliveredComponent } from './story-delivered.component';
 import { CandidateModule } from 'src/app/components/candidate/candidate.module';
+import { JobFormPageModule } from '../job-form/job-form.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -29,8 +31,10 @@ import { CandidateModule } from 'src/app/components/candidate/candidate.module';
     InvitationModule,
     StoryViewPageRoutingModule,
     NoItemsModule,
+    JobFormPageModule,
     LoadingModalModule,
     SuggestionModule,
+    TranslateModule.forChild()
   ],
   declarations: [
     StoryViewPage,

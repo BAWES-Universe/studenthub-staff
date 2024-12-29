@@ -28,6 +28,9 @@ import { StaffPage } from '../../pickers/staff/staff.page';
 import { CompanyRequestService } from 'src/app/providers/logged-in/company-request.service';
 import { Candidate } from 'src/app/models/candidate';
 import { CandidateService } from 'src/app/providers/logged-in/candidate.service';
+import { JobFormPage } from '../job-form/job-form.page';
+import { JobService } from 'src/app/providers/logged-in/job.service';
+import { Job } from 'src/app/models/job';
 
 
 export interface TimeSpan {
@@ -50,6 +53,7 @@ export class StoryViewPage implements OnInit, OnDestroy {
   public story: Story;
   public request: Request;
   public notes: Note[];
+  public jobs: Job[] = []; 
   public loading = false;
   public loadMore = false;
 
@@ -85,9 +89,14 @@ export class StoryViewPage implements OnInit, OnDestroy {
   public IPageCount = 0;
   public IcurrentPage = 0;
   public Itotal = 0;
+
   public SPageCount = 0;
   public ScurrentPage = 0;
   public Stotal = 0;
+
+  public JPageCount = 0;
+  public JcurrentPage = 0;
+  public Jtotal = 0;
 
   public storyStatus = {
     UNSTARTED : 0,
@@ -107,8 +116,10 @@ export class StoryViewPage implements OnInit, OnDestroy {
   public Mtotal = 0;
 
   public loadingMatched:boolean = false;
+  loadingJobs: boolean = false;
 
   constructor(
+    public jobService: JobService,
     private activatedRoute: ActivatedRoute,
     public suggestionService: SuggestionService,
     public requestService: CompanyRequestService,
@@ -206,7 +217,7 @@ export class StoryViewPage implements OnInit, OnDestroy {
   loadData() {
     this.loading = true;
 
-    this.storyService.detail(this.story_uuid, '?expand=staff,storyActivities,storyActivities.staff,request,request.contact,request.staffs,request.company').subscribe(res => {
+    this.storyService.detail(this.story_uuid, '?expand=job,job.jobSkills,job.area,staff,storyActivities,storyActivities.staff,request,request.contact,request.staffs,request.company').subscribe(res => {
 
       //hide update alert
 
@@ -691,7 +702,7 @@ export class StoryViewPage implements OnInit, OnDestroy {
   /**
    * open popup to select consultants
    */
-   async assign() {
+  async assign() {
 
     window.history.pushState({ navigationId: window.history.state?.navigationId }, null, window.location.pathname);
 
@@ -730,6 +741,92 @@ export class StoryViewPage implements OnInit, OnDestroy {
           });
         }
       });
+    }
+  }
+
+  /**
+   * list job announcements
+   */
+  loadJobs() {
+    this.loadingJobs = true; 
+
+    this.jobService.list(this.JcurrentPage).subscribe(response => {
+      this.loadingJobs = false;
+
+      this.jobs = response.body;
+      
+      this.JPageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
+      this.JcurrentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
+      this.Jtotal = parseInt(response.headers.get('X-Pagination-Total-Count'));
+    });
+  }
+
+  /**
+   * load more jobs
+   * @param event 
+   */
+  doInfiniteJobs(event) {
+
+    if (this.IcurrentPage > this.IPageCount) {
+      event.target.complete();
+      return;
+    }
+
+    this.loadingJobs = true;
+    
+    this.JcurrentPage++;
+
+    this.jobService.list(this.JcurrentPage).subscribe(response => {
+
+      this.jobs = this.jobs.concat(response.body);
+       
+      this.JPageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
+      this.JcurrentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
+      this.Jtotal = parseInt(response.headers.get('X-Pagination-Total-Count'));
+    },
+    () => { },
+    () => {
+      this.loadingJobs = false;
+      event.target.complete();
+    });
+  }
+
+  /**
+   * open popup to create/update job
+   */
+   async jobForm(model = new Job()) {
+
+    if (!model) {
+      model = new Job();
+    }
+    
+    if (!model.story_uuid) {
+      model.story_uuid = this.story.story_uuid;
+      model.request_uuid = this.story.request_uuid;
+    }
+
+    window.history.pushState({ navigationId: window.history.state?.navigationId }, null, window.location.pathname);
+
+    const modal = await this.modalCtrl.create({
+      component: JobFormPage,
+      componentProps: {
+        model: model
+      },
+      cssClass: "popup-modal"
+    });
+    modal.present();
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
+
+    const { data } = await modal.onWillDismiss();
+
+    if (data && data.refresh) {
+      this.loadData(); 
     }
   }
 

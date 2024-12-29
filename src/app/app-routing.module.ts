@@ -805,6 +805,10 @@ const routes: Routes = [
     path: 'contact-attempt',
     loadChildren: () => import('./pages/logged-in/candidate/candidate-work-log/contact-attempt/contact-attempt.module').then( m => m.ContactAttemptPageModule)
   },
+  {
+    path: 'job-form',
+    loadChildren: () => import('./pages/logged-in/story/job-form/job-form.module').then( m => m.JobFormPageModule)
+  },
 ];
 
 @NgModule({
