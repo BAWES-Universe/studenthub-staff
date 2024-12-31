@@ -154,14 +154,16 @@
 
               <br />
 
-              <span><b>{{ note.data.activity_created_at | timeAgo}}</b></span> on
+              <span><b>{{ note.data.activity_created_at | timeAgo }}</b></span> on
+
               <span><b>{{ toDate(note.data.activity_created_at) | date : 'MMM d, y, h:mm:ss a' }}</b></span>
 
             </p>
 
-            <ion-badge *ngIf="note.data.activity_time_spent">
+            <ion-badge *ngIf="note.data && note.data.activity_status != storyStatus.STARTED && note.data.activity_time_spent">
               Time Spent : {{ note.data.activity_time_spent | timeSpent }}
             </ion-badge>
+
           </ion-card-content>
         </ion-card>
         <ion-card *ngIf="note?.type == 'note'"  class="activity-list" >
