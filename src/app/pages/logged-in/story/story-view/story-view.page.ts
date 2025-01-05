@@ -32,6 +32,7 @@ import { JobFormPage } from '../job-form/job-form.page';
 import { JobService } from 'src/app/providers/logged-in/job.service';
 import { Job } from 'src/app/models/job';
 import { JobInterest } from 'src/app/models/job-interest';
+import { AwsService } from 'src/app/providers/aws.service';
 
 
 export interface TimeSpan {
@@ -139,6 +140,7 @@ export class StoryViewPage implements OnInit, OnDestroy {
     public authService: AuthService,
     private changeDetector: ChangeDetectorRef,
     public eventService: EventService,
+    public aws: AwsService,
     public router: Router,
     public alertCtrl: AlertController,
     public popoverCtrl: PopoverController,
@@ -172,9 +174,14 @@ export class StoryViewPage implements OnInit, OnDestroy {
     });
   }
 
-  //todo: 
   inviteJobInterest(jobInterest) {
-
+    this.navCtrl.navigateForward('candidate-view/' + jobInterest.candidate_id, {
+      state: {
+        request: this.request,
+        story: this.story,
+        jobInterest: jobInterest
+      }
+    });
   }
 
   ionViewWillEnter() {
@@ -227,7 +234,7 @@ export class StoryViewPage implements OnInit, OnDestroy {
    * list job interests
    */
   listInterests() {
-    this.jobService.listInterests(1, '?expand=candidate').subscribe(response => {
+    this.jobService.listInterests(1).subscribe(response => {
       this.jobInterests = response.body;
 
       this.InterestPageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
@@ -247,7 +254,7 @@ export class StoryViewPage implements OnInit, OnDestroy {
     
     this.InterestPageCount++;
 
-    this.jobService.listInterests(1, '?expand=candidate').subscribe(response => {
+    this.jobService.listInterests(1).subscribe(response => {
       this.jobInterests = this.jobInterests.concat(response.body);
 
       this.InterestPageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));

@@ -32,7 +32,7 @@ export class JobService {
    * @returns 
    */
   listInterests(page: number = 1, searchParams: string = ''): Observable<any> {
-    let url = this.jobEndpoint + '/interests?&page=' + page + searchParams + '&expand=candidate';
+    let url = this.jobEndpoint + '/interests?&page=' + page + searchParams + '&expand=candidate,job';
     return this.authhttp.getRaw(url);
   }
 

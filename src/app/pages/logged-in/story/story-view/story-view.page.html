@@ -182,17 +182,20 @@
     </div>
 
     <div class="my-2.5 h-7 gap-2.5 text-[#22223d] text-lg font-semibold leading-7">
-      Interested Candidates ({{jobInterests.length}})
+      Interested Candidates ({{InterestTotal}})
     </div>
 
-    <div *ngFor="let jobInterest of jobInterests" class=" p-4 bg-white rounded-lg shadow-[0px_2px_4px_0px_rgba(0,0,0,0.10)] gap-2.5">
+    <div *ngFor="let jobInterest of jobInterests" class=" p-4 bg-white rounded-lg shadow-[0px_2px_4px_0px_rgba(0,0,0,0.10)] gap-2.5 my-4">
     
         <div class="w-full justify-between flex">
             <div class="grow shrink basis-0 self-stretch justify-start items-start gap-3 flex">
                 
-                <img *ngIf="candidate.candidate_personal_photo" class="w-12 h-12 relative rounded-[44px]"
-                  src="{{ aws.cloudinaryUrl + 'candidate-photo/' + candidate.candidate_personal_photo }}" (onerror)="candidate.candidate_personal_photo='/assets/icon/icon.png';">
-       
+                <img *ngIf="jobInterest.candidate.candidate_personal_photo" class="w-12 h-12 relative rounded-[44px]"
+                  src="{{ aws.cloudinaryUrl + 'candidate-photo/' + jobInterest.candidate.candidate_personal_photo }}" 
+                  onerror="this.src='/assets/icon/icon.png';"
+                  >
+              <!-- 
+                  (onerror)="jobInterest.candidate.candidate_personal_photo='/assets/icon/icon.png';"-->
                 <div class="grow shrink basis-0 flex-col justify-start items-start gap-0.5 inline-flex">
                     <div class="self-stretch text-[#22223d] text-base font-bold leading-normal">
                       {{ translateService.langContent(jobInterest.candidate.candidate_name, 
@@ -210,8 +213,8 @@
 
         <div class="my-2.5 self-stretch px-3 py-2 bg-[#f5f5f7] rounded-lg gap-2.5 flex">
             <div class="grow shrink basis-0 text-[#68687a] text-sm font-normal leading-tight">
-              First saw the job post at {{ translateService.toDate(jobInterest.seen_at) | date : 'MMM d, YYYY, hh:mm A' }} 
-              ({{ timeToApply(jobInterest.seen_at, jobInterest.created_at) }} to show interest)
+              First saw the job post at {{ translateService.toDate(jobInterest.seen_at) | date : 'MMM d, YYYY, hh:mm a' }} 
+              ({{ timeToApply(jobInterest.created_at, jobInterest.seen_at) }} to show interest)
             </div>
         </div>
 
@@ -220,6 +223,9 @@
         </ion-button>
     </div>
 
+    <ion-infinite-scroll *ngIf="InterestCurrentPage < InterestPageCount" (ionInfinite)="doInfiniteJobInterest($event)">
+      <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
   </div> 
 
   <div class="container" *ngIf="segment == 'detail'">

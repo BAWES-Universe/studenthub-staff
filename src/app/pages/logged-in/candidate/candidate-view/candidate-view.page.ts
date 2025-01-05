@@ -52,6 +52,7 @@ import { InterviewEvaluationFormPage } from '../interview-evaluation/interview-e
 import { ArcElement, Chart, PieController } from 'chart.js';
 import { CertificateService } from 'src/app/providers/logged-in/certificate.service';
 import { CandidateCertificateFormPage } from '../candidate-certificate-form/candidate-certificate-form.page';
+import { JobInterest } from 'src/app/models/job-interest';
 
 
 
@@ -119,6 +120,8 @@ export class CandidateViewPage implements OnInit {
 
   public markingDuplicate = false;
 
+  public jobInterest: JobInterest;
+
   public story: Story;
 
   public segment: string = 'activity';
@@ -182,6 +185,10 @@ export class CandidateViewPage implements OnInit {
       this.story = this.authService.story;
     }
 
+    if (state.jobInterest) {
+      this.jobInterest = state.jobInterest;
+    }
+    
     if (!this.candidate_id) {
       this.candidate_id = this.activatedRoute.snapshot.paramMap.get('id');
     }
