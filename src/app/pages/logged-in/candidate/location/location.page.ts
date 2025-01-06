@@ -35,10 +35,12 @@ export class LocationPage implements OnInit {
 
   public area;
   public country;
-  public country_name;
+  public country_name = 'Kuwait';
 
   public query: string = '';
 
+  public hideCountry: boolean = false; 
+  
   public placeholders = {
     'Kuwait' : 'Mishref / Salmiya / Jabriya / etc.',
     'Bahrain' : 'Manama / Riffa / Muharraq / etc.',
