@@ -99,8 +99,8 @@ export class AuthService {
           this.role = user.role;
           this.story = user.story;
 
-          if (user.theme)
-            this.theme = user.theme;
+          //if (user.theme)
+          //  this.theme = user.theme;
           
           resolve(true);
         } else {
@@ -234,7 +234,7 @@ export class AuthService {
           //this.eventService.errorStorage$.next({});
         });
 
-        this.storageService.get('theme').then(ret => {
+        /*this.storageService.get('theme').then(ret => {
 
           if (ret) {
             this.setTheme(ret);
@@ -242,7 +242,7 @@ export class AuthService {
         }).catch(r => {
           console.error(r);
           this.eventService.errorStorage$.next({});
-        });
+        });*/
 
         this.storageService.get('loggedInStaff').then(staff => {
 
