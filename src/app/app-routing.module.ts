@@ -795,23 +795,37 @@ const routes: Routes = [
   },
   {
     path: 'appeal',
+    canActivate: [AuthService],
     loadChildren: () => import('./pages/logged-in/candidate/candidate-work-log/appeal-view/appeal-view.module').then( m => m.AppealViewPageModule)
   },
   {
-    path: '**',
-    redirectTo: 'not-found'
-  },
-  {
     path: 'contact-attempt',
+    canActivate: [AuthService],
     loadChildren: () => import('./pages/logged-in/candidate/candidate-work-log/contact-attempt/contact-attempt.module').then( m => m.ContactAttemptPageModule)
   },
   {
     path: 'job-form',
+    canActivate: [AuthService],
     loadChildren: () => import('./pages/logged-in/story/job-form/job-form.module').then( m => m.JobFormPageModule)
   },
   {
     path: 'job-interest-filter',
+    canActivate: [AuthService],
     loadChildren: () => import('./pages/logged-in/story/job-interest-filter/job-interest-filter.module').then( m => m.JobInterestFilterPageModule)
+  },
+  {
+    path: 'candidate-id-request',
+    canActivate: [AuthService],
+    loadChildren: () => import('./pages/logged-in/candidate-id-request/candidate-id-request-detail/candidate-id-request-detail.module').then( m => m.CandidateIdRequestDetailPageModule)
+  },
+  {
+    path: 'candidate-id-request-list',
+    canActivate: [AuthService],
+    loadChildren: () => import('./pages/logged-in/candidate-id-request/candidate-id-request-list/candidate-id-request-list.module').then( m => m.CandidateIdRequestListPageModule)
+  },
+  {
+    path: '**',
+    redirectTo: 'not-found'
   },
 ];
 
