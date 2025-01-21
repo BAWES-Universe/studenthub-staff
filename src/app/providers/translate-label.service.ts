@@ -106,7 +106,7 @@ export class TranslateLabelService extends TranslateService {
             return null;
         
         if (date) {
-            return new Date(date.replace(/-/g, '/'));
+            return new Date(date.replace(/-/g, '/') + ' GMT+03:00');
         }
     }
 }

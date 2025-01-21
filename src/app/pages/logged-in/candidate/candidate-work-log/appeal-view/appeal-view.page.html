@@ -1,0 +1,149 @@
+<ion-header mode="md" [class.add-border]="borderLimit" class="ion-no-border">
+  <ion-toolbar class="container">
+    <ion-buttons slot="start" class="mx-6">
+      <ion-back-button icon="assets/images/icon-back.svg" defaultHref="/"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-toolbar class="container" *ngIf="appeal">
+    <ion-title class="mx-1"> Appeal by {{appeal.candidate.candidate_name}}</ion-title>
+    <div class="sub-title text-[#7d7d8d] text-base font-medium leading-normal m-6 mt-1">
+      Assigned to {{appeal.originalHour.store.store_name}} | {{appeal.candidateWorkingDate?.company?.company_name}}
+    </div>
+  </ion-toolbar>
+</ion-header>
+<ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div class="container sm:px-0 md:px-4 mb-4">
+
+    <ng-container *ngIf="appeal">
+    <div class="mb-4 p-4 bg-white rounded-lg shadow-[0px_0px_2px_0px_rgba(35,35,38,0.06)] flex-col justify-center 
+    items-start gap-1.5 flex">
+      <div class="grow shrink basis-0 text-[#0f0f2c] text-base font-semibold leading-normal">
+        Appeal Progress Status
+      </div>
+
+      <ion-item class="item-status mt-2 w-full">
+        <ion-label position="floating">
+          Appeal Status
+        </ion-label>
+        <ion-select [value]="appeal.status + ''" interface="popover" (ionChange)="onStatusChange($event)">
+          <ion-select-option selected="true" value="10">Submitted</ion-select-option>
+          <ion-select-option value="1">Awaiting Review</ion-select-option>
+          <ion-select-option value="2">In Progress</ion-select-option>
+          <ion-select-option value="3">Resolved</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </div>
+
+    <div class="mb-4 p-4 bg-white rounded-lg shadow-[0px_0px_2px_0px_rgba(35,35,38,0.06)] flex-col justify-center 
+    items-start gap-1.5 flex">
+        <div class="grow shrink basis-0 text-[#22223d] text-base font-medium leading-normal">
+          Appeal Details
+        </div>
+        <div class="self-stretch text-[#4b4b61] text-sm font-normal leading-tight">
+          {{appeal.reason}}
+        </div>
+        <div class="grow shrink basis-0 text-[#22223d] text-xs font-normal leading-none mt-1">
+          {{ translateService.toDate(appeal.created_at) | date: 'EEE d MMM' }}
+        </div>
+    </div>
+
+    <div *ngIf="appeal.originalHour.candidateWorkLogFeedback" class="mb-4 p-4 bg-white rounded-lg shadow-[0px_0px_2px_0px_rgba(35,35,38,0.06)] flex-col justify-center 
+  items-start gap-1.5 flex">
+        <div class="grow shrink basis-0 text-[#22223d] text-base font-medium leading-normal">
+          Rejection Details
+        </div>
+        <div class="self-stretch text-[#4b4b61] text-sm font-normal leading-tight">
+          {{appeal.originalHour.candidateWorkLogFeedback.reason}}
+        </div>
+        <div class="grow shrink basis-0 text-[#22223d] text-xs font-normal leading-none mt-1">
+          {{ translateService.toDate(appeal.originalHour.candidateWorkLogFeedback.created_at) | date: 'EEE d MMM' }}
+        </div>
+    </div>
+
+    <h5 class="text-[#22223d] text-lg font-semibold leading-7 my-4">Work Log Details</h5>
+
+    <app-work-log-day-stats [candidateWorkingDate]="appeal.candidateWorkingDate"></app-work-log-day-stats>
+
+    <h5 class="text-[#22223d] text-lg font-semibold leading-7 my-4">
+      Rejected Work Session
+    </h5>
+
+    <app-work-log [hour]="appeal.originalHour"></app-work-log>
+
+    <ng-container *ngIf="appeal.correctedHours.length > 0">
+      <h5 class="text-[#22223d] text-lg font-semibold leading-7 my-4">
+        Corrected/Manually added Work Session
+      </h5>
+
+      <app-work-log *ngFor="let correctedHour of appeal.correctedHours" 
+        [hour]="correctedHour"></app-work-log>
+    </ng-container>  
+    
+    <h5 class="text-[#22223d] text-lg font-semibold leading-7 my-4">
+      Mediator Actions
+    </h5>
+
+    <ion-grid class="action-buttons">
+      <ion-row>
+        <ion-col>
+          <ion-button (click)="addContactAttempt()" class="h-14 bg-[#4c6ff2] rounded-2xl">
+            Contact Candidate
+          </ion-button>
+        </ion-col>
+        <ion-col>
+          <ion-button (click)="addManulaLog()" fill="outline" class="h-14  rounded-2xl">
+            Add Manual Log
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <h5 class="text-[#22223d] text-lg font-semibold leading-7 my-4">
+      Updates & Notes
+    </h5>
+
+    <p class="text-[#7d7d8d] text-sm font-normal leading-tight mb-2.5">
+      Send notes to keep everyone updated about the appeal progress.</p>
+
+      <!--
+    <input type="text" [(ngModel)]="update" placeholder="Type your note about here..."
+      class="my-2.5 w-full px-3 py-2 bg-white rounded-md border border-[#c5c5cc] 
+       gap-2.5 flex grow shrink basis-0 placeholder-[#a4a4af]  text-sm font-normal leading-tight" />
+-->
+    <textarea [(ngModel)]="note" placeholder="Type your note here..."
+      class="my-2.5 w-full h-[113px] px-3 py-2 bg-white rounded-md border border-[#c5c5cc] 
+       gap-2.5 flex grow shrink basis-0 placeholder-[#a4a4af] text-sm font-normal leading-tight"></textarea>
+
+    <ion-button [disabled]="!note || sendingNote" (click)="addNote()" fill="outline" class="h-14  rounded-2xl">
+      <span *ngIf="!sendingNote">Send Note</span>
+      <ion-spinner *ngIf="sendingNote"></ion-spinner>
+    </ion-button>
+
+    <div class="clerfix"></div>
+
+    <div *ngFor="let update of appeal.candidateWorkingHourAppealUpdates" 
+    class="my-4 p-4 bg-white rounded-lg shadow-[0px_0px_2px_0px_rgba(35,35,38,0.06)] flex-col justify-center 
+    items-start gap-1.5 flex"> 
+        <div class="grow shrink basis-0 text-[#22223d] text-base font-medium leading-normal">
+          {{update.createdBy.staff_name}}
+        </div>
+       
+        <div class="self-stretch text-[#4b4b61] text-sm font-normal leading-tight">
+          <b *ngIf="update.update">{{update.update}} - </b> {{update.detail}}
+        </div>
+      
+        <div class="grow shrink basis-0 text-[#22223d] text-xs font-normal leading-none mt-1">
+          {{ translateService.toDate(update.created_at) | date: 'EEE d MMM' }}
+        </div> 
+    </div>
+    
+  </ng-container>
+  <!-- todo: show loader -->
+  </div>
+ 
+
+</ion-content>

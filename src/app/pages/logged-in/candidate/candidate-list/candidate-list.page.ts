@@ -200,7 +200,16 @@ export class CandidateListPage implements OnInit {
 
     this.downloading = true;
 
-    this.candidateIdCardService.generate(this.candidateIdCardService.candidates).subscribe(response => {
+    this.candidateIdCardService.requestIds(this.candidateIdCardService.candidates).subscribe(async response => {
+      if (response.operation == "success") {
+        this.navCtrl.navigateForward('/candidate-id-request/' + response.cir_uuid);
+      } else {
+        const alert = await this.alertCtrl.create({ 
+          message: response.message,
+          buttons: ['Okay']
+        });
+        alert.present();
+      }
     }, (err) => {
     }, () => {
       this.downloading = false;

@@ -8,7 +8,7 @@
 
     <ion-buttons slot="end">
 
-      <ion-button color="primary" [disabled]="candidateIdCardService.candidates.length == 0 || merging || downloading"
+      <ion-button [disabled]="candidateIdCardService.candidates.length == 0 || merging || downloading" color="primary"
         (click)="generate()">
         <span *ngIf="!downloading">Download Zip</span>
         <ion-spinner *ngIf="downloading"></ion-spinner>
@@ -70,7 +70,7 @@
           <ion-item class="input-wrapper" >
             <div tabindex="0"></div>
             <ion-label position="floating" color="primary">Civil Status</ion-label>
-            <ion-select [(ngModel)]="filters.civil" [value]="filters.civil" okText="Okay" cancelText="Dismiss">
+            <ion-select interface="popover" [(ngModel)]="filters.civil" [value]="filters.civil" okText="Okay" cancelText="Dismiss">
               <ion-select-option value="0">All</ion-select-option>
               <ion-select-option value="1">Active</ion-select-option>
               <ion-select-option value="2">Expired</ion-select-option>
@@ -81,7 +81,7 @@
           <ion-item class="input-wrapper" >
             <div tabindex="0"></div>
             <ion-label position="floating" color="primary">Type</ion-label>
-            <ion-select [(ngModel)]="filters.type" [value]="filters.type" okText="Okay" cancelText="Dismiss">
+            <ion-select interface="popover" [(ngModel)]="filters.type" [value]="filters.type" okText="Okay" cancelText="Dismiss">
               <ion-select-option value="assigned">Assigned</ion-select-option>
               <ion-select-option value="un-assigned">UnAssigned</ion-select-option>
             </ion-select>
@@ -99,7 +99,7 @@
         <ion-col size-md="3" size-lg="3" size-sm="6" size-xs="12">
           <ion-item class="input-wrapper" >
             <ion-label position="floating" color="primary">Export data</ion-label>
-            <ion-select [(ngModel)]="filters.page" [value]="filters.page" okText="Okay" cancelText="Dismiss">
+            <ion-select interface="popover" [(ngModel)]="filters.page" [value]="filters.page" okText="Okay" cancelText="Dismiss">
               <ion-select-option value="1">0 - 5,000</ion-select-option>
               <ion-select-option value="2">5,001 - 10,000</ion-select-option>
               <ion-select-option value="3">10,001 - 15,000</ion-select-option>

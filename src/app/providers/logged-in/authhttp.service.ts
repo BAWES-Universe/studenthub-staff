@@ -48,10 +48,11 @@ export class AuthHttpService {
       }),
       // take(1),
       map((response) => {
-        const blob = new Blob([response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+        const blob = new Blob([response], { 
+          type: 'application/zip' 
+        });
         // file name to dowanload/generate invoice
         saveAs(blob, filename);
-
       })
     );
   }

@@ -1,0 +1,106 @@
+ion-back-button {
+    display: block;
+  }
+  
+  ion-header {
+    box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.05);
+  
+    ion-toolbar {
+      padding: 0 24px;
+  
+      ion-title {
+        padding: 0;
+      }
+    }
+  }
+  
+  ion-content {
+    background: #fff;
+    --background: #fff;// var(--ion-color-custom-9);
+    --padding-top: 24px;
+    --padding-start: 24px;
+    --padding-end: 24px;
+    --padding-bottom: 100px;
+  }
+  
+  ion-title {
+    flex-grow: 0;
+    font-size: 24px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.33;
+    letter-spacing: normal;
+    color: var(--ion-color-custom-6);
+  }
+  
+  ckeditor {
+    margin: 20px 0 5px 0;
+    padding: 0;
+  }
+  
+  ion-item.field-password {
+    ion-input {
+        --padding-end: 30px;
+    }
+  
+    .btn-password { 
+        position: absolute;
+        bottom: 0;
+        z-index: 111;
+        opacity: 0.7;
+        background: transparent;
+        top: 15px;
+        right: 0;
+  
+        ion-icon {
+            font-size: 22px;
+            color: var(--ion-color-light-contrast);
+        } 
+    }
+  }
+  
+  h5 {
+    flex-grow: 0;
+    font-family: Inter;
+    font-size: 18px;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.56;
+    letter-spacing: normal;
+    text-align: left;
+    color: var(--ion-color-custom-6);
+  }
+  
+  .btn-save {
+      height: 56px;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: 1.5;
+      letter-spacing: normal;
+      text-align: center;
+      text-transform: none;
+      width: calc(100% - 48px);
+      --box-shadow: none;
+      --border-radius: 12px;
+      margin: 24px;
+  }
+  
+  .day .btn-save {
+    --background: var(--ion-color-custom-14);
+    --color: var(--ion-color-primary-contrast);
+  }
+  
+  ion-checkbox {
+    //--checkmark-width: 24px;
+    --border-color: #d7d7d4;
+    --checkbox-background: #4c6ff2;
+    --border-color-checked: #4c6ff2;
+    --checkbox-background-checked: #4c6ff2;
+    --size: 24px;
+     
+  } 

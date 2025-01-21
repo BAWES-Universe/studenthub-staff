@@ -8,6 +8,12 @@
 
           <h5>Customer Care</h5>
 
+          <ion-item lines="none" [routerLink]="'/appeal-list'" routerLinkActive="active" detail="false">
+            <div tabindex="0"></div>
+            <ion-icon name="timer-outline" slot="start"></ion-icon>
+            Work Log Appeals
+          </ion-item>
+
           <ion-item lines="none" [routerLink]="'/voice-mail-list'" routerLinkActive="active" detail="false">
             <div tabindex="0"></div>
             <ion-icon name="globe-outline" slot="start"></ion-icon>
@@ -15,6 +21,12 @@
           </ion-item>
 
           <h5>Candidates</h5>
+
+          <ion-item routerLink="/candidate-id-requests" routerLinkActive="active" lines="none" detail="false">
+            <div tabindex="0"></div>
+            <ion-icon name="id-card-outline"  slot="start"></ion-icon>
+            Candidate ID Requests
+          </ion-item>
 
           <ion-item routerLink="/candidate-invitations" routerLinkActive="active" lines="none" detail="false">
             <div tabindex="0"></div>

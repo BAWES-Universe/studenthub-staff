@@ -28,6 +28,14 @@ import { StaffPage } from '../../pickers/staff/staff.page';
 import { CompanyRequestService } from 'src/app/providers/logged-in/company-request.service';
 import { Candidate } from 'src/app/models/candidate';
 import { CandidateService } from 'src/app/providers/logged-in/candidate.service';
+import { JobFormPage } from '../job-form/job-form.page';
+import { JobService } from 'src/app/providers/logged-in/job.service';
+import { Job } from 'src/app/models/job';
+import { JobInterest } from 'src/app/models/job-interest';
+import { AwsService } from 'src/app/providers/aws.service';
+import { JobInterestFilterPage } from '../job-interest-filter/job-interest-filter.page';
+import { Area } from 'src/app/models/area';
+import { Country } from 'src/app/models/country';
 
 
 export interface TimeSpan {
@@ -50,6 +58,7 @@ export class StoryViewPage implements OnInit, OnDestroy {
   public story: Story;
   public request: Request;
   public notes: Note[];
+  public jobs: Job[] = []; 
   public loading = false;
   public loadMore = false;
 
@@ -85,9 +94,20 @@ export class StoryViewPage implements OnInit, OnDestroy {
   public IPageCount = 0;
   public IcurrentPage = 0;
   public Itotal = 0;
+
   public SPageCount = 0;
   public ScurrentPage = 0;
   public Stotal = 0;
+
+  public JPageCount = 0;
+  public JcurrentPage = 0;
+  public Jtotal = 0;
+
+  jobInterests: JobInterest[] = [];
+
+  InterestPageCount= 0;
+  InterestCurrentPage = 0;
+  InterestTotal = 0;
 
   public storyStatus = {
     UNSTARTED : 0,
@@ -101,14 +121,38 @@ export class StoryViewPage implements OnInit, OnDestroy {
     STOPPED: 8,
   };
 
+  public interestFilter : {
+    country_id: number| null,
+    skills: string[],
+    areas: Area[],
+    age: {
+      from: number | null,
+      to: number| null
+    },
+    nationality_countries: Country[],
+    gender: number| null,
+  } = {
+    country_id: null,
+    nationality_countries: [],
+    skills: [],
+    areas: [],
+    gender: null,
+    age: {
+      from: null,
+      to: null
+    },
+  }
+
   public matchedCandidates: Candidate[] = [];
   public MPageCount = 0;
   public McurrentPage = 0;
   public Mtotal = 0;
 
   public loadingMatched:boolean = false;
+  loadingJobs: boolean = false;
 
   constructor(
+    public jobService: JobService,
     private activatedRoute: ActivatedRoute,
     public suggestionService: SuggestionService,
     public requestService: CompanyRequestService,
@@ -121,6 +165,7 @@ export class StoryViewPage implements OnInit, OnDestroy {
     public authService: AuthService,
     private changeDetector: ChangeDetectorRef,
     public eventService: EventService,
+    public aws: AwsService,
     public router: Router,
     public alertCtrl: AlertController,
     public popoverCtrl: PopoverController,
@@ -150,6 +195,16 @@ export class StoryViewPage implements OnInit, OnDestroy {
       if (data.request_updated_datetime != this.request.request_updated_datetime) {
         //this.loadDetail(false);//refresh without showing loader
         this.alertRequestUpdated = true;
+      }
+    });
+  }
+
+  inviteJobInterest(jobInterest) {
+    this.navCtrl.navigateForward('candidate-view/' + jobInterest.candidate_id, {
+      state: {
+        request: this.request,
+        story: this.story,
+        jobInterest: jobInterest
       }
     });
   }
@@ -200,13 +255,163 @@ export class StoryViewPage implements OnInit, OnDestroy {
     }
   }
 
+  async openInterestFilter() {
+    
+    const modal = await this.modalCtrl.create({
+      component: JobInterestFilterPage,
+      componentProps: {
+        interestFilter: this.interestFilter,
+        job_uuid: this.story.job.job_uuid
+      },
+      cssClass: 'modal-request-filter modal-delivered-story',
+    });
+
+    await modal.present();
+
+    const { data } = await modal.onWillDismiss();
+
+    if (data && data.refresh) {
+      this.interestFilter = data.interestFilter;
+      this.listInterests();
+    }
+  }
+
+  removeAllFilters() {
+    this.interestFilter = {
+      country_id: null,
+      nationality_countries: [],
+      skills: [],
+      areas: [],
+      gender: null,
+      age: {
+        from: null,
+        to: null
+      },
+    };
+    this.listInterests();
+  }
+
+  removeAge() {
+    this.interestFilter.age = {
+      from: null,
+      to: null
+    };
+    this.listInterests();
+  }
+
+  removeGender() {
+    this.interestFilter.gender = null;
+    this.listInterests();
+  }
+
+  removeNationality(nationality) {
+    this.interestFilter.nationality_countries = this.interestFilter.nationality_countries.filter(o => o.country_id !== nationality.country_id);
+    this.listInterests();
+  }
+
+  removeArea(area) {
+    this.interestFilter.areas = this.interestFilter.areas.filter(o => o.area_uuid !== area.area_uuid);
+    this.listInterests();
+  }
+
+  removeSkill(skill) {
+    this.interestFilter.skills = this.interestFilter.skills.filter(o => o !== skill);
+    this.listInterests();
+  }
+
+  jobInterestParams() {
+
+    let params = '';
+
+    if (!this.interestFilter) {
+      this.interestFilter = {
+        country_id: null,
+        nationality_countries: [],
+        skills: [],
+        areas: [],
+        gender: null,
+        age: {
+          from: null,
+          to: null
+        },
+      }
+    }
+
+    if (this.interestFilter.country_id) {
+      params += '&country_id=' + this.interestFilter.country_id;  
+    }
+    
+    if (this.interestFilter.nationality_countries) {
+      params += '&nationality_countries=' + this.interestFilter.nationality_countries.map(country => country.country_id).join(',')
+    }
+
+    if (this.interestFilter.age.from) {
+      params += '&age_from=' + this.interestFilter.age.from
+    }
+
+    if (this.interestFilter.age.to) {
+      params += '&age_to=' + this.interestFilter.age.to
+    }
+
+    if (this.interestFilter.gender) {
+      params += '&gender=' + this.interestFilter.gender
+    }
+
+    if (this.interestFilter.skills && this.interestFilter.skills.length > 0) {
+      params += '&skills=' + this.interestFilter.skills.join(',')
+    }
+
+    if (this.interestFilter.areas && this.interestFilter.areas.length > 0) {
+      params += '&areas=' + this.interestFilter.areas.map(area => area.area_uuid).join(',')
+    }
+       
+    return params;
+  }
+
+  /**
+   * list job interests
+   */
+  listInterests() {
+    const url = this.jobInterestParams();
+
+    this.jobService.listInterests(1, url).subscribe(response => {
+      this.jobInterests = response.body;
+
+      this.InterestPageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
+      this.InterestCurrentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
+      this.InterestTotal = parseInt(response.headers.get('X-Pagination-Total-Count'));
+    });
+  }
+
+  doInfiniteJobInterest(event) {
+
+    if (this.InterestCurrentPage > this.InterestPageCount) {
+      event.target.complete();
+      return;
+    }
+
+    this.loadingJobs = true;
+    
+    this.InterestPageCount++;
+
+    const url = this.jobInterestParams();
+
+    this.jobService.listInterests(1, url).subscribe(response => {
+      this.jobInterests = this.jobInterests.concat(response.body);
+
+      this.InterestPageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
+      this.InterestCurrentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
+      this.InterestTotal = parseInt(response.headers.get('X-Pagination-Total-Count'));
+    });
+  }
+
   /**
    * load story details
    */
   loadData() {
     this.loading = true;
 
-    this.storyService.detail(this.story_uuid, '?expand=staff,storyActivities,storyActivities.staff,request,request.contact,request.staffs,request.company').subscribe(res => {
+    this.storyService.detail(this.story_uuid, '?expand=job,job.jobSkills,job.area,staff,storyActivities,storyActivities.staff,request,request.contact,request.staffs,request.company').subscribe(res => {
 
       //hide update alert
 
@@ -219,6 +424,10 @@ export class StoryViewPage implements OnInit, OnDestroy {
       this.loadStoryInvitations();
       this.loadSuggestions();
       this.loadNotes();
+
+      if (this.story.job) {
+        this.listInterests();
+      }
 
       if (this.story.story_status == 1 && this.story.staff_id == this.authService.staff_id &&
         ['cancelled', 'delivered'].indexOf(this.story.request.request_status) == -1)
@@ -442,6 +651,16 @@ export class StoryViewPage implements OnInit, OnDestroy {
     });
   }
   
+  timeToApply(seen_at, created_at) {
+    const seconds = (new Date(seen_at).getTime() - new Date(created_at).getTime()) / 1000;
+
+    if (seconds > 60) {
+      return (seconds / 60).toFixed(2) + ' minutes';
+    }
+
+    return seconds.toFixed(2) + ' seconds';
+  }
+
   private getTimeDifference() {
     this.dDay = new Date(this.dDay);
     this.timeDifference = new Date().getTime() - this.dDay.getTime();
@@ -691,7 +910,7 @@ export class StoryViewPage implements OnInit, OnDestroy {
   /**
    * open popup to select consultants
    */
-   async assign() {
+  async assign() {
 
     window.history.pushState({ navigationId: window.history.state?.navigationId }, null, window.location.pathname);
 
@@ -730,6 +949,92 @@ export class StoryViewPage implements OnInit, OnDestroy {
           });
         }
       });
+    }
+  }
+
+  /**
+   * list job announcements
+   */
+  loadJobs() {
+    this.loadingJobs = true; 
+
+    this.jobService.list(this.JcurrentPage).subscribe(response => {
+      this.loadingJobs = false;
+
+      this.jobs = response.body;
+      
+      this.JPageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
+      this.JcurrentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
+      this.Jtotal = parseInt(response.headers.get('X-Pagination-Total-Count'));
+    });
+  }
+
+  /**
+   * load more jobs
+   * @param event 
+   */
+  doInfiniteJobs(event) {
+
+    if (this.IcurrentPage > this.IPageCount) {
+      event.target.complete();
+      return;
+    }
+
+    this.loadingJobs = true;
+    
+    this.JcurrentPage++;
+
+    this.jobService.list(this.JcurrentPage).subscribe(response => {
+
+      this.jobs = this.jobs.concat(response.body);
+       
+      this.JPageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
+      this.JcurrentPage = parseInt(response.headers.get('X-Pagination-Current-Page'));
+      this.Jtotal = parseInt(response.headers.get('X-Pagination-Total-Count'));
+    },
+    () => { },
+    () => {
+      this.loadingJobs = false;
+      event.target.complete();
+    });
+  }
+
+  /**
+   * open popup to create/update job
+   */
+   async jobForm(model = new Job()) {
+
+    if (!model) {
+      model = new Job();
+    }
+    
+    if (!model.story_uuid) {
+      model.story_uuid = this.story.story_uuid;
+      model.request_uuid = this.story.request_uuid;
+    }
+
+    window.history.pushState({ navigationId: window.history.state?.navigationId }, null, window.location.pathname);
+
+    const modal = await this.modalCtrl.create({
+      component: JobFormPage,
+      componentProps: {
+        model: model
+      },
+      cssClass: "popup-modal"
+    });
+    modal.present();
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
+
+    const { data } = await modal.onWillDismiss();
+
+    if (data && data.refresh) {
+      this.loadData(); 
     }
   }
 

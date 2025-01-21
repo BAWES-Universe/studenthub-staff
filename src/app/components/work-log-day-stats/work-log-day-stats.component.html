@@ -1,0 +1,66 @@
+<div class="p-4 bg-white mb-6 rounded-lg shadow flex-col justify-start items-center gap-4 flex">
+  <div class="self-stretch justify-start items-start gap-2 flex">
+      <div class="grow shrink basis-0 flex-col justify-center items-start gap-2 inline-flex">
+          <div class="text-[#7d7d8d] text-sm font-medium  leading-tight">
+            {{"Total Time" | translate }}
+          </div>
+          <div class="text-[#22223d] text-xl font-semibold  leading-7">
+          {{candidateWorkingDate.total_time
+            ? (candidateWorkingDate.total_time | secondsToTime)
+            : ("On-Going" | translate) }}
+          </div>
+      </div>
+  </div>
+  <div class="self-stretch h-px bg-[#eeeef0]"></div>
+  <div class="self-stretch justify-between items-start flex">
+      <div class="justify-start items-start gap-1 flex">
+          <div class="text-[#22223d] text-sm font-semibold  leading-tight">
+            {{"Start Time" | translate }}:</div>
+          <div class="text-[#4b4b61] text-sm font-normal  leading-tight">
+          {{candidateWorkingDate.start_time
+                ? (translateService.toDate(candidateWorkingDate.start_time) | date : 'hh:mm a')
+                : '-'}}
+          </div>
+      </div>
+      <div class="justify-end items-center gap-1 flex">
+          <div class="text-[#22223d] text-sm font-semibold  leading-tight">
+            {{"End Time" | translate }}:</div>
+          <div class="text-[#4b4b61] text-sm font-normal  leading-tight">
+          {{candidateWorkingDate.end_time
+                ? (translateService.toDate(candidateWorkingDate.end_time) | date: 'hh:mm a')
+                : ("Now" | translate) }}
+          </div>
+      </div>
+  </div>
+  <div class="self-stretch justify-start items-center gap-2.5 flex">
+      <div *ngIf="!candidateWorkingDate.end_time" class="px-1.5 py-0.5 bg-[#f5f5f7] rounded-md justify-start items-center gap-2.5 flex">
+          <div class="justify-start items-center gap-1 flex">
+              <div class="w-3.5 h-3.5 bg-[#4c6ff2] rounded-full"></div>
+              <div class="text-[#22223d] text-xs font-medium  leading-none">
+                {{candidateWorkingDate.total_pending}} {{"Working" | translate }}</div>
+          </div>
+      </div> 
+
+      <ng-container *ngIf="candidateWorkingDate.end_time">
+      <div *ngIf="candidateWorkingDate.total_pending > 0" class="px-1.5 py-0.5 bg-[#f5f5f7] rounded-md justify-start items-center gap-2.5 flex">
+          <div class="justify-start items-center gap-1 flex">
+              <div class="w-3.5 h-3.5 bg-[#f2994a] rounded-full"></div>
+              <div class="text-[#22223d] text-xs font-medium  leading-none">
+                {{candidateWorkingDate.total_pending}} {{"Pending" | translate }}</div>
+          </div>
+      </div>  
+      <div *ngIf="candidateWorkingDate.total_approved > 0" class="px-1.5 py-0.5 bg-[#f5f5f7] rounded-md justify-start items-center gap-2.5 flex">
+          <div class="justify-start items-center gap-1 flex">
+              <div class="w-3.5 h-3.5 bg-[#28b563] rounded-full"></div>
+              <div class="text-[#22223d] text-xs font-medium  leading-none">{{candidateWorkingDate.total_approved}} {{"Approved" | translate }}</div>
+          </div>
+      </div> 
+      <div *ngIf="candidateWorkingDate.total_rejected > 0" class="px-1.5 py-0.5 bg-[#f5f5f7] rounded-md justify-start items-center gap-2.5 flex">
+          <div class="justify-start items-center gap-1 flex">
+              <div class="w-3.5 h-3.5 bg-[#eb5757] rounded-full"></div>
+              <div class="text-[#22223d] text-xs font-medium  leading-none">{{candidateWorkingDate.total_rejected}} {{"Rejected" | translate }}</div>
+          </div>
+      </div>  
+      </ng-container>
+  </div>
+</div> 

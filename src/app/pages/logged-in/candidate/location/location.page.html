@@ -7,11 +7,11 @@
       <img src="assets/images/ic_cancel.svg" />
     </ion-button>
 
-    <h3 *ngIf="!query">{{ "In which area does candidate currently live?" | translate }}</h3>
+    <h3 *ngIf="!query">{{ heading | translate }}</h3>
 
     <ng-container *ngIf="!selected">
 
-      <ion-item lines="none" [class.country-wrapper]="!country_name">
+      <ion-item lines="none" [class.country-wrapper]="!country_name" *ngIf="!hideCountry">
         <div tabindex="0"></div>
         <ion-select #select [(ngModel)]="country_name" placeholder="{{ 'Select country' | translate }}"
           cancelText ="{{'Cancel' | translate}}" okText="{{'Okay' | translate}}" (ionChange)="onCountryChange($event)" interface="popover">

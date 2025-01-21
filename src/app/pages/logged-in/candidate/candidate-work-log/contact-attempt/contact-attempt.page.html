@@ -1,0 +1,58 @@
+<ion-content [attr.dir]="translateService.direction()">
+
+  <h5>{{ "Contact Candidate" | translate }}</h5>
+  
+  <button class="btn-close" (click)="dismiss()">
+    <ion-ripple-effect></ion-ripple-effect>
+    <ion-icon name="close-outline"></ion-icon>
+  </button>
+
+  <p class=" text-[#7d7d8d] text-sm my-2.5 font-medium leading-none">
+    Record the outcome of your contact attempt with the candidate.
+  </p>
+
+  <form (ngSubmit)="save()" (keyup.enter)="save()" [formGroup]="form" *ngIf="form">
+    
+    <h6 class="text-[#22223d]  mt-4 mb-0 text-sm font-semibold font-['Inter'] leading-tight">
+      Contact Status
+    </h6>
+    
+    <ion-radio-group formControlName="update" mode="md" class="checkbox-wrapper">
+
+      <ion-item>
+        <ion-radio value="Contacted Candidate: Answered" labelPlacement="end" slot="start">Answered</ion-radio>
+        <ion-label>{{ "Answered" | translate }}</ion-label>
+      </ion-item>
+      
+      <ion-item> 
+        <ion-radio value="Contacted Candidate: Not Answered" labelPlacement="end" slot="start">Not Answered</ion-radio>
+        <ion-label>{{ "Not Answered" | translate }}</ion-label>
+      </ion-item>
+      
+    </ion-radio-group>
+
+    <!--
+    <ion-item line="none" class="checkbox-wrapper">
+      <ion-label>{{ "Answered" | translate }}</ion-label>
+      <ion-checkbox slot="start" mode="md" formControlName="answered" (ionChange)="onAnsweredChange($event)" labelPlacement="start">Answered</ion-checkbox>
+    </ion-item>
+
+    <ion-item line="none" class="checkbox-wrapper">
+      <ion-label>{{ "Not Answered" | translate }}</ion-label>  
+      <ion-checkbox slot="start" mode="md" formControlName="not_answered" labelPlacement="start">Not Answered</ion-checkbox>
+    </ion-item>-->
+    
+    <h6 class="text-[#22223d] my-2.5 text-sm font-semibold font-['Inter'] leading-tight">
+      Notes
+    </h6>
+
+    <ion-item line="none" class="input-wrapper">
+      <ion-textarea formControlName="detail" placeholder="Provide details about the contact attempt..."></ion-textarea>
+    </ion-item>
+ 
+    <ion-button class="btn-submit" type="submit()" [disabled]="saving || !form.valid">
+      <ion-spinner *ngIf="saving"></ion-spinner>
+      <span  *ngIf="!saving">{{ "Submit Contact Attempt" | translate }}</span>
+    </ion-button>
+  </form>
+</ion-content>

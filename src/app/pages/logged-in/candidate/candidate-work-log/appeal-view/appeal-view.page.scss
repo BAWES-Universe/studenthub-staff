@@ -1,0 +1,47 @@
+ion-back-button {
+    display: block;
+}
+
+ion-header {
+ion-title {
+  font-size: 24px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.33;
+  letter-spacing: normal;
+  text-align: left;
+  color: var(--ion-color-custom-6);
+}
+
+}
+
+ion-content {
+  --padding-start: 24px;
+  --padding-top: 24px;
+  --padding-end: 24px;
+  background: var(--ion-color-custom-9);
+  --background: var(--ion-color-custom-9);
+}
+
+.item-status {
+  --border-color: #e2e2e6;
+  --border-radius: 8px;
+  --border-width: 1px;
+}
+
+ion-button {
+  --border-radius: 12px;
+  --box-shadow: none;
+  text-transform: capitalize;
+
+}
+
+.action-buttons {
+  padding: 0;
+  margin: 0 -5px;
+ 
+  ion-button {
+    width: 100%;
+  }
+}

@@ -15,6 +15,9 @@
     "Employed": "يعمل",
     "Not Employed": "لا يعمل",
     "Experiences": "خبرة",
-    "per hour": "في الساعة"
+    "per hour": "في الساعة",
+    "txt_available_from_to": "Opportunity available from {{ from}} to {{ to}}.",
+    "txt_available_from": "Opportunity available from {{ from}}.",
+    "txt_available_to": "Opportunity available till {{ to}}."
 }
 

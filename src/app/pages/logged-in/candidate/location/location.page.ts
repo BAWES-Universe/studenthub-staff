@@ -35,10 +35,12 @@ export class LocationPage implements OnInit {
 
   public area;
   public country;
-  public country_name;
+  public country_name = 'Kuwait';
 
   public query: string = '';
 
+  public hideCountry: boolean = false; 
+  
   public placeholders = {
     'Kuwait' : 'Mishref / Salmiya / Jabriya / etc.',
     'Bahrain' : 'Manama / Riffa / Muharraq / etc.',
@@ -49,6 +51,8 @@ export class LocationPage implements OnInit {
     'Qatar': 'Doha / Al Rayyan Municipality/ Al Wakrah / etc.',
   }
 
+  public heading: string = "In which area does candidate currently live?";
+  
   public selected = false;
 
   @ViewChild('searchInput', { static: false }) searchInput;

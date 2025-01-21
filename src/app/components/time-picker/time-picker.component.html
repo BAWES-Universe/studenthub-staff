@@ -1,0 +1,16 @@
+<ion-content>
+  <!--  [formatOptions]="{
+    timeStyle: 'short'
+  }"-->
+  <ion-datetime (ionChange)="onChange($event)" locale="en-Us" presentation="time"></ion-datetime>
+</ion-content>
+<ion-footer>
+  <ion-button class="btn-cancel" fill="clear" color="secondary" (click)="dismiss()">
+    Cancel
+  </ion-button>
+  <ion-button class="btn-save" fill="clear" (click)="save()">
+    Okay
+  </ion-button>
+
+  <div class="clearfix"></div>
+</ion-footer>

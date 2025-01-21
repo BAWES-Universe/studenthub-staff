@@ -8,10 +8,10 @@ import { EventService } from "../../../../providers/event.service";
 // models
 import { Request } from 'src/app/models/request';
 import { AuthService } from "../../../../providers/auth.service";
-//pages
-import { CompanyContactListPage } from "../company-contact/company-contact-list/company-contact-list.page";
 import { AnalyticsService } from 'src/app/providers/analytics.service';
 import { CountryService } from 'src/app/providers/logged-in/country.service';
+//pages
+import { CompanyContactListPage } from "../company-contact/company-contact-list/company-contact-list.page";
 
 
 @Component({

@@ -26,6 +26,14 @@ export class CandidateIdCardService {
     return this._authhttp.post(url, params);
   }
 
+  requestIds(candidates: any): Observable<any> {
+    let url = this._candidateEndpoint + '/candidate-id-request';
+    let params = {
+      "candidates": candidates
+    };
+    return this._authhttp.post(url, params);
+  }
+
   /**
    * generate candidate id zip
    * @returns {Observable<any>}

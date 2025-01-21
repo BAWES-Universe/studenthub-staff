@@ -1,0 +1,66 @@
+<ion-content [attr.dir]="translateService.direction()">
+
+  <h5>{{ "Log Time" | translate }}</h5>
+  
+  <button class="btn-close" (click)="close()">
+    <ion-ripple-effect></ion-ripple-effect>
+    <ion-icon name="close-outline"></ion-icon>
+  </button>
+
+  <form (ngSubmit)="save()" (keyup.enter)="save()" [formGroup]="form" *ngIf="form">
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-item line="none"  (click)="selectStartDate($event)">
+            <ion-label position="floating">{{ "Check-in" | translate }}</ion-label>
+            <ion-input readonly formControlName="start_time"></ion-input>
+
+            <ion-button slot="end" fill="clear">
+              <ion-icon slot="icon-only" name="time-outline"></ion-icon>
+            </ion-button>
+
+          </ion-item>
+        </ion-col>
+        <ion-col>
+          <ion-item line="none" (click)="selectEndDate($event)">
+            <ion-label position="floating">{{ "Check-out" | translate }}</ion-label>
+            <ion-input readonly formControlName="end_time"></ion-input>
+            <ion-button slot="end" fill="clear">
+              <ion-icon slot="icon-only" name="time-outline"></ion-icon>
+            </ion-button>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    
+    <ion-item line="none">
+      <ion-label position="floating">{{ "Reason" | translate }}</ion-label>
+      <ion-textarea formControlName="note"></ion-textarea>
+    </ion-item>
+
+    <ion-item line="none"  (click)="selectDate($event)">
+      <ion-label position="floating">{{ "Select Date" | translate }}</ion-label>
+      <ion-input readonly formControlName="dateFormatted"></ion-input>
+      <ion-button slot="end" fill="clear">
+        <ion-icon name="calendar-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-item>
+
+      <!-- 
+      <app-date-dropdown presentation="date" [min]="min" [max]="max" formControlName="date"></app-date-dropdown>
+    </ion-item>
+    <ion-popover trigger="click-trigger" triggerAction="click">
+      <ng-template>
+        <ion-content class="ion-padding"> 
+
+          <ion-datetime presentation="date" [min]="min" [max]="max" formControlName="date"></ion-datetime>
+        </ion-content>
+      </ng-template>
+    </ion-popover>-->
+
+    <ion-button class="btn-submit" type="submit()" [disabled]="saving || !form.valid">
+      <ion-spinner *ngIf="saving"></ion-spinner>
+      <span  *ngIf="!saving">{{ "Submit Time" | translate }}</span>
+    </ion-button>
+  </form>
+</ion-content>

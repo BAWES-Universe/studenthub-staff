@@ -1,0 +1,76 @@
+<ion-card>
+  <ion-card-content>
+    
+    <p *ngIf="hour.status == 0">
+      <b *ngIf="hour.end_time">{{ hour.total_time | secondsToTime }}</b>  <!-- secondsToTime(-->
+      <b *ngIf="!hour.end_time">{{ "On-Going" | translate }}</b>
+      <span>
+        {{ translateService.toDate(hour.start_time) | date: "shortTime": undefined: translateService.currentLang}} 
+        <ion-icon name="arrow-forward-outline"></ion-icon> 
+        <ng-container *ngIf="hour.end_time">
+          {{ translateService.toDate(hour.end_time) | date: "shortTime": undefined: translateService.currentLang}}
+        </ng-container>
+        <ng-container *ngIf="!hour.end_time">
+          {{ "Now" | translate }}
+        </ng-container>
+      </span>  
+    </p>
+
+    <ng-container *ngIf="hour.status != 0">
+      <p> 
+        <b *ngIf="hour.end_time">{{ hour.total_time | secondsToTime }}</b>  <!-- secondsToTime(-->
+        <b *ngIf="!hour.end_time">{{ "On-Going" | translate }}</b>
+        
+        <ion-badge class="warning" *ngIf="hour.status == 0">
+          {{ "Pending" | translate }}
+        </ion-badge>
+        <ion-badge class="success" *ngIf="hour.status == 1">
+          {{ "Approved" | translate }}
+        </ion-badge>
+        <ion-badge class="danger" *ngIf="hour.status == 2">
+          {{ "Rejected" | translate }}
+        </ion-badge>
+      </p>
+
+      <p>
+        {{ translateService.toDate(hour.start_time) | date: "shortTime": undefined: translateService.currentLang}} 
+          <ion-icon name="arrow-forward-outline"></ion-icon> 
+          <ng-container *ngIf="hour.end_time">
+            {{ translateService.toDate(hour.end_time) | date: "shortTime": undefined: translateService.currentLang}}
+          </ng-container>
+          <ng-container *ngIf="!hour.end_time">
+            {{ "Now" | translate }}
+          </ng-container>
+      </p>
+    </ng-container>
+    
+    <p>
+      <b>{{ "Tracking Method" | translate }}:</b>
+      <span>
+        {{ hour.via | translate }}
+      </span> 
+    </p>  
+    
+    <div class="clearfix"></div>
+
+    <div class="text-[#22223d] text-sm leading-none mb-2" *ngIf="hour.note">
+      <span class="font-medium">{{ "Reason" | translate }}:</span>
+      <span class="font-normal"> {{ hour.note }}</span>
+    </div>
+
+    <ng-container *ngIf="hour.end_time">
+      <div class="btn-wrapper" *ngIf="hour.status == 0">
+        <ion-button class="btn-reject" (click)="onRejectClicked.emit()"  fill="outline" color="danger">
+          {{ "Reject" | translate }}
+        </ion-button>
+      
+        <ion-button class="btn-approve" fill="outline" (click)="onApproveClicked.emit()">
+          {{ "Approve" | translate }}
+        </ion-button>
+      </div>
+
+      <div class="clearfix"></div>
+    </ng-container>
+
+  </ion-card-content>
+</ion-card>

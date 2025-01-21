@@ -2,6 +2,7 @@
 export const environment = {
   production: false,
   envName: 'krushn',
+ // apiEndpoint: 'http://localhost:25080/v1',
   apiEndpoint: 'http://localhost:8888/bawes/studenthub/staff/web/index.php/v1',
   //apiEndpoint: 'http://localhost/studenthub/staff/web/index.php/v1',
   permanentBucketUrl: 'https://studenthub-uploads-dev-server.s3.amazonaws.com/',

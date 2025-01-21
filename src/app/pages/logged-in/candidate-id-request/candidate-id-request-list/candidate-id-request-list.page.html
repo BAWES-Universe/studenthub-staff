@@ -1,0 +1,66 @@
+<ion-header mode="md" [class.add-border]="borderLimit" mode="md">
+  <ion-toolbar class="container">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/" icon="assets/images/icon-back.svg"></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button><ion-icon class="setting-icon" name="ellipsis-vertical-outline"></ion-icon></ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-toolbar class="container">
+    <ion-title>
+      Candidate ID Requests 
+    </ion-title> 
+  </ion-toolbar>
+</ion-header>
+
+<ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  
+  <div class="container">
+  
+    <ion-item *ngFor="let model of models" [routerLink]="['/candidate-id-request', model.cir_uuid]">
+      <ion-label>
+        <h5>{{ model.status }}</h5>
+
+        <p *ngIf="model.status == 'pending'">
+          You will get link here to download zip file, once it will be processed</p>
+
+        <p *ngIf="model.status == 'processing'">
+        Processing your request, You will get link here to download zip file, once it will be processed</p>
+
+        <p *ngIf="model.status == 'completed'">
+          <a (click)="onLinkClick($event)" [href]="awsService.permanentBucketUrl + 'id-cards/' + model.cir_uuid + '.zip'" *ngIf="model.status == 'completed'">
+            {{ awsService.permanentBucketUrl + 'id-cards/' + model.cir_uuid + '.zip' }}
+          </a>
+        </p>   
+
+        <p>Candidate IDs: {{ model.candidate_ids }}</p>
+        <p class="txt-time">
+          <ion-icon src="assets/images/icon-updated-on.svg"></ion-icon> 
+          Updated on  <span>{{ translateService.toDate(model.updated_at) | date: 'MMM d, y, h:mm:ss a' }}</span>
+        </p>
+  
+        <p class="txt-time">
+          <ion-icon src="assets/images/icon-transfer-time.svg"></ion-icon>  
+          Created on <span>{{ translateService.toDate(model.created_at) | date: 'MMM d, y, h:mm:ss a' }}</span>
+        </p>
+  
+        <p class="txt-time" *ngIf="model.staff">
+          <ion-icon name="user"></ion-icon>  
+          Created by <span>{{ model.staff.staff_name }}</span>
+        </p>
+      </ion-label>
+    </ion-item>
+    <loading-modal type="transfer-list" [loading]="loading"></loading-modal>
+
+    <no-items *ngIf="!loading && models && models.length == 0" message="~ No requests yet ~"></no-items>
+    
+    <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
+      <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+  </div>  
+
+</ion-content>

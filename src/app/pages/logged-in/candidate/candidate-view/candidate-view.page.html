@@ -16,9 +16,18 @@
 
   </ion-toolbar>
 
-  <!-- -->
+  
   <ion-toolbar class="container" *ngIf="candidate">
 
+    <div *ngIf="jobInterest && jobInterest.job" class="job-interest w-full h-[52px] relative p-4 rounded-lg bg-[#F5F7FF] block">
+      <span class="text-[#22223d] text-sm font-normal font-['Inter'] leading-tight">
+        You’re inviting for
+      </span>
+      <span class="text-[#4c6ff2] text-sm font-semibold font-['Inter'] leading-tight job-position">
+         {{ jobInterest.job.position }}  
+      </span>
+    </div>
+    
     <ion-thumbnail slot="start" *ngIf="candidate.candidate_personal_photo">
       <img (error)="onPhotoError()"
         src="{{ awsService.cloudinaryUrl + 'candidate-photo/' + candidate.candidate_personal_photo }}" />
@@ -65,7 +74,6 @@
 
 
   </ion-toolbar>
-
 
   <ion-toolbar class="container">
 
@@ -118,7 +126,7 @@
   </ion-refresher>
 
   <div class="container">
-
+     
     <div class="personal-details" *ngIf="candidate && segment == 'personal-details'">
 
       <h5>Bio</h5>
@@ -723,10 +731,21 @@
 <ion-footer class="ion-no-border {{ authService.theme }}" *ngIf="candidate && candidate.isProfileCompleted">
   <div class="container" *ngIf="authService.story && authService.story.request && authService.story.story_status == 1
   && authService.story.staff_id == authService.staff_id && ['cancelled', 'delivered'].indexOf(authService.story.request.request_status) == -1">
-    <ion-button class="btn-invite" [disabled]="candidate.isAlreadyInvited || inviting" (click)="invite()">
+      
+    <ion-button class="btn-invite" *ngIf="candidate.isAlreadyInvited && story" [routerLink]="'/story-view/' + story.story_uuid">
+      Back to Interested Candidates
+    </ion-button>
+
+    <ion-button fill="outline" class="btn-invite-more" *ngIf="candidate.isAlreadyInvited && story" 
+      [routerLink]="'/story-view/' + story.story_uuid">
+     Invite more Candidates
+    </ion-button>
+
+    <ion-button class="btn-invite" *ngIf="!candidate.isAlreadyInvited" [disabled]="candidate.isAlreadyInvited || inviting" (click)="invite()">
       <span *ngIf="!candidate.isAlreadyInvited && !inviting">Invite for Client Request</span>
       <span *ngIf="candidate.isAlreadyInvited && !inviting">Invitation sent</span>
       <ion-spinner *ngIf="inviting"></ion-spinner>
     </ion-button>
+
   </div>
 </ion-footer>

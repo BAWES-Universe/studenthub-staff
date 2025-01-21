@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {AlertController} from '@ionic/angular';
+import {AlertController, NavController} from '@ionic/angular';
 import { AnalyticsService } from 'src/app/providers/analytics.service';
 // service
 import {CandidateIdCardService} from 'src/app/providers/logged-in/candidate.id.card.service';
@@ -35,7 +35,8 @@ export class GenerateIdPage implements OnInit {
     public candidateIdCardService: CandidateIdCardService,
     public candidateService: CandidateService,
     private _fb: FormBuilder,
-    private _alertCtrl: AlertController,
+    public navCtrl: NavController,
+    private alertCtrl: AlertController,
     public analyticService: AnalyticsService
   ) {
     this.form = this._fb.group({
@@ -65,7 +66,7 @@ export class GenerateIdPage implements OnInit {
 
     if (candidate.length == 0)
     {
-      const prompt = await this._alertCtrl.create({
+      const prompt = await this.alertCtrl.create({
         message: 'Please select candidate(s)',
         buttons: ['Ok']
       });
@@ -74,7 +75,7 @@ export class GenerateIdPage implements OnInit {
       return false;
     }
 
-    this._alertCtrl.create({
+    this.alertCtrl.create({
       header: 'Generate Candidates Ids',
       message: `Do you really want to generate Candidate Ids ?`,
       buttons: [
@@ -84,7 +85,16 @@ export class GenerateIdPage implements OnInit {
           handler: (blah) => {
             this.downloading = true;
 
-            this.candidateIdCardService.generate(candidate).subscribe(response => {
+            this.candidateIdCardService.requestIds(candidate).subscribe(async response => {
+              if (response.operation == "success") {
+                this.navCtrl.navigateForward('/candidate-id-request/' + response.cir_uuid);
+              } else {
+                const alert = await this.alertCtrl.create({ 
+                  message: response.message,
+                  buttons: ['Okay']
+                });
+                alert.present();
+              }
             }, (err) => {
             }, () => {
               this.downloading = false;
@@ -227,7 +237,7 @@ export class GenerateIdPage implements OnInit {
    * export id cards
    */
   async exportData() {
-    const alert = await this._alertCtrl.create({
+    const alert = await this.alertCtrl.create({
       header: 'Are you sure you want to export the file?',
       cssClass: 'custom-alert',
       buttons: [

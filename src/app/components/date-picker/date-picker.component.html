@@ -1,0 +1,16 @@
+<ion-content>
+  <!--  [formatOptions]="{
+    timeStyle: 'short'
+  }"-->
+  <ion-datetime (ionChange)="onChange($event)" locale="en-IN" [min]="min" [max]="max" 
+    [presentation]="presentation"></ion-datetime>
+</ion-content>
+<ion-footer>
+  <ion-button class="btn-cancel" fill="clear" color="secondary" (click)="dismiss()">
+    {{ "Cancel" | translate }}
+  </ion-button>
+  <ion-button class="btn-save" fill="clear" (click)="save()">
+    {{ "Okay" | translate }}
+  </ion-button>
+  <div class="clearfix"></div>
+</ion-footer>

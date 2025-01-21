@@ -345,3 +345,9 @@ ion-card {
 .update-alert {
   bottom: 80px;
 }
+
+.btn-post,
+.btn-invite-candidate {
+  text-transform: capitalize;
+  --box-shadow:none;
+}
