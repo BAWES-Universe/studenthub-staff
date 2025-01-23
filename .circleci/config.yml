@@ -136,8 +136,8 @@ jobs:
                 name: Invalidate Cloudfront Cache
                 command: aws cloudfront create-invalidation --distribution-id ESU6JF6718T50 --paths '/*'
 
-    # Job: Deploy completed build on Staging S3 Bucket
-    deploy_on_staging_server:
+    # Job: Deploy completed build on prod S3 Bucket
+    deploy_on_prod_server:
         docker:
           - image: circleci/python:3.6.8-jessie
 
@@ -153,9 +153,20 @@ jobs:
                 command: sudo pip install awscli
             - run:
                 name: Deploy to S3
-                command: aws s3 sync ~/completed-build/www/ s3://studenthub-staff-staging/
+                command: aws s3 sync ~/completed-build/www/ s3://studenthub-staff-prod/
 
+            - run:
+                name: Set Cache-Control headers for specific files
+                command: |
+                  aws s3 cp s3://studenthub-staff-prod/index.html s3://studenthub-staff-prod/index.html \
+                    --metadata-directive REPLACE \
+                    --cache-control "no-store, no-cache, must-revalidate, max-age=0" \
+                    --content-type "text/html"
 
+            - run:
+                name: Invalidate Cloudfront Cache
+                command: aws cloudfront create-invalidation --distribution-id E97L4ND30CEDZ --paths '/*'
+            
 # Define Workflows
 workflows:
     version: 2
@@ -174,8 +185,8 @@ workflows:
                 requires:
                     - build_for_dev_server
 
-    # Build Master > Then Deploy on Staging Server
-    build_deploy_on_staging_server:
+    # Build Master > Then Deploy on prod Server
+    build_deploy_on_prod_server:
         jobs:
             - build_for_prod_server:
                 context: 
@@ -183,7 +194,7 @@ workflows:
                 filters:
                     branches:
                         only: master
-            - deploy_on_staging_server:
+            - deploy_on_prod_server:
                 context: org-global
                 requires:
                     - build_for_prod_server
