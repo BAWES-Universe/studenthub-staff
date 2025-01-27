@@ -68,7 +68,7 @@ export class JobFormPage implements OnInit {
       hours_per_day: [this.model.hours_per_day, Validators.required],
       days_per_week: [this.model.days_per_week, Validators.required],
       compensation_type: [this.model.compensation_type, Validators.required],
-      compensation_amount: [this.model.compensation_amount, Validators.required],
+      compensation_amount: [this.model.compensation_amount], //, Validators.required
       compensation_description: [this.model.compensation_description],
       compensation_description_ar: [this.model.compensation_description_ar],
       min_age: [this.model.min_age],

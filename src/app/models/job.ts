@@ -16,7 +16,7 @@ export class Job {
     hours_per_day: number;
     days_per_week: number;
     compensation_type: string;
-    compensation_amount: number;
+    compensation_amount: number | string | null;
     compensation_description: string;
     compensation_description_ar: string;
     min_age: number;

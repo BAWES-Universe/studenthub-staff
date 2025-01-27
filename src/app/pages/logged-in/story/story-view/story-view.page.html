@@ -152,15 +152,17 @@
                     </div>
                   
                     <div *ngIf="story.job.compensation_type == 'MONTHLY_SALARY'" class="text-[#4b4b61] text-sm font-medium leading-tight">
-                      {{ story.job.compensation_amount }} KD / {{ "month" | translate }}
+                      {{ story.job.compensation_amount }} 
+                      <!-- KD / {{ "month" | translate }}-->
                     </div>
 
                     <div *ngIf="story.job.compensation_type == 'HOURLY'" class="text-[#4b4b61] text-sm font-medium leading-tight">
-                      {{ story.job.compensation_amount }} KD / {{ "hour" | translate }}
+                      {{ story.job.compensation_amount }} 
+                      <!-- KD / {{ "hour" | translate }}-->
                     </div>
 
                     <div *ngIf="story.job.compensation_type == 'FIXED_PRICE'" class="text-[#4b4b61] text-sm font-medium leading-tight">
-                      {{ story.job.compensation_amount }} KD 
+                      {{ story.job.compensation_amount }} <!-- KD -->
                     </div>
                 </div>
                 <div class="justify-start items-center gap-1 flex" *ngIf="story.job.area">
