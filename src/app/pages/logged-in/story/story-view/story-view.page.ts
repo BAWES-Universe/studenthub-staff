@@ -122,6 +122,7 @@ export class StoryViewPage implements OnInit, OnDestroy {
   };
 
   public interestFilter : {
+    status: string | null,
     country_id: number| null,
     skills: string[],
     areas: Area[],
@@ -132,6 +133,7 @@ export class StoryViewPage implements OnInit, OnDestroy {
     nationality_countries: Country[],
     gender: number| null,
   } = {
+    status: null,
     country_id: null,
     nationality_countries: [],
     skills: [],
@@ -150,7 +152,9 @@ export class StoryViewPage implements OnInit, OnDestroy {
 
   public loadingMatched:boolean = false;
   loadingJobs: boolean = false;
-
+  deletingJob: boolean = false;
+  shortlistingJobInterest: string = null;
+  rejectingJobInterest: string = null;
   constructor(
     public jobService: JobService,
     private activatedRoute: ActivatedRoute,
@@ -278,6 +282,7 @@ export class StoryViewPage implements OnInit, OnDestroy {
 
   removeAllFilters() {
     this.interestFilter = {
+      status: null,
       country_id: null,
       nationality_countries: [],
       skills: [],
@@ -288,6 +293,11 @@ export class StoryViewPage implements OnInit, OnDestroy {
         to: null
       },
     };
+    this.listInterests();
+  }
+
+  removeStatus() {
+    this.interestFilter.status = null;
     this.listInterests();
   }
 
@@ -325,6 +335,7 @@ export class StoryViewPage implements OnInit, OnDestroy {
 
     if (!this.interestFilter) {
       this.interestFilter = {
+        status: null,
         country_id: null,
         nationality_countries: [],
         skills: [],
@@ -335,6 +346,10 @@ export class StoryViewPage implements OnInit, OnDestroy {
           to: null
         },
       }
+    }
+
+    if (this.interestFilter.status) {
+      params += '&status=' + this.interestFilter.status;  
     }
 
     if (this.interestFilter.country_id) {
@@ -397,6 +412,8 @@ export class StoryViewPage implements OnInit, OnDestroy {
     const url = this.jobInterestParams();
 
     this.jobService.listInterests(1, url).subscribe(response => {
+      event.target.complete();
+      
       this.jobInterests = this.jobInterests.concat(response.body);
 
       this.InterestPageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
@@ -958,7 +975,11 @@ export class StoryViewPage implements OnInit, OnDestroy {
   loadJobs() {
     this.loadingJobs = true; 
 
+    if (!this.JcurrentPage) {
+      this.JcurrentPage = 1;
+    }
     this.jobService.list(this.JcurrentPage).subscribe(response => {
+
       this.loadingJobs = false;
 
       this.jobs = response.body;
@@ -997,6 +1018,119 @@ export class StoryViewPage implements OnInit, OnDestroy {
       this.loadingJobs = false;
       event.target.complete();
     });
+  }
+
+  async deleteJob(job) {
+    const confirm = await this.alertCtrl.create({
+      header: 'Are you sure?',
+      message: 'Delete job post',
+      inputs: [
+
+      ],
+      buttons: [
+        {
+          text: 'Cancel'
+        },
+        {
+          text: 'Ok',
+          handler: async (data) => {
+            this.deletingJob = true;
+
+            this.jobService.delete(job).subscribe(res => {
+              this.deletingJob = false;
+            
+              if (res.operation == 'success') {
+                this.loadData();
+                //InterestTotal
+                //jobInterests
+              } else {
+                this.alertCtrl.create({
+                  message: this.translateService.errorMessage(res.message),
+                  buttons: ['Okay']
+                }).then(alert => {
+                  alert.present();
+                });
+              }
+            });
+          }
+        }
+      ]
+    });
+    confirm.present();
+  }
+
+  async rejectJobInterest(jobInterest) {
+    const confirm = await this.alertCtrl.create({
+      header: 'Are you sure?',
+      message: 'Reject candidate',
+      inputs: [
+
+      ],
+      buttons: [
+        {
+          text: 'Cancel'
+        },
+        {
+          text: 'Ok',
+          handler: async (data) => {
+            this.rejectingJobInterest = jobInterest.job_interest_uuid;
+
+            this.jobService.rejectInterest(jobInterest.job_interest_uuid).subscribe(res => {
+              this.rejectingJobInterest = null;
+            
+              if (res.operation == 'success') {
+                jobInterest.status = 'REJECTED';
+              } else {
+                this.alertCtrl.create({
+                  message: this.translateService.errorMessage(res.message),
+                  buttons: ['Okay']
+                }).then(alert => {
+                  alert.present();
+                });
+              }
+            });
+          }
+        }
+      ]
+    });
+    confirm.present();
+  }
+
+  async shortlistJobInterest(jobInterest) {
+    const confirm = await this.alertCtrl.create({
+      header: 'Are you sure?',
+      message: 'Shortlist candidate',  
+      inputs: [
+
+      ],
+      buttons: [
+        {
+          text: 'Cancel'
+        },
+        {
+          text: 'Ok',
+          handler: async (data) => {
+            this.shortlistingJobInterest = jobInterest.job_interest_uuid;
+
+            this.jobService.shortlistInterest(jobInterest.job_interest_uuid).subscribe(res => {
+              this.shortlistingJobInterest = null;
+            
+              if (res.operation == 'success') {
+                jobInterest.status = 'SHORTLISTED';
+              } else {
+                this.alertCtrl.create({
+                  message: this.translateService.errorMessage(res.message),
+                  buttons: ['Okay']
+                }).then(alert => {
+                  alert.present();
+                });
+              }
+            });
+          }
+        }
+      ]
+    });
+    confirm.present();
   }
 
   /**

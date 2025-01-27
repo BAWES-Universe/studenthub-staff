@@ -27,12 +27,15 @@ export class Job {
     status: number;// 0 -DRAFT | 1 - ACTIVE | 2- CLOSED
     created_at: string;
     updated_at: string;
+    deleted_at: string;
     created_by: number;
     updated_by: number;
+    deleted_by: number;
     is_available: boolean
     area: Area;
     createdBy: Staff;
-    updatedBy: Staff
+    updatedBy: Staff;
+    deletedBy: Staff;
     request: Request;
     story: Story;
     jobInterests: JobInterest[];

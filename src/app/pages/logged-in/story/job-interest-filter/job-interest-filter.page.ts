@@ -18,6 +18,7 @@ export class JobInterestFilterPage implements OnInit {
   public form: FormGroup;
 
   public interestFilter : {
+    status: string | null,
     country_id: number,
     skills: string[],
     areas: Area[],
@@ -63,7 +64,8 @@ export class JobInterestFilterPage implements OnInit {
       age_to: [this.interestFilter.age.to],
       age_from: [this.interestFilter.age.from],
       skills: [this.interestFilter.skills || []],
-      areas: [this.interestFilter.areas || []]
+      areas: [this.interestFilter.areas || []],
+      status: [this.interestFilter.status]
     });
   }
 
@@ -100,7 +102,7 @@ export class JobInterestFilterPage implements OnInit {
     this.form.controls['age_from'].setValue(null);
     this.form.controls['skills'].setValue([]);
     this.form.controls['areas'].setValue([]);
-
+    this.form.controls['status'].setValue(null);
     this.form.updateValueAndValidity();
   }
 

@@ -25,6 +25,31 @@ export class JobService {
     return this.authhttp.get(url);
   }
 
+  /**
+   * shortlist candidate interest
+   * @param job_interest_uuid 
+   * @returns 
+   */
+  shortlistInterest(job_interest_uuid: string): Observable<any> {
+    let url = this.jobEndpoint + '/shortlist-interest/' + job_interest_uuid;
+    return this.authhttp.patch(url, {});
+  }
+
+  /**
+   * reject candidate interest
+   * @param job_interest_uuid 
+   * @returns 
+   */
+  rejectInterest(job_interest_uuid: string): Observable<any> {
+    let url = this.jobEndpoint + '/reject-interest/' + job_interest_uuid;
+    return this.authhttp.patch(url, {});
+  }
+
+  /**
+   * list candidate interests filter by job uuid
+   * @param job_uuid 
+   * @returns 
+   */
   listInterestFilter(job_uuid: string): Observable<any> {
     let url = this.jobEndpoint + '/interests/filter?job_uuid=' + job_uuid;
     return this.authhttp.get(url);

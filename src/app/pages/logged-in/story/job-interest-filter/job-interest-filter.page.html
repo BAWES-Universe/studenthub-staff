@@ -160,6 +160,46 @@
           
         </ion-row>
       </ion-radio-group> 
+
+
+      <h5 class="text-[#22223d] text-base font-medium font-['Inter'] leading-normal my-2.5">Status</h5>
+
+      <ion-radio-group formControlName="status">
+        <ion-row>
+          <ion-col>
+            <ion-item class="toggle-wrapper">
+              <div tabindex="0"></div>
+              <ion-radio slot="start" value="INTERESTED"></ion-radio>
+              <ion-label>Pending</ion-label>
+            </ion-item>
+          </ion-col>
+
+          <ion-col>
+            <ion-item class="toggle-wrapper">
+              <div tabindex="0"></div>
+              <ion-radio slot="start" value="SHORTLISTED"></ion-radio>
+              <ion-label>Shortlisted</ion-label>
+            </ion-item>
+          </ion-col>
+
+          <ion-col>
+            <ion-item class="toggle-wrapper">
+              <div tabindex="0"></div>
+              <ion-radio slot="start" value="REJECTED"></ion-radio>
+              <ion-label>Rejected</ion-label>
+            </ion-item>
+          </ion-col>
+ 
+          <ion-col>
+            <ion-item class="toggle-wrapper">
+              <div tabindex="0"></div>
+              <ion-radio slot="start" value=""></ion-radio>
+              <ion-label>Any</ion-label>
+            </ion-item>
+          </ion-col>
+
+        </ion-row>
+      </ion-radio-group> 
     </form>
   </div>    
 
