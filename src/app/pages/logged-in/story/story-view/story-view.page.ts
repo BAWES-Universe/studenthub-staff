@@ -331,7 +331,7 @@ export class StoryViewPage implements OnInit, OnDestroy {
 
   jobInterestParams() {
 
-    let params = '&job_uuid=' + this.story.job.job_uuid;
+    let params = '&job_uuid=' + this.story.job.job_uuid;//&per-page=1
 
     if (!this.interestFilter) {
       this.interestFilter = {
@@ -407,7 +407,7 @@ export class StoryViewPage implements OnInit, OnDestroy {
 
     this.loadingJobs = true;
     
-    this.InterestPageCount++;
+    this.InterestCurrentPage++;
 
     const url = this.jobInterestParams();
 
