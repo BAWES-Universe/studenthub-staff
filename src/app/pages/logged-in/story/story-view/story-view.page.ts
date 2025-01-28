@@ -331,7 +331,7 @@ export class StoryViewPage implements OnInit, OnDestroy {
 
   jobInterestParams() {
 
-    let params = '';
+    let params = '&job_uuid=' + this.story.job.job_uuid;
 
     if (!this.interestFilter) {
       this.interestFilter = {
