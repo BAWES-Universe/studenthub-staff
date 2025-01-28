@@ -105,8 +105,8 @@ export class StoryViewPage implements OnInit, OnDestroy {
 
   jobInterests: JobInterest[] = [];
 
-  InterestPageCount= 0;
-  InterestCurrentPage = 0;
+  InterestPageCount = 0;
+  InterestCurrentPage = 1;
   InterestTotal = 0;
 
   public storyStatus = {
@@ -411,7 +411,7 @@ export class StoryViewPage implements OnInit, OnDestroy {
 
     const url = this.jobInterestParams();
 
-    this.jobService.listInterests(1, url).subscribe(response => {
+    this.jobService.listInterests(this.InterestCurrentPage, url).subscribe(response => {
       event.target.complete();
       
       this.jobInterests = this.jobInterests.concat(response.body);
