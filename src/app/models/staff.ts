@@ -6,6 +6,7 @@ export class Staff {
     staff_email: string;
     staff_photo: string;
     staff_notification: boolean | number;
+    enable_two_step_auth: any;
     staff_job_title: string;
     staff_status: number;
     hours_per_day: number;

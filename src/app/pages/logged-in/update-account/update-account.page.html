@@ -68,6 +68,11 @@
           <ion-toggle (ionChange)="onchange($event)" formControlName="staff_notification"></ion-toggle>
         </ion-item>
         
+        <ion-item>  
+          <div tabindex="0"></div>
+          <ion-label>Two-Step Auth</ion-label>
+          <ion-toggle (ionChange)="onTwoStepAuthChange($event)" formControlName="enable_two_step_auth"></ion-toggle>
+        </ion-item>
       </ion-list>
     </form>
   </div>

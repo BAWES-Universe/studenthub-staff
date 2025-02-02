@@ -37,6 +37,12 @@
             </ion-note><br/>
             <ion-note [class.red]="staff.total_assigned == '0'">
               {{ staff.total_assigned }} Candidate Assigned
+            </ion-note><br/>
+            <ion-note *ngIf="staff.enable_two_step_auth">
+              Two-Step Auth Enabled
+            </ion-note>
+            <ion-note *ngIf="!staff.enable_two_step_auth">  
+              Two-Step Auth Disabled
             </ion-note>
           </ion-label>
           <ion-badge class="company_status_badge" slot="end" color="danger" *ngIf="!staff.staff_status">

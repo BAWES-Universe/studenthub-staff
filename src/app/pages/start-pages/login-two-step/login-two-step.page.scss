@@ -1,0 +1,106 @@
+.loginCard{
+    max-width:350px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .contentArea{
+    background: var(--ion-color-custom-15);
+    --background: var(--ion-color-custom-15);
+  }
+  
+  .brand {
+    margin-top: 20px;
+    margin-bottom:20px;
+    text-align: center;
+  
+    img{
+      width: 180px;
+      margin: auto;
+    }
+  }
+  
+  .authArea button{
+    margin-bottom:7px;
+  }
+  
+  .login-btn {
+    background: none;
+    --background: transparent;
+    box-shadow: none;
+    --box-shadow: none;
+    border: 1px solid gray;
+    color: gray;
+  }
+  
+  ion-item.field-password {
+    ion-input {
+        --padding-end: 30px;
+    }
+  
+    .btn-password { 
+        position: absolute;
+        bottom: 0;
+        z-index: 111;
+        opacity: 0.7;
+        background: transparent;
+        top: 7px;
+        right: 0;
+  
+        ion-icon {
+            font-size: 22px;
+            color: var(--ion-color-light-contrast);
+        } 
+    }
+  }
+  
+  .btn-login-google,
+  .btn-login-bawes,
+  .btn-login {
+    display: flex;
+    width: 100%;
+    --background-hover: inherit;
+    height: 52px;
+    --border-radius: 16px !important;
+   
+    font-size: 16px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: center;
+    text-transform: capitalize;
+  }
+  
+  .btn-login,
+  .btn-login-bawes,
+  .btn-login-google {
+    border-radius: 16px;
+    --border-radius: 16px;
+    margin-bottom: 15px;
+    --box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  
+    ion-icon {
+      margin: 0 5px;
+      position: relative;
+      top: 2px;
+    }
+  }
+  
+  .separator {
+    border-bottom: 1px solid #ccc;
+    text-align: center;
+    margin-bottom: 20px;
+    margin-top: 5px;
+    width: calc(100% - 100px);
+    margin-left: auto;
+    margin-right: auto;
+  
+    span {
+      position: relative;
+      top: 9px;
+      background: var(--ion-card-background);
+      padding: 0 10px;
+    }
+  }
