@@ -96,6 +96,7 @@ export class UpdateAccountPage implements OnInit {
       this.model.staff_job_title = response.staff_job_title;
       this.model.staff_notification = response.staff_notification;
       this.model.staff_photo = response.staff_photo;
+      this.model.enable_two_step_auth = response.enable_two_step_auth;
 
       this.loading = false;
 
@@ -113,7 +114,8 @@ export class UpdateAccountPage implements OnInit {
       logo_path: [this.awsService.cloudinaryUrl + 'staff-photo/' + this.model.staff_photo],
       logo: [this.model.staff_photo],
       staff_job_title: [this.model.staff_job_title, Validators.required],
-      staff_notification: [this.model.staff_notification]
+      staff_notification: [this.model.staff_notification],
+      enable_two_step_auth: [this.model.enable_two_step_auth]
     }); 
   }
 
@@ -124,6 +126,7 @@ export class UpdateAccountPage implements OnInit {
     this.model.staff_name = this.form.value.name;
     this.model.staff_photo = this.form.value.logo;
     this.model.staff_job_title = this.form.value.staff_job_title;
+    this.model.enable_two_step_auth = this.form.value.enable_two_step_auth;
   }
 
   /**
@@ -426,6 +429,13 @@ export class UpdateAccountPage implements OnInit {
 
   onchange($event) {
     this.model.staff_notification = ($event.detail.checked) ? 1 : 0;
+  }
+
+  onTwoStepAuthChange(event) {
+    this.model.enable_two_step_auth = (event.detail.checked) ? 1 : 0;
+    this.form.patchValue({
+      enable_two_step_auth: this.model.enable_two_step_auth
+    });
   }
 
   /**

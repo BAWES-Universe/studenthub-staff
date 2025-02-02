@@ -124,6 +124,13 @@
           </ion-label>
         </ion-item>
  
+        <ion-item lines="none">
+          <div tabindex="0"></div>
+          <ion-label>
+            <h5>Two-Step Auth</h5>
+            <p>{{ staff.enable_two_step_auth ? "Enrolled" : "Not Enrolled" }}</p>
+          </ion-label>
+        </ion-item>
     </ion-list>
 
     <div *ngIf="segment == 'work-history'">

@@ -43,7 +43,8 @@ export class AccountService {
       "name": model.staff_name,
       'staff_photo': model.staff_photo,
       "staff_notification": model.staff_notification,
-      "staff_job_title": model.staff_job_title
+      "staff_job_title": model.staff_job_title,
+      "enable_two_step_auth": model.enable_two_step_auth
     };
 
     return this._authhttp.patch(url, params);

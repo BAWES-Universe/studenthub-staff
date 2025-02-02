@@ -1,0 +1,32 @@
+<ion-content class='contentArea ion-padding'>
+  <div class='brand'>
+    <img src="assets/icon/icon.png" />
+  </div>
+
+  <ion-card class='loginCard'>
+    <ion-card-content class='authArea'>
+
+      <form *ngIf="form" [formGroup]="form" (ngSubmit)="onSubmit()" (keyup.enter)="onSubmit()" class="classicInput" novalidate>
+
+        <ion-item>
+          <ion-input  
+                  formControlName="otp"
+                  placeholder="OTP">
+          </ion-input>
+        </ion-item> 
+  
+        <div class="ion-text-center">
+          <ion-button expand="block" class="btn-login" type="submit"
+                  [disabled]="!form.valid || isLoading">
+
+            <ion-spinner *ngIf="isLoading"></ion-spinner>
+            <span *ngIf="!isLoading">Sign in</span>
+          </ion-button>
+        </div>
+        
+      </form>
+
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>

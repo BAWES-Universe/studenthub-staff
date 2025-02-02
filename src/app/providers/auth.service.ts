@@ -50,7 +50,8 @@ export class AuthService {
   public _urlUpdatePassword = '/auth/update-password';
   public _urlLoginByGoogle = '/auth/login-by-google';
   public _urlLoginByKey = '/auth/login-by-key';
-
+  private _urlTwoStep = '/auth/login-two-step';
+  
   constructor(
     public storage: Storage,
     public _http: HttpClient,
@@ -297,7 +298,7 @@ export class AuthService {
     const authHeader = new HttpHeaders({
       Authorization: 'Basic ' + btoa(unescape(encodeURIComponent(`${email}:${password}`))),
       Currency: this.currency_pref,
-      'g-recaptcha-token': token
+      'g-recaptcha-response': token
     });
     const url = environment.apiEndpoint + this._urlBasicAuth;// + '?token=' + token;
     return this._http.get(url, {
@@ -307,6 +308,29 @@ export class AuthService {
       first(),
       map((res: HttpResponse<any>) => res)
     );
+  }
+
+
+  loginTwoStep(grecaptchaToken: string, token: string, otp: string): Observable<any> {
+     
+    const authHeader = new HttpHeaders({
+      'Content-Type': 'application/json',
+      "Currency": this.currency_pref || "KWD",
+      'g-recaptcha-response': grecaptchaToken
+    });
+ 
+    const url = environment.apiEndpoint + this._urlTwoStep;
+
+    return this._http.post(url, {
+      token: token,
+      otp: otp
+    }, {
+      headers: authHeader
+    });/*
+      .pipe(
+        take(1),
+        // map((res: Response) => res)
+      );*/
   }
 
   /**
