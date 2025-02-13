@@ -214,7 +214,8 @@ export class AppliedFiltersComponent extends TypedBaseWidget<CurrentRefinementsW
     birthTimestampItems(item) {
       // console.log(item);
         const agePipe = new AgePipe();
-        item.label =  item.operator + ' ' + agePipe.transform(item.value);
+        const label = item.operator == '>='? 'Age Upto' : 'Age From';
+        item.label =  label + ' ' + agePipe.transform(item.value);
         return item;
     }
 

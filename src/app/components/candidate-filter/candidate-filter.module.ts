@@ -8,7 +8,7 @@ import { RefinementListModule } from '../refinement-list/refinement-list.module'
 import {CommonModule} from "@angular/common";
 import { RangeRefinementModule } from '../range-refinement-list/range-refinement-list.module';
 import { DateRangeRefinementListModule } from '../date-range-refinement-list/date-range-refinement-list.module';
-
+import { AgeRefinementListModule } from '../age-refinement-list/age-refinement-list.module';
 
 @NgModule({
   declarations: [
@@ -19,6 +19,7 @@ import { DateRangeRefinementListModule } from '../date-range-refinement-list/dat
     TranslateModule.forChild(),
     IonicModule, 
     NgAisModule, 
+    AgeRefinementListModule,
     RangeRefinementModule,
     RefinementListModule,
     DateRangeRefinementListModule
