@@ -186,6 +186,33 @@ export class SuggestionComponent implements OnInit {
     }).then(alert => { alert.present(); });
   }
 
+  rescheduleCVResumeEmail(event) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    this.suggestionService.rescheduleCVResumeEmail(this.model.suggestion_uuid).subscribe(async response => {
+       if (response.operation == 'success') {
+        this.model.mail_to_company = false;
+
+        this.toastCtrl.create({
+          message: this.authService.errorMessage(response.message),
+          duration: 2000,
+          buttons: ['Okay']
+        }).then(prompt => {
+          prompt.present();
+        });
+       } else {
+
+        this.alertCtrl.create({
+          message: this.authService.errorMessage(response.message),
+          buttons: ['Okay']
+        }).then(alert => {
+          alert.present();
+        });
+       }
+    });
+  }
+
   /**
    * Make date readable by Safari
    * @param date

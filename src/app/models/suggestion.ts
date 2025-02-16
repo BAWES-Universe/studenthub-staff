@@ -12,6 +12,7 @@ export class Suggestion {
     note_uuid: string;
     suggestion_status: number;
     suggestion_datetime: string;
+    mail_to_company: boolean;
     note: Note;
     feedback: Note;
     feedbacks: Note[];

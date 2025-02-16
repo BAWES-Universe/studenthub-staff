@@ -57,6 +57,11 @@ export class SuggestionService {
     });
   }
 
+  rescheduleCVResumeEmail(suggestion_uuid: string) {
+    const url = `${this._endpoint}/reschedule-cv-email/${suggestion_uuid}`;
+    return this._authhttp.patch(url, {});
+  }
+
   /**
    * accept suggestion for request
    * @param suggestion_id

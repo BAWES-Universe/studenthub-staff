@@ -273,7 +273,9 @@
           <div *ngIf="allSuggestions.length > 0">
             <h4 class="txt-suggested-candidates">Suggested Candidates <span class="count">({{ Stotal }})</span></h4>
 
-            <suggestion tappable [routerLink]="'/suggestion-view/' + suggestion.suggestion_uuid" (onUpdate)="onSuggestionUpdate()" *ngFor="let suggestion of allSuggestions" [model]="suggestion"></suggestion>
+            <suggestion tappable [routerLink]="'/suggestion-view/' + suggestion.suggestion_uuid" 
+              (onUpdate)="onSuggestionUpdate()" 
+              *ngFor="let suggestion of allSuggestions" [model]="suggestion"></suggestion>
           </div>
 
 <!--          <div *ngIf="rejectedSuggestions.length > 0">-->

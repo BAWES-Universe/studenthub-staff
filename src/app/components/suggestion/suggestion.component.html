@@ -10,6 +10,12 @@
     <ion-badge color="light" *ngIf="model.suggestion_status == 2">
       Rejected a candidate
     </ion-badge>
+    <ion-badge color="light" *ngIf="model.mail_to_company">
+      Cv/ Resume sent to company
+    </ion-badge>
+    <ion-badge color="warning" *ngIf="!model.mail_to_company">
+      Cv/ Resume not sent to company
+    </ion-badge>
   </ng-container>
   <ion-item lines="none" *ngIf="model.candidate">
     <div tabindex="0"></div>
@@ -72,6 +78,7 @@
     <span class="candidate_name" *ngIf="model.fulltimer">&nbsp;{{ model.fulltimer.fulltimer_name }}</span>
     because <span [innerHTML]="model.feedback.note_text"></span>
   </p>
+
   <ng-container *ngIf="model.suggestion_status == 1">
     
     <ion-button class="btn-reject" (click)="rejectSuggestion($event)">
@@ -81,6 +88,11 @@
     <ion-button class="btn-accept" (click)="acceptSuggestion($event)">
       Accepted
     </ion-button>
+
+    <ion-button class="btn-reschedule" *ngIf="model.mail_to_company" (click)="rescheduleCVResumeEmail($event)">
+      Re-schedule CV/ Resume Email
+    </ion-button>
+
   </ng-container>
 </ion-card>
 <div class="clearfix"></div>
