@@ -4,7 +4,7 @@ jobs:
     build_for_dev_server:
         docker:
           # specify the version you desire here
-          - image: cimg/node:19.0.1
+          - image: cimg/node:23.8.0
             environment:
               CHROME_BIN: /usr/bin/google-chrome
               NODE_OPTIONS: --max_old_space_size=16000
@@ -61,7 +61,7 @@ jobs:
     build_for_prod_server:
         docker:
           # specify the version you desire here
-          - image: cimg/node:19.0.1
+          - image: cimg/node:23.8.0
             environment:
               CHROME_BIN: /usr/bin/google-chrome
               NODE_OPTIONS: --max_old_space_size=16000
