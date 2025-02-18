@@ -92,7 +92,6 @@ export class CandidateWarningsPage implements OnInit {
     this.loading = loading;
 
     this.candidateService.detail(this.candidate_id).subscribe(response => {
-
       this.loading = false;
       this.candidate = response;
     });
