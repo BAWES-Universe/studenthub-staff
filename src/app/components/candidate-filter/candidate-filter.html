@@ -143,6 +143,11 @@
             [class.is-refined]="arrRefined['start_date_timestamp']" title="Assigned date range"
             operator="or" attribute="start_date_timestamp"></date-range-refinement-list>
         
+            <!-- [transformItems]="statusTransformItems" -->
+        <refinement-list data-sort-order="5" [class.is-refined]="arrRefined && arrRefined['candidateIdCard.status']"
+            label="{{ 'ID Status' | translate }}" operator="or" 
+            attribute="candidateIdCard.status"></refinement-list>
+            
     </div>
 
     <h4 class="filter-group-name">{{ "Certificates" | translate }}</h4>

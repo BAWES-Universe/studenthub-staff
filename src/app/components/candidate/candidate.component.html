@@ -61,24 +61,39 @@
       </p>
       
       <ng-container *ngIf="candidate.candidateTags">
-        <ion-badge color="warning" class="candidate-tag" *ngFor="let candidateTag of candidate.candidateTags">
+        <ion-badge class="text-[#fff] text-xs font-medium h-5 px-1.5 py-0.5 bg-[#ffc409] rounded-md justify-start items-start gap-2.5 inline-flex" *ngFor="let candidateTag of candidate.candidateTags">
           {{ candidateTag.tag }}
         </ion-badge> 
       </ng-container>
       
-      <ion-badge *ngIf="candidate.isProfileCompleted == false" color="danger">
+      <ion-badge *ngIf="candidate.isProfileCompleted == false" class="text-[#d9f4e4] text-xs font-medium h-5 px-1.5 py-0.5 bg-[#eb445a] rounded-md justify-start items-start gap-2.5 inline-flex">
         Incomplete Profile
       </ion-badge>
-
-      <ion-badge *ngIf="candidate.civilExpired" color="danger">
+     
+      <ion-badge *ngIf="candidate.civilExpired" class="text-[#d9f4e4] text-xs font-medium h-5 px-1.5 py-0.5 bg-[#eb445a] rounded-md justify-start items-start gap-2.5 inline-flex">
         Civil Expired
       </ion-badge>
 
-      <ion-badge *ngIf="!candidate.candidate_email_verification" color="danger">
+      <ion-badge *ngIf="!candidate.candidateIdCard" class="text-[#ca7f3e] text-xs font-medium h-5 px-1.5 py-0.5 bg-[#fff7ef] rounded-md justify-start items-start gap-2.5 inline-flex">
+        ID Not Issued 
+      </ion-badge>
+
+      <ng-container *ngIf="candidate.candidateIdCard">
+        <ion-badge *ngIf="candidate.candidateIdCard.expired" class="text-[#4c6ff2] text-xs font-medium w-[101px] h-5 px-1.5 py-0.5 bg-[#dde4ff] rounded-md justify-start items-start gap-2.5 inline-flex">
+          Expired ID Card
+        </ion-badge>
+  
+        <ion-badge *ngIf="!candidate.candidateIdCard.expired" class="text-[#28b563] text-xs font-medium h-5 px-1.5 py-0.5 bg-[#d9f4e4] rounded-md justify-start items-start gap-2.5 inline-flex">
+          ID Active
+        </ion-badge>
+        
+      </ng-container>
+
+      <ion-badge *ngIf="!candidate.candidate_email_verification" class="text-[#28b563] text-xs font-medium h-5 px-1.5 py-0.5 bg-[#d9f4e4] rounded-md justify-start items-start gap-2.5 inline-flex">
         Email Not Verified
       </ion-badge>
 
-      <ion-badge *ngIf="candidate.deleted" color="danger">
+      <ion-badge *ngIf="candidate.deleted" class="text-[#28b563] text-xs font-medium h-5 px-1.5 py-0.5 bg-[#d9f4e4] rounded-md justify-start items-start gap-2.5 inline-flex">
         Deleted
       </ion-badge>
 
