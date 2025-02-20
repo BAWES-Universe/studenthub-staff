@@ -1,0 +1,74 @@
+---
+title: API Reference Introduction
+description: An introduction to the API reference documentation, outlining the structure, authentication methods, and how to interact with the endpoints.
+---
+
+## Overview
+
+Welcome to the API Reference for the OpenAPI Plant Store. This documentation is designed to provide you with all the necessary information to interact with our API, enabling you to retrieve, create, update, and delete plant data within our store. The API is built following the OpenAPI 3.0.1 specification, ensuring a standardized and easy-to-understand interface for developers.
+
+The structure of this API documentation is divided into several key sections:
+
+- **Authentication**: Details on how to authenticate with our API using bearer tokens.
+- **Endpoints**: Comprehensive details about each endpoint, including available operations (GET, POST, DELETE), parameters, request and response models, and example requests and responses.
+
+Our API is hosted at `http://sandbox.mintlify.com`, serving as the base URL for all requests.
+
+## Authentication
+
+The OpenAPI Plant Store API uses bearer token authentication to secure access to the API endpoints. To make requests to the API, you must include an authorization header with a valid token in each request.
+
+```typescript
+Authorization: Bearer YOUR_ACCESS_TOKEN
+```
+
+Ensure that you replace `YOUR_ACCESS_TOKEN` with your actual access token. Unauthorized requests will be denied, and an appropriate error message will be returned.
+
+## Endpoints
+
+The API consists of several endpoints that allow you to interact with plant data within the store. Below is an overview of the primary endpoints and their functionalities:
+
+- **GET /plants**: Retrieves a list of all plants that the user has access to. You can specify a `limit` query parameter to control the number of results returned.
+
+```typescript
+// Example request to fetch plants with a limit
+fetch('http://sandbox.mintlify.com/plants?limit=10', {
+  method: 'GET',
+  headers: {
+    'Authorization': 'Bearer YOUR_ACCESS_TOKEN'
+  }
+});
+```
+
+- **POST /plants**: Allows the creation of a new plant in the store. The request body must include details about the plant you wish to add.
+
+```typescript
+// Example request to create a new plant
+fetch('http://sandbox.mintlify.com/plants', {
+  method: 'POST',
+  headers: {
+    'Authorization': 'Bearer YOUR_ACCESS_TOKEN',
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    name: "Fiddle Leaf Fig",
+    tag: "Indoor Plant"
+  })
+});
+```
+
+- **DELETE /plants/{id}**: Deletes a single plant based on the ID supplied. The plant ID must be included in the path of the request.
+
+```typescript
+// Example request to delete a plant by ID
+fetch('http://sandbox.mintlify.com/plants/123', {
+  method: 'DELETE',
+  headers: {
+    'Authorization': 'Bearer YOUR_ACCESS_TOKEN'
+  }
+});
+```
+
+For detailed information about each endpoint, including required parameters, request and response schemas, and example requests and responses, please refer to the specific sections dedicated to each endpoint.
+
+This introduction provides a basic overview of interacting with the OpenAPI Plant Store API. For more detailed information, please explore the subsequent sections of this API reference documentation.
