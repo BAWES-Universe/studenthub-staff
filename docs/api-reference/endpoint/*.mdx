@@ -1,0 +1,128 @@
+---
+title: API Endpoints - OpenAPI Plant Store
+description: Detailed documentation of API endpoints for the OpenAPI Plant Store, including request parameters, response objects, and example calls.
+---
+
+## Introduction
+
+This document outlines the API endpoints available for the OpenAPI Plant Store. It provides information on the request parameters, response objects, and examples of how to use each endpoint. The API allows for creating, reading, updating, and deleting plant information in the store.
+
+## Base URL
+
+All URLs referenced in the documentation have the base path:
+
+```plaintext
+http://sandbox.mintlify.com
+```
+
+## Authentication
+
+The API uses Bearer Authentication. Include your token in the Authorization header of your requests.
+
+```plaintext
+Authorization: Bearer YOUR_TOKEN_HERE
+```
+
+## Endpoints
+
+### Create
+
+#### POST /plants
+
+Creates a new plant in the store.
+
+- **Request Body**: Required. The plant object to add to the store.
+- **Content-Type**: `application/json`
+
+**Example Request**:
+
+```curl
+curl -X POST http://sandbox.mintlify.com/plants \
+     -H 'Content-Type: application/json' \
+     -H 'Authorization: Bearer YOUR_TOKEN_HERE' \
+     -d '{
+           "name": "Ficus lyrata",
+           "tag": "indoor"
+         }'
+```
+
+**Example Response**:
+
+```json
+{
+  "name": "Ficus lyrata",
+  "tag": "indoor"
+}
+```
+
+### Read
+
+#### GET /plants
+
+Returns all plants from the system that the user has access to.
+
+- **Parameters**:
+  - `limit` (optional): The maximum number of results to return.
+
+**Example Request**:
+
+```curl
+curl -X GET 'http://sandbox.mintlify.com/plants?limit=10' \
+     -H 'Authorization: Bearer YOUR_TOKEN_HERE'
+```
+
+**Example Response**:
+
+```json
+[
+  {
+    "name": "Ficus lyrata",
+    "tag": "indoor"
+  },
+  {
+    "name": "Monstera deliciosa",
+    "tag": "indoor"
+  }
+]
+```
+
+### Update
+
+Currently, this API does not support direct update operations via PUT or PATCH requests. To update a plant, delete the existing entry and create a new one with the updated information.
+
+### Delete
+
+#### DELETE /plants/{id}
+
+Deletes a single plant based on the ID supplied.
+
+- **Parameters**:
+  - `id` (required): ID of the plant to delete.
+
+**Example Request**:
+
+```curl
+curl -X DELETE http://sandbox.mintlify.com/plants/1 \
+     -H 'Authorization: Bearer YOUR_TOKEN_HERE'
+```
+
+**Example Response**:
+
+```plaintext
+Status: 204 No Content
+```
+
+## Error Handling
+
+Responses will include an `Error` object in the case of failure. Example error response:
+
+```json
+{
+  "error": 400,
+  "message": "Unexpected error"
+}
+```
+
+## Conclusion
+
+This document covers the basic operations you can perform with the OpenAPI Plant Store API. Ensure you handle errors gracefully and secure your API requests with the appropriate authentication headers.
