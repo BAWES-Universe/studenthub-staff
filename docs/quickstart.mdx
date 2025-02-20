@@ -1,0 +1,44 @@
+---
+title: Quick Start Guide
+description: Get up and running with the Mintlify Starter Kit with this quick start guide.
+---
+
+## Introduction
+
+Welcome to the Mintlify Starter Kit! This guide is designed to help you quickly set up and start using our toolkit. Whether you're looking to integrate Mintlify into your project or just exploring what it has to offer, you'll find the necessary steps to get started below.
+
+## Installation
+
+To begin using the Mintlify Starter Kit, you'll need to install it in your project. This can be easily done using npm or yarn. Ensure you have Node.js installed on your machine before proceeding.
+
+```bash
+# Using npm
+npm install mintlify-starter-kit
+
+# Using yarn
+yarn add mintlify-starter-kit
+```
+
+This command will add the Mintlify Starter Kit to your project, allowing you to start leveraging its capabilities immediately.
+
+## First API Call
+
+Once the Mintlify Starter Kit is installed, you can make your first API call to test its functionality. Here's a simple example to get you started:
+
+```typescript
+import { mintlify } from 'mintlify-starter-kit';
+
+async function fetchDocumentation() {
+  const response = await mintlify.getDocumentation('your-api-key', {
+    code: 'const greet = name => `Hello, ${name}!`;',
+    language: 'javascript',
+  });
+  console.log(response);
+}
+
+fetchDocumentation();
+```
+
+Replace `'your-api-key'` with your actual Mintlify API key. This example sends a piece of code to Mintlify and retrieves its documentation. It's a straightforward way to verify that everything is set up correctly.
+
+Congratulations! You've successfully installed the Mintlify Starter Kit and made your first API call. Explore the Mintlify documentation further to discover all the features and capabilities available to you.

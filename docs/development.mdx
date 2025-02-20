@@ -1,0 +1,84 @@
+---
+title: Development Guide
+description: A comprehensive guide to help developers through the setup, local development, and testing phases of the development process.
+---
+
+## Setup
+
+To kickstart your development process, ensure your local environment is properly set up. Follow these steps to configure your development environment.
+
+### Prerequisites
+
+- Node.js (v14.0.0 or later)
+- npm (v6.0.0 or later)
+- Git
+
+### Installation
+
+1. Clone the repository to your local machine:
+
+   ```bash
+   git clone https://github.com/your-project/your-project.git
+   ```
+
+2. Navigate into the project directory:
+
+   ```bash
+   cd your-project
+   ```
+
+3. Install the project dependencies:
+
+   ```bash
+   npm install
+   ```
+
+After completing these steps, your development environment is ready for local development.
+
+## Local Development
+
+Local development involves running the project on your local machine, making changes, and seeing those changes in real time.
+
+### Running the Project Locally
+
+To start the project locally, run the following command in the terminal:
+
+```bash
+npm start
+```
+
+This command will start a local development server. You can view your project at `http://localhost:3000` (or a different port if specified).
+
+### Making Changes
+
+As you make changes to the code, the development server will automatically reload the page to reflect those changes. This allows you to quickly test and iterate on your project.
+
+## Testing
+
+Testing is a crucial part of the development process. It ensures that your code works as expected and helps prevent future bugs.
+
+### Unit Testing
+
+Unit tests are used to test individual components or functions in isolation. To run the unit tests, use the following command:
+
+```bash
+npm test
+```
+
+### Integration Testing
+
+Integration tests check that different parts of the application work together as expected. Depending on your project setup, you might use a different command or tool for integration testing.
+
+### End-to-End Testing
+
+End-to-end (E2E) tests simulate real user scenarios to ensure the application behaves as expected in a production-like environment. The specific command to run E2E tests can vary based on the tools you are using.
+
+### Writing Tests
+
+When writing tests, follow these best practices:
+
+- Keep tests small and focused on a single functionality.
+- Use descriptive test names to clearly state what each test is verifying.
+- Setup and teardown any required state or dependencies for each test to ensure tests are independent of each other.
+
+By following this development guide, you will have a solid foundation for setting up, developing, and testing your projects efficiently and effectively.
