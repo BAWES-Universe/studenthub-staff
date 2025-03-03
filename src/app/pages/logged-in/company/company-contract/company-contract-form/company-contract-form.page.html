@@ -23,31 +23,43 @@
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
   <div class="container">
     <form [formGroup]="form" *ngIf="form">
+
       <ion-list lines="none" mode="md">
  
         <ion-list>
           <ion-list-header>Type</ion-list-header>
        
           <ion-radio-group formControlName="type">
-            <ion-item class="input-wrapper" >
-              <div tabindex="0"></div>
-              <ion-label>Fixed price</ion-label>
-              <ion-radio slot="start" value="FIXED_PRICE"></ion-radio>
-            </ion-item>
+            <ion-grid>
+              <ion-row>
+                <ion-col>
+                  <ion-item>
+                    <div tabindex="0"></div>
+                    <ion-label>Fixed price</ion-label>
+                    <ion-radio slot="end" value="FIXED_PRICE"></ion-radio>
+                  </ion-item>
+                </ion-col>
+                <ion-col> 
+                  <ion-item>
+                    <div tabindex="0"></div>
+                    <ion-label>Hourly</ion-label>
+                    <ion-radio slot="end" value="HOURLY"></ion-radio>
+                  </ion-item>
+                </ion-col>
+                <ion-col>
+                  <ion-item>
+                    <div tabindex="0"></div>
+                    <ion-label>Monthly salary</ion-label>
+                    <ion-radio slot="end" value="MONTHLY_SALARY"></ion-radio>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+
             
-            <ion-item class="input-wrapper" >
-              <div tabindex="0"></div>
-              <ion-label>Hourly</ion-label>
-              <ion-radio slot="start" value="HOURLY"></ion-radio>
-            </ion-item>
 
-            <ion-item class="input-wrapper" >
-              <div tabindex="0"></div>
-              <ion-label>Monthly salary</ion-label>
-              <ion-radio slot="start" value="MONTHLY_SALARY"></ion-radio>
-            </ion-item>
-
-          </ion-radio-group> 
+            
+          </ion-radio-group>
         </ion-list>
 
         <ion-item class="input-wrapper" >
@@ -58,8 +70,9 @@
 
         <ion-item class="input-wrapper" *ngIf="form.value.type == 'HOURLY'">
           <div tabindex="0"></div>
-          <ion-label position="floating">Transfer cost</ion-label>
+          <ion-label position="floating">Transfer cost (Optional)</ion-label>
           <ion-input type="number" formControlName="transfer_cost"></ion-input>
+          <p>How much company will pay for the transfer as transfer fee</p>
         </ion-item>
 
         <ion-item class="input-wrapper" >
@@ -74,36 +87,39 @@
 
         <ion-item class="input-wrapper" >
           <div tabindex="0"></div>
-          <ion-label position="floating">Start date</ion-label>
+          <ion-label position="floating">Start date (Optional)</ion-label>
           <ion-input formControlName="start_date" id="start_date" placeholder="YYYY-MM-DD"></ion-input>
           <app-date-popup presentation="date" key="start_date" (onClose)="selectDate($event,'start_date')"></app-date-popup>
         </ion-item>
 
         <ion-item class="input-wrapper" >
           <div tabindex="0"></div>
-          <ion-label position="floating">End date</ion-label>
+          <ion-label position="floating">End date (Optional)</ion-label>
           <ion-input formControlName="end_date" id="end_date" placeholder="YYYY-MM-DD"></ion-input>
           <app-date-popup presentation="date" key="end_date" (onClose)="selectDate($event,'end_date')"></app-date-popup>
         </ion-item>
           
         <ng-container *ngIf="form.value.type == 'FIXED_PRICE'">
 
-          <ion-item class="input-wrapper" >
+          <ion-item class="input-wrapper">
             <div tabindex="0"></div>
             <ion-label position="floating">Candidate total</ion-label>
             <ion-input type="number" formControlName="candidate_total"></ion-input>
+            <p>How much candidate will receive</p>
           </ion-item>
 
           <ion-item class="input-wrapper" >
             <div tabindex="0"></div>
             <ion-label position="floating">Company total (including transfer cost)</ion-label>
             <ion-input type="number" formControlName="company_total"></ion-input>
+            <p>How much company will receive</p>  
           </ion-item>
 
           <ion-item class="input-wrapper" >
             <div tabindex="0"></div>
-            <ion-label position="floating">Completion percentage</ion-label>
+            <ion-label position="floating">Completion percentage (Optional)</ion-label>
             <ion-input type="number" formControlName="completion_percentage"></ion-input>
+            <p>To track record of completion</p>  
           </ion-item>
         </ng-container>
   
@@ -113,12 +129,14 @@
             <div tabindex="0"></div>
             <ion-label position="floating">Candidate hourly rate</ion-label>
             <ion-input type="number" formControlName="candidate_hourly_rate"></ion-input>
+            <p>How much candidate will receive per hour</p>
           </ion-item>
 
           <ion-item class="input-wrapper" >
             <div tabindex="0"></div>
             <ion-label position="floating">Company hourly rate</ion-label>
             <ion-input type="number" formControlName="company_hourly_rate"></ion-input>
+            <p>How much company will receive per hour</p>
           </ion-item>
 
         </ng-container>
@@ -129,18 +147,21 @@
             <div tabindex="0"></div>
             <ion-label position="floating">Candidate total</ion-label>
             <ion-input type="number" formControlName="candidate_total"></ion-input>
+            <p>How much candidate will receive</p>
           </ion-item>
 
           <ion-item class="input-wrapper" >
             <div tabindex="0"></div>
             <ion-label position="floating">Company total (including transfer cost)</ion-label>
             <ion-input type="number" formControlName="company_total"></ion-input>
+            <p>How much company will receive</p>
           </ion-item>
 
           <ion-item class="input-wrapper" >
             <div tabindex="0"></div>
-            <ion-label position="floating">Salary day</ion-label>
+            <ion-label position="floating">Salary day (Optional)</ion-label>
             <ion-input type="number" formControlName="salary_day"></ion-input>
+            <p>When the salary will be paid</p>
           </ion-item>
         </ng-container>
       </ion-list>
