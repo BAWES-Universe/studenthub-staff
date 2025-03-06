@@ -112,7 +112,7 @@ export class CompanyContractFormPage implements OnInit {
       if (val == "FIXED_PRICE") {
         this.form.get('candidate_total').setValidators([Validators.required]);
         this.form.get('company_total').setValidators([Validators.required]);
-        this.form.get('completion_percentage').setValidators([Validators.required]);
+        //this.form.get('completion_percentage').setValidators([Validators.required]);
 
         this.form.get('candidate_hourly_rate').setValue(null);
         this.form.get('candidate_hourly_rate').clearValidators();
@@ -147,7 +147,7 @@ export class CompanyContractFormPage implements OnInit {
         this.form.get('salary_day').updateValueAndValidity();
 
       } else if (val == "MONTHLY_SALARY") {
-        this.form.get('salary_day').setValidators([Validators.required]);
+       // this.form.get('salary_day').setValidators([Validators.required]);
         this.form.get('candidate_total').setValidators([Validators.required]);
         this.form.get('company_total').setValidators([Validators.required]);
 

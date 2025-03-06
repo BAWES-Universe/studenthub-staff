@@ -23,7 +23,7 @@
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
   <div class="container">
 
-    <candidate *ngIf="candidate" [candidate]="candidate" type="candidate"></candidate>
+    <candidate *ngIf="candidate" [candidate]="candidate" type="contract"></candidate>
 
     <form [formGroup]="form" *ngIf="form">
 
@@ -86,6 +86,7 @@
           </ion-select>
         </ion-item>
 
+        <!--
         <ion-item class="input-wrapper" >
           <div tabindex="0"></div>
           <ion-label position="floating">Start date (Optional)</ion-label>
@@ -98,7 +99,7 @@
           <ion-label position="floating">End date (Optional)</ion-label>
           <ion-input formControlName="end_date" id="end_date" placeholder="YYYY-MM-DD"></ion-input>
           <app-date-popup presentation="date" key="end_date" (onClose)="selectDate($event,'end_date')"></app-date-popup>
-        </ion-item>
+        </ion-item>-->
           
         <ng-container *ngIf="form.value.type == 'FIXED_PRICE'">
 

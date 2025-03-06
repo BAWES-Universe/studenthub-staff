@@ -324,7 +324,7 @@ export class CandidateViewPage implements OnInit {
   /**
    * Unassign Candidate from store
    */
-  async unassignCandidateFromStore(id) {
+  async unassignCandidateFromStore(store_id, work_history_id = null) {
     const confirm = await this.alertCtrl.create({
       header: 'Are you sure?',
       message: 'Remove candidate from store',
@@ -359,7 +359,7 @@ export class CandidateViewPage implements OnInit {
             this.unassinging = true;
 
             // Unassign Candidate from store
-            this.candidateService.removeFromAssignedStore(this.candidate, data.feedback, id).subscribe(async response => {
+            this.candidateService.removeFromAssignedStore(this.candidate, data.feedback, store_id, work_history_id).subscribe(async response => {
 
               // Dismiss the loader
               this.unassinging = false;

@@ -522,7 +522,7 @@
             </ion-button>
 
             <ion-button *ngIf="!history.end_date" class="btn-unassign"
-              (click)="unassignCandidateFromStore(history.store_id)">&nbsp;
+              (click)="unassignCandidateFromStore(history.store_id, history.id)">&nbsp;
               Mark contract as completed
             </ion-button>
 

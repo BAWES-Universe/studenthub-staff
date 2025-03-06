@@ -348,9 +348,9 @@ export class CandidateService {
    * @param feedback
    * @param store_id
    */
-  removeFromAssignedStore(candidate: Candidate, feedback: string, store_id:number = null): Observable<any> {
+  removeFromAssignedStore(candidate: Candidate, feedback: string, store_id:number = null, work_history_id:number = null): Observable<any> {
     //todo: move feedback to body 
-    const url = `${this._candidateEndpoint}/unassign/${candidate.candidate_id}?store_id=${store_id}&feedback=${feedback}`;
+    const url = `${this._candidateEndpoint}/unassign/${candidate.candidate_id}?store_id=${store_id}&feedback=${feedback}&work_history_id=${work_history_id}`;
     return this._authhttp.delete(url);
   }
 
