@@ -3,9 +3,10 @@
     <ion-buttons slot="start">
       <ion-back-button icon="assets/images/icon-back.svg" (click)="dismiss()"></ion-back-button>
     </ion-buttons>
+    <!--
     <ion-buttons slot="end">
       <ion-button><ion-icon class="setting-icon" name="ellipsis-vertical-outline"></ion-icon></ion-button>
-    </ion-buttons>
+    </ion-buttons>-->
   </ion-toolbar>
   <ion-toolbar class="container">
     <ion-title class="main" size="large">
@@ -64,11 +65,11 @@
 
     <no-items *ngIf="!loading && company && company.parentTransfers.length == 0" message="~ No transfer Data ~"></no-items>
   </div>
-
+<!--
   <ion-fab *ngIf="company && !company.parent_company_id" slot="fixed">
     <ion-fab-button (click)="createNewTransfer()">
       <ion-icon name="add-outline"></ion-icon>
     </ion-fab-button>
   </ion-fab>
-  
+  -->
 </ion-content>
