@@ -67,7 +67,7 @@ export class CompanyContractFormPage implements OnInit {
    */
   _initForm() {
  
-    if (!this.model){ // Show Create Form
+    if (!this.model || this.model.contract_uuid == null){  // Show Create Form
       this.operation  = 'Add Contract';
     } else { // Show Update Form
       this.operation  = 'Update Contract';
@@ -93,7 +93,7 @@ export class CompanyContractFormPage implements OnInit {
 
       //MonthlySalaryContract
       salary_day: [this.model?.amount?.salary_day],
-
+      auto_generate: [this.model?.auto_generate],
       //fixedPriceContract: FixedPriceContract;
       //hourlyContract: HourlyContract;
       //monthlySalaryContract: MonthlySalaryContract;
@@ -194,6 +194,7 @@ export class CompanyContractFormPage implements OnInit {
     this.model.start_date = this.form.value.start_date? format(parseISO(this.form.value.start_date), 'yyyy-MM-dd') : null;
     this.model.end_date = this.form.value.end_date? format(parseISO(this.form.value.end_date), 'yyyy-MM-dd') : null;
 
+    this.model.auto_generate = this.form.value.auto_generate;
     if (this.model.type == "FIXED_PRICE") {
       this.model.amount = new FixedPriceContract;
       this.model.amount.candidate_total = this.form.value.candidate_total;
@@ -255,7 +256,6 @@ export class CompanyContractFormPage implements OnInit {
         action = this.candidateService.assignCandidateToStore(
           this.candidate, 
           this.store.store_id, 
-
           this.model.start_date, 
           this.model.transfer_cost, 
           this.model.type, 
@@ -263,7 +263,8 @@ export class CompanyContractFormPage implements OnInit {
           this.model.currency_code,
           this.sar_id,
           this.model.end_date,
-          this.model.detail
+          this.model.detail,
+          this.model.auto_generate
         );
       } else {
         action = this.contractService.create(this.model);

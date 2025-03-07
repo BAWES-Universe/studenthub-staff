@@ -177,7 +177,9 @@
                   Transfer in progress
                 </ion-badge>
 
-                <ion-badge slot="start" color="danger" *ngIf="resource.company_hourly_rate == resource.candidate_hourly_rate">
+                <ion-badge slot="start" color="danger" 
+                  *ngIf="(!transfer.contract_type || transfer.contract_type == 'HOURLY') && 
+                  resource.company_hourly_rate == resource.candidate_hourly_rate">
                   Assigned on same rate
                 </ion-badge>  
 

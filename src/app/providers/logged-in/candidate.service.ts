@@ -325,6 +325,7 @@ export class CandidateService {
       sar_id: number = null,
       end_date: string = null,
       contract_detail: string = null,
+      auto_generate: boolean = false
   ): Observable<any> {
     const params = {
       sar_id: sar_id,
@@ -335,7 +336,8 @@ export class CandidateService {
       contract_type: contract_type,
       contract_detail: contract_detail,
       contract_amount_details: contract_amount_details,
-      currency_code: currency_code
+      currency_code: currency_code,
+      auto_generate: auto_generate
     };
     const url = `${this._candidateEndpoint}/assign/${candidate.candidate_id}`;
     return this._authhttp.patch(url, params);

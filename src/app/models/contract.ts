@@ -23,6 +23,7 @@ export class Contract {
     created_by: number;
     created_at: string;
     updated_at: string;
+    auto_generate: boolean;
     fixedPriceContract: FixedPriceContract;
     hourlyContract: HourlyContract;
     monthlySalaryContract: MonthlySalaryContract;

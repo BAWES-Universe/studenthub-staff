@@ -76,6 +76,7 @@
           <p>How much company will pay for the transfer as transfer fee</p>
         </ion-item>
 
+        <!--
         <ion-item class="input-wrapper" >
           <div tabindex="0"></div>
           <ion-label position="floating">Currency code</ion-label>
@@ -84,7 +85,7 @@
               {{ currency.code }}
             </ion-select-option>
           </ion-select>
-        </ion-item>
+        </ion-item>-->
 
         <!--
         <ion-item class="input-wrapper" >
@@ -159,11 +160,21 @@
             <p>How much company will receive</p>
           </ion-item>
 
+          <!--
           <ion-item class="input-wrapper" >
             <div tabindex="0"></div>
             <ion-label position="floating">Salary day (Optional)</ion-label>
             <ion-input type="number" formControlName="salary_day"></ion-input>
             <p>When the salary will be paid</p>
+          </ion-item>
+-->
+          <ion-item class="input-wrapper" >
+            <div tabindex="0"></div>
+            <ion-label position="floating">Auto generate transfers</ion-label>
+            <ion-toggle formControlName="auto_generate"></ion-toggle>
+            <p>If checked, the transfers will be generated automatically in draft mode each week, 
+              Transfer amount will be Monthly salary / 4.
+            </p>
           </ion-item>
         </ng-container>
       </ion-list>
