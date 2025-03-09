@@ -196,19 +196,34 @@ export class CompanyContractFormPage implements OnInit {
 
     this.model.auto_generate = this.form.value.auto_generate;
     if (this.model.type == "FIXED_PRICE") {
-      this.model.amount = new FixedPriceContract;
-      this.model.amount.candidate_total = this.form.value.candidate_total;
-      this.model.amount.company_total = this.form.value.company_total;
-      this.model.amount.completion_percentage = this.form.value.completion_percentage;
+
+      let amount = new FixedPriceContract;
+
+      amount.fp_contract_uuid = this.model?.amount?.fp_contract_uuid;
+      amount.candidate_total = this.form.value.candidate_total;
+      amount.company_total = this.form.value.company_total;
+      amount.completion_percentage = this.form.value.completion_percentage;
+
+      this.model.amount = amount;
+
     } else if (this.model.type == "HOURLY") {
-      this.model.amount = new HourlyContract;
-      this.model.amount.candidate_hourly_rate = this.form.value.candidate_hourly_rate;
-      this.model.amount.company_hourly_rate = this.form.value.company_hourly_rate;
+      let amount = new HourlyContract;
+
+      amount.h_contract_uuid = this.model?.amount?.h_contract_uuid;
+      amount.candidate_hourly_rate = this.form.value.candidate_hourly_rate;
+      amount.company_hourly_rate = this.form.value.company_hourly_rate;
+
+      this.model.amount = amount;
+
     } else if (this.model.type == "MONTHLY_SALARY") {
-      this.model.amount = new MonthlySalaryContract;
-      this.model.amount.salary_day = this.form.value.salary_day; 
-      this.model.amount.candidate_total = this.form.value.candidate_total;
-      this.model.amount.company_total = this.form.value.company_total;
+      let amount = new MonthlySalaryContract;
+
+      amount.ms_contract_uuid = this.model?.amount?.ms_contract_uuid;
+      amount.salary_day = this.form.value.salary_day; 
+      amount.candidate_total = this.form.value.candidate_total;
+      amount.company_total = this.form.value.company_total;
+
+      this.model.amount = amount;
     }
 
     //for candidate contract 

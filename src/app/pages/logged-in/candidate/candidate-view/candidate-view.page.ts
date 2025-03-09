@@ -322,6 +322,53 @@ export class CandidateViewPage implements OnInit {
   }
 
   /**
+   * Update contract
+   * @param contract
+   */
+  async updateContract(contract) {
+
+    window.history.pushState({ navigationId: window.history.state?.navigationId }, null, window.location.pathname);
+ 
+   // const store = this.stores.find(e => e.store_id == contract.store_id);
+
+    const modal = await this.modalCtrl.create({
+      component: ModalPopPage,
+      componentProps: {
+        activatedRoutePath: CompanyContractFormPage,
+        activatedRoutePathProps: {
+          //view: 'direct',
+          model: contract,
+         // store: store,
+          candidate: this.candidate,
+          
+          //contracts: store? store['contracts']: []
+        }
+      },
+      cssClass: "popup-modal"
+    });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+
+      if(e.data && e.data.refresh) {
+        this.loadCandidateDetail();
+        this.loadWorkHistoryData();
+        this.loadNotes(); 
+      }
+
+      /*if(e.data && (e.data.rate || e.data.contract_uuid)) {
+        this.assignCandidateToStoreWithRate(storeID, e.data.rate, e.data.start_date, 
+          e.data.company_hourly_rate, e.data.company_transfer_cost, e.data.transfer_cost, 
+          e.data.contract_uuid);
+      }*/
+    });
+    modal.present();
+  }
+
+  /**
    * Unassign Candidate from store
    */
   async unassignCandidateFromStore(store_id, work_history_id = null) {

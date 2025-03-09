@@ -526,6 +526,11 @@
               Mark contract as completed
             </ion-button>
 
+            <ion-button *ngIf="history.contract" class="btn-unassign"
+              (click)="updateContract(history.contract)">&nbsp;
+              Update Contract
+            </ion-button>
+
           </ion-card-content>
         </ion-card>
       </div>
