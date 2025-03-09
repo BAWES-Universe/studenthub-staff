@@ -5,7 +5,20 @@
   <ion-label>
     <p class="txt-time" *ngIf="contract.created_at">
       {{ translateService.toDate(contract.created_at) | date: 'MMM d, y - h:mm a' : undefined: translateService.currentLang }}
+      
+      <ion-badge class="float-end" *ngIf="contract.type == 'HOURLY'" color="primary">
+        Hourly
+      </ion-badge>
+
+      <ion-badge class="float-end" *ngIf="contract.type == 'FIXED_PRICE'" color="primary">
+        Fixed Price
+      </ion-badge>
+
+      <ion-badge class="float-end" *ngIf="contract.type == 'MONTHLY_SALARY'" color="primary">
+        Monthly Salary
+      </ion-badge>
     </p>
+
 
     <ng-container *ngIf="contract.amount">
       <h5 class="txt-value" *ngIf=" contract.type == 'HOURLY'">

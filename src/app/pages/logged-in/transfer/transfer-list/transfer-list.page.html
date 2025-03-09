@@ -31,6 +31,8 @@
 
         <ion-label>
           <h5>{{ transfer.currency_code }} {{ transfer.company_total | number:'1.3-3' }}</h5>
+          <p><b>To Candidates:</b> {{ transfer.currency_code }} {{ transfer.total | number:'1.3-3' }}</p>
+          <p><b>Profit:</b> {{ transfer.currency_code }} {{ transfer.company_total - transfer.total | number:'1.3-3' }}</p>
           <p>Transfer #{{ transfer.transfer_id}}</p>
           <p class="txt-time">
             created {{ transfer.transfer_created_at | timeAgo }} on

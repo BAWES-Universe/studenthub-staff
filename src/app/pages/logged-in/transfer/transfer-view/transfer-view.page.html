@@ -11,6 +11,19 @@
       <span *ngIf="transfer?.company_total">
         - {{ transfer.currency_code }} {{ transfer.company_total | number:'1.0-3' }}
       </span>
+ 
+      <ion-badge *ngIf="transfer?.contract_type == 'HOURLY'" color="primary">
+        Hourly
+      </ion-badge>
+
+      <ion-badge *ngIf="transfer?.contract_type == 'FIXED_PRICE'" color="primary">
+        Fixed Salary
+      </ion-badge>
+
+      <ion-badge *ngIf="transfer?.contract_type == 'MONTHLY_SALARY'" color="primary">
+        Monthly Salary
+      </ion-badge>
+
     </ion-title>
     <ion-buttons slot="end" *ngIf="!viewOnly && transfer && transfer.transfer_status==10">
       <ion-button color="danger" *ngIf="transfer && (transfer.transfer_status==10)"
@@ -104,6 +117,12 @@
                 Transfer Total <br /> <b>{{ transfer.currency_code }} {{ transfer.company_total | number:'1.0-3' }}</b>
               </ion-col>
               <ion-col size-lg="2" size-md="2" size-sm="6" size-xs="6" class="ion-align-self-center">
+                To Candidates <br /> <b>{{ transfer.currency_code }} {{ transfer.total | number:'1.0-3' }}</b>
+              </ion-col>
+              <ion-col size-lg="2" size-md="2" size-sm="6" size-xs="6" class="ion-align-self-center">
+                Profit <br /> <b>{{ transfer.currency_code }} {{ transfer.company_total - transfer.total | number:'1.0-3' }}</b>
+              </ion-col>
+              <ion-col size-lg="2" size-md="2" size-sm="6" size-xs="6" class="ion-align-self-center">
                 Start Date <br />
                 <b><span *ngIf="transfer.start_date">{{ toDate(transfer.start_date) | date}}</span>
                 <span *ngIf="!transfer.start_date">-</span></b>
@@ -160,6 +179,12 @@
                   Deleted Account
                 </h2>
 
+                <h5>{{ resource.store_name }} @ {{ resource.company_name }}</h5>
+
+                <hr />
+
+                <h6>Company Total</h6>
+                
                 <p *ngIf="resource.hours > 0">
                   {{ resource.hours | number }} hours {{ resource.minutes | number }} minutes {{ resource.seconds | number }} seconds 
                   x 
@@ -172,6 +197,29 @@
                 </p> 
 
                 <p class="txt-total"><b>{{ resource.currency_code }} {{ resource.company_total | number:'1.0-3' }}</b></p>
+
+                <hr />
+
+                <h6>Candidate Total</h6>
+
+                <p *ngIf="resource.hours > 0">
+                  {{ resource.hours | number }} hours {{ resource.minutes | number }} minutes {{ resource.seconds | number }} seconds 
+                  x 
+                  {{ resource.currency_code }} {{ resource.candidate_hourly_rate | number:'1.0-3' }} per hour
+                </p>
+
+                <p *ngIf="resource.bonus">Bonus {{ resource.currency_code }} {{ (resource.bonus - resource.bonus_commission) | number}} </p>
+                 
+                <p class="txt-total"><b>{{ resource.currency_code }} {{ resource.candidate_total | number:'1.0-3' }}</b></p>
+
+                <ng-container *ngIf="resource.contract">
+                  <hr>
+                  <h6>Contract</h6>
+
+                  <app-contract [contract]="resource.contract"></app-contract>
+                </ng-container>
+                
+                <hr />
 
                 <ion-badge slot="start" color="dark" *ngIf="resource.paid != '1' && resource.company_total > 0 && (transfer.transfer_status==3 || transfer.transfer_status==4)">
                   Transfer in progress
