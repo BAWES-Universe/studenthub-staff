@@ -28,6 +28,34 @@
         
       <editor formControlName="message" [init]="editorConfig"></editor>
  
+      <h5>Trigger Settings</h5>
+
+      <ion-item>
+        <ion-label position="stacked">Trigger Date Time</ion-label>
+        <ion-datetime displayFormat="MM/DD/YYYY HH:mm" formControlName="trigger_date_time"></ion-datetime>
+      </ion-item>
+
+      <p>Leave blank for immediate trigger</p>
+
+      <ion-item class="input-wrapper" >
+        <ion-label>Is Recurring</ion-label>
+        <ion-checkbox formControlName="is_recurring" slot="start"></ion-checkbox>
+      </ion-item>
+
+      <ion-item *ngIf="form.value.is_recurring" class="input-wrapper" >
+        <ion-label position="floating">Trigger Period (in days)</ion-label>
+        <ion-input type="number" formControlName="trigger_period"></ion-input>
+      </ion-item>
+
+      <ion-item class="input-wrapper" >
+        <ion-label position="floating">Target</ion-label>
+        <ion-select formControlName="target" interface="popover">
+          <ion-select-option value="part-timers">Part-timers</ion-select-option>
+          <ion-select-option value="full-timers">Full-timers</ion-select-option>
+          <ion-select-option value="both">All</ion-select-option>
+        </ion-select>
+      </ion-item>
+
       <h5>Filters </h5>
       <!-- 
       <p>Available filters name/ Parameters: filterAssigned, filterNotAssigned, filterStore, filterCountry,

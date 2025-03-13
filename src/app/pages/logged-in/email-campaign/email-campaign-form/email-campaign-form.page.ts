@@ -8,6 +8,7 @@ import { AuthService } from 'src/app/providers/auth.service';
 //models
 import { EmailCampaign } from 'src/app/models/email-campaign';
 import { AnalyticsService } from 'src/app/providers/analytics.service';
+import { format, parseISO } from 'date-fns';
 
 
 @Component({
@@ -105,7 +106,13 @@ export class EmailCampaignFormPage implements OnInit {
 
     this.form = this._fb.group({
       subject: [this.model.subject, Validators.required],
-      message: [this.model.message, Validators.required], 
+      message: [this.model.message, Validators.required],
+
+      trigger_date_time: [this.model.trigger_date_time],
+      is_recurring: [this.model.is_recurring || false],
+      trigger_period: [this.model.trigger_period],
+      target: [this.model.target || 'both'],
+
       emailCampaignFilters: this._fb.array(emailCampaignFilters),
     });
   }
@@ -139,6 +146,11 @@ export class EmailCampaignFormPage implements OnInit {
 
   updateModelFromFormValue() {
     this.model = Object.assign(this.model, this.form.value);
+
+    if (this.model.trigger_date_time) {
+      this.model.trigger_date_time = format(parseISO(this.form.controls['trigger_date_time'].value), 'yyyy-MM-dd HH:mm:ss');//, { timeZone: '+3:30' }
+      // new Date(this.model.trigger_date_time).toISOString();
+    }
   }
 
   /**

@@ -146,6 +146,11 @@ export class TabsPage implements OnInit, OnDestroy {
         handler: () => {
           return this.router.navigate(['/fulltimer-search']);
         }
+      }, {
+        text: 'Email Campaign',
+        handler: () => {
+          return this.router.navigate(['/view/email-campaign-list']);
+        }
       }]
     });
     actionSheet.present();
