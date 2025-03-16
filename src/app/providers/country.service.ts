@@ -22,7 +22,7 @@ export class CountryService {
     let url = `/countries?page=${page}&expand=totalCandidates`;
 
     if (query) {
-      url += `&keyword=${query}`;
+      url += `&q=${query}`;
     }
     return this.http.getRaw(url);
   }

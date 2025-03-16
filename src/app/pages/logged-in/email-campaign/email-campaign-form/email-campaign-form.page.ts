@@ -2,13 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { ModalController, AlertController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
+import { format, parseISO } from 'date-fns';
 //services
 import { EmailCampaignService } from 'src/app/providers/logged-in/email-campaign.service';
 import { AuthService } from 'src/app/providers/auth.service';
+import { AnalyticsService } from 'src/app/providers/analytics.service';
 //models
 import { EmailCampaign } from 'src/app/models/email-campaign';
-import { AnalyticsService } from 'src/app/providers/analytics.service';
-import { format, parseISO } from 'date-fns';
+import { Country } from 'src/app/models/country';
+import { CountryService } from 'src/app/providers/country.service';
+import { CountryModalComponent } from 'src/app/components/country-modal/country-modal.component';
 
 
 @Component({
@@ -34,6 +37,8 @@ export class EmailCampaignFormPage implements OnInit {
     suffix: '.min'        
   };
 
+  public countries: Country[] = [];
+
   constructor( 
     public activateRoute: ActivatedRoute,
     public emailCampaignService: EmailCampaignService,
@@ -41,7 +46,8 @@ export class EmailCampaignFormPage implements OnInit {
     private _fb: FormBuilder,
     private modalCtrl: ModalController,
     public analyticService: AnalyticsService,
-    private _alertCtrl: AlertController
+    private _alertCtrl: AlertController,
+    private countryService: CountryService
   ){
   }
 
@@ -60,8 +66,48 @@ export class EmailCampaignFormPage implements OnInit {
     } else {
       this._initForm();
     }
+
+   // this.loadCountries();
   }
 
+  /*loadCountries() {
+    this.countryService.list().subscribe(countries => {
+      this.countries = countries;
+    });
+  }*/
+
+
+  /**
+   * Select Country
+   * @param emailCampaignFilterForm 
+   */  
+  async selectCountry(emailCampaignFilterForm) {
+
+    window.history.pushState({
+      navigationId: window.history.state?.navigationId
+    }, null, window.location.pathname);
+
+    const modal = await this.modalCtrl.create({
+      component: CountryModalComponent,
+    });
+    modal.onDidDismiss().then(e => {
+
+      if (!e.data || e.data.from != 'native-back-btn') {
+        window['history-back-from'] = 'onDidDismiss';
+        window.history.back();
+      }
+    });
+    await modal.present();
+
+    const { data } = await modal.onWillDismiss();
+ 
+    if (data) {
+
+      emailCampaignFilterForm.controls.value.setValue(data.country_name_en);
+     // emailCampaignFilterForm.controls.country_id.setValue(data.country_id);
+    }
+  }
+  
   loadData(campaign_uuid) {
     this.loading = true; 
 
