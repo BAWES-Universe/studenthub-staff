@@ -37,8 +37,16 @@
             <ion-chip *ngFor="let emailCampaignFilter of emailCampaign.emailCampaignFilters">
               {{ emailCampaignFilter.param }} 
               &nbsp;<b *ngIf="emailCampaignFilter.value">{{ emailCampaignFilter.value }}</b>
-
             </ion-chip> 
+
+            <ion-chip *ngIf="emailCampaign.is_recurring">
+              Recurring: {{ emailCampaign.trigger_period }} days 
+            </ion-chip> 
+
+            <ion-chip *ngIf="emailCampaign.target">
+              Target: {{ emailCampaign.target }}
+            </ion-chip>
+            
           </ion-label>
 
           <ion-badge slot="end" *ngIf="emailCampaign.status == 0">Draft</ion-badge>

@@ -50,11 +50,52 @@
         </ion-label>
       </ion-item>
 
-      <ion-item *ngIf="[1, 3].indexOf(emailCampaign.status) > -1">
+      <ion-item *ngIf="[1, 3].indexOf(emailCampaign.status) > -1 && !emailCampaign.is_recurring">
         <div tabindex="0"></div>
         <ion-label>
           <h5>Progress (%)</h5>
           <p>{{ emailCampaign.progress }}</p>
+        </ion-label>
+      </ion-item>
+
+      <ion-item *ngIf="emailCampaign.trigger_date_time">
+        <div tabindex="0"></div>
+        <ion-label>
+          <h5 *ngIf="emailCampaign.is_recurring"> Next Trigger Date Time</h5>
+          <h5 *ngIf="!emailCampaign.is_recurring"> Trigger Date Time</h5>
+          <p>{{ toDate(emailCampaign.trigger_date_time) | date: 'MMM d, y, h:mm:ss a' }}</p>
+        </ion-label>
+      </ion-item>
+
+      <ion-item *ngIf="emailCampaign.last_trigger_date_time">
+        <div tabindex="0"></div>
+        <ion-label>
+          <h5>Last Trigger Date Time</h5>
+          <p>{{ toDate(emailCampaign.last_trigger_date_time) | date: 'MMM d, y, h:mm:ss a' }}</p>
+        </ion-label>
+      </ion-item>
+       
+      <ion-item>
+        <div tabindex="0"></div>
+        <ion-label>
+          <h5>Is Recurring</h5>
+          <p>{{ emailCampaign.is_recurring ? 'Yes' : 'No' }}</p>
+        </ion-label>
+      </ion-item>
+
+      <ion-item *ngIf="emailCampaign.is_recurring">  
+        <div tabindex="0"></div>
+        <ion-label>
+          <h5>Trigger Period</h5>
+          <p>{{ emailCampaign.trigger_period }}</p>
+        </ion-label>
+      </ion-item>
+
+      <ion-item>
+        <div tabindex="0"></div>
+        <ion-label>
+          <h5>Target</h5>
+          <p>{{ emailCampaign.target }}</p>
         </ion-label>
       </ion-item>
 

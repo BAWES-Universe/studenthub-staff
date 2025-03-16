@@ -28,6 +28,34 @@
         
       <editor formControlName="message" [init]="editorConfig"></editor>
  
+      <h5>Trigger Settings</h5>
+
+      <ion-item>
+        <ion-label position="stacked">Trigger Date Time</ion-label>
+        <ion-datetime displayFormat="MM/DD/YYYY HH:mm" formControlName="trigger_date_time"></ion-datetime>
+      </ion-item>
+
+      <p>Leave blank for immediate trigger</p>
+
+      <ion-item class="input-wrapper" >
+        <ion-label>Is Recurring</ion-label>
+        <ion-checkbox formControlName="is_recurring" slot="start"></ion-checkbox>
+      </ion-item>
+
+      <ion-item *ngIf="form.value.is_recurring" class="input-wrapper" >
+        <ion-label position="floating">Trigger Period (in days)</ion-label>
+        <ion-input type="number" formControlName="trigger_period"></ion-input>
+      </ion-item>
+
+      <ion-item class="input-wrapper" >
+        <ion-label position="floating">Target</ion-label>
+        <ion-select formControlName="target" interface="popover">
+          <ion-select-option value="part-timers">Part-timers</ion-select-option>
+          <ion-select-option value="full-timers">Full-timers</ion-select-option>
+          <ion-select-option value="both">All</ion-select-option>
+        </ion-select>
+      </ion-item>
+
       <h5>Filters </h5>
       <!-- 
       <p>Available filters name/ Parameters: filterAssigned, filterNotAssigned, filterStore, filterCountry,
@@ -53,7 +81,7 @@
                         <ion-select-option value="filterAssigned">Assigned</ion-select-option>
                         <ion-select-option value="filterNotAssigned">Not Assigned</ion-select-option>
                         <ion-select-option value="filterStore">Store ID</ion-select-option>
-                        <ion-select-option value="filterCountry">Country ID</ion-select-option>
+                        <ion-select-option value="filterCountry">Country</ion-select-option>
                         <ion-select-option value="filterUniversity">University ID</ion-select-option>
                         <ion-select-option value="idExpired">ID Expired</ion-select-option>
                         <ion-select-option value="byApprovalStatus">Approval Status</ion-select-option>
@@ -69,7 +97,11 @@
                   <ion-col *ngIf="['filterStore', 'filterCountry', 'filterUniversity', 'ageRange'].indexOf(emailCampaignFilterForm.value.param) > -1">
                     <ion-item class="input-wrapper"  [class.have-errors]="emailCampaignFilterForm['controls'].value.errors != null">
                       <ion-label position="stacked">Value</ion-label>
-                      <ion-input formControlName="value"></ion-input>
+                      <ion-input formControlName="value" *ngIf="['filterStore', 'filterUniversity', 'ageRange'].indexOf(emailCampaignFilterForm.value.param) > -1"></ion-input>
+                    
+                      <ion-input readonly formControlName="value" (click)="selectCountry(emailCampaignFilterForm)"
+                      *ngIf="['filterCountry'].indexOf(emailCampaignFilterForm.value.param) > -1">
+                      </ion-input>  
                     </ion-item>
                   </ion-col>
                 </ion-row>
