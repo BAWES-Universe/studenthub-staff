@@ -63,6 +63,20 @@ export class CandidateFilterComponent {
         }).filter(item => ['Assigned', 'Not Assigned'].indexOf(item.label) > -1);
     }
 
+    profileCompletedTransformItems = (items) => {
+
+        return items.map(item => {
+            if (item.label == 'true') {
+                item.label = item.highlighted = item.name = this.translateLabel.transform('Yes');
+            }
+            else if (item.label == 'false') {
+                item.label = item.highlighted = item.name = this.translateLabel.transform('No');
+            }
+
+            return item;
+        });
+    }
+
     kuwaitiMomTransformItems = (items) => {
 
         return items.map(item => {

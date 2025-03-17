@@ -71,6 +71,9 @@
         <refinement-list label="{{ 'Currency Code' | translate }}" data-sort-order="13" [class.is-refined]="arrRefined['currency_code']"
             attribute="currency_code"></refinement-list>
     
+        <refinement-list label="{{ 'Is Profile Completed?' | translate }}" data-sort-order="14" [class.is-refined]="arrRefined['isProfileCompleted']"
+            attribute="isProfileCompleted" [transformItems]="profileCompletedTransformItems"></refinement-list>
+    
     </div>
 
     <h4 class="filter-group-name">{{ "Education" | translate }}</h4>
