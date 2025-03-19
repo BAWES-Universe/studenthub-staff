@@ -55,6 +55,7 @@ import { CandidateCertificateFormPage } from '../candidate-certificate-form/cand
 import { JobInterest } from 'src/app/models/job-interest';
 import { Contract } from 'src/app/models/contract';
 import { CompanyContractFormPage } from '../../company/company-contract/company-contract-form/company-contract-form.page';
+import { JobSearchStatusComponent } from 'src/app/components/job-search-status/job-search-status.component';
 
 
 
@@ -318,6 +319,61 @@ export class CandidateViewPage implements OnInit {
 
       // Dismiss the loader
       this.exportingCV = false;
+    });
+  }
+
+  /**
+   * Open job search status list
+   */
+  async openJobSearchStatusList(event) {
+    const popover = await this.popoverCtrl.create({
+      component: JobSearchStatusComponent,
+      componentProps: {
+        candidate: this.candidate,
+        event: event,
+        
+      },
+      cssClass: 'popover-job-search-status'
+    });
+    popover.present();
+    popover.onDidDismiss().then(e => {
+      if (e.data && [0, 1, 2].includes(e.data.job_search_status)) {
+        this.updateJobSearchStatus(e.data.job_search_status);
+      }
+    });
+  }
+
+  /**
+   * Update job search status
+   * @param job_search_status
+   */
+  async updateJobSearchStatus(job_search_status) {
+    this.updatingJobSearchStatus = true;
+
+    const params = {
+      candidate_id: this.candidate.candidate_id,
+      job_search_status: job_search_status
+    };
+
+    this.candidate.candidate_job_search_status = job_search_status;
+    this.candidate.candidate_job_search_updated_at = new Date().toISOString();
+    
+    this.candidateService.updateJobSearchStatus(params).subscribe(async data => {
+
+      this.updatingJobSearchStatus = false;
+
+      if (data.operation == 'success') {
+        this.candidate.candidate_job_search_status = job_search_status;
+        this.candidate.candidate_job_search_updated_at = new Date().toISOString();
+      //  this.eventService.reloadCandiate$.next({});
+      } else {
+        this.toastCtrl.create({
+          message: this.authService.errorMessage(data.message),
+          duration: 3000
+        }).then(toast => {
+          toast.present();
+        });
+      }
     });
   }
 
