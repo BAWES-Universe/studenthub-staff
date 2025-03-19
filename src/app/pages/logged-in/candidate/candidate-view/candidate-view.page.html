@@ -19,10 +19,10 @@
   <ion-toolbar class="container" *ngIf="candidate">
 
     <div *ngIf="jobInterest && jobInterest.job" class="job-interest w-full h-[52px] relative p-4 rounded-lg bg-[#F5F7FF] block">
-      <span class="text-[#22223d] text-sm font-normal font-['Inter'] leading-tight">
+      <span class="text-[#22223d] text-sm font-normal leading-tight">
         You’re inviting for
       </span>
-      <span class="text-[#4c6ff2] text-sm font-semibold font-['Inter'] leading-tight job-position">
+      <span class="text-[#4c6ff2] text-sm font-semibold leading-tight job-position">
          {{ jobInterest.job.position }}  
       </span>
     </div>
@@ -261,6 +261,42 @@
           Your browser does not support HTML5 video tags
         </video>
       </ng-container> -->
+
+      <div class="mt-4 w-full p-4 bg-white rounded-lg shadow-[0px_2px_4px_0px_rgba(0,0,0,0.10)] inline-flex flex-col justify-start items-start gap-2">
+        <h5 class="self-stretch justify-start text-[#0f0f2c] text-base font-semibold leading-normal">
+          <ion-icon src="assets/images/icon-suitcase.svg" class="inline-block"></ion-icon> 
+          Candidate’s Job Seeking Status 
+        </h5>
+        <div class="inline-flex justify-start items-start gap-1">
+          <div class="justify-start text-[#22223d] text-sm font-semibold leading-tight">Last Changed Status:</div>
+          <div  class="justify-start text-[#4b4b61] text-sm font-normal leading-tight">
+           <ng-container *ngIf="candidate.candidate_job_search_updated_at">
+            {{ toDate(candidate.candidate_job_search_updated_at) | date : 'd/M/yyyy hh:mm a' : undefined : translateService.currentLang }}
+           </ng-container>
+           <ng-container *ngIf="!candidate.candidate_job_search_updated_at">
+             Not Changed yet
+           </ng-container>
+          </div>
+        </div>
+        <div data-helper-Text="Off" data-state="filled" data-type="Dropdown" (click)="openJobSearchStatusList($event)" class="cursor-pointer self-stretch h-12 inline-flex flex-col justify-start items-start gap-[7px]">
+          <div class="self-stretch self-stretch px-4 pt-1.5 pb-2 bg-white rounded-lg outline outline-1 outline-offset-[-1px] outline-[#e2e2e6] inline-flex justify-start items-center gap-2">
+              <div class="self-stretch inline-flex flex-col justify-start items-start">
+                <div class="w-[177px] justify-start text-[#68687a] text-[10px] font-medium leading-[14px] tracking-wide">
+                  Candidate is currently
+                </div>
+                <div class="justify-start text-[#22223d] text-sm font-medium leading-tight">
+                  <ng-container *ngIf="candidate.candidate_job_search_status == 1">Actively Looking for a Job</ng-container>
+                  <ng-container *ngIf="candidate.candidate_job_search_status == 2">Not looking but open to offers</ng-container>
+                  <ng-container *ngIf="candidate.candidate_job_search_status == 0">Not Looking and closed to offers</ng-container>
+                </div>
+              </div>
+              <div class="inline-flex flex-col justify-start items-start">
+                <ion-icon class="text-[#7d7d8d] fill-[#7d7d8d] stroke-[#7d7d8d]" 
+                  name="chevron-down-outline"></ion-icon>
+              </div>
+          </div>
+        </div>
+      </div>
 
       <div class="work-experience-wrapper"
         *ngIf="candidate.candidateExperiences && candidate.candidateExperiences.length > 0">
