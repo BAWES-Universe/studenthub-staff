@@ -19,6 +19,8 @@ import { InterviewEvaluationModule } from 'src/app/components/interview-evaluati
 import { InterviewEvaluationFormPageModule } from '../interview-evaluation/interview-evaluation-form/interview-evaluation-form.module';
 import { CandidateCertificateFormPageModule } from '../candidate-certificate-form/candidate-certificate-form.module';
 import { CompanyContractFormPageModule } from '../../company/company-contract/company-contract-form/company-contract-form.module';
+import { JobSearchStatusModule } from 'src/app/components/job-search-status/job-search-status.module';
+
 @NgModule({
     imports: [
         CommonModule,
@@ -36,7 +38,8 @@ import { CompanyContractFormPageModule } from '../../company/company-contract/co
         NoteModule,
         PipesModule,
         TransferModule,
-        LoadingModalModule
+        LoadingModalModule,
+        JobSearchStatusModule
     ],
   declarations: [CandidateViewPage]
 })

@@ -40,6 +40,7 @@ export class Candidate {
     isProfileCompleted: any;
     civilExpired: any;
     candidate_job_search_status: any;
+    candidate_job_search_updated_at: string;
     candidate_committed: any;
     candidate_preferred_time: string;
     age: string;
@@ -88,7 +89,15 @@ export class Candidate {
     pendingField: any[];
     certificates: CandidateCertificate[];
     candidateStats: any;
+    candidateLinks: CandidateLink[];
     currentWorkHistory: CandidateWorkHistory;
+}
+
+export class CandidateLink {
+  cl_uuid: string;
+  candidate_id: number;
+  title: string;
+  url: string;
 }
 
 export class CandidateWorkingHour {

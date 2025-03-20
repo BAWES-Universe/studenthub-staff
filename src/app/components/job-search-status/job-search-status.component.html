@@ -1,0 +1,52 @@
+<div data-property-1="Selected" class="w-[309px] p-2.5 bg-white rounded-lg shadow-[0px_8px_16px_0px_rgba(35,35,38,0.06)] shadow-[0px_0px_8px_0px_rgba(35,35,38,0.08)] inline-flex flex-col justify-start items-start gap-2.5 overflow-hidden">
+  <div (click)="updateJobSearchStatus(1)" class="cursor-pointer self-stretch pl-1.5 py-1.5 bg-white rounded inline-flex justify-start items-start gap-1.5 overflow-hidden" [class.selected]="candidate.candidate_job_search_status == 1" >
+      <div class="w-6 h-6 relative">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M5 17.3332C5 15.615 7.08934 14.2221 9.66666 14.2221C12.244 14.2221 14.3333 15.615 14.3333 17.3332" stroke="#29B564" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M9.6658 11.8889C11.384 11.8889 12.7769 10.496 12.7769 8.7778C12.7769 7.05958 11.384 5.66669 9.6658 5.66669C7.94758 5.66669 6.55469 7.05958 6.55469 8.7778C6.55469 10.496 7.94758 11.8889 9.6658 11.8889Z" stroke="#29B564" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M15.25 12.125L16.5 13.375L19 10.5625" stroke="#29B564" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>          
+      </div>
+      <div class="flex-1 pr-1 inline-flex flex-col justify-start items-start">
+          <div class="justify-start text-[#22223d] text-sm font-semibold leading-tight">Actively Looking for a Job</div>
+          <div class="self-stretch justify-start text-[#22223d] text-[10px] font-medium leading-[14px] tracking-wide">
+            Candidate is actively looking for new opportunities.
+          </div>
+      </div>
+  </div>
+
+  <div (click)="updateJobSearchStatus(2)" class="cursor-pointer self-stretch pl-1.5 py-1.5 bg-white rounded inline-flex justify-start items-start gap-1.5 overflow-hidden" [class.selected]="candidate.candidate_job_search_status == 2">
+      <div class="w-6 h-6 relative">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M5 17.3332C5 15.615 7.08934 14.2221 9.66666 14.2221C12.244 14.2221 14.3333 15.615 14.3333 17.3332" stroke="#4C70F2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M9.6658 11.8889C11.384 11.8889 12.7769 10.496 12.7769 8.7778C12.7769 7.05958 11.384 5.66669 9.6658 5.66669C7.94758 5.66669 6.55469 7.05958 6.55469 8.7778C6.55469 10.496 7.94758 11.8889 9.6658 11.8889Z" stroke="#4C70F2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="16.5" cy="5.5" r="1.5" fill="#4C70F2"/>
+          <circle cx="21" cy="3" r="3" fill="#4C70F2"/>
+          </svg>
+              
+      </div>
+      <div class="flex-1 pr-1 inline-flex flex-col justify-start items-start">
+          <div class="self-stretch justify-start text-[#22223d] text-sm font-semibold leading-tight">Not looking but open to offers</div>
+          <div class="self-stretch justify-start text-[#a4a4af] text-[10px] font-medium leading-[14px] tracking-wide">
+            Candidate is not actively looking, but open to offers.
+          </div>
+      </div>
+  </div>
+  <div (click)="updateJobSearchStatus(0)" class="cursor-pointer self-stretch pl-1.5 py-1.5 bg-white rounded inline-flex justify-start items-start gap-1.5 overflow-hidden" [class.selected]="candidate.candidate_job_search_status == 0">
+      <div class="w-6 h-6 relative">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M5 17.3332C5 15.615 7.08934 14.2221 9.66666 14.2221C12.244 14.2221 14.3333 15.615 14.3333 17.3332" stroke="#EB5757" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M15.8887 13.4445L18.9998 10.3334" stroke="#EB5757" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M15.8887 10.3334L18.9998 13.4445" stroke="#EB5757" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M9.6658 11.8889C11.384 11.8889 12.7769 10.496 12.7769 8.7778C12.7769 7.05958 11.384 5.66669 9.6658 5.66669C7.94758 5.66669 6.55469 7.05958 6.55469 8.7778C6.55469 10.496 7.94758 11.8889 9.6658 11.8889Z" stroke="#EB5757" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          
+      </div>
+      <div class="flex-1 pr-1 inline-flex flex-col justify-start items-start">
+          <div class="self-stretch justify-start text-[#22223d] text-sm font-semibold leading-tight">Not Looking and closed to offers</div>
+          <div class="self-stretch justify-start text-[#a4a4af] text-[10px] font-medium leading-[14px] tracking-wide">
+            Candidate is not interested in new opportunities at this time.
+          </div>
+      </div>
+  </div>
+</div>
