@@ -829,6 +829,11 @@ const routes: Routes = [
     loadChildren: () => import('./pages/start-pages/login-two-step/login-two-step.module').then( m => m.LoginTwoStepPageModule)
   },
   {
+    path: 'cron-log',
+    canActivate: [AuthService],
+    loadChildren: () => import('./pages/logged-in/cron-log/cron-log.module').then( m => m.CronLogPageModule)
+  },
+  {
     path: '**',
     redirectTo: 'not-found'
   },

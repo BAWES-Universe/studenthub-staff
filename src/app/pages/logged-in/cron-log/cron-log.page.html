@@ -1,0 +1,33 @@
+<ion-header mode="md" [class.add-border]="borderLimit" class="ion-no-border">
+  <ion-toolbar class="container">
+    <ion-buttons slot="start">
+      <ion-back-button icon="assets/images/icon-back.svg" 
+        defaultHref="/view/tasks"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Cron Logs</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content scrollEvents="true" class="ion-no-padding" (ionScroll)="logScrolling($event)">
+  
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div class="container">
+    <ion-list>
+      <ion-item *ngFor="let cronLog of cronLogs">
+        <div tabindex="0"></div>
+        <ion-label>
+          <h5>{{cronLog.task}}</h5>
+          <p *ngIf="!cronLog.last_ran_at">Not run yet</p>
+          <p *ngIf="cronLog.last_ran_at">
+            {{ translateService.toDate(cronLog.last_ran_at) | date:'dd/MM/yyyy hh:mm a'}}</p>
+        </ion-label>
+      </ion-item>
+      
+      <loading-modal [loading]="loading" type="text-list"></loading-modal>
+    </ion-list>
+
+  </div> 
+</ion-content> 
