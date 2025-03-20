@@ -421,8 +421,10 @@ export class CompanyViewPage implements OnInit {
       this.company = new Company();
       this.company.company_id = this.company_id;
     }
-
-    this.companyService.view(this.company_id, 'companyStats,stats,country').subscribe(response => {
+ 
+    const expand = 'companyStats,stats,country,averageHireRate,averageHourlyRate,totalHire,totalActiveHire,totalHoursHired,totalSpent,totalRequests,totalOpenRequests';
+    
+    this.companyService.view(this.company_id, expand).subscribe(response => {
 
       this.loading = false;
       this.deleting = false;

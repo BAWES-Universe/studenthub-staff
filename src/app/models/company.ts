@@ -51,4 +51,14 @@ export class Company {
     country: Country;
     companyStats: any;
     contracts: Contract[];
+    activeContracts: Contract[];
+
+    averageHireRate: number;
+    averageHourlyRate: number;
+    totalHire: number;
+    totalActiveHire: number;
+    totalHoursHired: number;
+    totalSpent: number;
+    totalRequests: number;
+    totalOpenRequests: number;
 }

@@ -116,10 +116,107 @@
                 <ion-icon name="cash-outline" class="text-primary"></ion-icon>
               </div>
             </div>
-            <h2 class="bold">{{ companyStat.total_revenue | number:'1.0-0' }} {{ companyStat.currency_code }}</h2>
+            <h2 class="bold">{{ companyStat.total_revenue | number:'1.0-3' }} {{ companyStat.currency_code }}</h2>
             <p class="fs-12" color="light">Revenue / Total We Earned</p>
           </ion-card>
         </ion-col>
+
+        <ion-col size="12" size-md="4">
+          <ion-card>
+            <div class="avatar bg-rgba-warning">
+              <div class="avatar-content">
+                <ion-icon name="people-outline" class="text-primary"></ion-icon>
+              </div>
+            </div>
+            <h2 class="bold">{{ company.averageHireRate | number:'1.0-2' }}%</h2>
+            <p class="fs-12" color="light">Average Hire Rate</p>
+          </ion-card>
+        </ion-col>
+
+        <ion-col size="12" size-md="4">
+          <ion-card>
+            <div class="avatar bg-rgba-warning">
+              <div class="avatar-content">
+                <ion-icon name="cash-outline" class="text-primary"></ion-icon>
+              </div>
+            </div>
+            <h2 class="bold">{{ company.averageHourlyRate | number:'1.0-3' }} {{ company.currency_code }}</h2>
+            <p class="fs-12" color="light">Average Hourly Rate</p>
+          </ion-card>
+        </ion-col>
+
+        <ion-col size="12" size-md="4">
+          <ion-card>
+            <div class="avatar bg-rgba-warning">
+              <div class="avatar-content">
+                <ion-icon name="people-outline" class="text-primary"></ion-icon>
+              </div>
+            </div>
+            <h2 class="bold">{{ company.totalHire | number:'1.0-0' }}</h2>
+            <p class="fs-12" color="light">Total Hire</p>
+          </ion-card>
+        </ion-col>
+
+        <ion-col size="12" size-md="4">
+          <ion-card>
+            <div class="avatar bg-rgba-warning">
+              <div class="avatar-content">
+                <ion-icon name="people-outline" class="text-primary"></ion-icon>
+              </div>
+            </div>
+            <h2 class="bold">{{ company.totalActiveHire | number:'1.0-0' }}</h2>
+            <p class="fs-12" color="light">Total Active Hire</p>
+          </ion-card>
+        </ion-col>
+
+        <ion-col size="12" size-md="4">
+          <ion-card>  
+            <div class="avatar bg-rgba-warning">
+              <div class="avatar-content">
+                <ion-icon name="time-outline" class="text-primary"></ion-icon>
+              </div>
+            </div>
+            <h2 class="bold">{{ company.totalHoursHired | number:'1.0-0' }}</h2>  
+            <p class="fs-12" color="light">Total Hours Hired</p>
+          </ion-card>
+        </ion-col>
+
+        <ion-col size="12" size-md="4">
+          <ion-card>  
+            <div class="avatar bg-rgba-warning">
+              <div class="avatar-content">
+                <ion-icon name="cash-outline" class="text-primary"></ion-icon>
+              </div>
+            </div>
+            <h2 class="bold">{{ company.totalSpent | number:'1.0-3' }} {{ company.currency_code }}</h2> 
+            <p class="fs-12" color="light">Total Spent</p>
+          </ion-card>
+        </ion-col>
+
+        <ion-col size="12" size-md="4">
+          <ion-card>
+            <div class="avatar bg-rgba-warning">
+              <div class="avatar-content">
+                <ion-icon name="document-outline" class="text-primary"></ion-icon>  
+              </div>
+            </div>
+            <h2 class="bold">{{ company.totalRequests | number:'1.0-0' }}</h2>
+            <p class="fs-12" color="light">Total Requests</p>
+          </ion-card>
+        </ion-col>  
+
+        <ion-col size="12" size-md="4">
+            <ion-card>
+            <div class="avatar bg-rgba-warning">
+              <div class="avatar-content">
+                <ion-icon name="document-outline" class="text-primary"></ion-icon>
+              </div>
+            </div>
+            <h2 class="bold">{{ company.totalOpenRequests | number:'1.0-0' }}</h2>
+            <p class="fs-12" color="light">Total Open Requests</p>
+          </ion-card>
+        </ion-col>
+
       </ion-row>
 
     </div>
