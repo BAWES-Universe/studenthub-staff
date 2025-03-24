@@ -57,8 +57,23 @@ export class SuggestionService {
     });
   }
 
+  /**
+   * reschedule CV/Resume email
+   * @param suggestion_uuid
+   * @returns {Observable<any>}
+   */
   rescheduleCVResumeEmail(suggestion_uuid: string) {
     const url = `${this._endpoint}/reschedule-cv-email/${suggestion_uuid}`;
+    return this._authhttp.patch(url, {});
+  }
+
+  /**
+   * mail suggestions
+   * @param params
+   * @returns {Observable<any>}
+   */
+  mailSuggestions(params: string = ''): Observable<any> {
+    const url = `${this._endpoint}/mail-suggestions?` + params;
     return this._authhttp.patch(url, {});
   }
 

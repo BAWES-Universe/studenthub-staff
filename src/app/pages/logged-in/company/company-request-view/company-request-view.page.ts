@@ -107,6 +107,8 @@ export class CompanyRequestViewPage implements OnInit, OnDestroy {
   public applicationCurrentPage  = 0;
   public applicationTotal = 0;
 
+  public sendingMail: boolean = false;
+
   constructor(
     public popoverCtrl: PopoverController,
     public modalCtrl: ModalController,
@@ -169,6 +171,20 @@ export class CompanyRequestViewPage implements OnInit, OnDestroy {
   ngOnDestroy() {
     clearInterval(this.internvalSubscribe);
     this.internvalSubscribe = null;
+  }
+
+  /**
+   * mail suggestions
+   */
+  mailSuggestions() {
+    this.sendingMail = true;
+
+    const params = '&request_uuid=' + this.request_uuid;
+
+    this.suggestionService.mailSuggestions(params).subscribe(response => {
+      this.sendingMail = false;
+      this.loadSuggestions();
+    });
   }
 
   /**

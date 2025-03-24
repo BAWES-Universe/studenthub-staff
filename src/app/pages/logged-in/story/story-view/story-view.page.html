@@ -504,7 +504,7 @@
       <p class="ion-text-center">There are no suggested candidates!</p>
     </div>
 
-    <suggestion *ngFor="let suggestion of allSuggestions" [model]="suggestion" [showBadge]="false"></suggestion>
+    <suggestion *ngFor="let suggestion of allSuggestions" [model]="suggestion"></suggestion>
 
     <ion-infinite-scroll *ngIf="ScurrentPage < SPageCount" (ionInfinite)="doInfiniteSuggestion($event)">
       <ion-infinite-scroll-content></ion-infinite-scroll-content>
@@ -525,6 +525,12 @@
           <span *ngIf="request && request.request_position_type == 2">Invite Candidates</span>
           <span *ngIf="request && request.request_position_type == 1">Suggest Candidates</span>
         </ion-button>
+
+        <!--
+        <ion-button class="invite-btn" (click)="mailSuggestions()" [disabled]="sendingMail">
+          <span *ngIf="sendingMail">Sending...</span>
+          <span *ngIf="!sendingMail">Mail suggestions</span>
+        </ion-button>-->
       </ion-col>
 
       <ion-col *ngIf="segment == 'update'">

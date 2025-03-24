@@ -155,6 +155,9 @@ export class StoryViewPage implements OnInit, OnDestroy {
   deletingJob: boolean = false;
   shortlistingJobInterest: string = null;
   rejectingJobInterest: string = null;
+
+  public sendingMail: boolean = false;
+
   constructor(
     public jobService: JobService,
     private activatedRoute: ActivatedRoute,
@@ -210,6 +213,17 @@ export class StoryViewPage implements OnInit, OnDestroy {
         story: this.story,
         jobInterest: jobInterest
       }
+    });
+  }
+
+  mailSuggestions() {
+    this.sendingMail = true;
+
+    const params = '&story_uuid=' + this.story_uuid;
+
+    this.suggestionService.mailSuggestions(params).subscribe(response => {
+      this.sendingMail = false;
+      this.loadSuggestions();
     });
   }
 
