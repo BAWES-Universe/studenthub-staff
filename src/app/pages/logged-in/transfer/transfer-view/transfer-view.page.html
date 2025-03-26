@@ -254,10 +254,12 @@
 
   </div>
 </ion-content>
-<ion-footer class="ion-no-border" *ngIf="segment == 'invoices' && transfer && transfer.invoices && transfer.invoices.length > 0">
+<ion-footer class="ion-no-border" *ngIf="segment == 'invoices' && 
+  transfer && transfer.invoices && transfer.invoices.length > 0">
   <div class="container">
-    <ion-button (click)="downloadLatestInvoice()" >
+    <ion-button (click)="downloadAllInvoices()" [disabled]="downloadingInvoice">
       Download Invoice
+      <ion-spinner *ngIf="downloadingInvoice" name="crescent" slot="end"></ion-spinner>
     </ion-button>
   </div>
 </ion-footer>
