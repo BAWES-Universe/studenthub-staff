@@ -37,6 +37,8 @@ export class TransferViewPage implements OnInit {
 
   public borderLimit: boolean = false;
 
+  public downloadingInvoice = false;
+  
   constructor(
     public navCtrl: NavController,
     public aws: AwsService,
@@ -248,6 +250,12 @@ export class TransferViewPage implements OnInit {
     });
   }
 
+  downloadAllInvoices() {
+    for (let invoice of this.transfer.invoices) {
+      this.downloadInvoice(invoice);
+    }
+  }
+
   downloadLatestInvoice() {
     this.downloadInvoice(this.transfer.invoices[this.transfer.invoices.length - 1]);
   }
@@ -257,10 +265,10 @@ export class TransferViewPage implements OnInit {
    * @param invoice
    */
   async downloadInvoice(invoice) {
-    const loader = await this._loadingCtrl.create();
-    loader.present();
-    this.transferService.downloadInvoice(invoice).subscribe(response => {
-      loader.dismiss();
+    this.downloadingInvoice = true; 
+    
+    this.transferService.downloadInvoice(invoice).subscribe(() => {
+      this.downloadingInvoice = false;
     });
   }
 
