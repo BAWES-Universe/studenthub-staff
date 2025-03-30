@@ -251,8 +251,25 @@ export class TransferViewPage implements OnInit {
   }
 
   downloadAllInvoices() {
-    for (let invoice of this.transfer.invoices) {
-      this.downloadInvoice(invoice);
+
+    if (this.transfer.invoices.length == 0) {
+      return this.alertCtrl.create({
+        header: 'No invoices to download',
+        message: 'There are no invoices to download for this transfer.',
+        buttons: ['OK']
+      }).then(alert => alert.present());
+    }
+
+    const latestInvoice = this.transfer.invoices[this.transfer.invoices.length - 1];
+
+    //check if transfer having child transfer 
+
+    if (latestInvoice.transfer_id != this.transfer.transfer_id) {
+      for (let invoice of this.transfer.invoices) {
+        this.downloadInvoice(invoice);
+      }
+    } else {
+      this.downloadInvoice(latestInvoice);
     }
   }
 
