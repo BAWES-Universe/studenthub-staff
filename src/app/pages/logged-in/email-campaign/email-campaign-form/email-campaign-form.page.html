@@ -83,6 +83,7 @@
                         <ion-select-option value="filterAssigned">Assigned</ion-select-option>
                         <ion-select-option value="filterNotAssigned">Not Assigned</ion-select-option>
                         <ion-select-option value="filterStore">Store ID</ion-select-option>
+                        <ion-select-option value="filterCompany">Company ID</ion-select-option>
                         <ion-select-option value="filterCountry">Country</ion-select-option>
                         <ion-select-option value="filterUniversity">University ID</ion-select-option>
                         <ion-select-option value="idExpired">ID Expired</ion-select-option>
@@ -95,10 +96,11 @@
                     </ion-item>
                   </ion-col>
  
-                  <ion-col *ngIf="['filterStore', 'filterCountry', 'filterUniversity', 'ageRange'].indexOf(emailCampaignFilterForm.value.param) > -1">
+                  <ion-col *ngIf="['filterStore', 'filterCompany', 'filterCountry', 'filterUniversity', 'ageRange'].indexOf(emailCampaignFilterForm.value.param) > -1">
                     <ion-item class="input-wrapper"  [class.have-errors]="emailCampaignFilterForm['controls'].value.errors != null">
                       <ion-label position="stacked">Value</ion-label>
-                      <ion-input formControlName="value" *ngIf="['filterStore', 'filterUniversity', 'ageRange'].indexOf(emailCampaignFilterForm.value.param) > -1"></ion-input>
+                      <ion-input formControlName="value" *ngIf="['filterStore', 'filterCompany', 'filterUniversity', 
+                        'ageRange'].indexOf(emailCampaignFilterForm.value.param) > -1"></ion-input>
                     
                       <ion-input readonly formControlName="value" (click)="selectCountry(emailCampaignFilterForm)"
                       *ngIf="['filterCountry'].indexOf(emailCampaignFilterForm.value.param) > -1">
