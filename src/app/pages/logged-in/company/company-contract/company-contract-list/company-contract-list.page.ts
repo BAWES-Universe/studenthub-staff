@@ -192,7 +192,7 @@ export class CompanyContractListPage implements OnInit {
    * load company detail
    */
   loadCompanyDetail() {
-    this.companyService.view(this.company.company_id).subscribe(response => {
+    this.companyService.view(this.company.company_id, "").subscribe(response => {
       this.company = response;
       this.loadContracts();
     }, () => {
