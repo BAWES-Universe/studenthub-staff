@@ -40,7 +40,8 @@
               { 
                 "glob": "**/*", "input": "node_modules/tinymce", "output": "/tinymce/" 
               },
-              "src/manifest.webmanifest"
+              "src/manifest.webmanifest",
+              "src/netlify.toml"
             ],
             "styles": ["src/theme/variables.scss", "src/global.scss"],
             "scripts": [
