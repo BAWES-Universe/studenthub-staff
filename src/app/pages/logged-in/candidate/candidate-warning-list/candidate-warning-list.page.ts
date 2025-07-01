@@ -27,9 +27,9 @@ export class CandidateWarningsPage implements OnInit {
   public candidate;
 
   public warnings: CandidateWarning[] = [];
-  
+
   public pageCount = 0;
-  
+
   public currentPage = 1;
 
   constructor(
@@ -46,9 +46,9 @@ export class CandidateWarningsPage implements OnInit {
    * @param date
    */
   toDate(date) {
-    if (!date) 
+    if (!date)
       return null;
-    
+
     if (date) {
       return new Date(date.replace(/-/g, '/'));
     }
@@ -94,13 +94,17 @@ export class CandidateWarningsPage implements OnInit {
     this.candidateService.detail(this.candidate_id).subscribe(response => {
       this.loading = false;
       this.candidate = response;
+      if(this.candidate){
+        this.candidate.pendingField =  this.candidate?.pendingField?.filter(v => v != "experience")
+        this.candidate.isProfileCompleted = this.candidate.pendingField.length == 0;
+      }
     });
   }
 
   /**
    * load candidate warnings without pagination
    */
-  loadWarnings() { 
+  loadWarnings() {
     this.candidateService.candidateWarnings(this.candidate_id, 1).subscribe(async response => {
       this.warnings = response.body;
 

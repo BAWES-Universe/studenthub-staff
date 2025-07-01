@@ -84,6 +84,10 @@ export class CandidateSuggestionsPage implements OnInit {
     this.candidateService.detail(this.candidate_id).subscribe(response => {
       this.loading = false;
       this.candidate = response;
+      if(this.candidate){
+        this.candidate.pendingField =  this.candidate?.pendingField?.filter(v => v != "experience")
+        this.candidate.isProfileCompleted = this.candidate.pendingField.length == 0;
+      }
     });
   }
 

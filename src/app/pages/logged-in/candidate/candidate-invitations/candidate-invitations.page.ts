@@ -23,7 +23,7 @@ export class CandidateInvitationsPage implements OnInit {
 
   public loading = false;
 
-  public loadingInvitations = false; 
+  public loadingInvitations = false;
 
   public candidate_id;
 
@@ -33,9 +33,9 @@ export class CandidateInvitationsPage implements OnInit {
 
   public invitations: Invitation[] = [];
 
-  public currentPage; 
-  public total; 
-  public pageCount; 
+  public currentPage;
+  public total;
+  public pageCount;
 
   constructor(
     public modalCtrl: ModalController,
@@ -83,7 +83,7 @@ export class CandidateInvitationsPage implements OnInit {
         this.loadInvitations();
       }
     });
- 
+
     this.loadInvitations();
   }
 
@@ -93,15 +93,19 @@ export class CandidateInvitationsPage implements OnInit {
   }
 
   /**
-   * @param loading 
+   * @param loading
    */
   loadCandidateDetail(loading = true) {
 
     this.loading = loading;
-    
+
     this.candidateService.detail(this.candidate_id).subscribe(response => {
       this.loading = false;
       this.candidate = response;
+      if(this.candidate){
+        this.candidate.pendingField =  this.candidate?.pendingField?.filter(v => v != "experience")
+        this.candidate.isProfileCompleted = this.candidate.pendingField.length == 0;
+      }
     });
   }
 
@@ -117,7 +121,7 @@ export class CandidateInvitationsPage implements OnInit {
 
     if (this.candidate_id) {
       urlParams += '&candidate_id=' + this.candidate_id;
-    }  
+    }
 
     if (this.status) {
       urlParams += '&status=' + this.status;
@@ -131,7 +135,7 @@ export class CandidateInvitationsPage implements OnInit {
    */
   loadInvitations() {
 
-    this.loadingInvitations = true; 
+    this.loadingInvitations = true;
 
     this.invitationService.listWithPagination(this.getUrlParams()).subscribe(async jsonResponse => {
 
@@ -141,20 +145,20 @@ export class CandidateInvitationsPage implements OnInit {
       this.currentPage = parseInt(jsonResponse.headers.get('X-Pagination-Current-Page'));
       this.total = parseInt(jsonResponse.headers.get('X-Pagination-Total-Count'));
 
-      this.loadingInvitations = false; 
+      this.loadingInvitations = false;
     });
   }
 
   /**
-   * load more on scroll to bottom 
-   * @param event 
+   * load more on scroll to bottom
+   * @param event
    */
   async doInfinite(event) {
- 
-    this.loadingInvitations = true; 
+
+    this.loadingInvitations = true;
 
     this.currentPage++;
- 
+
     this.invitationService.listWithPagination(this.getUrlParams()).subscribe(response => {
 
       this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
@@ -164,9 +168,9 @@ export class CandidateInvitationsPage implements OnInit {
       this.invitations = this.invitations.concat(response.body);
 
     }, () => { },
-    () => { 
+    () => {
       event.target.complete();
-      this.loadingInvitations = false; 
+      this.loadingInvitations = false;
     });
   }
 

@@ -165,7 +165,7 @@ export class CandidateFormPage implements OnInit {
 
       // On Failure
       if (jsonResponse.operation == 'error') {
-        
+
         const prompt = await this._alertCtrl.create({
           message: this.authService.errorMessage(jsonResponse.message),
           buttons: ['Ok']
@@ -220,6 +220,9 @@ export class CandidateFormPage implements OnInit {
       this.loading = false;
       if (response) {
         this.model = response;
+        this.model.pendingField =  this.model.pendingField.filter(v => v != "experience")
+        this.model.isProfileCompleted = this.model.pendingField.length == 0;
+
         this.initForm();
       }
     });

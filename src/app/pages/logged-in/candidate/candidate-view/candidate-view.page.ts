@@ -94,8 +94,8 @@ export class CandidateViewPage implements OnInit {
   public unapproving = false;
   public downloading = false;
   public inviting = false;
-  public loadingLoginUrl: boolean = false; 
-  
+  public loadingLoginUrl: boolean = false;
+
   public processing = null;
 
   public updatingJobSearchStatus = false;
@@ -129,26 +129,26 @@ export class CandidateViewPage implements OnInit {
 
   public segment: string = 'activity';
 
-  public loadingApplications: boolean = false; 
+  public loadingApplications: boolean = false;
 
   public candidateApplications: RequestApplication[] = [];
-  
+
   public applicationPageCount = 0;
   public applicationCurrentPage  = 0;
   public applicationTotal = 0;
 
   public loadingInterviewEvaluations: boolean = false;
   public interviewEvaluations: InterviewEvaluation[] = [];
-  
+
   public interviewPageCount = 0;
   public interviewCurrentPage  = 0;
   public interviewTotal = 0;
- 
-  public deletingCertificates: boolean = false; 
-  public loadingCertificates: boolean = false; 
-  public issueingCertificates: boolean = false; 
-  
-  public invitationChartInstant;//: Chart; 
+
+  public deletingCertificates: boolean = false;
+  public loadingCertificates: boolean = false;
+  public issueingCertificates: boolean = false;
+
+  public invitationChartInstant;//: Chart;
 
   constructor(
     public navCtrl: NavController,
@@ -176,7 +176,7 @@ export class CandidateViewPage implements OnInit {
   ) {
   }
 
-  ngOnInit() { 
+  ngOnInit() {
 
     this.analyticService.page('Candidate View Page');
 
@@ -191,7 +191,7 @@ export class CandidateViewPage implements OnInit {
     if (state.jobInterest) {
       this.jobInterest = state.jobInterest;
     }
-    
+
     if (!this.candidate_id) {
       this.candidate_id = this.activatedRoute.snapshot.paramMap.get('id');
     }
@@ -331,7 +331,7 @@ export class CandidateViewPage implements OnInit {
       componentProps: {
         candidate: this.candidate,
         event: event,
-        
+
       },
       cssClass: 'popover-job-search-status'
     });
@@ -357,7 +357,7 @@ export class CandidateViewPage implements OnInit {
 
     this.candidate.candidate_job_search_status = job_search_status;
     this.candidate.candidate_job_search_updated_at = new Date().toISOString();
-    
+
     this.candidateService.updateJobSearchStatus(params).subscribe(async data => {
 
       this.updatingJobSearchStatus = false;
@@ -384,7 +384,7 @@ export class CandidateViewPage implements OnInit {
   async updateContract(contract) {
 
     window.history.pushState({ navigationId: window.history.state?.navigationId }, null, window.location.pathname);
- 
+
    // const store = this.stores.find(e => e.store_id == contract.store_id);
 
     const modal = await this.modalCtrl.create({
@@ -396,7 +396,7 @@ export class CandidateViewPage implements OnInit {
           model: contract,
          // store: store,
           candidate: this.candidate,
-          
+
           //contracts: store? store['contracts']: []
         }
       },
@@ -412,12 +412,12 @@ export class CandidateViewPage implements OnInit {
       if(e.data && e.data.refresh) {
         this.loadCandidateDetail();
         this.loadWorkHistoryData();
-        this.loadNotes(); 
+        this.loadNotes();
       }
 
       /*if(e.data && (e.data.rate || e.data.contract_uuid)) {
-        this.assignCandidateToStoreWithRate(storeID, e.data.rate, e.data.start_date, 
-          e.data.company_hourly_rate, e.data.company_transfer_cost, e.data.transfer_cost, 
+        this.assignCandidateToStoreWithRate(storeID, e.data.rate, e.data.start_date,
+          e.data.company_hourly_rate, e.data.company_transfer_cost, e.data.transfer_cost,
           e.data.contract_uuid);
       }*/
     });
@@ -516,7 +516,7 @@ export class CandidateViewPage implements OnInit {
           model: contract,
           store: store,
           candidate: this.candidate,
-          
+
           //contracts: store? store['contracts']: []
         }
       },
@@ -532,12 +532,12 @@ export class CandidateViewPage implements OnInit {
       if(e.data && e.data.refresh) {
         this.loadCandidateDetail();
         this.loadWorkHistoryData();
-        this.loadNotes(); 
+        this.loadNotes();
       }
 
       /*if(e.data && (e.data.rate || e.data.contract_uuid)) {
-        this.assignCandidateToStoreWithRate(storeID, e.data.rate, e.data.start_date, 
-          e.data.company_hourly_rate, e.data.company_transfer_cost, e.data.transfer_cost, 
+        this.assignCandidateToStoreWithRate(storeID, e.data.rate, e.data.start_date,
+          e.data.company_hourly_rate, e.data.company_transfer_cost, e.data.transfer_cost,
           e.data.contract_uuid);
       }*/
     });
@@ -550,11 +550,11 @@ export class CandidateViewPage implements OnInit {
    * @param rate
    */
   assignCandidateToStoreWithRate(
-    store_id, 
-    rate, 
-    start_date = null, 
+    store_id,
+    rate,
+    start_date = null,
     company_hourly_rate = null,
-    company_transfer_cost = null, 
+    company_transfer_cost = null,
     transfer_cost = null,
     contract_uuid = null
   ) {
@@ -562,10 +562,10 @@ export class CandidateViewPage implements OnInit {
     this.assigning = true;
 
     this.candidateService.assignCandidateToStore(
-      this.candidate, 
-      store_id, 
-      rate, 
-      start_date, 
+      this.candidate,
+      store_id,
+      rate,
+      start_date,
       company_hourly_rate,
       company_transfer_cost,
       transfer_cost,
@@ -631,16 +631,18 @@ export class CandidateViewPage implements OnInit {
 
     const query = 'expand=candidateLinks,certificates,certificates.exam,certificates.store,certificates.company,invitationStats,avgTimeToViewInvitations,candidateEducations,candidateEducations.degree,candidateEducations.major,' +
       'candidateEducations.university,candidateStats,candidateIdCard,store,company,candidateSkills,' +
-      'candidateTags,candidateExperiences,bank,nationality,area,country,university,' + 
+      'candidateTags,candidateExperiences,bank,nationality,area,country,university,' +
       'invited,invitationAccepted,invitationRejected,suggestionAccepted,suggestionRejected,suggested';
 
     this.candidateService.detail(this.candidate_id, query).subscribe(response => {
 
       this.loading = false;
-
       this.candidate = response;
-      
+
       if (this.candidate && this.candidate.pendingField && this.candidate.pendingField.length > 0) {
+        this.candidate.pendingField =  this.candidate?.pendingField?.filter(v => v != "experience")
+        this.candidate.isProfileCompleted = this.candidate.pendingField.length == 0;
+
         this.pendingData = 'Total ' + this.candidate.pendingField.length + ' pending fields\n ' + this.candidate.pendingField.join(',');
       }
 
@@ -652,7 +654,7 @@ export class CandidateViewPage implements OnInit {
         this.job_search_status = !!(this.candidate.candidate_job_search_status);
 
         if (this.candidate.avgTimeToViewInvitations > 0) {
-          this.loadInvitationChart(); 
+          this.loadInvitationChart();
         }
       }, 500);
     });
@@ -788,7 +790,7 @@ export class CandidateViewPage implements OnInit {
   }
 
   async markNotDeleted() {
-    this.markingNotDeleted = true; 
+    this.markingNotDeleted = true;
 
     this.candidateService.markNotDeleted(this.candidate).subscribe(async response => {
       this.markingNotDeleted = false;
@@ -808,13 +810,13 @@ export class CandidateViewPage implements OnInit {
   }
 
   login() {
-     
-    this.loadingLoginUrl = true; 
+
+    this.loadingLoginUrl = true;
 
     this.candidateService.login(this.candidate_id).subscribe(async res => {
 
       this.loadingLoginUrl = false;
-       
+
       if(res.operation == "error") {
         const alert = await this.alertCtrl.create({
           header: 'Oops',
@@ -844,7 +846,7 @@ export class CandidateViewPage implements OnInit {
       componentProps: {
         candidate: this.candidate,
         story: this.story,
-        
+
       },
       cssClass: "popup-modal"
     });
@@ -959,7 +961,7 @@ export class CandidateViewPage implements OnInit {
           handler: async (data) => {
 
             this.markingDuplicate = true;
- 
+
             this.candidateService.markDuplicate(this.candidate).subscribe(async response => {
 
               this.markingDuplicate = false;
@@ -973,7 +975,7 @@ export class CandidateViewPage implements OnInit {
 
                 this.alertCtrl.create({
                   header: 'Account marked as deleted',
-                  message: this.authService.errorMessage(response.message), 
+                  message: this.authService.errorMessage(response.message),
                 }).then (alert => alert.present());
               }
 
@@ -1595,7 +1597,7 @@ export class CandidateViewPage implements OnInit {
   }
 
   /**
-   * @param certifcate 
+   * @param certifcate
    */
   async downloadCertificate(certifcate) {
     this.downloading = true;
@@ -1678,7 +1680,7 @@ export class CandidateViewPage implements OnInit {
       return word.charAt(0).toUpperCase() + word.slice(1);
     }).join(' ');
   }
-  
+
   capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
@@ -1778,12 +1780,12 @@ export class CandidateViewPage implements OnInit {
   }
 
   loadInterviews() {
-    this.loadingInterviewEvaluations = true; 
+    this.loadingInterviewEvaluations = true;
 
     const urlParams = "&candidate_id=" + this.candidate_id;
 
     this.interviewEvaluationService.list(this.interviewCurrentPage, urlParams).subscribe(res => {
-      this.loadingInterviewEvaluations = false; 
+      this.loadingInterviewEvaluations = false;
 
       this.interviewEvaluations = res.body;
       this.interviewPageCount = parseInt(res.headers.get('X-Pagination-Page-Count'));
@@ -1799,7 +1801,7 @@ export class CandidateViewPage implements OnInit {
     const urlParams = "&candidate_id=" + this.candidate_id;
 
     this.interviewEvaluationService.list(this.interviewCurrentPage, urlParams).subscribe(res => {
-      this.loadingInterviewEvaluations = false; 
+      this.loadingInterviewEvaluations = false;
 
       event.target.complete();
 
@@ -1808,7 +1810,7 @@ export class CandidateViewPage implements OnInit {
       this.interviewCurrentPage = parseInt(res.headers.get('X-Pagination-Current-Page'));
       this.interviewTotal = parseInt(res.headers.get('X-Pagination-Total-Count'));
     }, () => {
-      this.loadingInterviewEvaluations = false; 
+      this.loadingInterviewEvaluations = false;
 
       event.target.complete();
     });
@@ -1836,7 +1838,7 @@ export class CandidateViewPage implements OnInit {
   }
 
   loadApplications() {
- 
+
     this.loadingApplications = true;
 
     this.applicationCurrentPage = 1;
@@ -1856,7 +1858,7 @@ export class CandidateViewPage implements OnInit {
 
   /**
    * load more on scroll to bottom
-   * @param event 
+   * @param event
    */
   doInfiniteApplications(event) {
 
@@ -1902,10 +1904,10 @@ export class CandidateViewPage implements OnInit {
 
   /**
    * refresh on pull to bottom
-   * @param event 
+   * @param event
    */
   doRefresh(event) {
-    
+
     switch (this.segment) {
       case "activity":
         this.loadWorkHistoryData();
@@ -1926,7 +1928,7 @@ export class CandidateViewPage implements OnInit {
       default:
         break;
     }
-   
+
     event.target.complete();
   }
 }

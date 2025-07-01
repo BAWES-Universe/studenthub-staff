@@ -84,6 +84,10 @@ export class CandidateNotesPage implements OnInit {
       this.loading = false;
 
       this.candidate = response;
+      if(this.candidate){
+        this.candidate.pendingField =  this.candidate?.pendingField?.filter(v => v != "experience")
+        this.candidate.isProfileCompleted = this.candidate.pendingField.length == 0;
+      }
     });
   }
 
@@ -101,7 +105,7 @@ export class CandidateNotesPage implements OnInit {
    * load candidate notes without pagination
    */
   loadNotes() {
-    
+
     this.noteService.list(this.filterParams(), 1).subscribe(async response => {
 
       this.pageCount = parseInt(response.headers.get('X-Pagination-Page-Count'));
