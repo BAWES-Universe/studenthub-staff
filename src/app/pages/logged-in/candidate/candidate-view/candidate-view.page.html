@@ -15,7 +15,7 @@
     </ion-buttons>
 
   </ion-toolbar>
-  
+
   <ion-toolbar class="container" *ngIf="candidate">
 
     <div *ngIf="jobInterest && jobInterest.job" class="job-interest w-full h-[52px] relative p-4 rounded-lg bg-[#F5F7FF] block">
@@ -23,10 +23,10 @@
         You’re inviting for
       </span>
       <span class="text-[#4c6ff2] text-sm font-semibold leading-tight job-position">
-         {{ jobInterest.job.position }}  
+         {{ jobInterest.job.position }}
       </span>
     </div>
-    
+
     <ion-thumbnail slot="start" *ngIf="candidate.candidate_personal_photo">
       <img (error)="onPhotoError()"
         src="{{ awsService.cloudinaryUrl + 'candidate-photo/' + candidate.candidate_personal_photo }}" />
@@ -48,13 +48,13 @@
         <ion-icon slot="icon-only" name="copy-outline"></ion-icon>
       </ion-button>
     </h4>
- 
+
     <ng-container *ngIf="candidate.candidateTags">
       <ion-badge color="warning" class="candidate-tag" *ngFor="let candidateTag of candidate.candidateTags">
         {{ candidateTag.tag }}
-      </ion-badge> 
+      </ion-badge>
     </ng-container>
- 
+
     <ion-badge color="warning" id="pending-fields" *ngIf="candidate && !candidate.isProfileCompleted">Incomplete profile</ion-badge>
 
     <ng-container  *ngIf="candidate && candidate.civilExpired">
@@ -90,7 +90,7 @@
         <ion-label>Personal Details</ion-label>
       </ion-segment-button>
 
-      <ion-segment-button mode="md" value="financials">
+      <ion-segment-button mode="md" value="financials" *ngIf="!shouldHideFinancialsTab()">
         <ion-label>Financials</ion-label>
       </ion-segment-button>
 
@@ -119,13 +119,13 @@
 </ion-header>
 
 <ion-content scrollEvents="true" class="{{ authService.theme }}" (ionScroll)="logScrolling($event)">
-  
+
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
   <div class="container">
-     
+
     <div class="personal-details" *ngIf="candidate && segment == 'personal-details'">
 
       <h5>Bio</h5>
@@ -245,7 +245,7 @@
         <ion-icon src="assets/images/icon-download.svg"></ion-icon> {{ "CV / Portfolio" | translate }}
       </ion-button>
 
-      <ion-button class="btn-video" *ngIf="candidate.candidate_video && candidate.candidate_video_processed" 
+      <ion-button class="btn-video" *ngIf="candidate.candidate_video && candidate.candidate_video_processed"
         href="{{ awsService.permanentBucketUrl }}candidate-video/{{ candidate.candidate_video }}.mp4"
         target="_blank"
         [class.required]="!candidate.candidate_video">
@@ -261,13 +261,13 @@
           Your browser does not support HTML5 video tags
         </video>
       </ng-container> -->
- 
+
 
 
       <div class="mt-4 w-full p-4 bg-white rounded-lg shadow-[0px_2px_4px_0px_rgba(0,0,0,0.10)] inline-flex flex-col justify-start items-start gap-2">
         <h5 class="self-stretch justify-start text-[#0f0f2c] text-base font-semibold leading-normal">
-          <ion-icon src="assets/images/icon-suitcase.svg" class="inline-block"></ion-icon> 
-          Candidate’s Job Seeking Status 
+          <ion-icon src="assets/images/icon-suitcase.svg" class="inline-block"></ion-icon>
+          Candidate’s Job Seeking Status
         </h5>
         <div class="inline-flex justify-start items-start gap-1">
           <div class="justify-start text-[#22223d] text-sm font-semibold leading-tight">Last Changed Status:</div>
@@ -293,7 +293,7 @@
                 </div>
               </div>
               <div class="inline-flex flex-col justify-start items-start">
-                <ion-icon class="text-[#7d7d8d] fill-[#7d7d8d] stroke-[#7d7d8d]" 
+                <ion-icon class="text-[#7d7d8d] fill-[#7d7d8d] stroke-[#7d7d8d]"
                   name="chevron-down-outline"></ion-icon>
               </div>
           </div>
@@ -341,7 +341,7 @@
         </h5>
 
         <ion-card *ngFor="let candidateEducation of candidate.candidateEducations">
-          
+
           <ion-card-content>
             <p *ngIf="candidateEducation.degree">
               {{ translateService.langContent(candidateEducation.degree.degree_name_en, candidateEducation.degree.degree_name_ar) }}
@@ -353,18 +353,18 @@
 
             <p *ngIf="candidateEducation.university">
               {{ translateService.langContent(candidateEducation.university.university_name_en, candidateEducation.university.university_name_ar) }}
-            </p> 
+            </p>
 
             <ion-note slot="end" *ngIf="candidateEducation.graduation_year">
               {{ candidateEducation.graduation_year }}
             </ion-note>
           </ion-card-content>
         </ion-card>
-      </div>    
+      </div>
 
     </div><!-- END work-details -->
 
-    <div *ngIf="candidate && segment == 'financials'" class="segment-financials">
+    <div *ngIf="candidate && segment == 'financials' && !shouldHideFinancialsTab()" class="segment-financials">
 
       <ion-row>
         <ion-col size="12" size-md="4" *ngFor="let candidateStat of candidate.candidateStats">
@@ -416,7 +416,7 @@
     </div><!-- END financials -->
 
     <div *ngIf="candidate && segment == 'activity'">
- 
+
       <div class="invitation-stats-wrapper">
         <h5 class="heading">
           <ion-icon src="assets/images/icon-assignment.svg"></ion-icon> Stats
@@ -434,17 +434,17 @@
             <div class="invitation-chart">
               <canvas #invitationChart></canvas>
             </div>
-            
+
             <h5>Where they're likely to view invites </h5>
             <p>{{ candidate.invitationStats.totalEmailPercentage | number:'1.0-2' }}% email, {{ candidate.invitationStats.totalAppPercentage | number:'1.0-2' }}% app</p>
-            <p *ngIf="candidate.invited > 0">{{ candidate.invited }} times invited, {{ candidate.invitationAccepted }} ({{ (candidate.invitationAccepted * 100 / candidate.invited) | number:'1.0-2' }}%) accepted, 
+            <p *ngIf="candidate.invited > 0">{{ candidate.invited }} times invited, {{ candidate.invitationAccepted }} ({{ (candidate.invitationAccepted * 100 / candidate.invited) | number:'1.0-2' }}%) accepted,
               {{ candidate.invitationRejected }} ({{ (candidate.invitationRejected * 100 / candidate.invited) | number:'1.0-2' }}%) rejected</p>
           </ion-card-content>
-        </ion-card>    
+        </ion-card>
       </div>
-       
+
       <div class="certificates-wrapper" *ngIf="candidate.certificates && candidate.certificates.length > 0">
-        
+
         <h5 class="heading">
           <ion-icon src="assets/images/icon-assignment.svg"></ion-icon> Certificates
         </h5>
@@ -485,7 +485,7 @@
           </ion-card-header>
 
           <ion-card-content *ngIf="certificate.isOpen">
- 
+
             <p>
               {{ toDate(certificate.start_date) | date }}
               <ng-container *ngIf="certificate.end_date">to {{ toDate(certificate.end_date) | date }}</ng-container>
@@ -495,7 +495,7 @@
             <ion-button [disabled]="downloading" class="btn-certificate" (click)="downloadCertificate(certificate)">
               <ion-icon slot="start" name="cloud-download-outline"></ion-icon>&nbsp;Certificate
             </ion-button>
- 
+
             <ion-button [disabled]="deletingCertificates" class="btn-delete-certificate" color="danger"
               (click)="deleteCertificate(certificate)">&nbsp;
               <ion-icon slot="start" name="trash-outline"></ion-icon>Delete
@@ -509,7 +509,7 @@
           <!-- <ion-icon name="add-outline"></ion-icon>  --> Add certificate
         </ion-button>
       </div>
-      
+
       <div class="assignment-wrapper">
         <!--
         <h5 class="hourly-rate" *ngIf="candidate.store && candidate.candidate_hourly_rate">
@@ -536,7 +536,7 @@
               <ion-button (click)="toggleOpen(history, $event)" [class.is-open]="history.isOpen">
                 <ion-icon src="assets/images/icon-arrow-down.svg"></ion-icon>
               </ion-button>
- 
+
             </ion-item>
           </ion-card-header>
 
@@ -550,11 +550,11 @@
               <p *ngIf=" history.contract.type == 'HOURLY'">
                 {{ history.contract.amount.candidate_hourly_rate | number:'1.0-3' }} {{ history.contract.currency_code }}/hr
               </p>
-              
+
               <p *ngIf="history.contract.type == 'FIXED_PRICE'">
-                {{ history.contract.amount.candidate_total | number:'1.0-3' }} {{ history.contract.currency_code }} 
+                {{ history.contract.amount.candidate_total | number:'1.0-3' }} {{ history.contract.currency_code }}
               </p>
-              
+
               <p *ngIf="history.contract.type == 'MONTHLY_SALARY'">
                 {{ history.contract.amount.candidate_total | number:'1.0-3' }} {{ history.contract.currency_code }}/month
               </p>
@@ -705,8 +705,8 @@
       <div class="note-wrapper">
 
         <h5 class="heading"><ion-icon src="assets/images/icon-note.svg"></ion-icon> Evaluations</h5>
-  
-        <interview-evaluation *ngIf="interviewEvaluations.length > 0" tappable (click)="interviewEvaluationSelected(interviewEvaluations[0])" 
+
+        <interview-evaluation *ngIf="interviewEvaluations.length > 0" tappable (click)="interviewEvaluationSelected(interviewEvaluations[0])"
           [interviewEvaluation]="interviewEvaluations[0]">
         </interview-evaluation>
 
@@ -747,13 +747,13 @@
         <img src="assets/images/no-invitation.png"/>
         <p class="ion-text-center">No applications yet!</p>
       </div>
-      
+
       <!-- [application]="candidateApplication" -->
-      <request-listing tappable (click)="applicationSelected(candidateApplication.request)" 
-        [request]="candidateApplication.request" 
+      <request-listing tappable (click)="applicationSelected(candidateApplication.request)"
+        [request]="candidateApplication.request"
         *ngFor="let candidateApplication of candidateApplications">
       </request-listing>
-  
+
       <ion-infinite-scroll *ngIf="applicationCurrentPage < applicationPageCount" (ionInfinite)="doInfiniteApplications($event)">
         <ion-infinite-scroll-content></ion-infinite-scroll-content>
       </ion-infinite-scroll>
@@ -769,12 +769,12 @@
         <img src="assets/images/no-invitation.png"/>
         <p class="ion-text-center">No evaluation yet!</p>
       </div>
-      
-      <interview-evaluation tappable (click)="interviewEvaluationSelected(interviewEvaluation)" 
-        [interviewEvaluation]="interviewEvaluation" 
+
+      <interview-evaluation tappable (click)="interviewEvaluationSelected(interviewEvaluation)"
+        [interviewEvaluation]="interviewEvaluation"
         *ngFor="let interviewEvaluation of interviewEvaluations">
       </interview-evaluation>
-  
+
       <ion-infinite-scroll *ngIf="interviewCurrentPage < interviewPageCount" (ionInfinite)="doInfiniteInterviews($event)">
         <ion-infinite-scroll-content></ion-infinite-scroll-content>
       </ion-infinite-scroll>
@@ -789,12 +789,12 @@
 <ion-footer class="ion-no-border {{ authService.theme }}" *ngIf="candidate && candidate.isProfileCompleted">
   <div class="container" *ngIf="authService.story && authService.story.request && authService.story.story_status == 1
   && authService.story.staff_id == authService.staff_id && ['cancelled', 'delivered'].indexOf(authService.story.request.request_status) == -1">
-      
+
     <ion-button class="btn-invite" *ngIf="candidate.isAlreadyInvited && story" [routerLink]="'/story-view/' + story.story_uuid">
       Back to Interested Candidates
     </ion-button>
 
-    <ion-button fill="outline" class="btn-invite-more" *ngIf="candidate.isAlreadyInvited && story" 
+    <ion-button fill="outline" class="btn-invite-more" *ngIf="candidate.isAlreadyInvited && story"
       [routerLink]="'/story-view/' + story.story_uuid">
      Invite more Candidates
     </ion-button>
