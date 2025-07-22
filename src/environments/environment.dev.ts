@@ -2,7 +2,7 @@
 export const environment = {
     production: false,
     envName: 'dev',
-    apiEndpoint: 'http://localhost:25080/v1',
+    apiEndpoint: 'https://staff.api.dev.studenthub.co/v1',
     algoliaCandidateIndex: 'dev_candidate_public',
     algoliaFulltimerIndex: 'dev_fulltimer_public',
     algoliaCacheDuration: 5 * 60 * 1000, // 5 min in millisecond
