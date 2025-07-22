@@ -11,6 +11,8 @@ import { NoteService } from 'src/app/providers/logged-in/note.service';
 // pages
 import { CompanyNoteFormPage } from '../../company/company-note-form/company-note-form.page';
 import { AuthService } from 'src/app/providers/auth.service';
+import { CompanyViewPage } from '../../company/company-view/company-view.page';
+import { RestrictionService } from 'src/app/providers/restriction.service';
 
 
 @Component({
@@ -19,6 +21,7 @@ import { AuthService } from 'src/app/providers/auth.service';
   styleUrls: ['./note-view.page.scss'],
 })
 export class NoteViewPage implements OnInit {
+  public isRestricted = false;
 
   public note_uuid: string;
 
@@ -29,7 +32,7 @@ export class NoteViewPage implements OnInit {
   public deletingNote: boolean = false;
 
   public borderLimit;
-  
+
   constructor(
     public alertCtrl: AlertController,
     public modalCtrl: ModalController,
@@ -38,10 +41,27 @@ export class NoteViewPage implements OnInit {
     public eventService: EventService,
     public authService: AuthService,
     public analyticService: AnalyticsService,
-    public noteService: NoteService
+    public noteService: NoteService,
+    public restrictionService: RestrictionService
   ) { }
 
   ngOnInit() {
+    // --- Restriction logic ---
+    // Try to get company_id from note if available (after loadData), or from route params if passed
+    let company_id = null;
+    // Try to get from route if provided
+    if (this.route.snapshot.params['company_id']) {
+      company_id = this.route.snapshot.params['company_id'];
+    }
+    // Import restriction constants
+    if (
+      this.restrictionService.isCompanyAndStaffRestricted(company_id, this.authService.staff_id)
+    ) {
+      this.isRestricted = true;
+      this.location.back();
+      return;
+    }
+
     this.analyticService.page('Note View Page');
 
     if(!this.note_uuid)
@@ -164,9 +184,9 @@ export class NoteViewPage implements OnInit {
    * @param date
    */
   toDate(date) {
-    if (!date) 
+    if (!date)
       return null;
-      
+
     if (date) {
       return new Date(date.replace(/-/g, '/'));
     }

@@ -56,6 +56,7 @@ import { JobInterest } from 'src/app/models/job-interest';
 import { Contract } from 'src/app/models/contract';
 import { CompanyContractFormPage } from '../../company/company-contract/company-contract-form/company-contract-form.page';
 import { JobSearchStatusComponent } from 'src/app/components/job-search-status/job-search-status.component';
+import { RestrictionService } from 'src/app/providers/restriction.service';
 
 
 
@@ -172,7 +173,8 @@ export class CandidateViewPage implements OnInit {
     private actionSheetCtrl: ActionSheetController,
     private loadingCtrl: LoadingController,
     public certificateService: CertificateService,
-    public analyticService: AnalyticsService
+    public analyticService: AnalyticsService,
+    public restrictionService: RestrictionService
   ) {
   }
 
@@ -622,13 +624,16 @@ export class CandidateViewPage implements OnInit {
     });
   }
 
-  /**
-   * load candidate details
-   * @param loading
-   */
+  shouldHideFinancialsTab(): boolean {
+    // Hide if any work history entry is restricted for this staff
+    if (!this.candidate?.workHistory || !this.authService?.staff_id) return false;
+    return this.candidate.workHistory.some(
+      (history) => this.restrictionService.isCompanyAndStaffRestricted(history.company_id, this.authService.staff_id)
+    );
+  }
+
   loadCandidateDetail(loading = true) {
     this.loading = loading;
-
     const query = 'expand=candidateLinks,certificates,certificates.exam,certificates.store,certificates.company,invitationStats,avgTimeToViewInvitations,candidateEducations,candidateEducations.degree,candidateEducations.major,' +
       'candidateEducations.university,candidateStats,candidateIdCard,store,company,candidateSkills,' +
       'candidateTags,candidateExperiences,bank,nationality,area,country,university,' +

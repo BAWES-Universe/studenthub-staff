@@ -32,12 +32,12 @@
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  
+
   <div class="container">
- 
+
     <ion-chip *ngIf="filter.filter_email_unverified" (click)="clearEmailFilter()">
       Having unverified email  <ion-icon name="close-outline"></ion-icon>
-    </ion-chip>  
+    </ion-chip>
 
     <!--
     <ion-chip *ngIf="filter.filter_email_unverified == 0" (click)="clearEmailFilter()">
@@ -45,11 +45,11 @@
     </ion-chip>  -->
 
     <ion-card *ngFor="let companyContact of companyContacts">
-      
+
       <ion-card-header>
         <ion-item lines="none" tappable (click)="openContactDetail(companyContact, $event)">
           <div tabindex="0"></div>
-          
+
           <ion-thumbnail *ngIf="company && company.company_logo">
             <img src="{{ aws.cloudinaryUrl + company.company_logo }}" (error)="imageError()">
           </ion-thumbnail>
@@ -64,14 +64,14 @@
             <h2 *ngIf="companyContact.contact_position">
               {{ companyContact.contact_position }}
             </h2>
- 
+
             <ion-badge *ngIf="!companyContact.contact_email">
-              Missing contact's primary email 
-            </ion-badge>  
-            
+              Missing contact's primary email
+            </ion-badge>
+
             <ion-badge *ngIf="companyContact.contact_email && (!companyContact.contact_email_verification || companyContact.contact_email_verification =='0')">
              Email not verified
-            </ion-badge>  
+            </ion-badge>
 
           </ion-label>
 
@@ -86,11 +86,11 @@
               <ion-spinner *ngIf="sendingVerificationMail"></ion-spinner>
               <span *ngIf="!sendingVerificationMail">Send Verification email</span>
             </ion-button>
-            
+
           </ng-container>
-          
-          <ion-button slot="end" class="btn-login" (click)="login(companyContact, $event)" [disabled]="loadingLoginUrl">
-            <ion-icon *ngIf="!loadingLoginUrl" name="log-in-outline"></ion-icon> 
+
+          <ion-button slot="end" class="btn-login" (click)="login(companyContact, $event)" [disabled]="loadingLoginUrl || isCompanyAndStaffRestricted()">
+            <ion-icon *ngIf="!loadingLoginUrl" name="log-in-outline"></ion-icon>
             <ion-spinner *ngIf="loadingLoginUrl"></ion-spinner>
           </ion-button>
 
@@ -100,7 +100,7 @@
         </ion-item>
       </ion-card-header>
       <ion-card-content *ngIf="companyContact.isOpen">
-        
+
         <p *ngIf="companyContact.contact_email">
           <a href="mailto:{{ companyContact.contact_email }}" (click)="doNothing($event)">
             <ion-icon src="assets/images/icon-email.svg"></ion-icon> {{ companyContact.contact_email }} <strong class="not-verified" *ngIf="companyContact.contact_email_verification == '0'"> &nbsp;&nbsp;Not Verified</strong>
@@ -143,11 +143,11 @@
     <loading-modal type="contact-list" [loading]="loading"></loading-modal>
 
     <no-items *ngIf="!loading && companyContacts.length ==0" message="~ No Contact data ~"></no-items>
-    
+
     <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfinite($event)">
       <ion-infinite-scroll-content></ion-infinite-scroll-content>
     </ion-infinite-scroll>
- 
+
   </div>
 
   <ion-fab *ngIf="company" vertical="bottom" horizontal="end" slot="fixed">

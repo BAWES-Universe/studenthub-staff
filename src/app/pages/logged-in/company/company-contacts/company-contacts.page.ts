@@ -16,6 +16,7 @@ import { ModalPopPage } from '../../modal-pop/modal-pop.page';
 import { CompanyContactFormPage } from "../company-contact-form/company-contact-form.page";
 import { ContactFilterComponent } from 'src/app/components/contact-filter/contact-filter.component';
 import { AuthService } from 'src/app/providers/auth.service';
+import { RestrictionService } from 'src/app/providers/restriction.service';
 
 
 @Component({
@@ -31,10 +32,10 @@ export class CompanyContactsPage implements OnInit {
 
   public borderLimit: boolean = false;
 
-  public markingEmailVerified = false; 
+  public markingEmailVerified = false;
 
-  public sendingVerificationMail = false; 
-  
+  public sendingVerificationMail = false;
+
   public loading = false;
 
   public filter: {
@@ -49,8 +50,13 @@ export class CompanyContactsPage implements OnInit {
 
   public query = '';
 
-  public loadingLoginUrl: boolean = false; 
-  
+  public loadingLoginUrl: boolean = false;
+
+  // Use RestrictionService for restriction logic
+  public isCompanyAndStaffRestricted(): boolean {
+    return this.company && this.restrictionService.isCompanyAndStaffRestricted(this.company.company_id, this.authService.staff_id);
+  }
+
   constructor(
     public router: Router,
     public modalCtrl: ModalController,
@@ -61,12 +67,13 @@ export class CompanyContactsPage implements OnInit {
     public authService: AuthService,
     public alertCtrl: AlertController,
     public eventService: EventService,
-    public analyticService: AnalyticsService
+    public analyticService: AnalyticsService,
+    public restrictionService: RestrictionService
   ) { }
 
   ngOnInit() {
     this.analyticService.page('Company Contact List Page');
-    
+
     const state = window.history.state;
 
     if (state) {
@@ -113,12 +120,12 @@ export class CompanyContactsPage implements OnInit {
     event.preventDefault();
     event.stopPropagation();
 
-    this.loadingLoginUrl = true; 
+    this.loadingLoginUrl = true;
 
     this.companyContactService.login(companyContact.contact_uuid).subscribe(async res => {
 
       this.loadingLoginUrl = false;
-       
+
       if(res.operation == "error") {
         const alert = await this.alertCtrl.create({
           header: 'Oops',
@@ -141,8 +148,8 @@ export class CompanyContactsPage implements OnInit {
     event.preventDefault();
     event.stopPropagation();
 
-    this.modalCtrl.dismiss().then(() => { 
-      
+    this.modalCtrl.dismiss().then(() => {
+
       this.router.navigateByUrl('company-contact-view/' + companyContact.contact_uuid + '/'+ this.company.company_id, {
         state: {
           model: companyContact
@@ -152,7 +159,7 @@ export class CompanyContactsPage implements OnInit {
       }); */
 
     });
-    
+
     /*
     window.history.pushState({ navigationId: window.history.state?.navigationId }, null, window.location.pathname);
 
@@ -172,7 +179,7 @@ export class CompanyContactsPage implements OnInit {
     });
     modal.present();*/
   }
-  
+
   clearEmailFilter() {
     this.filter.filter_email_unverified = false;
     this.loadContacts();
@@ -180,7 +187,7 @@ export class CompanyContactsPage implements OnInit {
 
   /**
    * retrun url params for filter
-   * @returns 
+   * @returns
    */
   getUrlParams() {
     let url = this.query;
@@ -188,7 +195,7 @@ export class CompanyContactsPage implements OnInit {
     if(this.company && this.company.company_id) {
       url += '&company_id=' + this.company.company_id;
     }
- 
+
     if(this.filter.filter_email_unverified) {
       url += '&filter_email_unverified=' + this.filter.filter_email_unverified;
     }
@@ -201,13 +208,13 @@ export class CompanyContactsPage implements OnInit {
 
     event.preventDefault();
     event.stopPropagation();
- 
-    this.sendingVerificationMail = true; 
+
+    this.sendingVerificationMail = true;
 
     this.companyContactService.sendEmail(companyContact).subscribe(async response => {
- 
-      this.sendingVerificationMail = false; 
-  
+
+      this.sendingVerificationMail = false;
+
       const prompt = await this.alertCtrl.create({
         message: this.authService.errorMessage(response.message),
         buttons: ['Ok']
@@ -221,12 +228,12 @@ export class CompanyContactsPage implements OnInit {
     event.preventDefault();
     event.stopPropagation();
 
-    this.markingEmailVerified = true; 
+    this.markingEmailVerified = true;
 
     this.companyContactService.markEmailVerified(companyContact).subscribe(async response => {
       this.markingEmailVerified = false;
-      
-      if(response.operation == "error") 
+
+      if(response.operation == "error")
       {
         let prompt = await this.alertCtrl.create({
           message: this.authService.errorMessage(response.message),
@@ -234,7 +241,7 @@ export class CompanyContactsPage implements OnInit {
         });
         prompt.present();
       }
-      else 
+      else
       {
         companyContact.contact_email_verification = true;
       }
@@ -245,7 +252,7 @@ export class CompanyContactsPage implements OnInit {
    * load contacts
    */
   loadContacts() {
-    
+
     this.loading = true;
 
     const urlParams = this.getUrlParams();

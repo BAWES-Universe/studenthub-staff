@@ -31,6 +31,7 @@ import { FiringHitmapService } from 'src/app/providers/logged-in/firing-hitmap.s
 import { ActionComponent } from 'src/app/components/action/action.component';
 import { TransferRatesPage } from '../../transfer/transfer-rates/transfer-rates.page';
 import { CompanyContractListPage } from '../company-contract/company-contract-list/company-contract-list.page';
+import { RestrictionService } from 'src/app/providers/restriction.service';
 
 
 @Component({
@@ -57,7 +58,7 @@ export class CompanyViewPage implements OnInit {
   public borderLimit = false;
 
   public firingHitmapData = [];
-  
+
   public notes: Note[] = [];
   public notesTotal = 0;
   public pageCount = 0;
@@ -66,6 +67,27 @@ export class CompanyViewPage implements OnInit {
   public loadingNotes = false;
 
   public legendDisplay = true;
+
+  // Restriction flag for specific company & staff validation
+  public isRestricted = false;
+
+  // Restriction helpers
+  // Use RestrictionService for restriction logic
+  public isCompanyAndStaffRestricted(): boolean {
+    return this.restrictionService.isCompanyAndStaffRestricted(this.company_id, this.authService.staff_id);
+  }
+
+  public getFilteredActivities(): Note[] {
+    if (this.isCompanyAndStaffRestricted() && this.notes) {
+      return this.notes.filter(n => !(n && n.note_text && n.note_text.toLowerCase().includes('transfer')));
+    }
+    return this.notes;
+  }
+
+  public canImpersonate(): boolean {
+    // Only allow login-as for allowed staff in restricted company
+    return !(this.isCompanyAndStaffRestricted());
+  }
 
   public stats = {
     requests : 0,
@@ -94,7 +116,8 @@ export class CompanyViewPage implements OnInit {
     public eventService: EventService,
     public analyticService: AnalyticsService,
     public firingHitmapService: FiringHitmapService,
-    public noteService: NoteService
+    public noteService: NoteService,
+    public restrictionService: RestrictionService
   ) {
   }
 
@@ -141,6 +164,13 @@ export class CompanyViewPage implements OnInit {
     Chart.register(LineController);
     Chart.register(PointElement);
     Chart.register(LineElement);
+
+    // Evaluate restriction once company_id is known
+    if (this.isCompanyAndStaffRestricted()) {
+      this.isRestricted = true;
+      // Force default segment
+      this.segment = 'details';
+    }
   }
 
   async openStores() {
@@ -247,7 +277,7 @@ export class CompanyViewPage implements OnInit {
       cssClass: "popup-modal"
     });
     modal.onDidDismiss().then(e => {
- 
+
       if (!e.data || e.data.from != 'native-back-btn') {
         window['history-back-from'] = 'onDidDismiss';
        // window.history.back();
@@ -268,7 +298,7 @@ export class CompanyViewPage implements OnInit {
       cssClass: "popup-modal"
     });
     modal.onDidDismiss().then(e => {
- 
+
       if (!e.data || e.data.from != 'native-back-btn') {
         window['history-back-from'] = 'onDidDismiss';
        // window.history.back();
@@ -421,9 +451,9 @@ export class CompanyViewPage implements OnInit {
       this.company = new Company();
       this.company.company_id = this.company_id;
     }
- 
+
     const expand = 'companyStats,stats,country,averageHireRate,averageHourlyRate,totalHire,totalActiveHire,totalHoursHired,totalSpent,totalRequests,totalOpenRequests';
-    
+
     this.companyService.view(this.company_id, expand).subscribe(response => {
 
       this.loading = false;
@@ -676,7 +706,7 @@ export class CompanyViewPage implements OnInit {
         name: "Edit Client",
         icon: 'assets/icon/icon-edit-2.svg',
         trigger: 'edit'
-      },      
+      },
     ];
 
     if(this.company.company_status_override == 9) {
@@ -728,7 +758,7 @@ export class CompanyViewPage implements OnInit {
             this.company.company_status_override = 0;
           }
         });
-      } 
+      }
     }
   }
 
@@ -795,7 +825,7 @@ export class CompanyViewPage implements OnInit {
     xAxis,
     totalFired
   ) {
-     
+
     new Chart(this.firingChart.nativeElement, {
       type: 'line',
       data: {
@@ -808,7 +838,7 @@ export class CompanyViewPage implements OnInit {
             fill: false,
             cubicInterpolationMode: 'monotone',
             tension: 0.4
-          },  
+          },
         ]
       },
       options: {
@@ -845,14 +875,14 @@ export class CompanyViewPage implements OnInit {
 
   loadChartDate() {
     this.companyService.firingChart(this.company_id).subscribe(response => {
-      
+
       let xAxis = [];
       let totalFired = [];
       for (let element of response){
         xAxis.push(element.month);
         totalFired.push(element.total);
       }
-      
+
       this.createFiringChart(xAxis, totalFired);
     }, () => {
     });

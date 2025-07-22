@@ -29,7 +29,7 @@
         </ion-badge>
 
         <ion-badge class="company_status_badge success" slot="start" *ngIf="company.company_status && !company.parent_company_id">
-          {{ company.company_status == 9? "Under Review": "Active "}} 
+          {{ company.company_status == 9? "Under Review": "Active "}}
         </ion-badge>
 
       </div>
@@ -52,7 +52,7 @@
         <ion-label>Manage</ion-label>
       </ion-segment-button>
 
-      <ion-segment-button mode="md" value="stats">
+      <ion-segment-button mode="md" value="stats" *ngIf="!isCompanyAndStaffRestricted()">
         <ion-label>Stats</ion-label>
       </ion-segment-button>
 
@@ -70,9 +70,9 @@
   <div *ngIf="loading" class="container">
     <loading-modal [loading]="loading" type="company-view"></loading-modal>
   </div>
- 
+
   <div *ngIf="company && !loading" class="container">
-    
+
     <div class="tab-charts" *ngIf="segment == 'charts'">
 
       <ion-grid>
@@ -103,10 +103,10 @@
           </ion-card>
         </ion-col>
       </ion-grid>
-      
+
     </div>
 
-    <div class="tab-stats" *ngIf="segment == 'stats'">
+    <div class="tab-stats" *ngIf="segment == 'stats' && !isCompanyAndStaffRestricted()">
 
       <ion-row>
         <ion-col size="12" size-md="4" *ngFor="let companyStat of company.companyStats">
@@ -170,25 +170,25 @@
         </ion-col>
 
         <ion-col size="12" size-md="4">
-          <ion-card>  
+          <ion-card>
             <div class="avatar bg-rgba-warning">
               <div class="avatar-content">
                 <ion-icon name="time-outline" class="text-primary"></ion-icon>
               </div>
             </div>
-            <h2 class="bold">{{ company.totalHoursHired | number:'1.0-0' }}</h2>  
+            <h2 class="bold">{{ company.totalHoursHired | number:'1.0-0' }}</h2>
             <p class="fs-12" color="light">Total Hours Hired</p>
           </ion-card>
         </ion-col>
 
         <ion-col size="12" size-md="4">
-          <ion-card>  
+          <ion-card>
             <div class="avatar bg-rgba-warning">
               <div class="avatar-content">
                 <ion-icon name="cash-outline" class="text-primary"></ion-icon>
               </div>
             </div>
-            <h2 class="bold">{{ company.totalSpent | number:'1.0-3' }} {{ company.currency_code }}</h2> 
+            <h2 class="bold">{{ company.totalSpent | number:'1.0-3' }} {{ company.currency_code }}</h2>
             <p class="fs-12" color="light">Total Spent</p>
           </ion-card>
         </ion-col>
@@ -197,13 +197,13 @@
           <ion-card>
             <div class="avatar bg-rgba-warning">
               <div class="avatar-content">
-                <ion-icon name="document-outline" class="text-primary"></ion-icon>  
+                <ion-icon name="document-outline" class="text-primary"></ion-icon>
               </div>
             </div>
             <h2 class="bold">{{ company.totalRequests | number:'1.0-0' }}</h2>
             <p class="fs-12" color="light">Total Requests</p>
           </ion-card>
-        </ion-col>  
+        </ion-col>
 
         <ion-col size="12" size-md="4">
             <ion-card>
@@ -270,7 +270,7 @@
             </ion-item>
           </ion-col>
 
-          <ion-col size-xs="12" size-sm="12" size-md="4" size-lg="4" size-xl="4">
+          <ion-col size-xs="12" size-sm="12" size-md="4" size-lg="4" size-xl="4" *ngIf="!isCompanyAndStaffRestricted()">
             <ion-item tappable (click)="openContracts()">
               <div tabindex="0"></div>
               <ion-label>
@@ -314,7 +314,7 @@
             </ion-item>
           </ion-col>
 
-          <ion-col *ngIf="!company.parent_company_id" size-xs="12" size-sm="12" size-md="4" size-lg="4" size-xl="4">
+          <ion-col *ngIf="!company.parent_company_id && !isCompanyAndStaffRestricted()" size-xs="12" size-sm="12" size-md="4" size-lg="4" size-xl="4">
             <ion-item tappable (click)="openTransfers()" >
               <div tabindex="0"></div>
               <ion-label>
@@ -336,7 +336,7 @@
             </ion-item>
           </ion-col>
 
-          <!-- todo: optimise for sql and uncomment 
+          <!-- todo: optimise for sql and uncomment
           <ion-col *ngIf="!company.parent_company_id" size-xs="12" size-sm="12" size-md="4" size-lg="4" size-xl="4">
             <ion-item tappable (click)="openChart()" >
               <div tabindex="0"></div>
@@ -356,7 +356,7 @@
 
       <h5>Last Activity <span>({{ notesTotal }})</span></h5>
 
-      <note tappable *ngFor="let note of notes" [routerLink]="'/note-view/' + note.note_uuid"
+      <note tappable *ngFor="let note of getFilteredActivities()" [routerLink]="'/note-view/' + note.note_uuid"
         from="company-view" [note]="note" (onChange)="loadNotes()" (onDelete)="loadNotes()"></note>
 
       <loading-modal [loading]="loadingNotes" type="note-list"></loading-modal>
@@ -392,12 +392,12 @@
           <ion-icon src="assets/images/icon-followup.svg"></ion-icon> <b>last Follow-up</b>
           <ion-note>{{ toDate(company.company_last_followup_datetime) | date: 'MMM d, y' }}</ion-note>
         </li>
-        
+
         <li *ngIf="company.company_next_followup_datetime">
           <ion-icon src="assets/images/icon-followup.svg"></ion-icon> <b>next Follow-up</b>
           <ion-note>{{ toDate(company.company_next_followup_datetime) | date: 'MMM d, y' }}</ion-note>
         </li>
-         
+
         <li>
           <ion-icon src="assets/images/doller.svg" ></ion-icon> <b>Salary</b>
           <ion-note>{{company.company_hourly_rate | number:'1.0-3' }} {{ company.currency_code }} / hour</ion-note>
@@ -431,10 +431,10 @@
         <a href="https://res.cloudinary.com/studenthub/image/upload/{{ company.commercial_licence }}" target="_blank">
           <ion-img src="{{ aws.cloudinaryUrl + company.commercial_licence }}"></ion-img>
         </a>
-      </ion-thumbnail> 
+      </ion-thumbnail>
 
       <p *ngIf="!company.commercial_licence" class="txt-color-danger">No licence uploaded!</p>
-    
+
       <a class="website" href="{{ company.company_website }}" target="_blank" *ngIf="company.company_website">{{
         company.company_website }}</a>
 
