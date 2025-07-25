@@ -13,10 +13,6 @@ export class PermissionService {
   }
 
   public hasPermission(action: string, section?: string, context?: any): boolean {
-    console.log(this.permissions)
-    if(action == "company-stats"){
-      console.log({action, section, companyId: context?.companyId})
-    }
     return this.permissions.some(p => {
       let _check = true;
       if(p.companyIds.length > 0){
