@@ -1,5 +1,7 @@
 import {Story, StoryActivity} from './request';
 
+import { Permission } from './permission';
+
 export class Staff {
     staff_id: number;
     staff_name: string;
@@ -23,5 +25,6 @@ export class Staff {
     totalCompletedStories: number;
     storyActivities: StoryActivity[];
     groupStoryActivities: StoryActivity[];
+    permissions: Permission[];
 }
 

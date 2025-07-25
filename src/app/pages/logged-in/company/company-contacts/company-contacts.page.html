@@ -89,7 +89,7 @@
 
           </ng-container>
 
-          <ion-button slot="end" class="btn-login" (click)="login(companyContact, $event)" [disabled]="loadingLoginUrl || isCompanyAndStaffRestricted()">
+          <ion-button slot="end" class="btn-login" (click)="login(companyContact, $event)" [disabled]="loadingLoginUrl || !canLoginAsOther()">
             <ion-icon *ngIf="!loadingLoginUrl" name="log-in-outline"></ion-icon>
             <ion-spinner *ngIf="loadingLoginUrl"></ion-spinner>
           </ion-button>

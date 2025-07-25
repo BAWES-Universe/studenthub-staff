@@ -13,6 +13,7 @@ import {environment} from '../../environments/environment';
 import { AuthService as Auth0Service } from '@auth0/auth0-angular';
 import { AlertController, LoadingController } from '@ionic/angular';
 import { StorageService } from './storage.service';
+import { PermissionService } from './permission.service';
 //import { AnalyticsService } from './analytics.service';
 import { TranslateLabelService } from './translate-label.service';
 
@@ -62,6 +63,7 @@ export class AuthService {
     public eventService: EventService,
     public translate: TranslateLabelService,
     public storageService: StorageService,
+    private permissionService: PermissionService,
     //public analyticService: AnalyticsService,
     public rendererFactory: RendererFactory2
   ) {
@@ -211,6 +213,7 @@ export class AuthService {
 
     if (this._accessToken) {
       this.isLogged = true;
+      this.permissionService.loadPermissions().subscribe();
       this.eventService.userLogined$.next({ redirect });
     }
   }

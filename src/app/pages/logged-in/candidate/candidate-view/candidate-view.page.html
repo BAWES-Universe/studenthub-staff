@@ -90,7 +90,7 @@
         <ion-label>Personal Details</ion-label>
       </ion-segment-button>
 
-      <ion-segment-button mode="md" value="financials" *ngIf="!shouldHideFinancialsTab()">
+      <ion-segment-button value="financials" *ngIf="permissionService.shouldShowFinancialsTab(candidate.company.company_id)">
         <ion-label>Financials</ion-label>
       </ion-segment-button>
 
