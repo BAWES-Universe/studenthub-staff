@@ -44,7 +44,7 @@
         <ion-label>Details</ion-label>
       </ion-segment-button>
 
-      <ion-segment-button mode="md" value="activity">
+        <ion-segment-button value="activity">
         <ion-label>Activity</ion-label>
       </ion-segment-button>
 
@@ -52,7 +52,7 @@
         <ion-label>Manage</ion-label>
       </ion-segment-button>
 
-      <ion-segment-button mode="md" value="stats" *ngIf="!isCompanyAndStaffRestricted()">
+      <ion-segment-button mode="md" value="stats" *ngIf="permissionService.hasPermission('company-stats', 'Company', { companyId: company_id })">
         <ion-label>Stats</ion-label>
       </ion-segment-button>
 
@@ -106,7 +106,7 @@
 
     </div>
 
-    <div class="tab-stats" *ngIf="segment == 'stats' && !isCompanyAndStaffRestricted()">
+    <div class="tab-stats" *ngIf="segment == 'stats' && !permissionService.hasPermission('company-stats', 'Company')">
 
       <ion-row>
         <ion-col size="12" size-md="4" *ngFor="let companyStat of company.companyStats">
@@ -270,7 +270,7 @@
             </ion-item>
           </ion-col>
 
-          <ion-col size-xs="12" size-sm="12" size-md="4" size-lg="4" size-xl="4" *ngIf="!isCompanyAndStaffRestricted()">
+          <ion-col size-xs="12" size-sm="12" size-md="4" size-lg="4" size-xl="4" *ngIf="permissionService.hasPermission('company-contracts', 'Company', { companyId: company_id })">
             <ion-item tappable (click)="openContracts()">
               <div tabindex="0"></div>
               <ion-label>
@@ -314,7 +314,7 @@
             </ion-item>
           </ion-col>
 
-          <ion-col *ngIf="!company.parent_company_id && !isCompanyAndStaffRestricted()" size-xs="12" size-sm="12" size-md="4" size-lg="4" size-xl="4">
+          <ion-col *ngIf="!company.parent_company_id && permissionService.hasPermission('company-transfers', 'Company', { companyId: company_id })" size-xs="12" size-sm="12" size-md="4" size-lg="4" size-xl="4">
             <ion-item tappable (click)="openTransfers()" >
               <div tabindex="0"></div>
               <ion-label>

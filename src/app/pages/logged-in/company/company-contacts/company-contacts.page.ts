@@ -16,7 +16,7 @@ import { ModalPopPage } from '../../modal-pop/modal-pop.page';
 import { CompanyContactFormPage } from "../company-contact-form/company-contact-form.page";
 import { ContactFilterComponent } from 'src/app/components/contact-filter/contact-filter.component';
 import { AuthService } from 'src/app/providers/auth.service';
-import { RestrictionService } from 'src/app/providers/restriction.service';
+import { PermissionService } from 'src/app/providers/permission.service';
 
 
 @Component({
@@ -52,9 +52,8 @@ export class CompanyContactsPage implements OnInit {
 
   public loadingLoginUrl: boolean = false;
 
-  // Use RestrictionService for restriction logic
-  public isCompanyAndStaffRestricted(): boolean {
-    return this.company && this.restrictionService.isCompanyAndStaffRestricted(this.company.company_id, this.authService.staff_id);
+  public canLoginAsOther(): boolean {
+    return this.company && this.permissionService.canLoginAsOther(this.company.company_id);
   }
 
   constructor(
@@ -68,7 +67,7 @@ export class CompanyContactsPage implements OnInit {
     public alertCtrl: AlertController,
     public eventService: EventService,
     public analyticService: AnalyticsService,
-    public restrictionService: RestrictionService
+    public permissionService: PermissionService
   ) { }
 
   ngOnInit() {
