@@ -13,8 +13,11 @@ import {environment} from '../../environments/environment';
 import { AuthService as Auth0Service } from '@auth0/auth0-angular';
 import { AlertController, LoadingController } from '@ionic/angular';
 import { StorageService } from './storage.service';
+import { PermissionService } from './permission.service';
 //import { AnalyticsService } from './analytics.service';
 import { TranslateLabelService } from './translate-label.service';
+import { Permission } from '../models/permission';
+import { UserPermission } from '../models/user-permission';
 
 
 @Injectable({
@@ -25,6 +28,7 @@ export class AuthService {
   public renderer;
 
   private _accessToken;
+  private _urlPermission = '/permission-section/user-permission/staff';
   public staff_id: number;
   public name: string;
   public email: string;
@@ -36,7 +40,7 @@ export class AuthService {
   public currency_pref = 'KWD';
 
   public currencies = [];
-  
+
   public isLogged = false;
 
   public displayCookieMessage = '0';
@@ -51,7 +55,7 @@ export class AuthService {
   public _urlLoginByGoogle = '/auth/login-by-google';
   public _urlLoginByKey = '/auth/login-by-key';
   private _urlTwoStep = '/auth/login-two-step';
-  
+
   constructor(
     public storage: Storage,
     public _http: HttpClient,
@@ -62,6 +66,7 @@ export class AuthService {
     public eventService: EventService,
     public translate: TranslateLabelService,
     public storageService: StorageService,
+    private permissionService: PermissionService,
     //public analyticService: AnalyticsService,
     public rendererFactory: RendererFactory2
   ) {
@@ -102,7 +107,7 @@ export class AuthService {
 
           //if (user.theme)
           //  this.theme = user.theme;
-          
+
           resolve(true);
         } else {
           resolve(false);
@@ -211,6 +216,7 @@ export class AuthService {
 
     if (this._accessToken) {
       this.isLogged = true;
+      this.loadPermissions(this.staff_id).subscribe();
       this.eventService.userLogined$.next({ redirect });
     }
   }
@@ -224,11 +230,11 @@ export class AuthService {
         this.storageService._storage = storage;
 
         this.storageService.get('currency_pref').then(ret => {
-           
+
           if (ret) {
             this.currency_pref = ret;
           } else {
-            this.currency_pref = "KWD";//default 
+            this.currency_pref = "KWD";//default
           }
         }).catch(r => {
           console.info(r);
@@ -312,13 +318,13 @@ export class AuthService {
 
 
   loginTwoStep(grecaptchaToken: string, token: string, otp: string): Observable<any> {
-     
+
     const authHeader = new HttpHeaders({
       'Content-Type': 'application/json',
       "Currency": this.currency_pref || "KWD",
       'g-recaptcha-response': grecaptchaToken
     });
- 
+
     const url = environment.apiEndpoint + this._urlTwoStep;
 
     return this._http.post(url, {
@@ -344,14 +350,14 @@ export class AuthService {
     });
     await alert.present();
   }
- 
+
   /**
    * Login by Google for mobile app
    */
   loginByGoogle() {
 
     GoogleAuth.signIn().then(async googleUser => {
- 
+
       if (googleUser && googleUser.authentication && googleUser.authentication.idToken) {
         this.useGoogleIdTokenForAuth(googleUser.authentication.idToken, false);
       } else {
@@ -370,11 +376,11 @@ export class AuthService {
       }
 
       this.showLoginError('Error getting login by Google+ API');
-    }); 
+    });
   }
-  
+
   async loginByKey(auth_key: string) {
-    
+
     const loading = await this.loadingCtrl.create({
       spinner: 'crescent',
       message: this.translate.transform('Logging in...')
@@ -445,7 +451,7 @@ export class AuthService {
       'Content-Type': 'application/json',
       Language: this.translate.currentLang || "en"
     });
-    
+
     return this._http.post(url, {
       idToken: idToken,
     }, {
@@ -492,8 +498,8 @@ export class AuthService {
   handleLogin(response, channel) {
 
     if (response.operation === 'success') {
- 
-      /*this.analyticsService.track("Log In", { 
+
+      /*this.analyticsService.track("Log In", {
         login_method: channel
       })*/
 
@@ -635,7 +641,7 @@ export class AuthService {
       map((res) => res)
     );
   }
-  
+
   /**
    * Change password by password reset token
    * @param token
@@ -719,7 +725,7 @@ export class AuthService {
 
     return html;
   }
-  
+
   detectBrowserName() {
     const agent = window.navigator.userAgent.toLowerCase();
     switch (true) {
@@ -739,5 +745,29 @@ export class AuthService {
         return 'other';
     }
   }
+
+  public loadPermissions(staffId: number): Observable<Permission[]> {
+      const url = `${environment.apiEndpoint}${this._urlPermission}/${staffId}`;
+      return this._http.get<UserPermission[]>(url, {
+        headers: new HttpHeaders({
+          Authorization: 'Bearer ' + this.getAccessToken()
+        })
+      }).pipe(
+        map(userPermissions => {
+          const permissions: Permission[] = userPermissions.map(up => ({
+            id: up.permission_sub_section_uuid,
+            action: up.sub_section_slug,
+            section: up.section_name,
+            companyIds: up.is_company_specific_permission && up.companies && up.companies.length > 0 ? up.companies : []
+          }));
+          this.permissionService.setPermissions(permissions);
+          return permissions;
+        }),
+        catchError(error => {
+          console.error('Error loading permissions:', error);
+          return [];
+        })
+      );
+    }
 }
 
