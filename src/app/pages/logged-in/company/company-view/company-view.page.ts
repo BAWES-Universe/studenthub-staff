@@ -31,7 +31,7 @@ import { FiringHitmapService } from 'src/app/providers/logged-in/firing-hitmap.s
 import { ActionComponent } from 'src/app/components/action/action.component';
 import { TransferRatesPage } from '../../transfer/transfer-rates/transfer-rates.page';
 import { CompanyContractListPage } from '../company-contract/company-contract-list/company-contract-list.page';
-import { RestrictionService } from 'src/app/providers/restriction.service';
+import { PermissionService } from 'src/app/providers/permission.service';
 
 
 @Component({
@@ -72,21 +72,11 @@ export class CompanyViewPage implements OnInit {
   public isRestricted = false;
 
   // Restriction helpers
-  // Use RestrictionService for restriction logic
-  public isCompanyAndStaffRestricted(): boolean {
-    return this.restrictionService.isCompanyAndStaffRestricted(this.company_id, this.authService.staff_id);
-  }
-
   public getFilteredActivities(): Note[] {
-    if (this.isCompanyAndStaffRestricted() && this.notes) {
-      return this.notes.filter(n => !(n && n.note_text && n.note_text.toLowerCase().includes('transfer')));
+    if (this.notes) {
+      return this.notes.filter(n => this.permissionService.shouldShowActivity(n, this.company_id));
     }
     return this.notes;
-  }
-
-  public canImpersonate(): boolean {
-    // Only allow login-as for allowed staff in restricted company
-    return !(this.isCompanyAndStaffRestricted());
   }
 
   public stats = {
@@ -117,7 +107,7 @@ export class CompanyViewPage implements OnInit {
     public analyticService: AnalyticsService,
     public firingHitmapService: FiringHitmapService,
     public noteService: NoteService,
-    public restrictionService: RestrictionService
+    public permissionService: PermissionService
   ) {
   }
 
@@ -164,13 +154,6 @@ export class CompanyViewPage implements OnInit {
     Chart.register(LineController);
     Chart.register(PointElement);
     Chart.register(LineElement);
-
-    // Evaluate restriction once company_id is known
-    if (this.isCompanyAndStaffRestricted()) {
-      this.isRestricted = true;
-      // Force default segment
-      this.segment = 'details';
-    }
   }
 
   async openStores() {

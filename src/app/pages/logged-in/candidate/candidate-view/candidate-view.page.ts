@@ -56,7 +56,7 @@ import { JobInterest } from 'src/app/models/job-interest';
 import { Contract } from 'src/app/models/contract';
 import { CompanyContractFormPage } from '../../company/company-contract/company-contract-form/company-contract-form.page';
 import { JobSearchStatusComponent } from 'src/app/components/job-search-status/job-search-status.component';
-import { RestrictionService } from 'src/app/providers/restriction.service';
+import { PermissionService } from 'src/app/providers/permission.service';
 
 
 
@@ -174,7 +174,7 @@ export class CandidateViewPage implements OnInit {
     private loadingCtrl: LoadingController,
     public certificateService: CertificateService,
     public analyticService: AnalyticsService,
-    public restrictionService: RestrictionService
+    public permissionService: PermissionService
   ) {
   }
 
@@ -625,10 +625,9 @@ export class CandidateViewPage implements OnInit {
   }
 
   shouldHideFinancialsTab(): boolean {
-    // Hide if any work history entry is restricted for this staff
-    if (!this.candidate?.workHistory || !this.authService?.staff_id) return false;
-    return this.candidate.workHistory.some(
-      (history) => this.restrictionService.isCompanyAndStaffRestricted(history.company_id, this.authService.staff_id)
+    if (!this.workHistory) return true;
+    return this.workHistory.some(
+      (history) => !this.permissionService.shouldShowFinancialsTab(history.company_id)
     );
   }
 

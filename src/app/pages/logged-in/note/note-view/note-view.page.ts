@@ -12,7 +12,7 @@ import { NoteService } from 'src/app/providers/logged-in/note.service';
 import { CompanyNoteFormPage } from '../../company/company-note-form/company-note-form.page';
 import { AuthService } from 'src/app/providers/auth.service';
 import { CompanyViewPage } from '../../company/company-view/company-view.page';
-import { RestrictionService } from 'src/app/providers/restriction.service';
+import { PermissionService } from 'src/app/providers/permission.service';
 
 
 @Component({
@@ -42,7 +42,7 @@ export class NoteViewPage implements OnInit {
     public authService: AuthService,
     public analyticService: AnalyticsService,
     public noteService: NoteService,
-    public restrictionService: RestrictionService
+    public permissionService: PermissionService
   ) { }
 
   ngOnInit() {
@@ -55,7 +55,7 @@ export class NoteViewPage implements OnInit {
     }
     // Import restriction constants
     if (
-      this.restrictionService.isCompanyAndStaffRestricted(company_id, this.authService.staff_id)
+      !this.permissionService.hasPermission('company-notes', 'Company', { companyId: company_id })
     ) {
       this.isRestricted = true;
       this.location.back();
