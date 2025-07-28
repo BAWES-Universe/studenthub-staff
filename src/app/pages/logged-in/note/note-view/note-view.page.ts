@@ -46,28 +46,15 @@ export class NoteViewPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    // --- Restriction logic ---
-    // Try to get company_id from note if available (after loadData), or from route params if passed
-    let company_id = null;
-    // Try to get from route if provided
-    if (this.route.snapshot.params['company_id']) {
-      company_id = this.route.snapshot.params['company_id'];
-    }
-    // Import restriction constants
-    if (
-      !this.permissionService.hasPermission('company-notes', 'Company', { companyId: company_id })
-    ) {
-      this.isRestricted = true;
-      this.location.back();
-      return;
-    }
+    // --- Restriction logic simplified ---
+    // Permission check will be done after loading the note
 
     this.analyticService.page('Note View Page');
 
-    if(!this.note_uuid)
+    if (!this.note_uuid)
       this.note_uuid = this.route.snapshot.params['note_uuid'];
 
-    if(!this.note)
+    if (!this.note)
       this.loadData();
   }
 
@@ -81,8 +68,13 @@ export class NoteViewPage implements OnInit {
 
     this.noteService.view(params).subscribe(data => {
       this.note = data;
-
       this.loading = false;
+      // Permission check after note is loaded
+      if (!this.permissionService.hasPermission('company-notes', 'Company', { companyId: this.note.company_id })) {
+        this.isRestricted = true;
+        this.location.back();
+        return;
+      }
     });
   }
 
