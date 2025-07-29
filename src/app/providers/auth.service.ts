@@ -754,14 +754,8 @@ export class AuthService {
         })
       }).pipe(
         map(userPermissions => {
-          const permissions: Permission[] = userPermissions.map(up => ({
-            id: up.permission_sub_section_uuid,
-            action: up.sub_section_slug,
-            section: up.section_name,
-            companyIds: up.is_company_specific_permission && up.companies && up.companies.length > 0 ? up.companies : []
-          }));
-          this.permissionService.setPermissions(permissions);
-          return permissions;
+          this.permissionService.setPermissions(userPermissions);
+          return userPermissions;
         }),
         catchError(error => {
           console.error('Error loading permissions:', error);

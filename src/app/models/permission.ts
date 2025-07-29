@@ -1,6 +1,7 @@
 export interface Permission {
   id: string;
-  action: string;
-  section: string;
+  sub_section_name: string;
+  section_name: string;
   companyIds?: number[];
+  is_company_specific_permission?: number;
 }
