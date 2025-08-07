@@ -627,7 +627,7 @@ export class CandidateViewPage implements OnInit {
   shouldHideFinancialsTab(): boolean {
     if (!this.workHistory) return true;
     // Hide the tab only if NO company allows it
-    return this.workHistory.every(
+    return this.workHistory.some(
       (history) => !this.permissionService.shouldShowFinancialsTab(history.company_id)
     );
   }

@@ -350,9 +350,16 @@
             <p *ngIf="candidateEducation.major">
               {{ translateService.langContent(candidateEducation.major.major_name_en, candidateEducation.major.major_name_ar) }}
             </p>
+            <p *ngIf="candidateEducation.custom_major">
+              {{ candidateEducation.custom_major }}
+            </p>
 
-            <p *ngIf="candidateEducation.university">
+            <p *ngIf="candidateEducation.education_type === 'standard' && candidateEducation.university">
               {{ translateService.langContent(candidateEducation.university.university_name_en, candidateEducation.university.university_name_ar) }}
+            </p>
+
+            <p *ngIf="candidateEducation.education_type !== 'standard' && candidateEducation.custom_institution_name">
+              {{ candidateEducation.custom_institution_name }}
             </p>
 
             <ion-note slot="end" *ngIf="candidateEducation.graduation_year">
