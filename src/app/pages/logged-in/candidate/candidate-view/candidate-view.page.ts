@@ -72,6 +72,9 @@ export class CandidateViewPage implements OnInit {
   @ViewChild('invitationChart', { static: false }) invitationChart;
 
   public candidate: Candidate;
+  public candidateDetailError = null;
+  public civilFrontImageUnavailable = false;
+  public civilBackImageUnavailable = false;
 
   public notes: Note[] = [];
 
@@ -634,6 +637,7 @@ export class CandidateViewPage implements OnInit {
 
   loadCandidateDetail(loading = true) {
     this.loading = loading;
+    this.candidateDetailError = null;
     const query = 'expand=candidateLinks,certificates,certificates.exam,certificates.store,certificates.company,invitationStats,avgTimeToViewInvitations,candidateEducations,candidateEducations.degree,candidateEducations.major,' +
       'candidateEducations.university,candidateStats,candidateIdCard,store,company,candidateSkills,' +
       'candidateTags,candidateExperiences,bank,nationality,area,country,university,' +
@@ -643,6 +647,8 @@ export class CandidateViewPage implements OnInit {
 
       this.loading = false;
       this.candidate = response;
+      this.civilFrontImageUnavailable = false;
+      this.civilBackImageUnavailable = false;
 
       if (this.candidate && this.candidate.pendingField && this.candidate.pendingField.length > 0) {
         this.candidate.pendingField =  this.candidate?.pendingField?.filter(v => v != "experience")
@@ -662,6 +668,15 @@ export class CandidateViewPage implements OnInit {
           this.loadInvitationChart();
         }
       }, 500);
+    }, () => {
+      this.loading = false;
+      this.candidateDetailError = 'Candidate profile could not be loaded. Please try again.';
+      this.toastCtrl.create({
+        message: this.authService.errorMessage(this.candidateDetailError),
+        duration: 3000
+      }).then(toast => {
+        toast.present();
+      });
     });
   }
 
@@ -1508,11 +1523,11 @@ export class CandidateViewPage implements OnInit {
   }
 
   onCivilBackError() {
-    this.candidate.candidate_civil_photo_back = null;
+    this.civilBackImageUnavailable = true;
   }
 
   onCivilFrontError() {
-    this.candidate.candidate_civil_photo_front = null;
+    this.civilFrontImageUnavailable = true;
   }
 
   /**
