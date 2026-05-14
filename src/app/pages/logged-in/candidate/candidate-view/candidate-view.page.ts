@@ -643,7 +643,7 @@ export class CandidateViewPage implements OnInit {
       'candidateTags,candidateExperiences,bank,nationality,area,country,university,' +
       'invited,invitationAccepted,invitationRejected,suggestionAccepted,suggestionRejected,suggested';
 
-    this.candidateService.detail(this.candidate_id, query).subscribe(response => {
+    this.candidateService.detail(this.candidate_id, query, true).subscribe(response => {
 
       this.loading = false;
       this.candidate = response;
