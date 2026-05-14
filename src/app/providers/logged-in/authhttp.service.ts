@@ -80,14 +80,14 @@ export class AuthHttpService {
    * @param {string} endpointUrl
    * @returns {Observable<any>}
    */
-  get(endpointUrl: string): Observable<any> {
+  get(endpointUrl: string, options: { localErrorHandler?: boolean } = {}): Observable<any> {
     const url = environment.apiEndpoint + endpointUrl;
     const headers = this._buildAuthHeaders();
 
     return this._http.get(url, { headers })
       .pipe(
         retryWhen(genericRetryStrategy()),
-        catchError((err) => this._handleError(err)),
+        catchError((err) => this._handleError(err, options)),
         take(1),
         map((res: HttpResponse<any>) => res )
       );
@@ -265,15 +265,19 @@ export class AuthHttpService {
    * Handles Caught Errors from All Authorized Requests Made to Server
    * @returns {Observable}
    */
-  private _handleError(error: any): Observable<any> {
+  private _handleError(error: any, options: { localErrorHandler?: boolean } = {}): Observable<any> {
 
     const errMsg = (error.message) ? error.message :
       error.status ? `${error.status} - ${error.statusText}` : 'Server error';
+    const localErrorHandler = Boolean(options.localErrorHandler);
 
     // Handle Bad Requests
     // This error usually appears when agent attempts to handle an
     // account that he's been removed from assigning
     if (error.status === 400) {
+      if (localErrorHandler) {
+        return throwError(errMsg);
+      }
       this.eventService.accountAssignmentRemoved$.next({});
       return EMPTY;
     }
@@ -294,6 +298,9 @@ export class AuthHttpService {
 
     // Handle internal server error - 500
     if (error.status === 500) {
+      if (localErrorHandler) {
+        return throwError(errMsg);
+      }
       console.error(error);
       this.eventService.error500$.next({});
       return EMPTY;
@@ -301,6 +308,9 @@ export class AuthHttpService {
 
     // Handle page not found - 404 error
     if (error.status === 404) {
+      if (localErrorHandler) {
+        return throwError(errMsg);
+      }
       this.eventService.error404$.next({});
       return EMPTY;
     }
