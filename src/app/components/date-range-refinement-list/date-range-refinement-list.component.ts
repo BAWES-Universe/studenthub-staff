@@ -1,7 +1,8 @@
-import { Component, Input, Inject, forwardRef, EventEmitter, Output, OnInit, Optional } from '@angular/core';
+import { Component, Input, EventEmitter, Output, OnInit } from '@angular/core';
 import { connectRange } from 'instantsearch.js/es/connectors';
-import { BaseWidget, NgAisIndex, NgAisInstantSearch } from 'angular-instantsearch';
-import { parseNumberInput, noop } from 'angular-instantsearch/esm2015/utils';
+import { BaseWidget } from '../ais-bridge/base-widget';
+import { AlgoliaInstantSearchService } from '../ais-bridge/algolia-instantsearch.service';
+import { parseNumberInput, noop } from '../ais-bridge/utils';
 import {CalendarModal, CalendarModalOptions, CalendarResult} from 'ion2-calendar';
 import { ModalController } from '@ionic/angular';
 import {Options} from "ng5-slider";
@@ -47,10 +48,7 @@ export class DateRangeRefinementListComponent extends BaseWidget {
   }
 
   constructor(
-      @Inject(forwardRef(() => NgAisInstantSearch))
-      public instantSearchInstance,
-      @Optional()
-        public parentIndex: NgAisIndex,
+      public instantSearchInstance: AlgoliaInstantSearchService,
       public modalCtrl: ModalController
   ) {
       super('RangeRefinementComponent');

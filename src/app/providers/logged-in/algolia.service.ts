@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, Observer, throwError } from 'rxjs';
-import algoliasearch from 'algoliasearch';
+import { algoliasearch } from 'algoliasearch';
 // Services
 import { AuthHttpService } from "./authhttp.service";
 

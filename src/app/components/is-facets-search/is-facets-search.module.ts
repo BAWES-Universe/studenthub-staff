@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 
 import { IsFacetsSearchComponent } from './is-facets-search.component';
-import { NgAisModule } from 'angular-instantsearch';
+import { AisBridgeModule } from '../ais-bridge/ais-bridge.module';
 import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
@@ -11,7 +11,7 @@ import { TranslateModule } from '@ngx-translate/core';
     ],
     imports: [
         IonicModule,
-        NgAisModule,
+        AisBridgeModule,
         TranslateModule.forChild(),
     ],
     exports: [

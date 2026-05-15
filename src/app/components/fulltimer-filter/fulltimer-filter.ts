@@ -1,5 +1,5 @@
-import { Component, forwardRef, Inject } from '@angular/core';
-import { NgAisInstantSearch } from 'angular-instantsearch';
+import { Component } from '@angular/core';
+import { AlgoliaInstantSearchService } from '../ais-bridge/algolia-instantsearch.service';
 // services
 import { TranslateLabelService } from '../../providers/translate-label.service';
 
@@ -78,8 +78,7 @@ export class FulltimerFilterComponent {
     }
 
     constructor(
-        @Inject(forwardRef(() => NgAisInstantSearch))
-        public instantSearchParent,
+        public instantSearchParent: AlgoliaInstantSearchService,
         public translateLabel: TranslateLabelService
     ) {
         //this.current_language = this.translateLabel.currentLang;

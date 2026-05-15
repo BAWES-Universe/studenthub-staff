@@ -58,7 +58,7 @@
       </ion-row>
     </ion-grid>
 
-    <ais-instantsearch #instantSearch index-name="fulltimer-search" *ngIf="instantSearchConfig" (onRender)="onRender($event)" [config]="instantSearchConfig">
+    <app-ais-instantsearch #instantSearch *ngIf="instantSearchConfig" (onRender)="onRender($event)" [config]="instantSearchConfig">
       <ion-grid>
         <ion-row [class.filter-closed]="!showFilter" [class.filter-opened]="showFilter">
 
@@ -89,7 +89,7 @@
 
             </div>
 
-            <ais-infinite-hits class="cv-list">
+            <app-ais-infinite-hits class="cv-list">
               <ng-template let-results="results" let-showMore="showMore" let-hits="hits">
 
                 <!-- [class.hidden] -->
@@ -169,7 +169,7 @@
           -->
 
               </ng-template>
-            </ais-infinite-hits>
+            </app-ais-infinite-hits>
 
 
             <bawes-ais-pagination></bawes-ais-pagination>
@@ -183,7 +183,7 @@
           </ion-col>
         </ion-row>
       </ion-grid>
-    </ais-instantsearch>
+    </app-ais-instantsearch>
   </div>
 </ion-content>
 

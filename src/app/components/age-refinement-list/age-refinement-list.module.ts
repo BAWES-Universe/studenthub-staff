@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Ng5SliderModule } from 'ng5-slider';
 import { FormsModule } from '@angular/forms';
-import { NgAisModule } from 'angular-instantsearch';
+import { AisBridgeModule } from '../ais-bridge/ais-bridge.module';
 import { IonicModule } from '@ionic/angular';
 import { PipesModule } from 'src/app/pipes/pipes.module';
 
@@ -14,7 +14,7 @@ import { AgeRefinementListComponent } from './age-refinement-list.component';
   ],
   imports: [
       IonicModule,
-      NgAisModule,
+      AisBridgeModule,
       CommonModule,
       FormsModule,
       PipesModule,

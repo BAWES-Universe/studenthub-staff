@@ -1,6 +1,7 @@
-import { Component, Inject, forwardRef, Input, Output, EventEmitter, Optional } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { connectSearchBox } from 'instantsearch.js/es/connectors';
-import { BaseWidget, NgAisIndex, NgAisInstantSearch } from 'angular-instantsearch';
+import { BaseWidget } from '../ais-bridge/base-widget';
+import { AlgoliaInstantSearchService } from '../ais-bridge/algolia-instantsearch.service';
 import { Subject, timer, EMPTY } from 'rxjs';
 import { debounceTime, distinctUntilChanged, debounce } from 'rxjs/operators';
 // services
@@ -35,10 +36,7 @@ export class IsSearchBoxComponent extends BaseWidget {
     };*/
 
     constructor(
-        @Inject(forwardRef(() => NgAisInstantSearch))
-        public instantSearchInstance,
-        @Optional()
-        public parentIndex: NgAisIndex,
+        public instantSearchInstance: AlgoliaInstantSearchService,
         public _translateService: TranslateLabelService
     ) {
         super('IsSearchBoxComponent');

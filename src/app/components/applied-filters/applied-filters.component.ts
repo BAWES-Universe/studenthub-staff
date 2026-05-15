@@ -1,5 +1,6 @@
-import { Component, Inject, forwardRef, Input, Optional } from '@angular/core';
-import { TypedBaseWidget, NgAisIndex, NgAisInstantSearch } from 'angular-instantsearch';
+import { Component, Input } from '@angular/core';
+import { TypedBaseWidget } from '../ais-bridge/base-widget';
+import { AlgoliaInstantSearchService } from '../ais-bridge/algolia-instantsearch.service';
 import connectCurrentRefinements, {
   CurrentRefinementsWidgetDescription,
   CurrentRefinementsConnectorParams
@@ -23,7 +24,7 @@ import { AuthService } from '../../providers/auth.service';
     styleUrls: ['./applied-filters.component.scss'],
 })
 export class AppliedFiltersComponent extends TypedBaseWidget<CurrentRefinementsWidgetDescription, CurrentRefinementsConnectorParams> {
-    public state: CurrentRefinementsWidgetDescription['renderState']; // Rendering options
+    public override state: CurrentRefinementsWidgetDescription['renderState']; // Rendering options
     @Input() loading;
     @Input() transformItems;
     @Input() attributes;
@@ -38,11 +39,7 @@ export class AppliedFiltersComponent extends TypedBaseWidget<CurrentRefinementsW
     public average = null;
 
   constructor(
-    @Inject(forwardRef(() => NgAisIndex))
-    @Optional()
-    public parentIndex: NgAisIndex,
-    @Inject(forwardRef(() => NgAisInstantSearch))
-    public instantSearchInstance: NgAisInstantSearch,
+    public instantSearchInstance: AlgoliaInstantSearchService,
     public authService: AuthService,
     public platform: Platform,
     public currencyPipe: CurrencyPipe

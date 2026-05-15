@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { NgAisModule } from 'angular-instantsearch';
+import { AisBridgeModule } from '../ais-bridge/ais-bridge.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { IsSearchBoxComponent } from './is-search-box.component';
 import { IonicModule } from '@ionic/angular';
@@ -12,7 +12,7 @@ import { CommonModule } from '@angular/common';
     ],
     imports: [
         IonicModule,
-        NgAisModule,
+        AisBridgeModule,
         FormsModule,
         CommonModule,
         TranslateModule.forChild(),
