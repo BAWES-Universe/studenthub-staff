@@ -1,21 +1,22 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { ExpenseViewPageRoutingModule } from './expense-view-routing.module';
+import { ExpenseViewRoutingModule } from './expense-view-routing.module';
 
 import { ExpenseViewPage } from './expense-view.page';
-import { LoadingModalModule } from 'src/app/components/loading-modal/loading-modal.module';
+import { NgxSliderModule } from '@angular-slider/ngx-slider';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     IonicModule,
-    LoadingModalModule,
-    ExpenseViewPageRoutingModule
+    NgxSliderModule,
+    ExpenseViewRoutingModule
   ],
   declarations: [ExpenseViewPage]
 })
