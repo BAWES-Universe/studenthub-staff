@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, Observer, throwError } from 'rxjs';
-import algoliasearch from 'algoliasearch';
+import { algoliasearch } from 'algoliasearch';
 // Services
 import { AuthHttpService } from "./authhttp.service";
 
@@ -76,11 +76,12 @@ export class AlgoliaService {
 
       this.getKey(false).then(keyData => {
 
-        const client = algoliasearch(keyData.appId, keyData.securedApiKey, {});
+        const client = algoliasearch(keyData.appId, keyData.securedApiKey, {}) as any;
 
-        let index = client.initIndex(indexName);
-
-        index.search('', searchParameters).then(content => {
+        client.searchSingleIndex({
+          indexName,
+          searchParams: Object.assign({ query: '' }, searchParameters)
+        }).then(content => {
 
           if (content) {
             observer.next(content);
@@ -91,11 +92,12 @@ export class AlgoliaService {
           if(err.statusCode == 400) {
             this.getKey(true).then(keyData => {
 
-              const client = algoliasearch(keyData.appId, keyData.securedApiKey, {});
+              const client = algoliasearch(keyData.appId, keyData.securedApiKey, {}) as any;
 
-              let index = client.initIndex(indexName);
-
-              index.search('', searchParameters).then(content => {
+              client.searchSingleIndex({
+                indexName,
+                searchParams: Object.assign({ query: '' }, searchParameters)
+              }).then(content => {
 
                 if (content) {
                   observer.next(content);
