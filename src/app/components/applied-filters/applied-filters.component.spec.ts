@@ -5,7 +5,7 @@ import { AppliedFiltersComponent } from './applied-filters.component';
 import { AppliedFiltersModule } from './applied-filters.module';
 import { APP_BASE_HREF } from '@angular/common';
 import { AppModule } from '../../app.module';
-import { NgAisInstantSearch } from 'angular-instantsearch';
+import { NgAisInstantSearch } from 'src/app/compat/instantsearch';
 
 
 describe('AppliedFiltersPage', () => {

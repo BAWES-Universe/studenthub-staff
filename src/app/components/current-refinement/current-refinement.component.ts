@@ -1,6 +1,6 @@
 import { Component, Inject, forwardRef, Input, ViewEncapsulation, Optional } from '@angular/core';
-import { BaseWidget, NgAisIndex, NgAisInstantSearch } from 'angular-instantsearch';
-import { noop } from "angular-instantsearch/esm2015/utils";
+import { BaseWidget, NgAisIndex, NgAisInstantSearch } from 'src/app/compat/instantsearch';
+import { noop } from "src/app/compat/instantsearch";
 import { AgePipe } from 'src/app/pipes/age.pipe';
 import { connectCurrentRefinements } from "instantsearch.js/es/connectors";
 
