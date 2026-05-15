@@ -5,8 +5,8 @@ import { FormsModule } from "@angular/forms";
 
 import { RangeRefinementComponent } from './range-refinement-list';
 
-import { NgAisModule } from 'angular-instantsearch';
-import { NgxSliderModule } from '@angular-slider/ngx-slider'; 
+import { AisBridgeModule } from '../ais-bridge/ais-bridge.module';
+import { Ng5SliderModule } from 'ng5-slider'; 
 
 import { PipesModule } from '../../pipes/pipes.module';
 
@@ -17,11 +17,11 @@ import { PipesModule } from '../../pipes/pipes.module';
     ],
     imports: [
         IonicModule,
-        NgAisModule,
+        AisBridgeModule,
         CommonModule,
         FormsModule,
         PipesModule,
-        NgxSliderModule,
+        Ng5SliderModule,
     ],
     exports: [
         RangeRefinementComponent

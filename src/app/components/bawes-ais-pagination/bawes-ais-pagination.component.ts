@@ -1,5 +1,6 @@
-import { Component, Inject, forwardRef, Optional, OnInit } from '@angular/core';
-import { TypedBaseWidget, NgAisInstantSearch, NgAisIndex } from 'angular-instantsearch';
+import { Component, OnInit } from '@angular/core';
+import { TypedBaseWidget } from '../ais-bridge/base-widget';
+import { AlgoliaInstantSearchService } from '../ais-bridge/algolia-instantsearch.service';
 
 import connectPagination, {
   PaginationWidgetDescription,
@@ -16,11 +17,7 @@ export class BawesAisPaginationComponent extends TypedBaseWidget<PaginationWidge
   //public state: PaginationWidgetDescription['renderState']; // Rendering options
 
     constructor(
-      @Inject(forwardRef(() => NgAisIndex))
-      @Optional()
-      public parentIndex: NgAisIndex,
-      @Inject(forwardRef(() => NgAisInstantSearch))
-      public instantSearchInstance: NgAisInstantSearch
+      public instantSearchInstance: AlgoliaInstantSearchService
     ) {
       super('Pagination');
     }

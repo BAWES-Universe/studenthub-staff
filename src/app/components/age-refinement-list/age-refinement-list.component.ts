@@ -1,9 +1,10 @@
-import { Component, Input, Inject, forwardRef, EventEmitter, Output, ChangeDetectorRef, Optional } from '@angular/core';
+import { Component, Input, EventEmitter, Output } from '@angular/core';
 import { connectRange } from 'instantsearch.js/es/connectors';
 import { RangeRenderState } from 'instantsearch.js/es/connectors/range/connectRange';
-import { BaseWidget, NgAisIndex, NgAisInstantSearch } from 'angular-instantsearch';
-import { parseNumberInput, noop } from 'angular-instantsearch/esm2015/utils';
-import { Options } from '@angular-slider/ngx-slider';
+import { BaseWidget } from '../ais-bridge/base-widget';
+import { AlgoliaInstantSearchService } from '../ais-bridge/algolia-instantsearch.service';
+import { parseNumberInput, noop } from '../ais-bridge/utils';
+import { Options } from 'ng5-slider';
 
 
 @Component({
@@ -54,10 +55,7 @@ export class AgeRefinementListComponent extends BaseWidget {
     }
 
     constructor(
-        @Inject(forwardRef(() => NgAisInstantSearch))
-        public instantSearchInstance,
-        @Optional()
-        public parentIndex: NgAisIndex,
+        public instantSearchInstance: AlgoliaInstantSearchService,
     ) {
         super('RangeRefinementComponent');
 

@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 
 import { RefinementListComponent } from './refinement-list.component';
-import { NgAisModule } from 'angular-instantsearch';
+import { AisBridgeModule } from '../ais-bridge/ais-bridge.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { CurrentRefinementModule } from '../current-refinement/current-refinement.module';
 import { IsFacetsSearchModule } from '../is-facets-search/is-facets-search.module';
@@ -16,7 +16,7 @@ import { CommonModule } from '@angular/common';
     imports: [
         CurrentRefinementModule,
         IonicModule,
-        NgAisModule,
+        AisBridgeModule,
         IsFacetsSearchModule,
         CommonModule,
         TranslateModule.forChild(),

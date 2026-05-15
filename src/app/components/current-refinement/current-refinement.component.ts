@@ -1,6 +1,7 @@
-import { Component, Inject, forwardRef, Input, ViewEncapsulation, Optional } from '@angular/core';
-import { BaseWidget, NgAisIndex, NgAisInstantSearch } from 'angular-instantsearch';
-import { noop } from "angular-instantsearch/esm2015/utils";
+import { Component, Input } from '@angular/core';
+import { BaseWidget } from '../ais-bridge/base-widget';
+import { AlgoliaInstantSearchService } from '../ais-bridge/algolia-instantsearch.service';
+import { noop } from "../ais-bridge/utils";
 import { AgePipe } from 'src/app/pipes/age.pipe';
 import { connectCurrentRefinements } from "instantsearch.js/es/connectors";
 
@@ -20,10 +21,7 @@ export class CurrentRefinementComponent extends BaseWidget {
     public state;
 
     constructor(
-        @Inject(forwardRef(() => NgAisInstantSearch))
-        public instantSearchInstance,
-        @Optional()
-        public parentIndex: NgAisIndex,
+        public instantSearchInstance: AlgoliaInstantSearchService,
     ) {
         super('CurrentRefinementComponent');
 
