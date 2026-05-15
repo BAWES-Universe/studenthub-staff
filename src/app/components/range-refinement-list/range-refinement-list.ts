@@ -1,9 +1,7 @@
-import { Component, Input, Inject, forwardRef, EventEmitter, Output, ChangeDetectorRef, Optional } from '@angular/core';
+import { Component, Input, EventEmitter, Output, ChangeDetectorRef } from '@angular/core';
 import { connectRange } from 'instantsearch.js/es/connectors';
-import { RangeRenderState } from 'instantsearch.js/es/connectors/range/connectRange';
-import { BaseWidget, NgAisIndex, NgAisInstantSearch } from 'angular-instantsearch';
-import { parseNumberInput, noop } from 'angular-instantsearch/esm2015/utils';
-import { Options } from 'ng5-slider';
+import { parseNumberInput, noop } from 'instantsearch.js/es/lib/utils';
+import { Options } from '@angular-slider/ngx-slider';
 
 
 @Component({

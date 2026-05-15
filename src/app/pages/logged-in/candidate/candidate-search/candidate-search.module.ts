@@ -13,7 +13,7 @@ import { AppliedFiltersModule } from '../../../../components/applied-filters/app
 import { LoadingModalModule } from '../../../../components/loading-modal/loading-modal.module';
 import { CandidateModule } from '../../../../components/candidate/candidate.module';
 import { NoItemsModule } from '../../../../components/no-items/no-items.module';
-import { NgAisModule } from 'angular-instantsearch';
+// import { NgAisModule } from 'angular-instantsearch';
 import { TranslateModule } from '@ngx-translate/core';
 import { BawesAisPaginationModuleModule } from 'src/app/components/bawes-ais-pagination/bawes-ais-pagination-module.module';
 
@@ -23,7 +23,6 @@ import { BawesAisPaginationModuleModule } from 'src/app/components/bawes-ais-pag
     CommonModule,
     FormsModule,
     IonicModule,
-    NgAisModule,
     CandidateFilterModule,
     BawesAisPaginationModuleModule,
     AppliedFiltersModule,

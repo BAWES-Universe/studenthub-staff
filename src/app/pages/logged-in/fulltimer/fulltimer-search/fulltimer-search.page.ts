@@ -3,7 +3,7 @@ import { NavController, Platform, MenuController, PopoverController, IonContent,
 import { environment } from '../../../../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { TransferState, makeStateKey } from '@angular/platform-browser';
-import algoliasearch from 'algoliasearch';
+// import algoliasearch from 'algoliasearch';
 import * as VERSION from 'algoliasearch-helper/src/version';
 import * as encodeProxy from 'querystring-es3/encode';
 // service
