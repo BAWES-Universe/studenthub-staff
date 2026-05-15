@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
-import { NgAisModule } from 'angular-instantsearch';
 import { BawesAisPaginationComponent } from './bawes-ais-pagination.component';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -13,7 +12,6 @@ import { TranslateModule } from '@ngx-translate/core';
   ],
   imports: [
       IonicModule,
-      NgAisModule,
       CommonModule,
       TranslateModule.forChild(),
   ],
