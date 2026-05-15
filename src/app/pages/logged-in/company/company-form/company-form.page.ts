@@ -322,7 +322,7 @@ export class CompanyFormPage implements OnInit {
 
   onEditorReady() {
     const interval = setTimeout(() => {
-      if (this.ckeditor.editorInstance && this.form.value.description_en) {
+      if (this.ckeditor?.editorInstance && this.form.value.description_en) {
         this.ckeditor.editorInstance.setData(this.form.value.description_en);
         // this.ckeditor.editorInstance.editing.view.focus();
         // clearInterval(interval);
@@ -349,7 +349,7 @@ export class CompanyFormPage implements OnInit {
 
   onArabicEditorReady() {
     const interval = setTimeout(() => {
-      if (this.ckeditor_ar.editorInstance && this.form.value.description_ar) {
+      if (this.ckeditor_ar?.editorInstance && this.form.value.description_ar) {
         this.ckeditor_ar.editorInstance.setData(this.form.value.description_ar);
         // this.ckeditor.editorInstance.editing.view.focus();
         // clearInterval(interval);

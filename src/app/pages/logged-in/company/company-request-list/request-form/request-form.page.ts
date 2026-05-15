@@ -381,7 +381,7 @@ export class RequestFormPage implements OnInit {
 
   onEditorReady() {
     const interval = setTimeout(() => {
-      if (this.ckeditor.editorInstance && this.form.value.job_description) {
+      if (this.ckeditor?.editorInstance && this.form.value.job_description) {
         this.ckeditor.editorInstance.setData(this.form.value.job_description);
         // this.ckeditor.editorInstance.editing.view.focus();
         // clearInterval(interval);

@@ -60,7 +60,7 @@ export class CandidateCommittedFormPage implements OnInit {
 
   onEditorReady() {
     setTimeout(() => {
-      this.ckeditor.editorInstance.editing.view.focus();
+      this.ckeditor?.editorInstance?.editing?.view?.focus();
     }, 500);
   }
 
