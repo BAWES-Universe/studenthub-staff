@@ -1,5 +1,5 @@
 import { APP_INITIALIZER, ErrorHandler, Injector, NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
@@ -219,6 +219,7 @@ declare global {
     },
     File,
     SwUpdate,
+    provideClientHydration(),
     TranslateLabelService,
     SelectiveLoadingStrategy,
     { provide: TINYMCE_SCRIPT_SRC, useValue: 'tinymce/tinymce.min.js' },
