@@ -432,13 +432,13 @@ ion-calendar-modal {
   margin: 0 auto !important;
 }
 
-ng5-slider {
+@angular-slider/ngx-slider {
   $handleSize: 12px;
 
   background: var(--ion-color-custom-2) !important;
   margin: 10px 0 15px !important;
 
-  .ng5-slider-pointer {
+  .@angular-slider/ngx-slider-pointer {
       width: 12px !important;
       height: 12px !important;
       top: -4px !important;
@@ -451,11 +451,11 @@ ng5-slider {
       }
   }
 
-  .ng5-slider-selection {
+  .@angular-slider/ngx-slider-selection {
       background: var(--ion-color-custom-3) !important;
   }
 
-  .ng5-slider-bubble {
+  .@angular-slider/ngx-slider-bubble {
       display: none !important;
   }
 }
