@@ -1,8 +1,9 @@
 import { TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { PermissionService } from './permission.service';
 import { AuthService } from './auth.service';
 import { environment } from '../../environments/environment';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('PermissionService', () => {
   let service: PermissionService;
@@ -11,9 +12,9 @@ describe('PermissionService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [PermissionService, AuthService]
-    });
+    imports: [],
+    providers: [PermissionService, AuthService, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+});
     service = TestBed.inject(PermissionService);
     httpMock = TestBed.inject(HttpTestingController);
     authService = TestBed.inject(AuthService);

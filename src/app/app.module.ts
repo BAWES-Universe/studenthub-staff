@@ -9,7 +9,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { EditorModule, TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
 import localeAr from '@angular/common/locales/ar-KW';
 
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { UpdateAlertModule } from './components/update-alert/update-alert.module';
 import { ServiceWorkerModule, SwUpdate } from '@angular/service-worker';
 import { AuthService } from './providers/auth.service';
@@ -109,125 +109,118 @@ declare global {
   interface Window { analytics: any; }
 }
 
-@NgModule({
-  declarations: [AppComponent],
-  imports: [
-    BrowserModule,
-    IonicModule.forRoot(),
-    AppRoutingModule,
-    HttpClientModule,
-    CalendarModule,
-
-    IonicStorageModule.forRoot({
-      name: '__payroll_staff',
-    //     version: 3
-    //     // driverOrder: ['sqlite', 'indexeddb', 'websql', 'localstorage']
-    }),
-    AuthModule.forRoot({
-      domain: 'bawes.us.auth0.com',
-      clientId: 'sDIOpy1be7Y59ocKoXxHVL5euFNdJN3e'
-    }),
-    TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: (createTranslateLoader),
-        deps: [HttpClient]
-      }
-    }),
-    UpdateAlertModule,
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.serviceWorker }),
-    CKEditorModule,
-    DateDropdownModule,
-    SkillFormPageModule,
-    TagFormPageModule,
-    ExperienceFormPageModule,
-    UploadCvPageModule,
-    UploadFilePageModule,
-    CompanyNoteFormPageModule,
-    CompanyContactFormPageModule,
-    CompanyRequestFormPageModule,
-    StoreManagerFormPageModule,
-    OptionPageModule,
-    BrandFormPageModule,
-    MallFormPageModule,
-    CompanyContactListPageModule,
-    AllCompanyListPageModule,
-    CompanyFormPageModule,
-    ImageUploadModule,
-    CandidateNoteFormPageModule,
-    FulltimerLocationPageModule,
-    FulltimerFormPageModule,
-    NationalityPageModule,
-    CompanyRequestListPopupPageModule,
-    CandidateCommittedFormPageModule,
-    CandidateMergeSelectPageModule,
-    NoteModule,
-    SuggestPageModule,
-    CompanyModule,
-    LocationPageModule,
-    TransferFormPageModule,
-    ImportTransferFormPageModule,
-    TransferListPageModule,
-    CompanyDocumentsPageModule,
-    CompanyContactsPageModule,
-    CompanyBrandsPageModule,
-    CompanyNotesPageModule,
-    CompanyRequestsPageModule,
-    CompanyMallsPageModule,
-    CompanySubcompaniesPageModule,
-    CompanyStoresPageModule,
-    TransferChartPageModule,
-    ModalPopPageModule,
-    StoreViewPageModule,
-    InvitePageModule,
-    FulltimerSearchPageModule,
-    FulltimeLocationPageModule,
-    StaffPageModule,
-    StoreOptionPageModule,
-    StoreModule,
-    UniversityPageModule,
-    CompanyFilterPageModule,
-    ActionComponentModule,
-    CandidateAssignFormPageModule,
-    CandidateWarningFormPageModule,
-    LeaveRequestPageModule,
-    DatePopupModule,
-    EvaluationReportViewPageModule,
-    MenuOptionPageModule,
-    EmailCampaignFormPageModule,
-    CompanyRegistrationRequestViewPageModule,
-    EditorModule,
-    UpdateAccountPageModule,
-    CountryModalModule
-  ],
-  exports: [
-    ActionComponentModule
-  ],
-  providers: [
-    {
-      // Provider for APP_INITIALIZER
-      provide: APP_INITIALIZER,
-      useFactory: awsStartupServiceFactory,
-      deps: [AwsService],
-      multi: true
-    },
-    {
-      // Provider for APP_INITIALIZER
-      provide: APP_INITIALIZER,
-      useFactory: startupServiceFactory,
-      deps: [AuthService, StorageService],
-      multi: true
-    },
-    File,
-    SwUpdate,
-    TranslateLabelService,
-    SelectiveLoadingStrategy,
-    { provide: TINYMCE_SCRIPT_SRC, useValue: 'tinymce/tinymce.min.js' },
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    { provide: ErrorHandler, useClass: SentryErrorhandlerService }
-  ],
-  bootstrap: [AppComponent]
-})
+@NgModule({ declarations: [AppComponent],
+    exports: [
+        ActionComponentModule
+    ],
+    bootstrap: [AppComponent], imports: [BrowserModule,
+        IonicModule.forRoot(),
+        AppRoutingModule,
+        CalendarModule,
+        IonicStorageModule.forRoot({
+            name: '__payroll_staff',
+            //     version: 3
+            //     // driverOrder: ['sqlite', 'indexeddb', 'websql', 'localstorage']
+        }),
+        AuthModule.forRoot({
+            domain: 'bawes.us.auth0.com',
+            clientId: 'sDIOpy1be7Y59ocKoXxHVL5euFNdJN3e'
+        }),
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: (createTranslateLoader),
+                deps: [HttpClient]
+            }
+        }),
+        UpdateAlertModule,
+        ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.serviceWorker }),
+        CKEditorModule,
+        DateDropdownModule,
+        SkillFormPageModule,
+        TagFormPageModule,
+        ExperienceFormPageModule,
+        UploadCvPageModule,
+        UploadFilePageModule,
+        CompanyNoteFormPageModule,
+        CompanyContactFormPageModule,
+        CompanyRequestFormPageModule,
+        StoreManagerFormPageModule,
+        OptionPageModule,
+        BrandFormPageModule,
+        MallFormPageModule,
+        CompanyContactListPageModule,
+        AllCompanyListPageModule,
+        CompanyFormPageModule,
+        ImageUploadModule,
+        CandidateNoteFormPageModule,
+        FulltimerLocationPageModule,
+        FulltimerFormPageModule,
+        NationalityPageModule,
+        CompanyRequestListPopupPageModule,
+        CandidateCommittedFormPageModule,
+        CandidateMergeSelectPageModule,
+        NoteModule,
+        SuggestPageModule,
+        CompanyModule,
+        LocationPageModule,
+        TransferFormPageModule,
+        ImportTransferFormPageModule,
+        TransferListPageModule,
+        CompanyDocumentsPageModule,
+        CompanyContactsPageModule,
+        CompanyBrandsPageModule,
+        CompanyNotesPageModule,
+        CompanyRequestsPageModule,
+        CompanyMallsPageModule,
+        CompanySubcompaniesPageModule,
+        CompanyStoresPageModule,
+        TransferChartPageModule,
+        ModalPopPageModule,
+        StoreViewPageModule,
+        InvitePageModule,
+        FulltimerSearchPageModule,
+        FulltimeLocationPageModule,
+        StaffPageModule,
+        StoreOptionPageModule,
+        StoreModule,
+        UniversityPageModule,
+        CompanyFilterPageModule,
+        ActionComponentModule,
+        CandidateAssignFormPageModule,
+        CandidateWarningFormPageModule,
+        LeaveRequestPageModule,
+        DatePopupModule,
+        EvaluationReportViewPageModule,
+        MenuOptionPageModule,
+        EmailCampaignFormPageModule,
+        CompanyRegistrationRequestViewPageModule,
+        EditorModule,
+        UpdateAccountPageModule,
+        CountryModalModule], providers: [
+        {
+            // Provider for APP_INITIALIZER
+            provide: APP_INITIALIZER,
+            useFactory: awsStartupServiceFactory,
+            deps: [AwsService],
+            multi: true
+        },
+        {
+            // Provider for APP_INITIALIZER
+            provide: APP_INITIALIZER,
+            useFactory: startupServiceFactory,
+            deps: [AuthService, StorageService],
+            multi: true
+        },
+        File,
+        SwUpdate,
+        TranslateLabelService,
+        SelectiveLoadingStrategy,
+        { provide: TINYMCE_SCRIPT_SRC, useValue: 'tinymce/tinymce.min.js' },
+        { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+        { provide: ErrorHandler, useClass: SentryErrorhandlerService },
+        provideHttpClient(withInterceptorsFromDi())
+    ] })
 export class AppModule {
 
   static injector: Injector;

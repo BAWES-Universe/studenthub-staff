@@ -1,7 +1,7 @@
 import { Injectable, RendererFactory2 } from '@angular/core';
 import {EMPTY, Observable, throwError} from 'rxjs';
 import { catchError, first, map, retryWhen, take } from 'rxjs/operators';
-import {HttpClient, HttpHeaders, HttpResponse} from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import {ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree} from '@angular/router';
 import {genericRetryStrategy} from '../util/genericRetryStrategy';
 import { Storage } from '@ionic/storage-angular';
