@@ -4,7 +4,10 @@ const config: CapacitorConfig = {
   appId: 'co.studenthub.staff',
   appName: 'Studenthub Staff',
   webDir: 'www',
-  bundledWebRuntime: false
+  bundledWebRuntime: false,
+  server: {
+    androidScheme: 'http'
+  }
 };
 
 export default config;
