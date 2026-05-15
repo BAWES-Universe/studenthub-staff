@@ -1,7 +1,9 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ModalController, AlertController, PopoverController } from '@ionic/angular';
+
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { CKEditorComponent } from '@ckeditor/ckeditor5-angular';
 //services
 import { AuthService } from '../../../../providers/auth.service';
 import { NoteService } from '../../../../providers/logged-in/note.service';
@@ -24,7 +26,7 @@ export class CandidateNoteFormPage implements OnInit {
 
   @Input() note;
 
-  @ViewChild('ckeditor', { static: false }) ckeditor: ClassicEditor;
+  @ViewChild('ckeditor', { static: false }) ckeditor?: CKEditorComponent;
 
   public model: Note = new Note();
 
@@ -233,3 +235,5 @@ export class CandidateNoteFormPage implements OnInit {
     popover.present();
   }
 }
+
+
