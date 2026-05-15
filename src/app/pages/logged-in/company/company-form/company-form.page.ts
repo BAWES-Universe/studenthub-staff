@@ -2,7 +2,9 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import {AlertController, ToastController, ModalController, NavController} from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
+
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { CKEditorComponent } from '@ckeditor/ckeditor5-angular';
 //validators
 import { CustomValidator } from 'src/app/validators/custom.validator';
 // services
@@ -22,8 +24,8 @@ import { CountryModalComponent } from 'src/app/components/country-modal/country-
 })
 export class CompanyFormPage implements OnInit {
 
-  @ViewChild('ckeditor', { static: false }) ckeditor: ClassicEditor;
-  @ViewChild('ckeditor_ar', { static: false }) ckeditor_ar: ClassicEditor;
+  @ViewChild('ckeditor', { static: false }) ckeditor?: CKEditorComponent;
+  @ViewChild('ckeditor_ar', { static: false }) ckeditor_ar?: CKEditorComponent;
 
   public borderLimit = false;
 
@@ -320,7 +322,7 @@ export class CompanyFormPage implements OnInit {
 
   onEditorReady() {
     const interval = setTimeout(() => {
-      if (this.ckeditor.editorInstance && this.form.value.description_en) {
+      if (this.ckeditor?.editorInstance && this.form.value.description_en) {
         this.ckeditor.editorInstance.setData(this.form.value.description_en);
         // this.ckeditor.editorInstance.editing.view.focus();
         // clearInterval(interval);
@@ -347,7 +349,7 @@ export class CompanyFormPage implements OnInit {
 
   onArabicEditorReady() {
     const interval = setTimeout(() => {
-      if (this.ckeditor_ar.editorInstance && this.form.value.description_ar) {
+      if (this.ckeditor_ar?.editorInstance && this.form.value.description_ar) {
         this.ckeditor_ar.editorInstance.setData(this.form.value.description_ar);
         // this.ckeditor.editorInstance.editing.view.focus();
         // clearInterval(interval);
@@ -372,3 +374,5 @@ export class CompanyFormPage implements OnInit {
     this.form.updateValueAndValidity();
   }
 }
+
+

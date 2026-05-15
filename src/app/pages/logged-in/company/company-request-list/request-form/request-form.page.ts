@@ -3,7 +3,9 @@ import { Location } from '@angular/common';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { ModalController, AlertController, PopoverController, NavController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
+
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { CKEditorComponent } from '@ckeditor/ckeditor5-angular';
 // services
 import { EventService } from '../../../../../providers/event.service';
 import { CompanyRequestService } from 'src/app/providers/logged-in/company-request.service';
@@ -24,7 +26,7 @@ import { CountryService } from 'src/app/providers/logged-in/country.service';
 })
 export class RequestFormPage implements OnInit {
 
-  @ViewChild('ckeditor', { static: false }) ckeditor: ClassicEditor;
+  @ViewChild('ckeditor', { static: false }) ckeditor?: CKEditorComponent;
 
   public company;
 
@@ -379,7 +381,7 @@ export class RequestFormPage implements OnInit {
 
   onEditorReady() {
     const interval = setTimeout(() => {
-      if (this.ckeditor.editorInstance && this.form.value.job_description) {
+      if (this.ckeditor?.editorInstance && this.form.value.job_description) {
         this.ckeditor.editorInstance.setData(this.form.value.job_description);
         // this.ckeditor.editorInstance.editing.view.focus();
         // clearInterval(interval);
@@ -404,3 +406,5 @@ export class RequestFormPage implements OnInit {
     this.form.updateValueAndValidity();
   }
 }
+
+
