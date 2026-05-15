@@ -211,6 +211,21 @@ export class CalendarModal implements OnInit {
 
   private parseLocalDate(value: string): Date {
     const [year, month, day] = value.split('-').map(Number);
+    if (
+      !Number.isFinite(year)
+      || !Number.isFinite(month)
+      || !Number.isFinite(day)
+      || month < 1
+      || month > 12
+    ) {
+      return new Date(NaN);
+    }
+
+    const daysInMonth = new Date(year, month, 0).getDate();
+    if (day < 1 || day > daysInMonth) {
+      return new Date(NaN);
+    }
+
     return new Date(year, month - 1, day);
   }
 }
