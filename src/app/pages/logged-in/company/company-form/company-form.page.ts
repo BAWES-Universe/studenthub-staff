@@ -22,8 +22,8 @@ import { CountryModalComponent } from 'src/app/components/country-modal/country-
 })
 export class CompanyFormPage implements OnInit {
 
-  @ViewChild('ckeditor', { static: false }) ckeditor: ClassicEditor;
-  @ViewChild('ckeditor_ar', { static: false }) ckeditor_ar: ClassicEditor;
+  @ViewChild('ckeditor', { static: false }) ckeditor: any;
+  @ViewChild('ckeditor_ar', { static: false }) ckeditor_ar: any;
 
   public borderLimit = false;
 
@@ -372,3 +372,4 @@ export class CompanyFormPage implements OnInit {
     this.form.updateValueAndValidity();
   }
 }
+

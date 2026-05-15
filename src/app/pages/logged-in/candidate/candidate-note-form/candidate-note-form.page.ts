@@ -24,7 +24,7 @@ export class CandidateNoteFormPage implements OnInit {
 
   @Input() note;
 
-  @ViewChild('ckeditor', { static: false }) ckeditor: ClassicEditor;
+  @ViewChild('ckeditor', { static: false }) ckeditor: any;
 
   public model: Note = new Note();
 
@@ -233,3 +233,4 @@ export class CandidateNoteFormPage implements OnInit {
     popover.present();
   }
 }
+

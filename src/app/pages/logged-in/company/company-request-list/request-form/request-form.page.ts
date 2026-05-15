@@ -24,7 +24,7 @@ import { CountryService } from 'src/app/providers/logged-in/country.service';
 })
 export class RequestFormPage implements OnInit {
 
-  @ViewChild('ckeditor', { static: false }) ckeditor: ClassicEditor;
+  @ViewChild('ckeditor', { static: false }) ckeditor: any;
 
   public company;
 
@@ -404,3 +404,4 @@ export class RequestFormPage implements OnInit {
     this.form.updateValueAndValidity();
   }
 }
+

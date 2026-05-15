@@ -3,7 +3,7 @@ import { connectRange } from 'instantsearch.js/es/connectors';
 import { RangeRenderState } from 'instantsearch.js/es/connectors/range/connectRange';
 import { BaseWidget, NgAisIndex, NgAisInstantSearch } from 'angular-instantsearch';
 import { parseNumberInput, noop } from 'angular-instantsearch/esm2015/utils';
-import { Options } from 'ng5-slider';
+import { Options } from '@angular-slider/ngx-slider';
 
 
 @Component({
@@ -218,3 +218,4 @@ export class AgeRefinementListComponent extends BaseWidget {
         this.open = !this.open;
     }
 }
+

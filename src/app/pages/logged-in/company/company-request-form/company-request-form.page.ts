@@ -21,7 +21,7 @@ import { CompanyContactListPage } from "../company-contact/company-contact-list/
 })
 export class CompanyRequestFormPage implements OnInit {
 
-  @ViewChild('ckeditor', { static: false }) ckeditor: ClassicEditor;
+  @ViewChild('ckeditor', { static: false }) ckeditor: any;
 
   @Input() company;
 
@@ -279,3 +279,4 @@ export class CompanyRequestFormPage implements OnInit {
     this.form.controls['our_fees_unit'].setValue(null);
   }
 }
+

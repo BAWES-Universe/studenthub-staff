@@ -19,7 +19,7 @@ export class CandidateCommittedFormPage implements OnInit {
 
   @Input() candidate;
    
-  @ViewChild('ckeditor', { static: false }) ckeditor: ClassicEditor;
+  @ViewChild('ckeditor', { static: false }) ckeditor: any;
  
   public model: Note;
 
@@ -143,3 +143,4 @@ export class CandidateCommittedFormPage implements OnInit {
     this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
   }
 }
+

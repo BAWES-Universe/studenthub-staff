@@ -17,7 +17,7 @@ import { StaffService } from 'src/app/providers/logged-in/staff.service';
 })
 export class RequestInterviewFormPage implements OnInit {
 
-  @ViewChild('ckeditor', { static: false }) ckeditor: ClassicEditor;
+  @ViewChild('ckeditor', { static: false }) ckeditor: any;
 
   public interviewRequest: RequestInterview;
   
@@ -107,3 +107,4 @@ export class RequestInterviewFormPage implements OnInit {
     this.modalCtrl.dismiss(data);
   }
 }
+

@@ -27,7 +27,7 @@ import { AnalyticsService } from 'src/app/providers/analytics.service';
 })
 export class CompanyNoteFormPage implements OnInit {
 
-  @ViewChild('ckeditor', { static: false }) ckeditor: ClassicEditor;
+  @ViewChild('ckeditor', { static: false }) ckeditor: any;
 
   @Input() note;
   @Input() from;
@@ -354,3 +354,4 @@ export class CompanyNoteFormPage implements OnInit {
     this.candidate.candidate_personal_photo = null;
   }
 }
+
