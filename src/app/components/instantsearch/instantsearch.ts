@@ -132,7 +132,7 @@ export class NgAisInstantSearch implements AfterContentInit, OnChanges, OnDestro
   public instantSearchInstance: any;
   public searchParameters: any;
 
-  private pendingWidgets: InstantSearchWidget[] = [];
+  private widgets: InstantSearchWidget[] = [];
   private started = false;
 
   ngOnChanges(changes: SimpleChanges) {
@@ -150,12 +150,16 @@ export class NgAisInstantSearch implements AfterContentInit, OnChanges, OnDestro
       return;
     }
 
-    if (this.instantSearchInstance) {
-      this.instantSearchInstance.addWidgets(widgets);
+    const newWidgets = widgets.filter(widget => !this.widgets.includes(widget));
+    if (newWidgets.length === 0) {
       return;
     }
 
-    this.pendingWidgets.push(...widgets);
+    this.widgets.push(...newWidgets);
+
+    if (this.instantSearchInstance) {
+      this.instantSearchInstance.addWidgets(newWidgets);
+    }
   }
 
   removeWidgets(widgets: InstantSearchWidget[]) {
@@ -163,12 +167,16 @@ export class NgAisInstantSearch implements AfterContentInit, OnChanges, OnDestro
       return;
     }
 
-    if (this.instantSearchInstance) {
-      this.instantSearchInstance.removeWidgets(widgets);
+    const removedWidgets = widgets.filter(widget => this.widgets.includes(widget));
+    if (removedWidgets.length === 0) {
       return;
     }
 
-    this.pendingWidgets = this.pendingWidgets.filter(widget => !widgets.includes(widget));
+    this.widgets = this.widgets.filter(widget => !removedWidgets.includes(widget));
+
+    if (this.instantSearchInstance) {
+      this.instantSearchInstance.removeWidgets(removedWidgets);
+    }
   }
 
   ngOnDestroy() {
@@ -178,6 +186,18 @@ export class NgAisInstantSearch implements AfterContentInit, OnChanges, OnDestro
   }
 
   private createInstantSearch() {
+    const widgets = [...this.widgets];
+
+    if (this.instantSearchInstance) {
+      if (widgets.length > 0) {
+        this.instantSearchInstance.removeWidgets(widgets);
+      }
+
+      if (this.started) {
+        this.instantSearchInstance.dispose();
+      }
+    }
+
     this.instantSearchInstance = instantsearch(this.config);
     this.searchParameters = this.config.searchParameters || {};
     this.instantSearchInstance.searchParameters = this.searchParameters;
@@ -190,9 +210,8 @@ export class NgAisInstantSearch implements AfterContentInit, OnChanges, OnDestro
       this.onRender.emit(this.instantSearchInstance);
     });
 
-    if (this.pendingWidgets.length > 0) {
-      this.instantSearchInstance.addWidgets(this.pendingWidgets);
-      this.pendingWidgets = [];
+    if (widgets.length > 0) {
+      this.instantSearchInstance.addWidgets(widgets);
     }
 
     if (this.started) {

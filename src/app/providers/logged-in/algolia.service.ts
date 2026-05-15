@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, Observer, throwError } from 'rxjs';
+import { Observable, Observer } from 'rxjs';
 import { algoliasearch } from 'algoliasearch';
 // Services
 import { AuthHttpService } from "./authhttp.service";
@@ -73,45 +73,39 @@ export class AlgoliaService {
   list(indexName, searchParameters = {}): Observable<any> {
 
     return Observable.create((observer: Observer<any>) => {
-
-      this.getKey(false).then(keyData => {
-
+      const runSearch = (isExpired = false) => this.getKey(isExpired).then(keyData => {
         const client = algoliasearch(keyData.appId, keyData.securedApiKey, {}) as any;
 
-        client.searchSingleIndex({
+        return client.searchSingleIndex({
           indexName,
           searchParams: Object.assign({ query: '' }, searchParameters)
-        }).then(content => {
-
-          if (content) {
-            observer.next(content);
-            observer.complete();
-          }
-        }).catch(err => {
-
-          if(err.statusCode == 400) {
-            this.getKey(true).then(keyData => {
-
-              const client = algoliasearch(keyData.appId, keyData.securedApiKey, {}) as any;
-
-              client.searchSingleIndex({
-                indexName,
-                searchParams: Object.assign({ query: '' }, searchParameters)
-              }).then(content => {
-
-                if (content) {
-                  observer.next(content);
-                }
-              }).catch(err => {
-                  return throwError(err);
-              });
-
-              observer.complete();
-            });
-          } else {
-            return throwError(err);
-          }
         });
+      });
+
+      runSearch(false).then(content => {
+
+        if (content) {
+          observer.next(content);
+        }
+
+        observer.complete();
+      }).catch(err => {
+
+        if (err.statusCode == 400) {
+          runSearch(true).then(content => {
+
+            if (content) {
+              observer.next(content);
+            }
+
+            observer.complete();
+          }).catch(err => {
+            observer.error(err);
+          });
+          return;
+        }
+
+        observer.error(err);
       });
     });
   }
