@@ -34,7 +34,7 @@ export class NgAisInstantSearch implements OnDestroy {
   public searchParameters: any = {};
 
   private readonly widgets = new Set<any>();
-  private started = false;
+  protected started = false;
 
   setInstance(instance: any): void {
     this.instantSearchInstance = instance;
@@ -42,6 +42,12 @@ export class NgAisInstantSearch implements OnDestroy {
     if (this.widgets.size > 0) {
       this.instantSearchInstance.addWidgets(Array.from(this.widgets));
     }
+  }
+
+  protected clearInstance(): void {
+    this.instantSearchInstance = undefined;
+    this.searchParameters = {};
+    this.started = false;
   }
 
   registerWidget(widget: any): void {
@@ -111,6 +117,7 @@ export class BaseWidget {
   public autoHideContainer = false;
 
   protected updateState?: (state: any, isFirstRendering: boolean) => void;
+  protected instantSearchInstance?: NgAisInstantSearch;
   private widget: any;
 
   constructor(private readonly widgetType: string) {}
@@ -131,7 +138,7 @@ export class BaseWidget {
   }
 
   protected get ngAisInstantSearch(): NgAisInstantSearch | undefined {
-    return (this as any).instantSearchInstance;
+    return this.instantSearchInstance;
   }
 
   cx(part?: string): string {
@@ -187,6 +194,9 @@ export class AisInstantsearchComponent
   @Output() onRender = new EventEmitter<any>();
 
   private disposed = false;
+  private currentConfig?: any;
+  private currentIndexName?: string;
+  private renderGeneration = 0;
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['config'] || changes['indexName']) {
@@ -202,19 +212,41 @@ export class AisInstantsearchComponent
   override ngOnDestroy(): void {
     this.disposed = true;
     this.instantSearchInstance?.dispose();
+    this.clearInstance();
     this.onRender.complete();
     super.ngOnDestroy();
   }
 
   private initialize(): void {
-    if (this.instantSearchInstance || !this.config?.searchClient) {
+    const resolvedIndexName = this.config?.indexName || this.indexName;
+    if (!this.config?.searchClient || !resolvedIndexName) {
+      if (this.instantSearchInstance) {
+        this.renderGeneration += 1;
+        this.instantSearchInstance.dispose();
+        this.clearInstance();
+        this.currentConfig = undefined;
+        this.currentIndexName = undefined;
+      }
       return;
     }
 
-    const resolvedIndexName = this.config.indexName || this.indexName;
-    if (!resolvedIndexName) {
+    if (
+      this.instantSearchInstance &&
+      this.currentConfig === this.config &&
+      this.currentIndexName === resolvedIndexName
+    ) {
       return;
     }
+
+    const wasStarted = this.started;
+    if (this.instantSearchInstance) {
+      this.instantSearchInstance.dispose();
+      this.clearInstance();
+    }
+
+    this.currentConfig = this.config;
+    this.currentIndexName = resolvedIndexName;
+    const renderGeneration = ++this.renderGeneration;
 
     const instance = instantsearch({
       indexName: resolvedIndexName,
@@ -229,7 +261,7 @@ export class AisInstantsearchComponent
     }
 
     instance.on('render', () => {
-      if (this.disposed) {
+      if (this.disposed || renderGeneration !== this.renderGeneration) {
         return;
       }
 
@@ -238,6 +270,9 @@ export class AisInstantsearchComponent
     });
 
     this.setInstance(instance);
+    if (wasStarted) {
+      this.start();
+    }
   }
 }
 
