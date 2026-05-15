@@ -16,7 +16,7 @@ import {
   CalendarModalOptions,
   CalendarResult,
   CalendarComponentOptions
-} from 'ion2-calendar';
+} from 'src/app/components/calendar-modal/calendar-modal.component';
 
 // models
 import { Store } from 'src/app/models/store';

@@ -3,7 +3,7 @@ import {ActivatedRoute} from '@angular/router';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {AlertController, LoadingController, ModalController, NavController, Platform} from '@ionic/angular';
 import { Subscription } from 'rxjs';
-import { format, parseISO } from 'date-fns';
+import { format, parseISO } from 'src/app/util/date-fns';
 // service
 import { AuthService } from '../../../../providers/auth.service';
 import { CountryService } from 'src/app/providers/logged-in/country.service';

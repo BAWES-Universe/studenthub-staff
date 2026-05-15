@@ -3,7 +3,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {DailyStandupService} from "src/app/providers/logged-in/daily-standup.service";
 import {AuthService} from "src/app/providers/auth.service";
 import {AlertController, ModalController, NavController} from "@ionic/angular";
-import {CalendarModal, CalendarModalOptions} from "ion2-calendar";
+import {CalendarModal, CalendarModalOptions} from "src/app/components/calendar-modal/calendar-modal.component";
 import {StaffLeaveService} from "../../../../providers/logged-in/staff-leave.service";
 import {AwsService} from "../../../../providers/aws.service";
 import {Subscription} from "rxjs";
