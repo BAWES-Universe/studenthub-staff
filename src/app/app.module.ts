@@ -1,5 +1,5 @@
 import { APP_INITIALIZER, ErrorHandler, Injector, NgModule } from '@angular/core';
-import { BrowserModule, BrowserTransferStateModule } from '@angular/platform-browser';
+import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
@@ -9,7 +9,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { EditorModule, TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
 import localeAr from '@angular/common/locales/ar-KW';
 
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, HttpClient } from '@angular/common/http';
 import { UpdateAlertModule } from './components/update-alert/update-alert.module';
 import { ServiceWorkerModule, SwUpdate } from '@angular/service-worker';
 import { AuthService } from './providers/auth.service';
@@ -111,16 +111,11 @@ declare global {
 
 @NgModule({
   declarations: [AppComponent],
-  entryComponents: [
-    ActionComponent
-  ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
-    HttpClientModule,
     CalendarModule,
-    BrowserTransferStateModule,
     IonicStorageModule.forRoot({
       name: '__payroll_staff',
     //     version: 3
@@ -207,6 +202,7 @@ declare global {
     ActionComponentModule
   ],
   providers: [
+    provideHttpClient(withInterceptorsFromDi()),
     {
       // Provider for APP_INITIALIZER
       provide: APP_INITIALIZER,
