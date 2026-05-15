@@ -14,8 +14,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
   CalendarComponentOptions,
   CalendarModal,
+  CalendarDateResult,
   CalendarModalOptions,
-  CalendarResult
 } from 'src/app/components/calendar-modal/calendar-modal.component';
 
 // models
@@ -1735,7 +1735,7 @@ export class CandidateViewPage implements OnInit {
               myCalendar.present();
 
               const event: any = await myCalendar.onDidDismiss();
-              const date: CalendarResult = event.data;
+              const date: CalendarDateResult = event.data;
               if (date) {
                 const loading = await this.loadingCtrl.create();
                 loading.present();

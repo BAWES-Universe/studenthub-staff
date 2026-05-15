@@ -14,10 +14,12 @@ export interface CalendarDateResult {
   date: number;
 }
 
-export interface CalendarResult extends CalendarDateResult {
+export interface CalendarRangeResult {
   from?: CalendarDateResult;
   to?: CalendarDateResult;
 }
+
+export type CalendarResult = CalendarDateResult | CalendarRangeResult;
 
 export interface CalendarModalOptions {
   canBackwardsSelected?: boolean;
@@ -112,8 +114,8 @@ export class CalendarModal implements OnInit {
 
   fromValue: string;
   toValue: string;
-  minValue: string;
-  maxValue: string;
+  minValue: string | undefined;
+  maxValue: string | undefined;
 
   constructor(private modalCtrl: ModalController) {}
 
@@ -172,14 +174,18 @@ export class CalendarModal implements OnInit {
 
   private coerceDate(value: Date | string | number): Date {
     const date = value instanceof Date ? value : new Date(value);
-    return Number.isNaN(date.getTime()) ? new Date() : date;
+    if (Number.isNaN(date.getTime())) {
+      console.warn('CalendarModal: Invalid date value coerced to today:', value);
+      return new Date();
+    }
+    return date;
   }
 
   private toInputValue(value: Date | string | number): string {
     return format(this.coerceDate(value), 'yyyy-MM-dd');
   }
 
-  private toOptionalInputValue(value?: Date | string | number): string {
+  private toOptionalInputValue(value?: Date | string | number): string | undefined {
     return value ? this.toInputValue(value) : undefined;
   }
 
