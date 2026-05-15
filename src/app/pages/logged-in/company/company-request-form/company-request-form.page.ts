@@ -1,7 +1,9 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ModalController, AlertController, PopoverController } from '@ionic/angular';
+
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { CKEditorComponent } from '@ckeditor/ckeditor5-angular';
 // services
 import { CompanyRequestService } from 'src/app/providers/logged-in/company-request.service';
 import { EventService } from "../../../../providers/event.service";
@@ -21,7 +23,7 @@ import { CompanyContactListPage } from "../company-contact/company-contact-list/
 })
 export class CompanyRequestFormPage implements OnInit {
 
-  @ViewChild('ckeditor', { static: false }) ckeditor: any;
+  @ViewChild('ckeditor', { static: false }) ckeditor?: CKEditorComponent;
 
   @Input() company;
 
@@ -279,4 +281,5 @@ export class CompanyRequestFormPage implements OnInit {
     this.form.controls['our_fees_unit'].setValue(null);
   }
 }
+
 

@@ -1,7 +1,9 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ModalController, AlertController, PopoverController } from '@ionic/angular';
+
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { CKEditorComponent } from '@ckeditor/ckeditor5-angular';
 // models
 import { Candidate } from 'src/app/models/candidate';
 import { Fulltimer } from 'src/app/models/fulltimer';
@@ -27,7 +29,7 @@ import { AnalyticsService } from 'src/app/providers/analytics.service';
 })
 export class CompanyNoteFormPage implements OnInit {
 
-  @ViewChild('ckeditor', { static: false }) ckeditor: any;
+  @ViewChild('ckeditor', { static: false }) ckeditor?: CKEditorComponent;
 
   @Input() note;
   @Input() from;
@@ -354,4 +356,5 @@ export class CompanyNoteFormPage implements OnInit {
     this.candidate.candidate_personal_photo = null;
   }
 }
+
 

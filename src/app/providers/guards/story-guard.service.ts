@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 //services
 import { AuthService } from '../auth.service';
@@ -8,7 +8,7 @@ import { AuthService } from '../auth.service';
 @Injectable({
   providedIn: 'root'
 })
-export class StoryGuard  {
+export class StoryGuard implements CanActivate {
 
   constructor(private authService: AuthService, private _router: Router) {
   }
