@@ -82,8 +82,10 @@ export class CalendarModal implements OnInit {
 
   confirm() {
     if (this.isRangeMode) {
-      const from = this.toCalendarDay(this.fromValue);
-      const to = this.toCalendarDay(this.toValue);
+      const selectedFrom = this.toCalendarDay(this.fromValue);
+      const selectedTo = this.toCalendarDay(this.toValue);
+      const [from, to] =
+        selectedFrom.unix <= selectedTo.unix ? [selectedFrom, selectedTo] : [selectedTo, selectedFrom];
 
       this.modalCtrl.dismiss({
         ...from,
