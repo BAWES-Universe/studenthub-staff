@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
-import { format, parseISO } from 'date-fns';
+import { format, parseISO } from 'src/app/util/date-fns';
 //models
 import { Contract } from 'src/app/models/contract';
 //services

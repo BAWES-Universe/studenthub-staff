@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { format, parseISO } from 'date-fns';
+import { format, parseISO } from 'src/app/util/date-fns';
 
 @Component({
   selector: 'app-request-interview-filter',

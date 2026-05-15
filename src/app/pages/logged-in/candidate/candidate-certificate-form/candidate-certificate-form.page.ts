@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertController, ModalController } from '@ionic/angular';
-import { format, parseISO } from 'date-fns';
+import { format, parseISO } from 'src/app/util/date-fns';
 //models
 import { Candidate } from 'src/app/models/candidate';
 import { CandidateWorkHistory } from 'src/app/models/candidate-work-history';
