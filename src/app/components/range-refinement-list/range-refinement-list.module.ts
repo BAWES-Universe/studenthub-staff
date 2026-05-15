@@ -6,8 +6,7 @@ import { FormsModule } from "@angular/forms";
 import { RangeRefinementComponent } from './range-refinement-list';
 
 import { NgAisModule } from 'angular-instantsearch';
-import { Ng5SliderModule } from 'ng5-slider'; 
-
+import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { PipesModule } from '../../pipes/pipes.module';
 
 
@@ -21,7 +20,7 @@ import { PipesModule } from '../../pipes/pipes.module';
         CommonModule,
         FormsModule,
         PipesModule,
-        Ng5SliderModule,
+        NgxSliderModule,
     ],
     exports: [
         RangeRefinementComponent
