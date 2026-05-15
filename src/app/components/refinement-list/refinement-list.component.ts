@@ -1,7 +1,7 @@
 import { Component, Inject, forwardRef, Input, Output, EventEmitter, Optional } from '@angular/core';
-import { BaseWidget, NgAisIndex, NgAisInstantSearch } from 'angular-instantsearch';
+import { BaseWidget, NgAisIndex, NgAisInstantSearch } from 'src/app/compat/instantsearch';
 import { connectRefinementList } from "instantsearch.js/es/connectors";
-import { parseNumberInput, noop } from "angular-instantsearch/esm2015/utils";
+import { parseNumberInput, noop } from "src/app/compat/instantsearch";
 //services
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 import { EventService } from 'src/app/providers/event.service';
