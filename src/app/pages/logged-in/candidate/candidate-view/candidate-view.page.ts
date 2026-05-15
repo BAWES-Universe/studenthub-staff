@@ -131,6 +131,9 @@ export class CandidateViewPage implements OnInit {
   public segment: string = 'activity';
 
   public loadingApplications: boolean = false;
+  public candidateDetailLoadError: string = null;
+  public civilFrontImageUnavailable = false;
+  public civilBackImageUnavailable = false;
 
   public candidateApplications: RequestApplication[] = [];
 
@@ -634,35 +637,71 @@ export class CandidateViewPage implements OnInit {
 
   loadCandidateDetail(loading = true) {
     this.loading = loading;
+    this.candidateDetailLoadError = null;
     const query = 'expand=candidateLinks,certificates,certificates.exam,certificates.store,certificates.company,invitationStats,avgTimeToViewInvitations,candidateEducations,candidateEducations.degree,candidateEducations.major,' +
       'candidateEducations.university,candidateStats,candidateIdCard,store,company,candidateSkills,' +
       'candidateTags,candidateExperiences,bank,nationality,area,country,university,' +
       'invited,invitationAccepted,invitationRejected,suggestionAccepted,suggestionRejected,suggested';
 
-    this.candidateService.detail(this.candidate_id, query).subscribe(response => {
+    let receivedResponse = false;
 
-      this.loading = false;
-      this.candidate = response;
+    this.candidateService.detail(this.candidate_id, query).subscribe({
+      next: (response) => {
+        receivedResponse = true;
+        this.loading = false;
 
-      if (this.candidate && this.candidate.pendingField && this.candidate.pendingField.length > 0) {
-        this.candidate.pendingField =  this.candidate?.pendingField?.filter(v => v != "experience")
-        this.candidate.isProfileCompleted = this.candidate.pendingField.length == 0;
-
-        this.pendingData = 'Total ' + this.candidate.pendingField.length + ' pending fields\n ' + this.candidate.pendingField.join(',');
-      }
-
-      if(this.story) {
-        this.checkAlreadyInvited();
-      }
-
-      setTimeout(_ => {
-        this.job_search_status = !!(this.candidate.candidate_job_search_status);
-
-        if (this.candidate.avgTimeToViewInvitations > 0) {
-          this.loadInvitationChart();
+        if (!response || response.operation == 'error') {
+          this.handleCandidateDetailLoadFailure(response?.message);
+          return;
         }
-      }, 500);
+
+        this.candidate = response;
+        this.civilFrontImageUnavailable = false;
+        this.civilBackImageUnavailable = false;
+
+        if (this.candidate && this.candidate.pendingField && this.candidate.pendingField.length > 0) {
+          this.candidate.pendingField =  this.candidate?.pendingField?.filter(v => v != "experience")
+          this.candidate.isProfileCompleted = this.candidate.pendingField.length == 0;
+
+          this.pendingData = 'Total ' + this.candidate.pendingField.length + ' pending fields\n ' + this.candidate.pendingField.join(',');
+        }
+
+        if(this.story) {
+          this.checkAlreadyInvited();
+        }
+
+        setTimeout(_ => {
+          this.job_search_status = !!(this.candidate.candidate_job_search_status);
+
+          if (this.candidate.avgTimeToViewInvitations > 0) {
+            this.loadInvitationChart();
+          }
+        }, 500);
+      },
+      error: () => {
+        this.loading = false;
+        this.handleCandidateDetailLoadFailure();
+      },
+      complete: () => {
+        if (!receivedResponse) {
+          this.loading = false;
+          this.handleCandidateDetailLoadFailure();
+        }
+      }
     });
+  }
+
+  async handleCandidateDetailLoadFailure(message: string = null) {
+    this.candidateDetailLoadError = this.authService.errorMessage(
+      message || 'Unable to load candidate details right now. Please try again.'
+    );
+
+    const toast = await this.toastCtrl.create({
+      message: this.candidateDetailLoadError,
+      duration: 3000
+    });
+
+    toast.present();
   }
 
   loadInvitationChart() {
@@ -1508,11 +1547,11 @@ export class CandidateViewPage implements OnInit {
   }
 
   onCivilBackError() {
-    this.candidate.candidate_civil_photo_back = null;
+    this.civilBackImageUnavailable = true;
   }
 
   onCivilFrontError() {
-    this.candidate.candidate_civil_photo_front = null;
+    this.civilFrontImageUnavailable = true;
   }
 
   /**
