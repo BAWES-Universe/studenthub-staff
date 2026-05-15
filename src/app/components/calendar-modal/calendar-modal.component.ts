@@ -130,18 +130,22 @@ export class CalendarModal implements OnInit {
   ngOnInit() {
     const today = new Date();
     const defaultDate = this.coerceDate(
-      this.options?.defaultDate ||
-      this.options?.defaultScrollTo ||
-      this.options?.defaultDateRange?.from ||
+      this.options?.defaultDate ??
+      this.options?.defaultScrollTo ??
+      this.options?.defaultDateRange?.from ??
       today
     );
-    const defaultTo = this.coerceDate(this.options?.defaultDateRange?.to || defaultDate);
+    const defaultTo = this.coerceDate(this.options?.defaultDateRange?.to ?? defaultDate);
 
     this.fromValue = this.toInputValue(defaultDate);
     this.toValue = this.toInputValue(defaultTo);
-    this.minValue = this.options?.canBackwardsSelected === false
-      ? this.toInputValue(today)
-      : this.toOptionalInputValue(this.options?.from);
+    const fromMinValue = this.toOptionalInputValue(this.options?.from);
+    if (this.options?.canBackwardsSelected === false) {
+      const todayValue = this.toInputValue(today);
+      this.minValue = fromMinValue && fromMinValue > todayValue ? fromMinValue : todayValue;
+    } else {
+      this.minValue = fromMinValue;
+    }
     this.maxValue = this.toOptionalInputValue(this.options?.to);
     this.syncRange();
   }
@@ -173,7 +177,9 @@ export class CalendarModal implements OnInit {
   }
 
   private coerceDate(value: Date | string | number): Date {
-    const date = value instanceof Date ? value : new Date(value);
+    const date = typeof value === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(value)
+      ? this.parseLocalDate(value)
+      : value instanceof Date ? value : new Date(value);
     if (Number.isNaN(date.getTime())) {
       console.warn('CalendarModal: Invalid date value coerced to today:', value);
       return new Date();
@@ -186,7 +192,7 @@ export class CalendarModal implements OnInit {
   }
 
   private toOptionalInputValue(value?: Date | string | number): string | undefined {
-    return value ? this.toInputValue(value) : undefined;
+    return value === undefined || value === null ? undefined : this.toInputValue(value);
   }
 
   private toResult(value: string): CalendarDateResult {
@@ -201,5 +207,10 @@ export class CalendarModal implements OnInit {
       months: date.getMonth() + 1,
       date: date.getDate()
     };
+  }
+
+  private parseLocalDate(value: string): Date {
+    const [year, month, day] = value.split('-').map(Number);
+    return new Date(year, month - 1, day);
   }
 }
