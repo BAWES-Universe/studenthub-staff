@@ -3,7 +3,7 @@ import { connectRange } from 'instantsearch.js/es/connectors';
 import { RangeRenderState } from 'instantsearch.js/es/connectors/range/connectRange';
 import { BaseWidget, NgAisIndex, NgAisInstantSearch } from 'angular-instantsearch';
 import { parseNumberInput, noop } from 'angular-instantsearch/esm2015/utils';
-import { Options } from 'ng5-slider';
+import { Options } from '@angular-slider/ngx-slider';
 
 
 @Component({
@@ -32,7 +32,10 @@ export class RangeRefinementComponent extends BaseWidget {
         refine: noop,
         canRefine: null,
         sendEvent: noop,
-        format: noop,
+        format: {
+            from: (value: number) => String(value),
+            to: (value: number) => String(value),
+        },
         start: [0, 1],
     };
 
