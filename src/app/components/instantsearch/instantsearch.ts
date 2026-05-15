@@ -22,6 +22,28 @@ type InstantSearchWidget = {
   dispose?: (options: any) => any;
 };
 
+function getAttributeValue(source: any, attribute: string) {
+  if (!source || !attribute) {
+    return undefined;
+  }
+
+  return attribute.split('.').reduce((value, key) => value?.[key], source);
+}
+
+function escapeHtml(value: any) {
+  return String(value).replace(/[&<>"']/g, character => {
+    const entities = {
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#39;',
+    };
+
+    return entities[character];
+  });
+}
+
 export class NgAisIndex {}
 
 @Directive()
@@ -241,12 +263,17 @@ export class AisHighlightComponent {
       return '';
     }
 
-    return (
-      this.hit[this.attribute] ||
-      this.hit._highlightResult?.[this.attribute]?.value ||
-      this.hit.label ||
-      ''
-    );
+    const highlightedValue = getAttributeValue(this.hit._highlightResult, this.attribute)?.value;
+
+    if (highlightedValue) {
+      return highlightedValue;
+    }
+
+    if (this.attribute === 'highlighted' && this.hit.highlighted) {
+      return this.hit.highlighted;
+    }
+
+    return escapeHtml(getAttributeValue(this.hit, this.attribute) || this.hit.label || '');
   }
 }
 
