@@ -19,11 +19,15 @@ export class InstantSearchHighlightComponent {
   @Input() tagName = 'mark';
 
   get content() {
+    if (!this.hit || !this.attribute) {
+      return '';
+    }
+
     const highlightAttributeResult = getPropertyByPath(this.hit._highlightResult, this.attribute);
     const fallback = getPropertyByPath(this.hit, this.attribute);
 
-    if (!highlightAttributeResult && fallback) {
-      return fallback;
+    if (!highlightAttributeResult) {
+      return fallback || '';
     }
 
     return highlight({
@@ -33,4 +37,3 @@ export class InstantSearchHighlightComponent {
     });
   }
 }
-

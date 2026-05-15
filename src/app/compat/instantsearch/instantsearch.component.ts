@@ -18,17 +18,29 @@ export class NgAisInstantSearch implements OnInit, AfterViewInit, OnDestroy {
   constructor(@Inject(PLATFORM_ID) public platformId: Object) {}
 
   ngOnInit() {
+    if (!this.config || !this.config.searchClient) {
+      console.warn('InstantSearch config with searchClient is required.');
+      return;
+    }
+
     if (typeof this.config.searchClient.addAlgoliaAgent === 'function') {
       this.config.searchClient.addAlgoliaAgent(`angular (${ANGULAR_VERSION.full})`);
       this.config.searchClient.addAlgoliaAgent('studenthub-staff-instantsearch');
     }
 
-    this.instantSearchInstance = new InstantSearch(this.config);
+    const config = {
+      ...this.config,
+      indexName: this.indexName || this.config.indexName,
+    };
+
+    this.instantSearchInstance = new InstantSearch(config);
     this.instantSearchInstance.on('render', this.emitRenderState);
   }
 
   ngAfterViewInit() {
-    this.instantSearchInstance.start();
+    if (this.instantSearchInstance) {
+      this.instantSearchInstance.start();
+    }
   }
 
   ngOnDestroy() {
@@ -39,15 +51,21 @@ export class NgAisInstantSearch implements OnInit, AfterViewInit, OnDestroy {
   }
 
   addWidgets(widgets: any[]) {
-    this.instantSearchInstance.addWidgets(widgets);
+    if (this.instantSearchInstance) {
+      this.instantSearchInstance.addWidgets(widgets);
+    }
   }
 
   removeWidgets(widgets: any[]) {
-    this.instantSearchInstance.removeWidgets(widgets);
+    if (this.instantSearchInstance) {
+      this.instantSearchInstance.removeWidgets(widgets);
+    }
   }
 
   refresh() {
-    this.instantSearchInstance.refresh();
+    if (this.instantSearchInstance) {
+      this.instantSearchInstance.refresh();
+    }
   }
 
   private emitRenderState = () => {

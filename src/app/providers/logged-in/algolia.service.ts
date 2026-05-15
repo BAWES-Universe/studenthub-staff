@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, Observer, throwError } from 'rxjs';
+import { Observable, Observer } from 'rxjs';
 import { algoliasearch } from 'algoliasearch';
 // Services
 import { AuthHttpService } from "./authhttp.service";
@@ -108,16 +108,19 @@ export class AlgoliaService {
                 if (content) {
                   observer.next(content);
                 }
+                observer.complete();
               }).catch(err => {
-                  return throwError(err);
+                  observer.error(err);
               });
-
-              observer.complete();
+            }).catch(err => {
+              observer.error(err);
             });
           } else {
-            return throwError(err);
+            observer.error(err);
           }
         });
+      }).catch(err => {
+        observer.error(err);
       });
     });
   }
