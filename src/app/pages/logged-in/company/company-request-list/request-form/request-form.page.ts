@@ -3,7 +3,7 @@ import { Location } from '@angular/common';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { ModalController, AlertController, PopoverController, NavController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
-import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 // services
 import { EventService } from '../../../../../providers/event.service';
 import { CompanyRequestService } from 'src/app/providers/logged-in/company-request.service';
@@ -24,7 +24,7 @@ import { CountryService } from 'src/app/providers/logged-in/country.service';
 })
 export class RequestFormPage implements OnInit {
 
-  @ViewChild('ckeditor', { static: false }) ckeditor: ClassicEditor;
+  @ViewChild('ckeditor', { static: false }) ckeditor: any;
 
   public company;
 

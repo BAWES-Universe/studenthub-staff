@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertController, ModalController } from '@ionic/angular';
-import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 //models
 import { RequestInterview } from 'src/app/models/request-interview';
 //services
@@ -17,7 +17,7 @@ import { StaffService } from 'src/app/providers/logged-in/staff.service';
 })
 export class RequestInterviewFormPage implements OnInit {
 
-  @ViewChild('ckeditor', { static: false }) ckeditor: ClassicEditor;
+  @ViewChild('ckeditor', { static: false }) ckeditor: any;
 
   public interviewRequest: RequestInterview;
   

@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ModalController, AlertController } from '@ionic/angular';
-import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 //services
 import { AuthService } from '../../../../providers/auth.service';
 import { CandidateService } from 'src/app/providers/logged-in/candidate.service';
@@ -19,7 +19,7 @@ export class CandidateCommittedFormPage implements OnInit {
 
   @Input() candidate;
    
-  @ViewChild('ckeditor', { static: false }) ckeditor: ClassicEditor;
+  @ViewChild('ckeditor', { static: false }) ckeditor: any;
  
   public model: Note;
 
