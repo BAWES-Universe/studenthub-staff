@@ -1,7 +1,8 @@
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const DATE_ONLY_PATTERN = /^(\d{4})-(\d{2})-(\d{2})$/;
 
 export function parseISO(value: string): Date {
-  return new Date(value);
+  return parseDate(value);
 }
 
 export function format(value: Date | string | number, pattern: string): string {
@@ -62,7 +63,10 @@ export function isSameDay(left: Date | number, right: Date | number): boolean {
 }
 
 export function isSameMonth(left: Date | number, right: Date | number): boolean {
-  return toDate(left).getMonth() === toDate(right).getMonth();
+  const leftDate = toDate(left);
+  const rightDate = toDate(right);
+
+  return leftDate.getFullYear() === rightDate.getFullYear() && leftDate.getMonth() === rightDate.getMonth();
 }
 
 export function isSameYear(left: Date | number, right: Date | number): boolean {
@@ -75,6 +79,17 @@ export function isToday(value: Date | number): boolean {
 
 function toDate(value: Date | number): Date {
   return value instanceof Date ? value : new Date(value);
+}
+
+function parseDate(value: string): Date {
+  const dateOnly = DATE_ONLY_PATTERN.exec(value);
+
+  if (!dateOnly) {
+    return new Date(value);
+  }
+
+  const [, year, month, day] = dateOnly;
+  return new Date(Number(year), Number(month) - 1, Number(day));
 }
 
 function pad(value: number): string {

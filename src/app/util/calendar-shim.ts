@@ -3,6 +3,8 @@ import { Component, Input, NgModule } from '@angular/core';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { format } from 'date-fns';
 
+const DATE_ONLY_PATTERN = /^(\d{4})-(\d{2})-(\d{2})$/;
+
 export interface CalendarResult {
   string: string;
   unix: number;
@@ -155,7 +157,18 @@ export class CalendarModal {
   }
 
   private toDate(value: Date | string) {
-    return value instanceof Date ? value : new Date(value);
+    if (value instanceof Date) {
+      return value;
+    }
+
+    const dateOnly = DATE_ONLY_PATTERN.exec(value);
+
+    if (!dateOnly) {
+      return new Date(value);
+    }
+
+    const [, year, month, day] = dateOnly;
+    return new Date(Number(year), Number(month) - 1, Number(day));
   }
 }
 
