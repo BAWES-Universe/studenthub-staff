@@ -1,7 +1,7 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ModalController, AlertController, PopoverController } from '@ionic/angular';
-import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 // models
 import { Candidate } from 'src/app/models/candidate';
 import { Fulltimer } from 'src/app/models/fulltimer';
@@ -27,7 +27,7 @@ import { AnalyticsService } from 'src/app/providers/analytics.service';
 })
 export class CompanyNoteFormPage implements OnInit {
 
-  @ViewChild('ckeditor', { static: false }) ckeditor: ClassicEditor;
+  @ViewChild('ckeditor', { static: false }) ckeditor: any;
 
   @Input() note;
   @Input() from;

@@ -9,7 +9,7 @@ import {
   ToastController
 } from '@ionic/angular';
 import { ActivatedRoute, Router } from '@angular/router';
-import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
   CalendarModal,
