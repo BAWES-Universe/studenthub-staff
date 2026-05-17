@@ -29,18 +29,20 @@ export function format(value: Date | number | string, pattern: string): string {
   const hours = date.getHours();
   const twelveHour = hours % 12 || 12;
   const monthShort = date.toLocaleString('en-US', { month: 'short' });
+  const replacements: { [token: string]: string } = {
+    yyyy: String(date.getFullYear()),
+    MMM: monthShort,
+    MM: pad(date.getMonth() + 1),
+    dd: pad(date.getDate()),
+    d: String(date.getDate()),
+    HH: pad(hours),
+    hh: pad(twelveHour),
+    mm: pad(date.getMinutes()),
+    ss: pad(date.getSeconds()),
+    a: hours >= 12 ? 'PM' : 'AM',
+  };
 
-  return pattern
-    .replace(/yyyy/g, String(date.getFullYear()))
-    .replace(/MMM/g, monthShort)
-    .replace(/MM/g, pad(date.getMonth() + 1))
-    .replace(/dd/g, pad(date.getDate()))
-    .replace(/d/g, String(date.getDate()))
-    .replace(/HH/g, pad(hours))
-    .replace(/hh/g, pad(twelveHour))
-    .replace(/mm/g, pad(date.getMinutes()))
-    .replace(/ss/g, pad(date.getSeconds()))
-    .replace(/a/g, hours >= 12 ? 'PM' : 'AM');
+  return pattern.replace(/yyyy|MMM|MM|dd|d|HH|hh|mm|ss|a/g, token => replacements[token]);
 }
 
 export function startOfMonth(value: Date | number | string): Date {

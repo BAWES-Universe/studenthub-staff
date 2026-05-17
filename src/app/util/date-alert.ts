@@ -6,14 +6,30 @@ export interface DateRangeSelection {
   to: string;
 }
 
+const DATE_ONLY_RE = /^(\d{4})-(\d{2})-(\d{2})$/;
+
+function parseDateInput(value: Date | string | number): Date {
+  if (value instanceof Date) {
+    return value;
+  }
+
+  if (typeof value === 'string') {
+    const dateOnly = DATE_ONLY_RE.exec(value);
+    if (dateOnly) {
+      const [, year, month, day] = dateOnly;
+      return new Date(Number(year), Number(month) - 1, Number(day));
+    }
+  }
+
+  return new Date(value);
+}
+
 function toInputDate(value?: Date | string | number): string {
   if (!value) {
     return format(new Date(), 'yyyy-MM-dd');
   }
 
-  const date = value instanceof Date
-    ? value
-    : new Date(typeof value === 'string' ? value.replace(/-/g, '/') : value);
+  const date = parseDateInput(value);
 
   return Number.isNaN(date.getTime()) ? format(new Date(), 'yyyy-MM-dd') : format(date, 'yyyy-MM-dd');
 }

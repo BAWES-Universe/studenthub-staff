@@ -1716,7 +1716,10 @@ export class CandidateViewPage implements OnInit {
         {
           text: 'Ok',
           handler: async (data) => {
-              const date = await presentDateAlert(this.alertCtrl, this.candidate.candidate_civil_expiry_date);
+              const defaultDate = this.candidate?.candidate_civil_expiry_date
+                ? new Date(this.candidate.candidate_civil_expiry_date)
+                : undefined;
+              const date = await presentDateAlert(this.alertCtrl, defaultDate);
               if (date) {
                 const loading = await this.loadingCtrl.create();
                 loading.present();

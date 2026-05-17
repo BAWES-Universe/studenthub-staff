@@ -212,15 +212,15 @@ export class DateRangeRefinementListComponent extends BaseWidget {
    */
   async openCalendarPopup(string) {
 
-    const defaultDate = string == 'l' ? this.value.lower : this.value.upper;
+    const defaultDate = string === 'l' ? this.value.lower : this.value.upper;
     const date = await presentDateAlert(this.alertCtrl, new Date(defaultDate * 1000));
 
     if (date) {
 
-      if (string =='l') {
+      if (string === 'l') {
         this.lowerDate = date;
         this.value.lower = Math.floor(new Date(date).getTime() / 1000);
-      } else if (string =='h') {
+      } else if (string === 'h') {
         this.upperDate = date;
         this.value.upper = Math.floor(new Date(date).getTime() / 1000);
       }
