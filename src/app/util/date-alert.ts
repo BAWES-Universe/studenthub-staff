@@ -59,9 +59,16 @@ export async function presentDateRangeAlert(
     return null;
   }
 
+  const from = toInputDate(values.from);
+  const to = toInputDate(values.to);
+
+  if (from > to) {
+    return { from: to, to: from };
+  }
+
   return {
-    from: values.from,
-    to: values.to,
+    from,
+    to,
   };
 }
 

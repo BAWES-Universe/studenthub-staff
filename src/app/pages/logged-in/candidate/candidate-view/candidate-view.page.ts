@@ -11,6 +11,7 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { format, parseISO } from 'date-fns';
 import { presentDateAlert } from 'src/app/util/date-alert';
 
 // models
@@ -1721,12 +1722,16 @@ export class CandidateViewPage implements OnInit {
                 : undefined;
               const date = await presentDateAlert(this.alertCtrl, defaultDate);
               if (date) {
+                const formattedDate = format(parseISO(date), 'yyyy-MM-dd');
                 const loading = await this.loadingCtrl.create();
                 loading.present();
 
-                this.candidateService.updateCivilExpiry(date, this.candidate_id).subscribe(res => {
+                this.candidateService.updateCivilExpiry(formattedDate, this.candidate_id).subscribe(res => {
                     if (res.operation == 'success') {
-                      this.candidate.candidate_civil_expiry_date = date;
+                      this.candidate.candidate_civil_expiry_date =
+                        res.candidate_civil_expiry_date
+                        || res.data?.candidate_civil_expiry_date
+                        || formattedDate;
                     }
                     this.toastCtrl.create({
                       message: this.authService.errorMessage(res.message),
