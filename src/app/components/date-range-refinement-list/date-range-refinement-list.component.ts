@@ -2,9 +2,9 @@ import { Component, Input, Inject, forwardRef, EventEmitter, Output, OnInit, Opt
 import { connectRange } from 'instantsearch.js/es/connectors';
 import { BaseWidget, NgAisIndex, NgAisInstantSearch } from 'angular-instantsearch';
 import { parseNumberInput, noop } from 'angular-instantsearch/esm2015/utils';
-import {CalendarModal, CalendarModalOptions, CalendarResult} from 'ion2-calendar';
-import { ModalController } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
 import {Options} from "ng5-slider";
+import { presentDateAlert } from 'src/app/util/date-alert';
 
 @Component({
   selector: 'date-range-refinement-list',
@@ -51,7 +51,7 @@ export class DateRangeRefinementListComponent extends BaseWidget {
       public instantSearchInstance,
       @Optional()
         public parentIndex: NgAisIndex,
-      public modalCtrl: ModalController
+      public alertCtrl: AlertController
   ) {
       super('RangeRefinementComponent');
 
@@ -212,36 +212,17 @@ export class DateRangeRefinementListComponent extends BaseWidget {
    */
   async openCalendarPopup(string) {
 
-    const options: CalendarModalOptions = {
-      canBackwardsSelected: true,
-      pickMode: 'single',
-      title: '',
-      //defaultScrollTo: new Date(this.value.upper),
-      defaultDateRange: {
-        from: new Date(this.value.lower),
-        to:  new Date(this.value.upper)
-      }
-    };
-
-    const myCalendar = await this.modalCtrl.create({
-      component: CalendarModal,
-      cssClass: 'modal-calender',
-      componentProps: { options }
-    });
-
-    myCalendar.present();
-
-    const eventCloseData: any = await myCalendar.onDidDismiss();
-    const date = eventCloseData.data;
+    const defaultDate = string == 'l' ? this.value.lower : this.value.upper;
+    const date = await presentDateAlert(this.alertCtrl, new Date(defaultDate * 1000));
 
     if (date) {
 
       if (string =='l') {
-        this.lowerDate = date.string;
-        this.value.lower = date.unix;
+        this.lowerDate = date;
+        this.value.lower = Math.floor(new Date(date).getTime() / 1000);
       } else if (string =='h') {
-        this.upperDate = date.string;
-        this.value.upper = date.unix;
+        this.upperDate = date;
+        this.value.upper = Math.floor(new Date(date).getTime() / 1000);
       }
       //this.value.upper = date.unix + (60*60*24);
 

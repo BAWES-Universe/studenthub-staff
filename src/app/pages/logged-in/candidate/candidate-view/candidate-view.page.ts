@@ -11,12 +11,7 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import {
-  CalendarModal,
-  CalendarModalOptions,
-  CalendarResult,
-  CalendarComponentOptions
-} from 'ion2-calendar';
+import { presentDateAlert } from 'src/app/util/date-alert';
 
 // models
 import { Store } from 'src/app/models/store';
@@ -1721,28 +1716,14 @@ export class CandidateViewPage implements OnInit {
         {
           text: 'Ok',
           handler: async (data) => {
-              const options: CalendarModalOptions = {
-                title: 'Select Date',
-                canBackwardsSelected: false,
-              };
-
-              const myCalendar = await this.modalCtrl.create({
-                component: CalendarModal,
-                componentProps: { options },
-                cssClass: "popup-modal"
-              });
-
-              myCalendar.present();
-
-              const event: any = await myCalendar.onDidDismiss();
-              const date: CalendarResult = event.data;
+              const date = await presentDateAlert(this.alertCtrl, this.candidate.candidate_civil_expiry_date);
               if (date) {
                 const loading = await this.loadingCtrl.create();
                 loading.present();
 
-                this.candidateService.updateCivilExpiry(date.string, this.candidate_id).subscribe(res => {
+                this.candidateService.updateCivilExpiry(date, this.candidate_id).subscribe(res => {
                     if (res.operation == 'success') {
-                      this.candidate.candidate_civil_expiry_date = date.string;
+                      this.candidate.candidate_civil_expiry_date = date;
                     }
                     this.toastCtrl.create({
                       message: this.authService.errorMessage(res.message),
