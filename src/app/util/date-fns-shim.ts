@@ -20,7 +20,7 @@ function pad(value: number, length = 2): string {
   return String(value).padStart(length, '0');
 }
 
-export function parseISO(value: string): Date {
+export function parseISO(value: Date | number | string): Date {
   return toDate(value);
 }
 

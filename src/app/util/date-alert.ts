@@ -1,27 +1,17 @@
 import { AlertController } from '@ionic/angular';
-import { format } from 'date-fns';
+import { format, parseISO } from 'date-fns';
 
 export interface DateRangeSelection {
   from: string;
   to: string;
 }
 
-const DATE_ONLY_RE = /^(\d{4})-(\d{2})-(\d{2})$/;
-
 function parseDateInput(value: Date | string | number): Date {
   if (value instanceof Date) {
     return value;
   }
 
-  if (typeof value === 'string') {
-    const dateOnly = DATE_ONLY_RE.exec(value);
-    if (dateOnly) {
-      const [, year, month, day] = dateOnly;
-      return new Date(Number(year), Number(month) - 1, Number(day));
-    }
-  }
-
-  return new Date(value);
+  return parseISO(value);
 }
 
 function toInputDate(value?: Date | string | number): string {
