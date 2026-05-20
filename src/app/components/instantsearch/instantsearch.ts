@@ -137,6 +137,11 @@ export class NgAisInstantSearch implements AfterContentInit, OnChanges, OnDestro
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.config && this.config) {
+      if (this.instantSearchInstance) {
+        this.updateInstantSearchConfig();
+        return;
+      }
+
       this.createInstantSearch();
     }
   }
@@ -216,6 +221,18 @@ export class NgAisInstantSearch implements AfterContentInit, OnChanges, OnDestro
 
     if (this.started) {
       this.instantSearchInstance.start();
+    }
+  }
+
+  private updateInstantSearchConfig() {
+    this.searchParameters = this.config.searchParameters || {};
+    this.instantSearchInstance.searchParameters = this.searchParameters;
+
+    const helper = this.instantSearchInstance.helper;
+    if (helper && typeof helper.setQueryParameters === 'function') {
+      helper.setQueryParameters(this.searchParameters).search();
+    } else if (typeof this.instantSearchInstance.refresh === 'function') {
+      this.instantSearchInstance.refresh();
     }
   }
 
