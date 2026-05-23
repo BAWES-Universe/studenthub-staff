@@ -60,7 +60,7 @@
     "ionicons": "^6.0.3",
     "mixpanel-browser": "^2.45.0",
     "moment": "^2.30.1",
-    "@angular-slider/ngx-slider": "^2.0.0",
+    "@angular-slider/ngx-slider": "^15.0.0",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
