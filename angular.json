@@ -198,10 +198,10 @@
               "buildTarget": "app:build:development"
             },
             "production-mobile": {
-              "buildTarget": "app:build:production-mobile"
+              "buildTarget": "app:build:production"
             },
             "anil": {
-              "buildTarget": "app:build:anil"
+              "buildTarget": "app:build:production"
             },
             "docker": {
               "buildTarget": "app:build:docker"
@@ -222,7 +222,7 @@
               "buildTarget": "app:build:krushn"
             },
             "prod": {
-              "buildTarget": "app:build:prod"
+              "buildTarget": "app:build:production"
             },
             "saoud": {
               "buildTarget": "app:build:saoud"
