@@ -59,10 +59,10 @@
                          "ion2-calendar":  "^3.5.0",
                          "ionicons":  "^6.0.3",
                          "mixpanel-browser":  "^2.45.0",
-                         "ng5-slider":  "^1.2.6",
                          "rxjs":  "~7.5.0",
                          "tslib":  "^2.3.0",
-                         "zone.js":  "~0.11.4"
+                         "zone.js":  "~0.11.4",
+                         "@angular-slider/ngx-slider":  "^3.0.0"
                      },
     "devDependencies":  {
                             "@angular-devkit/build-angular":  "^15.0.0",
