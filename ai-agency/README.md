@@ -59,7 +59,11 @@ setx OPENAI_API_KEY "your_openai_key"
 npm run ai-agency -- preview
 npm run ai-agency -- profile
 npm run ai-agency -- search "hiring remote javascript"
+npm run ai-agency -- jobs "remote github jobs"
 npm run ai-agency -- suggest-readme
+npm run ai-agency -- portfolio
+npm run ai-agency -- update-readme
+npm run ai-agency -- cover-letter "Acme Corp" "AI Product Manager" "Lead product development for AI-powered tools"
 npm run ai-agency -- create-issue owner/repo "Title" "Issue body"
 ```
 
@@ -68,7 +72,11 @@ npm run ai-agency -- create-issue owner/repo "Title" "Issue body"
 - `preview` prints the current agency structure
 - `profile` reads your GitHub profile with `GITHUB_TOKEN`
 - `search` scans GitHub issues for hiring/opportunity keywords
+- `jobs` searches GitHub discussions and remote opportunities
 - `suggest-readme` generates improvement suggestions using OpenAI
+- `portfolio` generates a polished portfolio README draft
+- `update-readme` rewrites the root README as a portfolio and backs up the original
+- `cover-letter` creates a tailored cover letter markdown file
 - `create-issue` opens a new issue in a chosen repo
 
 ## Run the AI agency preview

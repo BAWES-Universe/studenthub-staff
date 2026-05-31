@@ -64,6 +64,11 @@ async function searchIssues(query, per_page = 10) {
   return request(`/search/issues?q=${encoded}&per_page=${per_page}`);
 }
 
+async function searchDiscussions(query, per_page = 10) {
+  const encoded = encodeURIComponent(`${query} type:discussion state:open`);
+  return request(`/search/issues?q=${encoded}&per_page=${per_page}`);
+}
+
 async function getRepo(ownerRepo) {
   return request(`/repos/${ownerRepo}`);
 }
@@ -82,6 +87,7 @@ async function getReadme(ownerRepo, branch = 'master') {
 module.exports = {
   getAuthenticatedUser,
   searchIssues,
+  searchDiscussions,
   getRepo,
   createIssue,
   getReadme,
