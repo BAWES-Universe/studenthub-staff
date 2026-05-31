@@ -35,3 +35,14 @@ A structured AI agency setup with the following teams, each composed of 6 specia
 ## Next step
 
 If you want, I can also create a GitHub branch and push this agency setup to the remote repository.
+
+## Run the AI agency preview
+
+This agency manifest is currently a design blueprint. To inspect it locally, run:
+
+```bash
+npm install
+npm run run:ai-agency
+```
+
+This will print the agency name, team list, and each agent's focus from `ai-agency/agents.json`.

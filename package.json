@@ -14,7 +14,8 @@
     "build:devserver": "ng build --configuration=dev --service-worker",
     "build:production": "ng build --configuration=production --service-worker ",
     "ionic:serve:khalid": "ionic serve --configuration=khalid",
-    "sentry:sourcemaps": "sentry-cli sourcemaps inject --org pogi --project sh-staff-app ./www && sentry-cli sourcemaps upload --org pogi --project sh-staff-app ./www"
+    "sentry:sourcemaps": "sentry-cli sourcemaps inject --org pogi --project sh-staff-app ./www && sentry-cli sourcemaps upload --org pogi --project sh-staff-app ./www",
+    "run:ai-agency": "node ai-agency/run.js"
   },
   "private": true,
   "dependencies": {
