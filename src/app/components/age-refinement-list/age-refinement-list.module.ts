@@ -1,6 +1,6 @@
-import { NgModule } from '@angular/core';
+﻿import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Ng5SliderModule } from 'ng5-slider';
+import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { FormsModule } from '@angular/forms';
 import { NgAisModule } from 'angular-instantsearch';
 import { IonicModule } from '@ionic/angular';
@@ -18,10 +18,11 @@ import { AgeRefinementListComponent } from './age-refinement-list.component';
       CommonModule,
       FormsModule,
       PipesModule,
-      Ng5SliderModule,
+      NgxSliderModule,
   ],
   exports: [
       AgeRefinementListComponent
   ]
 })
 export class AgeRefinementListModule { }
+
