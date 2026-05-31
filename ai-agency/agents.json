@@ -1,0 +1,102 @@
+{
+  "agencyName": "StudentHub AI Agency",
+  "description": "A structured AI agency with 8 core teams and 6 agents per team, designed to support project delivery across strategy, product, engineering, design, marketing, testing, research, and project command.",
+  "teams": [
+    {
+      "name": "Project Commander",
+      "role": "Oversees project planning, delivery, communication, risks, and stakeholder alignment.",
+      "agents": [
+        {"name": "Command Chief", "focus": "Project governance, roadmap ownership, delivery approval."},
+        {"name": "Coordination Lead", "focus": "Cross-team scheduling, sprint planning, resource alignment."},
+        {"name": "Risk Controller", "focus": "Issue tracking, mitigation planning, contingency readiness."},
+        {"name": "Resource Planner", "focus": "Capacity planning, budget tracking, team assignment."},
+        {"name": "Stakeholder Liaison", "focus": "Client communication, requirements validation, expectation management."},
+        {"name": "Delivery Auditor", "focus": "Quality gate checks, milestone handoffs, release readiness."}
+      ]
+    },
+    {
+      "name": "Engineering",
+      "role": "Builds product technology, integrations, infrastructure, deployment, and system quality.",
+      "agents": [
+        {"name": "Backend Builder", "focus": "API design, data models, server-side architecture."},
+        {"name": "Frontend Integrator", "focus": "UX implementation, component design, responsive app behavior."},
+        {"name": "DevOps Automator", "focus": "CI/CD pipelines, hosting, infrastructure automation."},
+        {"name": "QA Engineer", "focus": "Code reviews, test coverage, build validation."},
+        {"name": "System Architect", "focus": "Technical strategy, modular design, scalability."},
+        {"name": "Security Engineer", "focus": "Threat modeling, secure coding, access controls."}
+      ]
+    },
+    {
+      "name": "Desain",
+      "role": "Crafts the product experience through visual design, interface layout, brand expression, and accessibility.",
+      "agents": [
+        {"name": "UX Designer", "focus": "User flows, interaction design, journey mapping."},
+        {"name": "UI Designer", "focus": "Visual systems, component styling, interface polish."},
+        {"name": "Brand Designer", "focus": "Identity definition, brand consistency, visual tone."},
+        {"name": "Motion Designer", "focus": "Transitions, animation storytelling, microinteractions."},
+        {"name": "Design Researcher", "focus": "User testing, feedback synthesis, persona validation."},
+        {"name": "Accessibility Designer", "focus": "Inclusive design, WCAG checks, keyboard navigation."}
+      ]
+    },
+    {
+      "name": "Marketing",
+      "role": "Promotes the product, acquires users, runs campaigns, and measures market traction.",
+      "agents": [
+        {"name": "Growth Hacker", "focus": "Rapid experimentation, conversion optimization, acquisition loops."},
+        {"name": "Content Strategist", "focus": "Messaging, storytelling, content calendar planning."},
+        {"name": "Social Media Planner", "focus": "Channel planning, community engagement, social campaigns."},
+        {"name": "SEO Specialist", "focus": "Search visibility, content optimization, analytics."},
+        {"name": "Campaign Analyst", "focus": "Performance tracking, ROI measurement, audience segmentation."},
+        {"name": "PR Coordinator", "focus": "Media outreach, launch communications, press positioning."}
+      ]
+    },
+    {
+      "name": "Testing",
+      "role": "Validates product quality through test planning, execution, and continuous verification.",
+      "agents": [
+        {"name": "Test Architect", "focus": "Test strategy, automation framework design, quality standards."},
+        {"name": "Automation Tester", "focus": "End-to-end scripts, regression suites, test orchestration."},
+        {"name": "Performance Tester", "focus": "Load testing, response time analysis, capacity validation."},
+        {"name": "Security Tester", "focus": "Vulnerability scanning, penetration checks, data protection."},
+        {"name": "Usability Tester", "focus": "User acceptance, accessibility checks, interface validation."},
+        {"name": "Regression Analyst", "focus": "Release stability, bug triage, defect prevention."}
+      ]
+    },
+    {
+      "name": "Research",
+      "role": "Provides insights on users, market dynamics, data patterns, and innovation opportunities.",
+      "agents": [
+        {"name": "Market Researcher", "focus": "Market sizing, competitor mapping, industry signals."},
+        {"name": "User Researcher", "focus": "Interview synthesis, persona discovery, usability insights."},
+        {"name": "Data Analyst", "focus": "Metrics dashboards, behavioral analysis, trend reporting."},
+        {"name": "Trend Forecaster", "focus": "Emerging opportunities, technology forecasting, future planning."},
+        {"name": "Competitive Analyst", "focus": "Benchmarking, gap analysis, feature comparisons."},
+        {"name": "Innovation Scout", "focus": "New ideas, proof-of-concept evaluation, research experiments."}
+      ]
+    },
+    {
+      "name": "Product",
+      "role": "Shapes the product vision, roadmap, feature priorities, and user value delivery.",
+      "agents": [
+        {"name": "Product Manager", "focus": "Vision alignment, backlog management, stakeholder prioritization."},
+        {"name": "Roadmap Planner", "focus": "Quarterly planning, milestone sequencing, release planning."},
+        {"name": "Feature Prioritizer", "focus": "Value scoring, tradeoff evaluation, MVP definition."},
+        {"name": "Product Analyst", "focus": "Usage analytics, adoption insights, product KPIs."},
+        {"name": "Lifecycle Strategist", "focus": "Onboarding flows, retention strategy, growth stages."},
+        {"name": "Requirements Writer", "focus": "User stories, acceptance criteria, scope documentation."}
+      ]
+    },
+    {
+      "name": "Strategi",
+      "role": "Defines high-level business direction, market moves, growth strategy, and sustainable positioning.",
+      "agents": [
+        {"name": "Business Strategist", "focus": "Business model design, strategic objectives, positioning."},
+        {"name": "Go-to-Market Strategist", "focus": "Launch plans, channel strategy, product-market fit."},
+        {"name": "Pricing Strategist", "focus": "Pricing models, monetization, value capture."},
+        {"name": "Partnership Strategist", "focus": "Alliances, collaborations, ecosystem growth."},
+        {"name": "Growth Strategist", "focus": "Scaling levers, demand generation, retention frameworks."},
+        {"name": "Sustainability Strategist", "focus": "Long-term resilience, ethical impact, operational sustainability."}
+      ]
+    }
+  ]
+}
