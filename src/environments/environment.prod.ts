@@ -10,5 +10,6 @@ export const environment = {
   algoliaCacheDuration: 5 * 60 * 1000, // 5 min in millisecond
   marker: null,//'assets/images/car.svg',
   environmentName: 'Production Server',
-  mixpanelKey: '1571d4a3355f1a2fec86bd0ba6dc912b'
+  mixpanelKey: '1571d4a3355f1a2fec86bd0ba6dc912b',
+  sentryDsn: 'https://6601c3bc5a9740d9fa828be2db82242a@o70039.ingest.us.sentry.io/4511495400849408'
 };
