@@ -13,6 +13,7 @@ export const environment = {
   environmentName: 'Krushn Local Machine',
   marker: null,//'assets/images/car.svg',
   serviceWorker: false,
-  mixpanelKey: 'ac62dbe81767f8871f754c7bdf6669d6'
+  mixpanelKey: 'ac62dbe81767f8871f754c7bdf6669d6',
+  sentryDsn: 'https://6601c3bc5a9740d9fa828be2db82242a@o70039.ingest.us.sentry.io/4511495400849408'
 };
 

@@ -11,4 +11,5 @@ export const environment = {
   marker: null,//'assets/images/car.svg',
   serviceWorker: true,
   mixpanelKey: 'ac62dbe81767f8871f754c7bdf6669d6',
+  sentryDsn: '',
 };
