@@ -6,15 +6,19 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "prebuild": "npm run sentry:prebuild",
     "build": "ng build",
+    "postbuild": "npm run sentry:postbuild",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint",
     "serve-kk": "ionic serve --configuration=krushn",
-    "build:devserver": "ng build --configuration=dev --service-worker",
-    "build:production": "ng build --configuration=production --service-worker ",
+    "build:devserver": "npm run sentry:prebuild && ng build --configuration=dev && npm run sentry:postbuild",
+    "build:production": "npm run sentry:prebuild && ng build --configuration=production && npm run sentry:postbuild",
     "ionic:serve:khalid": "ionic serve --configuration=khalid",
-    "sentry:sourcemaps": "sentry-cli sourcemaps inject --org pogi --project sh-staff-app ./www && sentry-cli sourcemaps upload --org pogi --project sh-staff-app ./www"
+    "sentry:prebuild": "node scripts/sentry-build.js prebuild",
+    "sentry:postbuild": "node scripts/sentry-build.js postbuild",
+    "sentry:sourcemaps": "npm run sentry:postbuild"
   },
   "private": true,
   "dependencies": {
