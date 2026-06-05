@@ -1,6 +1,16 @@
 import { Component, forwardRef, Input, OnChanges, OnInit } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
-import * as dateFns from 'date-fns';
+import {
+  eachDayOfInterval,
+  endOfMonth,
+  getDate,
+  getMonth,
+  getYear,
+  isSameDay,
+  isSameMonth,
+  isSameYear,
+  startOfMonth
+} from 'src/app/util/date-fns';
 import { Platform } from '@ionic/angular';
 
 
@@ -146,22 +156,18 @@ export class DateDropdownComponent implements ControlValueAccessor, OnInit, OnCh
 
     const actualDate = new Date(this.value).getTime() || new Date();
 
-    const start = dateFns.startOfMonth(actualDate);
-    const end = dateFns.endOfMonth(actualDate);
+    const start = startOfMonth(actualDate);
+    const end = endOfMonth(actualDate);
 
-    this.days = dateFns.eachDayOfInterval({ start, end }).map(date => {
+    this.days = eachDayOfInterval({ start, end }).map(date => {
 
       const selectedDate = new Date(this._value).getTime();
 
       return {
         // date: date,
-        day: dateFns.getDate(date),
-        isSelected: this._value && dateFns.isSameDay(date, selectedDate) && dateFns.isSameMonth(date, selectedDate) && dateFns.isSameYear(date, selectedDate),
+        day: getDate(date),
+        isSelected: this._value && isSameDay(date, selectedDate) && isSameMonth(date, selectedDate) && isSameYear(date, selectedDate),
         isSelectable: true// this.value? this.isDateSelectable(date): true
-        /*month: dateFns.getMonth(date),
-        year: dateFns.getYear(date),
-        inThisMonth: true,
-        isToday: dateFns.isToday(date),*/
       };
     });
   }
@@ -179,7 +185,7 @@ export class DateDropdownComponent implements ControlValueAccessor, OnInit, OnCh
         months.push({
           month: i + 1,
           isSelectable: this.isDateSelectable(selectedDate.getFullYear() + '/' + (i + 1) + '/01'),
-          isSelected: (i + 1) === dateFns.getMonth(selectedDate.getTime()) + 1
+          isSelected: (i + 1) === getMonth(selectedDate.getTime()) + 1
         });
       }
 
@@ -196,7 +202,7 @@ export class DateDropdownComponent implements ControlValueAccessor, OnInit, OnCh
       return {
         month: month,
         isSelectable: this.isDateSelectable(selectedDate.getFullYear() + '/' + month + '/01'),
-        isSelected: month === dateFns.getMonth(new Date(this.value).getTime()) + 1
+        isSelected: month === getMonth(new Date(this.value).getTime()) + 1
       };
     });
   }
@@ -222,7 +228,7 @@ export class DateDropdownComponent implements ControlValueAccessor, OnInit, OnCh
     ).map((year) => {
       return {
         year: year,
-        isSelected: year === dateFns.getYear(new Date(this.value).getTime())
+        isSelected: year === getYear(new Date(this.value).getTime())
       };
     });
   }

@@ -12,11 +12,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
+  CalendarComponentOptions,
   CalendarModal,
+  CalendarDateResult,
   CalendarModalOptions,
-  CalendarResult,
-  CalendarComponentOptions
-} from 'ion2-calendar';
+} from 'src/app/components/calendar-modal/calendar-modal.component';
 
 // models
 import { Store } from 'src/app/models/store';
@@ -1735,7 +1735,7 @@ export class CandidateViewPage implements OnInit {
               myCalendar.present();
 
               const event: any = await myCalendar.onDidDismiss();
-              const date: CalendarResult = event.data;
+              const date: CalendarDateResult = event.data;
               if (date) {
                 const loading = await this.loadingCtrl.create();
                 loading.present();
