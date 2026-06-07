@@ -11,7 +11,6 @@ import {
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { CustomValidator } from 'src/app/validators/custom.validator';
-import { CalendarModal, CalendarModalOptions } from 'ion2-calendar';
 import { Subscription } from 'rxjs';
 // models
 import { Transfer } from 'src/app/models/transfer';
@@ -27,6 +26,7 @@ import { EventService } from '../../../../providers/event.service';
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 import { SentryErrorhandlerService } from 'src/app/providers/sentry.errorhandler.service';
 import { AnalyticsService } from 'src/app/providers/analytics.service';
+import { presentDateRangeAlert } from 'src/app/util/date-alert';
 
 
 @Component({
@@ -59,7 +59,7 @@ export class TransferFormPage implements OnInit {
   public endDate; // max date
   public selected; // max date
   dateRange: { from: string; to: string; };
-  type: 'string'; // 'string' | 'js-date' | 'moment' | 'time' | 'object'
+  type: 'string';
 
   public borderLimit: boolean = false;
 
@@ -544,42 +544,24 @@ export class TransferFormPage implements OnInit {
     // Set it to one month ago
     fromDate.setMonth(fromDate.getMonth() - 1);
 
-    const options: CalendarModalOptions = {
-      canBackwardsSelected: true,
-      pickMode: 'range',
-      title: '',
-      defaultScrollTo: new Date(),
-      defaultDateRange: {
-        from: fromDate,
-        to: new Date()
-      }
-    };
-
-    const myCalendar = await this.modalCtrl.create({
-      component: CalendarModal,
-      cssClass: 'modal-calender',
-      componentProps: { options }
+    const date = await presentDateRangeAlert(this._alertCtrl, {
+      from: fromDate,
+      to: new Date()
     });
-
-    myCalendar.present();
-
-    const eventCloseData: any = await myCalendar.onDidDismiss();
-
-    const date = eventCloseData.data;
 
     if (date) {
       // this.startDate
 
       console.log(this.form)
       if (this.form && this.form.controls && this.form.controls['start_date']) {
-        this.form.controls['start_date'].setValue(date.from.string);
-        this.form.controls['end_date'].setValue(date.to.string);
+        this.form.controls['start_date'].setValue(date.from);
+        this.form.controls['end_date'].setValue(date.to);
       }
 
-      this.startDate = date.from.string;
-      this.endDate = date.to.string;
+      this.startDate = date.from;
+      this.endDate = date.to;
 
-      this.range = date.from.string + '-' + date.to.string;
+      this.range = date.from + '-' + date.to;
     }
   }
   
