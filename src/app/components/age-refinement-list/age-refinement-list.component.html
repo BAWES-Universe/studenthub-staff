@@ -43,9 +43,9 @@
                     {{ value.upper | age }}
                 </ion-label>
 
-                <ng5-slider [(value)]="value.lower" [(highValue)]="value.upper"
+                <ngx-slider [(value)]="value.lower" [(highValue)]="value.upper"
                     (userChangeEnd)="handleChange()"
-                    (userChange)="setLabel()" [options]="options"></ng5-slider>
+                    (userChange)="setLabel()" [options]="options"></ngx-slider>
                 <!--
                 <ion-range debounce="500" dualKnobs="true" (ionChange)="handleChange($event)"
                     [value]="value"
@@ -58,7 +58,7 @@
 
         </ng-container>
 
-        <p class="txt-no-items" *ngIf="average == 0">
+        <p class="txt-no-items" *ngIf="average === 0">
             ~ No options under this filter ~
         </p>
     </div>

@@ -623,6 +623,7 @@ export class CandidateSearchPage implements OnInit {
 
     return {
       indexName: environment.algoliaCandidateIndex,
+      searchParameters: this.searchParameters,
       searchClient: this.createSSRSearchClient({
         makeStateKey,
         HttpHeaders,

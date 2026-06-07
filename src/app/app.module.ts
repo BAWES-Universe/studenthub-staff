@@ -1,5 +1,5 @@
 import { APP_INITIALIZER, ErrorHandler, Injector, NgModule } from '@angular/core';
-import { BrowserModule, BrowserTransferStateModule } from '@angular/platform-browser';
+import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
@@ -111,16 +111,12 @@ declare global {
 
 @NgModule({
   declarations: [AppComponent],
-  entryComponents: [
-    ActionComponent
-  ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
     CalendarModule,
-    BrowserTransferStateModule,
     IonicStorageModule.forRoot({
       name: '__payroll_staff',
     //     version: 3
