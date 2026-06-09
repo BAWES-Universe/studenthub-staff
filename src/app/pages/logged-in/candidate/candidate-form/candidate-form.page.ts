@@ -99,7 +99,10 @@ export class CandidateFormPage implements OnInit {
     this.model.candidate_iban = this.form.value.iban;
     this.model.candidate_name_ar = this.form.value.name_ar;
 
-    this.model.candidate_phone = this.form.value.phone;
+    const phone = this.form.value.phone;
+    this.model.candidate_phone = this.model.candidate_id
+      ? this.normalizeKuwaitPhone(phone)
+      : phone;
 
     this.model.candidate_birth_date = this.form.controls['birth_date'].value;
 
@@ -228,6 +231,19 @@ export class CandidateFormPage implements OnInit {
 
   private existingCandidateValue(key: keyof Candidate) {
     return this.model[key] || window.history.state?.model?.[key] || null;
+  }
+
+  normalizePhoneControl() {
+    if (!this.model.candidate_id) {
+      return;
+    }
+
+    const control = this.form.controls['phone'];
+    const normalized = this.normalizeKuwaitPhone(control.value);
+
+    if (normalized !== control.value) {
+      control.setValue(normalized);
+    }
   }
 
   /**
