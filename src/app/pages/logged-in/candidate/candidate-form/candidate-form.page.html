@@ -215,7 +215,7 @@
           <ion-item class="input-wrapper" >
             <div tabindex="0"></div>
             <ion-label position="floating">Phone Number</ion-label>
-            <ion-input type="text" formControlName="phone"></ion-input>
+            <ion-input type="text" formControlName="phone" (ionBlur)="normalizePhoneControl()"></ion-input>
           </ion-item>
 
           <div class="error-wrapper" *ngIf="!form.controls['phone'].pristine">
