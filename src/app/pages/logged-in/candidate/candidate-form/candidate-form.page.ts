@@ -208,6 +208,28 @@ export class CandidateFormPage implements OnInit {
     this.maxBirthDate = new Date((yyyy - 16), mm).toISOString();
   }
 
+  private normalizeKuwaitPhone(phone: string): string {
+    if (!phone) {
+      return phone;
+    }
+
+    const digits = String(phone).replace(/\D/g, '');
+
+    if (digits.length === 11 && digits.startsWith('965')) {
+      return digits.slice(3);
+    }
+
+    if (digits.length === 8) {
+      return digits;
+    }
+
+    return phone;
+  }
+
+  private existingCandidateValue(key: keyof Candidate) {
+    return this.model[key] || window.history.state?.model?.[key] || null;
+  }
+
   /**
    * candidate detail
    */
@@ -275,6 +297,9 @@ export class CandidateFormPage implements OnInit {
       });
     } else { // Show Update Form
       this.operation = 'Update';
+      const civilPhotoFront = this.existingCandidateValue('candidate_civil_photo_front');
+      const civilPhotoBack = this.existingCandidateValue('candidate_civil_photo_back');
+
       this.form = this._fb.group({
         name: [this.model.candidate_name, Validators.required],
         email: [this.model.candidate_email, [Validators.required, CustomValidator.emailValidator]],
@@ -283,12 +308,12 @@ export class CandidateFormPage implements OnInit {
         country_id: [this.model.country_id + '', Validators.required],
         iban: [this.model.candidate_iban],
         name_ar: [this.model.candidate_name_ar, Validators.required],
-        phone: [this.model.candidate_phone, [Validators.required, Validators.pattern('^[0-9]{8}$')]],
+        phone: [this.normalizeKuwaitPhone(this.model.candidate_phone), [Validators.required, Validators.pattern('^[0-9]{8}$')]],
         birth_date: [this.model.candidate_birth_date, Validators.required],
         civil_id: [this.model.candidate_civil_id, [Validators.required, Validators.pattern('^[0-9]{12}$')]],
         photo: [this.model.candidate_personal_photo, Validators.required],
-        civilfront: [this.model.candidate_civil_photo_front, Validators.required],
-        civilback: [this.model.candidate_civil_photo_back, Validators.required],
+        civilfront: [civilPhotoFront, civilPhotoFront ? Validators.required : []],
+        civilback: [civilPhotoBack, civilPhotoBack ? Validators.required : []],
         expiry_date: [this.model.candidate_civil_expiry_date, Validators.required],
         //hourly_rate: [this.model.candidate_hourly_rate, Validators.required],
         objective: [this.model.candidate_objective, Validators.required],
