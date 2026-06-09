@@ -216,15 +216,27 @@ export class CandidateFormPage implements OnInit {
 
     const query = 'expand=candidateSkills,candidateTags,candidateExperiences,area,country';
 
-    this.candidateService.detail(this.candidate_id, query).subscribe(response => {
-      this.loading = false;
-      if (response) {
-        this.model = response;
-        this.model.pendingField =  this.model.pendingField.filter(v => v != "experience")
-        this.model.isProfileCompleted = this.model.pendingField.length == 0;
+    this.candidateService.detail(this.candidate_id, query).subscribe({
+      next: response => {
+        this.loading = false;
+        if (response) {
+          this.model = response;
+          const pendingField = Array.isArray(this.model.pendingField) ? this.model.pendingField : [];
+          this.model.pendingField = pendingField.filter(v => v !== 'experience');
+          this.model.isProfileCompleted = this.model.pendingField.length === 0;
 
-        this.initForm();
-      }
+          this.initForm();
+        }
+      },
+      error: async err => {
+        this.loading = false;
+        console.error(err);
+        const prompt = await this._alertCtrl.create({
+          message: 'Unable to load candidate profile. Please try again.',
+          buttons: ['Ok'],
+        });
+        prompt.present();
+      },
     });
   }
 
