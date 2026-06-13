@@ -67,7 +67,7 @@ import {FulltimeLocationPageModule} from './pages/logged-in/fulltimer/fulltime-l
 import { FulltimerSearchPageModule } from './pages/logged-in/fulltimer/fulltimer-search/fulltimer-search.module';
 import { StaffPageModule } from './pages/logged-in/pickers/staff/staff.module';
 import { DateDropdownModule } from './components/date-dropdown/date-dropdown.module';
-import { CalendarModule } from 'ion2-calendar';
+import { CalendarModalModule } from './components/calendar-modal/calendar-modal.module';
 import {CompanyFilterPageModule} from './pages/logged-in/company/company-list/company-filter/company-filter.module';
 import { StoreOptionPageModule } from './pages/logged-in/store/store-option/store-option.module';
 import { StoreModule } from './components/store/store.module';
@@ -119,7 +119,7 @@ declare global {
     IonicModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
-    CalendarModule,
+    CalendarModalModule,
     BrowserTransferStateModule,
     IonicStorageModule.forRoot({
       name: '__payroll_staff',

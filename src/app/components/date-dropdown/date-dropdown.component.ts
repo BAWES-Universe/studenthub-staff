@@ -1,6 +1,6 @@
 import { Component, forwardRef, Input, OnChanges, OnInit } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
-import * as dateFns from 'date-fns';
+import * as dateFns from 'src/app/util/date-fns';
 import { Platform } from '@ionic/angular';
 
 
