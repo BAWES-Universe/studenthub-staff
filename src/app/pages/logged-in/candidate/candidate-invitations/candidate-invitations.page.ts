@@ -103,7 +103,8 @@ export class CandidateInvitationsPage implements OnInit {
       this.loading = false;
       this.candidate = response;
       if(this.candidate){
-        this.candidate.pendingField =  this.candidate?.pendingField?.filter(v => v != "experience")
+        const pendingField = Array.isArray(this.candidate.pendingField) ? this.candidate.pendingField : [];
+        this.candidate.pendingField = pendingField.filter(v => v != "experience");
         this.candidate.isProfileCompleted = this.candidate.pendingField.length == 0;
       }
     });
