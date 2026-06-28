@@ -62,10 +62,10 @@
             <ion-item>
               <div tabindex="0"></div>
               <ion-avatar slot="start">
-                <ion-img *ngIf="!transferCandidateRecord.candidate.candidate_personal_photo" src="/assets/icon/icon.png">
+                <ion-img *ngIf="!awsService.hasCandidatePersonalPhoto(transferCandidateRecord.candidate)" src="/assets/icon/icon.png">
                 </ion-img>
                 <ion-img (ionError)="onImageError(transferCandidateRecord.candidate)"
-                  *ngIf="transferCandidateRecord.candidate.candidate_personal_photo"
+                  *ngIf="awsService.hasCandidatePersonalPhoto(transferCandidateRecord.candidate)"
                   [src]="awsService.getCandidatePersonalPhotoUrl(transferCandidateRecord.candidate)"></ion-img>
               </ion-avatar>
               <ion-label>

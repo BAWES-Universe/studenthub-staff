@@ -164,10 +164,10 @@
               <div tabindex="0"></div>
 
               <ion-avatar slot="start">
-                <ion-img *ngIf="resource.candidate && resource.candidate.candidate_personal_photo"
+                <ion-img *ngIf="resource.candidate && aws.hasCandidatePersonalPhoto(resource.candidate)"
                   [src]="aws.getCandidatePersonalPhotoUrl(resource.candidate)"
                   (ionError)="loadLogo($event,resource.candidate)"></ion-img>
-                <ion-img *ngIf="!resource.candidate || !resource.candidate.candidate_personal_photo" src="/assets/icon/icon.png"></ion-img>
+                <ion-img *ngIf="!resource.candidate || !aws.hasCandidatePersonalPhoto(resource.candidate)" src="/assets/icon/icon.png"></ion-img>
               </ion-avatar>
 
               <ion-label>

@@ -27,7 +27,7 @@
       </span>
     </div>
 
-    <ion-thumbnail slot="start" *ngIf="candidate.candidate_personal_photo">
+    <ion-thumbnail slot="start" *ngIf="awsService.hasCandidatePersonalPhoto(candidate)">
       <img (error)="onPhotoError()"
         [src]="awsService.getCandidatePersonalPhotoUrl(candidate)" />
     </ion-thumbnail>

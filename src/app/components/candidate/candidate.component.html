@@ -4,9 +4,9 @@
     <div tabindex="0"></div>
 
     <ion-avatar slot="start">
-      <img *ngIf="candidate.candidate_personal_photo"
+      <img *ngIf="aws.hasCandidatePersonalPhoto(candidate)"
         [src]="aws.getCandidatePersonalPhotoUrl(candidate)" onerror="this.src='/assets/icon/icon.png';">
-      <img *ngIf="candidate && !candidate.candidate_personal_photo" src="/assets/icon/icon.png">
+      <img *ngIf="candidate && !aws.hasCandidatePersonalPhoto(candidate)" src="/assets/icon/icon.png">
     </ion-avatar>
 
     <ion-label>

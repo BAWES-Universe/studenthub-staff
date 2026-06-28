@@ -75,11 +75,7 @@ export class ImageUploadComponent implements ControlValueAccessor, OnInit {
   }
 
   getPreviewSrc(): string {
-    if (!this._value) {
-      return '';
-    }
-
-    if (this.bucketUrl === this._bucketUrlTemporary) {
+    if (this.bucketUrl === this._bucketUrlTemporary && this._value) {
       return this._bucketUrlTemporary + this._value;
     }
 
@@ -88,6 +84,10 @@ export class ImageUploadComponent implements ControlValueAccessor, OnInit {
         candidate_personal_photo: this._value,
         candidate_personal_photo_url: this.photoUrl,
       }) || '';
+    }
+
+    if (!this._value) {
+      return '';
     }
 
     return this.bucketUrl + this._value;
