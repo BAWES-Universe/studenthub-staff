@@ -24,6 +24,28 @@ export class AwsService {
 
     public urlResume = environment.permanentBucketUrl + 'candidate-resume/';
 
+    /**
+     * Resolved profile photo URL from backend, with legacy Cloudinary fallback.
+     */
+    getCandidatePersonalPhotoUrl(candidate: {
+        candidate_personal_photo?: string | null;
+        candidate_personal_photo_url?: string | null;
+    } | null | undefined): string | null {
+        if (!candidate) {
+            return null;
+        }
+
+        if (candidate.candidate_personal_photo_url) {
+            return candidate.candidate_personal_photo_url;
+        }
+
+        if (candidate.candidate_personal_photo) {
+            return this.cloudinaryUrl + 'candidate-photo/' + candidate.candidate_personal_photo;
+        }
+
+        return null;
+    }
+
     private _region = 'eu-west-2'; // London
     private _access_key_id = '';
     private _secret_access_key = '';

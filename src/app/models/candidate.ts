@@ -26,6 +26,7 @@ export class Candidate {
     candidate_name: string;
     candidate_name_ar: string;
     candidate_personal_photo: string;
+    candidate_personal_photo_url?: string;
     candidate_email: string;
     candidate_phone: string;
     candidate_address_line1;

@@ -352,5 +352,6 @@ export class CompanyNoteFormPage implements OnInit {
    */
   onPhotoError() {
     this.candidate.candidate_personal_photo = null;
+    this.candidate.candidate_personal_photo_url = null;
   }
 }

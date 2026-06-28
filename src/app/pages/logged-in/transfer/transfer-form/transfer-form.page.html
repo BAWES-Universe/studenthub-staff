@@ -66,7 +66,7 @@
                 </ion-img>
                 <ion-img (ionError)="onImageError(transferCandidateRecord.candidate)"
                   *ngIf="transferCandidateRecord.candidate.candidate_personal_photo"
-                  src="{{ awsService.cloudinaryUrl + transferCandidateRecord.candidate.candidate_personal_photo }}"></ion-img>
+                  [src]="awsService.getCandidatePersonalPhotoUrl(transferCandidateRecord.candidate)"></ion-img>
               </ion-avatar>
               <ion-label>
                 <h5 class="candidate_name">{{ transferCandidateRecord.candidate.candidate_name?

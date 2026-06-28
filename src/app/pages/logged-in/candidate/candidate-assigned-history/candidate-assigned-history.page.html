@@ -105,7 +105,7 @@
 
         <ion-avatar slot="start">
           <img *ngIf="history.candidate.candidate_personal_photo"
-                src="{{ aws.cloudinaryUrl + 'candidate-photo/' + history.candidate.candidate_personal_photo }}" onerror="this.src='/assets/icon/icon.png';">
+                [src]="aws.getCandidatePersonalPhotoUrl(history.candidate)" onerror="this.src='/assets/icon/icon.png';">
           <img *ngIf="history.candidate && !history.candidate.candidate_personal_photo" src="/assets/icon/icon.png">
         </ion-avatar>
 

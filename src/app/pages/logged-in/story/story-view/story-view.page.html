@@ -267,7 +267,7 @@
               <div class="grow shrink basis-0 self-stretch justify-start items-start gap-3 flex">
                   
                   <img *ngIf="jobInterest.candidate.candidate_personal_photo" class="w-12 h-12 relative rounded-[44px]"
-                    src="{{ aws.cloudinaryUrl + 'candidate-photo/' + jobInterest.candidate.candidate_personal_photo }}" 
+                    [src]="aws.getCandidatePersonalPhotoUrl(jobInterest.candidate)"
                     onerror="this.src='/assets/icon/icon.png';"
                     >
                 <!-- 

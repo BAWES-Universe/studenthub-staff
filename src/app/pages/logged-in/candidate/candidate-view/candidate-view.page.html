@@ -29,7 +29,7 @@
 
     <ion-thumbnail slot="start" *ngIf="candidate.candidate_personal_photo">
       <img (error)="onPhotoError()"
-        src="{{ awsService.cloudinaryUrl + 'candidate-photo/' + candidate.candidate_personal_photo }}" />
+        [src]="awsService.getCandidatePersonalPhotoUrl(candidate)" />
     </ion-thumbnail>
 
     <h2 class="candidate-name" *ngIf="candidate.candidate_name">
