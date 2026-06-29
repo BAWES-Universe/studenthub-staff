@@ -1,7 +1,9 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ModalController, AlertController } from '@ionic/angular';
+
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { CKEditorComponent } from '@ckeditor/ckeditor5-angular';
 //services
 import { AuthService } from '../../../../providers/auth.service';
 import { CandidateService } from 'src/app/providers/logged-in/candidate.service';
@@ -19,7 +21,7 @@ export class CandidateCommittedFormPage implements OnInit {
 
   @Input() candidate;
    
-  @ViewChild('ckeditor', { static: false }) ckeditor: ClassicEditor;
+  @ViewChild('ckeditor', { static: false }) ckeditor?: CKEditorComponent;
  
   public model: Note;
 
@@ -58,7 +60,7 @@ export class CandidateCommittedFormPage implements OnInit {
 
   onEditorReady() {
     setTimeout(() => {
-      this.ckeditor.editorInstance.editing.view.focus();
+      this.ckeditor?.editorInstance?.editing?.view?.focus();
     }, 500);
   }
 
@@ -143,3 +145,5 @@ export class CandidateCommittedFormPage implements OnInit {
     this.borderLimit = (e.detail.scrollTop > 20) ? true : false;
   }
 }
+
+
