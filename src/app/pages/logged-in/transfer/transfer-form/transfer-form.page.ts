@@ -440,6 +440,7 @@ export class TransferFormPage implements OnInit {
 
   onImageError(candidate) {
     candidate.candidate_personal_photo = null;
+    candidate.candidate_personal_photo_url = null;
   }
 
   /**

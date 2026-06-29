@@ -26,6 +26,7 @@
             <app-image-upload
               label="Photo" icon="person-outline" prefix="photo"
               formControlName="photo"
+              [photoUrl]="model.candidate_personal_photo_url"
             ></app-image-upload>
 
             <div class="error-wrapper" *ngIf="!form.controls['photo'].pristine">

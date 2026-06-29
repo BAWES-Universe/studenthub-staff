@@ -74,6 +74,7 @@ export class CandidateComponent implements OnInit {
    */
   loadLogo(candidate) {
     this.candidate.candidate_personal_photo = null;
+    this.candidate.candidate_personal_photo_url = null;
   }
 
   /**

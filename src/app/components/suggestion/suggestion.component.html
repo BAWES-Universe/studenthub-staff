@@ -21,9 +21,9 @@
     <div tabindex="0"></div>
 
     <ion-avatar slot="start" (click)="openCandidatePage($event)">
-      <img *ngIf="model.candidate.candidate_personal_photo"
-        src="{{ aws.cloudinaryUrl + 'candidate-photo/' + model.candidate.candidate_personal_photo }}" onerror="this.src='/assets/icon/icon.png';">
-      <img *ngIf="!model.candidate.candidate_personal_photo" src="/assets/icon/icon.png">
+      <img *ngIf="aws.hasCandidatePersonalPhoto(model.candidate)"
+        [src]="aws.getCandidatePersonalPhotoUrl(model.candidate)" onerror="this.src='/assets/icon/icon.png';">
+      <img *ngIf="!aws.hasCandidatePersonalPhoto(model.candidate)" src="/assets/icon/icon.png">
     </ion-avatar>
 
     <ion-label (click)="openCandidatePage($event)">

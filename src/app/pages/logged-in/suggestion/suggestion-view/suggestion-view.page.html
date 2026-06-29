@@ -25,10 +25,10 @@
         <div tabindex="0"></div>
 
         <ion-avatar slot="start">
-          <img *ngIf="suggestion.candidate.candidate_personal_photo"
-            src="{{ aws.cloudinaryUrl + 'candidate-photo/' + suggestion.candidate.candidate_personal_photo }}"
+          <img *ngIf="aws.hasCandidatePersonalPhoto(suggestion.candidate)"
+            [src]="aws.getCandidatePersonalPhotoUrl(suggestion.candidate)"
             onerror="this.src='/assets/icon/icon.png';">
-          <img *ngIf="!suggestion.candidate.candidate_personal_photo" src="/assets/icon/icon.png">
+          <img *ngIf="!aws.hasCandidatePersonalPhoto(suggestion.candidate)" src="/assets/icon/icon.png">
         </ion-avatar>
 
         <ion-label>
