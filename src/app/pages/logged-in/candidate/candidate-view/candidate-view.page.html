@@ -126,6 +126,10 @@
 
   <div class="container">
 
+    <div class="objective required" *ngIf="candidateDetailLoadError && !candidate">
+      {{ candidateDetailLoadError }}
+    </div>
+
     <div class="personal-details" *ngIf="candidate && segment == 'personal-details'">
 
       <h5>Bio</h5>
@@ -226,14 +230,16 @@
       <ng-container *ngIf="candidate.candidate_civil_photo_front">
         <h5 class="txt-id">ID Photo Front</h5>
 
-        <img class="image-id" width="342" (error)="onCivilFrontError()" *ngIf="candidate.candidate_civil_photo_front"
+        <img class="image-id" width="342" (error)="onCivilFrontError()" *ngIf="!civilFrontImageUnavailable"
           src="{{ awsService.permanentBucketUrl + 'photos/' + candidate.candidate_civil_photo_front }}" />
+        <p class="required" *ngIf="civilFrontImageUnavailable">Civil ID image unavailable - request re-upload</p>
       </ng-container>
 
-      <ng-container *ngIf="candidate.candidate_civil_photo_front">
+      <ng-container *ngIf="candidate.candidate_civil_photo_back">
         <h5 class="txt-id">ID Photo Back</h5>
-        <img class="image-id" width="342" (error)="onCivilBackError()" *ngIf="candidate.candidate_civil_photo_back"
+        <img class="image-id" width="342" (error)="onCivilBackError()" *ngIf="!civilBackImageUnavailable"
           src="{{ awsService.permanentBucketUrl + 'photos/' + candidate.candidate_civil_photo_back }}" />
+        <p class="required" *ngIf="civilBackImageUnavailable">Civil ID image unavailable - request re-upload</p>
       </ng-container>
 
     </div><!-- END personal-details -->
