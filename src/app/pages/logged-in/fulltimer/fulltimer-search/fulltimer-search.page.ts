@@ -539,6 +539,7 @@ export class FulltimerSearchPage implements OnInit {
 
     return {
       indexName: environment.algoliaFulltimerIndex,
+      searchParameters: this.searchParameters,
 
       /*onStateChange({ uiState, setUiState }) {
         // Custom logic
