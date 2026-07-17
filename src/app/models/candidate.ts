@@ -87,7 +87,7 @@ export class Candidate {
     candidateTags: CandidateTag[];
     candidateIdCard: CandidateIdCard;
     notes: Note[];
-    pendingField: any[];
+    pendingField: any[] | null;
     certificates: CandidateCertificate[];
     candidateStats: any;
     candidateLinks: CandidateLink[];
