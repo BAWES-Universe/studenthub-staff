@@ -1,0 +1,44 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{ title }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="dismiss()">Cancel</ion-button>
+      <ion-button fill="clear" (click)="confirm()">Done</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ng-container *ngIf="isRangeMode; else singleDate">
+    <ion-list lines="none">
+      <ion-item>
+        <ion-label>From</ion-label>
+      </ion-item>
+      <ion-datetime
+        presentation="date"
+        [value]="fromValue"
+        [min]="minDate"
+        (ionChange)="onFromChange($event)"
+      ></ion-datetime>
+
+      <ion-item>
+        <ion-label>To</ion-label>
+      </ion-item>
+      <ion-datetime
+        presentation="date"
+        [value]="toValue"
+        [min]="minDate"
+        (ionChange)="onToChange($event)"
+      ></ion-datetime>
+    </ion-list>
+  </ng-container>
+
+  <ng-template #singleDate>
+    <ion-datetime
+      presentation="date"
+      [value]="value"
+      [min]="minDate"
+      (ionChange)="onValueChange($event)"
+    ></ion-datetime>
+  </ng-template>
+</ion-content>

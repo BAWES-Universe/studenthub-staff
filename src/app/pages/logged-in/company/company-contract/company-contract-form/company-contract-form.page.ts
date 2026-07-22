@@ -15,7 +15,7 @@ import { EventService } from 'src/app/providers/event.service';
 import { ContractService } from 'src/app/providers/logged-in/contract.service';
 import { SentryErrorhandlerService } from 'src/app/providers/sentry.errorhandler.service';
 import { CandidateService } from 'src/app/providers/logged-in/candidate.service';
-import { format, parseISO } from 'date-fns';
+import { format, parseISO } from 'src/app/util/date-fns';
 
 @Component({
   selector: 'app-company-contract-form',

@@ -11,7 +11,7 @@ import { DatePickerComponent } from 'src/app/components/date-picker/date-picker.
 import { TimePickerComponent } from 'src/app/components/time-picker/time-picker.component';
 //validators
 import { CustomValidator } from 'src/app/validators/custom.validator';
-import { format, parseISO } from 'date-fns';
+import { format, parseISO } from 'src/app/util/date-fns';
 
 
 @Component({
