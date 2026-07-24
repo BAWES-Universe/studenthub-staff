@@ -59,7 +59,7 @@ export class TransferFormPage implements OnInit {
   public endDate; // max date
   public selected; // max date
   dateRange: { from: string; to: string; };
-  type: 'string'; // 'string' | 'js-date' | 'moment' | 'time' | 'object'
+  type: 'string'; // 'string' | 'js-date' | 'time' | 'object'
 
   public borderLimit: boolean = false;
 

@@ -58,7 +58,8 @@
       </ion-row>
     </ion-grid>
 
-    <ais-instantsearch #instantSearch *ngIf="instantSearchConfig" [config]="instantSearchConfig">
+    <!-- Manual Search Implementation -->
+    <div *ngIf="instantSearchConfig" class="manual-search-container">
       <ion-grid>
         <ion-row [class.filter-closed]="!showFilter" [class.filter-opened]="showFilter">
 
@@ -114,7 +115,7 @@
           </ion-col>
         </ion-row>
       </ion-grid>
-    </ais-instantsearch>
+    </div>
   </div>
 </ion-content>
 <ion-footer class="ion-no-border" *ngIf="showFilter || candidateService.candidates.length > 0">

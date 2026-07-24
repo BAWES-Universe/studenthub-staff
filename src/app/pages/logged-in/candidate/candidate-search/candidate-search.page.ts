@@ -4,9 +4,9 @@ import { NavController, Platform, MenuController, PopoverController, IonContent,
 import { environment } from '../../../../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { TransferState, makeStateKey } from '@angular/platform-browser';
-import algoliasearch from 'algoliasearch/index';
+// import algoliasearch from 'algoliasearch/index';
 import * as VERSION from 'algoliasearch-helper/src/version';
-import * as encodeProxy from 'querystring-es3/encode';
+import * as encodeProxy from 'querystring-es3';
 // service
 import { AuthService } from '../../../../providers/auth.service';
 import { CandidateService } from '../../../../providers/logged-in/candidate.service';
