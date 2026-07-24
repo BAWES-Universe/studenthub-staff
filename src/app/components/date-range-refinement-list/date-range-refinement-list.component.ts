@@ -4,7 +4,7 @@ import { BaseWidget, NgAisIndex, NgAisInstantSearch } from 'angular-instantsearc
 import { parseNumberInput, noop } from 'angular-instantsearch/esm2015/utils';
 import {CalendarModal, CalendarModalOptions, CalendarResult} from 'ion2-calendar';
 import { ModalController } from '@ionic/angular';
-import {Options} from "ng5-slider";
+import {Options} from "@angular-slider/ngx-slider";
 
 @Component({
   selector: 'date-range-refinement-list',
@@ -263,3 +263,4 @@ export class DateRangeRefinementListComponent extends BaseWidget {
     this.change.emit();
   }
 }
+

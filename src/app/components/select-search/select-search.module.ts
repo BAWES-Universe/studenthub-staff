@@ -9,7 +9,6 @@ import { SelectSearchInputComponent } from './select-search-input/select-search-
 
 @NgModule({
   declarations: [SelectSearchInputComponent, SelectSearchPageComponent],
-  entryComponents: [SelectSearchPageComponent],
   imports: [IonicModule, FormsModule, CommonModule],
   exports: [SelectSearchInputComponent]
 })

@@ -55,11 +55,13 @@
           },
           "configurations": {
             "production": {
+              "aot": false,
+              "buildOptimizer": false,
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "4mb",
-                  "maximumError": "8mb"
+                  "maximumWarning": "8mb",
+                  "maximumError": "10mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -77,6 +79,7 @@
               "outputHashing": "all"
             },
             "development": {
+              "aot": false,
               "buildOptimizer": false,
               "optimization": false,
               "vendorChunk": true,
@@ -192,40 +195,40 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "app:build:production"
+              "buildTarget": "app:build:production"
             },
             "development": {
-              "browserTarget": "app:build:development"
+              "buildTarget": "app:build:development"
             },
             "production-mobile": {
-              "browserTarget": "app:build:production-mobile"
+              "buildTarget": "app:build:production-mobile"
             },
             "anil": {
-              "browserTarget": "app:build:anil"
+              "buildTarget": "app:build:anil"
             },
             "docker": {
-              "browserTarget": "app:build:docker"
+              "buildTarget": "app:build:docker"
             },
             "dev-withoutsentry": {
-              "browserTarget": "app:build:dev-withoutsentry"
+              "buildTarget": "app:build:dev-withoutsentry"
             },
             "dev": {
-              "browserTarget": "app:build:dev"
+              "buildTarget": "app:build:dev"
             },
             "dev-mobile": {
-              "browserTarget": "app:build:dev-mobile"
+              "buildTarget": "app:build:dev-mobile"
             },
             "khalid": {
-              "browserTarget": "app:build:khalid"
+              "buildTarget": "app:build:khalid"
             },
             "krushn": {
-              "browserTarget": "app:build:krushn"
+              "buildTarget": "app:build:krushn"
             },
             "prod": {
-              "browserTarget": "app:build:prod"
+              "buildTarget": "app:build:prod"
             },
             "saoud": {
-              "browserTarget": "app:build:saoud"
+              "buildTarget": "app:build:saoud"
             },
             "ci": {
               "progress": false
@@ -236,7 +239,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "app:build"
+            "buildTarget": "app:build"
           }
         },
         "test": {

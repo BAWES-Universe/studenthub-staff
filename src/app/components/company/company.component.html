@@ -12,11 +12,11 @@
         
         <div class="small-detail">
           <ng-container *ngIf="page =='follow'">
-            <p>@ {{ toDate(company.company_last_followup_datetime) | date: 'MMM d, y, h:mm:ss a' }}</p>
+            <p>&#64; {{ toDate(company.company_last_followup_datetime) | date: 'MMM d, y, h:mm:ss a' }}</p>
             <p>{{ company.company_last_followup_datetime | timeAgo }}</p>
           
             <p *ngIf="company.company_next_followup_datetime">
-              Next followup @ {{ toDate(company.company_next_followup_datetime) | date: 'MMM d, y, h:mm:ss a' }}
+              Next followup &#64; {{ toDate(company.company_next_followup_datetime) | date: 'MMM d, y, h:mm:ss a' }}
             </p>
           </ng-container>
         </div>

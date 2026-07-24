@@ -1,8 +1,8 @@
-import {Component, ViewChild, OnInit, ChangeDetectorRef, ViewRef} from '@angular/core';
+import { Component, ViewChild, OnInit, ChangeDetectorRef, ViewRef, makeStateKey, TransferState } from '@angular/core';
 import { NavController, Platform, MenuController, PopoverController, IonContent, ModalController } from '@ionic/angular';
 import { environment } from '../../../../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { TransferState, makeStateKey } from '@angular/platform-browser';
+
 import algoliasearch from 'algoliasearch';
 import * as VERSION from 'algoliasearch-helper/src/version';
 import * as encodeProxy from 'querystring-es3/encode';
