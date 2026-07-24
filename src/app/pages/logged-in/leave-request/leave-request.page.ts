@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertController, ModalController } from '@ionic/angular';
-import { CalendarModal, CalendarModalOptions } from 'ion2-calendar';
 import { AnalyticsService } from 'src/app/providers/analytics.service';
+import { presentDateRangeAlert } from 'src/app/util/date-alert';
 //services
 import { AuthService } from 'src/app/providers/auth.service';
 import { DailyStandupService } from 'src/app/providers/logged-in/daily-standup.service';
@@ -103,35 +103,17 @@ export class LeaveRequestPage implements OnInit {
     // Set it to one month ago
     fromDate.setMonth(fromDate.getMonth() - 1);
 
-    const options: CalendarModalOptions = {
-      canBackwardsSelected: true,
-      pickMode: 'range',
-      title: '',
-      defaultScrollTo: new Date(),
-      defaultDateRange: {
-        from: fromDate,
-        to: new Date()
-      }
-    };
-
-    const myCalendar = await this.modalCtrl.create({
-      component: CalendarModal,
-      cssClass: 'modal-calender',
-      componentProps: { options }
+    const date = await presentDateRangeAlert(this.alertCtrl, {
+      from: fromDate,
+      to: new Date()
     });
-
-    myCalendar.present();
-
-    const eventCloseData: any = await myCalendar.onDidDismiss();
-
-    const date = eventCloseData.data;
 
     if (date) {
       // this.form.value.from_date
-      this.form.controls['from_date'].setValue(date.from.string);
-      this.form.controls['to_date'].setValue(date.to.string);
+      this.form.controls['from_date'].setValue(date.from);
+      this.form.controls['to_date'].setValue(date.to);
 
-      this.range = date.from.string + '-' + date.to.string;
+      this.range = date.from + '-' + date.to;
     }
   }
   
