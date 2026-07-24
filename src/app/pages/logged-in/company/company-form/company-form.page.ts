@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import {AlertController, ToastController, ModalController, NavController} from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
-import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 //validators
 import { CustomValidator } from 'src/app/validators/custom.validator';
 // services
@@ -22,8 +22,8 @@ import { CountryModalComponent } from 'src/app/components/country-modal/country-
 })
 export class CompanyFormPage implements OnInit {
 
-  @ViewChild('ckeditor', { static: false }) ckeditor: ClassicEditor;
-  @ViewChild('ckeditor_ar', { static: false }) ckeditor_ar: ClassicEditor;
+  @ViewChild('ckeditor', { static: false }) ckeditor: any;
+  @ViewChild('ckeditor_ar', { static: false }) ckeditor_ar: any;
 
   public borderLimit = false;
 
