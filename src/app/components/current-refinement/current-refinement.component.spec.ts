@@ -5,7 +5,7 @@ import { CurrentRefinementComponent } from './current-refinement.component';
 import { CurrentRefinementModule } from './current-refinement.module';
 import { APP_BASE_HREF } from '@angular/common';
 import { AppModule } from 'src/app/app.module';
-import { NgAisInstantSearch } from 'angular-instantsearch';
+import { NgAisInstantSearch } from 'src/app/components/instantsearch/instantsearch';
 
 
 describe('CurrentRefinementComponent', () => {

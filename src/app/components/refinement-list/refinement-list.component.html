@@ -40,7 +40,7 @@
             <div tabindex="0"></div>
             <ion-label tappable [class]="cx('label')">
                   <span [class]="cx('labelText')" [class.ltr]="translateService.isEnglish(item.label)">
-                      <ais-highlight attribute="highlighted" [hit]="item"></ais-highlight>
+                      <instantsearch-highlight attribute="highlighted" [hit]="item"></instantsearch-highlight>
                   </span>
                   <span [class]="cx('count')"> {{item.count}}</span>
               </ion-label>

@@ -1,5 +1,5 @@
 import { Component, forwardRef, Inject } from '@angular/core';
-import { NgAisInstantSearch } from 'angular-instantsearch';
+import { NgAisInstantSearch } from 'src/app/components/instantsearch/instantsearch';
 // services
 import { TranslateLabelService } from '../../providers/translate-label.service';
 

@@ -1,8 +1,8 @@
 import { Component, Input, Inject, forwardRef, EventEmitter, Output, ChangeDetectorRef, Optional } from '@angular/core';
 import { connectRange } from 'instantsearch.js/es/connectors';
 import { RangeRenderState } from 'instantsearch.js/es/connectors/range/connectRange';
-import { BaseWidget, NgAisIndex, NgAisInstantSearch } from 'angular-instantsearch';
-import { parseNumberInput, noop } from 'angular-instantsearch/esm2015/utils';
+import { BaseWidget, NgAisIndex, NgAisInstantSearch } from 'src/app/components/instantsearch/instantsearch';
+import { parseNumberInput, noop } from 'src/app/components/instantsearch/utils';
 import { Options } from 'ng5-slider';
 
 
@@ -32,7 +32,10 @@ export class RangeRefinementComponent extends BaseWidget {
         refine: noop,
         canRefine: null,
         sendEvent: noop,
-        format: noop,
+        format: {
+            from: value => String(value),
+            to: value => String(value),
+        },
         start: [0, 1],
     };
 
