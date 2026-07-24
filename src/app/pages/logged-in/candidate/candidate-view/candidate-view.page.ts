@@ -645,7 +645,7 @@ export class CandidateViewPage implements OnInit {
       this.candidate = response;
 
       if (this.candidate && this.candidate.pendingField && this.candidate.pendingField.length > 0) {
-        this.candidate.pendingField =  this.candidate?.pendingField?.filter(v => v != "experience")
+        this.candidate.pendingField = (this.candidate?.pendingField || []).filter(v => v != "experience");
         this.candidate.isProfileCompleted = this.candidate.pendingField.length == 0;
 
         this.pendingData = 'Total ' + this.candidate.pendingField.length + ' pending fields\n ' + this.candidate.pendingField.join(',');
