@@ -11,7 +11,7 @@ import {
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { CustomValidator } from 'src/app/validators/custom.validator';
-import { CalendarModal, CalendarModalOptions } from 'ion2-calendar';
+import { CalendarModal, CalendarModalOptions } from 'src/app/components/calendar-modal/calendar-modal.component';
 import { Subscription } from 'rxjs';
 // models
 import { Transfer } from 'src/app/models/transfer';
@@ -59,7 +59,7 @@ export class TransferFormPage implements OnInit {
   public endDate; // max date
   public selected; // max date
   dateRange: { from: string; to: string; };
-  type: 'string'; // 'string' | 'js-date' | 'moment' | 'time' | 'object'
+  type: 'string'; // 'string' | 'js-date' | 'time' | 'object'
 
   public borderLimit: boolean = false;
 

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { ModalController, AlertController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
-import { format, parseISO } from 'date-fns';
+import { format, parseISO } from 'src/app/util/date-fns';
 //services
 import { EmailCampaignService } from 'src/app/providers/logged-in/email-campaign.service';
 import { AuthService } from 'src/app/providers/auth.service';

@@ -1,5 +1,5 @@
 import { Component, Output, Input, EventEmitter, OnInit } from '@angular/core';
-import {format, parseISO} from "date-fns";
+import { format, parseISO } from 'src/app/util/date-fns';
 
 /**
  * Display alert message to update app on new version availability

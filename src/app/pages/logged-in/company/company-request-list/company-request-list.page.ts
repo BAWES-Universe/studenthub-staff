@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AlertController, IonContent, ModalController, NavController, Platform, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
-import { format, parseISO } from 'date-fns';
+import { format, parseISO } from 'src/app/util/date-fns';
 // models
 import { Company } from 'src/app/models/company';
 import { Request } from 'src/app/models/request';
