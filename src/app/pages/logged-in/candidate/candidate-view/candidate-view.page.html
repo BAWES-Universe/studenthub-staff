@@ -125,6 +125,9 @@
   </ion-refresher>
 
   <div class="container">
+    <ion-card color="warning" *ngIf="candidateDetailError">
+      <ion-card-content>{{ candidateDetailError }}</ion-card-content>
+    </ion-card>
 
     <div class="personal-details" *ngIf="candidate && segment == 'personal-details'">
 
@@ -223,17 +226,23 @@
         <span class="txt-updated-on">Updated On {{ toDate(candidate.candidate_updated_at) | date}} </span>
       </p>
 
-      <ng-container *ngIf="candidate.candidate_civil_photo_front">
+      <ng-container *ngIf="candidate.candidate_civil_photo_front || civilFrontImageUnavailable">
         <h5 class="txt-id">ID Photo Front</h5>
 
-        <img class="image-id" width="342" (error)="onCivilFrontError()" *ngIf="candidate.candidate_civil_photo_front"
+        <img class="image-id" width="342" (error)="onCivilFrontError()" *ngIf="candidate.candidate_civil_photo_front && !civilFrontImageUnavailable"
           src="{{ awsService.permanentBucketUrl + 'photos/' + candidate.candidate_civil_photo_front }}" />
+        <ion-note color="warning" *ngIf="civilFrontImageUnavailable">
+          Civil ID image unavailable - request re-upload
+        </ion-note>
       </ng-container>
 
-      <ng-container *ngIf="candidate.candidate_civil_photo_front">
+      <ng-container *ngIf="candidate.candidate_civil_photo_back || civilBackImageUnavailable">
         <h5 class="txt-id">ID Photo Back</h5>
-        <img class="image-id" width="342" (error)="onCivilBackError()" *ngIf="candidate.candidate_civil_photo_back"
+        <img class="image-id" width="342" (error)="onCivilBackError()" *ngIf="candidate.candidate_civil_photo_back && !civilBackImageUnavailable"
           src="{{ awsService.permanentBucketUrl + 'photos/' + candidate.candidate_civil_photo_back }}" />
+        <ion-note color="warning" *ngIf="civilBackImageUnavailable">
+          Civil ID image unavailable - request re-upload
+        </ion-note>
       </ng-container>
 
     </div><!-- END personal-details -->

@@ -58,9 +58,9 @@ export class CandidateService {
    * candidate detail
    * @returns {Observable<any>}
    */
-  detail(id: number, query: string = ''): Observable<any> {
+  detail(id: number, query: string = '', localErrorHandler: boolean = false): Observable<any> {
     const url = this._candidateEndpoint + '/detail/' + id + '?' + query;
-    return this._authhttp.get(url);
+    return this._authhttp.get(url, { localErrorHandler });
   }
 
   /**
