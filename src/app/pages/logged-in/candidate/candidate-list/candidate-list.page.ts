@@ -207,7 +207,7 @@ export class CandidateListPage implements OnInit {
 
     this.downloading = true;
 
-    this.candidateIdCardService.generate(this.candidateIdCardService.candidates).subscribe(async response => {
+    this.candidateIdCardService.requestIds(this.candidateIdCardService.candidates).subscribe(async response => {
       if (response.operation == "success") {
         this.navCtrl.navigateForward('/candidate-id-request/' + response.cir_uuid);
       } else {
