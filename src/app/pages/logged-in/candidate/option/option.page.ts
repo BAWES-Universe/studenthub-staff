@@ -129,7 +129,7 @@ export class OptionPage implements OnInit {
 
     const idList = [this.candidate.candidate_id];
 
-    this.candidateIdCardService.generate(idList).subscribe(async response => {
+    this.candidateIdCardService.requestIds(idList).subscribe(async response => {
       if (response.operation == "success") {
         this.navCtrl.navigateForward('/candidate-id-request/' + response.cir_uuid);
       } else {

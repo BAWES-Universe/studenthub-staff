@@ -85,7 +85,7 @@ export class GenerateIdPage implements OnInit {
           handler: (blah) => {
             this.downloading = true;
 
-            this.candidateIdCardService.generate(candidate).subscribe(async response => {
+            this.candidateIdCardService.requestIds(candidate).subscribe(async response => {
               if (response.operation == "success") {
                 this.navCtrl.navigateForward('/candidate-id-request/' + response.cir_uuid);
               } else {
