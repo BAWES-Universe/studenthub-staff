@@ -40,8 +40,7 @@ export class CandidateIdCardService {
    */
   generate(candidates: any): Observable<any> {
     const url = this._candidateEndpoint + '/generate';
-    const filename = `id-cards-${Date.now()}.zip`;
-    return this._authhttp.generateCards(url, { candidates }, filename);
+    return this._authhttp.post(url, { candidates });
   }
 
   /**
