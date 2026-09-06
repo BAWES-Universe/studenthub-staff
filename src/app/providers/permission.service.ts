@@ -34,6 +34,7 @@ export class PermissionService {
     
     if (permission && permission.is_company_specific_permission === 1) {
       // If it's a company-specific permission, check company
+      if (!context?.companyId) return false;
       const _check = permission.companies?.includes(Number(context.companyId)) ?? false;
       
       if (_check) return this._flattenedPermissions[permissionKey] ?? false;
