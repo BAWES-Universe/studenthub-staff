@@ -106,7 +106,7 @@
 
     </div>
 
-    <div class="tab-stats" *ngIf="segment == 'stats' && !permissionService.hasPermission('company-stats', 'Company')">
+    <div class="tab-stats" *ngIf="segment == 'stats' && !permissionService.hasPermission('company-stats', 'Company', { companyId: company_id })">
 
       <ion-row>
         <ion-col size="12" size-md="4" *ngFor="let companyStat of company.companyStats">
