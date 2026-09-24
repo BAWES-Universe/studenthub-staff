@@ -81,7 +81,7 @@ export class SentryErrorhandlerService extends ErrorHandler {
 
     const chunkFailedMessage = /Loading chunk [\d]+ failed/;
 
-    if (chunkFailedMessage.test(error.message)) {
+    if (chunkFailedMessage.test(error.message ?? '')) {
       return window.location.reload();
     }
 
@@ -89,7 +89,7 @@ export class SentryErrorhandlerService extends ErrorHandler {
 	
 		const storageError = 'Failed to access storage';
 	
-		if (error.message.includes(storageError)) {
+		if (error.message?.includes(storageError)) {
 		  return super.handleError(error);
 		}
 		
@@ -97,7 +97,7 @@ export class SentryErrorhandlerService extends ErrorHandler {
 		
 		const serviceWorkerError = 'ServiceWorker';
 	
-		if (error.message.includes(serviceWorkerError)) {
+		if (error.message?.includes(serviceWorkerError)) {
 		  return super.handleError(error);
 		}
 
