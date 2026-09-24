@@ -8,7 +8,7 @@
   <ion-toolbar class="container" [class.hidden]="borderLimit">
     <ion-title>{{ operation }}</ion-title>
     <ion-buttons slot="end">
-      <ion-button clear [disabled]="!form.valid || loading || saving" (click)="save()">
+      <ion-button clear [disabled]="!form?.valid || loading || saving" (click)="save()">
         <span *ngIf="!saving">Save</span>
         <ion-spinner *ngIf="saving"></ion-spinner>
       </ion-button>
