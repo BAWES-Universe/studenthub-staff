@@ -8,6 +8,7 @@ import {AuthService} from "../../../../providers/auth.service";
 import {Expense} from "../../../../models/expense";
 import {ExpenseService} from "../../../../providers/logged-in/expense.service";
 import {AwsService} from "../../../../providers/aws.service";
+import { PDF_WORD_EXTENSIONS, uploadAlertMessage } from "../../../../providers/upload-formats";
 import {Subscription} from "rxjs";
 import {SentryErrorhandlerService} from "../../../../providers/sentry.errorhandler.service";
 import { AnalyticsService } from 'src/app/providers/analytics.service';
@@ -210,7 +211,7 @@ export class ExpenseFormPage implements OnInit, OnDestroy {
 
     this.progress = 1; // show loader
 
-    this.browserUploadSubscription = this.awsService.uploadFile(fileList[0]).subscribe(event => {
+    this.browserUploadSubscription = this.awsService.uploadFile(fileList[0], PDF_WORD_EXTENSIONS).subscribe(event => {
         this._handleFileSuccess(event);
       },
       async err => {
@@ -220,7 +221,7 @@ export class ExpenseFormPage implements OnInit, OnDestroy {
 
           const alert = await this.alertCtrl.create({
             header: 'Error',
-            message: 'Error while uploading file!',
+            message: uploadAlertMessage(err, 'Error while uploading file!'),
             buttons: ['Okay']
           });
           await alert.present();

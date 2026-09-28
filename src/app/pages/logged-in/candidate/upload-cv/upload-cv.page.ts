@@ -6,6 +6,7 @@ import { SentryErrorhandlerService } from 'src/app/providers/sentry.errorhandler
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 import { AccountService } from 'src/app/providers/logged-in/account.service';
 import { AwsService } from 'src/app/providers/aws.service';
+import { BACKEND_UPLOAD_EXTENSIONS, acceptAttribute, uploadAlertMessage } from 'src/app/providers/upload-formats';
 import { AnalyticsService } from 'src/app/providers/analytics.service';
 
 
@@ -33,6 +34,8 @@ export class UploadCvPage implements OnInit, OnDestroy {
   public filePickSubscription: Subscription;
   public browserUploadSubscription: Subscription;
   public uploadSubscription: Subscription;
+
+  public acceptedFormats = acceptAttribute(BACKEND_UPLOAD_EXTENSIONS);
 
   constructor(
     public platform: Platform,
@@ -94,7 +97,7 @@ export class UploadCvPage implements OnInit, OnDestroy {
 
     this.progress = 1; // show loader
 
-    this.browserUploadSubscription = this.awsService.uploadFile(fileList[0]).subscribe(event => {
+    this.browserUploadSubscription = this.awsService.uploadFile(fileList[0], BACKEND_UPLOAD_EXTENSIONS).subscribe(event => {
       this._handleFileSuccess(event);
     },
       async err => {
@@ -104,7 +107,7 @@ export class UploadCvPage implements OnInit, OnDestroy {
           
           const alert = await this.alertCtrl.create({
             header: this.translateService.transform('Error'),
-            message: this.translateService.transform('Error while uploading file!'),
+            message: uploadAlertMessage(err, this.translateService.transform('Error while uploading file!')),
             buttons: [this.translateService.transform('Okay')]
           });
           await alert.present();

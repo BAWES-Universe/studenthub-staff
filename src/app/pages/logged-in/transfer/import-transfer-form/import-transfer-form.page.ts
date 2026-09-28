@@ -16,6 +16,7 @@ import { Transfer } from "../../../../models/transfer";
 import { TransferService } from "../../../../providers/logged-in/transfer.service";
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 import { AwsService } from 'src/app/providers/aws.service';
+import { EXCEL_EXTENSIONS, uploadAlertMessage } from 'src/app/providers/upload-formats';
 import { SentryErrorhandlerService } from 'src/app/providers/sentry.errorhandler.service';
 import { EventService } from "../../../../providers/event.service";
 import { AnalyticsService } from 'src/app/providers/analytics.service';
@@ -111,7 +112,7 @@ export class ImportTransferFormPage implements OnInit {
 
     this.uploading = true;
 
-    this.browserUploadSubscription = this.awsService.uploadFile(fileList[0]).subscribe(event => {
+    this.browserUploadSubscription = this.awsService.uploadFile(fileList[0], EXCEL_EXTENSIONS).subscribe(event => {
 
       this._handleUpload(event);
 
@@ -126,7 +127,7 @@ export class ImportTransferFormPage implements OnInit {
 
       const alert = await this._alertCtrl.create({
         header: 'Error',
-        message: 'Error while uploading file!',
+        message: uploadAlertMessage(err, 'Error while uploading file!'),
         buttons: ['Okay']
       });
 

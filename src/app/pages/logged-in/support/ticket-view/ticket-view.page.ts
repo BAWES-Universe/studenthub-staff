@@ -11,6 +11,7 @@ import { AuthService } from 'src/app/providers/auth.service';
 import { TicketService } from 'src/app/providers/logged-in/ticket.service';
 import { TranslateLabelService } from 'src/app/providers/translate-label.service';
 import { AwsService } from 'src/app/providers/aws.service';
+import { JPEG_PNG_EXTENSIONS, isUnsupportedUploadError, uploadAlertMessage } from 'src/app/providers/upload-formats';
 import { SentryErrorhandlerService } from 'src/app/providers/sentry.errorhandler.service';
 import { Camera2Service } from 'src/app/providers/logged-in/camera2.service';
 
@@ -282,7 +283,7 @@ export class TicketViewPage implements OnInit {
 
     this.uploadingPhoto = true;
 
-    this.awsService.uploadNativePath(image).then(o => {
+    this.awsService.uploadNativePath(image, JPEG_PNG_EXTENSIONS).then(o => {
       o.subscribe(event => {
         this._handleFileSuccess(event);
       }, async err => {
@@ -324,6 +325,8 @@ export class TicketViewPage implements OnInit {
         if (err && networkErrors.indexOf(err.message) > -1) {
           message = this.translateService.transform('Error uploading file');
           // system errors
+        } else if (isUnsupportedUploadError(err)) {
+          message = err.message;
         } else if (err.message && err.message.indexOf(':') > -1) {
           message = this.translateService.transform('Error getting file from Library');
           // plugin errors
@@ -359,16 +362,7 @@ export class TicketViewPage implements OnInit {
     if (fileList.length == 0) {
       return false;
     }
-    const prefix = fileList[0].name.split('.')[0];
-
-    const type = fileList[0].type.split('/')[0];
-
-    if (type != 'image') {
-      this.alertCtrl.create({
-        message: this.translateService.transform('Invalid File format'),
-        buttons: [this.translateService.transform('Ok')]
-      }).then(alert => { alert.present(); });
-    }else if (fileList[0].size > this.allowedImageSize) {
+    if (fileList[0].size > this.allowedImageSize) {
       this.alertCtrl.create({
         message: this.translateService.transform('Maximum 5mb Upload is allowed'),
         buttons: [this.translateService.transform('Ok')]
@@ -377,7 +371,7 @@ export class TicketViewPage implements OnInit {
 
       this.uploadingPhoto = true;
 
-      this.uploadFileSubscription = this.awsService.uploadFile(fileList[0]).subscribe(event => {
+      this.uploadFileSubscription = this.awsService.uploadFile(fileList[0], JPEG_PNG_EXTENSIONS).subscribe(event => {
         this._handleFileSuccess(event);
       }, async err => {
 
@@ -388,7 +382,7 @@ export class TicketViewPage implements OnInit {
 
           const alert = await this.alertCtrl.create({
             header: this.translateService.transform('Error'),
-            message: this.translateService.transform('Error while uploading file!'),
+            message: uploadAlertMessage(err, this.translateService.transform('Error while uploading file!')),
             buttons: [this.translateService.transform('Okay')]
           });
 

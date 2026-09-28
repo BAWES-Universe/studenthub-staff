@@ -91,12 +91,6 @@ import { UpdateAccountPageModule } from './pages/logged-in/update-account/update
 import { CountryModalComponent } from './components/country-modal/country-modal.component';
 import { CountryModalModule } from './components/country-modal/country-modal.module';
 import { registerLocaleData } from '@angular/common';
-import { AwsService } from './providers/aws.service';
-
-export function awsStartupServiceFactory(awsService) {
-  return () => awsService.setConfig();
-}
-
 export function startupServiceFactory(authService) {
   return () => authService.load();
 }
@@ -207,13 +201,6 @@ declare global {
     ActionComponentModule
   ],
   providers: [
-    {
-      // Provider for APP_INITIALIZER
-      provide: APP_INITIALIZER,
-      useFactory: awsStartupServiceFactory,
-      deps: [AwsService],
-      multi: true
-    },
     {
       // Provider for APP_INITIALIZER
       provide: APP_INITIALIZER,

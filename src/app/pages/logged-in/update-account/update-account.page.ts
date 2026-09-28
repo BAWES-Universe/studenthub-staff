@@ -14,6 +14,7 @@ import { Staff } from 'src/app/models/staff';
 import { AuthService } from 'src/app/providers/auth.service';
 import { Subscription } from "rxjs";
 import { AwsService } from "src/app/providers/aws.service";
+import { JPEG_PNG_EXTENSIONS, isUnsupportedUploadError, uploadAlertMessage } from "src/app/providers/upload-formats";
 import { SentryErrorhandlerService } from "src/app/providers/sentry.errorhandler.service";
 import { AccountService } from 'src/app/providers/logged-in/account.service';
 import { CameraService } from "src/app/providers/logged-in/camera.service";
@@ -266,7 +267,7 @@ export class UpdateAccountPage implements OnInit {
   async uploadFileViaNativeFilePath(uri) {
     this.progress = 1;//show loader
 
-    this.awsService.uploadNativePath(uri).then(o => {
+    this.awsService.uploadNativePath(uri, JPEG_PNG_EXTENSIONS).then(o => {
       o.subscribe(event => {
         this._handleFileSuccess(event);
       }, async err => {
@@ -299,6 +300,8 @@ export class UpdateAccountPage implements OnInit {
         if (err && networkErrors.indexOf(err.message) > -1) {
           message = 'Error uploading file';
           // system errors
+        } else if (isUnsupportedUploadError(err)) {
+          message = err.message;
         } else if (err.message && err.message.indexOf(':') > -1) {
           message = 'Error getting file from Library';
           // plugin errors
@@ -332,20 +335,9 @@ export class UpdateAccountPage implements OnInit {
       return false;
     }
 
-    const prefix = fileList[0].name.split('.')[0];
+    this.progress = 1;
 
-    const type = fileList[0].type.split('/')[0];
-
-    if (type != 'image') {
-      this.alertCtrl.create({
-        message: 'Invalid File format',
-        buttons: ['Ok']
-      }).then(alert => { alert.present(); });
-    }
-    else {
-      this.progress = 1;
-
-      this.uploadFileSubscription = this.awsService.uploadFile(fileList[0]).subscribe(event => {
+      this.uploadFileSubscription = this.awsService.uploadFile(fileList[0], JPEG_PNG_EXTENSIONS).subscribe(event => {
         this._handleFileSuccess(event);
       }, async err => {
 
@@ -359,7 +351,7 @@ export class UpdateAccountPage implements OnInit {
 
         const alert = await this.alertCtrl.create({
           header: 'Error',
-          message: 'Error while uploading file!',
+          message: uploadAlertMessage(err, 'Error while uploading file!'),
           buttons: ['Okay']
         });
 
@@ -369,7 +361,6 @@ export class UpdateAccountPage implements OnInit {
       }, () => {
         this.uploadFileSubscription.unsubscribe();
       });
-    }
   }
 
   /**

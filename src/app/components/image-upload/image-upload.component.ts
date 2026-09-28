@@ -3,6 +3,7 @@ import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {ActionSheetController, AlertController, Platform} from '@ionic/angular';
 import {CameraService} from '../../providers/camera.service';
 import {AwsService} from '../../providers/aws.service';
+import {BACKEND_IMAGE_EXTENSIONS, acceptAttribute, uploadAlertMessage} from '../../providers/upload-formats';
 
 @Component({
   selector: 'app-image-upload',
@@ -47,6 +48,7 @@ export class ImageUploadComponent implements ControlValueAccessor, OnInit {
   public isUploading = false;
 
   public newUpload;
+  public acceptedFormats = acceptAttribute(BACKEND_IMAGE_EXTENSIONS);
 
   // the method set in registerOnChange, it is just
   // a placeholder for a method that takes one parameter,
@@ -162,7 +164,7 @@ export class ImageUploadComponent implements ControlValueAccessor, OnInit {
       const file = fileList.item(0);
 
       // Upload The File
-      const uploadObservable = this._awsService.uploadFile(file);
+      const uploadObservable = this._awsService.uploadFile(file, BACKEND_IMAGE_EXTENSIONS);
       this.processFileUpload(uploadObservable);
     }
   }
@@ -174,7 +176,7 @@ export class ImageUploadComponent implements ControlValueAccessor, OnInit {
    */
   uploadFileViaNativeFilePath(path){
     // Upload and process for progress
-    this._awsService.uploadNativePath(path)
+    this._awsService.uploadNativePath(path, BACKEND_IMAGE_EXTENSIONS)
       .then((uploadObservable) => {
         this.processFileUpload(uploadObservable);
       })
@@ -214,9 +216,14 @@ export class ImageUploadComponent implements ControlValueAccessor, OnInit {
         this.newUpload.name = progress.key ? progress.key : progress.Key;
         this.newUpload.link = this._bucketUrlTemporary + this.newUpload.name;
       }
-    }, (err) => {
-      console.log('Error', err);
+    }, async (err) => {
       this.newUpload.status = 'error';
+      const alert = await this._alertCtrl.create({
+        header: 'Error',
+        message: uploadAlertMessage(err, 'Error while uploading file!'),
+        buttons: ['Okay']
+      });
+      await alert.present();
       // Hide File Upload Indicator based on which file is being uploaded
       this.isUploading = false;
     }, () => {

@@ -5,7 +5,8 @@ import {AuthService} from "src/app/providers/auth.service";
 import {AlertController, ModalController, NavController} from "@ionic/angular";
 import {CalendarModal, CalendarModalOptions} from "ion2-calendar";
 import {StaffLeaveService} from "../../../../providers/logged-in/staff-leave.service";
-import {AwsService} from "../../../../providers/aws.service";
+import { AwsService} from "../../../../providers/aws.service";
+import { PDF_WORD_EXTENSIONS, uploadAlertMessage } from "../../../../providers/upload-formats";
 import {Subscription} from "rxjs";
 import {SentryErrorhandlerService} from "../../../../providers/sentry.errorhandler.service";
 import { AnalyticsService } from 'src/app/providers/analytics.service';
@@ -192,7 +193,7 @@ export class LeaveRequestFormPage implements OnInit, OnDestroy {
 
     this.progress = 1; // show loader
 
-    this.browserUploadSubscription = this.awsService.uploadFile(fileList[0]).subscribe(event => {
+    this.browserUploadSubscription = this.awsService.uploadFile(fileList[0], PDF_WORD_EXTENSIONS).subscribe(event => {
         this._handleFileSuccess(event);
       },
       async err => {
@@ -202,7 +203,7 @@ export class LeaveRequestFormPage implements OnInit, OnDestroy {
 
           const alert = await this.alertCtrl.create({
             header: 'Error',
-            message: 'Error while uploading file!',
+            message: uploadAlertMessage(err, 'Error while uploading file!'),
             buttons: ['Okay']
           });
           await alert.present();

@@ -9,6 +9,7 @@ import { AuthService } from '../../../../providers/auth.service';
 import { CountryService } from 'src/app/providers/logged-in/country.service';
 import { FulltimerService } from 'src/app/providers/logged-in/fulltimer.service';
 import { AwsService } from 'src/app/providers/aws.service';
+import { PDF_WORD_EXTENSIONS, uploadAlertMessage } from 'src/app/providers/upload-formats';
 import { SentryErrorhandlerService } from 'src/app/providers/sentry.errorhandler.service';
 // model
 import { Fulltimer } from 'src/app/models/fulltimer';
@@ -339,7 +340,7 @@ export class FulltimerFormPage implements OnInit, OnDestroy {
 
     this.progress = 1; // show loader
 
-    this.browserUploadSubscription = this.awsService.uploadFile(fileList[0]).subscribe(event => {
+    this.browserUploadSubscription = this.awsService.uploadFile(fileList[0], PDF_WORD_EXTENSIONS).subscribe(event => {
       this._handleFileSuccess(event);
     },
       async err => {
@@ -349,7 +350,7 @@ export class FulltimerFormPage implements OnInit, OnDestroy {
 
           const alert = await this.alertCtrl.create({
             header: 'Error',
-            message: 'Error while uploading file!',
+            message: uploadAlertMessage(err, 'Error while uploading file!'),
             buttons: ['Okay']
           });
           await alert.present();

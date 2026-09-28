@@ -7,6 +7,7 @@ import { File } from '../../../../models/file';
 // Services
 import { SentryErrorhandlerService } from 'src/app/providers/sentry.errorhandler.service';
 import { AwsService } from 'src/app/providers/aws.service';
+import { JPEG_PNG_EXTENSIONS, uploadAlertMessage } from 'src/app/providers/upload-formats';
 import { CompanyService } from '../../../../providers/logged-in/company.service';
 import {EventService} from "../../../../providers/event.service";
 import { AnalyticsService } from 'src/app/providers/analytics.service';
@@ -125,7 +126,7 @@ export class UploadFilePage implements OnInit, OnDestroy {
 
     this.progress = 1; // show loader
 
-    this.browserUploadSubscription = this.awsService.uploadFile(fileList[0]).subscribe(event => {
+    this.browserUploadSubscription = this.awsService.uploadFile(fileList[0], JPEG_PNG_EXTENSIONS).subscribe(event => {
       this._handleFileSuccess(event);
     },
       async err => {
@@ -135,7 +136,7 @@ export class UploadFilePage implements OnInit, OnDestroy {
 
           const alert = await this.alertCtrl.create({
             header: 'Error',
-            message: 'Error while uploading file!',
+            message: uploadAlertMessage(err, 'Error while uploading file!'),
             buttons: ['Okay']
           });
 

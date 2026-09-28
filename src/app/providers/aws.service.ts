@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { File as NativeFile, Entry, FileEntry } from '@awesome-cordova-plugins/file/ngx';
-import { Observable, Observer } from 'rxjs';
-import * as AWS from 'aws-sdk';
-import { Filesystem, Encoding } from '@capacitor/filesystem';
+import { Observable } from 'rxjs';
+import { Filesystem } from '@capacitor/filesystem';
 import { Platform, AlertController } from '@ionic/angular';
 import { environment } from 'src/environments/environment';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { AuthService } from './auth.service';
+import { TEMP_UPLOAD_HOST, uploadTemporaryFile } from './temp-upload-session';
 
 
 @Injectable({
@@ -53,62 +54,17 @@ export class AwsService {
         return !!this.getCandidatePersonalPhotoUrl(candidate);
     }
 
-    private _region = 'eu-west-2'; // London
-    private _access_key_id = '';
-    private _secret_access_key = '';
-    private _bucket_name = 'studenthub-public-anyone-can-upload-24hr-expiry';
-
     public maxUploadSize = 5242880; // 5 MB
 
     public txtMaxUploadSize = '5MB';
 
     constructor(
         private http: HttpClient,
+        private authService: AuthService,
         public platform: Platform,
         public alertController: AlertController,
         public file: NativeFile
     ) {
-      //  this.initAwsService();
-    }
-
-    /**
-     * get temp aws access/ todo: can also get authorised link  
-     * @returns 
-     */
-    getConfig(): Observable<any> {
-        let url = environment.apiEndpoint + `/aws/config`;
-        return this.http.get(url);
-    }
-
-    /**
-     * @param config 
-     */
-    setConfig() {
-        return new Promise((resolve, reject) => {
-            this.getConfig().subscribe(config => {
-                this._region = config.region;
-                this._access_key_id = config.key;
-                this._secret_access_key = config.secret;
-                this._bucket_name = config.bucket;
-
-                AWS.config.region = this._region;
-                AWS.config.accessKeyId = this._access_key_id;
-                AWS.config.secretAccessKey = this._secret_access_key;
-
-                resolve(true);
-            }, err => {
-                reject(err);
-            });
-        });
-    }
-
-    /**
-     * Initialize the AWS Service
-     */
-    initAwsService(){
-        AWS.config.region = this._region;
-        AWS.config.accessKeyId = this._access_key_id;
-        AWS.config.secretAccessKey = this._secret_access_key;
     }
 
     /**
@@ -118,7 +74,7 @@ export class AwsService {
      * @param  { any } nativeFilePath
      * @returns Promise
      */
-    uploadNativePath(nativeFilePath): Promise<Observable<any>>{
+    uploadNativePath(nativeFilePath, allowedExtensions: string[] = null): Promise<Observable<any>>{
         return new Promise((resolve, reject) => {
 
             // Resolve File Path on System
@@ -167,7 +123,7 @@ export class AwsService {
 
                     // Resolve an Observable for File Uploading
 
-                    resolve(this.uploadFile(blobFile));
+                    resolve(this.uploadFile(blobFile, allowedExtensions));
 
                 }, (error) => {
                     reject('Unable to retrieve file properties: ' + JSON.stringify(error));
@@ -211,47 +167,20 @@ export class AwsService {
      * @param { File } file
      * @returns { Observable<any> }
      */
-    uploadFile(file: File = null): Observable<any> {
+    uploadFile(file: File = null, allowedExtensions: string[] = null): Observable<any> {
+        const token = this.authService.getAccessToken();
 
-        const s3 = new AWS.S3({
-            apiVersion: '2006-03-01'
-        });
-
-        const extension = this.getFileExtension(file.name);
-
-        let prefix = this._getFileNameWithoutExtension(file.name);
-
-        if(!prefix) {
-            prefix = 'file';
-        }
-
-        const key = prefix + '-' + Date.now() + '.' + extension;
-
-        const params = {
-            Body: file, // the actual file file
-            ACL: 'public-read', // to allow public access to the file
-            Bucket: this._bucket_name, // bucket name
-            Key: key, // file name
-            ContentType: file.type, // (String) A standard MIME type describing the format of the object file
-        };
-
-        return Observable.create((observer: Observer<any>) => {
-
-            if (file.size > this.maxUploadSize) {
-                return observer.error('File size should not exceed ' + this.txtMaxUploadSize + '!');
-            }
-
-            s3.upload(params).on('httpUploadProgress', (progress: ProgressEvent) => {
-                observer.next(progress);
-            }).send((err, data) => {
-
-                if (err) {
-                    observer.error(err);
-                } else {
-                    observer.next(data);
-                    observer.complete();
-                }
-            });
+        return uploadTemporaryFile({
+            file,
+            maxBytes: this.maxUploadSize,
+            oversizedMessage: 'File size should not exceed ' + this.txtMaxUploadSize + '!',
+            presignUrl: environment.apiEndpoint + '/temp-upload/url',
+            token: token || '',
+            uploadHost: TEMP_UPLOAD_HOST,
+            allowedExtensions,
+            post: (url, body, headers) => this.http.post(url, body, {
+                headers: new HttpHeaders(headers)
+            })
         });
     }
 

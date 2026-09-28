@@ -1,12 +1,25 @@
 import { TestBed } from '@angular/core/testing';
+import { HttpClient } from '@angular/common/http';
 
 import { AwsService } from './aws.service';
+import { AuthService } from './auth.service';
 
 describe('AwsService', () => {
   let service: AwsService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      providers: [
+        {
+          provide: HttpClient,
+          useValue: { post: () => ({ subscribe: () => ({ unsubscribe() {} }) }) }
+        },
+        {
+          provide: AuthService,
+          useValue: { getAccessToken: () => '' }
+        }
+      ]
+    });
     service = TestBed.inject(AwsService);
   });
 

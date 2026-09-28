@@ -36,8 +36,7 @@
                 <ion-icon slot="start" src="assets/images/md-cloud-upload.svg"></ion-icon>
                 <span *ngIf="candidate.candidate_resume">{{ "Replace File" }}</span>
                 <span *ngIf="!candidate.candidate_resume">{{ "Select file" }}</span>
-                <input class="upload" type='file' #fileInput (change)="browserUpload($event)">
-                <!-- .png,.jpg,.jpeg,.pdf,.doc,.docx -->
+                <input class="upload" type='file' #fileInput (change)="browserUpload($event)" [accept]="acceptedFormats">
             </ion-button>
 
         </div>
