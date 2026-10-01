@@ -1,6 +1,6 @@
 import { Component, Inject, forwardRef, Input, Output, EventEmitter, Optional } from '@angular/core';
 import { connectSearchBox } from 'instantsearch.js/es/connectors';
-import { BaseWidget, NgAisIndex, NgAisInstantSearch } from 'angular-instantsearch';
+import { BaseWidget, NgAisIndex, NgAisInstantSearch } from 'src/app/compat/instantsearch';
 import { Subject, timer, EMPTY } from 'rxjs';
 import { debounceTime, distinctUntilChanged, debounce } from 'rxjs/operators';
 // services
