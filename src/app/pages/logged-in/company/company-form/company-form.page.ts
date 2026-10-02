@@ -105,12 +105,12 @@ export class CompanyFormPage implements OnInit {
    */
   _initForm() {
 
-    if (this.model.parent_company_id) {
+    if (this.model && this.model.parent_company_id) {
       this.isSubCompany = 1;
     }
     // Init Form
 
-    if (!this.model.company_id) { // Show Create Form
+    if (!this.model || !this.model.company_id) { // Show Create Form
 
       this.operation = (this.isSubCompany) ? 'Add New Subcompany' : 'Add New Client';
 
