@@ -223,11 +223,14 @@
         <span class="txt-updated-on">Updated On {{ toDate(candidate.candidate_updated_at) | date}} </span>
       </p>
 
-      <ng-container *ngIf="candidate.candidate_civil_photo_front">
+      <ng-container *ngIf="candidate.candidate_civil_photo_front || civilFrontUnavailable">
         <h5 class="txt-id">ID Photo Front</h5>
 
         <img class="image-id" width="342" (error)="onCivilFrontError()" *ngIf="candidate.candidate_civil_photo_front"
           src="{{ awsService.permanentBucketUrl + 'photos/' + candidate.candidate_civil_photo_front }}" />
+        <p class="txt-id-unavailable" *ngIf="civilFrontUnavailable && !candidate.candidate_civil_photo_front">
+          Civil ID image unavailable — request re-upload
+        </p>
       </ng-container>
 
       <ng-container *ngIf="candidate.candidate_civil_photo_back || civilBackUnavailable">
