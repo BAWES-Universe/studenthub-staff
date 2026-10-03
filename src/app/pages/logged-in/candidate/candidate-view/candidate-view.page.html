@@ -230,10 +230,13 @@
           src="{{ awsService.permanentBucketUrl + 'photos/' + candidate.candidate_civil_photo_front }}" />
       </ng-container>
 
-      <ng-container *ngIf="candidate.candidate_civil_photo_front">
+      <ng-container *ngIf="candidate.candidate_civil_photo_back || civilBackUnavailable">
         <h5 class="txt-id">ID Photo Back</h5>
         <img class="image-id" width="342" (error)="onCivilBackError()" *ngIf="candidate.candidate_civil_photo_back"
           src="{{ awsService.permanentBucketUrl + 'photos/' + candidate.candidate_civil_photo_back }}" />
+        <p class="txt-id-unavailable" *ngIf="civilBackUnavailable && !candidate.candidate_civil_photo_back">
+          Civil ID image unavailable — request re-upload
+        </p>
       </ng-container>
 
     </div><!-- END personal-details -->

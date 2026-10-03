@@ -662,6 +662,12 @@ export class CandidateViewPage implements OnInit {
           this.loadInvitationChart();
         }
       }, 500);
+    }, (error) => {
+      this.loading = false;
+      this.toastCtrl.create({
+        message: 'Failed to load candidate details — please try again',
+        duration: 3000
+      }).then(toast => toast.present());
     });
   }
 
@@ -1508,12 +1514,23 @@ export class CandidateViewPage implements OnInit {
     });
   }
 
+  civilBackUnavailable = false;
+
   onCivilBackError() {
     this.candidate.candidate_civil_photo_back = null;
+    this.civilBackUnavailable = true;
+    this.toastCtrl.create({
+      message: 'Civil ID image unavailable — request re-upload',
+      duration: 3000
+    }).then(toast => toast.present());
   }
 
   onCivilFrontError() {
     this.candidate.candidate_civil_photo_front = null;
+    this.toastCtrl.create({
+      message: 'Civil ID image unavailable — request re-upload',
+      duration: 3000
+    }).then(toast => toast.present());
   }
 
   /**
