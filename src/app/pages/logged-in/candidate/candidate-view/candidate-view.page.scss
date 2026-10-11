@@ -909,6 +909,23 @@ ion-content {
   margin-top: 32px !important;
 }
 
+.txt-id-warning {
+  color: var(--ion-color-warning, #c77700);
+  font-size: 13px;
+  margin-top: 8px;
+}
+
+.load-error {
+  text-align: center;
+  padding: 48px 16px;
+
+  p {
+    color: var(--ion-color-danger, #eb445a);
+    font-size: 15px;
+    margin-bottom: 16px;
+  }
+}
+
 .segment-work-details h5 ion-icon {
   font-size: 24px;
   top: 5px;

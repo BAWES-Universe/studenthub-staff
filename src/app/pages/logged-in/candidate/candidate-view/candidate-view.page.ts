@@ -91,6 +91,9 @@ export class CandidateViewPage implements OnInit {
   public unassinging = false;
   public exportingCV = false;
   public loading = false;
+  public loadError = false;
+  public civilFrontUnavailable = false;
+  public civilBackUnavailable = false;
   public approving = false;
   public unapproving = false;
   public downloading = false;
@@ -642,6 +645,9 @@ export class CandidateViewPage implements OnInit {
     this.candidateService.detail(this.candidate_id, query).subscribe(response => {
 
       this.loading = false;
+      this.loadError = false;
+      this.civilFrontUnavailable = false;
+      this.civilBackUnavailable = false;
       this.candidate = response;
 
       if (this.candidate && this.candidate.pendingField && this.candidate.pendingField.length > 0) {
@@ -662,7 +668,16 @@ export class CandidateViewPage implements OnInit {
           this.loadInvitationChart();
         }
       }, 500);
+    }, err => {
+      // Error handler: without it a failed API call leaves this.loading stuck and the
+      // candidate profile renders as a blank page (issue #55, staff app checkbox).
+      this.loading = false;
+      this.loadError = true;
     });
+  }
+
+  retryLoadCandidateDetail() {
+    this.loadCandidateDetail();
   }
 
   loadInvitationChart() {
@@ -1509,11 +1524,16 @@ export class CandidateViewPage implements OnInit {
   }
 
   onCivilBackError() {
-    this.candidate.candidate_civil_photo_back = null;
+    // Mark the back photo unavailable and show a re-upload request message instead of
+    // silently removing the block (issue #55: show "Civil ID image unavailable —
+    // request re-upload" when image returns 403 or is missing).
+    this.civilBackUnavailable = true;
   }
 
   onCivilFrontError() {
-    this.candidate.candidate_civil_photo_front = null;
+    // Mark the front photo unavailable and show a re-upload request message instead of
+    // silently removing the block (issue #55, staff app checkbox).
+    this.civilFrontUnavailable = true;
   }
 
   /**
