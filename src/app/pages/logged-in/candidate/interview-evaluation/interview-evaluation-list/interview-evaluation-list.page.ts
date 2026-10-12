@@ -1,17 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { ModalController, NavController } from '@ionic/angular';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ActionSheetController, ModalController, NavController, ViewWillEnter } from '@ionic/angular';
+import { EvaluationPresetModalComponent } from 'src/app/components/evaluation-editor/evaluation-preset-modal.component';
 import { InterviewEvaluation } from 'src/app/models/interview-evaluation';
 import { AnalyticsService } from 'src/app/providers/analytics.service';
 import { InterviewEvaluationService } from 'src/app/providers/logged-in/interview-evaluation.service';
-import { InterviewEvaluationFormPage } from '../interview-evaluation-form/interview-evaluation-form.page';
 
 @Component({
   selector: 'app-interview-evaluation-list',
   templateUrl: './interview-evaluation-list.page.html',
   styleUrls: ['./interview-evaluation-list.page.scss'],
 })
-export class InterviewEvaluationListPage implements OnInit {
+export class InterviewEvaluationListPage implements OnInit, ViewWillEnter {
 
   public borderLimit;
 
@@ -32,6 +32,8 @@ export class InterviewEvaluationListPage implements OnInit {
     public interviewEvaluationService: InterviewEvaluationService,
     public analyticService: AnalyticsService,
     public modalCtrl: ModalController,
+    public actionSheetCtrl: ActionSheetController,
+    public router: Router,
   ) { }
 
   ngOnInit() {
@@ -47,6 +49,10 @@ export class InterviewEvaluationListPage implements OnInit {
       this.candidate_id = this.activatedRoute.snapshot.paramMap.get('candidate_id');
     }
 
+  }
+
+  ionViewWillEnter() {
+    this.interviewCurrentPage = 1;
     this.loadInterviews();
   }
 
@@ -95,25 +101,42 @@ export class InterviewEvaluationListPage implements OnInit {
 
   interviewEvaluationSelected(interviewEvaluation) {
    // this.modalCtrl.dismiss().then(() => {
-      this.navCtrl.navigateForward("/interview-evaluation-view/" + interviewEvaluation.interview_evaluation_uuid);
+      this.router.navigate(['/interview-evaluation-view', interviewEvaluation.interview_evaluation_uuid], {
+        queryParams: { candidate_id: this.candidate_id }
+      });
    // });
   }
 
   async add() {
-    const modal = await this.modalCtrl.create({
-      component: InterviewEvaluationFormPage,
-      componentProps: {
-        candidate_id: this.candidate_id
-      },
-      cssClass: "popup-modal"
+    const sheet = await this.actionSheetCtrl.create({
+      header: 'New evaluation',
+      buttons: [
+        { text: 'Start blank', handler: () => this.openEditor() },
+        { text: 'Use preset', handler: () => this.openPresets() },
+        { text: 'Cancel', role: 'cancel' }
+      ]
     });
-    modal.onDidDismiss().then(e => {
+    await sheet.present();
+  }
 
-      if (e && e.data && e.data.refresh) {
-        this.loadInterviews();
+  openEditor(preset = null) {
+    this.router.navigate(['/interview-evaluation-view', 'new'], {
+      queryParams: { candidate_id: this.candidate_id },
+      state: { preset }
+    });
+  }
+
+  async openPresets() {
+    const modal = await this.modalCtrl.create({
+      component: EvaluationPresetModalComponent,
+      cssClass: 'popup-modal'
+    });
+    modal.onDidDismiss().then(result => {
+      if (result && result.data && result.data.preset) {
+        this.openEditor(result.data.preset);
       }
     });
-    modal.present();
+    await modal.present();
   }
 
   logScrolling(e) {

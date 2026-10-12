@@ -2,8 +2,17 @@
   <!-- [class.pending]="interviewEvaluation.request.request_status == 'pending'" -->
   <ion-card-content>
     <div class="inner-card-content">
-      <h1 *ngIf="interviewEvaluation.request">{{ interviewEvaluation.request.request_position_title }}
-      </h1>
+      <h1>{{ interviewEvaluation.title || (interviewEvaluation.request && interviewEvaluation.request.request_position_title) || 'Evaluation' }}</h1>
+
+      <div class="eval-meta">
+        <span class="tag tag-yellow" *ngIf="interviewEvaluation.form_status === 'draft'">Draft</span>
+        <span class="tag tag-green" *ngIf="interviewEvaluation.form_status === 'completed'">Completed</span>
+        <span class="tag tag-gray" *ngIf="interviewEvaluation.is_legacy === true">Earlier format</span>
+        <span *ngIf="interviewEvaluation.evaluation_date">{{ interviewEvaluation.evaluation_date | date:'MMM d, y' }}</span>
+        <span *ngIf="interviewEvaluation.created_by">{{ interviewEvaluation.created_by.staff_name }}</span>
+        <span *ngIf="!interviewEvaluation.created_by && interviewEvaluation.staff">Recorded by {{ interviewEvaluation.staff.staff_name }}</span>
+        <span *ngIf="interviewEvaluation.preset_name">{{ interviewEvaluation.preset_name }}<ng-container *ngIf="interviewEvaluation.preset_archived"> (archived)</ng-container></span>
+      </div>
 
       <h3 *ngIf="interviewEvaluation.company">
         {{ interviewEvaluation.company.company_common_name_en? interviewEvaluation.company.company_common_name_en: interviewEvaluation.company.company_name }}
@@ -44,7 +53,7 @@
          
       </div>-->
 
-      <ul *ngIf="interviewEvaluation.latestInterviewEvaluationNoteVersions && interviewEvaluation.latestInterviewEvaluationNoteVersions.interviewEvaluationNotes">
+      <ul *ngIf="interviewEvaluation.is_legacy !== false && interviewEvaluation.latestInterviewEvaluationNoteVersions && interviewEvaluation.latestInterviewEvaluationNoteVersions.interviewEvaluationNotes">
         <li *ngFor="let interviewNote of interviewEvaluation.latestInterviewEvaluationNoteVersions.interviewEvaluationNotes">
           {{ interviewNote.note }}
         </li>

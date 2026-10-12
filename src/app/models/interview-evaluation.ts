@@ -18,6 +18,21 @@ export class InterviewEvaluation {
     company: Company;
     interviewEvaluationNoteVersions: InterviewEvaluationNoteVersion[];
     latestInterviewEvaluationNoteVersions: InterviewEvaluationNoteVersion;
+    title?: string;
+    evaluation_date?: string;
+    form_status?: string;
+    preset_uuid?: string;
+    preset_name?: string;
+    preset_archived?: boolean;
+    schema?: { properties: any[] };
+    answers?: { [id: string]: any };
+    revision?: number;
+    is_legacy?: boolean;
+    created_by?: { staff_id: number; staff_name: string };
+    updated_by?: { staff_id: number; staff_name: string };
+    created_by_staff_id?: number;
+    updated_by_staff_id?: number;
+    completed_at?: string;
 }
 
 export class InterviewEvaluationNoteVersion {

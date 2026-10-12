@@ -1,0 +1,150 @@
+<div class="editor" *ngIf="draft">
+  <div class="banner error" *ngIf="errors?.length">
+    <p *ngFor="let error of errors">{{ error.message || error }}</p>
+  </div>
+  <div class="banner conflict" *ngIf="conflictMessage">
+    <p>{{ conflictMessage }}</p>
+    <div class="banner-actions">
+      <button type="button" (click)="loadLatest.emit()">Load the latest saved version</button>
+      <button type="button" (click)="overwriteLatest.emit()">Save my version over the latest</button>
+    </div>
+  </div>
+  <div class="banner failure" *ngIf="failureMessage">{{ failureMessage }}</div>
+  <div class="banner success" *ngIf="savedMessage && !saving">{{ savedMessage }}</div>
+  <p class="saving" *ngIf="saving">Saving…</p>
+
+  <label class="title-field" *ngIf="mode === 'evaluation'">
+    <span class="sr">Title</span>
+    <input [disabled]="locked" [(ngModel)]="draft.title" (ngModelChange)="markChanged()" placeholder="Evaluation title">
+  </label>
+
+  <div class="prop-row" *ngIf="mode === 'evaluation'">
+    <div class="prop-label">
+      <ion-icon name="calendar-outline"></ion-icon>
+      <span>Evaluation date</span>
+    </div>
+    <div class="prop-value">
+      <input type="date" [disabled]="locked" [ngModel]="draft.evaluation_date" (ngModelChange)="draft.evaluation_date = $event || null; markChanged()">
+      <span class="empty" *ngIf="!draft.evaluation_date && readOnly">Empty</span>
+    </div>
+  </div>
+
+  <div class="prop-row" *ngIf="mode === 'evaluation'">
+    <div class="prop-label">
+      <ion-icon name="ellipse-outline"></ion-icon>
+      <span>Status</span>
+    </div>
+    <div class="prop-value">
+      <span class="tag" [class.tag-yellow]="draft.form_status !== 'completed'" [class.tag-green]="draft.form_status === 'completed'">
+        {{ draft.form_status === 'completed' ? 'Completed' : 'Draft' }}
+      </span>
+    </div>
+  </div>
+
+  <div class="prop-row" *ngIf="mode === 'evaluation' && draft.created_by">
+    <div class="prop-label">
+      <ion-icon name="person-outline"></ion-icon>
+      <span>Creator</span>
+    </div>
+    <div class="prop-value">{{ draft.created_by.staff_name }}</div>
+  </div>
+
+  <div class="prop-row" *ngIf="mode === 'evaluation' && draft.preset_name">
+    <div class="prop-label">
+      <ion-icon name="albums-outline"></ion-icon>
+      <span>Preset</span>
+    </div>
+    <div class="prop-value">{{ draft.preset_name }}</div>
+  </div>
+
+  <div class="prop-row" *ngFor="let property of draft.schema.properties; let index = index">
+    <div class="prop-label">
+      <ion-icon [name]="meta(property.type).icon"></ion-icon>
+      <input *ngIf="!locked" class="name" [ngModel]="property.name" (ngModelChange)="rename(property, $event)" [attr.aria-label]="'Property name'">
+      <span *ngIf="locked">{{ property.name }}</span>
+      <span class="required-mark" *ngIf="property.required">Required</span>
+      <button type="button" class="icon-button" *ngIf="!locked" (click)="toggleMenu(property); $event.stopPropagation()" [attr.aria-label]="'Property settings for ' + property.name">
+        <ion-icon name="ellipsis-horizontal"></ion-icon>
+      </button>
+      <div class="menu" *ngIf="menuId === property.id">
+        <button type="button" (click)="toggleRequired(property)">{{ property.required ? 'Make optional' : 'Make required' }}</button>
+        <button type="button" (click)="move(index, -1)" [disabled]="index === 0">Move up</button>
+        <button type="button" (click)="move(index, 1)" [disabled]="index === draft.schema.properties.length - 1">Move down</button>
+        <button type="button" *ngIf="selectType(property.type)" (click)="toggleOptions(property)">Edit options</button>
+        <p class="menu-label">Change type</p>
+        <button type="button" *ngFor="let item of propertyTypes" (click)="changeType(property, item.type)">{{ item.label }}</button>
+        <button type="button" class="danger" (click)="removeProperty(property)">Remove property</button>
+      </div>
+    </div>
+
+    <div class="prop-value" *ngIf="mode === 'evaluation'">
+      <ng-container [ngSwitch]="property.type">
+        <input *ngSwitchCase="'text'" [disabled]="locked" [ngModel]="draft.answers[property.id]" (ngModelChange)="draft.answers[property.id] = $event; markChanged()" placeholder="Empty">
+        <input *ngSwitchCase="'number'" type="number" [disabled]="locked" [ngModel]="draft.answers[property.id]" (ngModelChange)="draft.answers[property.id] = $event === '' || $event === null ? null : +$event; markChanged()" placeholder="Empty">
+        <input *ngSwitchCase="'date'" type="date" [disabled]="locked" [ngModel]="draft.answers[property.id]" (ngModelChange)="draft.answers[property.id] = $event || null; markChanged()">
+        <input *ngSwitchCase="'url'" [disabled]="locked" [ngModel]="draft.answers[property.id]" (ngModelChange)="draft.answers[property.id] = $event; markChanged()" placeholder="Empty">
+        <input *ngSwitchCase="'email'" type="email" [disabled]="locked" [ngModel]="draft.answers[property.id]" (ngModelChange)="draft.answers[property.id] = $event; markChanged()" placeholder="Empty">
+        <input *ngSwitchCase="'phone'" [disabled]="locked" [ngModel]="draft.answers[property.id]" (ngModelChange)="draft.answers[property.id] = $event; markChanged()" placeholder="Empty">
+        <label *ngSwitchCase="'checkbox'" class="check">
+          <ion-checkbox [disabled]="locked" [checked]="draft.answers[property.id] === true" (ionChange)="setCheck(property, $any($event).detail.checked)"></ion-checkbox>
+          <span>{{ draft.answers[property.id] ? 'Checked' : 'Empty' }}</span>
+        </label>
+        <select *ngSwitchCase="'staff'" [disabled]="locked" [ngModel]="draft.answers[property.id]" (ngModelChange)="setStaff(property, $event)">
+          <option [ngValue]="null">Empty</option>
+          <option *ngFor="let staff of staffOptions" [ngValue]="staff.staff_id">{{ staff.staff_name }}</option>
+        </select>
+        <div *ngSwitchCase="'notes'" class="notes">
+          <div class="notes-toolbar" *ngIf="!locked">
+            <button type="button" (mousedown)="$event.preventDefault()" (click)="format('bold', notesBox)">Bold</button>
+            <button type="button" (mousedown)="$event.preventDefault()" (click)="format('insertUnorderedList', notesBox)">Bullets</button>
+          </div>
+          <div #notesBox class="notes-area" [attr.contenteditable]="locked ? 'false' : 'true'" [attr.data-property-id]="property.id"
+            (input)="onNotes(property, $event)" (focus)="paintNotes(notesBox, property)"></div>
+        </div>
+        <div *ngSwitchDefault class="choices">
+          <ng-container *ngIf="property.type !== 'multi_select'">
+            <button type="button" class="tag" *ngIf="option(property, draft.answers[property.id]) as chosen"
+              [class]="'tag tag-' + chosen.color" [disabled]="locked" (click)="clearSingle(property); $event.stopPropagation()">{{ chosen.label }}</button>
+            <button type="button" class="empty-choice" *ngIf="!option(property, draft.answers[property.id])" [disabled]="locked" (click)="toggleChoices(property); $event.stopPropagation()">Empty</button>
+          </ng-container>
+          <ng-container *ngIf="property.type === 'multi_select'">
+            <button type="button" class="tag" *ngFor="let chosen of selectedOptions(property)" [class]="'tag tag-' + chosen.color"
+              [disabled]="locked" (click)="toggleMulti(property, chosen.id); $event.stopPropagation()">{{ chosen.label }}</button>
+            <button type="button" class="empty-choice" *ngIf="selectedOptions(property).length === 0" [disabled]="locked" (click)="toggleChoices(property); $event.stopPropagation()">Empty</button>
+          </ng-container>
+          <button type="button" class="open-choices" *ngIf="!locked && (property.type === 'multi_select' ? selectedOptions(property).length : option(property, draft.answers[property.id]))" (click)="toggleChoices(property); $event.stopPropagation()" [attr.aria-label]="'Choose ' + property.name">+</button>
+          <div class="menu choice-menu" *ngIf="choiceId === property.id && !locked" (click)="$event.stopPropagation()">
+            <button type="button" *ngFor="let choice of property.options" (click)="property.type === 'multi_select' ? toggleMulti(property, choice.id) : chooseSingle(property, choice.id)">
+              <span class="tag" [class]="'tag tag-' + choice.color">{{ choice.label }}</span>
+            </button>
+            <p class="hint" *ngIf="!property.options?.length">Add options from the property settings.</p>
+          </div>
+        </div>
+      </ng-container>
+      <p class="field-error" *ngIf="fieldMessage(property) as message">{{ message }}</p>
+      <span class="empty" *ngIf="readOnly && !draft.answers[property.id] && property.type !== 'checkbox' && property.type !== 'multi_select' && property.type !== 'select' && property.type !== 'status'">Empty</span>
+    </div>
+
+    <div class="options" *ngIf="optionsId === property.id && selectType(property.type) && !readOnly">
+      <div class="option-row" *ngFor="let choice of property.options">
+        <input [disabled]="locked" [ngModel]="choice.label" (ngModelChange)="renameOption(choice, $event)" [attr.aria-label]="'Option label'">
+        <button type="button" [disabled]="locked" *ngFor="let color of colors" class="swatch" [class]="'swatch tag-' + color" [class.selected]="choice.color === color" (click)="setColor(choice, color)" [attr.aria-label]="color"></button>
+        <button type="button" [disabled]="locked" (click)="removeOption(property, choice.id)">Remove</button>
+      </div>
+      <button type="button" class="add-option" [disabled]="locked" (click)="addOption(property)">Add option</button>
+    </div>
+  </div>
+
+  <p class="hint" *ngIf="draft.schema.properties.length === 0">No properties yet.</p>
+
+  <div class="add-wrap" *ngIf="!locked">
+    <button type="button" class="add-property" (click)="toggleAdd(); $event.stopPropagation()">+ Add a property</button>
+    <div class="menu add-menu" *ngIf="addOpen">
+      <input class="property-name" [(ngModel)]="newPropertyName" placeholder="Property name" aria-label="Property name" (click)="$event.stopPropagation()">
+      <button type="button" *ngFor="let item of propertyTypes" (click)="addProperty(item.type)">
+        <ion-icon [name]="item.icon"></ion-icon>
+        {{ item.label }}
+      </button>
+    </div>
+  </div>
+</div>

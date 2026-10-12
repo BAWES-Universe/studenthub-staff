@@ -1,68 +1,109 @@
 <ion-header mode="md" [class.add-border]="borderLimit" class="ion-no-border">
   <ion-toolbar class="container">
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/" icon="assets/images/icon-back.svg"></ion-back-button>
+      <ion-button (click)="goBack()" aria-label="Back">
+        <ion-icon src="assets/images/icon-back.svg"></ion-icon>
+      </ion-button>
     </ion-buttons>
-  </ion-toolbar>  
-  <ion-toolbar  class="container">
+    <ion-buttons slot="end" class="wide-actions" *ngIf="structured">
+      <ion-button *ngIf="draft?.form_status !== 'completed'" [disabled]="saving" (click)="save('draft')">Save draft</ion-button>
+      <ion-button *ngIf="draft?.form_status !== 'completed'" [disabled]="saving" (click)="save('complete')">Complete evaluation</ion-button>
+      <ion-button *ngIf="draft?.form_status === 'completed' && readOnly" (click)="startEdit()">Edit</ion-button>
+      <ion-button *ngIf="draft?.form_status === 'completed' && !readOnly" [disabled]="saving" (click)="save('correction')">Save changes</ion-button>
+      <ion-button *ngIf="model?.interview_evaluation_uuid" (click)="saveAsPreset()">Save as preset</ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end" class="narrow-actions" *ngIf="structured">
+      <ion-button *ngIf="draft?.form_status !== 'completed'" [disabled]="saving" (click)="save('draft')">Save draft</ion-button>
+      <ion-button *ngIf="draft?.form_status === 'completed' && readOnly" (click)="startEdit()">Edit</ion-button>
+      <ion-button *ngIf="draft?.form_status === 'completed' && !readOnly" [disabled]="saving" (click)="save('correction')">Save changes</ion-button>
+      <ion-button (click)="openMoreActions()" aria-label="More actions">
+        <ion-icon name="ellipsis-horizontal"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-toolbar class="container" *ngIf="legacy">
     <ion-title>
       Evaluation
-
       <p *ngIf="model && model.request" class="txt-sub-title">
-        {{ model.request.request_position_title }} 
-      </p> 
+        {{ model.request.request_position_title }}
+      </p>
     </ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content scrollEvents="true" (ionScroll)="logScrolling($event)">
-
   <div class="container max-width">
-    <div *ngIf="model">
+    <p *ngIf="loading">Loading evaluation…</p>
 
+    <ng-container *ngIf="structured && draft">
+      <evaluation-editor
+        [draft]="draft"
+        [staffOptions]="staffOptions"
+        [readOnly]="readOnly"
+        [saving]="saving"
+        [savedAnswers]="savedAnswers"
+        [errors]="errors"
+        [conflictMessage]="conflictMessage"
+        [savedMessage]="savedMessage"
+        [failureMessage]="failureMessage"
+        (changed)="markDirty()"
+        (loadLatest)="applyServer()"
+        (overwriteLatest)="overwriteLatest()">
+      </evaluation-editor>
+
+      <section class="history" *ngIf="model?.interview_evaluation_uuid">
+        <button type="button" class="history-toggle" (click)="toggleHistory()">
+          {{ showHistory ? 'Hide history' : 'View saved history' }}
+        </button>
+        <ng-container *ngIf="showHistory">
+          <article *ngFor="let change of changes">
+            <h3>{{ change.action }} · revision {{ change.revision }}</h3>
+            <p>
+              <ng-container *ngIf="change.staff">{{ change.staff.staff_name }} · </ng-container>
+              {{ change.created_at }}
+            </p>
+            <p>{{ change.snapshot?.title }}</p>
+            <button type="button" class="history-toggle" (click)="toggleSnapshot(change)">
+              {{ openSnapshot === change.change_uuid ? 'Hide this version' : 'View this version' }}
+            </button>
+            <evaluation-editor *ngIf="openSnapshot === change.change_uuid" [draft]="snapshotDrafts[change.change_uuid]" [readOnly]="true"></evaluation-editor>
+          </article>
+        </ng-container>
+      </section>
+    </ng-container>
+
+    <div *ngIf="legacy && model">
       <ion-card class="card-latest-version" *ngIf="model.interviewEvaluationNoteVersions.length > 0">
         <ion-card-content>
-          
-          <h3 >
+          <h3>
             <ng-container *ngIf="model.interviewEvaluationNoteVersions[0].staff">
               {{ model.interviewEvaluationNoteVersions[0].staff.staff_name }} <br />
-            </ng-container>  
-            {{ translateService.toDate(model.interviewEvaluationNoteVersions[0].created_at) | date: 'MMM d, y h:mm a' }} 
+            </ng-container>
+            {{ translateService.toDate(model.interviewEvaluationNoteVersions[0].created_at) | date: 'MMM d, y h:mm a' }}
           </h3>
-      
           <h5>Version {{ model.interviewEvaluationNoteVersions[0].version }}</h5>
-
+          <p class="legacy-label">Earlier format</p>
           <ul *ngIf="model.interviewEvaluationNoteVersions.length > 0">
             <li *ngFor="let interviewEvaluationNote of model.interviewEvaluationNoteVersions[0].interviewEvaluationNotes">
               {{ interviewEvaluationNote.note }}
             </li>
           </ul>
-
-
         </ion-card-content>
       </ion-card>
 
-      <ion-button class="btn-update" (click)="addVersion()">
-        Update
-      </ion-button>
+      <ion-button class="btn-update" (click)="addVersion()">Update</ion-button>
 
-      <h5 class="heading" *ngIf="model.interviewEvaluationNoteVersions.length > 1">
-        Older versions
-      </h5>
+      <h5 class="heading" *ngIf="model.interviewEvaluationNoteVersions.length > 1">Older versions</h5>
 
       <ng-container *ngFor="let interviewEvaluationNoteVersion of model.interviewEvaluationNoteVersions; let i = index;">
         <ion-card class="card-old-versions" *ngIf="i != 0">
           <ion-card-content>
-            
             <h3>
               <ng-container *ngIf="interviewEvaluationNoteVersion.staff">
                 {{ interviewEvaluationNoteVersion.staff.staff_name }} <br />
               </ng-container>
-
-              {{ translateService.toDate(interviewEvaluationNoteVersion.created_at) | date: 'MMM d, y h:mm a' }} 
+              {{ translateService.toDate(interviewEvaluationNoteVersion.created_at) | date: 'MMM d, y h:mm a' }}
             </h3>
-        
             <h5>Version {{ interviewEvaluationNoteVersion.version }}</h5>
-
             <ul>
               <li *ngFor="let interviewEvaluationNote of interviewEvaluationNoteVersion.interviewEvaluationNotes">
                 {{ interviewEvaluationNote.note }}
@@ -75,7 +116,6 @@
       <ion-infinite-scroll *ngIf="currentPage < pageCount" (ionInfinite)="doInfiniteInterviews($event)">
         <ion-infinite-scroll-content></ion-infinite-scroll-content>
       </ion-infinite-scroll>
-
     </div>
   </div>
 </ion-content>
