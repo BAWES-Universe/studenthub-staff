@@ -1,8 +1,8 @@
 import { Component, HostListener, Injectable, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, CanDeactivate, Router } from '@angular/router';
-import { ActionSheetController, AlertController, ModalController, NavController, ToastController } from '@ionic/angular';
+import { ActionSheetController, AlertController, ModalController, NavController, ToastController, ViewWillEnter, ViewWillLeave } from '@ionic/angular';
 import { EvaluationEditorComponent } from 'src/app/components/evaluation-editor/evaluation-editor.component';
-import { EvaluationDraft, applySuccessfulSave, blankDraft, cloneAnswers, cloneSchema, saveResponseApplies } from 'src/app/evaluation/evaluation-form.logic';
+import { EvaluationDraft, applySuccessfulSave, blankDraft, cloneAnswers, cloneSchema, presetFollowsSave, saveResponseApplies } from 'src/app/evaluation/evaluation-form.logic';
 import { InterviewEvaluation } from 'src/app/models/interview-evaluation';
 import { Note } from 'src/app/models/note';
 import { AuthService } from 'src/app/providers/auth.service';
@@ -25,7 +25,7 @@ export class EvaluationUnsavedGuard implements CanDeactivate<InterviewEvaluation
   templateUrl: './interview-evaluation-view.page.html',
   styleUrls: ['./interview-evaluation-view.page.scss'],
 })
-export class InterviewEvaluationViewPage implements OnInit {
+export class InterviewEvaluationViewPage implements OnInit, ViewWillEnter, ViewWillLeave {
 
   @ViewChild(EvaluationEditorComponent) editor: EvaluationEditorComponent;
 
@@ -59,7 +59,8 @@ export class InterviewEvaluationViewPage implements OnInit {
   public savingNote = false;
   private saveResult: (saved: boolean) => void = null;
   private replacingRoute = false;
-  private leftPage = false;
+  private saveGeneration = 0;
+  private loadedVisit = -1;
 
   constructor(
     public activatedRoute: ActivatedRoute,
@@ -78,18 +79,56 @@ export class InterviewEvaluationViewPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.interview_evaluation_uuid = this.activatedRoute.snapshot.paramMap.get('interview_evaluation_uuid');
-    this.candidateId = this.activatedRoute.snapshot.queryParamMap.get('candidate_id');
+    this.captureRoute();
     this.loadStaff();
     if (this.interview_evaluation_uuid === 'new') {
-      const preset = window.history.state ? window.history.state.preset : null;
-      this.draft = blankDraft(preset || null);
-      this.structured = true;
-      this.readOnly = false;
-      this.loading = false;
+      this.prepareNewEvaluation();
+    }
+  }
+
+  ionViewWillEnter() {
+    if (this.replacingRoute) {
       return;
     }
-    this.loadData();
+    const previousUuid = this.interview_evaluation_uuid;
+    this.captureRoute();
+    if (this.interview_evaluation_uuid === 'new') {
+      if (!this.draft) {
+        this.prepareNewEvaluation();
+      }
+      return;
+    }
+    if (this.dirty) {
+      return;
+    }
+    if (previousUuid !== this.interview_evaluation_uuid || this.loadedVisit !== this.saveGeneration) {
+      this.loadData();
+    }
+  }
+
+  ionViewWillLeave() {
+    if (this.replacingRoute) {
+      return;
+    }
+    this.invalidateSaveGeneration();
+  }
+
+  private captureRoute() {
+    this.interview_evaluation_uuid = this.activatedRoute.snapshot.paramMap.get('interview_evaluation_uuid');
+    this.candidateId = this.activatedRoute.snapshot.queryParamMap.get('candidate_id');
+  }
+
+  private prepareNewEvaluation() {
+    const preset = window.history.state ? window.history.state.preset : null;
+    this.draft = blankDraft(preset || null);
+    this.structured = true;
+    this.readOnly = false;
+    this.loading = false;
+    this.loadedVisit = this.saveGeneration;
+  }
+
+  private invalidateSaveGeneration() {
+    this.saveGeneration += 1;
   }
 
   @HostListener('window:beforeunload', ['$event'])
@@ -113,9 +152,14 @@ export class InterviewEvaluationViewPage implements OnInit {
   }
 
   loadData() {
+    const generation = this.saveGeneration;
     this.loading = true;
     this.interviewEvaluationService.view(this.interview_evaluation_uuid).subscribe(res => {
+      if (!saveResponseApplies(generation, this.saveGeneration)) {
+        return;
+      }
       this.loading = false;
+      this.loadedVisit = generation;
       this.model = res;
       if (res && res.is_legacy === false && res.schema) {
         this.structured = true;
@@ -131,6 +175,9 @@ export class InterviewEvaluationViewPage implements OnInit {
         this.loadNotes();
       }
     }, () => {
+      if (!saveResponseApplies(generation, this.saveGeneration)) {
+        return;
+      }
       this.loading = false;
       this.failureMessage = 'The evaluation could not be opened.';
     });
@@ -214,10 +261,11 @@ export class InterviewEvaluationViewPage implements OnInit {
     const request = this.model && this.model.interview_evaluation_uuid
       ? this.evaluationFormService.update(this.model.interview_evaluation_uuid, payload)
       : this.evaluationFormService.save(Number(this.candidateId), payload);
+    const generation = this.saveGeneration;
 
     request.subscribe(res => {
       this.saving = false;
-      if (!saveResponseApplies(this.leftPage)) {
+      if (!saveResponseApplies(generation, this.saveGeneration)) {
         this.finishSave(false);
         return;
       }
@@ -225,7 +273,7 @@ export class InterviewEvaluationViewPage implements OnInit {
       this.finishSave(!!(res && res.operation === 'success' && !this.dirty));
     }, () => {
       this.saving = false;
-      if (!saveResponseApplies(this.leftPage)) {
+      if (!saveResponseApplies(generation, this.saveGeneration)) {
         this.finishSave(false);
         return;
       }
@@ -320,22 +368,34 @@ export class InterviewEvaluationViewPage implements OnInit {
       return;
     }
     const name = result.data && result.data.values ? result.data.values.name : '';
+    const generation = this.saveGeneration;
     if (!this.model || !this.model.interview_evaluation_uuid || this.dirty) {
       const mode = this.draft && this.draft.form_status === 'completed' ? 'correction' : 'draft';
-      await this.saveAndWait(mode);
+      const saved = await this.saveAndWait(mode);
+      if (!presetFollowsSave(saved, generation, this.saveGeneration)) {
+        if (saveResponseApplies(generation, this.saveGeneration) && (this.dirty || !this.model || !this.model.interview_evaluation_uuid)) {
+          this.errors = ['Save the evaluation before creating a preset. Your latest edits are still on this page.'];
+        }
+        return;
+      }
     }
-    if (this.dirty || !this.model || !this.model.interview_evaluation_uuid) {
-      this.errors = ['Save the evaluation before creating a preset. Your latest edits are still on this page.'];
+    if (!saveResponseApplies(generation, this.saveGeneration)) {
       return;
     }
     const schema = cloneSchema(this.draft.schema);
     this.evaluationFormService.createPreset(name, schema).subscribe(res => {
+      if (!saveResponseApplies(generation, this.saveGeneration)) {
+        return;
+      }
       if (res && res.operation === 'success') {
         this.toast('Preset saved without this candidate’s answers.');
       } else {
         this.errors = this.formatErrors(res && res.message);
       }
     }, () => {
+      if (!saveResponseApplies(generation, this.saveGeneration)) {
+        return;
+      }
       this.failureMessage = 'The preset could not be saved.';
     });
   }
@@ -393,7 +453,7 @@ export class InterviewEvaluationViewPage implements OnInit {
     }).then(alert => alert.present().then(() => alert.onDidDismiss())).then(result => {
       const leaving = result.role === 'confirm';
       if (leaving) {
-        this.leftPage = true;
+        this.invalidateSaveGeneration();
       }
       return leaving;
     });

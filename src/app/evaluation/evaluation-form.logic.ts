@@ -91,8 +91,12 @@ export function presetSaveApplies(requestToken: number, requestUuid: string, act
   return !!activeUuid && requestToken === activeToken && requestUuid === activeUuid;
 }
 
-export function saveResponseApplies(leftPage: boolean): boolean {
-  return !leftPage;
+export function saveResponseApplies(requestGeneration: number, currentGeneration: number): boolean {
+  return requestGeneration === currentGeneration;
+}
+
+export function presetFollowsSave(saved: boolean, requestGeneration: number, currentGeneration: number): boolean {
+  return saved && requestGeneration === currentGeneration;
 }
 
 export function propertyMeta(type: string) {

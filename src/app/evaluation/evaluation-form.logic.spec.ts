@@ -1,4 +1,4 @@
-import { applySuccessfulSave, blankDraft, cloneAnswers, cloneSchema, hasAnswer, messageForProperty, moveProperty, presetConflictMatches, presetPayload, presetSaveApplies, sanitizeNotesHtml, saveResponseApplies, structureChangeNeedsConfirm, withoutOption } from './evaluation-form.logic';
+import { applySuccessfulSave, blankDraft, cloneAnswers, cloneSchema, hasAnswer, messageForProperty, moveProperty, presetConflictMatches, presetFollowsSave, presetPayload, presetSaveApplies, sanitizeNotesHtml, saveResponseApplies, structureChangeNeedsConfirm, withoutOption } from './evaluation-form.logic';
 
 describe('evaluation form logic', () => {
   const schema = {
@@ -111,8 +111,15 @@ describe('evaluation form logic', () => {
     expect(presetSaveApplies(1, 'preset-a', 2, null)).toBeFalse();
   });
 
-  it('applies a save that is still open and ignores it after the user leaves', () => {
-    expect(saveResponseApplies(false)).toBeTrue();
-    expect(saveResponseApplies(true)).toBeFalse();
+  it('applies a save from the current visit and ignores one from an earlier visit', () => {
+    expect(saveResponseApplies(1, 1)).toBeTrue();
+    expect(saveResponseApplies(1, 2)).toBeFalse();
+    expect(saveResponseApplies(3, 3)).toBeTrue();
+  });
+
+  it('creates a preset only after the save from this visit succeeds', () => {
+    expect(presetFollowsSave(true, 1, 1)).toBeTrue();
+    expect(presetFollowsSave(false, 1, 1)).toBeFalse();
+    expect(presetFollowsSave(true, 1, 2)).toBeFalse();
   });
 });
