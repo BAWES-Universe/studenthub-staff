@@ -2,7 +2,7 @@ import { Component, HostListener, Injectable, OnInit, ViewChild } from '@angular
 import { ActivatedRoute, CanDeactivate, Router } from '@angular/router';
 import { ActionSheetController, AlertController, ModalController, NavController, ToastController } from '@ionic/angular';
 import { EvaluationEditorComponent } from 'src/app/components/evaluation-editor/evaluation-editor.component';
-import { EvaluationDraft, applySuccessfulSave, blankDraft, cloneAnswers, cloneSchema } from 'src/app/evaluation/evaluation-form.logic';
+import { EvaluationDraft, applySuccessfulSave, blankDraft, cloneAnswers, cloneSchema, saveResponseApplies } from 'src/app/evaluation/evaluation-form.logic';
 import { InterviewEvaluation } from 'src/app/models/interview-evaluation';
 import { Note } from 'src/app/models/note';
 import { AuthService } from 'src/app/providers/auth.service';
@@ -59,6 +59,7 @@ export class InterviewEvaluationViewPage implements OnInit {
   public savingNote = false;
   private saveResult: (saved: boolean) => void = null;
   private replacingRoute = false;
+  private leftPage = false;
 
   constructor(
     public activatedRoute: ActivatedRoute,
@@ -216,10 +217,18 @@ export class InterviewEvaluationViewPage implements OnInit {
 
     request.subscribe(res => {
       this.saving = false;
+      if (!saveResponseApplies(this.leftPage)) {
+        this.finishSave(false);
+        return;
+      }
       this.handleSaveResponse(res, sent);
       this.finishSave(!!(res && res.operation === 'success' && !this.dirty));
     }, () => {
       this.saving = false;
+      if (!saveResponseApplies(this.leftPage)) {
+        this.finishSave(false);
+        return;
+      }
       this.failureMessage = 'The evaluation could not be saved. Your entries are still on this page.';
       this.finishSave(false);
     });
@@ -381,7 +390,13 @@ export class InterviewEvaluationViewPage implements OnInit {
         { text: 'Stay', role: 'cancel' },
         { text: 'Leave', role: 'confirm' }
       ]
-    }).then(alert => alert.present().then(() => alert.onDidDismiss())).then(result => result.role === 'confirm');
+    }).then(alert => alert.present().then(() => alert.onDidDismiss())).then(result => {
+      const leaving = result.role === 'confirm';
+      if (leaving) {
+        this.leftPage = true;
+      }
+      return leaving;
+    });
   }
 
   toggleHistory() {

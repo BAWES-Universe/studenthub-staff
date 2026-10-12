@@ -1,4 +1,4 @@
-import { applySuccessfulSave, blankDraft, cloneAnswers, cloneSchema, hasAnswer, messageForProperty, moveProperty, presetConflictMatches, presetPayload, presetSaveApplies, sanitizeNotesHtml, structureChangeNeedsConfirm, withoutOption } from './evaluation-form.logic';
+import { applySuccessfulSave, blankDraft, cloneAnswers, cloneSchema, hasAnswer, messageForProperty, moveProperty, presetConflictMatches, presetPayload, presetSaveApplies, sanitizeNotesHtml, saveResponseApplies, structureChangeNeedsConfirm, withoutOption } from './evaluation-form.logic';
 
 describe('evaluation form logic', () => {
   const schema = {
@@ -109,5 +109,10 @@ describe('evaluation form logic', () => {
     expect(presetSaveApplies(1, 'preset-a', 1, 'preset-a')).toBeTrue();
     expect(presetSaveApplies(1, 'preset-a', 2, 'preset-b')).toBeFalse();
     expect(presetSaveApplies(1, 'preset-a', 2, null)).toBeFalse();
+  });
+
+  it('applies a save that is still open and ignores it after the user leaves', () => {
+    expect(saveResponseApplies(false)).toBeTrue();
+    expect(saveResponseApplies(true)).toBeFalse();
   });
 });

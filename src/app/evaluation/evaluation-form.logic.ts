@@ -91,6 +91,10 @@ export function presetSaveApplies(requestToken: number, requestUuid: string, act
   return !!activeUuid && requestToken === activeToken && requestUuid === activeUuid;
 }
 
+export function saveResponseApplies(leftPage: boolean): boolean {
+  return !leftPage;
+}
+
 export function propertyMeta(type: string) {
   return PROPERTY_TYPES.find(item => item.type === type) || PROPERTY_TYPES[0];
 }
