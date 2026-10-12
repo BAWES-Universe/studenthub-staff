@@ -1,0 +1,41 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-title>{{ editing ? 'Edit preset' : 'Use preset' }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="editing ? backFromEdit() : close()">{{ editing ? 'Back' : 'Close' }}</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <p class="failure" *ngIf="failure">{{ failure }}</p>
+  <p *ngIf="loading">Loading presets…</p>
+
+  <ng-container *ngIf="!editing">
+    <p class="hint" *ngIf="!loading && presets.length === 0">No shared presets yet. Save one from an evaluation.</p>
+    <article class="preset-card" *ngFor="let preset of presets">
+      <h2>{{ preset.name }}</h2>
+      <p>{{ preset.schema?.properties?.length || 0 }} properties</p>
+      <div class="preset-actions">
+        <button type="button" (click)="use(preset)">Use</button>
+        <button type="button" (click)="duplicate(preset)">Duplicate</button>
+        <button type="button" *ngIf="preset.can_manage" (click)="edit(preset)">Edit</button>
+        <button type="button" *ngIf="preset.can_manage" (click)="archive(preset)">Archive</button>
+      </div>
+    </article>
+  </ng-container>
+
+  <ng-container *ngIf="editing">
+    <label class="title-field">
+      Preset name
+      <input [disabled]="saving" [(ngModel)]="editName" (ngModelChange)="markPresetDirty()">
+    </label>
+    <evaluation-editor [draft]="editing" mode="preset" [saving]="saving" (changed)="markPresetDirty()"></evaluation-editor>
+    <div class="banner warning" *ngIf="presetConflict">
+      <p>{{ failure }}</p>
+      <button type="button" (click)="loadLatestPreset()">Load the latest saved version</button>
+      <button type="button" *ngIf="!presetConflict.server?.archived_at" (click)="overwritePreset()">Save my version over the latest</button>
+    </div>
+    <ion-button *ngIf="editing.can_manage" [disabled]="saving" (click)="saveEdit()">Save preset</ion-button>
+    <p *ngIf="!editing.can_manage">Only the creator or a staff manager can edit this preset. Duplicate it to make your own copy.</p>
+  </ng-container>
+</ion-content>

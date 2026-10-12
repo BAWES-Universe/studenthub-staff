@@ -722,8 +722,8 @@
           <span *ngIf="interviewEvaluations.length == 1">Manage evaluations</span>
         </ion-button>
 
-        <ion-button class="btn-add-note" *ngIf="interviewEvaluations.length == 0" (click)="addEvaluation()">
-          Add evaluations
+        <ion-button class="btn-add-note" *ngIf="interviewEvaluations.length == 0" (click)="openEvaluations()">
+          New evaluation
         </ion-button>
 
       </div>
@@ -768,8 +768,8 @@
 
     <div *ngIf="segment == 'interview-evaluation'">
 
-      <ion-button class="btn-add-evaluation" (click)="addEvaluation()">
-        Add new evaluation
+      <ion-button class="btn-add-evaluation" (click)="openEvaluations()">
+        New evaluation
       </ion-button>
 
       <div *ngIf="!loadingInterviewEvaluations && interviewEvaluations.length == 0" class="ion-text-center no-invi">

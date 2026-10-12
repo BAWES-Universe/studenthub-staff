@@ -42,7 +42,7 @@ export class InterviewEvaluationComponent implements OnInit {
     }*/
 
     this.eventService.companyRequestUpdate$.subscribe((data: any) => {
-      if (data && data.request && data.request.request_uuid == this.interviewEvaluation.request.request_uuid) {
+      if (data && data.request && this.interviewEvaluation.request && data.request.request_uuid == this.interviewEvaluation.request.request_uuid) {
         this.interviewEvaluation.request = Object.assign(this.interviewEvaluation.request, data.request);
       }
     });

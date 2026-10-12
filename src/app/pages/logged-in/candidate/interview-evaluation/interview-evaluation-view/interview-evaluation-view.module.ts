@@ -10,6 +10,7 @@ import { InterviewEvaluationViewPage } from './interview-evaluation-view.page';
 import { InterviewEvaluationModule } from 'src/app/components/interview-evaluation/interview-evaluation.module';
 import { NoteModule } from 'src/app/components/note/note.module';
 import { InterviewEvaluationFormPageModule } from '../interview-evaluation-form/interview-evaluation-form.module';
+import { EvaluationEditorModule } from 'src/app/components/evaluation-editor/evaluation-editor.module';
 
 @NgModule({
   imports: [
@@ -19,6 +20,7 @@ import { InterviewEvaluationFormPageModule } from '../interview-evaluation-form/
     NoteModule,
     InterviewEvaluationFormPageModule,
     InterviewEvaluationModule,
+    EvaluationEditorModule,
     InterviewEvaluationViewPageRoutingModule
   ],
   declarations: [InterviewEvaluationViewPage]

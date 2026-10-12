@@ -1,3 +1,31 @@
+.history {
+  margin-top: 20px;
+}
+
+.history-toggle,
+.legacy-label {
+  color: var(--ion-color-custom-34, #6b6b6b);
+}
+
+.narrow-actions {
+  display: none;
+}
+
+@media (max-width: 720px) {
+  .wide-actions {
+    display: none;
+  }
+
+  .narrow-actions {
+    display: flex;
+  }
+}
+
+.history article {
+  padding: 10px 0;
+  border-top: 1px solid rgba(55, 53, 47, 0.08);
+}
+
 .note-wrapper {
     margin-bottom: 23px;
   
