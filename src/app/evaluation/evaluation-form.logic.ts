@@ -95,6 +95,10 @@ export function saveResponseApplies(requestGeneration: number, currentGeneration
   return requestGeneration === currentGeneration;
 }
 
+export function reloadEvaluationOnEnter(loadedVisit: number, currentVisit: number, routeChanged: boolean): boolean {
+  return routeChanged || loadedVisit !== currentVisit;
+}
+
 export function presetFollowsSave(saved: boolean, requestGeneration: number, currentGeneration: number): boolean {
   return saved && requestGeneration === currentGeneration;
 }

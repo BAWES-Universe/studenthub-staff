@@ -1,4 +1,4 @@
-import { applySuccessfulSave, blankDraft, cloneAnswers, cloneSchema, hasAnswer, messageForProperty, moveProperty, presetConflictMatches, presetFollowsSave, presetPayload, presetSaveApplies, sanitizeNotesHtml, saveResponseApplies, structureChangeNeedsConfirm, withoutOption } from './evaluation-form.logic';
+import { applySuccessfulSave, blankDraft, cloneAnswers, cloneSchema, hasAnswer, messageForProperty, moveProperty, presetConflictMatches, presetFollowsSave, presetPayload, presetSaveApplies, reloadEvaluationOnEnter, sanitizeNotesHtml, saveResponseApplies, structureChangeNeedsConfirm, withoutOption } from './evaluation-form.logic';
 
 describe('evaluation form logic', () => {
   const schema = {
@@ -115,6 +115,12 @@ describe('evaluation form logic', () => {
     expect(saveResponseApplies(1, 1)).toBeTrue();
     expect(saveResponseApplies(1, 2)).toBeFalse();
     expect(saveResponseApplies(3, 3)).toBeTrue();
+  });
+
+  it('reloads a retained evaluation after departure and keeps the current visit while editing', () => {
+    expect(reloadEvaluationOnEnter(1, 2, false)).toBeTrue();
+    expect(reloadEvaluationOnEnter(1, 1, true)).toBeTrue();
+    expect(reloadEvaluationOnEnter(4, 4, false)).toBeFalse();
   });
 
   it('creates a preset only after the save from this visit succeeds', () => {

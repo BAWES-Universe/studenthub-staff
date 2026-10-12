@@ -2,7 +2,7 @@ import { Component, HostListener, Injectable, OnInit, ViewChild } from '@angular
 import { ActivatedRoute, CanDeactivate, Router } from '@angular/router';
 import { ActionSheetController, AlertController, ModalController, NavController, ToastController, ViewWillEnter, ViewWillLeave } from '@ionic/angular';
 import { EvaluationEditorComponent } from 'src/app/components/evaluation-editor/evaluation-editor.component';
-import { EvaluationDraft, applySuccessfulSave, blankDraft, cloneAnswers, cloneSchema, presetFollowsSave, saveResponseApplies } from 'src/app/evaluation/evaluation-form.logic';
+import { EvaluationDraft, applySuccessfulSave, blankDraft, cloneAnswers, cloneSchema, presetFollowsSave, reloadEvaluationOnEnter, saveResponseApplies } from 'src/app/evaluation/evaluation-form.logic';
 import { InterviewEvaluation } from 'src/app/models/interview-evaluation';
 import { Note } from 'src/app/models/note';
 import { AuthService } from 'src/app/providers/auth.service';
@@ -98,10 +98,7 @@ export class InterviewEvaluationViewPage implements OnInit, ViewWillEnter, ViewW
       }
       return;
     }
-    if (this.dirty) {
-      return;
-    }
-    if (previousUuid !== this.interview_evaluation_uuid || this.loadedVisit !== this.saveGeneration) {
+    if (reloadEvaluationOnEnter(this.loadedVisit, this.saveGeneration, previousUuid !== this.interview_evaluation_uuid)) {
       this.loadData();
     }
   }
@@ -454,6 +451,7 @@ export class InterviewEvaluationViewPage implements OnInit, ViewWillEnter, ViewW
       const leaving = result.role === 'confirm';
       if (leaving) {
         this.invalidateSaveGeneration();
+        this.dirty = false;
       }
       return leaving;
     });
