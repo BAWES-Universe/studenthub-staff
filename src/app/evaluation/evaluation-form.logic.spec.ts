@@ -1,4 +1,4 @@
-import { applySuccessfulSave, blankDraft, cloneAnswers, cloneSchema, hasAnswer, messageForProperty, moveProperty, presetConflictMatches, presetFollowsSave, presetPayload, presetSaveApplies, reloadEvaluationOnEnter, sanitizeNotesHtml, saveResponseApplies, structureChangeNeedsConfirm, withoutOption } from './evaluation-form.logic';
+import { applySuccessfulSave, blankDraft, cloneAnswers, cloneSchema, hasAnswer, messageForProperty, moveProperty, presetConflictMatches, presetFollowsSave, presetPayload, presetSaveApplies, reloadEvaluationOnEnter, sanitizeNotesHtml, saveArrivalEffect, saveResponseApplies, structureChangeNeedsConfirm, withoutOption } from './evaluation-form.logic';
 
 describe('evaluation form logic', () => {
   const schema = {
@@ -127,5 +127,12 @@ describe('evaluation form logic', () => {
     expect(presetFollowsSave(true, 1, 1)).toBeTrue();
     expect(presetFollowsSave(false, 1, 1)).toBeFalse();
     expect(presetFollowsSave(true, 1, 2)).toBeFalse();
+  });
+
+  it('keeps a newer save locked when an older response arrives', () => {
+    expect(saveArrivalEffect(1, 1, 4, 4)).toBe('apply');
+    expect(saveArrivalEffect(1, 2, 4, 4)).toBe('release-own-lock');
+    expect(saveArrivalEffect(1, 2, 4, 5)).toBe('ignore-current-lock');
+    expect(saveArrivalEffect(2, 2, 4, 5)).toBe('ignore-current-lock');
   });
 });

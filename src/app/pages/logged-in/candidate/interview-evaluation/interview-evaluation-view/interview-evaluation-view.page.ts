@@ -2,7 +2,7 @@ import { Component, HostListener, Injectable, OnInit, ViewChild } from '@angular
 import { ActivatedRoute, CanDeactivate, Router } from '@angular/router';
 import { ActionSheetController, AlertController, ModalController, NavController, ToastController, ViewWillEnter, ViewWillLeave } from '@ionic/angular';
 import { EvaluationEditorComponent } from 'src/app/components/evaluation-editor/evaluation-editor.component';
-import { EvaluationDraft, applySuccessfulSave, blankDraft, cloneAnswers, cloneSchema, presetFollowsSave, reloadEvaluationOnEnter, saveResponseApplies } from 'src/app/evaluation/evaluation-form.logic';
+import { EvaluationDraft, applySuccessfulSave, blankDraft, cloneAnswers, cloneSchema, presetFollowsSave, reloadEvaluationOnEnter, saveArrivalEffect, saveResponseApplies } from 'src/app/evaluation/evaluation-form.logic';
 import { InterviewEvaluation } from 'src/app/models/interview-evaluation';
 import { Note } from 'src/app/models/note';
 import { AuthService } from 'src/app/providers/auth.service';
@@ -58,6 +58,7 @@ export class InterviewEvaluationViewPage implements OnInit, ViewWillEnter, ViewW
   public note_text = '';
   public savingNote = false;
   private saveResult: (saved: boolean) => void = null;
+  private activeSaveId = 0;
   private replacingRoute = false;
   private saveGeneration = 0;
   private loadedVisit = -1;
@@ -157,6 +158,7 @@ export class InterviewEvaluationViewPage implements OnInit, ViewWillEnter, ViewW
       }
       this.loading = false;
       this.loadedVisit = generation;
+      this.failureMessage = '';
       this.model = res;
       if (res && res.is_legacy === false && res.schema) {
         this.structured = true;
@@ -259,33 +261,44 @@ export class InterviewEvaluationViewPage implements OnInit, ViewWillEnter, ViewW
       ? this.evaluationFormService.update(this.model.interview_evaluation_uuid, payload)
       : this.evaluationFormService.save(Number(this.candidateId), payload);
     const generation = this.saveGeneration;
+    const requestId = ++this.activeSaveId;
+    const waiter = this.saveResult;
+    this.saveResult = null;
 
     request.subscribe(res => {
-      this.saving = false;
-      if (!saveResponseApplies(generation, this.saveGeneration)) {
-        this.finishSave(false);
+      if (saveArrivalEffect(generation, this.saveGeneration, requestId, this.activeSaveId) !== 'apply') {
+        this.abandonSave(requestId, waiter);
         return;
       }
+      this.saving = false;
       this.handleSaveResponse(res, sent);
-      this.finishSave(!!(res && res.operation === 'success' && !this.dirty));
+      this.settleOwnWaiter(waiter, !!(res && res.operation === 'success' && !this.dirty));
     }, () => {
-      this.saving = false;
-      if (!saveResponseApplies(generation, this.saveGeneration)) {
-        this.finishSave(false);
+      if (saveArrivalEffect(generation, this.saveGeneration, requestId, this.activeSaveId) !== 'apply') {
+        this.abandonSave(requestId, waiter);
         return;
       }
+      this.saving = false;
       this.failureMessage = 'The evaluation could not be saved. Your entries are still on this page.';
-      this.finishSave(false);
+      this.settleOwnWaiter(waiter, false);
     });
   }
 
-  private finishSave(saved: boolean) {
-    if (!this.saveResult) {
+  private abandonSave(requestId: number, waiter: ((saved: boolean) => void) | null) {
+    if (requestId === this.activeSaveId) {
+      this.saving = false;
+    }
+    this.settleOwnWaiter(waiter, false);
+  }
+
+  private settleOwnWaiter(waiter: ((saved: boolean) => void) | null, saved: boolean) {
+    if (!waiter) {
       return;
     }
-    const done = this.saveResult;
-    this.saveResult = null;
-    done(saved);
+    if (this.saveResult === waiter) {
+      this.saveResult = null;
+    }
+    waiter(saved);
   }
 
   handleSaveResponse(res, sent = null) {
@@ -401,7 +414,7 @@ export class InterviewEvaluationViewPage implements OnInit, ViewWillEnter, ViewW
     return new Promise<boolean>(resolve => {
       this.saveResult = resolve;
       this.save(mode);
-      if (!this.saving && this.saveResult) {
+      if (this.saveResult === resolve) {
         this.saveResult = null;
         resolve(false);
       }

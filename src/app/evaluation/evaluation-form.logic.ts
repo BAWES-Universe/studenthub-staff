@@ -95,6 +95,16 @@ export function saveResponseApplies(requestGeneration: number, currentGeneration
   return requestGeneration === currentGeneration;
 }
 
+export function saveArrivalEffect(requestGeneration: number, currentGeneration: number, requestId: number, activeRequestId: number): 'apply' | 'release-own-lock' | 'ignore-current-lock' {
+  if (requestGeneration === currentGeneration && requestId === activeRequestId) {
+    return 'apply';
+  }
+  if (requestId === activeRequestId) {
+    return 'release-own-lock';
+  }
+  return 'ignore-current-lock';
+}
+
 export function reloadEvaluationOnEnter(loadedVisit: number, currentVisit: number, routeChanged: boolean): boolean {
   return routeChanged || loadedVisit !== currentVisit;
 }
