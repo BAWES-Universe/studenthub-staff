@@ -24,8 +24,8 @@
       placeholder="{{ searchPlaceholder | translate }}">
   </ion-searchbar>
 
-  <ais-search-box placeholder='Search for products'>
-      </ais-search-box>-->
+  <is-search-box placeholder='Search for products'>
+      </is-search-box>-->
 
   <div class="ais-RefinementListContent">
 
@@ -40,7 +40,7 @@
             <div tabindex="0"></div>
             <ion-label tappable [class]="cx('label')">
                   <span [class]="cx('labelText')" [class.ltr]="translateService.isEnglish(item.label)">
-                      <ais-highlight attribute="highlighted" [hit]="item"></ais-highlight>
+                      <app-instantsearch-highlight attribute="highlighted" [hit]="item"></app-instantsearch-highlight>
                   </span>
                   <span [class]="cx('count')"> {{item.count}}</span>
               </ion-label>

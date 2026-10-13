@@ -5,7 +5,7 @@ import { IsFacetsSearchComponent } from './is-facets-search.component';
 import { IsFacetsSearchModule } from './is-facets-search.module';
 import { APP_BASE_HREF } from '@angular/common';
 import { AppModule } from 'src/app/app.module';
-import { NgAisInstantSearch } from 'angular-instantsearch';
+import { NgAisInstantSearch } from 'src/app/compat/instantsearch';
 
 
 describe('IsFacetsSearchComponent', () => {

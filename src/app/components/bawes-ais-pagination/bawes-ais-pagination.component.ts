@@ -1,5 +1,5 @@
 import { Component, Inject, forwardRef, Optional, OnInit } from '@angular/core';
-import { TypedBaseWidget, NgAisInstantSearch, NgAisIndex } from 'angular-instantsearch';
+import { TypedBaseWidget, NgAisInstantSearch, NgAisIndex } from 'src/app/compat/instantsearch';
 
 import connectPagination, {
   PaginationWidgetDescription,

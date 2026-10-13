@@ -3,7 +3,7 @@ import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { CandidateFilterComponent } from './candidate-filter';
-import { NgAisModule } from 'angular-instantsearch';
+import { InstantSearchCompatModule } from 'src/app/compat/instantsearch';
 import { RefinementListModule } from '../refinement-list/refinement-list.module'; 
 import {CommonModule} from "@angular/common";
 import { RangeRefinementModule } from '../range-refinement-list/range-refinement-list.module';
@@ -18,7 +18,7 @@ import { AgeRefinementListModule } from '../age-refinement-list/age-refinement-l
     CommonModule,
     TranslateModule.forChild(),
     IonicModule, 
-    NgAisModule, 
+    InstantSearchCompatModule,
     AgeRefinementListModule,
     RangeRefinementModule,
     RefinementListModule,

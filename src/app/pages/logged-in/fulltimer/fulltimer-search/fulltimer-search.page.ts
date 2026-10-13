@@ -3,9 +3,7 @@ import { NavController, Platform, MenuController, PopoverController, IonContent,
 import { environment } from '../../../../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { TransferState, makeStateKey } from '@angular/platform-browser';
-import algoliasearch from 'algoliasearch';
-import * as VERSION from 'algoliasearch-helper/src/version';
-import * as encodeProxy from 'querystring-es3/encode';
+import { algoliasearch } from 'algoliasearch';
 // service
 import { AuthService } from '../../../../providers/auth.service';
 import { FulltimerService } from '../../../../providers/logged-in/fulltimer.service';
@@ -18,8 +16,6 @@ import { Fulltimer } from 'src/app/models/fulltimer';
 import { FulltimerFormPage } from '../fulltimer-form/fulltimer-form.page';
 import { AnalyticsService } from 'src/app/providers/analytics.service';
 
-
-const encode = encodeProxy.default || encodeProxy;
 
 @Component({
   selector: 'app-fulltimer-search',
