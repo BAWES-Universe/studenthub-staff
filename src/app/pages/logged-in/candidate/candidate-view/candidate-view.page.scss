@@ -1124,7 +1124,10 @@ ion-toolbar {
 }
 
 .custom-notification-dialog {
+  box-sizing: border-box;
   width: min(420px, 100%);
+  max-height: calc(100vh - 32px);
+  overflow-y: auto;
   background: #fff;
   border-radius: 12px;
   padding: 20px;

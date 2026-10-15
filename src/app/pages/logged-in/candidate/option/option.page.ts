@@ -369,8 +369,10 @@ export class OptionPage implements OnInit {
       this.requestingCivil = true;
     }
 
+    let emitted = false;
     this.candidateService.createUpdateRequest(this.candidate.candidate_id, type).subscribe({
       next: () => {
+        emitted = true;
         this.requestingPhoto = false;
         this.requestingCivil = false;
         this.popoverCtrl.dismiss({ refreshUpdateRequests: true });
@@ -378,6 +380,12 @@ export class OptionPage implements OnInit {
       error: () => {
         this.requestingPhoto = false;
         this.requestingCivil = false;
+      },
+      complete: () => {
+        if (!emitted) {
+          this.requestingPhoto = false;
+          this.requestingCivil = false;
+        }
       }
     });
   }

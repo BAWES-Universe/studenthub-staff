@@ -845,8 +845,10 @@ export class CandidateViewPage implements OnInit {
     }
     this.sendingCustomNotification = true;
     this.customMessageError = '';
+    let emitted = false;
     this.candidateService.sendCustomNotification(this.candidate.candidate_id, message, this.customSendKey).subscribe({
       next: async (response) => {
+        emitted = true;
         this.sendingCustomNotification = false;
         if (!response || response.operation !== 'success') {
           this.customMessageError = (response && response.message) || 'Could not send the notification. Please try again.';
@@ -863,6 +865,12 @@ export class CandidateViewPage implements OnInit {
       error: () => {
         this.sendingCustomNotification = false;
         this.customMessageError = 'Could not send the notification. Please try again.';
+      },
+      complete: () => {
+        if (!emitted) {
+          this.sendingCustomNotification = false;
+          this.customMessageError = 'Could not send the notification. Please try again.';
+        }
       }
     });
   }
