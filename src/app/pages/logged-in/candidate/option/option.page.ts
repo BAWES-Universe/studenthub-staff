@@ -373,21 +373,26 @@ export class OptionPage implements OnInit {
     this.candidateService.createUpdateRequest(this.candidate.candidate_id, type).subscribe({
       next: () => {
         emitted = true;
-        this.requestingPhoto = false;
-        this.requestingCivil = false;
+        this.clearDocumentRequest(type);
         this.popoverCtrl.dismiss({ refreshUpdateRequests: true });
       },
       error: () => {
-        this.requestingPhoto = false;
-        this.requestingCivil = false;
+        this.clearDocumentRequest(type);
       },
       complete: () => {
         if (!emitted) {
-          this.requestingPhoto = false;
-          this.requestingCivil = false;
+          this.clearDocumentRequest(type);
         }
       }
     });
+  }
+
+  private clearDocumentRequest(type: 'profile_photo' | 'civil_id') {
+    if (type === 'profile_photo') {
+      this.requestingPhoto = false;
+    } else {
+      this.requestingCivil = false;
+    }
   }
 
   update() {
