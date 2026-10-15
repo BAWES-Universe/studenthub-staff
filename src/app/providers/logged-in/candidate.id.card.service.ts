@@ -35,13 +35,12 @@ export class CandidateIdCardService {
   }
 
   /**
-   * generate candidate id zip
+   * Generate candidate ID cards and return JSON response with operation status
    * @returns {Observable<any>}
    */
   generate(candidates: any): Observable<any> {
     const url = this._candidateEndpoint + '/generate';
-    const filename = `id-cards-${Date.now()}.zip`;
-    return this._authhttp.generateCards(url, { candidates }, filename);
+    return this._authhttp.post(url, { candidates });
   }
 
   /**
