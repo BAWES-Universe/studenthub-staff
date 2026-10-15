@@ -33,7 +33,9 @@ export class OptionPage implements OnInit {
 
   public exportingCv: boolean = false;
 
-  public saving: boolean = false; 
+  public saving: boolean = false;
+  public requestingPhoto = false;
+  public requestingCivil = false; 
 
   constructor(
     public translateService: TranslateLabelService,
@@ -348,6 +350,38 @@ export class OptionPage implements OnInit {
   /**
    * Loads Form in modal to update
    */
+  requestProfilePhoto() {
+    this.requestDocument('profile_photo');
+  }
+
+  requestCivilId() {
+    this.requestDocument('civil_id');
+  }
+
+  sendCustomNotification() {
+    this.popoverCtrl.dismiss({ customNotification: true });
+  }
+
+  requestDocument(type: 'profile_photo' | 'civil_id') {
+    if (type === 'profile_photo') {
+      this.requestingPhoto = true;
+    } else {
+      this.requestingCivil = true;
+    }
+
+    this.candidateService.createUpdateRequest(this.candidate.candidate_id, type).subscribe({
+      next: () => {
+        this.requestingPhoto = false;
+        this.requestingCivil = false;
+        this.popoverCtrl.dismiss({ refreshUpdateRequests: true });
+      },
+      error: () => {
+        this.requestingPhoto = false;
+        this.requestingCivil = false;
+      }
+    });
+  }
+
   update() {
     this.navCtrl.navigateForward('candidate-form/' + this.candidate.candidate_id, {
       state: {

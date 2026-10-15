@@ -537,6 +537,21 @@ export class CandidateService {
    * @param id 
    * @returns 
    */
+  listUpdateRequests(id): Observable<any> {
+    return this._authhttp.get(`${this._candidateEndpoint}/update-requests/${id}`);
+  }
+
+  createUpdateRequest(id, type: 'profile_photo' | 'civil_id'): Observable<any> {
+    return this._authhttp.post(`${this._candidateEndpoint}/update-request/${id}`, { type });
+  }
+
+  sendCustomNotification(id, message: string, sendKey: string): Observable<any> {
+    return this._authhttp.post(`${this._candidateEndpoint}/custom-notification/${id}`, {
+      message,
+      send_key: sendKey
+    });
+  }
+
   updateCivilExpiry(civil, id): Observable<any> {
     const url = `${this._candidateEndpoint}/update-civil-expiry/${id}`;
     return this._authhttp.patch(url, {

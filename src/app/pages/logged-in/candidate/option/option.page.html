@@ -10,6 +10,32 @@
     </ion-label>
   </ion-item>
 
+  <ion-item [disabled]="requestingPhoto" (click)="requestProfilePhoto()" tappable>
+    <div tabindex="0"></div>
+    <ion-label>
+      <ion-spinner *ngIf="requestingPhoto"></ion-spinner>
+      <span *ngIf="!requestingPhoto"><ion-icon name="camera-outline"></ion-icon>
+        Request New Profile Photo</span>
+    </ion-label>
+  </ion-item>
+
+  <ion-item [disabled]="requestingCivil" (click)="requestCivilId()" tappable>
+    <div tabindex="0"></div>
+    <ion-label>
+      <ion-spinner *ngIf="requestingCivil"></ion-spinner>
+      <span *ngIf="!requestingCivil"><ion-icon name="card-outline"></ion-icon>
+        Request Updated Civil ID</span>
+    </ion-label>
+  </ion-item>
+
+  <ion-item (click)="sendCustomNotification()" tappable>
+    <div tabindex="0"></div>
+    <ion-label>
+      <ion-icon name="chatbubble-outline"></ion-icon>
+      Send Custom Notification
+    </ion-label>
+  </ion-item>
+
   <ion-item [disabled]="updatingEmail" (click)="update()" tappable>
     <div tabindex="0"></div>
     <ion-label>

@@ -72,6 +72,12 @@ export class CandidateViewPage implements OnInit {
   @ViewChild('invitationChart', { static: false }) invitationChart;
 
   public candidate: Candidate;
+  public customNotificationOpen = false;
+  public customMessage = '';
+  public sendingCustomNotification = false;
+  public customMessageError = '';
+  private customSendKey = '';
+  public updateRequests: any[] = [];
 
   public notes: Note[] = [];
 
@@ -618,6 +624,20 @@ export class CandidateViewPage implements OnInit {
   /**
    * Load candidate work history data
    */
+  loadUpdateRequests() {
+    if (!this.candidate_id) {
+      return;
+    }
+
+    this.candidateService.listUpdateRequests(this.candidate_id).subscribe(response => {
+      this.updateRequests = response && response.requests ? response.requests : [];
+    });
+  }
+
+  updateRequest(type: string) {
+    return this.updateRequests.find(request => request.type === type);
+  }
+
   loadWorkHistoryData() {
     this.candidateService.workHistory(this.candidate_id).subscribe(response => {
       this.workHistory = response;
@@ -643,6 +663,7 @@ export class CandidateViewPage implements OnInit {
 
       this.loading = false;
       this.candidate = response;
+      this.loadUpdateRequests();
 
       if (this.candidate && this.candidate.pendingField && this.candidate.pendingField.length > 0) {
         this.candidate.pendingField =  this.candidate?.pendingField?.filter(v => v != "experience")
@@ -791,6 +812,57 @@ export class CandidateViewPage implements OnInit {
 
       if (e.data && e.data.markNotDeleted) {
         this.markNotDeleted();
+      }
+
+      if (e.data && e.data.refreshUpdateRequests) {
+        this.loadUpdateRequests();
+      }
+
+      if (e.data && e.data.customNotification) {
+        this.openCustomNotification();
+      }
+    });
+  }
+
+  openCustomNotification() {
+    this.customMessage = '';
+    this.customMessageError = '';
+    this.customSendKey = window.crypto.randomUUID();
+    this.customNotificationOpen = true;
+  }
+
+  closeCustomNotification() {
+    if (this.sendingCustomNotification) {
+      return;
+    }
+    this.customNotificationOpen = false;
+  }
+
+  sendCustomNotification() {
+    const message = this.customMessage.trim();
+    if (!message || this.sendingCustomNotification) {
+      return;
+    }
+    this.sendingCustomNotification = true;
+    this.customMessageError = '';
+    this.candidateService.sendCustomNotification(this.candidate.candidate_id, message, this.customSendKey).subscribe({
+      next: async (response) => {
+        this.sendingCustomNotification = false;
+        if (!response || response.operation !== 'success') {
+          this.customMessageError = (response && response.message) || 'Could not send the notification. Please try again.';
+          return;
+        }
+        this.customNotificationOpen = false;
+        this.customMessage = '';
+        const toast = await this.toastCtrl.create({
+          message: 'Notification sent.',
+          duration: 2000
+        });
+        toast.present();
+      },
+      error: () => {
+        this.sendingCustomNotification = false;
+        this.customMessageError = 'Could not send the notification. Please try again.';
       }
     });
   }
