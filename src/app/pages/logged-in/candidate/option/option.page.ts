@@ -384,11 +384,7 @@ export class OptionPage implements OnInit {
         emitted = true;
         this.clearDocumentRequest(type);
         if (!response || response.operation !== 'success') {
-          const toast = await this.toastCtrl.create({
-            message: (response && response.message) || 'Could not send the notification. Please try again.',
-            duration: 3000
-          });
-          toast.present();
+          await this.presentDocumentRequestFailure(response && response.message);
           return;
         }
         if (type === 'profile_photo') {
@@ -399,11 +395,11 @@ export class OptionPage implements OnInit {
         this.popoverCtrl.dismiss();
       },
       error: () => {
-        this.clearDocumentRequest(type);
+        this.failDocumentRequest(type);
       },
       complete: () => {
         if (!emitted) {
-          this.clearDocumentRequest(type);
+          this.failDocumentRequest(type);
         }
       }
     });
@@ -415,6 +411,19 @@ export class OptionPage implements OnInit {
     } else {
       this.requestingCivil = false;
     }
+  }
+
+  private failDocumentRequest(type: 'profile_photo' | 'civil_id') {
+    this.clearDocumentRequest(type);
+    void this.presentDocumentRequestFailure();
+  }
+
+  private async presentDocumentRequestFailure(message?: string) {
+    const toast = await this.toastCtrl.create({
+      message: message || 'Could not send the notification. Please try again.',
+      duration: 3000
+    });
+    toast.present();
   }
 
   update() {

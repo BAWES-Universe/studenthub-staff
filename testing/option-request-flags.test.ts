@@ -30,6 +30,7 @@ function setup() {
     civil_id: new Subject<unknown>(),
   };
   const keys: string[] = [];
+  const toasts: string[] = [];
   const page = new OptionPage(
     {} as any,
     {} as any,
@@ -43,31 +44,44 @@ function setup() {
     { dismiss: () => Promise.resolve(true) } as any,
     {} as any,
     {} as any,
-    { create: async () => ({ present() {} }) } as any,
+    {
+      create: async (options: { message?: string }) => {
+        toasts.push(options.message || '');
+        return { present() {} };
+      },
+    } as any,
     {} as any,
     { page() {} } as any,
     {} as any,
   );
   page.candidate = { candidate_id: 7 } as any;
-  return { page, streams, keys };
+  return { page, streams, keys, toasts };
 }
 
-check('an empty photo completion leaves the civil request disabled', () => {
-  const { page, streams } = setup();
+check('an empty photo completion reports failure and keeps its send key', () => {
+  const { page, streams, keys, toasts } = setup();
   page.requestingCivil = true;
   page.requestDocument('profile_photo');
+  const firstKey = keys[0];
   streams.profile_photo.complete();
   assert(page.requestingPhoto === false, 'photo request stayed in flight');
   assert(page.requestingCivil === true, 'civil request was enabled');
+  assert(toasts[0] === 'Could not send the notification. Please try again.', 'empty completion showed no failure');
+  page.requestDocument('profile_photo');
+  assert(keys[1] === firstKey, 'retry used a new send key');
 });
 
-check('a civil error leaves the photo request disabled', () => {
-  const { page, streams } = setup();
+check('a civil error reports failure and leaves the photo request disabled', () => {
+  const { page, streams, keys, toasts } = setup();
   page.requestingPhoto = true;
   page.requestDocument('civil_id');
+  const firstKey = keys[0];
   streams.civil_id.error(new Error('failed'));
   assert(page.requestingCivil === false, 'civil request stayed in flight');
   assert(page.requestingPhoto === true, 'photo request was enabled');
+  assert(toasts[0] === 'Could not send the notification. Please try again.', 'error showed no failure');
+  page.requestDocument('civil_id');
+  assert(keys[1] === firstKey, 'retry used a new send key');
 });
 
 check('a successful photo request leaves the civil request disabled', () => {
