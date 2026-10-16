@@ -35,7 +35,9 @@ export class OptionPage implements OnInit {
 
   public saving: boolean = false;
   public requestingPhoto = false;
-  public requestingCivil = false; 
+  public requestingCivil = false;
+  private photoSendKey: string | null = null;
+  private civilSendKey: string | null = null; 
 
   constructor(
     public translateService: TranslateLabelService,
@@ -365,16 +367,36 @@ export class OptionPage implements OnInit {
   requestDocument(type: 'profile_photo' | 'civil_id') {
     if (type === 'profile_photo') {
       this.requestingPhoto = true;
+      if (!this.photoSendKey) {
+        this.photoSendKey = window.crypto.randomUUID();
+      }
     } else {
       this.requestingCivil = true;
+      if (!this.civilSendKey) {
+        this.civilSendKey = window.crypto.randomUUID();
+      }
     }
+    const sendKey = type === 'profile_photo' ? this.photoSendKey : this.civilSendKey;
 
     let emitted = false;
-    this.candidateService.createUpdateRequest(this.candidate.candidate_id, type).subscribe({
-      next: () => {
+    this.candidateService.createUpdateRequest(this.candidate.candidate_id, type, sendKey).subscribe({
+      next: async (response) => {
         emitted = true;
         this.clearDocumentRequest(type);
-        this.popoverCtrl.dismiss({ refreshUpdateRequests: true });
+        if (!response || response.operation !== 'success') {
+          const toast = await this.toastCtrl.create({
+            message: (response && response.message) || 'Could not send the notification. Please try again.',
+            duration: 3000
+          });
+          toast.present();
+          return;
+        }
+        if (type === 'profile_photo') {
+          this.photoSendKey = null;
+        } else {
+          this.civilSendKey = null;
+        }
+        this.popoverCtrl.dismiss();
       },
       error: () => {
         this.clearDocumentRequest(type);

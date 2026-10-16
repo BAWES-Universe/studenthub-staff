@@ -1,6 +1,10 @@
 import { Subject } from 'rxjs';
 import { OptionPage } from '../src/app/pages/logged-in/candidate/option/option.page';
 
+if (typeof (globalThis as any).window === 'undefined') {
+  (globalThis as any).window = globalThis;
+}
+
 let failures = 0;
 
 function check(name: string, fn: () => void) {
@@ -25,21 +29,27 @@ function setup() {
     profile_photo: new Subject<unknown>(),
     civil_id: new Subject<unknown>(),
   };
+  const keys: string[] = [];
   const page = new OptionPage(
     {} as any,
     {} as any,
-    { createUpdateRequest: (_id: number, type: 'profile_photo' | 'civil_id') => streams[type] } as any,
+    {
+      createUpdateRequest: (_id: number, type: 'profile_photo' | 'civil_id', sendKey: string) => {
+        keys.push(sendKey);
+        return streams[type];
+      },
+    } as any,
     {} as any,
     { dismiss: () => Promise.resolve(true) } as any,
     {} as any,
     {} as any,
-    {} as any,
+    { create: async () => ({ present() {} }) } as any,
     {} as any,
     { page() {} } as any,
     {} as any,
   );
   page.candidate = { candidate_id: 7 } as any;
-  return { page, streams };
+  return { page, streams, keys };
 }
 
 check('an empty photo completion leaves the civil request disabled', () => {
@@ -64,9 +74,21 @@ check('a successful photo request leaves the civil request disabled', () => {
   const { page, streams } = setup();
   page.requestingCivil = true;
   page.requestDocument('profile_photo');
-  streams.profile_photo.next({});
+  streams.profile_photo.next({ operation: 'success' });
   streams.profile_photo.complete();
   assert(page.requestingPhoto === false, 'photo request stayed in flight');
+  assert(page.requestingCivil === true, 'civil request was enabled');
+});
+
+check('a failed photo request keeps its send key and the civil request disabled', () => {
+  const { page, streams, keys } = setup();
+  page.requestingCivil = true;
+  page.requestDocument('profile_photo');
+  const firstKey = keys[0];
+  streams.profile_photo.next({ operation: 'error' });
+  streams.profile_photo.complete();
+  page.requestDocument('profile_photo');
+  assert(keys[1] === firstKey, 'retry used a new send key');
   assert(page.requestingCivil === true, 'civil request was enabled');
 });
 

@@ -27,12 +27,6 @@
       </span>
     </div>
 
-    <p class="update-request" *ngIf="updateRequest('profile_photo') as photoRequest">
-      {{ photoRequest.status === 'pending' ? 'Pending profile photo' : 'Submitted profile photo' }}
-      requested {{ photoRequest.requested_at | date:'MMMM d, y' }}
-      <span *ngIf="photoRequest.requested_by">by {{ photoRequest.requested_by.staff_name }}</span>
-    </p>
-
     <ion-thumbnail slot="start" *ngIf="awsService.hasCandidatePersonalPhoto(candidate)">
       <img (error)="onPhotoError()"
         [src]="awsService.getCandidatePersonalPhotoUrl(candidate)" />
@@ -190,12 +184,6 @@
       <p class="university" *ngIf="candidate.university" [class.required]="!candidate.university">
         {{ translateService.langContent(candidate.university.university_name_en,
         candidate.university.university_name_ar) }}
-      </p>
-
-      <p class="update-request" *ngIf="updateRequest('civil_id') as civilRequest">
-        {{ civilRequest.status === 'pending' ? 'Pending Civil ID' : 'Submitted Civil ID' }}
-        requested {{ civilRequest.requested_at | date:'MMMM d, y' }}
-        <span *ngIf="civilRequest.requested_by">by {{ civilRequest.requested_by.staff_name }}</span>
       </p>
 
       <p class="id-number" *ngIf="candidate.candidate_civil_expiry_date"

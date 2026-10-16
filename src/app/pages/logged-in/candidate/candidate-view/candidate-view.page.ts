@@ -77,7 +77,6 @@ export class CandidateViewPage implements OnInit {
   public sendingCustomNotification = false;
   public customMessageError = '';
   private customSendKey = '';
-  public updateRequests: any[] = [];
 
   public notes: Note[] = [];
 
@@ -621,23 +620,6 @@ export class CandidateViewPage implements OnInit {
     return html;
   }
 
-  /**
-   * Load candidate work history data
-   */
-  loadUpdateRequests() {
-    if (!this.candidate_id) {
-      return;
-    }
-
-    this.candidateService.listUpdateRequests(this.candidate_id).subscribe(response => {
-      this.updateRequests = response && response.requests ? response.requests : [];
-    });
-  }
-
-  updateRequest(type: string) {
-    return this.updateRequests.find(request => request.type === type);
-  }
-
   loadWorkHistoryData() {
     this.candidateService.workHistory(this.candidate_id).subscribe(response => {
       this.workHistory = response;
@@ -663,7 +645,6 @@ export class CandidateViewPage implements OnInit {
 
       this.loading = false;
       this.candidate = response;
-      this.loadUpdateRequests();
 
       if (this.candidate && this.candidate.pendingField && this.candidate.pendingField.length > 0) {
         this.candidate.pendingField =  this.candidate?.pendingField?.filter(v => v != "experience")
@@ -812,10 +793,6 @@ export class CandidateViewPage implements OnInit {
 
       if (e.data && e.data.markNotDeleted) {
         this.markNotDeleted();
-      }
-
-      if (e.data && e.data.refreshUpdateRequests) {
-        this.loadUpdateRequests();
       }
 
       if (e.data && e.data.customNotification) {
