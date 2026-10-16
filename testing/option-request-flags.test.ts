@@ -106,6 +106,22 @@ check('a failed photo request keeps its send key and the civil request disabled'
   assert(page.requestingCivil === true, 'civil request was enabled');
 });
 
+check('photo and civil requests stay independent', () => {
+  const { page, streams, keys } = setup();
+  page.requestDocument('profile_photo');
+  page.requestDocument('civil_id');
+  assert(page.requestingPhoto === true, 'photo request was blocked');
+  assert(page.requestingCivil === true, 'civil request was blocked');
+  assert(keys[0] !== keys[1], 'both requests shared one send key');
+  const civilKey = keys[1];
+  streams.profile_photo.error(new Error('failed'));
+  assert(page.requestingPhoto === false, 'photo request stayed in flight');
+  assert(page.requestingCivil === true, 'civil request was cleared with the photo failure');
+  page.requestDocument('profile_photo');
+  assert(keys[2] === keys[0], 'photo retry used a new send key');
+  assert(keys[1] === civilKey, 'civil send key changed');
+});
+
 if (failures > 0) {
   console.error('OPTION_REQUEST_FLAG_TESTS_FAILED ' + failures);
   process.exit(1);

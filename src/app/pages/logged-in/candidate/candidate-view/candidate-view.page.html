@@ -5,7 +5,7 @@
     </ion-buttons>
 
     <ion-buttons slot="end">
-      <ion-button (click)="openPopover($event)" *ngIf="candidate && !candidate?.deleted">
+      <ion-button #candidateMenuTrigger (click)="openPopover($event)" *ngIf="candidate && !candidate?.deleted">
         <ion-icon src="assets/icon/icon-option.svg"></ion-icon>
       </ion-button>
 
@@ -816,10 +816,12 @@
 </ion-footer>
 
 <div class="custom-notification-backdrop" *ngIf="customNotificationOpen" (click)="closeCustomNotification()">
-  <form class="custom-notification-dialog" (click)="$event.stopPropagation()" (ngSubmit)="sendCustomNotification()">
-    <h2>Send Custom Notification</h2>
+  <form #customNotificationDialog class="custom-notification-dialog" role="dialog" aria-modal="true"
+    aria-labelledby="custom-notification-title" (click)="$event.stopPropagation()"
+    (keydown)="keepCustomNotificationFocus($event)" (ngSubmit)="sendCustomNotification()">
+    <h2 id="custom-notification-title">Send Custom Notification</h2>
     <label for="custom-notification-message">Message</label>
-    <textarea id="custom-notification-message" name="message" required maxlength="1000" rows="5"
+    <textarea #customNotificationMessage id="custom-notification-message" name="message" required maxlength="1000" rows="5"
       [(ngModel)]="customMessage" placeholder="Please update your IBAN; the current details are incorrect."></textarea>
     <p class="custom-notification-count">{{ customMessage.length }}/1000</p>
     <p class="custom-notification-error" *ngIf="customMessageError">{{ customMessageError }}</p>

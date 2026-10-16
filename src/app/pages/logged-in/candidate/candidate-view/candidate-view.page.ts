@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import {
   ActionSheetController,
   AlertController, LoadingController,
@@ -57,6 +57,7 @@ import { Contract } from 'src/app/models/contract';
 import { CompanyContractFormPage } from '../../company/company-contract/company-contract-form/company-contract-form.page';
 import { JobSearchStatusComponent } from 'src/app/components/job-search-status/job-search-status.component';
 import { PermissionService } from 'src/app/providers/permission.service';
+import { trapCustomNotificationTab } from './custom-notification-focus';
 
 
 
@@ -70,6 +71,12 @@ export class CandidateViewPage implements OnInit {
   @ViewChild('ckeditor') ckeditor;
 
   @ViewChild('invitationChart', { static: false }) invitationChart;
+
+  @ViewChild('candidateMenuTrigger', { read: ElementRef }) candidateMenuTrigger?: ElementRef<HTMLElement>;
+
+  @ViewChild('customNotificationMessage') customNotificationMessage?: ElementRef<HTMLTextAreaElement>;
+
+  @ViewChild('customNotificationDialog') customNotificationDialog?: ElementRef<HTMLFormElement>;
 
   public candidate: Candidate;
   public customNotificationOpen = false;
@@ -806,13 +813,33 @@ export class CandidateViewPage implements OnInit {
     this.customMessageError = '';
     this.customSendKey = window.crypto.randomUUID();
     this.customNotificationOpen = true;
+    setTimeout(() => this.customNotificationMessage?.nativeElement.focus());
   }
 
   closeCustomNotification() {
     if (this.sendingCustomNotification) {
       return;
     }
+    this.dismissCustomNotification();
+  }
+
+  keepCustomNotificationFocus(event: KeyboardEvent) {
+    trapCustomNotificationTab(event, this.customNotificationDialog?.nativeElement);
+  }
+
+  private dismissCustomNotification() {
     this.customNotificationOpen = false;
+    setTimeout(() => this.focusCandidateMenuTrigger());
+  }
+
+  private focusCandidateMenuTrigger() {
+    const host = this.candidateMenuTrigger?.nativeElement;
+    const nativeButton = host?.shadowRoot?.querySelector('button');
+    if (nativeButton) {
+      nativeButton.focus();
+      return;
+    }
+    host?.focus();
   }
 
   sendCustomNotification() {
@@ -831,8 +858,8 @@ export class CandidateViewPage implements OnInit {
           this.customMessageError = (response && response.message) || 'Could not send the notification. Please try again.';
           return;
         }
-        this.customNotificationOpen = false;
         this.customMessage = '';
+        this.dismissCustomNotification();
         const toast = await this.toastCtrl.create({
           message: 'Notification sent.',
           duration: 2000
