@@ -1112,4 +1112,62 @@ ion-toolbar {
   }
 }
 
+.custom-notification-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(15, 23, 42, 0.45);
+  padding: 16px;
+}
+
+.custom-notification-dialog {
+  box-sizing: border-box;
+  width: min(420px, 100%);
+  max-height: calc(100vh - 32px);
+  overflow-y: auto;
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.2);
+
+  h2 {
+    margin: 0 0 12px;
+    font-size: 18px;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 14px;
+  }
+
+  textarea {
+    width: 100%;
+    box-sizing: border-box;
+    resize: vertical;
+    font: inherit;
+    padding: 8px;
+  }
+}
+
+.custom-notification-count,
+.custom-notification-error {
+  margin: 8px 0 0;
+  font-size: 13px;
+}
+
+.custom-notification-error {
+  color: #b42318;
+}
+
+.custom-notification-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 16px;
+}
+
  

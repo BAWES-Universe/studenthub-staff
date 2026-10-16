@@ -33,7 +33,11 @@ export class OptionPage implements OnInit {
 
   public exportingCv: boolean = false;
 
-  public saving: boolean = false; 
+  public saving: boolean = false;
+  public requestingPhoto = false;
+  public requestingCivil = false;
+  private photoSendKey: string | null = null;
+  private civilSendKey: string | null = null; 
 
   constructor(
     public translateService: TranslateLabelService,
@@ -348,6 +352,80 @@ export class OptionPage implements OnInit {
   /**
    * Loads Form in modal to update
    */
+  requestProfilePhoto() {
+    this.requestDocument('profile_photo');
+  }
+
+  requestCivilId() {
+    this.requestDocument('civil_id');
+  }
+
+  sendCustomNotification() {
+    this.popoverCtrl.dismiss({ customNotification: true });
+  }
+
+  requestDocument(type: 'profile_photo' | 'civil_id') {
+    if (type === 'profile_photo') {
+      this.requestingPhoto = true;
+      if (!this.photoSendKey) {
+        this.photoSendKey = window.crypto.randomUUID();
+      }
+    } else {
+      this.requestingCivil = true;
+      if (!this.civilSendKey) {
+        this.civilSendKey = window.crypto.randomUUID();
+      }
+    }
+    const sendKey = type === 'profile_photo' ? this.photoSendKey : this.civilSendKey;
+
+    let emitted = false;
+    this.candidateService.createUpdateRequest(this.candidate.candidate_id, type, sendKey).subscribe({
+      next: async (response) => {
+        emitted = true;
+        this.clearDocumentRequest(type);
+        if (!response || response.operation !== 'success') {
+          await this.presentDocumentRequestFailure(response && response.message);
+          return;
+        }
+        if (type === 'profile_photo') {
+          this.photoSendKey = null;
+        } else {
+          this.civilSendKey = null;
+        }
+        this.popoverCtrl.dismiss();
+      },
+      error: () => {
+        this.failDocumentRequest(type);
+      },
+      complete: () => {
+        if (!emitted) {
+          this.failDocumentRequest(type);
+        }
+      }
+    });
+  }
+
+  private clearDocumentRequest(type: 'profile_photo' | 'civil_id') {
+    if (type === 'profile_photo') {
+      this.requestingPhoto = false;
+    } else {
+      this.requestingCivil = false;
+    }
+  }
+
+  private failDocumentRequest(type: 'profile_photo' | 'civil_id') {
+    this.clearDocumentRequest(type);
+    void this.presentDocumentRequestFailure();
+  }
+
+  private async presentDocumentRequestFailure(message?: string) {
+    const toast = await this.toastCtrl.create({
+      message: message || 'Could not send the notification. Please try again.',
+      duration: 3000
+    });
+    toast.present();
+  }
+
   update() {
     this.navCtrl.navigateForward('candidate-form/' + this.candidate.candidate_id, {
       state: {
