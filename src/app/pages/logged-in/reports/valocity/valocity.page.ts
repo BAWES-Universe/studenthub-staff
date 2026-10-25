@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { Platform } from '@ionic/angular';
-import { format, parseISO } from 'date-fns';
+import { format, parseISO } from 'src/app/util/date-fns';
 // models
 import { Staff } from 'src/app/models/staff';
 import { AnalyticsService } from 'src/app/providers/analytics.service';

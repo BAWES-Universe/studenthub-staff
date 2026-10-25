@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertController, ModalController } from '@ionic/angular';
-import { CalendarModal, CalendarModalOptions } from 'ion2-calendar';
+import { CalendarModal, CalendarModalOptions } from 'src/app/components/calendar-modal/calendar-modal.component';
 import { AnalyticsService } from 'src/app/providers/analytics.service';
 //services
 import { AuthService } from 'src/app/providers/auth.service';

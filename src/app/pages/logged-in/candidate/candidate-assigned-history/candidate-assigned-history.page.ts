@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AlertController, NavController, PopoverController, ToastController } from '@ionic/angular';
-import { format, parseISO } from 'date-fns';
+import { format, parseISO } from 'src/app/util/date-fns';
 // models
 import { Candidate } from 'src/app/models/candidate';
 import { Story } from 'src/app/models/request';
