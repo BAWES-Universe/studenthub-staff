@@ -1,5 +1,5 @@
 import { Component, Inject, forwardRef, Input, Optional } from '@angular/core';
-import { TypedBaseWidget, NgAisIndex, NgAisInstantSearch } from 'angular-instantsearch';
+import { TypedBaseWidget, NgAisIndex, NgAisInstantSearch } from 'src/app/components/instantsearch/instantsearch';
 import connectCurrentRefinements, {
   CurrentRefinementsWidgetDescription,
   CurrentRefinementsConnectorParams

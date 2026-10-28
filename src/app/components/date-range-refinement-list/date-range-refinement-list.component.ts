@@ -1,7 +1,7 @@
 import { Component, Input, Inject, forwardRef, EventEmitter, Output, OnInit, Optional } from '@angular/core';
 import { connectRange } from 'instantsearch.js/es/connectors';
-import { BaseWidget, NgAisIndex, NgAisInstantSearch } from 'angular-instantsearch';
-import { parseNumberInput, noop } from 'angular-instantsearch/esm2015/utils';
+import { BaseWidget, NgAisIndex, NgAisInstantSearch } from 'src/app/components/instantsearch/instantsearch';
+import { parseNumberInput, noop } from 'src/app/components/instantsearch/utils';
 import {CalendarModal, CalendarModalOptions, CalendarResult} from 'ion2-calendar';
 import { ModalController } from '@ionic/angular';
 import {Options} from "ng5-slider";
