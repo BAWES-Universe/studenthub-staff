@@ -17,6 +17,10 @@ export class CompanyService {
 
   constructor(private _authhttp: AuthHttpService) { }
 
+  openLicence(companyId: number): Observable<Blob> {
+    return this._authhttp.getPrivateBlob('/companies/commercial-licence/' + companyId);
+  }
+
   /**
    * List of all companies
    * @param page

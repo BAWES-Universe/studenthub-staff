@@ -1,4 +1,4 @@
-import {Component, ElementRef, forwardRef, Input, OnInit, Renderer2, ViewChild} from '@angular/core';
+import {Component, ElementRef, forwardRef, Input, OnDestroy, OnInit, Renderer2, ViewChild} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {ActionSheetController, AlertController, Platform} from '@ionic/angular';
 import {CameraService} from '../../providers/camera.service';
@@ -18,7 +18,7 @@ import {BACKEND_IMAGE_EXTENSIONS, acceptAttribute, uploadAlertMessage} from '../
     }
   ]
 })
-export class ImageUploadComponent implements ControlValueAccessor, OnInit {
+export class ImageUploadComponent implements ControlValueAccessor, OnInit, OnDestroy {
   // File input used for browser fallback when no cordova is available
     @ViewChild('fileInput') fileInput: ElementRef;
 
@@ -55,6 +55,7 @@ export class ImageUploadComponent implements ControlValueAccessor, OnInit {
   public acceptedFormats = acceptAttribute(BACKEND_IMAGE_EXTENSIONS);
   /** Filename uploaded in this control session. Existing saved values do not match it. */
   private uploadedTempName: string | null = null;
+  private sessionObjectUrl = '';
   private previewFailedSrc = '';
 
   // the method set in registerOnChange, it is just
@@ -81,6 +82,16 @@ export class ImageUploadComponent implements ControlValueAccessor, OnInit {
   }
 
   getPreviewSrc(): string {
+    if (this.prefix === 'commercial_licence') {
+      if (this.uploadedTempName && this._value === this.uploadedTempName && this.sessionObjectUrl) {
+        return this.sessionObjectUrl;
+      }
+      if (this.previewUrl && this.previewUrl.indexOf('blob:') === 0) {
+        return this.previewUrl;
+      }
+      return '';
+    }
+
     if (this.uploadedTempName && this._value === this.uploadedTempName) {
       return this._bucketUrlTemporary + this._value;
     }
@@ -92,7 +103,7 @@ export class ImageUploadComponent implements ControlValueAccessor, OnInit {
       }) || '';
     }
 
-    if (this.prefix === 'logo' || this.prefix === 'commercial_licence') {
+    if (this.prefix === 'logo') {
       return resolvedStoredImageUrl(this.previewUrl, this._value, this._awsService.cloudinaryUrl) || '';
     }
 
@@ -181,7 +192,11 @@ export class ImageUploadComponent implements ControlValueAccessor, OnInit {
       const file = fileList.item(0);
 
       // Upload The File
-      const uploadObservable = this._awsService.uploadFile(file, BACKEND_IMAGE_EXTENSIONS);
+      if (this.prefix === 'commercial_licence') {
+        this.replaceSessionObjectUrl(file);
+      }
+      const purpose = this.prefix === 'commercial_licence' ? 'commercial-licence' : null;
+      const uploadObservable = this._awsService.uploadFile(file, BACKEND_IMAGE_EXTENSIONS, purpose);
       this.processFileUpload(uploadObservable);
     }
   }
@@ -304,5 +319,19 @@ export class ImageUploadComponent implements ControlValueAccessor, OnInit {
    */
   getFileName(path) {
     return path.split(/[\\/]/).pop();  
+  }
+
+  ngOnDestroy() {
+    this.replaceSessionObjectUrl(null);
+  }
+
+  private replaceSessionObjectUrl(file: File | null) {
+    if (this.sessionObjectUrl) {
+      URL.revokeObjectURL(this.sessionObjectUrl);
+      this.sessionObjectUrl = '';
+    }
+    if (file) {
+      this.sessionObjectUrl = URL.createObjectURL(file);
+    }
   }
 }

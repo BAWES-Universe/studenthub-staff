@@ -167,7 +167,7 @@ export class AwsService {
      * @param { File } file
      * @returns { Observable<any> }
      */
-    uploadFile(file: File = null, allowedExtensions: string[] = null): Observable<any> {
+    uploadFile(file: File = null, allowedExtensions: string[] = null, purpose: string = null): Observable<any> {
         const token = this.authService.getAccessToken();
 
         return uploadTemporaryFile({
@@ -178,6 +178,7 @@ export class AwsService {
             token: token || '',
             uploadHost: TEMP_UPLOAD_HOST,
             allowedExtensions,
+            purpose: purpose || undefined,
             post: (url, body, headers) => this.http.post(url, body, {
                 headers: new HttpHeaders(headers)
             })

@@ -28,6 +28,7 @@ export class CompanyFormPage implements OnInit {
   public borderLimit = false;
 
   public loading = false;
+  public licencePreviewUrl = '';
 
   public saving = false;
 
@@ -92,11 +93,25 @@ export class CompanyFormPage implements OnInit {
     this.companyService.view(company_id,'brands,country').subscribe(res => {
       this.model = res;
       this._initForm();
+      this.loadLicencePreview();
       this.loading = false;
 
     }, () => {
 
       this.loading = false;
+    });
+  }
+
+  loadLicencePreview() {
+    if (this.licencePreviewUrl) {
+      URL.revokeObjectURL(this.licencePreviewUrl);
+      this.licencePreviewUrl = '';
+    }
+    if (!this.model || !this.model.company_id || !this.model.commercial_licence) {
+      return;
+    }
+    this.companyService.openLicence(this.model.company_id).subscribe((blob) => {
+      this.licencePreviewUrl = URL.createObjectURL(blob);
     });
   }
 

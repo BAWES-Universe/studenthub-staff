@@ -33,6 +33,7 @@ export interface TempUploadOptions {
     allowedExtensions?: string[];
     post: (url: string, body: Record<string, unknown>, headers: Record<string, string>) => TempUploadPost;
     createRequest?: () => XMLHttpRequest;
+    purpose?: string;
 }
 
 /**
@@ -97,11 +98,15 @@ export function uploadTemporaryFile(options: TempUploadOptions): Observable<any>
 
         observer.next(handle);
 
-        subscription = options.post(options.presignUrl, {
+        const body: Record<string, unknown> = {
             filename: file.name || 'file',
             content_type: file.type || '',
             file_size: file.size
-        }, {
+        };
+        if (options.purpose) {
+            body.purpose = options.purpose;
+        }
+        subscription = options.post(options.presignUrl, body, {
             Authorization: 'Bearer ' + options.token,
             Accept: 'application/json'
         }).subscribe((body) => {

@@ -7,7 +7,6 @@ import { CompanyService } from 'src/app/providers/logged-in/company.service';
 import { NoteService } from 'src/app/providers/logged-in/note.service';
 import { EventService } from 'src/app/providers/event.service';
 import { AwsService } from 'src/app/providers/aws.service';
-import { resolvedStoredImageUrl } from 'src/app/providers/stored-image-url';
 import { AnalyticsService } from 'src/app/providers/analytics.service';
 import { AuthService } from 'src/app/providers/auth.service';
 // models
@@ -93,8 +92,8 @@ export class CompanyViewPage implements OnInit {
   };
 
   segment = 'details';
-  licenceImageFailed = false;
-  private licenceDisplayKey = '';
+  licencePreviewUrl = '';
+  licenceStatus = '';
 
   constructor(
     public modalCtrl: ModalController,
@@ -447,7 +446,7 @@ export class CompanyViewPage implements OnInit {
       this.updating = false;
       this.company = response;
       this.stats = response.stats;
-      this.resetLicenceFailureIfChanged();
+      this.loadLicence();
 
       setTimeout(_ => {
         this.followup = !!(this.company.company_followup);
@@ -763,25 +762,29 @@ export class CompanyViewPage implements OnInit {
     this.company.logo_unavailable = true;
   }
 
-  licenceHref(): string | null {
-    this.resetLicenceFailureIfChanged();
-    return resolvedStoredImageUrl(
-      this.company?.commercial_licence_url,
-      this.company?.commercial_licence,
-      this.aws.cloudinaryUrl
-    );
-  }
-
-  private resetLicenceFailureIfChanged() {
-    const next = `${this.company?.commercial_licence ?? ''}\n${this.company?.commercial_licence_url ?? ''}`;
-    if (next !== this.licenceDisplayKey) {
-      this.licenceDisplayKey = next;
-      this.licenceImageFailed = false;
+  loadLicence() {
+    if (this.licencePreviewUrl) {
+      URL.revokeObjectURL(this.licencePreviewUrl);
+      this.licencePreviewUrl = '';
     }
+    if (!this.company || !this.company.commercial_licence) {
+      this.licenceStatus = 'none';
+      return;
+    }
+    this.licenceStatus = 'loading';
+    this.companyService.openLicence(this.company.company_id).subscribe((blob) => {
+      this.licencePreviewUrl = URL.createObjectURL(blob);
+      this.licenceStatus = 'ready';
+    }, (error) => {
+      this.licenceStatus = error && error.status === 401 ? 'auth' : 'unavailable';
+    });
   }
 
-  showLicenceUnavailable() {
-    this.licenceImageFailed = true;
+  openLicence(event: Event) {
+    event.preventDefault();
+    if (this.licencePreviewUrl) {
+      window.open(this.licencePreviewUrl, '_blank', 'noopener');
+    }
   }
 
   /**

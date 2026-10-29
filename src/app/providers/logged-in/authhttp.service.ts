@@ -62,6 +62,17 @@ export class AuthHttpService {
    * @param {string} endpointUrl
    * @returns {Observable<any>}
    */
+  getPrivateBlob(endpointUrl: string): Observable<Blob> {
+    const url = environment.apiEndpoint + endpointUrl;
+    const headers = new HttpHeaders({
+      Authorization: 'Bearer ' + this._auth.getAccessToken(),
+      'Cache-Control': 'no-store',
+      Pragma: 'no-cache'
+    });
+
+    return this._http.get(url, { headers, responseType: 'blob' });
+  }
+
   getRaw(endpointUrl: string): Observable<any> {
     const url = environment.apiEndpoint + endpointUrl;
     const headers = this._buildAuthHeaders();
