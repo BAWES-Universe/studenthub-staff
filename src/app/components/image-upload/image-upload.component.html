@@ -7,8 +7,8 @@
     Uploading... {{ newUpload.loaded /newUpload.total }}% 
   </div>
   
-  <ion-thumbnail slot="start" *ngIf="!isUploading" [class.icon-wrapper]="!getPreviewSrc()" 
-    [class.image-wrapper]="getPreviewSrc()">
+  <ion-thumbnail slot="start" *ngIf="!isUploading" [class.icon-wrapper]="!(getPreviewSrc() && !previewBroken())"
+    [class.image-wrapper]="getPreviewSrc() && !previewBroken()">
     <ion-icon [src]="iconSrc" *ngIf="iconSrc"></ion-icon>
     <ion-icon [name]="icon" *ngIf="!iconSrc"></ion-icon>
     
