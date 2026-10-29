@@ -66,8 +66,13 @@ export class CompanyComponent implements OnInit {
     return resolvedStoredImageUrl(company?.company_logo_url, company?.company_logo, this.aws.cloudinaryUrl);
   }
 
+  showLogo(company: Company): boolean {
+    const src = this.logoSrc(company);
+    return !!src && company?.logo_failed_src !== src;
+  }
+
   loadLogo($event, company) {
-    company.logo_unavailable = true;
+    company.logo_failed_src = this.logoSrc(company);
   }
 
   countCandidate() {

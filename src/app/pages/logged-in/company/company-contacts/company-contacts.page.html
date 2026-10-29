@@ -50,7 +50,7 @@
         <ion-item lines="none" tappable (click)="openContactDetail(companyContact, $event)">
           <div tabindex="0"></div>
 
-          <ion-thumbnail *ngIf="company && logoSrc() && !company.logo_unavailable">
+          <ion-thumbnail *ngIf="company && showLogo()">
             <img [src]="logoSrc()" (error)="imageError()">
           </ion-thumbnail>
 

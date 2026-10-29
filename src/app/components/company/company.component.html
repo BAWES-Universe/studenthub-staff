@@ -1,8 +1,7 @@
 <ion-card tappable>
     <ion-card-content>
-      <ion-avatar *ngIf="company.company_logo">
-        <img *ngIf="logoSrc(company) && !company.logo_unavailable" width="48" [src]="logoSrc(company)"
-             (error)="loadLogo($event,company)">
+      <ion-avatar *ngIf="showLogo(company)">
+        <img width="48" [src]="logoSrc(company)" (error)="loadLogo($event, company)">
       </ion-avatar>
 
       <ion-label class="ion-text-wrap">

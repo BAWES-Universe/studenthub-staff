@@ -371,8 +371,15 @@ export class CompanyContactsPage implements OnInit {
     return resolvedStoredImageUrl(this.company?.company_logo_url, this.company?.company_logo, this.aws.cloudinaryUrl);
   }
 
+  showLogo(): boolean {
+    const src = this.logoSrc();
+    return !!src && this.company?.logo_failed_src !== src;
+  }
+
   imageError() {
-    this.company.logo_unavailable = true;
+    if (this.company) {
+      this.company.logo_failed_src = this.logoSrc();
+    }
   }
 
   /**

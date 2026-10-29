@@ -53,6 +53,9 @@ export class ImageUploadComponent implements ControlValueAccessor, OnInit {
 
   public newUpload;
   public acceptedFormats = acceptAttribute(BACKEND_IMAGE_EXTENSIONS);
+  /** Filename uploaded in this control session. Existing saved values do not match it. */
+  private uploadedTempName: string | null = null;
+  private previewFailedSrc = '';
 
   // the method set in registerOnChange, it is just
   // a placeholder for a method that takes one parameter,
@@ -78,15 +81,7 @@ export class ImageUploadComponent implements ControlValueAccessor, OnInit {
   }
 
   getPreviewSrc(): string {
-    if (
-      (this.prefix === 'logo' || this.prefix === 'commercial_licence') &&
-      this._value &&
-      this._value.indexOf('/') === -1
-    ) {
-      return this._bucketUrlTemporary + this._value;
-    }
-
-    if (this.bucketUrl === this._bucketUrlTemporary && this._value) {
+    if (this.uploadedTempName && this._value === this.uploadedTempName) {
       return this._bucketUrlTemporary + this._value;
     }
 
@@ -105,7 +100,16 @@ export class ImageUploadComponent implements ControlValueAccessor, OnInit {
       return '';
     }
 
-    return '';
+    return this.bucketUrl + this._value;
+  }
+
+  previewBroken(): boolean {
+    const src = this.getPreviewSrc();
+    return !!src && this.previewFailedSrc === src;
+  }
+
+  onPreviewError() {
+    this.previewFailedSrc = this.getPreviewSrc();
   }
 
   /**
@@ -245,6 +249,8 @@ export class ImageUploadComponent implements ControlValueAccessor, OnInit {
       this.isUploading = false;
       // Switch to temporary bucket url
       this.bucketUrl = this._bucketUrlTemporary;
+      this.uploadedTempName = this.newUpload.name;
+      this.previewFailedSrc = '';
       // Set the new value of this file upload
       this.value = this.newUpload.name;
     });

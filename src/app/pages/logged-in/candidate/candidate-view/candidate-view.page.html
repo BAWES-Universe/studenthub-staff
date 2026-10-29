@@ -475,7 +475,7 @@
             <ion-item lines="none" *ngIf="certificate.store">
               <div tabindex="0"></div>
 
-              <ion-thumbnail *ngIf="certificate.company && companyLogoSrc(certificate.company) && !certificate.company.logo_unavailable">
+              <ion-thumbnail *ngIf="showCompanyLogo(certificate)">
                 <img [src]="companyLogoSrc(certificate.company)" (error)="imageError(certificate)">
               </ion-thumbnail>
 
@@ -531,7 +531,7 @@
             <ion-item lines="none" *ngIf="history.store">
               <div tabindex="0"></div>
 
-              <ion-thumbnail *ngIf="history.company && companyLogoSrc(history.company) && !history.company.logo_unavailable">
+              <ion-thumbnail *ngIf="showCompanyLogo(history)">
                 <img [src]="companyLogoSrc(history.company)" (error)="imageError(history)">
               </ion-thumbnail>
 

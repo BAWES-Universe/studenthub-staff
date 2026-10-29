@@ -1649,9 +1649,14 @@ export class CandidateViewPage implements OnInit {
     return resolvedStoredImageUrl(company?.company_logo_url, company?.company_logo, this.awsService.cloudinaryUrl);
   }
 
+  showCompanyLogo(record): boolean {
+    const src = this.companyLogoSrc(record?.company);
+    return !!src && record?.company?.logo_failed_src !== src;
+  }
+
   imageError(history) {
     if (history?.company) {
-      history.company.logo_unavailable = true;
+      history.company.logo_failed_src = this.companyLogoSrc(history.company);
     }
   }
 
