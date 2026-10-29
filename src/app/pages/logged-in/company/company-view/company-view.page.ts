@@ -7,6 +7,7 @@ import { CompanyService } from 'src/app/providers/logged-in/company.service';
 import { NoteService } from 'src/app/providers/logged-in/note.service';
 import { EventService } from 'src/app/providers/event.service';
 import { AwsService } from 'src/app/providers/aws.service';
+import { resolvedStoredImageUrl } from 'src/app/providers/stored-image-url';
 import { AnalyticsService } from 'src/app/providers/analytics.service';
 import { AuthService } from 'src/app/providers/auth.service';
 // models
@@ -92,6 +93,7 @@ export class CompanyViewPage implements OnInit {
   };
 
   segment = 'details';
+  licenceImageFailed = false;
 
   constructor(
     public modalCtrl: ModalController,
@@ -756,7 +758,19 @@ export class CompanyViewPage implements OnInit {
   }
 
   imageError() {
-    this.company.company_logo = null;
+    this.company.logo_unavailable = true;
+  }
+
+  licenceHref(): string | null {
+    return resolvedStoredImageUrl(
+      this.company?.commercial_licence_url,
+      this.company?.commercial_licence,
+      this.aws.cloudinaryUrl
+    );
+  }
+
+  showLicenceUnavailable() {
+    this.licenceImageFailed = true;
   }
 
   /**

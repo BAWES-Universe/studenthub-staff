@@ -27,6 +27,7 @@ import { Story } from 'src/app/models/request';
 import { StoreService } from 'src/app/providers/logged-in/store.service';
 import { CandidateService } from 'src/app/providers/logged-in/candidate.service';
 import { AwsService } from '../../../../providers/aws.service';
+import { resolvedStoredImageUrl } from '../../../../providers/stored-image-url';
 import { EventService } from '../../../../providers/event.service';
 import { NoteService } from '../../../../providers/logged-in/note.service';
 import { AuthService } from '../../../../providers/auth.service';
@@ -1644,8 +1645,14 @@ export class CandidateViewPage implements OnInit {
     });
   }
 
+  companyLogoSrc(company): string | null {
+    return resolvedStoredImageUrl(company?.company_logo_url, company?.company_logo, this.awsService.cloudinaryUrl);
+  }
+
   imageError(history) {
-    history.company.company_logo = null;
+    if (history?.company) {
+      history.company.logo_unavailable = true;
+    }
   }
 
   toggleOpen(history, event) {

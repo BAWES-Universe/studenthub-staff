@@ -427,13 +427,13 @@
         [innerHtml]="company.company_description_ar"></p>
 
       <h5>Commercial licence</h5>
-      <ion-thumbnail *ngIf="company.commercial_licence_url">
-        <a [href]="company.commercial_licence_url" target="_blank" rel="noopener">
-          <ion-img [src]="company.commercial_licence_url"></ion-img>
+      <ion-thumbnail *ngIf="licenceHref() && !licenceImageFailed">
+        <a [href]="licenceHref()" target="_blank" rel="noopener">
+          <ion-img [src]="licenceHref()" (ionError)="showLicenceUnavailable()"></ion-img>
         </a>
       </ion-thumbnail>
 
-      <p *ngIf="company.commercial_licence && !company.commercial_licence_url" class="txt-color-danger">
+      <p *ngIf="company.commercial_licence && (!licenceHref() || licenceImageFailed)" class="txt-color-danger">
         The licence is saved, but the file is unavailable. Upload a replacement.
       </p>
 

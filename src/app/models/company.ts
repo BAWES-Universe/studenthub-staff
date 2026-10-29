@@ -18,9 +18,10 @@ export class Company {
     company_website: string;
     company_email: string;
     company_logo: string;
-    company_logo_url: string;
+    company_logo_url?: string | null;
+    logo_unavailable?: boolean;
     commercial_licence: string;
-    commercial_licence_url: string;
+    commercial_licence_url?: string | null;
     company_status: number;
     company_status_override: number;
     total_candidates: number;
