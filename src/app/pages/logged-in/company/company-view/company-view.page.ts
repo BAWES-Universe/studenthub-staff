@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Subscription } from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
 import { CategoryScale, Chart, LineController, LineElement, LinearScale, PointElement } from 'chart.js';
 import { ModalController, AlertController, ToastController, IonContent, PopoverController } from '@ionic/angular';
@@ -39,7 +40,7 @@ import { PermissionService } from 'src/app/providers/permission.service';
   templateUrl: './company-view.page.html',
   styleUrls: ['./company-view.page.scss'],
 })
-export class CompanyViewPage implements OnInit {
+export class CompanyViewPage implements OnInit, OnDestroy {
 
   @ViewChild(IonContent, { static: true }) content: IonContent;
 
@@ -94,6 +95,10 @@ export class CompanyViewPage implements OnInit {
   segment = 'details';
   licencePreviewUrl = '';
   licenceStatus = '';
+  licencePreviewBroken = false;
+  licencePreviewToken = 0;
+  private licenceRequest = 0;
+  private licenceSub: Subscription | null = null;
 
   constructor(
     public modalCtrl: ModalController,
@@ -763,21 +768,59 @@ export class CompanyViewPage implements OnInit {
   }
 
   loadLicence() {
-    if (this.licencePreviewUrl) {
-      URL.revokeObjectURL(this.licencePreviewUrl);
-      this.licencePreviewUrl = '';
+    const request = ++this.licenceRequest;
+    if (this.licenceSub) {
+      this.licenceSub.unsubscribe();
+      this.licenceSub = null;
     }
     if (!this.company || !this.company.commercial_licence) {
+      this.releaseLicencePreview();
       this.licenceStatus = 'none';
       return;
     }
     this.licenceStatus = 'loading';
-    this.companyService.openLicence(this.company.company_id).subscribe((blob) => {
+    this.licenceSub = this.companyService.openLicence(this.company.company_id).subscribe((blob) => {
+      if (request !== this.licenceRequest) {
+        return;
+      }
+      this.releaseLicencePreview();
+      this.licencePreviewToken++;
+      this.licencePreviewBroken = false;
       this.licencePreviewUrl = URL.createObjectURL(blob);
       this.licenceStatus = 'ready';
     }, (error) => {
-      this.licenceStatus = error && error.status === 401 ? 'auth' : 'unavailable';
+      if (request !== this.licenceRequest) {
+        return;
+      }
+      if (error && error.status === 401) {
+        this.licenceStatus = 'auth';
+        return;
+      }
+      this.licenceStatus = this.licencePreviewUrl ? 'ready' : 'unavailable';
     });
+  }
+
+  licencePreviewFailed(token: number) {
+    if (token !== this.licencePreviewToken) {
+      return;
+    }
+    this.licencePreviewBroken = true;
+  }
+
+  ngOnDestroy() {
+    this.licenceRequest++;
+    if (this.licenceSub) {
+      this.licenceSub.unsubscribe();
+      this.licenceSub = null;
+    }
+    this.releaseLicencePreview();
+  }
+
+  private releaseLicencePreview() {
+    if (this.licencePreviewUrl) {
+      URL.revokeObjectURL(this.licencePreviewUrl);
+      this.licencePreviewUrl = '';
+    }
   }
 
   openLicence(event: Event) {

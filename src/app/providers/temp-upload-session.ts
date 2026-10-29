@@ -5,6 +5,7 @@ export const TEMP_UPLOAD_HOST = 'studenthub-public-anyone-can-upload-24hr-expiry
 
 const UNAVAILABLE = 'Temporary upload is unavailable.';
 const FAILED = 'Temporary upload failed.';
+const PUBLIC_LICENCE = 'The licence upload was not private. Refresh the page and try again.';
 
 export interface TempUploadSubscription {
     unsubscribe(): void;
@@ -117,6 +118,15 @@ export function uploadTemporaryFile(options: TempUploadOptions): Observable<any>
             if (!isPresignedPut(body, options.uploadHost)) {
                 fail(UNAVAILABLE);
                 return;
+            }
+
+            if (options.purpose === 'commercial-licence') {
+                const acl = body.headers && body.headers['x-amz-acl'];
+                const key = typeof body.key === 'string' ? body.key : '';
+                if (acl !== 'private' || key.indexOf('privatelicence-') !== 0 || key.indexOf('/') !== -1) {
+                    fail(PUBLIC_LICENCE);
+                    return;
+                }
             }
 
             const createRequest = options.createRequest || (() => new XMLHttpRequest());

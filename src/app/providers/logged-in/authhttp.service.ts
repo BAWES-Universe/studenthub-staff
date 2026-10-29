@@ -70,7 +70,14 @@ export class AuthHttpService {
       Pragma: 'no-cache'
     });
 
-    return this._http.get(url, { headers, responseType: 'blob' });
+    return this._http.get(url, { headers, responseType: 'blob' }).pipe(
+      catchError((err) => {
+        if (err && err.status === 401) {
+          this._handleError(err);
+        }
+        return throwError(err);
+      })
+    );
   }
 
   getRaw(endpointUrl: string): Observable<any> {

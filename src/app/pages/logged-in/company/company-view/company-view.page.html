@@ -430,7 +430,8 @@
       <p *ngIf="licenceStatus == 'loading'">Loading licence...</p>
       <ion-thumbnail *ngIf="licenceStatus == 'ready' && licencePreviewUrl">
         <a href="#" (click)="openLicence($event)">
-          <ion-img [src]="licencePreviewUrl"></ion-img>
+          <ion-img *ngIf="!licencePreviewBroken" [src]="licencePreviewUrl" (ionError)="licencePreviewFailed(licencePreviewToken)"></ion-img>
+          <span *ngIf="licencePreviewBroken">Open licence</span>
         </a>
       </ion-thumbnail>
 

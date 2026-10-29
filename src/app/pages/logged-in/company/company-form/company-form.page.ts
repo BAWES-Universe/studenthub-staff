@@ -1,5 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import {AlertController, ToastController, ModalController, NavController} from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
@@ -20,7 +21,7 @@ import { CountryModalComponent } from 'src/app/components/country-modal/country-
   templateUrl: './company-form.page.html',
   styleUrls: ['./company-form.page.scss'],
 })
-export class CompanyFormPage implements OnInit {
+export class CompanyFormPage implements OnInit, OnDestroy {
 
   @ViewChild('ckeditor', { static: false }) ckeditor: ClassicEditor;
   @ViewChild('ckeditor_ar', { static: false }) ckeditor_ar: ClassicEditor;
@@ -29,6 +30,8 @@ export class CompanyFormPage implements OnInit {
 
   public loading = false;
   public licencePreviewUrl = '';
+  private licenceRequest = 0;
+  private licenceSub: Subscription | null = null;
 
   public saving = false;
 
@@ -80,6 +83,7 @@ export class CompanyFormPage implements OnInit {
       this.loadData(this.company_id);
     } else {
       this._initForm();
+      this.loadLicencePreview();
     }
   }
 
@@ -103,16 +107,46 @@ export class CompanyFormPage implements OnInit {
   }
 
   loadLicencePreview() {
-    if (this.licencePreviewUrl) {
-      URL.revokeObjectURL(this.licencePreviewUrl);
-      this.licencePreviewUrl = '';
+    const request = ++this.licenceRequest;
+    if (this.licenceSub) {
+      this.licenceSub.unsubscribe();
+      this.licenceSub = null;
     }
     if (!this.model || !this.model.company_id || !this.model.commercial_licence) {
       return;
     }
-    this.companyService.openLicence(this.model.company_id).subscribe((blob) => {
-      this.licencePreviewUrl = URL.createObjectURL(blob);
+    this.licenceSub = this.companyService.openLicence(this.model.company_id).subscribe((blob) => {
+      if (request !== this.licenceRequest) {
+        return;
+      }
+      this.replaceLicencePreview(blob);
+    }, () => {
+      if (request !== this.licenceRequest) {
+        return;
+      }
+      // A failed refresh keeps the previous preview.
     });
+  }
+
+  ngOnDestroy() {
+    this.licenceRequest++;
+    if (this.licenceSub) {
+      this.licenceSub.unsubscribe();
+      this.licenceSub = null;
+    }
+    this.releaseLicencePreview();
+  }
+
+  private replaceLicencePreview(blob: Blob) {
+    this.releaseLicencePreview();
+    this.licencePreviewUrl = URL.createObjectURL(blob);
+  }
+
+  private releaseLicencePreview() {
+    if (this.licencePreviewUrl) {
+      URL.revokeObjectURL(this.licencePreviewUrl);
+      this.licencePreviewUrl = '';
+    }
   }
 
   /**
