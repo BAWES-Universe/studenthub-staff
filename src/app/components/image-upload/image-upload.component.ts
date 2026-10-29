@@ -3,6 +3,7 @@ import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {ActionSheetController, AlertController, Platform} from '@ionic/angular';
 import {CameraService} from '../../providers/camera.service';
 import {AwsService} from '../../providers/aws.service';
+import { resolvedStoredImageUrl } from '../../providers/stored-image-url';
 import {BACKEND_IMAGE_EXTENSIONS, acceptAttribute, uploadAlertMessage} from '../../providers/upload-formats';
 
 @Component({
@@ -39,8 +40,8 @@ export class ImageUploadComponent implements ControlValueAccessor, OnInit {
   /** Resolved URL for an existing profile photo (from backend). */
   @Input() photoUrl: string;
 
-  /** Resolved URL for an existing company logo or commercial licence. */
-  @Input() previewUrl: string;
+  /** Resolved URL for an existing company logo or commercial licence. Null means unavailable. */
+  @Input() previewUrl?: string | null;
   
   // Used for link generation after upload
   public bucketUrl: string;
@@ -96,8 +97,8 @@ export class ImageUploadComponent implements ControlValueAccessor, OnInit {
       }) || '';
     }
 
-    if (this.previewUrl) {
-      return this.previewUrl;
+    if (this.prefix === 'logo' || this.prefix === 'commercial_licence') {
+      return resolvedStoredImageUrl(this.previewUrl, this._value, this._awsService.cloudinaryUrl) || '';
     }
 
     if (!this._value) {

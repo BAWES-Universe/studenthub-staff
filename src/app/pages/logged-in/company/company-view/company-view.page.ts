@@ -94,6 +94,7 @@ export class CompanyViewPage implements OnInit {
 
   segment = 'details';
   licenceImageFailed = false;
+  private licenceDisplayKey = '';
 
   constructor(
     public modalCtrl: ModalController,
@@ -446,6 +447,7 @@ export class CompanyViewPage implements OnInit {
       this.updating = false;
       this.company = response;
       this.stats = response.stats;
+      this.resetLicenceFailureIfChanged();
 
       setTimeout(_ => {
         this.followup = !!(this.company.company_followup);
@@ -762,11 +764,20 @@ export class CompanyViewPage implements OnInit {
   }
 
   licenceHref(): string | null {
+    this.resetLicenceFailureIfChanged();
     return resolvedStoredImageUrl(
       this.company?.commercial_licence_url,
       this.company?.commercial_licence,
       this.aws.cloudinaryUrl
     );
+  }
+
+  private resetLicenceFailureIfChanged() {
+    const next = `${this.company?.commercial_licence ?? ''}\n${this.company?.commercial_licence_url ?? ''}`;
+    if (next !== this.licenceDisplayKey) {
+      this.licenceDisplayKey = next;
+      this.licenceImageFailed = false;
+    }
   }
 
   showLicenceUnavailable() {
