@@ -427,11 +427,15 @@
         [innerHtml]="company.company_description_ar"></p>
 
       <h5>Commercial licence</h5>
-      <ion-thumbnail *ngIf="company.commercial_licence">
-        <a href="https://res.cloudinary.com/studenthub/image/upload/{{ company.commercial_licence }}" target="_blank">
-          <ion-img src="{{ aws.cloudinaryUrl + company.commercial_licence }}"></ion-img>
+      <ion-thumbnail *ngIf="company.commercial_licence_url">
+        <a [href]="company.commercial_licence_url" target="_blank" rel="noopener">
+          <ion-img [src]="company.commercial_licence_url"></ion-img>
         </a>
       </ion-thumbnail>
+
+      <p *ngIf="company.commercial_licence && !company.commercial_licence_url" class="txt-color-danger">
+        The licence is saved, but the file is unavailable. Upload a replacement.
+      </p>
 
       <p *ngIf="!company.commercial_licence" class="txt-color-danger">No licence uploaded!</p>
 

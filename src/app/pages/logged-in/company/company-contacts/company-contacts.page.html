@@ -50,8 +50,8 @@
         <ion-item lines="none" tappable (click)="openContactDetail(companyContact, $event)">
           <div tabindex="0"></div>
 
-          <ion-thumbnail *ngIf="company && company.company_logo">
-            <img src="{{ aws.cloudinaryUrl + company.company_logo }}" (error)="imageError()">
+          <ion-thumbnail *ngIf="company && company.company_logo_url">
+            <img [src]="company.company_logo_url" (error)="imageError()">
           </ion-thumbnail>
 
           <ion-label>

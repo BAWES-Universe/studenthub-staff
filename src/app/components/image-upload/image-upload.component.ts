@@ -38,6 +38,9 @@ export class ImageUploadComponent implements ControlValueAccessor, OnInit {
 
   /** Resolved URL for an existing profile photo (from backend). */
   @Input() photoUrl: string;
+
+  /** Resolved URL for an existing company logo or commercial licence. */
+  @Input() previewUrl: string;
   
   // Used for link generation after upload
   public bucketUrl: string;
@@ -71,12 +74,17 @@ export class ImageUploadComponent implements ControlValueAccessor, OnInit {
   }
 
   ngOnInit() {
-    if (this.prefix == 'logo') {
-      this.bucketUrl = this._awsService.cloudinaryUrl;
-    }
   }
 
   getPreviewSrc(): string {
+    if (
+      (this.prefix === 'logo' || this.prefix === 'commercial_licence') &&
+      this._value &&
+      this._value.indexOf('/') === -1
+    ) {
+      return this._bucketUrlTemporary + this._value;
+    }
+
     if (this.bucketUrl === this._bucketUrlTemporary && this._value) {
       return this._bucketUrlTemporary + this._value;
     }
@@ -88,11 +96,15 @@ export class ImageUploadComponent implements ControlValueAccessor, OnInit {
       }) || '';
     }
 
+    if (this.previewUrl) {
+      return this.previewUrl;
+    }
+
     if (!this._value) {
       return '';
     }
 
-    return this.bucketUrl + this._value;
+    return '';
   }
 
   /**

@@ -475,8 +475,8 @@
             <ion-item lines="none" *ngIf="certificate.store">
               <div tabindex="0"></div>
 
-              <ion-thumbnail *ngIf="certificate.company && certificate.company.company_logo">
-                <img src="{{ awsService.cloudinaryUrl + certificate.company.company_logo }}" (error)="imageError(certificate)">
+              <ion-thumbnail *ngIf="certificate.company && certificate.company.company_logo_url">
+                <img [src]="certificate.company.company_logo_url" (error)="imageError(certificate)">
               </ion-thumbnail>
 
               <ion-label>
@@ -531,8 +531,8 @@
             <ion-item lines="none" *ngIf="history.store">
               <div tabindex="0"></div>
 
-              <ion-thumbnail *ngIf="history.company && history.company.company_logo">
-                <img src="{{ awsService.cloudinaryUrl + history.company.company_logo }}" (error)="imageError(history)">
+              <ion-thumbnail *ngIf="history.company && history.company.company_logo_url">
+                <img [src]="history.company.company_logo_url" (error)="imageError(history)">
               </ion-thumbnail>
 
               <ion-label>

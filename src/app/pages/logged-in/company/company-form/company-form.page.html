@@ -31,6 +31,7 @@
           labelNoImage="Upload Company Logo"
           icon="person-outline" prefix="logo"
           iconSrc="assets/icon/icon-add-pic.svg"
+          [previewUrl]="model?.company_logo_url"
           formControlName="logo">
         </app-image-upload>
         
@@ -39,6 +40,7 @@
           labelNoImage="Upload Commercial Licence"
           icon="person-outline" prefix="commercial_licence"
           iconSrc="assets/icon/icon-add-pic.svg"
+          [previewUrl]="model?.commercial_licence_url"
           formControlName="commercial_licence">
         </app-image-upload>
 
