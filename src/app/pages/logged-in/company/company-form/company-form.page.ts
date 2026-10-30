@@ -30,8 +30,12 @@ export class CompanyFormPage implements OnInit, OnDestroy {
 
   public loading = false;
   public licencePreviewUrl = '';
+  public licencePreviewNote = '';
+  private licencePreviewCompanyId: any = null;
+  private licencePreviewKey = '';
   private licenceRequest = 0;
   private licenceSub: Subscription | null = null;
+  private licenceLeft = false;
 
   public saving = false;
 
@@ -106,40 +110,85 @@ export class CompanyFormPage implements OnInit, OnDestroy {
     });
   }
 
+  ionViewWillEnter() {
+    if (!this.licenceLeft) {
+      return;
+    }
+    this.licenceLeft = false;
+    if (this.model) {
+      this.loadLicencePreview();
+    }
+  }
+
+  ionViewWillLeave() {
+    this.licenceLeft = true;
+    this.cancelLicenceRead();
+  }
+
   loadLicencePreview() {
     const request = ++this.licenceRequest;
     if (this.licenceSub) {
       this.licenceSub.unsubscribe();
       this.licenceSub = null;
     }
-    if (!this.model || !this.model.company_id || !this.model.commercial_licence) {
+    const companyId = this.model && this.model.company_id;
+    const key = this.model && this.model.commercial_licence;
+    if (!companyId || !key) {
+      this.releaseLicencePreview();
+      this.licencePreviewNote = '';
       return;
     }
-    this.licenceSub = this.companyService.openLicence(this.model.company_id).subscribe((blob) => {
-      if (request !== this.licenceRequest) {
+    this.licenceSub = this.companyService.openLicence(companyId).subscribe((blob) => {
+      if (request !== this.licenceRequest || !this.sameRequestedLicence(companyId, key)) {
         return;
       }
-      this.replaceLicencePreview(blob);
+      this.replaceLicencePreview(blob, companyId, key);
     }, () => {
       if (request !== this.licenceRequest) {
         return;
       }
-      // A failed refresh keeps the previous preview.
+      this.failLicencePreview(companyId, key);
     });
   }
 
   ngOnDestroy() {
+    this.cancelLicenceRead();
+  }
+
+  private failLicencePreview(companyId, key) {
+    const same = this.licencePreviewUrl
+      && String(this.licencePreviewCompanyId) === String(companyId)
+      && this.licencePreviewKey === key;
+    if (!same) {
+      this.releaseLicencePreview();
+      this.licencePreviewNote = 'unavailable';
+      return;
+    }
+    this.licencePreviewNote = 'stale';
+  }
+
+  private sameRequestedLicence(companyId, key) {
+    return !!this.model
+      && String(this.model.company_id) === String(companyId)
+      && this.model.commercial_licence === key;
+  }
+
+  private replaceLicencePreview(blob: Blob, companyId, key) {
+    this.releaseLicencePreview();
+    this.licencePreviewCompanyId = companyId;
+    this.licencePreviewKey = key;
+    this.licencePreviewNote = '';
+    this.licencePreviewUrl = URL.createObjectURL(blob);
+  }
+
+  private cancelLicenceRead() {
     this.licenceRequest++;
     if (this.licenceSub) {
       this.licenceSub.unsubscribe();
       this.licenceSub = null;
     }
     this.releaseLicencePreview();
-  }
-
-  private replaceLicencePreview(blob: Blob) {
-    this.releaseLicencePreview();
-    this.licencePreviewUrl = URL.createObjectURL(blob);
+    this.licencePreviewNote = '';
   }
 
   private releaseLicencePreview() {
@@ -147,6 +196,8 @@ export class CompanyFormPage implements OnInit, OnDestroy {
       URL.revokeObjectURL(this.licencePreviewUrl);
       this.licencePreviewUrl = '';
     }
+    this.licencePreviewCompanyId = null;
+    this.licencePreviewKey = '';
   }
 
   /**

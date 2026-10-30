@@ -43,6 +43,8 @@
           [previewUrl]="licencePreviewUrl"
           formControlName="commercial_licence">
         </app-image-upload>
+        <p *ngIf="licencePreviewNote == 'stale'">Showing an older preview of this licence. The latest file could not be loaded.</p>
+        <p *ngIf="licencePreviewNote == 'unavailable'">The licence is saved, but the latest file could not be loaded.</p>
 
         <ion-item class="input-wrapper">
           <div tabindex="0"></div>

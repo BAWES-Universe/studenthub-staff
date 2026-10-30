@@ -212,15 +212,27 @@ export class ImageUploadComponent implements ControlValueAccessor, OnInit, OnDes
    * @param  {any} path
    */
   uploadFileViaNativeFilePath(path){
+    const generation = ++this.uploadGeneration;
     const purpose = this.prefix === 'commercial_licence' ? 'commercial-licence' : null;
     const onFile = this.prefix === 'commercial_licence'
-      ? (file: Blob) => this.holdPendingLicence(file)
+      ? (file: Blob) => {
+        if (generation !== this.uploadGeneration) {
+          return;
+        }
+        this.holdPendingLicence(file);
+      }
       : null;
     this._awsService.uploadNativePath(path, BACKEND_IMAGE_EXTENSIONS, purpose, onFile)
       .then((uploadObservable) => {
-        this.processFileUpload(uploadObservable);
+        if (generation !== this.uploadGeneration) {
+          return;
+        }
+        this.processFileUpload(uploadObservable, generation);
       })
       .catch((err) => {
+        if (generation !== this.uploadGeneration) {
+          return;
+        }
         this.discardPendingLicence();
         alert(err);
       });
@@ -230,8 +242,10 @@ export class ImageUploadComponent implements ControlValueAccessor, OnInit, OnDes
    * Process S3 upload by subscribing to progress observable
    * @param  {} uploadObservable
    */
-  processFileUpload(uploadObservable){
-    const generation = ++this.uploadGeneration;
+  processFileUpload(uploadObservable, generation = ++this.uploadGeneration){
+    if (generation !== this.uploadGeneration) {
+      return;
+    }
     if (this.activeAbort) {
       const abort = this.activeAbort;
       this.activeAbort = null;

@@ -428,7 +428,8 @@
 
       <h5>Commercial licence</h5>
       <p *ngIf="licenceStatus == 'loading'">Loading licence...</p>
-      <ion-thumbnail *ngIf="licenceStatus == 'ready' && licencePreviewUrl">
+      <p *ngIf="licenceStatus == 'stale'">Showing an older preview of this licence. The latest file could not be loaded.</p>
+      <ion-thumbnail *ngIf="(licenceStatus == 'ready' || licenceStatus == 'stale') && licencePreviewUrl">
         <a href="#" (click)="openLicence($event)">
           <ion-img *ngIf="!licencePreviewBroken" [src]="licencePreviewUrl" (ionError)="licencePreviewFailed(licencePreviewToken)"></ion-img>
           <span *ngIf="licencePreviewBroken">Open licence</span>
