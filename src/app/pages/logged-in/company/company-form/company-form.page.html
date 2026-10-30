@@ -31,6 +31,7 @@
           labelNoImage="Upload Company Logo"
           icon="person-outline" prefix="logo"
           iconSrc="assets/icon/icon-add-pic.svg"
+          [previewUrl]="model?.company_logo_url"
           formControlName="logo">
         </app-image-upload>
         
@@ -39,8 +40,11 @@
           labelNoImage="Upload Commercial Licence"
           icon="person-outline" prefix="commercial_licence"
           iconSrc="assets/icon/icon-add-pic.svg"
+          [previewUrl]="licencePreviewUrl"
           formControlName="commercial_licence">
         </app-image-upload>
+        <p *ngIf="licencePreviewNote == 'stale'">Showing an older preview of this licence. The latest file could not be loaded.</p>
+        <p *ngIf="licencePreviewNote == 'unavailable'">The licence is saved, but the latest file could not be loaded.</p>
 
         <ion-item class="input-wrapper">
           <div tabindex="0"></div>

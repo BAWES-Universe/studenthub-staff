@@ -10,6 +10,7 @@ import { CompanyService } from "../../../../providers/logged-in/company.service"
 import { CompanyContactService } from 'src/app/providers/logged-in/company-contact.service';
 import { EventService } from 'src/app/providers/event.service';
 import { AwsService } from 'src/app/providers/aws.service';
+import { resolvedStoredImageUrl } from 'src/app/providers/stored-image-url';
 import { AnalyticsService } from 'src/app/providers/analytics.service';
 // pages
 import { ModalPopPage } from '../../modal-pop/modal-pop.page';
@@ -366,8 +367,19 @@ export class CompanyContactsPage implements OnInit {
 
   }
 
+  logoSrc(): string | null {
+    return resolvedStoredImageUrl(this.company?.company_logo_url, this.company?.company_logo, this.aws.cloudinaryUrl);
+  }
+
+  showLogo(): boolean {
+    const src = this.logoSrc();
+    return !!src && this.company?.logo_failed_src !== src;
+  }
+
   imageError() {
-    this.company.company_logo = null;
+    if (this.company) {
+      this.company.logo_failed_src = this.logoSrc();
+    }
   }
 
   /**

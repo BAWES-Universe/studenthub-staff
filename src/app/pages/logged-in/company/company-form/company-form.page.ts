@@ -1,5 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import {AlertController, ToastController, ModalController, NavController} from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
@@ -20,7 +21,7 @@ import { CountryModalComponent } from 'src/app/components/country-modal/country-
   templateUrl: './company-form.page.html',
   styleUrls: ['./company-form.page.scss'],
 })
-export class CompanyFormPage implements OnInit {
+export class CompanyFormPage implements OnInit, OnDestroy {
 
   @ViewChild('ckeditor', { static: false }) ckeditor: ClassicEditor;
   @ViewChild('ckeditor_ar', { static: false }) ckeditor_ar: ClassicEditor;
@@ -28,6 +29,13 @@ export class CompanyFormPage implements OnInit {
   public borderLimit = false;
 
   public loading = false;
+  public licencePreviewUrl = '';
+  public licencePreviewNote = '';
+  private licencePreviewCompanyId: any = null;
+  private licencePreviewKey = '';
+  private licenceRequest = 0;
+  private licenceSub: Subscription | null = null;
+  private licenceLeft = false;
 
   public saving = false;
 
@@ -79,6 +87,7 @@ export class CompanyFormPage implements OnInit {
       this.loadData(this.company_id);
     } else {
       this._initForm();
+      this.loadLicencePreview();
     }
   }
 
@@ -92,12 +101,103 @@ export class CompanyFormPage implements OnInit {
     this.companyService.view(company_id,'brands,country').subscribe(res => {
       this.model = res;
       this._initForm();
+      this.loadLicencePreview();
       this.loading = false;
 
     }, () => {
 
       this.loading = false;
     });
+  }
+
+  ionViewWillEnter() {
+    if (!this.licenceLeft) {
+      return;
+    }
+    this.licenceLeft = false;
+    if (this.model) {
+      this.loadLicencePreview();
+    }
+  }
+
+  ionViewWillLeave() {
+    this.licenceLeft = true;
+    this.cancelLicenceRead();
+  }
+
+  loadLicencePreview() {
+    const request = ++this.licenceRequest;
+    if (this.licenceSub) {
+      this.licenceSub.unsubscribe();
+      this.licenceSub = null;
+    }
+    const companyId = this.model && this.model.company_id;
+    const key = this.model && this.model.commercial_licence;
+    if (!companyId || !key) {
+      this.releaseLicencePreview();
+      this.licencePreviewNote = '';
+      return;
+    }
+    this.licenceSub = this.companyService.openLicence(companyId).subscribe((blob) => {
+      if (request !== this.licenceRequest || !this.sameRequestedLicence(companyId, key)) {
+        return;
+      }
+      this.replaceLicencePreview(blob, companyId, key);
+    }, () => {
+      if (request !== this.licenceRequest) {
+        return;
+      }
+      this.failLicencePreview(companyId, key);
+    });
+  }
+
+  ngOnDestroy() {
+    this.cancelLicenceRead();
+  }
+
+  private failLicencePreview(companyId, key) {
+    const same = this.licencePreviewUrl
+      && String(this.licencePreviewCompanyId) === String(companyId)
+      && this.licencePreviewKey === key;
+    if (!same) {
+      this.releaseLicencePreview();
+      this.licencePreviewNote = 'unavailable';
+      return;
+    }
+    this.licencePreviewNote = 'stale';
+  }
+
+  private sameRequestedLicence(companyId, key) {
+    return !!this.model
+      && String(this.model.company_id) === String(companyId)
+      && this.model.commercial_licence === key;
+  }
+
+  private replaceLicencePreview(blob: Blob, companyId, key) {
+    this.releaseLicencePreview();
+    this.licencePreviewCompanyId = companyId;
+    this.licencePreviewKey = key;
+    this.licencePreviewNote = '';
+    this.licencePreviewUrl = URL.createObjectURL(blob);
+  }
+
+  private cancelLicenceRead() {
+    this.licenceRequest++;
+    if (this.licenceSub) {
+      this.licenceSub.unsubscribe();
+      this.licenceSub = null;
+    }
+    this.releaseLicencePreview();
+    this.licencePreviewNote = '';
+  }
+
+  private releaseLicencePreview() {
+    if (this.licencePreviewUrl) {
+      URL.revokeObjectURL(this.licencePreviewUrl);
+      this.licencePreviewUrl = '';
+    }
+    this.licencePreviewCompanyId = null;
+    this.licencePreviewKey = '';
   }
 
   /**

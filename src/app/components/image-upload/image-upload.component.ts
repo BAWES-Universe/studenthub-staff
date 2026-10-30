@@ -1,8 +1,10 @@
-import {Component, ElementRef, forwardRef, Input, OnInit, Renderer2, ViewChild} from '@angular/core';
+import {Component, ElementRef, forwardRef, Input, OnDestroy, OnInit, Renderer2, ViewChild} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
+import {Subscription} from 'rxjs';
 import {ActionSheetController, AlertController, Platform} from '@ionic/angular';
 import {CameraService} from '../../providers/camera.service';
 import {AwsService} from '../../providers/aws.service';
+import { resolvedStoredImageUrl } from '../../providers/stored-image-url';
 import {BACKEND_IMAGE_EXTENSIONS, acceptAttribute, uploadAlertMessage} from '../../providers/upload-formats';
 
 @Component({
@@ -17,7 +19,7 @@ import {BACKEND_IMAGE_EXTENSIONS, acceptAttribute, uploadAlertMessage} from '../
     }
   ]
 })
-export class ImageUploadComponent implements ControlValueAccessor, OnInit {
+export class ImageUploadComponent implements ControlValueAccessor, OnInit, OnDestroy {
   // File input used for browser fallback when no cordova is available
     @ViewChild('fileInput') fileInput: ElementRef;
 
@@ -38,6 +40,9 @@ export class ImageUploadComponent implements ControlValueAccessor, OnInit {
 
   /** Resolved URL for an existing profile photo (from backend). */
   @Input() photoUrl: string;
+
+  /** Resolved URL for an existing company logo or commercial licence. Null means unavailable. */
+  @Input() previewUrl?: string | null;
   
   // Used for link generation after upload
   public bucketUrl: string;
@@ -49,6 +54,14 @@ export class ImageUploadComponent implements ControlValueAccessor, OnInit {
 
   public newUpload;
   public acceptedFormats = acceptAttribute(BACKEND_IMAGE_EXTENSIONS);
+  /** Filename uploaded in this control session. Existing saved values do not match it. */
+  private uploadedTempName: string | null = null;
+  private sessionObjectUrl = '';
+  private pendingLicenceFile: Blob | null = null;
+  private previewFailedSrc = '';
+  private uploadGeneration = 0;
+  private activeAbort: (() => void) | null = null;
+  private uploadSub: Subscription | null = null;
 
   // the method set in registerOnChange, it is just
   // a placeholder for a method that takes one parameter,
@@ -71,13 +84,20 @@ export class ImageUploadComponent implements ControlValueAccessor, OnInit {
   }
 
   ngOnInit() {
-    if (this.prefix == 'logo') {
-      this.bucketUrl = this._awsService.cloudinaryUrl;
-    }
   }
 
   getPreviewSrc(): string {
-    if (this.bucketUrl === this._bucketUrlTemporary && this._value) {
+    if (this.prefix === 'commercial_licence') {
+      if (this.uploadedTempName && this._value === this.uploadedTempName && this.sessionObjectUrl) {
+        return this.sessionObjectUrl;
+      }
+      if (this.previewUrl && this.previewUrl.indexOf('blob:') === 0) {
+        return this.previewUrl;
+      }
+      return '';
+    }
+
+    if (this.uploadedTempName && this._value === this.uploadedTempName) {
       return this._bucketUrlTemporary + this._value;
     }
 
@@ -88,11 +108,24 @@ export class ImageUploadComponent implements ControlValueAccessor, OnInit {
       }) || '';
     }
 
+    if (this.prefix === 'logo') {
+      return resolvedStoredImageUrl(this.previewUrl, this._value, this._awsService.cloudinaryUrl) || '';
+    }
+
     if (!this._value) {
       return '';
     }
 
     return this.bucketUrl + this._value;
+  }
+
+  previewBroken(): boolean {
+    const src = this.getPreviewSrc();
+    return !!src && this.previewFailedSrc === src;
+  }
+
+  onPreviewError() {
+    this.previewFailedSrc = this.getPreviewSrc();
   }
 
   /**
@@ -163,8 +196,12 @@ export class ImageUploadComponent implements ControlValueAccessor, OnInit {
     if (fileList.length > 0){
       const file = fileList.item(0);
 
-      // Upload The File
-      const uploadObservable = this._awsService.uploadFile(file, BACKEND_IMAGE_EXTENSIONS);
+      // Keep the previous preview until this upload succeeds.
+      if (this.prefix === 'commercial_licence') {
+        this.holdPendingLicence(file);
+      }
+      const purpose = this.prefix === 'commercial_licence' ? 'commercial-licence' : null;
+      const uploadObservable = this._awsService.uploadFile(file, BACKEND_IMAGE_EXTENSIONS, purpose);
       this.processFileUpload(uploadObservable);
     }
   }
@@ -175,12 +212,28 @@ export class ImageUploadComponent implements ControlValueAccessor, OnInit {
    * @param  {any} path
    */
   uploadFileViaNativeFilePath(path){
-    // Upload and process for progress
-    this._awsService.uploadNativePath(path, BACKEND_IMAGE_EXTENSIONS)
+    const generation = ++this.uploadGeneration;
+    const purpose = this.prefix === 'commercial_licence' ? 'commercial-licence' : null;
+    const onFile = this.prefix === 'commercial_licence'
+      ? (file: Blob) => {
+        if (generation !== this.uploadGeneration) {
+          return;
+        }
+        this.holdPendingLicence(file);
+      }
+      : null;
+    this._awsService.uploadNativePath(path, BACKEND_IMAGE_EXTENSIONS, purpose, onFile)
       .then((uploadObservable) => {
-        this.processFileUpload(uploadObservable);
+        if (generation !== this.uploadGeneration) {
+          return;
+        }
+        this.processFileUpload(uploadObservable, generation);
       })
       .catch((err) => {
+        if (generation !== this.uploadGeneration) {
+          return;
+        }
+        this.discardPendingLicence();
         alert(err);
       });
   }
@@ -189,7 +242,20 @@ export class ImageUploadComponent implements ControlValueAccessor, OnInit {
    * Process S3 upload by subscribing to progress observable
    * @param  {} uploadObservable
    */
-  processFileUpload(uploadObservable){
+  processFileUpload(uploadObservable, generation = ++this.uploadGeneration){
+    if (generation !== this.uploadGeneration) {
+      return;
+    }
+    if (this.activeAbort) {
+      const abort = this.activeAbort;
+      this.activeAbort = null;
+      abort();
+    }
+    if (this.uploadSub) {
+      this.uploadSub.unsubscribe();
+      this.uploadSub = null;
+    }
+
     // Create Temporary Transfer Record
     this.newUpload = {
       name: 'Preparing file for upload',
@@ -203,7 +269,14 @@ export class ImageUploadComponent implements ControlValueAccessor, OnInit {
     this.isUploading = true;
 
     // Process Upload and Display Progress
-    uploadObservable.subscribe((progress) => {
+    this.uploadSub = uploadObservable.subscribe((progress) => {
+      if (generation !== this.uploadGeneration) {
+        return;
+      }
+      if (progress && typeof progress.abort === 'function') {
+        this.activeAbort = () => progress.abort();
+        return;
+      }
 
       // Update progress, possibly create emitter for this data if needed
       if (progress.loaded &&  progress.loaded != progress.total){
@@ -217,6 +290,11 @@ export class ImageUploadComponent implements ControlValueAccessor, OnInit {
         this.newUpload.link = this._bucketUrlTemporary + this.newUpload.name;
       }
     }, async (err) => {
+      if (generation !== this.uploadGeneration) {
+        return;
+      }
+      this.activeAbort = null;
+      this.discardPendingLicence();
       this.newUpload.status = 'error';
       const alert = await this._alertCtrl.create({
         header: 'Error',
@@ -227,11 +305,18 @@ export class ImageUploadComponent implements ControlValueAccessor, OnInit {
       // Hide File Upload Indicator based on which file is being uploaded
       this.isUploading = false;
     }, () => {
+      if (generation !== this.uploadGeneration) {
+        return;
+      }
+      this.activeAbort = null;
       this.newUpload.status = 'complete';
       // Hide File Upload Indicator based on which file is being uploaded
       this.isUploading = false;
       // Switch to temporary bucket url
       this.bucketUrl = this._bucketUrlTemporary;
+      this.commitPendingLicence();
+      this.uploadedTempName = this.newUpload.name;
+      this.previewFailedSrc = '';
       // Set the new value of this file upload
       this.value = this.newUpload.name;
     });
@@ -285,5 +370,45 @@ export class ImageUploadComponent implements ControlValueAccessor, OnInit {
    */
   getFileName(path) {
     return path.split(/[\\/]/).pop();  
+  }
+
+  ngOnDestroy() {
+    this.uploadGeneration++;
+    if (this.activeAbort) {
+      this.activeAbort();
+      this.activeAbort = null;
+    }
+    if (this.uploadSub) {
+      this.uploadSub.unsubscribe();
+      this.uploadSub = null;
+    }
+    this.discardPendingLicence();
+    this.replaceSessionObjectUrl(null);
+  }
+
+  private holdPendingLicence(file: Blob) {
+    this.pendingLicenceFile = file;
+  }
+
+  private discardPendingLicence() {
+    this.pendingLicenceFile = null;
+  }
+
+  private commitPendingLicence() {
+    if (this.prefix !== 'commercial_licence' || !this.pendingLicenceFile) {
+      return;
+    }
+    this.replaceSessionObjectUrl(this.pendingLicenceFile);
+    this.pendingLicenceFile = null;
+  }
+
+  private replaceSessionObjectUrl(file: Blob | null) {
+    if (this.sessionObjectUrl) {
+      URL.revokeObjectURL(this.sessionObjectUrl);
+      this.sessionObjectUrl = '';
+    }
+    if (file) {
+      this.sessionObjectUrl = URL.createObjectURL(file);
+    }
   }
 }

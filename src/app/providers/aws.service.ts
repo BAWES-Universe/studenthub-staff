@@ -74,7 +74,12 @@ export class AwsService {
      * @param  { any } nativeFilePath
      * @returns Promise
      */
-    uploadNativePath(nativeFilePath, allowedExtensions: string[] = null): Promise<Observable<any>>{
+    uploadNativePath(
+        nativeFilePath,
+        allowedExtensions: string[] = null,
+        purpose: string = null,
+        onFile: (file: Blob) => void = null
+    ): Promise<Observable<any>>{
         return new Promise((resolve, reject) => {
 
             // Resolve File Path on System
@@ -121,9 +126,13 @@ export class AwsService {
                     blobFile.name = fileName;
                     blobFile.lastModifiedDate = fileLastModified;
 
+                    if (onFile) {
+                        onFile(blobFile);
+                    }
+
                     // Resolve an Observable for File Uploading
 
-                    resolve(this.uploadFile(blobFile, allowedExtensions));
+                    resolve(this.uploadFile(blobFile, allowedExtensions, purpose));
 
                 }, (error) => {
                     reject('Unable to retrieve file properties: ' + JSON.stringify(error));
@@ -167,7 +176,7 @@ export class AwsService {
      * @param { File } file
      * @returns { Observable<any> }
      */
-    uploadFile(file: File = null, allowedExtensions: string[] = null): Observable<any> {
+    uploadFile(file: File = null, allowedExtensions: string[] = null, purpose: string = null): Observable<any> {
         const token = this.authService.getAccessToken();
 
         return uploadTemporaryFile({
@@ -178,6 +187,7 @@ export class AwsService {
             token: token || '',
             uploadHost: TEMP_UPLOAD_HOST,
             allowedExtensions,
+            purpose: purpose || undefined,
             post: (url, body, headers) => this.http.post(url, body, {
                 headers: new HttpHeaders(headers)
             })

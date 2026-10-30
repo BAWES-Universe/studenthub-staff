@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Company } from 'src/app/models/company';
 // services
 import { AwsService } from 'src/app/providers/aws.service';
+import { resolvedStoredImageUrl } from 'src/app/providers/stored-image-url';
 import {Platform} from "@ionic/angular";
 
 
@@ -61,8 +62,17 @@ export class CompanyComponent implements OnInit {
     }
   }
 
+  logoSrc(company: Company): string | null {
+    return resolvedStoredImageUrl(company?.company_logo_url, company?.company_logo, this.aws.cloudinaryUrl);
+  }
+
+  showLogo(company: Company): boolean {
+    const src = this.logoSrc(company);
+    return !!src && company?.logo_failed_src !== src;
+  }
+
   loadLogo($event, company) {
-    company.company_logo = null;
+    company.logo_failed_src = this.logoSrc(company);
   }
 
   countCandidate() {
